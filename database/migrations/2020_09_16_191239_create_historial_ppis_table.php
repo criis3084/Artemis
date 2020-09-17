@@ -15,7 +15,7 @@ class CreateHistorialPpisTable extends Migration
     {
         Schema::create('historial_ppis', function (Blueprint $table) {
 			$table->id();
-			$table->date('fecha_ingreso');
+			$table->date('fecha_estudio');
 			$table->foreignId('nino_id')->constrained();
 			$table->foreignId('ppi_id')->constrained();
 			$table->boolean('estado')->default(1);

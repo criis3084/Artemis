@@ -15,11 +15,11 @@ class CreateViviendasTable extends Migration
     {
         Schema::create('viviendas', function (Blueprint $table) {
 			$table->id();
-			$table->string('direccion');	
 			$table->integer('costo_total');
+			$table->string('direccion');	
 			$table->date('fecha_inicio');
 			$table->tinyInteger('duracion');	
-			$table->string('link_imagen_final');	
+			$table->string('imagen_final')->nullable();	
 			$table->foreignId('tipo_vivienda_id')->constrained();
 			$table->foreignId('constructor_id')->constrained();
 			$table->foreignId('encargado_id')->constrained();

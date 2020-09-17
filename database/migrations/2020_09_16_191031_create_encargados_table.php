@@ -15,8 +15,7 @@ class CreateEncargadosTable extends Migration
     {
         Schema::create('encargados', function (Blueprint $table) {
 			$table->id();
-			$table->string('direccion');
-			$table->string('ruta_imagen');
+			$table->string('ruta_imagen')->nullable();
 			$table->boolean('estado')->default(1);
 			$table->foreignId('persona_sin_acceso_id')->constrained();
 			$table->timestamps();

@@ -20,7 +20,9 @@ class CreatePersonaSinAccesosTable extends Migration
 			$table->string('CUI',15)->nullable();
 			$table->boolean('genero');
 			$table->date('fecha_nacimiento');
+			$table->string('direccion');
 			$table->string('numero_telefono',15)->nullable();
+			$table->foreignId('sector_id')->constrained();
 			$table->boolean('estado')->default(1);
             $table->timestamps();
         });

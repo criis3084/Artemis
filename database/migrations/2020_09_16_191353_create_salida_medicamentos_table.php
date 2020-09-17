@@ -16,7 +16,7 @@ class CreateSalidaMedicamentosTable extends Migration
         Schema::create('salida_medicamentos', function (Blueprint $table) {
 			$table->id();
 			$table->date('fecha_salida');
-			$table->string('descripcion');
+			$table->text('descripcion');
 			$table->boolean('estado')->default(1);
 			$table->foreignId('usuario_id')->constrained();
 			$table->foreignId('paciente_id')->constrained();

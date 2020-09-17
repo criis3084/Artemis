@@ -16,7 +16,9 @@ class CreateIngresoMedicamentosTable extends Migration
         Schema::create('ingreso_medicamentos', function (Blueprint $table) {
 			$table->id();
 			$table->date('fecha_ingreso');
+			$table->text('descripcion');
 			$table->boolean('estado')->default(1);
+			$table->foreignId('usuario_id')->constrained();
 			$table->foreignId('proveedor_id')->constrained();
 			$table->timestamps();
         });

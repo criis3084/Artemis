@@ -15,7 +15,6 @@ class CreateDetalleIntegrantesTable extends Migration
     {
         Schema::create('detalle_integrantes', function (Blueprint $table) {
 			$table->id();
-			$table->date('pago_persona');
 			$table->foreignId('encargado_id')->constrained();
 			$table->foreignId('grupo_prestamo_id')->constrained();
 			$table->boolean('estado')->default(1);

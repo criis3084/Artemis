@@ -21,6 +21,7 @@ class CreateAbonoViviendasTable extends Migration
 			$table->integer('cantidad_restante');
 			$table->boolean('estado')->default(1);
 			$table->foreignId('vivienda_id')->constrained();
+			$table->foreignId('usuario_id')->constrained();
 			$table->timestamps();
         });
     }

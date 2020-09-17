@@ -15,7 +15,7 @@ class CreateUsuariosTable extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
 			$table->id();
-			$table->string('nombre',30);
+			$table->string('nombres',30);
 			$table->string('apellidos',30);
 			$table->string('CUI',15)->nullable();
 			$table->boolean('genero');

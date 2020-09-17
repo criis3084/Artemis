@@ -16,7 +16,6 @@ class CreateDetalleSalidasTable extends Migration
         Schema::create('detalle_salidas', function (Blueprint $table) {
 			$table->id();
 			$table->integer('cantidad');
-			$table->text('descripcion');
 			$table->foreignId('salida_medicamento_id')->constrained();
 			$table->foreignId('lote_id')->constrained();
 			$table->boolean('estado')->default(1);

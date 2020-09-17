@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoCita extends Model
 {
-    //
+	protected $fillable = ['nombre','estado','descripcion'];
 }

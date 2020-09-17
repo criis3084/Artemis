@@ -15,7 +15,7 @@ class CreatePacientesTable extends Migration
     {
         Schema::create('pacientes', function (Blueprint $table) {
 			$table->id();
-			$table->date('fecha_apoyo')->nullable();			
+			$table->tinyInteger('dia_apoyo')->nullable();			
 			$table->foreignId('persona_sin_acceso_id')->constrained();
 			$table->foreignId('tipo_paciente_id')->constrained();
 			$table->boolean('estado')->default(1);		

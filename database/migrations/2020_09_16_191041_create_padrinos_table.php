@@ -15,8 +15,7 @@ class CreatePadrinosTable extends Migration
     {
         Schema::create('padrinos', function (Blueprint $table) {
 			$table->id();
-			$table->string('direccion');
-			$table->string('ruta_imagen');
+			$table->string('ruta_imagen')->nullable();
 			$table->string('correo');
 			$table->boolean('estado')->default(1);
 			$table->foreignId('persona_sin_acceso_id')->constrained();			
