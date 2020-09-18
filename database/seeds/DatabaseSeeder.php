@@ -25,5 +25,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CorrespondenciaSeeder::class);
         $this->call(FotografiaSeeder::class);
         $this->call(HistorialFotografiaSeeder::class);
+        $this->call(GrupoPrestamoSeeder::class);
+        $this->call(DestinoInversionSeeder::class);
+        $this->call(Microprestamo::class);
+        $this->call(DetalleIntegrante::class);
+        $this->call(AbonoPrestamo::class);
     }
 }
