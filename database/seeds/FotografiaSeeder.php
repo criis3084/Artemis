@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class PersonaSinAccesoSeeder extends Seeder
+class FotografiaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class PersonaSinAccesoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\PersonaSinAcceso::class, 300)->create();
+        //
     }
 }
