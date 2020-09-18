@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DetalleIntengranteSeeder extends Seeder
+class UsuarioSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class DetalleIntengranteSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\DetallleIntegrante::class, 50)->create();
+        factory(App\Usuario::class, 10)->create();
     }
 }

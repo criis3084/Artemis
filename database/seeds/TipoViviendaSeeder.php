@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class MicroprestamoSeeder extends Seeder
+class TipoViviendaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class MicroprestamoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Microprestamo::class, 5)->create();
+        factory(App\TipoVivienda::class, 10)->create();
     }
 }
