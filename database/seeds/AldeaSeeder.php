@@ -11,6 +11,6 @@ class AldeaSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Aldea::class, 10)->create();
+        factory(App\Aldea::class, 50)->create();
     }
 }

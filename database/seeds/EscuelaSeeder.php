@@ -11,6 +11,6 @@ class EscuelaSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Escuela::class, 10)->create();
+        factory(App\Escuela::class, 50)->create();
     }
 }
