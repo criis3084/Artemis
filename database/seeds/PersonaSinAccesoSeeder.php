@@ -11,6 +11,6 @@ class PersonaSinAccesoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\PersonaSinAcceso::class, 750)->create();
+        factory(App\PersonaSinAcceso::class, 50)->create();
     }
 }

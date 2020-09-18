@@ -11,6 +11,6 @@ class PadrinoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Nino::class, 50)->create();
+        factory(App\Padrino::class, 50)->create();
     }
 }
