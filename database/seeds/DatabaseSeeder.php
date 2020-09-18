@@ -20,5 +20,10 @@ class DatabaseSeeder extends Seeder
         $this->call(RelacionSeeder::class);
         $this->call(PadrinoSeeder::class);
         $this->call(ApadrinamientoSeeder::class);
+        $this->call(PpiSeeder::class);
+        $this->call(HistorialPpiSeeder::class);
+        $this->call(CorrespondenciaSeeder::class);
+        $this->call(FotografiaSeeder::class);
+        $this->call(HistorialFotografiaSeeder::class);
     }
 }
