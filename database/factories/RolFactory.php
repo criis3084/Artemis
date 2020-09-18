@@ -2,16 +2,13 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Padrino;
-use App\PersonaSinAcceso;
+use App\Rol;
 use Faker\Generator as Faker;
 
-$factory->define(Padrino::class, function (Faker $faker) {
+$factory->define(Rol::class, function (Faker $faker) {
     return [
-        'ruta_imagen' => $faker->text($maxNbChars = 200), 
-        'correo' => $faker->email,
+        'nombre' => $faker->text($maxNbChars = 19),
         'estado' => $faker->numberBetween($min = 0, $max = 1),
-        'persona_sin_acceso_id' => PersonaSinAcceso::pluck('id')[$faker->numberBetween(1,PersonaSinAcceso::count()-1)],
         'created_at' => $faker->dateTime($max = 'now', $timezone = null),
         'updated_at' => $faker->dateTime($max = 'now', $timezone = null),
     ];
