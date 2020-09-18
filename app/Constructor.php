@@ -8,10 +8,10 @@ class Constructor extends Model
 {
 	protected $fillable = ['estado','persona_sin_acceso_id'];
 
-	public function informacion(){
-		return $this->belongsTo(PersonaSinAcceso::class);
+	public function datos(){
+		return $this->belongsTo('App\PersonaSinAcceso','PersonaSinAcceso_id','id');
 	}
 	public function construcciones(){
-		return $this->hasMany(Vivienda::class);
+		return $this->hasMany('App\Vivienda','constructor_id','id');
 	}
 }

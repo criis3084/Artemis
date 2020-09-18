@@ -14,7 +14,8 @@ class AldeaController extends Controller
      */
     public function index()
     {
-        //
+		$aldeas = Aldea::all();
+        return Aldea::all();
     }
 
     /**
@@ -35,7 +36,6 @@ class AldeaController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -46,7 +46,11 @@ class AldeaController extends Controller
      */
     public function show(Aldea $aldea)
     {
-        //
+		return [
+			'id'=> $aldea->id,
+			'nombre'=> $aldea->nombre,
+			'sectores'=> $aldea->sectores,
+		];
     }
 
     /**

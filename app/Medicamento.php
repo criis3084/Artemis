@@ -9,12 +9,12 @@ class Medicamento extends Model
 	protected $fillable = ['nombre','descripcion','stock_general','estado','categoria_medicamento_id','casa_medica_id'];
 
 	public function categoria(){
-		return $this->belongsTo(CategoriaMedicamento::class);
+		return $this->belongsTo('App\CategoriaMedicamento','categoria_medicamento_id','id');
 	}
 	public function casaMedica(){
-		return $this->belongsTo(CasaMedica::class);
+		return $this->belongsTo('App\CasaMedica','casa_medica_id','id');
 	}
 	public function lotes(){
-		return $this->hasMany(Lote::class);
+		return $this->hasMany('App\Lote','medicamento_id','id');
 	}
 }

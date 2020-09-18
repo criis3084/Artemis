@@ -9,9 +9,9 @@ class DetalleIngreso extends Model
 	protected $fillable = ['cantidad','ingreso_medicamento_id','lote_id','estado'];
 
 	public function ingresoMedicamento(){
-		return $this->belongsTo(IngresoMedicamento::class);
+		return $this->belongsTo('App\IngresoMedicamento','ingreso_medicamento_id','id');
 	}
 	public function lote(){
-		return $this->belongsTo(Lote::class);
+		return $this->belongsTo('App\Lote','lote_id','id');
 	}
 }

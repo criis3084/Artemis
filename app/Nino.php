@@ -9,9 +9,10 @@ class Nino extends Model
 	protected $fillable = ['codigo','fecha_ingreso','fecha_egreso','ruta_imagen','estado','persona_sin_acceso_id','escuela_id'];
 
 	public function escuela(){
-		return $this->belongsTo(Escuela::class);
+		return $this->belongsTo('App\Escuela','escuela_id','id');
 	}
-	public function informacion(){
-		return $this->belongsTo(PersonaSinAcceso::class);
+
+	public function datos(){
+		return $this->belongsTo('App\PersonaSinAcceso','persona_sin_acceso_id','id');
 	}
 }

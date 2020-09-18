@@ -9,6 +9,6 @@ class Rol extends Model
 	protected $fillable = ['nombre','estado'];
 
 	public function usuarios(){
-		return $this->hasMany(Usuario::class);
+		return $this->hasMany('App\Usuario','rol_id','id');
 	}
 }

@@ -9,9 +9,9 @@ class Apadrinamiento extends Model
 	protected $fillable = ['nino_id','padrino_id','estado'];
 
 	public function nino(){
-		return $this->belongsTo(Nino::class);
+		return $this->belongsTo('App\Nino','nino_id','id');
 	}
 	public function padrino(){
-		return $this->belongsTo(Padrino::class);
+		return $this->belongsTo('App\Padrino','padrino_id','id');
 	}
 }

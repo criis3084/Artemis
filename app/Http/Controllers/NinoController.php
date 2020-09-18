@@ -46,7 +46,10 @@ class NinoController extends Controller
      */
     public function show(Nino $nino)
     {
-        //
+        return[
+			'codigo'=>$nino->codigo,
+			'nombres'=>$nino->persona->nombres,
+		];
     }
 
     /**

@@ -9,9 +9,9 @@ class DetalleSalida extends Model
 	protected $fillable = ['cantidad','salida_medicamento_id','lote_id','estado'];
 
 	public function salidaMedicamento(){
-		return $this->belongsTo(SalidaMedicamento::class);
+		return $this->belongsTo('App\SalidaMedicamento','salida_medicamento_id','id');
 	}
 	public function lote(){
-		return $this->belongsTo(Lote::class);
+		return $this->belongsTo('App\Lote','lote_id','id');
 	}
 }

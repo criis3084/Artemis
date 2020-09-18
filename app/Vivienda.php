@@ -9,15 +9,15 @@ class Vivienda extends Model
 	protected $fillable = ['costo_total','direccion','fecha_inicio','duracion','imagen_final','tipo_vivienda_id','constructor_id','encargado_id','estado'];
 
 	public function tipoVivienda(){
-		return $this->belongsTo(TipoVivienda::class);
+		return $this->belongsTo('App\TipoVivienda','tipo_vivienda_id','id');
 	}
 	public function constructor(){
-		return $this->belongsTo(Constructor::class);
+		return $this->belongsTo('App\Constructor','constructor_id','id');
 	}
 	public function residente(){
-		return $this->belongsTo(Encargado::class);
+		return $this->belongsTo('App\Encargado','encargado_id','id');
 	}
 	public function abonos(){
-		return $this->hasMany(AbonoVivienda::class);
+		return $this->hasMany('App\AbonoVivienda','vivieda_id','id');
 	}
 }

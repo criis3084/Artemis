@@ -9,9 +9,10 @@ class Beneficio extends Model
 	protected $fillable = ['descripcion','paciente_id','estado'];
 
 	public function paciente(){
-		return $this->belongsTo(Paciente::class);
+		return $this->belongsTo('App\Paciente','paciente_id','id');
 	}
+
 	public function beneficios(){
-		return $this->hasMany(DetalleBeneficio::class);
+		return $this->hasMany('App\DetalleBeneficio','beneficio_id','id');
 	}
 }

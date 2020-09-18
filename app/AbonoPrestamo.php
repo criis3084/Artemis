@@ -9,12 +9,12 @@ class AbonoPrestamo extends Model
 	protected $fillable = ['cantidad_abono','cantidad_restante','descripcion','fecha_pago','mora','microprestamo_id','detalle_integrante_id','usuario_id','estado'];
 
 	public function microprestamo(){
-		return $this->belongsTo(Microprestamo::class);
+		return $this->belongsTo('App\Microprestamo','microprestamo_id','id');
 	}
 	public function detalle_integrante(){
-		return $this->belongsTo(DetalleIntegrante::class);
+		return $this->belongsTo('App\DetalleIntegrante','detalle_integrante_id','id');
 	}
 	public function usuario(){
-		return $this->belongsTo(Usuario::class);
+		return $this->belongsTo('App\Usuario','usuario_id','id');
 	}
 }

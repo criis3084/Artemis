@@ -9,6 +9,6 @@ class TipoVivienda extends Model
 	protected $fillable = ['nombre','descripcion','estado'];
 
 	public function viviendas(){
-		return $this->hasMany(Vivienda::class);
+		return $this->hasMany('App\Vivienda','tipo_vivienda_id','id');
 	}
 }

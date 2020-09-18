@@ -9,6 +9,6 @@ class DestinoInversion extends Model
 	protected $fillable = ['nombre','estado'];
 
 	public function microprestamos(){
-		return $this->hasMany(Microprestamo::class);
+		return $this->hasMany('App\Microprestamo','destino_inversion_id','id');
 	}
 }

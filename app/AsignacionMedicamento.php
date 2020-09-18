@@ -9,9 +9,9 @@ class AsignacionMedicamento extends Model
 	protected $fillable = ['cantidad','frecuencia','medicamento_id','receta_id'];
 
 	public function medicamento(){
-		return $this->belongsTo(Medicamento::class);
+		return $this->belongsTo('App\Medicamento','medicamento_id','id');
 	}
 	public function receta(){
-		return $this->belongsTo(Receta::class);
+		return $this->belongsTo('App\Receta','receta_id','id');
 	}
 }
