@@ -46,7 +46,19 @@ class PersonaSinAccesoController extends Controller
      */
     public function show(PersonaSinAcceso $personaSinAcceso)
     {
-        //
+		$nino = $personaSinAcceso->nino();
+		//dd($nino);
+        return[
+			"nombres" => $personaSinAcceso->nombres,
+			"apellidos"=>$personaSinAcceso->apellidos,
+			"genero"=>$personaSinAcceso->genero,
+			"fecha_nacimiento"=>$personaSinAcceso->fecha_nacimiento,
+			"direccion"=>$personaSinAcceso->direccion,
+			"numero_telefono"=>$personaSinAcceso->numero_telefono,
+			'Sector' => $personaSinAcceso->sector,
+			'nombre_sector' => $personaSinAcceso->sector->nombre,
+			'nino' => $nino,
+		];
     }
 
     /**

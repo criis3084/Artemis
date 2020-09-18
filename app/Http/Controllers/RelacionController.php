@@ -46,7 +46,10 @@ class RelacionController extends Controller
      */
     public function show(Relacion $relacion)
     {
-        //
+        return [
+			'Nombre_Nino'=>$relacion->nino->datos->nombres,
+			'Nombre_Encargado'=>$relacion->encargado->datos->nombres
+		];
     }
 
     /**

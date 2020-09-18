@@ -3,8 +3,8 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Relacion;
-use App\Encargado;
 use App\Nino;
+use App\Encargado;
 use App\Sector;
 use Faker\Generator as Faker;
 

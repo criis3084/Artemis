@@ -9,6 +9,6 @@ class Aldea extends Model
 	protected $fillable = ['nombre'];
 
 	public function sectores(){
-		return $this->hasMany(Sector::class);
+		return $this->hasMany('App\Sector','aldea_id','id');
 	}
 }
