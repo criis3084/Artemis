@@ -19,7 +19,8 @@ class PersonaSinAccesoController extends Controller
 				// Filtro por un criterio y estado
 				$buscar = $request->buscar;
 				$criterio = $request->criterio;
-				$completo = $request->completo;
+				$completo = 'false';
+				$persona_sin_acceso = null;
 				
 				if ($completo == 'false')
 				{

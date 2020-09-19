@@ -9,6 +9,29 @@
 <!-- Este es el componente inicial -->
 <template>
 
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Created at</th>
+        <th scope="col">Updated at</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="rol in arrayData" :key="rol.id">
+        <td v-text="rol.nombre"></td>
+        <td v-text="rol.estado"></td>
+        <td v-text="rol.created_at"></td>
+        <td v-text="rol.updated_at"></td>
+        <td>
+          <button @click="openModal('update', rol)" class="btn btn-info">Edit</button>
+          <button @click="openModal('eliminar', rol)" class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -25,6 +48,7 @@ export default {
   data () {
     return {
       //Aqui van a guardar todas su variables.
+      rols: [],
        pagination : {
         'total' : 0,
           'current_page' : 0,
@@ -34,7 +58,7 @@ export default {
           'to' : 0,
       },
       offset : 3,
-      search : 'maco puto',
+      search : '',
       arrayData: [],
       nombre: '',
     }
@@ -71,6 +95,22 @@ export default {
       },
   },
   methods: {
+    getRols: function() {
+          let api_url = '/api/rol/';
+          // if(this.search_term!==''||this.search_term!==null) {
+          //   api_url = `/api/formulario/?search=${this.search_term}`
+          // }
+          this.loading = true;
+          this.$http.get(api_url)
+              .then((response) => {
+                this.rols = response.data;
+                this.loading = false;
+              })
+              .catch((err) => {
+                this.loading = false;
+                console.log(err);
+              })
+        },
       cambiarPagina(page,search){
         let me = this;
         //Actualiza la página actual
