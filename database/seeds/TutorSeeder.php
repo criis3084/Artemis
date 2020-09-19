@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class HistorialPpiSeeder extends Seeder
+class TutorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class HistorialPpiSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\HistorialPpi::class, 50)->create();
+        factory(App\Tutor::class, 10)->create();
     }
 }

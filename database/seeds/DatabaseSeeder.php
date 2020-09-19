@@ -25,5 +25,18 @@ class DatabaseSeeder extends Seeder
         $this->call(CorrespondenciaSeeder::class);
         $this->call(FotografiaSeeder::class);
         $this->call(HistorialFotografiaSeeder::class);
+        $this->call(RolSeeder::class);
+        $this->call(UsuarioSeeder::class);
+        $this->call(AbonoViviendaSeeder::class);
+        $this->call(TipoViviendaSeeder::class);
+        $this->call(ViviendaSeeder::class);
+        $this->call(ConstructorSeeder::class);
+        $this->call(GrupoPrestamoSeeder::class);
+        $this->call(DestinoInversionSeeder::class);
+        $this->call(MicroprestamoSeeder::class);
+        $this->call(DetalleIntegranteSeeder::class);
+        $this->call(AbonoPrestamoSeeder::class);
+        $this->call(TutorSeeder::class);
+        $this->call(TutoriaSeeder::class);
     }
 }
