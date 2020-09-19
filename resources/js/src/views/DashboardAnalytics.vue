@@ -34,6 +34,7 @@ export default {
       offset : 3,
       search : 'maco puto',
       arrayData: [],
+      nombre: '',
     }
   },
   components: {
@@ -66,18 +67,66 @@ export default {
         });
       },
       guardar(){
-
+        axios
+        .post("/api/admin/rol/post", {
+            //Esto sirve para enviar parametros al controlador
+            nombre: this.nombre,
+        })
+        .then(function(response) {
+          toastr.success(response.data.message, "Listo");
+          l.stop();
+          me.closeModal();
+        })
+        .catch(function(error) {
+          l.stop();
+          toastr.error(error.response.data.message, "Error");
+        });
       },
-      actualizar(){
-
+      actualizar(id){
+          axios
+          .put("/api/admin/rol/update", {
+            //Esto sirve para enviar parametros al controlador
+            nombre: this.nombre,
+            id: id, //Este id es el que le entra a la funcion para buscar el registro en BD
+          })
+          .then(function(response) {
+            toastr.success(response.data.message, "Listo");
+            l.stop();
+            me.closeModal();
+          })
+          .catch(function(error) {
+            l.stop();
+            toastr.error(error.response.data.message, "Error");
+          });
       },
       activar(){
-
+        axios.put('/api/admin/rol/activar', {
+            id: this.id
+        })
+        .then(function (response) {
+            toastr.success(response.data.message, 'Listo')
+            me.closeModal()
+        })
+        .catch(function (error) {
+            toastr.error(error.response.data.message, 'Error')
+        });
       },
       desactivar(){
-
+        axios.put('/api/admin/rol/desactivar', {
+            id: this.id
+        })
+        .then(function (response) {
+            toastr.success(response.data.message, 'Listo')
+            me.closeModal()
+        })
+        .catch(function (error) {
+            toastr.error(error.response.data.message, 'Error')
+        });
       }
   },
+  mounted(){
+    this.index(1, this.search);
+  }
 }
 </script>
 
