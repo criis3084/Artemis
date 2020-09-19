@@ -31,5 +31,18 @@ class DatabaseSeeder extends Seeder
         $this->call(AbonoViviendaSeeder::class);
         $this->call(RolSeeder::class);
         $this->call(UsuarioSeeder::class);
+        $this->call(TipoExamenSeeder::class);
+        $this->call(ProfesionSeeder::class);
+        $this->call(ClinicoSeeder::class);
+        $this->call(TipoPacienteSeeder::class);
+        $this->call(ExamenSeeder::class);
+        $this->call(PacienteSeeder::class);
+        $this->call(TipoCitaSeeder::class);
+        $this->call(CitaSeeder::class);
+        $this->call(HistorialExamenSeeder::class);
+        $this->call(BeneficioSeeder::class);
+        $this->call(CasaMedicaSeeder::class);
+        $this->call(CategoriaMedicamentoSeeder::class);
+
     }
 }
