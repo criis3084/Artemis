@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class CategoriaMedicamentoSeeder extends Seeder
+class RecetaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class CategoriaMedicamentoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\CategoriaMedicamento::class, 50)->create();
+        factory(App\Receta::class, 50)->create();
     }
 }
