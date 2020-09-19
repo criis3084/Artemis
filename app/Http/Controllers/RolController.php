@@ -10,9 +10,19 @@ class RolController extends Controller
     public function index(Request $request)
     {
         //mostrar datos
-        $respuesta = $request->search;
+        $roles = Rol::paginate(10);
 
-        return $respuesta;
+        return [
+            'pagination' => [
+                'total'        => $roles->total(),
+                'current_page' => $roles->currentPage(),
+                'per_page'     => $roles->perPage(),
+                'last_page'    => $roles->lastPage(),
+                'from'         => $roles->firstItem(),
+                'to'           => $roles->lastItem(),
+            ],
+            'roles' => $roles
+        ];
     }
 
     public function store(Request $request)
