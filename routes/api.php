@@ -27,57 +27,101 @@ Route::apiResource('rol', 'RolController')->only([
 ]);
 */
 
-Route::apiResources([
-	'rol'                   => 'RolController',
-	'personaSinAcceso'      => 'PersonaSinAccesoController',
-	'aldea'                 => 'AldeaController',
-	'escuela'               => 'EscuelaController',
-	'ppi'                   => 'PpiController',
-	'fotografia'            => 'FotografiaController',
-	'grupoPrestamo'         => 'GrupoPrestamoController',
-	'destinoInversion'      => 'DestinoInversionController',
-	'tipoVivienda'          => 'TipoViviendaController',
-	'tipoExamen'            => 'TipoExamenController',
-	'tipoCita'              => 'TipoCitaController',
-	'tipoPaciente'          => 'TipoPacienteController',
-	'profesion'             => 'ProfesionController',
-	'casaMedica'            => 'CasaMedicaController',
-	'categoriaMedicamento'  => 'CategoriaMedicamentoController',
-	'usuario'               => 'UsuarioController',
-	'nino'                  => 'NinoController',
-	'encargado'             => 'EncargadoController',
-	'padrino'               => 'PadrinoController',
-	'sector'                => 'SectorController',
-	'constructor'           => 'ConstructorController',
-	'microprestamo'         => 'MicroprestamoController',
-	'medicamento'           => 'MedicamentoController',
-	'proveedor'             => 'ProveedorController',
-	'paciente'              => 'PacienteController',
-	'tutor'                 => 'TutorController',
-	'administrativo'        => 'AdministrativoController',
-	'clinico'               => 'ClinicoController',
-	'apadrinamiento'        => 'ApadrinamientoController',
-	'relacion'              => 'RelacionController',
-	'vivienda'              => 'ViviendaController',
-	'historialPpi'          => 'HistorialPpiController',
-	'historialFotografia'   => 'HistorialFotografiaController',
-	'detalleIntegrante'     => 'DetalleIntegranteController',
-	'examen'                => 'ExamenController',
-	'beneficio'             => 'BeneficioController',
-	'lote'                  => 'LoteController',
-	'ingresoMedicamento'    => 'IngresoMedicamentoController',
-	'salidaMedicamento'     => 'SalidaMedicamentoController',
-	'tutoria'               => 'TutoriaController',
-	'correspondencia'       => 'CorrespondenciaController',
-	'abonoPrestamo'         => 'AbonoPrestamoController',
-	'abonoVivienda'         => 'AbonoViviendaController',
-	'cita'                  => 'CitaController',
-	'detalleBeneficio'      => 'DetalleBeneficioController',
-	'detalleIngreso'        => 'DetalleIngresoController',
-	'detalleSalida'         => 'DetalleSalidaController',
-	'historialExamen'       => 'HistorialExamenController',
-	'historialClinico'      => 'HistorialClinicoController',
-	'receta'                => 'RecetaController',
-	'asignacionMedicamento' => 'AsignacionMedicamentoController'
-]);
+// Route::apiResources([
+// 	'rol'                   => 'RolController',
+// 	'personaSinAcceso'      => 'PersonaSinAccesoController',
+// 	'aldea'                 => 'AldeaController',
+// 	'escuela'               => 'EscuelaController',
+// 	'ppi'                   => 'PpiController',
+// 	'fotografia'            => 'FotografiaController',
+// 	'grupoPrestamo'         => 'GrupoPrestamoController',
+// 	'destinoInversion'      => 'DestinoInversionController',
+// 	'tipoVivienda'          => 'TipoViviendaController',
+// 	'tipoExamen'            => 'TipoExamenController',
+// 	'tipoCita'              => 'TipoCitaController',
+// 	'tipoPaciente'          => 'TipoPacienteController',
+// 	'profesion'             => 'ProfesionController',
+// 	'casaMedica'            => 'CasaMedicaController',
+// 	'categoriaMedicamento'  => 'CategoriaMedicamentoController',
+// 	'usuario'               => 'UsuarioController',
+// 	'nino'                  => 'NinoController',
+// 	'encargado'             => 'EncargadoController',
+// 	'padrino'               => 'PadrinoController',
+// 	'sector'                => 'SectorController',
+// 	'constructor'           => 'ConstructorController',
+// 	'microprestamo'         => 'MicroprestamoController',
+// 	'medicamento'           => 'MedicamentoController',
+// 	'proveedor'             => 'ProveedorController',
+// 	'paciente'              => 'PacienteController',
+// 	'tutor'                 => 'TutorController',
+// 	'administrativo'        => 'AdministrativoController',
+// 	'clinico'               => 'ClinicoController',
+// 	'apadrinamiento'        => 'ApadrinamientoController',
+// 	'relacion'              => 'RelacionController',
+// 	'vivienda'              => 'ViviendaController',
+// 	'historialPpi'          => 'HistorialPpiController',
+// 	'historialFotografia'   => 'HistorialFotografiaController',
+// 	'detalleIntegrante'     => 'DetalleIntegranteController',
+// 	'examen'                => 'ExamenController',
+// 	'beneficio'             => 'BeneficioController',
+// 	'lote'                  => 'LoteController',
+// 	'ingresoMedicamento'    => 'IngresoMedicamentoController',
+// 	'salidaMedicamento'     => 'SalidaMedicamentoController',
+// 	'tutoria'               => 'TutoriaController',
+// 	'correspondencia'       => 'CorrespondenciaController',
+// 	'abonoPrestamo'         => 'AbonoPrestamoController',
+// 	'abonoVivienda'         => 'AbonoViviendaController',
+// 	'cita'                  => 'CitaController',
+// 	'detalleBeneficio'      => 'DetalleBeneficioController',
+// 	'detalleIngreso'        => 'DetalleIngresoController',
+// 	'detalleSalida'         => 'DetalleSalidaController',
+// 	'historialExamen'       => 'HistorialExamenController',
+// 	'historialClinico'      => 'HistorialClinicoController',
+// 	'receta'                => 'RecetaController',
+// 	'asignacionMedicamento' => 'AsignacionMedicamentoController'
+// ]);
 
+//Rutas en api.php
+
+//Aqui afuera pueden escribir todas las demas rutas.
+Route::group(['prefix' => 'rol'], function () {
+    Route::get('/get', [
+        'as' => 'admin.rol', 'uses' => 'RolController@index'
+    ]);
+    Route::post('/post', [
+        'as' => 'admin.rol', 'uses' => 'RolController@store'
+    ]);
+    Route::put('/update', [
+        'as' => 'admin.rol', 'uses' => 'RolController@update'
+    ]);
+    Route::put('/activar', [
+        'as' => 'admin.rol', 'uses' => 'RolController@activar'
+    ]);
+    Route::put('/desactivar', [
+        'as' => 'admin.rol', 'uses' => 'RolController@desactivar'
+    ]);
+});
+
+
+Route::group(['prefix' => 'admin', 'middleware' => 'api.auth'], function () {
+    //Aqui pueden meter las rutas que necesitan que alguien este autenticado
+
+    Route::group(['prefix' => 'rol'], function () {
+        Route::get('/get', [
+            'as' => 'admin.rol', 'uses' => 'RolController@index'
+        ]);
+        Route::post('/post', [
+            'as' => 'admin.rol', 'uses' => 'RolController@store'
+        ]);
+        Route::put('/update', [
+            'as' => 'admin.rol', 'uses' => 'RolController@update'
+        ]);
+        Route::put('/activar', [
+            'as' => 'admin.rol', 'uses' => 'RolController@activar'
+        ]);
+        Route::put('/desactivar', [
+            'as' => 'admin.rol', 'uses' => 'RolController@desactivar'
+        ]);
+    });
+
+} );

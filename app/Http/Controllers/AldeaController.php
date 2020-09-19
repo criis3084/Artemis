@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Aldea;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Exception;
 
 class AldeaController extends Controller
 {
@@ -12,22 +14,31 @@ class AldeaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-		$aldeas = Aldea::all();
-        return Aldea::all();
-    }
+		//if (!$request->ajax()) return redirect('/');
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $buscar = $request->buscar;
+		
+		if ($buscar==''){
+			$aldea = Aldea::orderBy('id', 'desc')->paginate(20);
+		}
+		else{
+			$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(3);
+		}
+		
+        return [
+            'pagination' => [
+                'total'        => $aldea->total(),
+                'current_page' => $aldea->currentPage(),
+                'per_page'     => $aldea->perPage(),
+                'last_page'    => $aldea->lastPage(),
+                'from'         => $aldea->firstItem(),
+                'to'           => $aldea->lastItem(),
+            ],
+            'aldeas' => $aldea
+		];
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -36,6 +47,19 @@ class AldeaController extends Controller
      */
     public function store(Request $request)
     {
+		/*
+		if(!$request->ajax())return redirect('/');
+        try {
+			*/
+			$aldea = new Aldea();
+			$aldea->nombre = $request->nombre;
+			$aldea->save();
+			return Response::json(['message' => 'Aldea Creada'], 200);
+		/*
+		} catch (Exception $e) {
+            return Response::json(['message' => $e->getMessage()], 400);
+		}
+		*/
     }
 
     /**
@@ -52,18 +76,6 @@ class AldeaController extends Controller
 			'sectores'=> $aldea->sectores,
 		];
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Aldea  $aldea
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Aldea $aldea)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -71,9 +83,12 @@ class AldeaController extends Controller
      * @param  \App\Aldea  $aldea
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Aldea $aldea)
+    public function update(Request $request)
     {
-        //
+		$aldea = Aldea::findOrFail($request->id);
+		$aldea->nombre = $request->nombre;
+		$aldea->save();
+		return Response::json(['message' => 'Aldea Actualizada'], 200);
     }
 
     /**

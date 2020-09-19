@@ -17,6 +17,8 @@
 ==========================================================================================*/
 
 
+//Aqui en el router es donde se montan todos los componentes de Vue que se estaran utilizando.
+
 import Vue from 'vue'
 import Router from 'vue-router'
 import auth from '@/auth/authService'
