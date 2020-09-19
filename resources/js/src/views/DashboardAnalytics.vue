@@ -55,7 +55,7 @@ export default {
       async index(){ //async para que se llame cada vez que se necesite
         let me = this;
         const response = await axios.get(
-            `/api/admin/rol/get?page=${page}&search=${search}`)
+            `/api/rol/get?page=${page}&search=${search}`)
         .then(function (response) {
             console.log(response)
             var respuesta= response.data;
@@ -68,7 +68,7 @@ export default {
       },
       guardar(){
         axios
-        .post("/api/admin/rol/post", {
+        .post("/api/rol/post", {
             //Esto sirve para enviar parametros al controlador
             nombre: this.nombre,
         })
@@ -84,7 +84,7 @@ export default {
       },
       actualizar(id){
           axios
-          .put("/api/admin/rol/update", {
+          .put("/api/rol/update", {
             //Esto sirve para enviar parametros al controlador
             nombre: this.nombre,
             id: id, //Este id es el que le entra a la funcion para buscar el registro en BD
@@ -100,7 +100,7 @@ export default {
           });
       },
       activar(){
-        axios.put('/api/admin/rol/activar', {
+        axios.put('/api/rol/activar', {
             id: this.id
         })
         .then(function (response) {
@@ -112,7 +112,7 @@ export default {
         });
       },
       desactivar(){
-        axios.put('/api/admin/rol/desactivar', {
+        axios.put('/api/rol/desactivar', {
             id: this.id
         })
         .then(function (response) {
