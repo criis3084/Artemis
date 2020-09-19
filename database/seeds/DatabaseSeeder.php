@@ -29,16 +29,29 @@ class DatabaseSeeder extends Seeder
         $this->call(HistorialFotografiaSeeder::class);
         $this->call(RolSeeder::class);
         $this->call(UsuarioSeeder::class);
-        $this->call(AbonoViviendaSeeder::class);
-        $this->call(TipoViviendaSeeder::class);
-        $this->call(ViviendaSeeder::class);
-        $this->call(ConstructorSeeder::class);
-        $this->call(GrupoPrestamoSeeder::class);
-        $this->call(DestinoInversionSeeder::class);
-        $this->call(MicroprestamoSeeder::class);
-        $this->call(DetalleIntegranteSeeder::class);
-        $this->call(AbonoPrestamoSeeder::class);
-        $this->call(TutorSeeder::class);
-        $this->call(TutoriaSeeder::class);
+        $this->call(TipoExamenSeeder::class);
+        $this->call(ProfesionSeeder::class);
+        $this->call(ClinicoSeeder::class);
+        $this->call(TipoPacienteSeeder::class);
+        $this->call(ExamenSeeder::class);
+        $this->call(PacienteSeeder::class);
+        $this->call(TipoCitaSeeder::class);
+        $this->call(CitaSeeder::class);
+        $this->call(HistorialExamenSeeder::class);
+        $this->call(BeneficioSeeder::class);
+        $this->call(CasaMedicaSeeder::class);
+        $this->call(CategoriaMedicamentoSeeder::class);
+        $this->call(MedicamentoSeeder::class);
+        $this->call(DetalleBeneficioSeeder::class);
+        $this->call(HistorialClinicoSeeder::class);
+        $this->call(RecetaSeeder::class);
+        $this->call(AsignacionMedicamentoSeeder::class);
+        $this->call(SalidaMedicamentoSeeder::class);
+        $this->call(LoteSeeder::class);
+        $this->call(DetalleSalidaSeeder::class);
+        $this->call(ProveedorSeeder::class);
+        $this->call(IngresoMedicamentoSeeder::class);
+        $this->call(DetalleIngresoSeeder::class);
+        
     }
 }

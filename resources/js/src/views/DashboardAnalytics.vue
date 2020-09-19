@@ -9,22 +9,48 @@
 <!-- Este es el componente inicial -->
 <template>
 
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Created at</th>
+        <th scope="col">Updated at</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="rol in arrayData" :key="rol.id">
+        <td v-text="rol.nombre"></td>
+        <td v-text="rol.estado"></td>
+        <td v-text="rol.created_at"></td>
+        <td v-text="rol.updated_at"></td>
+        <td>
+          <button @click="openModal('update', rol)" class="btn btn-info">Edit</button>
+          <button @click="openModal('eliminar', rol)" class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
+
 
 import VueApexCharts from 'vue-apexcharts'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
+import axios from 'axios'
 
 export default {
   data () {
     return {
       //Aqui van a guardar todas su variables.
+      rols: [],
        pagination : {
-          'total' : 0,
+        'total' : 0,
           'current_page' : 0,
           'per_page' : 0,
           'last_page' : 0,
@@ -32,8 +58,9 @@ export default {
           'to' : 0,
       },
       offset : 3,
-      search : 'maco puto',
+      search : '',
       arrayData: [],
+      nombre: '',
     }
   },
   components: {
@@ -42,19 +69,59 @@ export default {
     ChangeTimeDurationDropdown,
     VxTimeline
   },
-
+    computed:{
+      isActived : function(){
+          return this.pagination.current_page;
+      },
+      pagesNumber : function(){
+          if(!this.pagination.to){
+              return [];
+          }
+          var from = this.pagination.current_page - this.offset;
+          if(from < 1){
+              from = 1;
+          }
+          var to = from + (this.offset * 2);
+          if(to >= this.pagination.last_page)
+          {
+              to = this.pagination.last_page;
+          }
+          var pagesArray = [];
+          while(from <= to){
+              pagesArray.push(from);
+              from++;
+          }
+          return pagesArray;
+      },
+  },
   methods: {
+    getRols: function() {
+          let api_url = '/api/rol/';
+          // if(this.search_term!==''||this.search_term!==null) {
+          //   api_url = `/api/formulario/?search=${this.search_term}`
+          // }
+          this.loading = true;
+          this.$http.get(api_url)
+              .then((response) => {
+                this.rols = response.data;
+                this.loading = false;
+              })
+              .catch((err) => {
+                this.loading = false;
+                console.log(err);
+              })
+        },
       cambiarPagina(page,search){
         let me = this;
         //Actualiza la página actual
         me.pagination.current_page = page;
         //Envia la petición para visualizar la data de esa página
-        me.index(page,search,critery, checkboxmanual);
+        me.index(page,search);
       },
-      async index(){ //async para que se llame cada vez que se necesite
+      async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;
         const response = await axios.get(
-            `/api/admin/rol/get?page=${page}&search=${search}`)
+            `/api/rol/get?page=${page}&search=${search}`)
         .then(function (response) {
             console.log(response)
             var respuesta= response.data;
@@ -66,18 +133,66 @@ export default {
         });
       },
       guardar(){
-
+        axios
+        .post("/api/rol/post", {
+            //Esto sirve para enviar parametros al controlador
+            nombre: this.nombre,
+        })
+        .then(function(response) {
+          toastr.success(response.data.message, "Listo");
+          l.stop();
+          me.closeModal();
+        })
+        .catch(function(error) {
+          l.stop();
+          toastr.error(error.response.data.message, "Error");
+        });
       },
-      actualizar(){
-
+      actualizar(id){
+          axios
+          .put("/api/rol/update", {
+            //Esto sirve para enviar parametros al controlador
+            nombre: this.nombre,
+            id: id, //Este id es el que le entra a la funcion para buscar el registro en BD
+          })
+          .then(function(response) {
+            toastr.success(response.data.message, "Listo");
+            l.stop();
+            me.closeModal();
+          })
+          .catch(function(error) {
+            l.stop();
+            toastr.error(error.response.data.message, "Error");
+          });
       },
       activar(){
-
+        axios.put('/api/rol/activar', {
+            id: this.id
+        })
+        .then(function (response) {
+            toastr.success(response.data.message, 'Listo')
+            me.closeModal()
+        })
+        .catch(function (error) {
+            toastr.error(error.response.data.message, 'Error')
+        });
       },
       desactivar(){
-
+        axios.put('/api/rol/desactivar', {
+            id: this.id
+        })
+        .then(function (response) {
+            toastr.success(response.data.message, 'Listo')
+            me.closeModal()
+        })
+        .catch(function (error) {
+            toastr.error(error.response.data.message, 'Error')
+        });
       }
   },
+  mounted(){
+    this.index(1, this.search);
+  }
 }
 </script>
 

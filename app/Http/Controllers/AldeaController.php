@@ -21,8 +21,7 @@ class AldeaController extends Controller
         $buscar = $request->buscar;
 		
 		if ($buscar==''){
-			$aldea = Aldea::orderBy('id', 'desc')->paginate(20);
-		}
+      $aldea = Aldea::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as aldea', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);		}
 		else{
 			$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(3);
 		}

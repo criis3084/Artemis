@@ -84,7 +84,23 @@ Route::apiResources([
 //Rutas en api.php
 
 //Aqui afuera pueden escribir todas las demas rutas.
-
+Route::group(['prefix' => 'rol'], function () {
+    Route::get('/get', [
+        'as' => 'admin.rol', 'uses' => 'RolController@index'
+    ]);
+    Route::post('/post', [
+        'as' => 'admin.rol', 'uses' => 'RolController@store'
+    ]);
+    Route::put('/update', [
+        'as' => 'admin.rol', 'uses' => 'RolController@update'
+    ]);
+    Route::put('/activar', [
+        'as' => 'admin.rol', 'uses' => 'RolController@activar'
+    ]);
+    Route::put('/desactivar', [
+        'as' => 'admin.rol', 'uses' => 'RolController@desactivar'
+    ]);
+});
 
 
 Route::group(['prefix' => 'admin', 'middleware' => 'api.auth'], function () {
