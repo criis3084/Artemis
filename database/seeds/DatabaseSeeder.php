@@ -36,5 +36,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MicroprestamoSeeder::class);
         $this->call(DetalleIntegranteSeeder::class);
         $this->call(AbonoPrestamoSeeder::class);
+        $this->call(TutorSeeder::class);
+        $this->call(TutoriaSeeder::class);
     }
 }
