@@ -19,6 +19,7 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
+import axios from 'axios'
 
 export default {
   data () {
@@ -44,16 +45,40 @@ export default {
     ChangeTimeDurationDropdown,
     VxTimeline
   },
-
+    computed:{
+      isActived : function(){
+          return this.pagination.current_page;
+      },
+      pagesNumber : function(){
+          if(!this.pagination.to){
+              return [];
+          }
+          var from = this.pagination.current_page - this.offset;
+          if(from < 1){
+              from = 1;
+          }
+          var to = from + (this.offset * 2);
+          if(to >= this.pagination.last_page)
+          {
+              to = this.pagination.last_page;
+          }
+          var pagesArray = [];
+          while(from <= to){
+              pagesArray.push(from);
+              from++;
+          }
+          return pagesArray;
+      },
+  },
   methods: {
       cambiarPagina(page,search){
         let me = this;
         //Actualiza la página actual
         me.pagination.current_page = page;
         //Envia la petición para visualizar la data de esa página
-        me.index(page,search,critery, checkboxmanual);
+        me.index(page,search);
       },
-      async index(){ //async para que se llame cada vez que se necesite
+      async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;
         const response = await axios.get(
             `/api/rol/get?page=${page}&search=${search}`)
