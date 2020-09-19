@@ -13,6 +13,7 @@
 
 <script>
 
+import axios from 'axios';
 import VueApexCharts from 'vue-apexcharts'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 import analyticsData from './ui-elements/card/analyticsData.js'
