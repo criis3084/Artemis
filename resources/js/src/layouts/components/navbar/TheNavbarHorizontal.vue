@@ -8,7 +8,6 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->
 
-
 <template>
 <div class="relative">
   <div class="vx-navbar-wrapper navbar-full p-0">

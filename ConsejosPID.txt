@@ -1,0 +1,12 @@
+//Rutas en api.php
+
+//Aqui afuera pueden escribir todas las demas rutas.
+
+Route::group(['prefix' => 'admin', 'middleware' => 'api.auth'], function () {
+    //Aqui pueden meter las rutas que necesitan que alguien este autenticado.
+}
+
+//router.js
+
+Cuando no sepan donde esta un archivo, le dan ctrl + p.
+
