@@ -12,6 +12,6 @@ class Padrino extends Model
 		return $this->belongsTo('App\PersonaSinAcceso','persona_sin_acceso_id','id');
 	}
 	public function apadrinamiento(){
-		return $this->belongsTo('App\Apadrinamiento','padrino_id','id');
+		return $this->hasMany('App\Apadrinamiento','padrino_id','id');
 	}
 }
