@@ -10,13 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class PersonaSinAccesoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
+		#if(!$request->ajax())return redirect('/');
 		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
@@ -54,22 +51,13 @@ class PersonaSinAccesoController extends Controller
 				'to'           => $persona_sin_acceso->lastItem(),
 			],
 			"personas"=>$persona_sin_acceso
-
 		];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-				/*
-		if(!$request->ajax())return redirect('/');
+		#if(!$request->ajax())return redirect('/');
         try {
-			*/
 			$persona = new PersonaSinAcceso();
 			$persona->nombres = $request->nombres;
 			$persona->apellidos = $request->apellidos;
@@ -81,20 +69,13 @@ class PersonaSinAccesoController extends Controller
 			$persona->sector_id = $request->sector_id;
 			$persona->save();
 			return Response::json(['message' => 'Persona Creada'], 200);
-		/*
 		} catch (Exception $e) {
             return Response::json(['message' => $e->getMessage()], 400);
 		}
-		*/
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\PersonaSinAcceso  $personaSinAcceso
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PersonaSinAcceso $personaSinAcceso)
+	public function show(PersonaSinAcceso $personaSinAcceso)
     {
 		$nino = $personaSinAcceso->nino();
         return[
@@ -109,15 +90,8 @@ class PersonaSinAccesoController extends Controller
 			'sector_nombre' => $personaSinAcceso->sector->nombre
 		];
     }
-                           
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PersonaSinAcceso  $personaSinAcceso
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, PersonaSinAcceso $personaSinAcceso)
+
+    public function update(Request $request)
     {
 		$persona = PersonaSinAcceso::findOrFail($request->id);
 		$persona->nombres = $request->nombres;
@@ -132,17 +106,18 @@ class PersonaSinAccesoController extends Controller
 		return Response::json(['message' => 'Sector Actualizada'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\PersonaSinAcceso  $personaSinAcceso
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PersonaSinAcceso $personaSinAcceso)
+    public function desactivar(Request $personaSinAcceso)
     {
 		$personaSinAcceso = PersonaSinAcceso::findOrFail($personaSinAcceso->id);
         $personaSinAcceso->estado = '0';
 		$personaSinAcceso->save();
 		return Response::json(['message' => 'Persona Desactivado'], 200);
+    }
+    public function activar(Request $personaSinAcceso)
+    {
+		$personaSinAcceso = PersonaSinAcceso::findOrFail($personaSinAcceso->id);
+        $personaSinAcceso->estado = '1';
+		$personaSinAcceso->save();
+		return Response::json(['message' => 'Persona Activada'], 200);
     }
 }

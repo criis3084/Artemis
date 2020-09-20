@@ -10,13 +10,10 @@ use Exception;
 
 class NinoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
+		#if(!$request->ajax())return redirect('/');
 		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
@@ -51,15 +48,9 @@ class NinoController extends Controller
 		];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-		//if(!$request->ajax())return redirect('/');
+		#if(!$request->ajax())return redirect('/');
         try {
             $persona = new PersonaSinAcceso();
 			$persona->nombres = $request->nombres;
@@ -75,8 +66,8 @@ class NinoController extends Controller
             $nino->fecha_ingreso = $request->fecha_ingreso;
             $nino->fecha_egreso = $request->fecha_egreso;
             $nino->ruta_imagen = $request->ruta_imagen;
-            $nino->persona_sin_acceso_id = $persona->id;
             $nino->escuela_id = $request->escuela_id;
+            $nino->persona_sin_acceso_id = $persona->id;
             $nino->save();
 
             return Response::json(['message' => 'Nino Creado'], 200);
@@ -86,12 +77,6 @@ class NinoController extends Controller
 		}
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Nino  $nino
-     * @return \Illuminate\Http\Response
-     */
     public function show(Nino $nino)
     {
         return[
@@ -102,7 +87,7 @@ class NinoController extends Controller
 
 	public function update(Request $request, Nino $nino)
     {
-		/*
+		#if(!$request->ajax())return redirect('/');
 		$nino = Nino::findOrFail($request->id);
 		$persona = PersonaSinAcceso::findOrFail($nino->persona_sin_acceso_id);
 
@@ -120,21 +105,21 @@ class NinoController extends Controller
 		
 		$nino->save();
 		$persona->save();
-		*/
+		
 		return Response::json(['message' => 'Nino Actualizada'], 200);
 	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Nino  $nino
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Nino $nino)
+	public function activar(Request $request)
     {
-        //
-	}
-	
+        #if(!$request->ajax())return redirect('/');
+        $nino = Nino::findOrFail($request->id);
+        $persona = PersonaSinAcceso::findOrFail($nino->id);
+
+        $nino->estado = '1';
+        $persona->estado = '1';
+        $nino->save();
+        $persona->save();
+    }
 	public function desactivar(Request $request)
     {
         #if(!$request->ajax())return redirect('/');

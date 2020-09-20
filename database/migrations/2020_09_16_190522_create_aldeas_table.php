@@ -16,6 +16,7 @@ class CreateAldeasTable extends Migration
         Schema::create('aldeas', function (Blueprint $table) {
 			$table->id();
 			$table->string('nombre');
+			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });
     }

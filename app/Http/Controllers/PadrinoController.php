@@ -11,11 +11,7 @@ use Exception;
 
 class PadrinoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
 		// Filtro por un criterio y estado
@@ -52,13 +48,6 @@ class PadrinoController extends Controller
 		];
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 		//if(!$request->ajax())return redirect('/');
@@ -87,23 +76,11 @@ class PadrinoController extends Controller
 		}
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Padrino  $padrino
-     * @return \Illuminate\Http\Response
-     */
     public function show(Padrino $padrino)
     {
         //
     }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Padrino  $padrino
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Padrino $padrino)
     {
 		//if(!$request->ajax())return redirect('/');
@@ -126,12 +103,17 @@ class PadrinoController extends Controller
 		return Response::json(['message' => 'Padrino Actualizado'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Padrino  $padrino
-     * @return \Illuminate\Http\Response
-     */
+	public function activar(Request $request)
+    {
+        #if(!$request->ajax())return redirect('/');
+        $padrino = Padrino::findOrFail($request->id);
+        $persona = PersonaSinAcceso::findOrFail($padrino->id);
+
+        $padrino->estado = '1';
+        $persona->estado = '1';
+        $padrino->save();
+        $persona->save();
+    }
 	public function desactivar(Request $request)
     {
         #if(!$request->ajax())return redirect('/');

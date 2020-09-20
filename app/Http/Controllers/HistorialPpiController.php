@@ -10,11 +10,7 @@ use Exception;
 
 class HistorialPpiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
 		// Filtro por un criterio y estado
@@ -51,12 +47,6 @@ class HistorialPpiController extends Controller
 		];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 		//if(!$request->ajax())return redirect('/');
@@ -72,25 +62,19 @@ class HistorialPpiController extends Controller
 		}
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\HistorialPpi  $historialPpi
-     * @return \Illuminate\Http\Response
-     */
     public function show(HistorialPpi $historialPpi)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\HistorialPpi  $historialPpi
-     * @return \Illuminate\Http\Response
-     */
-
+	public function activar(Request $request)
+    {
+        #if(!$request->ajax())return redirect('/');
+        $historialPpi = HistorialPpi::findOrFail($request->id);
+        $historialPpi->estado = '0';
+        $historialPpi->save();
+		return Response::json(['message' => 'Relacion Desactivada'], 200);
+	}
 	public function desactivar(Request $request)
     {
         #if(!$request->ajax())return redirect('/');

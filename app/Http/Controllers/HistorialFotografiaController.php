@@ -9,11 +9,7 @@ use Exception;
 
 class HistorialFotografiaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
 		// Filtro por un criterio y estado
@@ -50,12 +46,6 @@ class HistorialFotografiaController extends Controller
 		];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 		//if(!$request->ajax())return redirect('/');
@@ -71,17 +61,19 @@ class HistorialFotografiaController extends Controller
 		}
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\HistorialFotografia  $historialFotografia
-     * @return \Illuminate\Http\Response
-     */
     public function show(HistorialFotografia $historialFotografia)
     {
         //
     }
 
+	public function activar(Request $request)
+    {
+        #if(!$request->ajax())return redirect('/');
+        $historialFotografias = HistorialFotografia::findOrFail($request->id);
+        $historialFotografias->estado = '1';
+        $historialFotografias->save();
+		return Response::json(['message' => 'Relacion Activada'], 200);
+	}
 	public function desactivar(Request $request)
     {
         #if(!$request->ajax())return redirect('/');

@@ -9,11 +9,7 @@ use Exception;
 
 class EscuelaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
 		// Filtro por un criterio y estado
@@ -73,13 +69,8 @@ class EscuelaController extends Controller
 		];
 		*/
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+	public function store(Request $request)
     {
 		/*
 		if(!$request->ajax())return redirect('/');
@@ -97,12 +88,6 @@ class EscuelaController extends Controller
 		*/
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Escuela  $escuela
-     * @return \Illuminate\Http\Response
-     */
     public function show(Escuela $escuela)
     {
 		return [
@@ -112,13 +97,7 @@ class EscuelaController extends Controller
 			'ninos'=> $escuela->ninos
 		];
     }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Escuela  $escuela
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Escuela $escuela)
     {
 		$escuela = Escuela::findOrFail($request->id);
@@ -128,16 +107,16 @@ class EscuelaController extends Controller
 		return Response::json(['message' => 'Escuela Actualizada'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Escuela  $escuela
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Escuela $escuela)
+	public function activar(Escuela $escuela)
+	{
+		//if(!$request->ajax())return redirect('/');
+		$escuela = Escuela::findOrFail($escuela->id);
+		$escuela->estado = '1';
+		$escuela->save();
+		return Response::json(['message' => 'Escuela Desactivado'], 200);
+	}
+    public function desactivar(Escuela $escuela)
     {
-		// Temporal estado de desactivacion
-
 		//if(!$request->ajax())return redirect('/');
         $escuela = Escuela::findOrFail($escuela->id);
         $escuela->estado = '0';

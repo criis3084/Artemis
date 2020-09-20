@@ -4,82 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Clinico;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Exception;
 
 class ClinicoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	public function index(Request $request)
+	{
+		//
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	public function store(Request $request)
+	{
+		//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	public function update(Request $request)
+	{
+		//
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Clinico  $clinico
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Clinico $clinico)
-    {
-        //
-    }
+	public function activar(Request $request)
+	{
+		//
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Clinico  $clinico
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Clinico $clinico)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Clinico  $clinico
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Clinico $clinico)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Clinico  $clinico
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Clinico $clinico)
-    {
-        //
-    }
+	public function desactivar(Request $request)
+	{
+		//
+	}
 }

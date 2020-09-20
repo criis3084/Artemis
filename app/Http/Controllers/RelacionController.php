@@ -9,11 +9,7 @@ use Exception;
 
 class RelacionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
 		// Filtro por un criterio y estado
@@ -50,12 +46,6 @@ class RelacionController extends Controller
 		];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 		//if(!$request->ajax())return redirect('/');
@@ -75,12 +65,6 @@ class RelacionController extends Controller
 		}
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Relacion  $relacion
-     * @return \Illuminate\Http\Response
-     */
     public function show(Relacion $relacion)
     {
         return [
@@ -89,13 +73,6 @@ class RelacionController extends Controller
 		];
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Relacion  $relacion
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Relacion $relacion)
     {
 		//if(!$request->ajax())return redirect('/');
@@ -110,12 +87,6 @@ class RelacionController extends Controller
 		return Response::json(['message' => 'Relazion Acualizada'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Relacion  $relacion
-     * @return \Illuminate\Http\Response
-     */
 	public function desactivar(Request $request)
     {
         #if(!$request->ajax())return redirect('/');

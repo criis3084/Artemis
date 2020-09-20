@@ -4,82 +4,33 @@ namespace App\Http\Controllers;
 
 use App\GrupoPrestamo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Exception;
 
 class GrupoPrestamoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	public function index(Request $request)
+	{
+		//
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	public function store(Request $request)
+	{
+		//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	public function update(Request $request)
+	{
+		//
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\GrupoPrestamo  $grupoPrestamo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(GrupoPrestamo $grupoPrestamo)
-    {
-        //
-    }
+	public function activar(Request $request)
+	{
+		//
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\GrupoPrestamo  $grupoPrestamo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(GrupoPrestamo $grupoPrestamo)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\GrupoPrestamo  $grupoPrestamo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, GrupoPrestamo $grupoPrestamo)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\GrupoPrestamo  $grupoPrestamo
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(GrupoPrestamo $grupoPrestamo)
-    {
-        //
-    }
+	public function desactivar(Request $request)
+	{
+		//
+	}
 }
