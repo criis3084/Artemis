@@ -17,6 +17,7 @@ class CreateSectorsTable extends Migration
 			$table->id();
 			$table->string('nombre');
 			$table->foreignId('aldea_id')->constrained();
+			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });
     }

@@ -10,19 +10,10 @@ use Exception;
 
 class PpiController extends Controller
 {
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-		/*
-		if(!$request->ajax())return redirect('/');
+		#if(!$request->ajax())return redirect('/');
         try {
-			*/
 			$ppi = new Ppi();
 			$ppi->respuesta1 = $request->respuesta1;
 			$ppi->respuesta2 = $request->respuesta2;
@@ -37,19 +28,11 @@ class PpiController extends Controller
 			$ppi->total = $request->total;
 			$ppi->save();
 			return Response::json(['message' => 'Ppi Creado'], 200);
-		/*
 		} catch (Exception $e) {
             return Response::json(['message' => $e->getMessage()], 400);
 		}
-		*/
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Ppi  $ppi
-     * @return \Illuminate\Http\Response
-     */
     public function show(Ppi $ppi)
     {
 		return [
@@ -68,14 +51,7 @@ class PpiController extends Controller
 		];
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ppi  $ppi
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Ppi $ppi)
+    public function update(Request $request)
     {
 		$ppi = Ppi::findOrFail($request->id);
 		$ppi->respuesta1 = $request->respuesta1;
@@ -93,15 +69,16 @@ class PpiController extends Controller
 		return Response::json(['message' => 'Ppi Actualizado'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Ppi  $ppi
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ppi $ppi)
+    public function activar(Request $request)
     {
-		$ppi = Ppi::findOrFail($ppi->id);
+		$ppi = Ppi::findOrFail($request->id);
+        $ppi->estado = '0';
+		$ppi->save();
+		return Response::json(['message' => 'Ppi Desactivado'], 200);
+    }
+    public function desactivar(Request $request)
+    {
+		$ppi = Ppi::findOrFail($request->id);
         $ppi->estado = '0';
 		$ppi->save();
 		return Response::json(['message' => 'Ppi Desactivado'], 200);

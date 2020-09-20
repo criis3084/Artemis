@@ -58,12 +58,6 @@ class FotografiaController extends Controller
 		*/
 	}
 	
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 		/*
@@ -83,12 +77,6 @@ class FotografiaController extends Controller
 		*/
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Fotografia  $fotografia
-     * @return \Illuminate\Http\Response
-     */
     public function show(Fotografia $fotografia)
     {
 		return [
@@ -98,13 +86,7 @@ class FotografiaController extends Controller
 			'descripcion'=> $fotografia->descripcion
 		];
     }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Fotografia  $fotografia
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Fotografia $fotografia)
     {
 		$fotografia = Fotografia::findOrFail($request->id);
@@ -116,18 +98,20 @@ class FotografiaController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Fotografia  $fotografia
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Fotografia $fotografia)
-    {
+	public function activar(Fotografia $fotografia)
+	{
 		//if(!$request->ajax())return redirect('/');
-        $fotografia = Fotografia::findOrFail($fotografia->id);
-        $fotografia->estado = '0';
+		$fotografia = Fotografia::findOrFail($fotografia->id);
+		$fotografia->estado = '0';
 		$fotografia->save();
 		return Response::json(['message' => 'Fotografia Desactivada'], 200);
-    }
+	}
+	public function desactivar(Fotografia $fotografia)
+	{
+		//if(!$request->ajax())return redirect('/');
+		$fotografia = Fotografia::findOrFail($fotografia->id);
+		$fotografia->estado = '0';
+		$fotografia->save();
+		return Response::json(['message' => 'Fotografia Desactivada'], 200);
+	}
 }

@@ -9,11 +9,6 @@ use Exception;
 
 class ApadrinamientoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
 		// Filtro por un criterio y estado
@@ -50,13 +45,6 @@ class ApadrinamientoController extends Controller
 		];
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 		//if(!$request->ajax())return redirect('/');
@@ -72,24 +60,11 @@ class ApadrinamientoController extends Controller
 		}
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Apadrinamiento  $apadrinamiento
-     * @return \Illuminate\Http\Response
-     */
     public function show(Apadrinamiento $apadrinamiento)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Apadrinamiento  $apadrinamiento
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Apadrinamiento $apadrinamiento)
     {
 		//if(!$request->ajax())return redirect('/');
@@ -101,14 +76,17 @@ class ApadrinamientoController extends Controller
 		$relacion->save();
 		
 		return Response::json(['message' => 'Relazion Acualizada'], 200);
-    }
+	}
+	
+	public function activar(Request $request)
+    {
+        #if(!$request->ajax())return redirect('/');
+        $Apadrinamiento = Apadrinamiento::findOrFail($request->id);
+        $Apadrinamiento->estado = '1';
+        $Apadrinamiento->save();
+		return Response::json(['message' => 'Apadrinamiento Desactivado'], 200);
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Apadrinamiento  $apadrinamiento
-     * @return \Illuminate\Http\Response
-     */
 	public function desactivar(Request $request)
     {
         #if(!$request->ajax())return redirect('/');

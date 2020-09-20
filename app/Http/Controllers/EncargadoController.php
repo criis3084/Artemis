@@ -10,13 +10,10 @@ use Exception;
 
 class EncargadoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
+		#if(!$request->ajax())return redirect('/');
 		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
@@ -51,12 +48,6 @@ class EncargadoController extends Controller
 		];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 		//if(!$request->ajax())return redirect('/');
@@ -84,26 +75,14 @@ class EncargadoController extends Controller
 		}
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Encargado  $encargado
-     * @return \Illuminate\Http\Response
-     */
     public function show(Encargado $encargado)
     {
         //
     }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Encargado  $encargado
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Encargado $encargado)
     {
-		
+		#if(!$request->ajax())return redirect('/');		
 		$encargado = Encargado::findOrFail($request->id);
 		$persona = PersonaSinAcceso::findOrFail($encargado->persona_sin_acceso_id);
 
@@ -123,21 +102,26 @@ class EncargadoController extends Controller
 		return Response::json(['message' => 'Nino Actualizada'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Encargado  $encargado
-     * @return \Illuminate\Http\Response
-     */
-	public function desactivar(Request $request)
-    {
-        #if(!$request->ajax())return redirect('/');
-        $encargado = Encargado::findOrFail($request->id);
-        $persona = PersonaSinAcceso::findOrFail($encargado->id);
+	public function activar(Request $request)
+	{
+		#if(!$request->ajax())return redirect('/');
+		$encargado = Encargado::findOrFail($request->id);
+		$persona = PersonaSinAcceso::findOrFail($encargado->id);
 
-        $encargado->estado = '0';
-        $persona->estado = '0';
-        $encargado->save();
-        $persona->save();
-    }
+		$encargado->estado = '1';
+		$persona->estado = '1';
+		$encargado->save();
+		$persona->save();
+	}
+	public function desactivar(Request $request)
+	{
+		#if(!$request->ajax())return redirect('/');
+		$encargado = Encargado::findOrFail($request->id);
+		$persona = PersonaSinAcceso::findOrFail($encargado->id);
+
+		$encargado->estado = '0';
+		$persona->estado = '0';
+		$encargado->save();
+		$persona->save();
+	}
 }

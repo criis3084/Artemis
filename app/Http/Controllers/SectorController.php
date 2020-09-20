@@ -9,11 +9,6 @@ use Exception;
 
 class SectorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
 		$buscar = $request->buscar;
@@ -38,38 +33,23 @@ class SectorController extends Controller
 		];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-		/*
-		if(!$request->ajax())return redirect('/');
+		#if(!$request->ajax())return redirect('/');
         try {
-			*/
 			$sector = new Sector();
 			$sector->nombre = $request->nombre;
 			$sector->aldea_id = $request->aldea_id;
 			$sector->save();
 			return Response::json(['message' => 'Sector Creado'], 200);
-		/*
 		} catch (Exception $e) {
             return Response::json(['message' => $e->getMessage()], 400);
 		}
-		*/
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Sector  $sector
-     * @return \Illuminate\Http\Response
-     */
     public function show(Sector $sector)
     {
+		#if(!$request->ajax())return redirect('/');
 		return [
 			'id'=> $sector->id,
 			'nombre'=> $sector->nombre,
@@ -77,15 +57,10 @@ class SectorController extends Controller
 			'aldea_nombre'=> $sector->aldea->nombre,
 		];
     }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Sector  $sector
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Sector $sector)
     {
+		#if(!$request->ajax())return redirect('/');
 		$sector = Sector::findOrFail($request->id);
 		$sector->nombre = $request->nombre;
 		$sector->aldea_id = $request->aldea_id;
@@ -93,14 +68,21 @@ class SectorController extends Controller
 		return Response::json(['message' => 'Sector Actualizada'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Sector  $sector
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Sector $sector)
+
+	public function activar(Request $sector)
+	{
+		//if(!$request->ajax())return redirect('/');
+		$sector = Sector::findOrFail($sector->id);
+		$sector->estado = '1';
+		$sector->save();
+		return Response::json(['message' => 'Sector Activado'], 200);
+	}
+    public function desactivar(Request $sector)
     {
-        //
+		//if(!$request->ajax())return redirect('/');
+        $sector = Sector::findOrFail($sector->id);
+        $sector->estado = '0';
+		$sector->save();
+		return Response::json(['message' => 'Sector Desactivado'], 200);
     }
 }

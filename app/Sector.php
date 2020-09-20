@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sector extends Model
 {
-	protected $fillable = ['nombre','aldea_id'];
+	protected $fillable = ['nombre','aldea_id','estado'];
 
 	public function aldea(){
 		return $this->belongsTo('App\Aldea','aldea_id','id');
