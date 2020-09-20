@@ -120,6 +120,8 @@ class EncargadoController extends Controller
 		$persona = PersonaSinAcceso::findOrFail($encargado->id);
 
 		$encargado->estado = '0';
+		# la pesona no se debe desactiar porque puede seguir yendo a consultas?
+        # $persona->estado = '0';
 		$persona->estado = '0';
 		$encargado->save();
 		$persona->save();

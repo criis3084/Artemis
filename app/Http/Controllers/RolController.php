@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Rol;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Exception;
 
 class RolController extends Controller
 {
@@ -27,7 +29,14 @@ class RolController extends Controller
 
     public function store(Request $request)
     {
-        //insertar datos
+        try {
+			$rol = new Rol();
+			$rol->nombre = $request->nombre;
+			$rol->save();
+			return Response::json(['message' => 'Rol Creado'], 200);
+		} catch (Exception $e) {
+            return Response::json(['message' => $e->getMessage()], 400);
+		}
     }
 
     public function update(Request $request)

@@ -33,7 +33,7 @@ export default [
     tag: '2',
     tagColor: 'warning',
     icon: 'HomeIcon',
-    i18n: 'Dashboard',
+    i18n: 'PPI',
     submenu: [
       {
         url: '/dashboard/analytics',

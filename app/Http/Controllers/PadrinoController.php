@@ -63,7 +63,7 @@ class PadrinoController extends Controller
 			$persona->direccion = $request->direccion;
 			$persona->save();
 
-			$encargado = new Encargado();
+			$encargado = new Padrino();
 			$encargado->ruta_imagen = $request->ruta_imagen;
 			$encargado->correo = $request->correo;
 			$encargado->persona_sin_acceso_id = $persona->id;
@@ -81,7 +81,7 @@ class PadrinoController extends Controller
         //
     }
 
-    public function update(Request $request, Padrino $padrino)
+    public function update(Request $request)
     {
 		//if(!$request->ajax())return redirect('/');
 		$padrino = Padrino::findOrFail($request->id);

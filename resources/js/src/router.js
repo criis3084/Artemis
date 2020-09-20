@@ -53,7 +53,7 @@ const router = new Router({
         {
           path: '/dashboard/analytics',
           name: 'dashboard-analytics',
-          component: () => import('./views/DashboardAnalytics.vue'),
+          component: () => import('./views/apadrinamientos/ppi.vue'),
           meta: {
             rule: 'editor'
           }

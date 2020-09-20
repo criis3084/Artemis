@@ -74,7 +74,7 @@ class PpiController extends Controller
 		$ppi = Ppi::findOrFail($request->id);
         $ppi->estado = '0';
 		$ppi->save();
-		return Response::json(['message' => 'Ppi Desactivado'], 200);
+		return Response::json(['message' => 'Ppi Activado'], 200);
     }
     public function desactivar(Request $request)
     {

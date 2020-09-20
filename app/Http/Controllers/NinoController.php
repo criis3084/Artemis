@@ -116,7 +116,8 @@ class NinoController extends Controller
         $persona = PersonaSinAcceso::findOrFail($nino->id);
 
         $nino->estado = '1';
-        $persona->estado = '1';
+		# Lo de desactivar x2
+		# $persona->estado = '1';
         $nino->save();
         $persona->save();
     }
@@ -126,8 +127,9 @@ class NinoController extends Controller
         $nino = Nino::findOrFail($request->id);
         $persona = PersonaSinAcceso::findOrFail($nino->id);
 
-        $nino->estado = '0';
-        $persona->estado = '0';
+		$nino->estado = '0';
+		# la pesona no se debe desactiar porque puede seguir yendo a consultas?
+        # $persona->estado = '0';
         $nino->save();
         $persona->save();
     }

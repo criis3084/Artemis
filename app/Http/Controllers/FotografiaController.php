@@ -60,21 +60,17 @@ class FotografiaController extends Controller
 	
     public function store(Request $request)
     {
-		/*
-		if(!$request->ajax())return redirect('/');
+		#if(!$request->ajax())return redirect('/');
         try {
-			*/
 			$fotografia = new Fotografia();
 			$fotografia->ruta = $request->ruta;
 			$fotografia->descripcion = $request->descripcion;
 			$fotografia->titulo = $request->titulo;
 			$fotografia->save();
 			return Response::json(['message' => 'Fotografia Subida'], 200);
-		/*
 		} catch (Exception $e) {
             return Response::json(['message' => $e->getMessage()], 400);
 		}
-		*/
     }
 
     public function show(Fotografia $fotografia)
