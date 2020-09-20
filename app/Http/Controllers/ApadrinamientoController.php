@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Apadrinamiento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Exception;
 
 class ApadrinamientoController extends Controller
 {
@@ -12,20 +14,42 @@ class ApadrinamientoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+		// Filtro por un criterio y estado
+		$buscar = $request->buscar;
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+			}
+			else{
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+			}
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->orderBy('id', 'desc')->paginate(20);
+			}
+			else{
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+			}
+		}
+		return [
+			'pagination' => [
+				'total'        => $apadrinamiento->total(),
+				'current_page' => $apadrinamiento->currentPage(),
+				'per_page'     => $apadrinamiento->perPage(),
+				'last_page'    => $apadrinamiento->lastPage(),
+				'from'         => $apadrinamiento->firstItem(),
+				'to'           => $apadrinamiento->lastItem(),
+			],
+			"apadrinamientos"=>$apadrinamiento
+		];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +59,17 @@ class ApadrinamientoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+		//if(!$request->ajax())return redirect('/');
+		try {
+			$apadrinamiento = new Apadrinamiento();
+			$apadrinamiento->nino_id = $request->nino_id;
+			$apadrinamiento->padrino_id = $request->padrino_id;
+			$apadrinamiento->save();
+			return Response::json(['message' => 'Apadrinamiento Creada'], 200);
+			#return ['id' => $nino->id];
+		} catch (Exception $e) {
+			return Response::json(['message' => $e->getMessage()], 400);
+		}
     }
 
     /**
@@ -50,17 +84,6 @@ class ApadrinamientoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Apadrinamiento  $apadrinamiento
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Apadrinamiento $apadrinamiento)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -69,7 +92,15 @@ class ApadrinamientoController extends Controller
      */
     public function update(Request $request, Apadrinamiento $apadrinamiento)
     {
-        //
+		//if(!$request->ajax())return redirect('/');
+		$relacion = Apadrinamiento::findOrFail($request->id);
+		$apadrinamiento->nino_id = $request->nino_id;
+		$apadrinamiento->padrino_id = $request->padrino_id;
+		// Actualizar direccion del ni;o del encargado
+		// Pendiente
+		$relacion->save();
+		
+		return Response::json(['message' => 'Relazion Acualizada'], 200);
     }
 
     /**
@@ -78,8 +109,12 @@ class ApadrinamientoController extends Controller
      * @param  \App\Apadrinamiento  $apadrinamiento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Apadrinamiento $apadrinamiento)
+	public function desactivar(Request $request)
     {
-        //
-    }
+        #if(!$request->ajax())return redirect('/');
+        $Apadrinamiento = Apadrinamiento::findOrFail($request->id);
+        $Apadrinamiento->estado = '0';
+        $Apadrinamiento->save();
+		return Response::json(['message' => 'Apadrinamiento Desactivado'], 200);
+	}
 }

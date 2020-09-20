@@ -17,7 +17,6 @@ class PersonaSinAccesoController extends Controller
      */
     public function index(Request $request)
     {
-<<<<<<< HEAD
 		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
@@ -57,41 +56,6 @@ class PersonaSinAccesoController extends Controller
 			"personas"=>$persona_sin_acceso
 
 		];
-=======
-				// Filtro por un criterio y estado
-				$buscar = $request->buscar;
-				$criterio = $request->criterio;
-				$completo = 'false';
-				$persona_sin_acceso = null;
-				
-				if ($completo == 'false')
-				{
-					if ($buscar==''){
-						$persona_sin_acceso = PersonaSinAcceso::orderBy('id', 'desc')->where('estado',1)->paginate(20);
-					}
-					else{
-						$persona_sin_acceso = PersonaSinAcceso::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
-					}
-				} else if ($completo == 'true'){
-					if ($buscar==''){
-						$persona_sin_acceso = PersonaSinAcceso::orderBy('id', 'desc')->paginate(20);
-					}
-					else{
-						$persona_sin_acceso = PersonaSinAcceso::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
-					}
-				}
-				return [
-					'pagination' => [
-						'total'        => $persona_sin_acceso->total(),
-						'current_page' => $persona_sin_acceso->currentPage(),
-						'per_page'     => $persona_sin_acceso->perPage(),
-						'last_page'    => $persona_sin_acceso->lastPage(),
-						'from'         => $persona_sin_acceso->firstItem(),
-						'to'           => $persona_sin_acceso->lastItem(),
-					],
-					'personas' => $persona_sin_acceso
-				];        
->>>>>>> master
     }
 
     /**
