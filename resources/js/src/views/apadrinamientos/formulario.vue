@@ -1,7 +1,7 @@
 <template>
  <div>
 	<div class="demo-alignment">
-	  <vs-button icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" type="border">Agregar</vs-button>
+	  <vs-button @click="activePrompt2 = true" color="primary" type="border">Nuevo Sector</vs-button>
 	</div>
 
     <vs-prompt
@@ -11,40 +11,21 @@
       :is-valid="validName"
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
-        Ingrese la informacion  <b>a continuación</b>.
+        Nuevo Sector  <b></b>.
 			
-		<vs-input placeholder="Nombre" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
-		<vs-input placeholder="Apellido" v-model="valMultipe.value2" class="mt-4 mb-2 col-2 w-full" />
+		<vs-input placeholder="Nombre del sector" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 
 		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
-			Fields can not be empty please enter the data
+			LLene todos los campos
 		</vs-alert>
       </div>
 
-		<div class="demo-alignment">
-			<vs-dropdown @click="mostrar()" >
-			
-				<a class="flex items-center" href="#">
-					Aldeas
-					<i class="material-icons"> expand_more </i>
-				</a>
-				<vs-dropdown-menu v-for="aldea in aldeasT" :key="aldea.id">
-					<div v-for="aldea in aldeasT" :key="aldea.id">
-						<vs-dropdown-item > {{aldea.nombre}}</vs-dropdown-item>
-					</div>
-				</vs-dropdown-menu>
-
-			</vs-dropdown>
-
-		</div>
-
-
-	  <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
-		Fields can not be empty please enter the data
-	  </vs-alert>
-
-
+		<template>
+		<v-select label="nombre" :options="aldeasT" v-model="valMultipe.value2" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		</template> 
 	</vs-prompt>
+
+
 	  </div>
 </template>
 
@@ -53,21 +34,25 @@ import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
 //C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
+import vSelect from 'vue-select'
 
 export default {
   components: {
 	Dropdown,
-	Datepicker
+	Datepicker,
+	vSelect,
   },
   data () {
 	return {
 	  activePrompt2:false,
 	  val:'',
 	  valMultipe:{
-		value1:'asdf',
-		value2:'da'
+		value1:'',
+		value2:''
 	  },
 	 aldeasT: [],
+	 selected: '',
+ 	 switch2:true
 	}
   },
   computed:{
@@ -90,9 +75,10 @@ export default {
 		});
 	},
 	acceptAlert () {
+	console.log(this.valMultipe.value2.id);
 	axios.post("/api/sector/post/",{
 		nombre:this.valMultipe.value1,
-		aldea_id:this.valMultipe.value2
+		aldea_id:this.valMultipe.value2.id
 	}).then(function(response) {
 			console.log(response)
 		})
@@ -126,8 +112,8 @@ export default {
 		console.log(error)
 		});
 	},
-	mostrar(){
-		console.log(this.aldeasT);
+	mostrar(id){
+		console.log($id);
 	}
 
   },
