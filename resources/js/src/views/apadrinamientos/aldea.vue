@@ -1,45 +1,45 @@
 <template>
+	<div>
+		<vx-card>
+			<formularioaldea v-on:cerrado="index(pagination.current_page, search);">></formularioaldea>
+
+			<vs-table stripe max-items="5" :data="arrayData">
+
+				<template slot="thead">
+					<vs-th>Codigo</vs-th>
+					<vs-th>Nombre</vs-th>
+					<vs-th>Estado</vs-th>
+					<vs-th>Fecha de creación</vs-th>
+					<vs-th>Fecha de actualización</vs-th>
+					<vs-th></vs-th>
+
+				</template>
+
+				<template>
+					<vs-tr v-for="aldea in arrayData" :key="aldea.id">
+						<vs-td v-text="aldea.id" ></vs-td>
+						<vs-td v-text="aldea.nombre" ></vs-td>
+						<vs-td>
+							<vs-switch color="success" v-model="aldea.estado" @click="abrirDialog(aldea.id, aldea.estado)">
+								<span slot="on" >Activo</span>
+								<span slot="off">Desactivo</span>
+							</vs-switch>
+						</vs-td>
+						<vs-td v-text="aldea.created_at" ></vs-td>
+						<vs-td v-text="aldea.updated_at" ></vs-td>
+						
+						<vs-td>
+							<vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+						</vs-td>
+
+					</vs-tr>
+				</template>
+			</vs-table>
 			<div>
-				<vx-card>
-					<formularioaldea></formularioaldea>
-
-					<vs-table stripe max-items="5" :data="arrayData">
-
-						<template slot="thead">
-							<vs-th>Codigo</vs-th>
-							<vs-th>Nombre</vs-th>
-							<vs-th>Estado</vs-th>
-							<vs-th>Fecha de creación</vs-th>
-							<vs-th>Fecha de actualización</vs-th>
-							<vs-th></vs-th>
-
-						</template>
-
-						<template>
-							<vs-tr v-for="aldea in arrayData" :key="aldea.id">
-								<vs-td v-text="aldea.id" ></vs-td>
-								<vs-td v-text="aldea.nombre" ></vs-td>
-								<vs-td>
-									<vs-switch color="success" v-model="aldea.estado" @click="abrirDialog(aldea.id, aldea.estado)">
-										<span slot="on" >Activo</span>
-										<span slot="off">Desactivo</span>
-									</vs-switch>
-								</vs-td>
-								<vs-td v-text="aldea.created_at" ></vs-td>
-								<vs-td v-text="aldea.updated_at" ></vs-td>
-								
-								<vs-td>
-									<vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-								</vs-td>
-
-							</vs-tr>
-						</template>
-					</vs-table>
-					<div>
-						<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
-					</div>
-				</vx-card>
+				<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
 			</div>
+		</vx-card>
+	</div>
 </template>
 
 
@@ -80,9 +80,11 @@ export default {
     ChangeTimeDurationDropdown,
     VxTimeline,
     Formularioaldea
-    
   },
   methods: {
+	  muestra(){
+		  console.log('Se ha cerrado el dialog')
+	  },
 	abrirDialog(id, estado){
 
 		let titulo = '';
@@ -107,10 +109,9 @@ export default {
 			color: `${color}`,
 			title: `${titulo}`,
 			text: '¿Está seguro de llevar a cabo esta acción?',
-			accept: this.cambiarEstado
+			accept: this.cambiarEstado,
+			cancel: this.close
 		})
-
-		this.index(this.pagination.current_page, this.search);
 	},
 	cambiarEstado(color){
 		let titulo = ''
@@ -138,17 +139,28 @@ export default {
 			.catch(function (error) {
 				console.log(error.response.data.message)
 			});
+
 		}
 		this.$vs.notify({
           color:'success',
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
-        })
+		})
 	},
+	close(){
+		let titulo = "Cancelado"
+		let texto = "Cambio de estado cancelado"
+		this.$vs.notify({
+        color:'danger',
+        title:`${titulo}`,
+        text:`${titulo}`
+	  })
+	this.index(this.pagination.current_page, this.search);
+    },
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/aldea/get?page=${page}&search=${search}`)
+			`/api/aldea/get?page=${page}&search=${search}&completo=true`)
 		.then(function (response) {
 			console.log(page)
 			var respuesta= response.data;

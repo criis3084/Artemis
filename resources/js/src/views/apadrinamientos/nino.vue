@@ -42,7 +42,7 @@
 									</vs-switch>
 								</vs-td>
 								<vs-td>
-									<vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+									<editNino v-bind:identificador="idUnico" @click="cambiar(nino.id)"></editNino>
 								</vs-td>
 								<vs-td>
 									<vx-tooltip text="Historial de PPI"> <vs-button color="dark" type="flat" icon="poll" size="large"></vs-button>  </vx-tooltip>
@@ -50,7 +50,6 @@
 								<vs-td>
 									<vx-tooltip text="Historial de Fotografias"> <vs-button color="dark" type="flat" icon="camera_alt" size="large"></vs-button> </vx-tooltip>
 								</vs-td>
-
 							</vs-tr>
 						</template>
 					</vs-table>
@@ -70,6 +69,7 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
 import Formulario from './formulario.vue'
+import EditNino from './editNino.vue'
 import axios from 'axios'
 
 export default {
@@ -90,8 +90,8 @@ export default {
       arrayData: [],
       nombre: '',
 	  switch2:false,
-	  id: 0,
 	  estado: null,
+	  idUnico:0
     }
   },
   components: {
@@ -99,10 +99,13 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    Formulario
-    
+    Formulario,
+    EditNino    
   },
   methods: {
+	  cambiar(idNino){
+		  this.idUnico = idNino
+	  },
 	abrirDialog(id, estado){
 
 		let titulo = '';

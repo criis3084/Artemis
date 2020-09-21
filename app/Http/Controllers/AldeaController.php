@@ -13,15 +13,26 @@ class AldeaController extends Controller
     {
 		#if (!$request->ajax()) return redirect('/');
 
-        $buscar = $request->buscar;
-		if ($buscar==''){
-			$aldea = Aldea::orderBy('id', 'desc')->paginate(20);
-			#$aldea = Aldea::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as aldea', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
+		$buscar = $request->buscar;
+		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$aldea = Aldea::orderBy('id', 'desc')->where('estado',1)->paginate(20);
+			}
+			else{
+				$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+			}
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$aldea = Aldea::orderBy('id', 'desc')->paginate(20);
+			}
+			else{
+				$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+			}
 		}
-		else{
-			$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
-		}
-		
+
         return [
             'pagination' => [
                 'total'        => $aldea->total(),

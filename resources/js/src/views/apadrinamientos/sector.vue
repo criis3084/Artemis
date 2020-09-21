@@ -93,7 +93,6 @@ export default {
 			color = 'danger'
 			titulo = 'Confirmar desactivación'
 		}
-		
 		this.id = id
 		this.estado = estado
 		this.$vs.dialog({
@@ -101,9 +100,9 @@ export default {
 			color: `${color}`,
 			title: `${titulo}`,
 			text: '¿Está seguro de llevar a cabo esta acción?',
-			accept: this.cambiarEstado
+			accept: this.cambiarEstado,
+			cancel: this.close
 		})
-		this.index(this.pagination.current_page, this.search);
 	},
 	cambiarEstado(color){
 		let titulo = ''
@@ -132,16 +131,27 @@ export default {
 				console.log(error.response.data.message)
 			});
 		}
+
 		this.$vs.notify({
           color:'success',
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
         })
 	},
+	close(){
+		let titulo = "Cancelado"
+		let texto = "Cambio de estado cancelado"
+		this.$vs.notify({
+        color:'danger',
+        title:`${titulo}`,
+        text:`${titulo}`
+	  })
+	this.index(this.pagination.current_page, this.search);
+    },
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/sector/get?page=${page}&search=${search}`)
+			`/api/sector/get?page=${page}&search=${search}&completo=true`)
 		.then(function (response) {
 			console.log(page)
 			var respuesta= response.data;

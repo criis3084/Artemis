@@ -166,7 +166,7 @@ export default {
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/escuela/get?page=${page}&search=${search}`)
+			`/api/escuela/get?page=${page}&search=${search}&completo=true`)
 		.then(function (response) {
 			console.log(page)
 			var respuesta= response.data;

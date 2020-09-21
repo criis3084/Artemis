@@ -1,8 +1,7 @@
 <template>
  <div>
 		<div class="demo-alignment">
-			<h2>Niños Apadrinados</h2>
-			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-user-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
+			<vx-tooltip text="Editar"> <vs-button  @click="activePrompt2 = true" color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
 		</div>
 	<br>
 
@@ -88,6 +87,7 @@ import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
 import vSelect from 'vue-select'
 
 export default {
+	props:['identificador'],
   components: {
 	Dropdown,
 	Datepicker,
@@ -111,7 +111,7 @@ export default {
 	  escuela_id:'',
 	  selected: '',
 	  switch2:true,
-	  titulo:'Nuevo Niño'
+	  titulo:'Editar Niño'
 	}
   },
   computed:{
@@ -132,6 +132,8 @@ export default {
 		.catch(function (error) {
 			console.log(error);
 		});
+		console.log(this.identificador);
+		
 	},async index3(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
@@ -146,7 +148,9 @@ export default {
 		});
 	},
 	acceptAlert(){
-	axios.post("/api/nino/post/",{
+	axios.put(`/api/nino/update/${this.nino.id}/`, this.valMultipe,{
+	//axios.put("/api/nino/update/",{
+		//id:this.id,
 		nombres:this.nombres,
 		apellidos:this.apellidos,
 		genero:this.genero,
@@ -174,12 +178,8 @@ export default {
 	clearValMultiple () {
 	  this.nombres = ''
 	},
-	mostrar(id){
-		console.log($id);
-	}
-
   },
-  mounted(){
+	mounted(){
     this.index2(1, this.search);
     this.index3(1, this.search);
   }

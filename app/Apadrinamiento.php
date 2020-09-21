@@ -33,11 +33,11 @@ class Apadrinamiento extends Model
 	}
 	public function datos_nino(){
 		return $this->hasManyThrough(
-			'App\Nino',
-			'App\Padrino',
+			'App\PersonaSinAcceso',
+			'App\nino',
 			'id',
 			'id',
-			'padrino_id',
+			'nino_id',
 			'persona_sin_acceso_id'
 		);
 	}

@@ -24,9 +24,7 @@
       </div>
 
 	</vs-prompt>
-
-
-	  </div>
+</div>
 </template>
 
 <script>
@@ -52,8 +50,8 @@ export default {
 	  },
 	 aldeasT: [],
 	 selected: '',
-	  switch2:true,
-	  titulo:'Nueva Aldea'
+	 switch2:true,
+	 titulo:'Nueva Aldea'
 	}
   },
   computed:{
@@ -86,21 +84,20 @@ export default {
 		.catch(function(error) {
 		console.log(error)
 		});
+	this.$emit('cerrado','Se cerro el formulario');
 	},
 	close () {
+		console.log('modal cerrado')
 	  this.$vs.notify({
 		color:'danger',
 		title:'Closed',
 		text:'You close a dialog!'
 	  })
+	  this.$emit('cerrado','Se cerro el formulario');
 	},
 	clearValMultiple () {
 	  this.valMultipe.value1 = ''
-	  this.valMultipe.value2 = ''
-	  this.valMultipe.value3 = ''
-	  this.valMultipe.value4 = ''
-	  this.valMultipe.value5 = ''
-	  this.fechaN = ''
+      this.$emit('cerrado','Se cerro el formulario');
 	},
 	saveProduct(){
 	axios.post("/api/aldea/post/",{
