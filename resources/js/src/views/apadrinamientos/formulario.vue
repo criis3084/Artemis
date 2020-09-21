@@ -1,17 +1,20 @@
 <template>
  <div>
-	<div class="demo-alignment">
-	  <vs-button @click="activePrompt2 = true" color="primary" type="border">Nuevo Sector</vs-button>
-	</div>
+		<div class="demo-alignment">
+			<h2>Niños Apadrinados</h2>
+			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-user-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
+		</div>
+	<br>
 
     <vs-prompt
       @cancel="clearValMultiple"
       @accept="acceptAlert"
       @close="close"
       :is-valid="validName"
+	  :title= "titulo"
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
-        Nuevo Sector  <b></b>.
+        <b></b>.
 			
 		<vs-input placeholder="Nombre del sector" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 
@@ -52,7 +55,8 @@ export default {
 	  },
 	 aldeasT: [],
 	 selected: '',
- 	 switch2:true
+	  switch2:true,
+	  titulo:'Nuevo Niño'
 	}
   },
   computed:{
@@ -64,7 +68,7 @@ export default {
 	async index2(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/aldea/get?page=${page}&buscar=${this.valMultipe.value2}`)
+			`/api/aldea/get?page=${page}&buscar=${this.valMultipe.value2}&todos='true'`)
 		.then(function (response) {
 			var respuesta= response.data;
 			me.aldeasT = respuesta.aldeas.data;
