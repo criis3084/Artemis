@@ -48,7 +48,7 @@
 					</div>
 				</vx-card>
 			</div>
-	</template>
+</template>
 
 <script>
 

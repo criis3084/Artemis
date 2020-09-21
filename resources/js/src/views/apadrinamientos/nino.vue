@@ -152,7 +152,7 @@ export default {
 			axios.put('/api/nino/desactivar', {
 				id: this.id
 			})
-			.then(function (response) {
+			.then(function (response) {co
 				console.log(response.data.message)
 			})
 			.catch(function (error) {
