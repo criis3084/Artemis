@@ -24,11 +24,11 @@
 									<vx-tooltip text="Información Completa"> <vs-button color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
 									
 								</vs-td>
-								<vs-td v-text="apadrinamiento.nino.datos.nombres" ></vs-td>
-								<vs-td v-text="apadrinamiento.nino.datos.apellidos" ></vs-td>
-								<vs-td v-text="apadrinamiento.nino.datos.genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
-								<vs-td v-text="apadrinamiento.padrino.datos.nombres" ></vs-td>
-								<vs-td v-text="apadrinamiento.padrino.datos.apellidos" ></vs-td>
+								<vs-td v-text="apadrinamiento.datos_nino.datos.nombres" ></vs-td>
+								<vs-td v-text="apadrinamiento.datos_nino.datos.apellidos" ></vs-td>
+								<vs-td v-text="apadrinamiento.datos_nino.datos.genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
+								<vs-td v-text="apadrinamiento.datos_padrino.datos.nombres" ></vs-td>
+								<vs-td v-text="apadrinamiento.datos_padrino.datos.apellidos" ></vs-td>
 								<vs-td>
 									<vs-switch color="success" v-model="apadrinamiento.estado" @click="abrirDialog(apadrinamiento.id, apadrinamiento.estado)">
 										<span slot="on" >Activo</span>
