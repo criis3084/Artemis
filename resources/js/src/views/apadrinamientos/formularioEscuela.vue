@@ -54,7 +54,7 @@ export default {
 	 aldeasT: [],
 	 selected: '',
 	  switch2:true,
-	  titulo:'Nuevo Niño'
+	  titulo:'Nuevo Escuela'
 	}
   },
   computed:{
@@ -87,17 +87,25 @@ export default {
 		.catch(function(error) {
 		console.log(error)
 		});
+		this.$emit('cerrado','Se cerro el formulario');
+		this.$vs.notify({
+		color:'success',
+		title:'Exito',
+		text:'Registro Creado!'
+	  })
 	},
 	close () {
 	  this.$vs.notify({
 		color:'danger',
-		title:'Closed',
-		text:'You close a dialog!'
+		title:'Cerrado',
+		text:'Cerró el formulario!'
 	  })
+	  this.$emit('cerrado','Se cerro el formulario');
 	},
 	clearValMultiple () {
 	  this.valMultipe.value1 = ''
 	  this.valMultipe.value2 = ''
+	  this.$emit('cerrado','Se cerro el formulario');
 	},
 	saveProduct(){
 	axios.post("/api/escuela/post/",{
@@ -109,6 +117,7 @@ export default {
 		.catch(function(error) {
 		console.log(error)
 		});
+		
 	},
 	mostrar(id){
 		console.log($id);

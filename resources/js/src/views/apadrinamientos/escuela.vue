@@ -10,7 +10,7 @@
 <template>
 			<div>
 				<vx-card>
-					<formulario-escuela></formulario-escuela>
+					<formulario-escuela v-on:cerrado ="index(pagination.current_page, search);"></formulario-escuela>
 
 					<vs-table stripe max-items="5" :data="arrayData">
 
@@ -35,7 +35,7 @@
 									<vx-tooltip text="Información Completa"> <vs-button color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
 									
 								</vs-td>
-								<vs-td v-text="escuela.codigo" ></vs-td>
+								<vs-td v-text="escuela.id" ></vs-td>
 								<vs-td v-text="escuela.nombre" ></vs-td>
 								<vs-td v-text="escuela.direccion" ></vs-td>
 								<vs-td>
@@ -101,6 +101,7 @@ export default {
     
   },
   methods: {
+	 
 	abrirDialog(id, estado){
 
 		let titulo = '';
@@ -125,10 +126,10 @@ export default {
 			color: `${color}`,
 			title: `${titulo}`,
 			text: '¿Está seguro de llevar a cabo esta acción?',
-			accept: this.cambiarEstado
+			accept: this.cambiarEstado,
+			cancel: this.close
 		})
 
-		this.index(this.pagination.current_page, this.search);
 	},
 	cambiarEstado(color){
 		let titulo = ''
@@ -163,6 +164,16 @@ export default {
           text:'La acción se realizo exitósamente'
         })
 	},
+	close(){
+		let titulo = "Cancelado"
+		let texto = "Cambio de estado cancelado"
+		this.$vs.notify({
+        color:'danger',
+        title:`${titulo}`,
+        text:`${titulo}`
+	  })
+	this.index(this.pagination.current_page, this.search);
+    },
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
