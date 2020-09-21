@@ -15,7 +15,7 @@ class EscuelaController extends Controller
 		// Filtro por un criterio y estado
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-        $completo = $request->completo;
+		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
 		
 		if ($completo == 'false')
 		{

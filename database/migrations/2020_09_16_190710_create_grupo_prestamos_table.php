@@ -15,6 +15,7 @@ class CreateGrupoPrestamosTable extends Migration
     {
         Schema::create('grupo_prestamos', function (Blueprint $table) {
 			$table->id();
+			$table->string('nombre');
 			$table->string('descripcion');
 			$table->float('cantidad_ultimo_prestamo',8,2)->default(0);
 			$table->float('cantidad_prestamo_actual',8,2)->default(0);
