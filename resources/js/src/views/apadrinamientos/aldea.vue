@@ -1,50 +1,56 @@
-<!-- =========================================================================================
-  File Name: DashboardAnalytics.vue
-  Description: Dashboard Analytics
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-<!-- Este es el componente inicial -->
 <template>
+			<div>
+				<vx-card>
+					<formulario></formulario>
 
-<div>
-    <h1>Aldeas</h1>
-  <div><formulario></formulario></div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Aldea</th>
-        <th scope="col">Estado</th>
-        <th scope="col">Fecha Creacion</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="rol in arrayData" :key="rol.id">
-        <td v-text="rol.nombre"></td>
-        <td v-text="rol.aldea.nombre"></td>
-        <td v-text="rol.estado"></td>
-        <td v-text="rol.created_at"></td>
-        <td>
-          <button @click="openModal('update', rol)" class="btn btn-info">Edit</button>
-          <button @click="openModal('eliminar', rol)" class="btn btn-danger">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div>
-  </div>
-  
-  </div>   
-  
-  
+					<vs-table stripe max-items="5" :data="arrayData">
+
+						<template slot="thead">
+							<vs-th>Codigo</vs-th>
+							<vs-th>Nombre</vs-th>
+							<vs-th>Created at</vs-th>
+							<vs-th>Updated at</vs-th>
+							<vs-th></vs-th>
+							<vs-th></vs-th>
+							<vs-th></vs-th>
+						</template>
+
+						<template>
+							<vs-tr v-for="nino in arrayData" :key="nino.id">
+								<vs-td v-text="nino.codigo" ></vs-td>
+								<vs-td v-text="nino.datos.nombres" ></vs-td>
+								<vs-td v-text="nino.datos.apellidos" ></vs-td>
+								<vs-td v-text="nino.datos.genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
+								<vs-td v-text="nino.datos.fecha_nacimiento" ></vs-td>
+								<vs-td v-text="nino.fecha_ingreso" ></vs-td>
+								<vs-td>
+									<vs-switch color="success" v-model="nino.estado" @click="abrirDialog(nino.id, nino.estado)">
+										<span slot="on" >Activo</span>
+										<span slot="off">Desactivo</span>
+									</vs-switch>
+								</vs-td>
+								<vs-td>
+									<vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+								</vs-td>
+								<vs-td>
+									<vx-tooltip text="Historial de PPI"> <vs-button color="dark" type="flat" icon="poll" size="large"></vs-button>  </vx-tooltip>
+								</vs-td>
+								<vs-td>
+									<vx-tooltip text="Historial de Fotografias"> <vs-button color="dark" type="flat" icon="camera_alt" size="large"></vs-button> </vx-tooltip>
+								</vs-td>
+
+							</vs-tr>
+						</template>
+					</vs-table>
+					<div>
+						<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
+					</div>
+				</vx-card>
+			</div>
 </template>
 
-<script>
 
+<script>
 
 import VueApexCharts from 'vue-apexcharts'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
@@ -70,7 +76,10 @@ export default {
       offset : 3,
       search : '',
       arrayData: [],
-      nombre: ''
+      nombre: '',
+	  switch2:false,
+	  id: 0,
+	  estado: null,
     }
   },
   components: {
@@ -81,64 +90,77 @@ export default {
     Formulario
     
   },
-    computed:{
-      isActived : function(){
-          return this.pagination.current_page;
-      },
-      pagesNumber : function(){
-          if(!this.pagination.to){
-              return [];
-          }
-          var from = this.pagination.current_page - this.offset;
-          if(from < 1){
-              from = 1;
-          }
-          var to = from + (this.offset * 2);
-          if(to >= this.pagination.last_page)
-          {
-              to = this.pagination.last_page;
-          }
-          var pagesArray = [];
-          while(from <= to){
-              pagesArray.push(from);
-              from++;
-          }
-          return pagesArray;
-      },
-  },
   methods: {
-    getRols: function() {
-		let api_url = '/api/aldea/';
-		// if(this.search_term!==''||this.search_term!==null) {
-		//   api_url = `/api/formulario/?search=${this.search_term}`
-		// }
-		this.loading = true;
-		this.$http.get(api_url)
-			.then((response) => {
-			this.rols = response.data;
-			this.loading = false;
-			})
-			.catch((err) => {
-			this.loading = false;
-			console.log(err);
-			})
-    },
-	cambiarPagina(page,search){
-	let me = this;
-	//Actualiza la página actual
-	me.pagination.current_page = page;
-	//Envia la petición para visualizar la data de esa página
-	me.index(page,search);
-	},
+	abrirDialog(id, estado){
 
+		let titulo = '';
+		let color = '';
+
+		if(estado === 0 || estado === false){
+			// cambiar de color al boton
+			color = 'success'
+			titulo = 'Confirmar activación'
+		}
+
+		else if(estado === 1 || estado === true){
+			color = 'danger'
+			titulo = 'Confirmar desactivación'
+		}
+		
+		this.id = id
+		this.estado = estado
+
+		this.$vs.dialog({
+			type:'confirm',
+			color: `${color}`,
+			title: `${titulo}`,
+			text: '¿Está seguro de llevar a cabo esta acción?',
+			accept: this.cambiarEstado
+		})
+
+		this.index(this.pagination.current_page, this.search);
+	},
+	cambiarEstado(color){
+		let titulo = ''
+		
+		if(this.estado === 0 || this.estado === false){
+			titulo = 'Activado exitósamente'
+			axios.put('/api/nino/activar', {
+				id: this.id
+			})
+			.then(function (response) {
+				console.log(response.data.message)
+			})
+			.catch(function (error) {
+				console.log(error.response.data.message)
+			});
+		}
+		else if(this.estado === 1 || this.estado === true){
+			titulo = 'Desactivado exitósamente'
+			axios.put('/api/nino/desactivar', {
+				id: this.id
+			})
+			.then(function (response) {
+				console.log(response.data.message)
+			})
+			.catch(function (error) {
+				console.log(error.response.data.message)
+			});
+		}
+		this.$vs.notify({
+          color:'success',
+          title:`${titulo}`,
+          text:'La acción se realizo exitósamente'
+        })
+	},
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/sector/get?page=${page}&search=${search}`)
+			`/api/nino/get?page=${page}&search=${search}`)
 		.then(function (response) {
-			console.log('a veeeeeeeer'.response)
+			console.log(page)
 			var respuesta= response.data;
-			me.arrayData = respuesta.sectores.data;
+			me.arrayData = respuesta.ninos.data;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -178,30 +200,6 @@ export default {
 		toastr.error(error.response.data.message, "Error");
 		});
 	},
-	activar(){
-	axios.put('/api/rol/activar', {
-		id: this.id
-	})
-	.then(function (response) {
-		toastr.success(response.data.message, 'Listo')
-		me.closeModal()
-	})
-	.catch(function (error) {
-		toastr.error(error.response.data.message, 'Error')
-	});
-	},
-	desactivar(){
-	axios.put('/api/rol/desactivar', {
-		id: this.id
-	})
-	.then(function (response) {
-		toastr.success(response.data.message, 'Listo')
-		me.closeModal()
-	})
-	.catch(function (error) {
-		toastr.error(error.response.data.message, 'Error')
-	});
-	}
   },
   mounted(){
     this.index(1, this.search);

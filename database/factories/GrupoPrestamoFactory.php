@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(GrupoPrestamo::class, function (Faker $faker) {
     return [
-        
+        'nombre' => $faker->text($maxNbChars = 20),
         'descripcion' => $faker->text($maxNbChars = 200),
         'cantidad_ultimo_prestamo' => $faker-> randomFloat($nbMaxDecimals = 2, $min = 1, $max = 10000),
         'cantidad_prestamo_actual' => $faker-> randomFloat($nbMaxDecimals = 2, $min = 1, $max = 10000),
