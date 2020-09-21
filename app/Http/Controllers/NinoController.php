@@ -34,6 +34,8 @@ class NinoController extends Controller
 			else{
 				$nino = Nino::with('datos')->with('escuela')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 			}
+		}else if($completo="ninono"){
+			$nino = Nino::with('datos')->with('escuela')->where('estado',0)->orderBy('id', 'desc')->paginate(20);
 		}
 		return [
 			'pagination' => [
@@ -85,7 +87,7 @@ class NinoController extends Controller
 		];
     }
 
-	public function update(Request $request, Nino $nino)
+	public function update(Request $request)
     {
 		#if(!$request->ajax())return redirect('/');
 		$nino = Nino::findOrFail($request->id);

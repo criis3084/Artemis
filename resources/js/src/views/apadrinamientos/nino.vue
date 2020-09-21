@@ -42,7 +42,7 @@
 									</vs-switch>
 								</vs-td>
 								<vs-td>
-									<editNino v-bind:identificador="idUnico" @click="cambiar(nino.id)"></editNino>
+									<vx-tooltip text="Editar"> <vs-button  @click="cambiar(nino)" color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
 								</vs-td>
 								<vs-td>
 									<vx-tooltip text="Historial de PPI"> <vs-button color="dark" type="flat" icon="poll" size="large"></vs-button>  </vx-tooltip>
@@ -51,6 +51,17 @@
 									<vx-tooltip text="Historial de Fotografias"> <vs-button color="dark" type="flat" icon="camera_alt" size="large"></vs-button> </vx-tooltip>
 								</vs-td>
 							</vs-tr>
+								<editNino v-bind:identificador="abrir_editar" 
+								v-bind:id="id" 
+								v-bind:nombres="nombres" 
+								v-bind:apellidos="apellidos" 
+								v-bind:genero="genero" 
+								v-bind:codigo="codigo" 
+								v-bind:fecha_ingreso="fecha_ingreso" 
+								v-bind:fecha_nacimiento="fecha_nacimiento" 
+								v-bind:direccion="direccion" 
+								v-bind:ruta_imagen="ruta_imagen" 
+								v-on:cerrado="index(pagination.current_page, search);"	></editNino>
 						</template>
 					</vs-table>
 					<div>
@@ -91,7 +102,17 @@ export default {
       nombre: '',
 	  switch2:false,
 	  estado: null,
-	  idUnico:0
+	  abrir_editar:false,
+		id:'',
+		nombres:'',
+		apellidos:'',
+		genero:'',
+		codigo:'',
+		fecha_ingreso:'',
+		fecha_nacimiento:'',
+		direccion:'',
+		ruta_imagen:''
+
     }
   },
   components: {
@@ -103,8 +124,19 @@ export default {
     EditNino    
   },
   methods: {
-	  cambiar(idNino){
-		  this.idUnico = idNino
+	  cambiar(Nino){
+		  console.log("Entra Aca?");
+		  console.log(Nino);
+		  this.id = Nino.id;
+		  this.nombres = Nino.datos.nombres;
+		  this.apellidos = Nino.datos.apellidos;
+		  this.genero = Nino.datos.genero;
+		  this.codigo = Nino.codigo;
+		  this.fecha_ingreso = Nino.fecha_ingreso;
+		  this.fecha_nacimiento = Nino.datos.fecha_nacimiento;
+		  this.direccion = Nino.datos.direccion;
+		  this.ruta_imagen = Nino.ruta_imagen;
+		  this.abrir_editar = true;
 	  },
 	abrirDialog(id, estado){
 
@@ -170,6 +202,7 @@ export default {
 	},
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
+		this.abrir_editar=false
 		const response = await axios.get(
 			`/api/nino/get?page=${page}&search=${search}`)
 		.then(function (response) {
@@ -217,6 +250,7 @@ export default {
 	},
   },
   mounted(){
+
     this.index(1, this.search);
   }
 }

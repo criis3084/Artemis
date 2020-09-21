@@ -80,10 +80,16 @@ export default {
 		aldea_id:this.valMultipe.value2.id
 	}).then(function(response) {
 			console.log(response)
+			this.$vs.notify({
+				color:'success',
+				title:'Exito',
+				text:'Registro Creado!'
+			});
 		})
 		.catch(function(error) {
 		console.log(error)
 		});
+
 	this.$emit('cerrado','Se cerro el formulario');
 	},
 	close () {
@@ -116,6 +122,7 @@ export default {
 
   },
   mounted(){
+	console.log('arriba')
     this.index2(1, this.search);
   }
 
