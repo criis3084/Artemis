@@ -19,17 +19,17 @@ class ApadrinamientoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
 			}
 			else{
-				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->orderBy('id', 'desc')->paginate(20);
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->orderBy('id', 'desc')->paginate(20);
 			}
 			else{
-				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 			}
 		}
 		return [

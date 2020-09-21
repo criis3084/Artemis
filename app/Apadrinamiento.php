@@ -11,7 +11,40 @@ class Apadrinamiento extends Model
 	public function nino(){
 		return $this->belongsTo('App\Nino','nino_id','id');
 	}
+/*
+	public function padrino_persona(){
+		return $this->belongsTo('App\PersonaSinAcceso','persona_sin_acceso_id',belongsTo('App\Padrino','padrino_id','id'));
+	}
+*/
+	
 	public function padrino(){
 		return $this->belongsTo('App\Padrino','padrino_id','id');
 	}
+
+	public function datos_padrino(){
+		return $this->hasManyThrough(
+			'App\PersonaSinAcceso',
+			'App\Padrino',
+			'id',
+			'id',
+			'padrino_id',
+			'persona_sin_acceso_id'
+		);
+	}
+	public function datos_nino(){
+		return $this->hasManyThrough(
+			'App\Nino',
+			'App\Padrino',
+			'id',
+			'id',
+			'padrino_id',
+			'persona_sin_acceso_id'
+		);
+	}
+	/*
+	/*
+	public function nino_sin_accesso(){
+		return $this->belongsTo('App\Nino','nino_id','id');
+	}
+	*/
 }

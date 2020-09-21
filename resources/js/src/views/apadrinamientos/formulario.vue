@@ -14,8 +14,15 @@
 	  :title= "titulo"
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
-        <b></b>.
-			
+        <b>Información del nuevo niño</b>
+		<br>
+		  <div class="vx-row mb-2">
+			<div class="vx-col w-full">
+				<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombres" name="nombres" v-validate="'alpha'"/>
+				<span class="text-danger text-sm" v-show="errors.has('alpha')">{{ errors.first('alpha') }}</span>
+			</div>
+		  </div>
+
 		<vs-input placeholder="Nombre del sector" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 
 		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >

@@ -6,6 +6,7 @@ use App\Relacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use SebastianBergmann\Type\ObjectType;
 
 class RelacionController extends Controller
 {
@@ -65,11 +66,20 @@ class RelacionController extends Controller
 		}
     }
 
-    public function show(Relacion $relacion)
+    public function show(Request $request)
     {
+		$relaciones_datos=[];
+		$relaciones = Relacion::all();
+		$temporal= (Object)['nombre_nino'=>'','nombre_encargado'=>''];
+		foreach ($relaciones as $relacion)
+		{
+			$dato = new Relacion($relacion->id);
+			$nombre_nino=$relacion->nino->datos->nombres;
+			$nombre_Encargado=$relacion->encargado->datos->nombres;
+			$relaciones_datos= array_push($relaciones_datos,['nombre_nino'=>$nombre_nino],['nombre_encargado'=>$nombre_Encargado]);
+		}
         return [
-			'Nombre_Nino'=>$relacion->nino->datos->nombres,
-			'Nombre_Encargado'=>$relacion->encargado->datos->nombres
+			$relaciones_datos
 		];
     }
 

@@ -38,7 +38,7 @@ class GrupoPrestamoController extends Controller
 		#if(!$request->ajax())return redirect('/');
         try {
 			$grupoPrestamo = new GrupoPrestamo();
-			#$grupoPrestamo->nombre = $request->nombre;
+			$grupoPrestamo->nombre = $request->nombre;
 			$grupoPrestamo->descripcion = $request->descripcion;
 			$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
 			$grupoPrestamo->cantidad_prestamo_actual = $request->cantidad_prestamo_actual;
@@ -54,7 +54,7 @@ class GrupoPrestamoController extends Controller
 		#if(!$request->ajax())return redirect('/');
         try {
 		$grupoPrestamo = GrupoPrestamo::findOrFail($request->id);
-		#$grupoPrestamo->nombre = $request->nombre;
+		$grupoPrestamo->nombre = $request->nombre;
 		$grupoPrestamo->descripcion = $request->descripcion;
 		#$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
 		#$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
