@@ -1,7 +1,7 @@
 <template>
  <div>
 	<div class="demo-alignment">
-	  <vs-button @click="activePrompt2 = true" color="primary" type="border">Agregar</vs-button>
+	  <vs-button icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" type="border">Agregar</vs-button>
 	</div>
 
     <vs-prompt

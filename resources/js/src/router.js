@@ -51,9 +51,65 @@ const router = new Router({
           redirect: '/dashboard/analytics'
         },
         {
-          path: '/dashboard/analytics',
-          name: 'dashboard-analytics',
+          path: '/apadrinamiento/nino',
+          name: 'apadrinamiento-nino',
+          component: () => import('./views/apadrinamientos/nino.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/apadrinamiento/ninono',
+          name: 'apadrinamiento-ninono',
+          component: () => import('./views/apadrinamientos/ninono.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/apadrinamiento/padrino',
+          name: 'apadrinamiento-padrino',
+          component: () => import('./views/apadrinamientos/padrino.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/apadrinamiento/apadrinamiento',
+          name: 'apadrinamiento-apadrinamiento',
+          component: () => import('./views/apadrinamientos/apadrinamiento.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/apadrinamiento/encargado',
+          name: 'apadrinamiento-encargado',
+          component: () => import('./views/apadrinamientos/encargado.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/apadrinamiento/familia',
+          name: 'apadrinamiento-familia',
+          component: () => import('./views/apadrinamientos/relacion.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/apadrinamiento/ppi',
+          name: 'apadrinamiento-ppi',
           component: () => import('./views/apadrinamientos/ppi.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/apadrinamiento/sector',
+          name: 'apadrinamiento-sector',
+          component: () => import('./views/apadrinamientos/sector.vue'),
           meta: {
             rule: 'editor'
           }
@@ -66,8 +122,33 @@ const router = new Router({
             rule: 'admin'
           }
         },
-
-
+        // =============================================================================
+        // Datos Generales
+        // =============================================================================
+        {
+          path: '/general/escuela',
+          name: 'general-escuela',
+          component: () => import('./views/apadrinamientos/escuela.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {
+          path: '/general/sector',
+          name: 'general-sector',
+          component: () => import('./views/apadrinamientos/sector.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {
+          path: '/general/aldea',
+          name: 'general-aldea',
+          component: () => import('./views/apadrinamientos/aldea.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
         // =============================================================================
         // Application Routes
         // =============================================================================
