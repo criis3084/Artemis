@@ -1,42 +1,35 @@
 <template>
 			<div>
 				<vx-card>
-					<formulario></formulario>
+					<formularioaldea></formularioaldea>
 
 					<vs-table stripe max-items="5" :data="arrayData">
 
 						<template slot="thead">
 							<vs-th>Codigo</vs-th>
 							<vs-th>Nombre</vs-th>
-							<vs-th>Created at</vs-th>
-							<vs-th>Updated at</vs-th>
+							<vs-th>Estado</vs-th>
+							<vs-th>Fecha de creación</vs-th>
+							<vs-th>Fecha de actualización</vs-th>
 							<vs-th></vs-th>
-							<vs-th></vs-th>
-							<vs-th></vs-th>
+
 						</template>
 
 						<template>
-							<vs-tr v-for="nino in arrayData" :key="nino.id">
-								<vs-td v-text="nino.codigo" ></vs-td>
-								<vs-td v-text="nino.datos.nombres" ></vs-td>
-								<vs-td v-text="nino.datos.apellidos" ></vs-td>
-								<vs-td v-text="nino.datos.genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
-								<vs-td v-text="nino.datos.fecha_nacimiento" ></vs-td>
-								<vs-td v-text="nino.fecha_ingreso" ></vs-td>
+							<vs-tr v-for="aldea in arrayData" :key="aldea.id">
+								<vs-td v-text="aldea.id" ></vs-td>
+								<vs-td v-text="aldea.nombre" ></vs-td>
 								<vs-td>
-									<vs-switch color="success" v-model="nino.estado" @click="abrirDialog(nino.id, nino.estado)">
+									<vs-switch color="success" v-model="aldea.estado" @click="abrirDialog(aldea.id, aldea.estado)">
 										<span slot="on" >Activo</span>
 										<span slot="off">Desactivo</span>
 									</vs-switch>
 								</vs-td>
+								<vs-td v-text="aldea.created_at" ></vs-td>
+								<vs-td v-text="aldea.updated_at" ></vs-td>
+								
 								<vs-td>
 									<vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-								</vs-td>
-								<vs-td>
-									<vx-tooltip text="Historial de PPI"> <vs-button color="dark" type="flat" icon="poll" size="large"></vs-button>  </vx-tooltip>
-								</vs-td>
-								<vs-td>
-									<vx-tooltip text="Historial de Fotografias"> <vs-button color="dark" type="flat" icon="camera_alt" size="large"></vs-button> </vx-tooltip>
 								</vs-td>
 
 							</vs-tr>
@@ -57,14 +50,13 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
-import Formulario from './formulario.vue'
+import Formularioaldea from './formularioaldea.vue'
 import axios from 'axios'
 
 export default {
   data () {
     return {
       //Aqui van a guardar todas su variables.
-      rols: [],
        pagination : {
         'total' : 0,
           'current_page' : 0,
@@ -87,7 +79,7 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    Formulario
+    Formularioaldea
     
   },
   methods: {
@@ -125,7 +117,7 @@ export default {
 		
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
-			axios.put('/api/nino/activar', {
+			axios.put('/api/aldea/activar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -137,7 +129,7 @@ export default {
 		}
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
-			axios.put('/api/nino/desactivar', {
+			axios.put('/api/aldea/desactivar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -156,11 +148,11 @@ export default {
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/nino/get?page=${page}&search=${search}`)
+			`/api/aldea/get?page=${page}&search=${search}`)
 		.then(function (response) {
 			console.log(page)
 			var respuesta= response.data;
-			me.arrayData = respuesta.ninos.data;
+			me.arrayData = respuesta.aldeas.data;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
