@@ -107,14 +107,6 @@ const router = new Router({
           }
         },
         {
-          path: '/apadrinamiento/sector',
-          name: 'apadrinamiento-sector',
-          component: () => import('./views/apadrinamientos/error_solucionado.vue'),
-          meta: {
-            rule: 'editor'
-          }
-        },
-        {
           path: '/dashboard/ecommerce',
           name: 'dashboard-ecommerce',
           component: () => import('./views/DashboardECommerce.vue'),
@@ -136,7 +128,7 @@ const router = new Router({
         {
           path: '/general/sector',
           name: 'general-sector',
-          component: () => import('./views/apadrinamientos/error_solucionado.vue'),
+          component: () => import('./views/apadrinamientos/sector.vue'),
           meta: {
             rule: 'admin'
           }
