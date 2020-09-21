@@ -9,7 +9,7 @@
 
 // MAIN COLORS - VUESAX THEME COLORS
 export const colors = {
-  primary : '#7367F0',
+  primary : '#3D80B3',
   success : '#28C76F',
   danger  : '#EA5455',
   warning : '#FF9F43',
@@ -28,7 +28,7 @@ const themeConfig = {
   routerTransition  : 'zoom-fade', // options[String]  : zoom-fade / slide-fade / fade-bottom / fade / zoom-out / none(default)
   rtl               : false,       // options[Boolean] : true, false(default)
   sidebarCollapsed  : false,       // options[Boolean] : true, false(default)
-  theme             : 'light',     // options[String]  : "light"(default), "dark", "semi-dark"
+  theme             : 'semi-dark',     // options[String]  : "light"(default), "dark", "semi-dark"
 
   // Not required yet - WIP
   userInfoLocalStorageKey: 'userInfo'
