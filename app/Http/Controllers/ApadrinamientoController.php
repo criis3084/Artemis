@@ -84,7 +84,7 @@ class ApadrinamientoController extends Controller
         $Apadrinamiento = Apadrinamiento::findOrFail($request->id);
         $Apadrinamiento->estado = '1';
         $Apadrinamiento->save();
-		return Response::json(['message' => 'Apadrinamiento Desactivado'], 200);
+		return Response::json(['message' => 'Apadrinamiento Activado'], 200);
 	}
 
 	public function desactivar(Request $request)

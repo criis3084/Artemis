@@ -9,18 +9,17 @@ use Exception;
 
 class AldeaController extends Controller
 {
-
     public function index(Request $request)
     {
 		#if (!$request->ajax()) return redirect('/');
 
         $buscar = $request->buscar;
 		if ($buscar==''){
-			$aldea = Aldea::orderBy('id', 'desc')->where('estado',1)->paginate(20);
+			$aldea = Aldea::orderBy('id', 'desc')->paginate(20);
 			#$aldea = Aldea::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as aldea', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
 		}
 		else{
-			$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(3);
+			$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 		}
 		
         return [
@@ -61,18 +60,30 @@ class AldeaController extends Controller
     public function update(Request $request)
     {
 		#if(!$request->ajax())return redirect('/');
+        try {
 		$aldea = Aldea::findOrFail($request->id);
 		$aldea->nombre = $request->nombre;
 		$aldea->save();
 		return Response::json(['message' => 'Aldea Actualizada'], 200);
-    }
-
+		} catch (Exception $e) {
+			return Response::json(['message' => $e->getMessage()], 400);
+		}
+	}
 	public function activar(Request $request)
 	{
-		//
+        #if(!$request->ajax())return redirect('/');
+        $aldea = Aldea::findOrFail($request->id);
+        $aldea->estado = '1';
+        $aldea->save();
+		return Response::json(['message' => 'Aldea Activada'], 200);
 	}
+	
 	public function desactivar(Request $request)
 	{
-		//
+		#if(!$request->ajax())return redirect('/');
+		$aldea = Aldea::findOrFail($request->id);
+		$aldea->estado = '0';
+		$aldea->save();
+		return Response::json(['message' => 'Aldea Desactivada'], 200);
 	}
 }

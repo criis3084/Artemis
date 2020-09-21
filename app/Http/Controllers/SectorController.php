@@ -15,7 +15,7 @@ class SectorController extends Controller
         $criterio = $request->criterio;
 		
 		if ($buscar==''){
-			$sector = Sector::orderBy('id', 'desc')->paginate(20);
+			$sector = Sector::with('aldea')->orderBy('id', 'desc')->paginate(20);
 		}
 		else{
 			$sector = Sector::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
@@ -61,26 +61,29 @@ class SectorController extends Controller
     public function update(Request $request, Sector $sector)
     {
 		#if(!$request->ajax())return redirect('/');
+		try {
 		$sector = Sector::findOrFail($request->id);
 		$sector->nombre = $request->nombre;
 		$sector->aldea_id = $request->aldea_id;
 		$sector->save();
 		return Response::json(['message' => 'Sector Actualizada'], 200);
-    }
+		} catch (Exception $e) {
+			return Response::json(['message' => $e->getMessage()], 400);
+		}
+	}
 
-
-	public function activar(Request $sector)
+	public function activar(Request $request)
 	{
 		//if(!$request->ajax())return redirect('/');
-		$sector = Sector::findOrFail($sector->id);
+		$sector = Sector::findOrFail($request->id);
 		$sector->estado = '1';
 		$sector->save();
 		return Response::json(['message' => 'Sector Activado'], 200);
 	}
-    public function desactivar(Request $sector)
+    public function desactivar(Request $request)
     {
 		//if(!$request->ajax())return redirect('/');
-        $sector = Sector::findOrFail($sector->id);
+        $sector = Sector::findOrFail($request->id);
         $sector->estado = '0';
 		$sector->save();
 		return Response::json(['message' => 'Sector Desactivado'], 200);

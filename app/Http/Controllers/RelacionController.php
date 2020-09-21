@@ -87,6 +87,14 @@ class RelacionController extends Controller
 		return Response::json(['message' => 'Relazion Acualizada'], 200);
     }
 
+	public function activar(Request $request)
+    {
+        #if(!$request->ajax())return redirect('/');
+        $relacion = Relacion::findOrFail($request->id);
+        $relacion->estado = '1';
+        $relacion->save();
+		return Response::json(['message' => 'Relacion Desactivada'], 200);
+	}
 	public function desactivar(Request $request)
     {
         #if(!$request->ajax())return redirect('/');

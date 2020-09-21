@@ -23,7 +23,7 @@ class CreateHistorialClinicosTable extends Migration
 			$table->integer('pulso')->nullable();
 			$table->integer('respiracion')->nullable();
 			$table->float('temperatura',5,2)->nullable();
-			$table->integer('presion_alterial')->nullable();
+			$table->integer('presion_arterial')->nullable();
 			$table->text('objetivo');
 			$table->text('subjetivo');
 			$table->foreignId('clinico_id')->constrained();

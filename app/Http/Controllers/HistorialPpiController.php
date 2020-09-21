@@ -10,7 +10,6 @@ use Exception;
 
 class HistorialPpiController extends Controller
 {
-
     public function index(Request $request)
     {
 		// Filtro por un criterio y estado

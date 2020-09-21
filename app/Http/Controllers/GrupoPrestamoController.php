@@ -9,28 +9,76 @@ use Exception;
 
 class GrupoPrestamoController extends Controller
 {
-	public function index(Request $request)
-	{
-		//
-	}
+    public function index(Request $request)
+    {
+		#if (!$request->ajax()) return redirect('/');
+        $buscar = $request->buscar;
+		if ($buscar==''){
+			$grupoPrestamo = GrupoPrestamo::orderBy('id', 'desc')->paginate(20);
+			#$grupoPrestamo = GrupoPrestamo::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as grupoPrestamo', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
+		}
+		else{
+			$grupoPrestamo = GrupoPrestamo::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+		}
+		
+        return [
+            'pagination' => [
+                'total'        => $grupoPrestamo->total(),
+                'current_page' => $grupoPrestamo->currentPage(),
+                'per_page'     => $grupoPrestamo->perPage(),
+                'last_page'    => $grupoPrestamo->lastPage(),
+                'from'         => $grupoPrestamo->firstItem(),
+                'to'           => $grupoPrestamo->lastItem(),
+            ],
+            'aldeas' => $grupoPrestamo
+		];
+    }
+    public function store(Request $request)
+    {
+		#if(!$request->ajax())return redirect('/');
+        try {
+			$grupoPrestamo = new GrupoPrestamo();
+			#$grupoPrestamo->nombre = $request->nombre;
+			$grupoPrestamo->descripcion = $request->descripcion;
+			$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
+			$grupoPrestamo->cantidad_prestamo_actual = $request->cantidad_prestamo_actual;
+			$grupoPrestamo->save();
+			return Response::json(['message' => 'GrupoPrestamo Creada'], 200);
+		} catch (Exception $e) {
+            return Response::json(['message' => $e->getMessage()], 400);
+		}
+    }
 
-	public function store(Request $request)
-	{
-		//
+    public function update(Request $request)
+    {
+		#if(!$request->ajax())return redirect('/');
+        try {
+		$grupoPrestamo = GrupoPrestamo::findOrFail($request->id);
+		#$grupoPrestamo->nombre = $request->nombre;
+		$grupoPrestamo->descripcion = $request->descripcion;
+		#$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
+		#$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
+		$grupoPrestamo->save();
+		return Response::json(['message' => 'GrupoPrestamo Actualizada'], 200);
+		} catch (Exception $e) {
+			return Response::json(['message' => $e->getMessage()], 400);
+		}
 	}
-
-	public function update(Request $request)
-	{
-		//
-	}
-
 	public function activar(Request $request)
 	{
-		//
+        #if(!$request->ajax())return redirect('/');
+        $grupoPrestamo = GrupoPrestamo::findOrFail($request->id);
+        $grupoPrestamo->estado = '1';
+        $grupoPrestamo->save();
+		return Response::json(['message' => 'GrupoPrestamo Activada'], 200);
 	}
-
+	
 	public function desactivar(Request $request)
 	{
-		//
+		#if(!$request->ajax())return redirect('/');
+		$grupoPrestamo = GrupoPrestamo::findOrFail($request->id);
+		$grupoPrestamo->estado = '0';
+		$grupoPrestamo->save();
+		return Response::json(['message' => 'GrupoPrestamo Desactivada'], 200);
 	}
 }

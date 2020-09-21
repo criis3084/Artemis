@@ -72,20 +72,16 @@ class EscuelaController extends Controller
 
 	public function store(Request $request)
     {
-		/*
-		if(!$request->ajax())return redirect('/');
+		#if(!$request->ajax())return redirect('/');
         try {
-			*/
 			$escuela = new Escuela();
 			$escuela->nombre = $request->nombre;
 			$escuela->direccion = $request->direccion;
 			$escuela->save();
 			return Response::json(['message' => 'Escuela Creada'], 200);
-		/*
 		} catch (Exception $e) {
             return Response::json(['message' => $e->getMessage()], 400);
 		}
-		*/
     }
 
     public function show(Escuela $escuela)
@@ -100,12 +96,16 @@ class EscuelaController extends Controller
 
     public function update(Request $request, Escuela $escuela)
     {
+        try {
 		$escuela = Escuela::findOrFail($request->id);
 		$escuela->nombre = $request->nombre;
 		$escuela->direccion = $request->direccion;
 		$escuela->save();
 		return Response::json(['message' => 'Escuela Actualizada'], 200);
-    }
+		} catch (Exception $e) {
+			return Response::json(['message' => $e->getMessage()], 400);
+		}
+	}
 
 	public function activar(Escuela $escuela)
 	{
@@ -113,7 +113,7 @@ class EscuelaController extends Controller
 		$escuela = Escuela::findOrFail($escuela->id);
 		$escuela->estado = '1';
 		$escuela->save();
-		return Response::json(['message' => 'Escuela Desactivado'], 200);
+		return Response::json(['message' => 'Escuela Activada'], 200);
 	}
     public function desactivar(Escuela $escuela)
     {
