@@ -16,5 +16,25 @@ class Tutoria extends Model
 		return $this->belongsTo('App\Nino','nino_id','id');
 	}
 
+	public function datos_tutor(){
+		return $this->hasManyThrough(
+			'App\Usuario',
+			'App\Tutor',
+			'id',
+			'id',
+			'tutor_id',
+			'usuario_id'
+		);
+	}
+	public function datos_nino(){
+		return $this->hasManyThrough(
+			'App\PersonaSinAcceso',
+			'App\nino',
+			'id',
+			'id',
+			'nino_id',
+			'persona_sin_acceso_id'
+		);
+	}
 
 }

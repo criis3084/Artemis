@@ -83,6 +83,29 @@ export default [
     ]
   },
   // =============================================================================
+  // Tutoria
+  // =============================================================================
+  {
+    url: null,
+    name: 'Tutorias',
+    icon: 'BookIcon',
+    i18n: 'Tutorías',
+    submenu: [
+      {
+        url: '/tutoria/tutoria',
+        name: 'eCommerce',
+        slug: 'tutoria-tutoria',
+        i18n: 'Tutorías'
+      },
+      {
+        url: '/tutoria/tutor',
+        name: 'eCommerce',
+        slug: 'tutoria-tutor',
+        i18n: 'Tutores'
+      },
+    ]
+  },
+  // =============================================================================
   // Datos Generales
   // =============================================================================
   {

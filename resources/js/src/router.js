@@ -115,6 +115,25 @@ const router = new Router({
           }
         },
         // =============================================================================
+        // TUTORIA
+        // =============================================================================
+        {
+          path: '/tutoria/tutoria',
+          name: 'tutoria-tutoria',
+          component: () => import('./views/tutoria/tutoria.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {
+          path: '/tutoria/tutor',
+          name: 'tutoria-tutor',
+          component: () => import('./views/tutoria/tutor.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        // =============================================================================
         // Datos Generales
         // =============================================================================
         {

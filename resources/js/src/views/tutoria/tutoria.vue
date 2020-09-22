@@ -1,7 +1,7 @@
 <template>
 			<div>
 				<vx-card>
-					<formulario></formulario>
+					<formulariotutoria></formulariotutoria>
 
 					<vs-table stripe max-items="5" :data="arrayData">
 
@@ -9,26 +9,25 @@
 							<vs-th>Ver</vs-th>
 							<vs-th>Nombres Niño</vs-th>
 							<vs-th>Apelidos Niño</vs-th>
-              <vs-th>Genero Niño</vs-th>
-              <vs-th>Nombres Padrino</vs-th>
-							<vs-th>Apelidos Padrino</vs-th>
+                            <vs-th>Genero Niño</vs-th>
+                            <vs-th>Nombres Tutor</vs-th>
+		    				<vs-th>Apelidos Tutor</vs-th>
 							<vs-th>Estado</vs-th>
 							<vs-th></vs-th>
 						</template>
 
 						<template>
-							<vs-tr v-for="apadrinamiento in arrayData" :key="apadrinamiento.id">
-              	<vs-td>
+							<vs-tr v-for="tutoria in arrayData" :key="tutoria.id">
+                            	<vs-td>
 									<vx-tooltip text="Información Completa"> <vs-button color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
-									
 								</vs-td>
-								<vs-td v-text="apadrinamiento.datos_nino[0].nombres" ></vs-td>
-								<vs-td v-text="apadrinamiento.datos_nino[0].apellidos" ></vs-td>
-								<vs-td v-text="apadrinamiento.datos_nino[0].genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
-								<vs-td v-text="apadrinamiento.datos_padrino[0].nombres" ></vs-td>
-								<vs-td v-text="apadrinamiento.datos_padrino[0].apellidos" ></vs-td>
+								<vs-td v-text="tutoria.datos_nino[0].nombres" ></vs-td>
+								<vs-td v-text="tutoria.datos_nino[0].apellidos" ></vs-td>
+								<vs-td v-text="tutoria.datos_nino[0].genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
+								<vs-td v-text="tutoria.datos_tutor[0].nombres" ></vs-td>
+								<vs-td v-text="tutoria.datos_tutor[0].apellidos" ></vs-td>
 								<vs-td>
-									<vs-switch color="success" v-model="apadrinamiento.estado" @click="abrirDialog(apadrinamiento.id, apadrinamiento.estado)">
+									<vs-switch color="success" v-model="tutoria.estado" @click="abrirDialog(tutoria.id, tutoria.estado)">
 										<span slot="on" >Activo</span>
 										<span slot="off">Desactivo</span>
 									</vs-switch>
@@ -55,7 +54,7 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
-import Formulario from './formularioapadrina.vue'
+import Formulariotutoria from './formulariotutoria.vue'
 import axios from 'axios'
 
 export default {
@@ -85,7 +84,7 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    Formulario
+    Formulariotutoria
     
   },
   methods: {
@@ -123,7 +122,7 @@ export default {
 		
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
-			axios.put('/api/apadrinamiento/activar', {
+			axios.put('/api/tutoria/activar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -135,7 +134,7 @@ export default {
 		}
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
-			axios.put('/api/apadrinamiento/desactivar', {
+			axios.put('/api/tutoria/desactivar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -154,11 +153,11 @@ export default {
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/apadrinamiento/get?page=${page}&search=${search}`)
+			`/api/tutoria/get?page=${page}&search=${search}`)
 		.then(function (response) {
 			console.log(page)
 			var respuesta= response.data;
-			me.arrayData = respuesta.apadrinamientos.data;
+			me.arrayData = respuesta.tutorias.data;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -167,7 +166,7 @@ export default {
 	},
 	guardar(){
 	axios
-	.post("/api/apadrinamiento/post", {
+	.post("/api/tutoria/post", {
 		//Esto sirve para enviar parametros al controlador
 		nombre: this.nombre,
 	})
@@ -183,7 +182,7 @@ export default {
 	},
 	actualizar(id){
 		axios
-		.put("/api/apadrinamiento/update", {
+		.put("/api/tutoria/update", {
 		//Esto sirve para enviar parametros al controlador
 		nombre: this.nombre,
 		id: id, //Este id es el que le entra a la funcion para buscar el registro en BD

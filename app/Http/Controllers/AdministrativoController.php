@@ -111,7 +111,7 @@ class AdministrativoController extends Controller
         #if(!$request->ajax())return redirect('/');
         $administrativo = Administrativo::findOrFail($request->id);
         $usuario = Usuario::findOrFail($administrativo->usuario_id);
-		$usuario->estado = '0';
+		$usuario->estado = '1';
         $administrativo->estado = '1';
         $administrativo->save();
         $usuario->save();
