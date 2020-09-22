@@ -16,7 +16,8 @@
       <div class="con-exemple-prompt">
         <b></b>.
 			
-		<vs-input placeholder="Nombre del sector" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+		<vs-input placeholder="Ruta de imagen" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+		<vs-input placeholder="Correo" v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
 
 		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 			LLene todos los campos
@@ -24,7 +25,7 @@
       </div>
 
 		<template>
-		<v-select label="nombre" :options="aldeasT" v-model="valMultipe.value2" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<v-select label="nombre persona" :options="aldeasT" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		</template> 
 	</vs-prompt>
 
@@ -51,12 +52,13 @@ export default {
 	  val:'',
 	  valMultipe:{
 		value1:'',
-		value2:''
+		value2:'',
+		value3:'',
 	  },
 	 aldeasT: [],
 	 selected: '',
 	  switch2:true,
-	  titulo:'Nuevo Niño'
+	  titulo:'Nuevo padrino'
 	}
   },
   computed:{
@@ -68,10 +70,10 @@ export default {
 	async index2(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/aldea/get?page=${page}&buscar=${this.valMultipe.value2}&todos='true'`)
+			`/api/padrino/get?page=${page}&buscar=${this.valMultipe.value3}&todos='true'`)
 		.then(function (response) {
 			var respuesta= response.data;
-			me.aldeasT = respuesta.aldeas.data;
+			me.aldeasT = respuesta.padrinos.data;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -79,10 +81,11 @@ export default {
 		});
 	},
 	acceptAlert () {
-	console.log(this.valMultipe.value2.id);
-	axios.post("/api/sector/post/",{
-		nombre:this.valMultipe.value1,
-		aldea_id:this.valMultipe.value2.id
+	console.log(this.valMultipe.value3.id);
+	axios.post("/api/padrino/post/",{
+		ruta_imagen:this.valMultipe.value1,
+		correo:this.valMultipe.value2,
+		persona_sin_acceso_id:this.valMultipe.value3.id
 	}).then(function(response) {
 			console.log(response)
 		})
@@ -106,9 +109,10 @@ export default {
 	  this.fechaN = ''
 	},
 	saveProduct(){
-	axios.post("/api/sector/post/",{
-		nombre:this.valMultipe.value1,
-		aldea_id:this.valMultipe.value2
+	axios.post("/api/padrino/post/",{
+		ruta_imagen:this.valMultipe.value1,
+		correo:this.valMultipe.value2,
+		persona_sin_acceso_id:this.valMultipe.value3.id
 	}).then(function(response) {
 			console.log(response)
 		})
