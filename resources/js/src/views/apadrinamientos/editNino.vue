@@ -21,7 +21,7 @@
 
 		  <div class="vx-row mb-2">
 			<div class="vx-col w-full">
-				<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" @change="cambio()" v-model="nino"/>
+				<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" @change="cambio()" v-model="otroNombre"/>
 			</div>
 		  </div>
 		  <div class="vx-row mb-2">
@@ -114,6 +114,7 @@ export default {
   data () {
 	return {
 	  val:'',
+	  otroNombre:'',
 	  sectores: [],
 	  escuelas: [],
 	  sector_id:'',
@@ -127,7 +128,7 @@ export default {
   },
   computed:{
 	validName () {
-
+		return this.otroNombre =this.$props.nombres;
 	}
   },
   methods:{
@@ -166,7 +167,7 @@ export default {
 	axios.put("/api/nino/update/",{
 	//axios.put("/api/nino/update/",{
 		id:this.id,
-		nombres:this.nino,
+		nombres:this.otroNombre,
 		apellidos:this.apellidos,
 		genero:this.genero,
 		fecha_nacimiento:this.fecha_nacimiento,

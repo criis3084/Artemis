@@ -66,6 +66,7 @@ const router = new Router({
 			  rule: 'editor'
 			}
 		},
+		/*
 		{			
 			path: '/ingresar/ppi/:id',
 			name: 'ingresar-nino',
@@ -74,6 +75,7 @@ const router = new Router({
 			  rule: 'editor'
 			}
 		},
+		*/
         {
           path: '/apadrinamiento/ninono',
           name: 'apadrinamiento-ninono',

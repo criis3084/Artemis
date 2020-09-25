@@ -18,9 +18,8 @@
 
 						<template>
 							<vs-tr v-for="apadrinamiento in arrayData" :key="apadrinamiento.id">
-              	<vs-td>
+				              	<vs-td>
 									<vx-tooltip text="Información Completa"> <vs-button color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
-									
 								</vs-td>
 								<vs-td v-text="apadrinamiento.datos_nino[0].nombres" ></vs-td>
 								<vs-td v-text="apadrinamiento.datos_nino[0].apellidos" ></vs-td>
