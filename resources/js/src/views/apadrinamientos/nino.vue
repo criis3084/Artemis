@@ -6,6 +6,7 @@
 						<h2>Niños Apadrinados</h2>
 						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/nino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = 'large' ></vs-button> </router-link>  </vx-tooltip>
 					</div>
+					<br>
 					<!--
 						<formulario></formulario>
 					-->
