@@ -57,7 +57,23 @@ const router = new Router({
           meta: {
             rule: 'editor'
           }
-        },
+		},
+		{			
+			path: '/ingresar/nino',
+			name: 'ingresar-nino',
+			component: () => import('./views/apadrinamientos/nino/ingresar.vue'),
+			meta: {
+			  rule: 'editor'
+			}
+		},
+		{			
+			path: '/ingresar/ppi/:id',
+			name: 'ingresar-nino',
+			component: () => import('./views/apadrinamientos/nino/nuevoppi.vue'),
+			meta: {
+			  rule: 'editor'
+			}
+		},
         {
           path: '/apadrinamiento/ninono',
           name: 'apadrinamiento-ninono',

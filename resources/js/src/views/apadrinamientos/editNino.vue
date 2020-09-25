@@ -4,7 +4,7 @@
 		<div class="demo-alignment">
 			<vx-tooltip text="Editar"> <vs-button  @click="activePrompt2 = true" color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
 		</div>
--->
+	-->
 	<br>
 
     <vs-prompt
@@ -21,12 +21,12 @@
 
 		  <div class="vx-row mb-2">
 			<div class="vx-col w-full">
-				<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombres"/>
+				<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" @change="cambio()" v-model="nino"/>
 			</div>
 		  </div>
 		  <div class="vx-row mb-2">
 			<div class="vx-col w-full">
-				<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="apellidos" v-model="apellidos"/>
+				<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="apellidos" v-model="apell"/>
 			</div>
 		  </div>
 		  <div class="vx-row mb-2">
@@ -94,9 +94,9 @@ export default {
 	props:{
 		identificador:{
 			default:false
-			},
+		},
 	    id:{default: ''},
-	    nombres:{default: ''},
+	    nombres:String,
 	    apellidos:{default: ''},
 	    genero:{default: ''},
 	    codigo:{default: ''},
@@ -120,7 +120,9 @@ export default {
 	  escuela_id:'',
 	  selected: '',
 	  switch2:true,
-	  titulo:'Editar Niño'
+	  titulo:'Editar Niño',
+	  nino:this.$props.nombres,
+	  apell:this.apellidos
 	}
   },
   computed:{
@@ -129,6 +131,11 @@ export default {
 	}
   },
   methods:{
+	  cambio(){
+		  console.log(this.nino)
+		  console.log(this.nombres)
+		  console.log(this.$props.nombres)
+	  },
 	async index2(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
@@ -159,7 +166,7 @@ export default {
 	axios.put("/api/nino/update/",{
 	//axios.put("/api/nino/update/",{
 		id:this.id,
-		nombres:this.nombres,
+		nombres:this.nino,
 		apellidos:this.apellidos,
 		genero:this.genero,
 		fecha_nacimiento:this.fecha_nacimiento,
@@ -191,6 +198,7 @@ export default {
 	},
   },
 	mounted(){
+	this.nino=this.$props.nombres
     this.index2(1, this.search);
     this.index3(1, this.search);
   }

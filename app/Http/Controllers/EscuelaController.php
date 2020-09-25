@@ -33,6 +33,11 @@ class EscuelaController extends Controller
 				$escuela = Escuela::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 			}
 		}
+		else if($completo == 'select')
+		{
+			$count = Escuela::where('estado', 1)->count();
+			$escuela = Escuela::orderBy('id', 'desc')->where('estado',1)->paginate($count+1);
+		}
         return [
             'pagination' => [
                 'total'        => $escuela->total(),

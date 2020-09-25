@@ -32,7 +32,11 @@ class AldeaController extends Controller
 				$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 			}
 		}
-
+		else if($completo == 'select')
+		{
+			$count = Aldea::where('estado', 1)->count();
+			$sector = Aldea::orderBy('id', 'desc')->where('estado',1)->paginate($count+1);
+		}
         return [
             'pagination' => [
                 'total'        => $aldea->total(),

@@ -1,8 +1,14 @@
 <template>
 			<div>
 				<vx-card>
-					<formulario></formulario>
 
+					<div class = "demo-alignment">
+						<h2>Niños Apadrinados</h2>
+						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/nino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = 'large' ></vs-button> </router-link>  </vx-tooltip>
+					</div>
+					<!--
+						<formulario></formulario>
+					-->
 					<vs-table stripe max-items="5" :data="arrayData">
 
 						<template slot="thead">
@@ -18,19 +24,27 @@
 							<vs-th>Actualizado</vs-th>
 -->
 							<vs-th>Estado</vs-th>
-							<vs-th></vs-th>
-							<vs-th></vs-th>
-							<vs-th></vs-th>
+							<vs-th>Acciones</vs-th>
+
 						</template>
 
 						<template>
 							<vs-tr v-for="nino in arrayData" :key="nino.id">
 								<vs-td>
 									<vx-tooltip text="Información Completa"> <vs-button color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
-									
 								</vs-td>
+
+		    					<!--
+								<router-link :to="url" @click.stop.prevent class="text-inherit hover:text-primary">{{ params.value }}</router-link>
+								-->
 								<vs-td v-text="nino.codigo" ></vs-td>
-								<vs-td v-text="nino.datos.nombres" ></vs-td>
+
+								<vs-td>
+									<div class="flex items-center">
+									<vs-avatar :src="imagenProfile" class="flex-shrink-0 mr-2" size="30px"/>
+									<span class="leading-none font-medium"> {{nino.datos.nombres}} </span>
+									</div>
+								</vs-td>
 								<vs-td v-text="nino.datos.apellidos" ></vs-td>
 								<vs-td v-text="nino.datos.genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
 								<vs-td v-text="nino.datos.fecha_nacimiento" ></vs-td>
@@ -42,13 +56,17 @@
 									</vs-switch>
 								</vs-td>
 								<vs-td>
-									<vx-tooltip text="Editar"> <vs-button  @click="cambiar(nino)" color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+									  <div class="flex items-center">
+										<vx-tooltip text="Editar"><vs-button @click="cambiar(nino)" color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
+										<vx-tooltip text="Historial de PPI">  <vs-button @click="$router.push('/ingresar/ppi/'+nino.id)" color="dark" type="flat" icon="poll" size="large"> </vs-button></vx-tooltip>
+										<vx-tooltip text="Historial de Fotografias"> <vs-button color="dark" type="flat" icon="camera_alt" size="large" > </vs-button> </vx-tooltip>
+									  </div>
+								<!--
 								</vs-td>
 								<vs-td>
-									<vx-tooltip text="Historial de PPI"> <vs-button color="dark" type="flat" icon="poll" size="large"></vs-button>  </vx-tooltip>
 								</vs-td>
 								<vs-td>
-									<vx-tooltip text="Historial de Fotografias"> <vs-button color="dark" type="flat" icon="camera_alt" size="large"></vs-button> </vx-tooltip>
+								-->
 								</vs-td>
 							</vs-tr>
 								<editNino v-bind:identificador="abrir_editar" 
@@ -111,8 +129,8 @@ export default {
 		fecha_ingreso:'',
 		fecha_nacimiento:'',
 		direccion:'',
-		ruta_imagen:''
-
+		ruta_imagen:'',
+	imagenProfile:'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png'
     }
   },
   components: {
@@ -121,9 +139,12 @@ export default {
     ChangeTimeDurationDropdown,
     VxTimeline,
     Formulario,
-    EditNino    
+    EditNino
   },
   methods: {
+      mostrar(id){
+		  console.log('/ingresar/ppi/'+id)
+	  },
 	  cambiar(Nino){
 		  console.log("Entra Aca?");
 		  console.log(Nino);
@@ -138,8 +159,13 @@ export default {
 		  this.ruta_imagen = Nino.ruta_imagen;
 		  this.abrir_editar = true;
 	  },
-	abrirDialog(id, estado){
-
+	  aNuevo(){
+		 this.$router("/ingresar/nino");
+	  },
+	  aEditar(){
+		 this.$router.push("/apps/user/user-edit/");
+	  },
+	  abrirDialog(id, estado){
 		let titulo = '';
 		let color = '';
 
@@ -252,6 +278,9 @@ export default {
   mounted(){
 
     this.index(1, this.search);
+  },
+  computed:{
+
   }
 }
 </script>

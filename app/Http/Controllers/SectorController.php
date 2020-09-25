@@ -13,7 +13,7 @@ class SectorController extends Controller
     {
 		$buscar = $request->buscar;
         $criterio = $request->criterio;
-		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		$completo = (isset($request->completo)) ? $request->completo : 'false';
 
 		if ($completo == 'false')
 		{
@@ -23,7 +23,8 @@ class SectorController extends Controller
 			else{
 				$sector = Sector::with('aldea')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 			}
-		} else if ($completo == 'true'){
+		}
+		else if ($completo == 'true'){
 			if ($buscar==''){
 				$sector = Sector::with('aldea')->orderBy('id', 'desc')->paginate(20);
 			}
@@ -31,7 +32,11 @@ class SectorController extends Controller
 				$sector = Sector::with('aldea')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 			}
 		}
-
+		else if($completo == 'select')
+		{
+			$count = Sector::where('estado', 1)->count();
+			$sector = Sector::orderBy('id', 'desc')->where('estado',1)->paginate($count+1);
+		}
         return [
             'pagination' => [
                 'total'        => $sector->total(),
