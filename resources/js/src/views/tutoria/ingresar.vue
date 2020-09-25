@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<vx-card>
-			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE NIÑO" subtitle="" finishButtonText="Enviar" back-button-text="Atras" next-button-text="Siguiente">
+			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente">
 				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
 				<!-- tab 1 content -->
@@ -19,6 +19,18 @@
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos"/>
 									<span class="text-danger">los apellidos son requeridos</span>
+								</div>
+							</div>
+
+                            <div class="vx-col md:w-1/2 w-full mt-5">
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-pack="feather" icon="icon-file-text" icon-no-border label-placeholder="Especialidad" v-model="especialidad"/>
+								</div>
+							</div>
+
+                            <div class="vx-col md:w-1/2 w-full mt-5">
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" v-model="CUI"/>
 								</div>
 							</div>
 
@@ -40,6 +52,12 @@
 										</li>
 								</ul>
 							</div>
+
+                            <div class="vx-col md:w-1/2 w-full mt-5">
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono"/>
+								</div>
+							</div>
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
@@ -48,20 +66,6 @@
 								</div>
 							</div>
 
-							<div class="vx-col md:w-1/2 w-full mt-5">
-								<small class="date-label">Sector</small>
-								<v-select label="nombre" :options="sectores" v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-							</div>
-
-							<div class="vx-col md:w-1/2 w-full mt-5">
-								<small class="date-label">Escuela</small>
-								<v-select label="nombre" :options="escuelas" v-model="escuela_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-							</div>
-
-							<div class="vx-col md:w-1/2 w-full mt-5">
-								<small class="date-label"></small>
-								<vs-button>Registrar niño no apadrinado</vs-button>
-							</div>
 						</div>
 					</form>
 				</tab-content>
@@ -76,25 +80,57 @@
 					</template>
 				</div>
 			</div>
-			<div class="vx-row">
-				<div class="vx-col md:w-1/2 w-full mt-5">
-					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Codigo" v-model="codigo"/>
-						<span class="text-danger">El codigo es requerido</span>
-					</div>
+			
+            <div class="vx-col md:w-1/2 w-full mt-5">
+				<div class="vx-col w-full">
+					<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Correo" v-model="correo"/>
 				</div>
 			</div>
+
+            <div class="vx-col md:w-1/2 w-full mt-5">
+				<div class="vx-col w-full">
+					<vs-input class="w-full" icon-pack="feather" icon="icon-image" icon-no-border label-placeholder="Ruta de imagen" v-model="imagen_perfil"/>
+				</div>
+			</div>
+
 			<div class="vx-col md:w-1/2 w-full mt-5">
-				<div class="my-4">
-					<small class="date-label">Fecha de apadrinamiento</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_ingreso"></datepicker>
+				<div class="vx-col w-full">
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Descripción" v-model="descripcion"/>
 				</div>
 			</div>
+
 		</form>
     </tab-content>
 
- 
+    <!-- tab 3 content -->
+    <tab-content title="Paso 3" class="mb-5" icon="feather icon-lock" :before-change="validateStep3">
+		<form data-vv-scope="step-3">
+
+            <div class="vx-col md:w-1/2 w-full mt-5">
+				<div class="vx-col w-full">
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Usuario" v-model="usuario"/>
+				</div>
+			</div>
+
+            <div class="vx-col md:w-1/2 w-full mt-5">
+				<div class="vx-col w-full">
+					<vs-input class="w-full" icon-pack="feather" icon="icon-lock" icon-no-border label-placeholder="Contraseña" v-model="password"/>
+				</div>
+			</div>
+
+            <div class="vx-col md:w-1/2 w-full mt-5">
+				<small class="date-label">Rol</small>
+				<v-select label="nombre" :options="roles" v-model="rol_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+			</div>
+
+        </form>
+    </tab-content>
   </form-wizard>
+
+    <div class="vx-col md:w-1/2 w-full mt-5">
+  <router-link to="/tutoria/tutor"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+    </div>
+
 </vx-card>
 </div>
 </template>
@@ -118,7 +154,7 @@ const dict = {
     },
     direccion: {
       required: 'La direccion es requerida',
-      email: "Please enter valid email"
+      email: "Por favor ingrese un email válido"
     },
     fecha_nacimiento: {
       required: 'La fecha de nacimiento es requerida',
@@ -143,39 +179,31 @@ export default {
       nombres: "",
       apellidos: "",
       direccion: "",
+      especialidad:'',
+      genero:'',
+      CUI:'',
+      numero_telefono:'',
+      correo:'',
+      imagen_perfil:'',
       fecha_nacimiento: "",
-      fecha_ingreso: "",
-	  genero:"",
-	  sector_id:0,
-	  escuela_id:0,
-	  sectores:[],
-	  escuelas:[],
+      descripcion:'',
+      usuario:'',
+      password:'',
+      roles: [],
+	  rol_id:'',
 	  langEn: es,
 	  codigo:'',
     }
   },
   methods: {
-	async importarSectores(){ //async para que se llame cada vez que se necesite
+	async importarRoles(){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-
-
-			`/api/sector/get?&completo=select`)
+			`/api/rol/get?completo=select`)
 		.then(function (response) {
 			var respuesta= response.data;
-			me.sectores = respuesta.sectores.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},async importarEscuelas(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/escuela/get?&completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.escuelas = respuesta.escuelas.data;
+            me.roles = respuesta.roles.data;
+            console.log(me.roles);
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -206,6 +234,18 @@ export default {
           }
         })
       })
+    },
+    validateStep3() {
+      return new Promise((resolve, reject) => {
+        this.$validator.validateAll('step-3').then(result => {
+          if (result) {
+            alert('Form submitted!');
+            resolve(true)
+          } else {
+            reject('correct all values');
+          }
+        })
+      })
     }
   },
   components: {
@@ -215,8 +255,7 @@ export default {
 	vSelect,
   },
 	mounted(){
-    this.importarSectores();
-    this.importarEscuelas();
+    this.importarRoles();
   },
 }
 </script>

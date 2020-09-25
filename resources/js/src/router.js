@@ -48,7 +48,7 @@ const router = new Router({
         // =============================================================================
         {
           path: '/',
-          redirect: '/dashboard/analytics'
+          redirect: '/apadrinamiento/nino'
         },
         {
           path: '/apadrinamiento/nino',
@@ -147,6 +147,14 @@ const router = new Router({
           component: () => import('./views/tutoria/tutor.vue'),
           meta: {
             rule: 'admin'
+          }
+        },
+        {			
+          path: '/ingresar/tutor',
+          name: 'ingresar-tutor',
+          component: () => import('./views/tutoria/ingresar.vue'),
+          meta: {
+            rule: 'editor'
           }
         },
         // =============================================================================
