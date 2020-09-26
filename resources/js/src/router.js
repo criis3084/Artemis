@@ -123,6 +123,14 @@ const router = new Router({
           }
         },
         {
+          path: '/ingresar/padrino',
+          name: 'datos-padrino',
+          component: () => import('./views/apadrinamientos/formulariopadrin.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
           path: '/dashboard/ecommerce',
           name: 'dashboard-ecommerce',
           component: () => import('./views/DashboardECommerce.vue'),

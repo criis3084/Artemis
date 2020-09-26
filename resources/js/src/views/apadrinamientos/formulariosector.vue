@@ -10,6 +10,8 @@
       @cancel="clearValMultiple"
       @accept="acceptAlert"
       @close="close"
+	  accept-text="Aceptar"
+	  cancel-text="Cancelar"
       :is-valid="validName"
 	  :title= "titulo"
       :active.sync="activePrompt2">
