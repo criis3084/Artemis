@@ -67,8 +67,16 @@ const router = new Router({
 			}
 		},
 		{			
+			path: '/ingresar/familia',
+			name: 'ingresar-familia',
+			component: () => import('./views/apadrinamientos/familia/ingresar.vue'),
+			meta: {
+			  rule: 'editor'
+			}
+		},
+		{			
 			path: '/ingresar/ppi/:id',
-			name: 'ingresar-nino',
+			name: 'ingresar-ppi',
 			component: () => import('./views/apadrinamientos/nino/nuevoppi.vue'),
 			meta: {
 			  rule: 'editor'
