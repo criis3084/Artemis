@@ -90,7 +90,7 @@ class FotografiaController extends Controller
 		$fotografia->titulo = $request->titulo;
 		$fotografia->descripcion = $request->descripcion;
 		$fotografia->save();
-		return Response::json(['message' => 'Fotografia Actualizada'], 200);
+		return Response::json(['message' => 'Fotografía Actualizada'], 200);
         //
     }
 
@@ -98,9 +98,9 @@ class FotografiaController extends Controller
 	{
 		//if(!$request->ajax())return redirect('/');
 		$fotografia = Fotografia::findOrFail($fotografia->id);
-		$fotografia->estado = '0';
+		$fotografia->estado = '1';
 		$fotografia->save();
-		return Response::json(['message' => 'Fotografia Desactivada'], 200);
+		return Response::json(['message' => 'Fotografía Activada'], 200);
 	}
 	public function desactivar(Fotografia $fotografia)
 	{
@@ -108,6 +108,6 @@ class FotografiaController extends Controller
 		$fotografia = Fotografia::findOrFail($fotografia->id);
 		$fotografia->estado = '0';
 		$fotografia->save();
-		return Response::json(['message' => 'Fotografia Desactivada'], 200);
+		return Response::json(['message' => 'Fotografía Desactivada'], 200);
 	}
 }

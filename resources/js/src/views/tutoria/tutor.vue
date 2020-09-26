@@ -5,7 +5,7 @@
 			<h5>Tabla bonita</h5>
 					<div class = "demo-alignment">
 						<h2>Tutores</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/tutor"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = 'large' ></vs-button> </router-link>  </vx-tooltip>
+						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/tutor"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = 'large' ></vs-button> </router-link> </vx-tooltip>
 					</div>
 					<br>
 			<vs-table stripe max-items="5" :data="arrayData">
@@ -185,6 +185,9 @@ export default {
 			console.log(error);
 		});
 	},
+	aNuevo(){
+		 this.$router("/ingresar/tutor");
+	  },
   },
   mounted(){
     this.index(1, this.search);

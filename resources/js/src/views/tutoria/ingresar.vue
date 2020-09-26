@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<vx-card>
-			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente">
+			<form-wizard @click="acceptAlert()" color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente">
 				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
 				<!-- tab 1 content -->
-					<form data-vv-scope="step-1">
+					<form data-vv-scope="step-1" >
 						<div class="vx-row">
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
@@ -210,6 +210,30 @@ export default {
 			console.log(error);
 		});
 	},
+	acceptAlert(){
+	axios.post("/api/tutor/post/",{
+		nombres:this.nombres,
+        apellidos:this.apellidos,
+        especialidad:this.especialidad,
+        CUI:this.CUI,
+        numero_telefono:this.numero_telefono,
+        correo:this.correo,
+        imagen_perfil:this.imagen_perfil,
+        usuario:this.usuario,
+        password:this.password,
+        descripcion:this.descripcion,
+		genero:this.genero,
+		fecha_nacimiento:this.fecha_nacimiento,
+		direccion:this.direccion,
+		rol_id:this.rol_id.id
+	}).then(function(response) {
+			console.log(response)
+		})
+		.catch(function(error) {
+		console.log(error)
+        });
+        this.$emit('cerrado','Se cerro el formulario');
+	},
 	successUpload(){
       this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
     },
@@ -239,6 +263,7 @@ export default {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-3').then(result => {
           if (result) {
+			this.acceptAlert;
             alert('Form submitted!');
             resolve(true)
           } else {
