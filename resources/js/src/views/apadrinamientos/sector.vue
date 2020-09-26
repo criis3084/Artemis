@@ -1,46 +1,59 @@
+
 <template>
-			<div>
-				<vx-card>
-					<formulariosector></formulariosector>
+ <vx-card>
+   <formulariosector></formulariosector>
+	 <vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+        <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
+        <v-select v-model="selectedFormat" :options="formats" class="my-4" />
+        <div class="flex">
+          <span class="mr-4">Ancho automatico de celda:</span>
+          <vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
+        </div>
+    </vs-prompt>
+     <vs-table title="Sectores" pagination max-items="10" search :data="arrayData" noDataText="No hay datos disponibles">
+        <template slot="header">
+          <vs-button @click="activePrompt=true">Exportar</vs-button>
+        </template>
+            <template slot="thead">
+                <vs-th >Id</vs-th>
+                <vs-th >Nombre</vs-th>
+                <vs-th >Aldea</vs-th>
+                <vs-th >Estado</vs-th>
+                <vs-th >Acciones</vs-th>
+            </template>
 
-					<vs-table stripe max-items="5" :data="arrayData">
+            <template slot-scope="{data}">
+                <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
-						<template slot="thead">
-							<vs-th>Código</vs-th>
-							<vs-th>Nombre</vs-th>
-							<vs-th>Aldea</vs-th>
-							<vs-th>Estado</vs-th>
-							<vs-th>Fecha de creación</vs-th>
-							<vs-th>Fecha de actualización</vs-th>
-							<vs-th></vs-th>
-						</template>
+                    <vs-td :data="data[indextr].id">
+                        {{data[indextr].id}}
+                    </vs-td>
 
-						<template>
-							<vs-tr v-for="sector in arrayData" :key="sector.id">
-								<vs-td v-text="sector.id" ></vs-td>
-								<vs-td v-text="sector.nombre" ></vs-td>
-								<vs-td v-text="sector.aldea.nombre" ></vs-td>
-                <vs-td>
-									<vs-switch color="success" v-model="sector.estado" @click="abrirDialog(sector.id, sector.estado)">
-										<span slot="on" >Activo</span>
-										<span slot="off">Desactivo</span>
-									</vs-switch>
-								</vs-td>
-								<vs-td v-text="sector.created_at" ></vs-td>
-								<vs-td v-text="sector.updated_at" ></vs-td>
-								<vs-td>
-									<vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-								</vs-td>
+                    <vs-td :data="data[indextr].nombre">
+                        {{data[indextr].nombre}}
+                    </vs-td>
 
-							</vs-tr>
-						</template>
-					</vs-table>
-					<div>
-						<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
-					</div>
-				</vx-card>
-			</div>
+                    <vs-td :data="data[indextr].aldea.nombre">
+                        {{data[indextr].aldea.nombre}}
+                    </vs-td>
+
+                    <vs-td :data="data[indextr].estado">
+                        <vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
+				                  <span slot="on" >Activo</span>
+				                  <span slot="off">Desactivo</span>
+			                  </vs-switch>
+                    </vs-td>
+                    <vs-td>
+							         <vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+						       </vs-td>
+                </vs-tr>
+            </template>
+        </vs-table>
+
+   
+</vx-card>
 </template>
+
 
 
 <script>
@@ -50,26 +63,36 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
 import Formulariosector from './formulariosector.vue'
+import vSelect from 'vue-select'
 import axios from 'axios'
+
+
 export default {
   data () {
     return {
       //Aqui van a guardar todas su variables.
-       pagination : {
-        'total' : 0,
-          'current_page' : 0,
-          'per_page' : 0,
-          'last_page' : 0,
-          'from' : 0,
-          'to' : 0
-      },
-      offset : 3,
       search : '',
       arrayData: [],
       nombre: '',
 	  switch2:false,
 	  id: 0,
 	  estado: null,
+	   fileName: '',
+      formats:['xlsx', 'csv', 'txt'],
+      cellAutoWidth: true,
+	  selectedFormat: 'xlsx',
+	  headerVal: ['id', 'nombre', 'nombre.aldea','estado'],
+	  headerTitle: ['Id', 'Nombre', 'Aldea', 'Estado'],
+    activePrompt: false,
+    'selected': [],
+    'tableList': [
+        'vs-th: Component',
+        'vs-tr: Component',
+        'vs-td: Component',
+        'thread: Slot',
+        'tbody: Slot',
+        'header: Slot'
+      ]
     }
   },
   components: {
@@ -77,10 +100,17 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    Formulariosector
+    Formulariosector,
+    vSelect
+    
     
   },
   methods: {
+	  getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+    },
 	abrirDialog(id, estado){
 		let titulo = '';
 		let color = '';
@@ -161,30 +191,13 @@ export default {
 		.catch(function (error) {
 			console.log(error);
 		});
-	},
-	guardar(){
-	axios
-	.post("/api/sector/post", {
-		//Esto sirve para enviar parametros al controlador
-		nombre: this.nombre,
-	})
-	.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-	})
-	.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
-	});
-	},
-	actualizar(id){
-		axios
-		.put("/api/sector/update", {
-		//Esto sirve para enviar parametros al controlador
-		nombre: this.nombre,
-		id: id, //Este id es el que le entra a la funcion para buscar el registro en BD
-		})
+  },
+    actualizar (id) {
+      axios.put('/api/sector/update', {
+        //Esto sirve para enviar parametros al controlador
+        nombre: this.nombre,
+        id: id //Este id es el que le entra a la funcion para buscar el registro en BD
+      })
 		.then(function(response) {
 		toastr.success(response.data.message, "Listo");
 		l.stop();
@@ -195,6 +208,40 @@ export default {
 		toastr.error(error.response.data.message, "Error");
 		});
 	},
+
+	exportToExcel () {
+      import('@/vendor/Export2Excel').then(excel => {
+		const list = this.arrayData
+        const data = this.formatJson(this.headerVal, list)
+        excel.export_json_to_excel({
+          header: this.headerTitle,
+          data,
+          filename: this.fileName,
+          autoWidth: this.cellAutoWidth,
+          bookType: this.selectedFormat
+		})
+
+        this.clearFields()
+      })
+    },
+    formatJson (filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        // Add col name which needs to be translated
+        // if (j === 'timestamp') {
+        //   return parseTime(v[j])
+        // } else {
+        //   return v[j]
+        // }
+
+        return v[j]
+      }))
+    },
+	clearFields () {
+      this.filename = ''
+      this.cellAutoWidth = true
+      this.selectedFormat = 'xlsx'
+    }
+  
   },
   mounted(){
     this.index(1, this.search);

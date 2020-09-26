@@ -1,133 +1,209 @@
 <template>
- <div>
-		<div class="demo-alignment">
-			<h2>Padrinos de PID</h2>
-			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-user-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
-		</div>
-	<br>
+  <vx-card title="Ingreso de padrinos" code-toggler>
 
-    <vs-prompt
-      @cancel="clearValMultiple"
-      @accept="acceptAlert"
-      @close="close"
-      :is-valid="validName"
-	  :title= "titulo"
-      :active.sync="activePrompt2">
-      <div class="con-exemple-prompt">
-        <b></b>.
-			
-		<vs-input placeholder="Ruta de imagen" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
-		<vs-input placeholder="Correo" v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
+    <div class="mt-5">
+      <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+        <tab-content title="Step 1" class="mb-5" icon="feather icon-home" :before-change="validateStep1">
 
-		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
-			LLene todos los campos
-		</vs-alert>
-      </div>
+          <!-- tab 1 content -->
+          <form data-vv-scope="step-1">
+          <div class="vx-row">
+            <div class="vx-col md:w-1/2 w-full mt-5">
+              <vs-input label="Nombres" v-model="nombres" class="w-full" name="first_name" v-validate="'required|alpha'" />
+              <span class="text-danger">{{ errors.first('step-1.first_name') }}</span>
+            </div>
 
-		<template>
-		<v-select label="nombre persona" :options="aldeasT" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-		</template> 
-	</vs-prompt>
+            <div class="vx-col md:w-1/2 w-full mt-5">
+              <vs-input label="Apellidos"  v-model="apellidos" class="w-full" name="last_name" v-validate="'required|alpha'" />
+              <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
+            </div>
 
+			<div class="vx-col md:w-1/2 w-full mt-5">
+              <vs-input label="CUI"  v-model="CUI" class="w-full" name="cui" v-validate="'required'" />
+              <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+            </div>
 
-	  </div>
+            <div class="vx-col md:w-1/2 w-full mt-5">
+				<small class="date-label">Género</small>
+				<ul class="demo-alignment">
+					<li>
+					    <vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1" selected>Masculino</vs-radio>
+					</li>
+					<li>
+						<vs-radio color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
+					</li>
+				</ul>
+            </div>
+
+			<div class="vx-col md:w-1/2 w-full mt-5">
+			  <small class="date-label">Fecha de nacimiento</small>
+			  <datepicker :language="$vs.rtl ? langEn : langEn"  v-model="fecha_nacimiento"></datepicker>
+			</div>
+	        
+			<div class="vx-col md:w-1/2 w-full mt-5">
+              <vs-input label="Dirección"  v-model="direccion" class="w-full" name="campo" v-validate="'required'" />
+              <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+            </div>
+
+			<div class="vx-col md:w-1/2 w-full mt-5">
+              <vs-input label="Numero de telefono"  v-model="numero_telefono" class="w-full" name="campo" v-validate="'required'" />
+              <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+            </div>
+
+            <div class="vx-col md:w-1/2 w-full mt-5">
+              <vs-select v-model="city" class="w-full select-large" label="City">
+                <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="(item,index) in cityOptions" class="w-full" />
+              </vs-select>
+            </div>
+
+          </div>
+          </form>
+        </tab-content>
+
+        <!-- tab 2 content -->
+        <tab-content title="Step 2" class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
+          <form data-vv-scope="step-2">
+          <div class="vx-row">
+
+            <div class="vx-col md:w-1/2 w-full">
+                <template>
+					<vs-upload action="https://jsonplaceholder.typicode.com/posts/" limit="1" text="Subir fotografia" @on-success="successUpload" />
+				</template>
+            </div>
+
+			<div class="vx-col md:w-1/2 w-full mt-5">
+              <vs-input type="email" label="Correo"  v-model="correo" class="w-full" name="correo" v-validate="'required|email'" />
+              <span class="text-danger">{{ errors.first('step-2.correo') }}</span>
+            </div>
+
+          </div>
+          </form>
+        </tab-content>
+
+      </form-wizard>
+    </div>
+  </vx-card>
 </template>
 
 <script>
+import { FormWizard, TabContent } from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import Datepicker from 'vuejs-datepicker'
-import axios from 'axios'
-//C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
-import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
-import vSelect from 'vue-select'
+import { es } from 'vuejs-datepicker/src/locale'
+// For custom error message
+import { Validator } from 'vee-validate'
+const dict = {
+  custom: {
+    first_name: {
+      required: 'Los nombres son requeridos',
+      alpha: 'Solo se permiten letras'
+    },
+    last_name: {
+      required: 'Los apellidos son requeridos',
+      alpha: 'Solo se permiten letras'
+    },
+    correo: {
+      required: 'El correo es requerido',
+      email: 'Por favo ingrese un correo valido'
+    },
+    campo: {
+      required: 'Información requerida'
+    }
+  }
+}
+
+// register custom messages
+Validator.localize('en', dict)
 
 export default {
-  components: {
-	Dropdown,
-	Datepicker,
-	vSelect,
-  },
   data () {
-	return {
-	  activePrompt2:false,
-	  val:'',
-	  valMultipe:{
-		value1:'',
-		value2:'',
-		value3:'',
-	  },
-	 aldeasT: [],
-	 selected: '',
-	  switch2:true,
-	  titulo:'Nuevo padrino'
-	}
+    return {
+      nombres: '',
+      apellidos: '',
+	  correo: '',
+	  CUI:'',
+	  genero:'',
+	  fecha_nacimiento:'',
+      city: 'new-york',
+	  langEn: es,
+	  direccion:'',
+	  numero_telefono:'',
+	  ruta_imagen:'',
+	  correo:'',
+      
+      cityOptions: [
+        { text: 'New York', value: 'new-york' },
+        { text: 'Chicago', value: 'chicago' },
+        { text: 'San Francisco', value: 'san-francisco' },
+        { text: 'Boston', value: 'boston' }
+      ],
+      statusOptions: [
+        { text: 'Plannning', value: 'plannning' },
+        { text: 'In Progress', value: 'in progress' },
+        { text: 'Finished', value: 'finished' }
+      ],
+      LocationOptions: [
+        { text: 'New York', value: 'new-york' },
+        { text: 'Chicago', value: 'chicago' },
+        { text: 'San Francisco', value: 'san-francisco' },
+        { text: 'Boston', value: 'boston' }
+      ]
+    }
   },
-  computed:{
-	validName () {
-	  return this.valMultipe.value1.length >0
-	}
-  },
-  methods:{
-	async index2(page, search){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/padrino/get?page=${page}&buscar=${this.valMultipe.value3}&todos='true'`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.aldeasT = respuesta.padrinos.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
-	acceptAlert () {
-	console.log(this.valMultipe.value3.id);
-	axios.post("/api/padrino/post/",{
-		ruta_imagen:this.valMultipe.value1,
-		correo:this.valMultipe.value2,
-		persona_sin_acceso_id:this.valMultipe.value3.id
-	}).then(function(response) {
-			console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-		});
-	},
-	close () {
-	  this.$vs.notify({
-		color:'danger',
-		title:'Closed',
-		text:'You close a dialog!'
-	  })
-	},
-	clearValMultiple () {
-	  this.valMultipe.value1 = ''
-	  this.valMultipe.value2 = ''
-	  this.valMultipe.value3 = ''
-	  this.valMultipe.value4 = ''
-	  this.valMultipe.value5 = ''
-	  this.fechaN = ''
-	},
-	saveProduct(){
-	axios.post("/api/padrino/post/",{
-		ruta_imagen:this.valMultipe.value1,
-		correo:this.valMultipe.value2,
-		persona_sin_acceso_id:this.valMultipe.value3.id
-	}).then(function(response) {
-			console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-		});
-	},
-	mostrar(id){
-		console.log($id);
-	}
+  methods: {
+    validateStep1 () {
+      return new Promise((resolve, reject) => {
+        this.$validator.validateAll('step-1').then(result => {
+          if (result) {
+            resolve(true)
+          } else {
+            reject('correct all values')
+          }
+        })
+      })
+    },
+    validateStep2 () {
+      return new Promise((resolve, reject) => {
+        this.$validator.validateAll('step-2').then(result => {
+          if (result) {
+            resolve(true)
+          } else {
+            reject('correct all values')
+          }
+        })
+      })
+    },
 
+    formSubmitted () {
+      axios.post('/api/escuela/post', {
+		nombres: this.nombres,
+		apellidos: this.apellidos,
+		CUI: this.CUI,
+		genero: this.genero,
+		fecha_nacimiento: this.fecha_nacimiento,
+		direccion: this.direccion,
+		numero_telefono: this.numero_telefono,
+
+	})
+	.then(function(response) {
+		toastr.success(response.data.message, "Listo");
+		l.stop();
+		me.closeModal();
+	})
+	.catch(function(error) {
+		l.stop();
+		toastr.error(error.response.data.message, "Error");
+	});
+       this.$vs.notify({color:'success', title:'Registro', text:'Registro con exito'})
+    },
+    successUpload () {
+      this.$vs.notify({color:'success', title:'Upload Success', text:'Lorem ipsum dolor sit amet, consectetur'})
+    },
   },
-  mounted(){
-    this.index2(1, this.search);
+  components: {
+    FormWizard,
+    TabContent,
+    Datepicker
   }
-
 }
 </script>

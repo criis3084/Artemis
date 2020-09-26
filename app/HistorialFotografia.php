@@ -14,4 +14,15 @@ class HistorialFotografia extends Model
 	public function fotografia(){
 		return $this->belongsTo('App\Fotografia','fotografia_id','id');
 	}
+	public function datos_nino(){
+		return $this->hasManyThrough(
+			'App\PersonaSinAcceso',
+			'App\nino',
+			'id',
+			'id',
+			'nino_id',
+			'persona_sin_acceso_id'
+		);
+	}
+
 }

@@ -10,6 +10,8 @@
       @cancel="clearValMultiple"
       @accept="acceptAlert"
       @close="close"
+	  accept-text="Aceptar"
+	  cancel-text="Cancelar"
       :is-valid="validName"
 	  :title= "titulo"
       :active.sync="activePrompt2">
@@ -77,7 +79,7 @@ export default {
 		});
 	},
 	acceptAlert () {
-	console.log(this.valMultipe.value2.id);
+	console.log(this.valMultipe.value2.id)
 	axios.post("/api/escuela/post/",{
 		nombre:this.valMultipe.value1,
 		direccion:this.valMultipe.value2
@@ -86,7 +88,7 @@ export default {
 		})
 		.catch(function(error) {
 		console.log(error)
-		});
+		})
 		this.$emit('cerrado','Se cerro el formulario');
 		this.$vs.notify({
 		color:'success',
