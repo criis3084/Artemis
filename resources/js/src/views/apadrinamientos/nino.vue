@@ -147,7 +147,6 @@ export default {
 		  console.log('/ingresar/ppi/'+id)
 	  },
 	  cambiar(Nino){
-		  console.log("Entra Aca?");
 		  console.log(Nino);
 		  this.id = Nino.id;
 		  this.nombres = Nino.datos.nombres;

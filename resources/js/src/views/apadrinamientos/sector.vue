@@ -44,12 +44,18 @@
 			                  </vs-switch>
                     </vs-td>
                     <vs-td>
-							         <vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-						       </vs-td>
+						<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+					</vs-td>
                 </vs-tr>
             </template>
         </vs-table>
-
+		<sectorEdit
+			v-bind:identificador="abrir_editar"
+			v-bind:id="id"
+			v-bind:nombre="nombre"
+			v-bind:aldea_id="aldea_id"
+			v-on:cerrado="index(1,'');"
+		></sectorEdit>
    
 </vx-card>
 </template>
@@ -58,6 +64,7 @@
 
 <script>
 import VueApexCharts from 'vue-apexcharts'
+import sectorEdit from './sector_edit.vue'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
@@ -76,8 +83,11 @@ export default {
       nombre: '',
 	  switch2:false,
 	  id: 0,
+	  aldea_id:0,
+	  nombre:'',
 	  estado: null,
-	   fileName: '',
+	  abrir_editar:false,
+	  fileName: '',
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
@@ -101,11 +111,18 @@ export default {
     ChangeTimeDurationDropdown,
     VxTimeline,
     Formulariosector,
-    vSelect
-    
-    
+	vSelect,
+	sectorEdit    
   },
   methods: {
+		cambiar(sector){
+		  console.log("Entra Aca?");
+		  console.log(sector);
+		  this.id = sector.id;
+		  this.nombre = sector.nombre;
+		  this.aldea_id = sector.aldea_id;
+		  this.abrir_editar = true;
+	  },
 	  getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -180,6 +197,7 @@ export default {
     },
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
+		this.abrir_editar=false
 		const response = await axios.get(
 			`/api/sector/get?page=${page}&search=${search}&completo=true`)
 		.then(function (response) {

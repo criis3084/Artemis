@@ -75,7 +75,7 @@ class SectorController extends Controller
 		];
     }
 
-    public function update(Request $request, Sector $sector)
+    public function update(Request $request)
     {
 		#if(!$request->ajax())return redirect('/');
 		try {
