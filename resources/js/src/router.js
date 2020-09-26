@@ -57,7 +57,15 @@ const router = new Router({
           meta: {
             rule: 'editor'
           }
-		},
+        },
+        {
+          path: '/apadrinamiento/fotografia/:id',
+          name: 'apadrinamiento-fotografia',
+          component: () => import('./views/apadrinamientos/fotografia.vue'),
+          meta: {
+            rule: 'editor'
+          }
+	    	},
 		{			
 			path: '/ingresar/nino',
 			name: 'ingresar-nino',
@@ -73,7 +81,15 @@ const router = new Router({
 			meta: {
 			  rule: 'editor'
 			}
-		},		
+    },		
+    {
+      path: '/ingresar/fotografia/:id',
+      name: 'ingresar-fotografia',
+      component: () => import('./views/apadrinamientos/nuevafotografia.vue'),
+      meta: {
+        rule: 'admin'
+      }
+    },
         {
           path: '/apadrinamiento/ninono',
           name: 'apadrinamiento-ninono',
@@ -122,6 +138,7 @@ const router = new Router({
             rule: 'editor'
           }
         },
+        
         {
           path: '/ingresar/padrino',
           name: 'datos-padrino',
@@ -168,6 +185,7 @@ const router = new Router({
         // =============================================================================
         // Datos Generales
         // =============================================================================
+        
         {
           path: '/general/escuela',
           name: 'general-escuela',
@@ -192,6 +210,7 @@ const router = new Router({
             rule: 'admin'
           }
         },
+
         // =============================================================================
         // Application Routes
         // =============================================================================

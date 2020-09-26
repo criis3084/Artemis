@@ -20,17 +20,17 @@ class HistorialFotografiaController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
 			}
 			else{
-				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->orderBy('id', 'desc')->paginate(20);
+				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->orderBy('id', 'desc')->paginate(20);
 			}
 			else{
-				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 			}
 		}
 		return [
@@ -42,7 +42,7 @@ class HistorialFotografiaController extends Controller
 				'from'         => $historialFotografias->firstItem(),
 				'to'           => $historialFotografias->lastItem(),
 			],
-			"HistorialPpis"=>$historialFotografias
+			"historialfotografias"=>$historialFotografias
 		];
     }
 

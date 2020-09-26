@@ -106,6 +106,11 @@ export default {
     
   },
   methods: {
+	  getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+    },
 	abrirDialog(id, estado){
 		let titulo = '';
 		let color = '';

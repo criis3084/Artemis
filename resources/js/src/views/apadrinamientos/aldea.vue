@@ -25,8 +25,8 @@
 								<span slot="off">Desactivo</span>
 							</vs-switch>
 						</vs-td>
-						<vs-td v-text="aldea.created_at" ></vs-td>
-						<vs-td v-text="aldea.updated_at" ></vs-td>
+						<vs-td v-text="getDate(aldea.created_at)" ></vs-td>
+						<vs-td v-text="getDate(aldea.updated_at)" ></vs-td>
 						
 						<vs-td>
 							<vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
@@ -82,6 +82,11 @@ export default {
     Formularioaldea
   },
   methods: {
+	  getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+    },
 	  muestra(){
 		  console.log('Se ha cerrado el dialog')
 	  },
