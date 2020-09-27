@@ -3,7 +3,7 @@
 		
 		<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
 			<div class="vx-col md:w-1/2 w-full mt-5">
-				<vx-card noShadow class="center" title="INGRESAR DATOS DEL NIÑO APADRINADO"	title-color="primary">
+				<vx-card noShadow class="center" title="INGRESAR FAMILIARES DEL NIÑO" title-color="primary">
 				</vx-card>
 			</div>
 		</vs-row>
@@ -15,15 +15,15 @@
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
 
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="codigo"/>
-					<span class="text-danger">el codigo es requerido</span>
-
 					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombres"/>
 					<span class="text-danger">los nombres son requeridos</span>
 
 					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos"/>
 					<span class="text-danger">los apellidos son requeridos</span>
 					<br>
+
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="DPI" v-model="CUI"/>
+					<span class="text-danger">El DPI es requerido</span>
 
 					<small class="date-label mt-10">Genero</small>
 						<ul class="demo-alignment">
@@ -37,29 +37,19 @@
 				</div>
 			</div>
 
-			<div class="vx-col md:w-1/2 w-full mt-5">
+			<div class="vx-col md:w-1/2 w-full mt-6">
+				<div class="vx-col w-full">
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Numero de telefono" v-model="telefono"/>
+				</div>
+			</div>
+
+			<div class="vx-col md:w-1/2 w-full mt-1">
 				<div class="my-4">
 					<small class="date-label">Fecha Nacimiento</small>
 					<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_nacimiento"></datepicker>
 				</div>
 			</div>
-			
-			<div class="vx-col md:w-1/2 w-full mt-8">
-				<small class="date-label">Escuela</small>
-				<v-select label="nombre" :options="escuelas" class="mt-1" v-model="escuela_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</div>
 
-			<div class="vx-col md:w-1/2 w-full mt-5">
-				<div class="my-4">
-					<small class="date-label">Fecha de apadrinamiento</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_ingreso"></datepicker>
-				</div>
-			</div>
-
-			<div class="vx-col md:w-1/2 w-full mt-8">
-				<small class="date-label">Sector Cambiar a padrino</small>
-				<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</div>
 		</div>
 	</div>
 </template>
@@ -108,16 +98,15 @@ export default {
 	  nombres: "",
 	  nombre_fotografia:"",
       apellidos: "",
+	  CUI:"",
+	  genero:"",
       direccion: "",
       fecha_nacimiento: "",
-      fecha_ingreso: "",
-	  genero:"",
-	  sector_id:0,
-	  escuela_id:0,
+	  telefono: "",
+	  sector_id:"",
+      correo: "",
 	  sectores:[],
-	  escuelas:[],
 	  langEn: es,
-	  codigo:'',
     }
   },
   methods: {
@@ -128,18 +117,6 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
 			me.sectores = respuesta.sectores.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},async importarEscuelas(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/escuela/get?&completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.escuelas = respuesta.escuelas.data;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -181,7 +158,6 @@ export default {
   },
 mounted(){
     this.importarSectores();
-    this.importarEscuelas();
   },
   computed:{
 	  fotografia(){

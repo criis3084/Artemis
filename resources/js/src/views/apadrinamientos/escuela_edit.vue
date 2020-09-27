@@ -38,7 +38,8 @@ export default {
 			default:false
 		},
 	    id:{default: 0},
-	    nombre:String,
+		nombre:String,
+		direccion:String,
 	},
 	components: {
 	Dropdown,
@@ -76,7 +77,7 @@ export default {
 	axios.put("/api/escuela/update/",{
 		id:this.idT,
         nombre:this.nombreT,
-        nombre:this.direccionT,
+        direccion:this.direccionT,
 	}).then(function(response) {
 			console.log(response)
 		})

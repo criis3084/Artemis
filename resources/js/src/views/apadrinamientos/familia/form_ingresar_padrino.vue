@@ -45,28 +45,24 @@
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
+				<div class="vx-col w-full">
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Numero de telefono" v-model="telefono"/>
+				</div>
+			</div>
+
+			<div class="vx-col md:w-1/2 w-full mt-5">
+				<div class="vx-col w-full">
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Correo electronico" v-model="correo"/>
+				</div>
+			</div>
+
+			<div class="vx-col md:w-1/2 w-full ">
 				<div class="my-4">
 					<small class="date-label">Fecha Nacimiento</small>
 					<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_nacimiento"></datepicker>
 				</div>
 			</div>
-			
-			<div class="vx-col md:w-1/2 w-full mt-5">
-				<small class="date-label">Escuela</small>
-				<v-select label="nombre" :options="escuelas" v-model="escuela_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</div>
 
-			<div class="vx-col md:w-1/2 w-full mt-5">
-				<div class="my-4">
-					<small class="date-label">Fecha de apadrinamiento</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_ingreso"></datepicker>
-				</div>
-			</div>
-
-			<div class="vx-col md:w-1/2 w-full mt-5">
-				<small class="date-label">Sector Cambiar a padrino</small>
-				<v-select label="nombre" :options="sectores" v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</div>
 		</div>
 	</div>
 </template>
@@ -115,17 +111,14 @@ export default {
 	  nombres: "",
 	  nombre_fotografia:"",
       apellidos: "",
+	  CUI:"",
+	  genero:"",
       direccion: "",
       fecha_nacimiento: "",
-      fecha_ingreso: "",
-	  genero:"",
-	  CUI:"",
-	  sector_id:0,
-	  escuela_id:0,
+      telefono: "",
+      correo: "",
 	  sectores:[],
-	  escuelas:[],
 	  langEn: es,
-	  codigo:'',
     }
   },
   methods: {
@@ -136,18 +129,6 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
 			me.sectores = respuesta.sectores.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},async importarEscuelas(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/escuela/get?&completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.escuelas = respuesta.escuelas.data;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -189,7 +170,6 @@ export default {
   },
 mounted(){
     this.importarSectores();
-    this.importarEscuelas();
   },
   computed:{
 	  fotografia(){

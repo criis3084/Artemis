@@ -99,6 +99,7 @@ export default {
       search : '',
       arrayData: [],
       nombre: '',
+      direccion: '',
       abrir_editar:false,
 	  switch2:false,
 	  id: 0,
@@ -220,12 +221,13 @@ export default {
 	this.index(this.pagination.current_page, this.search);
     },
 	async index(page, search){ //async para que se llame cada vez que se necesite
-		let me = this;
+    let me = this;
+    this.abrir_editar=false;
 		const response = await axios.get(
 			`/api/escuela/get?page=${page}&search=${search}&completo=true`)
 		.then(function (response) {
 			console.log(page)
-			var respuesta= response.data;
+      var respuesta= response.data;
 			me.arrayData = respuesta.escuelas.data;
 			me.pagination= respuesta.pagination;
 		})
