@@ -1,7 +1,7 @@
 <template>
  <div>
 		<div class="demo-alignment">
-			<h2>Tutorías</h2>
+			<h2>Tutoría</h2>
 			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
 	<br>
@@ -10,21 +10,31 @@
       @cancel="clearValMultiple"
       @accept="acceptAlert"
       @close="close"
+	  accept-text="Aceptar"
+	  cancel-text="Cancelar"
       :is-valid="validName"
 	  :title= "titulo"
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
-        <b></b>.
+        <b></b>
 			
-		<vs-input placeholder="Nombre del sector" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
-
+		<vs-input placeholder="Razón de la tutoría" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+		<div class="vx-col md:w-1/2 w-full mt-5">
+			<div class="my-4">
+				<small class="date-label">Fecha de nacimiento</small>
+				<datepicker :format="dateFormat" name="end-date" v-model="valMultipe.fecha"></datepicker>
+			</div>
+		</div>
 		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 			LLene todos los campos
 		</vs-alert>
+		<br>
       </div>
-
 		<template>
-		<v-select label="nombre" :options="aldeasT" v-model="valMultipe.value2" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<v-select label="nombres" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<br>
+		<v-select label="nombres" :options="tutor" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		
 		</template> 
 	</vs-prompt>
 
@@ -33,97 +43,127 @@
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker'
-import axios from 'axios'
+import Datepicker from "vuejs-datepicker";
+import axios from "axios";
 //C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
-import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
-import vSelect from 'vue-select'
+import Dropdown from "@/views/components/vuesax/dropdown/Dropdown.vue";
+import vSelect from "vue-select";
 
 export default {
   components: {
-	Dropdown,
-	Datepicker,
-	vSelect,
+    Dropdown,
+    Datepicker,
+    vSelect,
   },
-  data () {
-	return {
-	  activePrompt2:false,
-	  val:'',
-	  valMultipe:{
-		value1:'',
-		value2:''
-	  },
-	 aldeasT: [],
-	 selected: '',
-	  switch2:true,
-	  titulo:'Nuevo Niño'
-	}
+  data() {
+    return {
+      activePrompt2: false,
+      val: "",
+      valMultipe: {
+        value1: "",
+		value2: "",
+		 fecha: "",
+		value3: "",
+		value4: ""
+      },
+	  nino: [],
+	  tutor: [],
+      selected: "",
+	  switch2: true,
+	 
+	  dateVal : new Date(),
+	  titulo: "Nueva tutoría",
+	  dateFormat : 'yyyy-MM-dd',
+    };
   },
-  computed:{
-	validName () {
-	  return this.valMultipe.value1.length >0
-	}
+  computed: {
+    validName() {
+      return this.valMultipe.value1.length > 0;
+    },
   },
-  methods:{
-	async index2(page, search){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/aldea/get?page=${page}&buscar=${this.valMultipe.value2}&todos='true'`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.aldeasT = respuesta.aldeas.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
-	acceptAlert () {
-	console.log(this.valMultipe.value2.id);
-	axios.post("/api/sector/post/",{
-		nombre:this.valMultipe.value1,
-		aldea_id:this.valMultipe.value2.id
-	}).then(function(response) {
-			console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-		});
-	},
-	close () {
-	  this.$vs.notify({
-		color:'danger',
-		title:'Closed',
-		text:'You close a dialog!'
-	  })
-	},
-	clearValMultiple () {
-	  this.valMultipe.value1 = ''
-	  this.valMultipe.value2 = ''
-	  this.valMultipe.value3 = ''
-	  this.valMultipe.value4 = ''
-	  this.valMultipe.value5 = ''
-	  this.fechaN = ''
-	},
-	saveProduct(){
-	axios.post("/api/sector/post/",{
-		nombre:this.valMultipe.value1,
-		aldea_id:this.valMultipe.value2
-	}).then(function(response) {
-			console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-		});
-	},
-	mostrar(id){
-		console.log($id);
-	}
+  methods: {
+    async index2(page, search) {
+      //async para que se llame cada vez que se necesite
+      let me = this;
+      const response = await axios
+        .get(
+          `/api/nino/get?page=${page}&buscar=${
+            this.valMultipe.value3
+		  }&todos='true'`,/*
+		  `/api/tutor/get?page=${page}&buscar=${
+            this.valMultipe.value4
+		  }&todos='true'` */
+		  
+        )
+        .then(function(response) {
+          var respuesta = response.data;
+		  me.nino = respuesta.ninos.data;
+         // me.tutor = respuesta.tutors.data;
+		  me.pagination = respuesta.pagination;
+		  console.log(me.nino);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    acceptAlert() {
+      console.log(this.valMultipe.value2.id);
+      axios
+        .post("/api/tutoria/post/", {
+		  nombre: this.valMultipe.value1,
+		  fecha: this.valMultipe.fecha,
+		  nino_id: this.valMultipe.value3.id,
+        //  tutor_id: this.valMultipe.value4.id,
 
+        })
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      this.$emit("cerrado", "Se cerro el formulario");
+    },
+    close() {
+      this.$vs.notify({
+        color: "danger",
+        title: "Closed",
+        text: "You close a dialog!",
+      });
+      this.$emit("cerrado", "Se cerro el formulario");
+    },
+    clearValMultiple() {
+      this.valMultipe.value1 = "";
+      this.valMultipe.value2 = "";
+      this.valMultipe.value3 = "";
+      this.valMultipe.value4 = "";
+	  this.valMultipe.value5 = "";
+	  this.valMultipe.fecha = "";
+      this.fechaN = "";
+      this.$emit("cerrado", "Se cerro el formulario");
+    },
+    saveProduct() {
+      axios
+        .post("/api/tutoria/post/", {
+		  nombre: this.valMultipe.value1,
+		  fecha: this.valMultipe.fecha,
+		  nino_id: this.valMultipe.value3.id,
+        //  tutor_id: this.valMultipe.value4.id,
+
+        })
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    mostrar(id) {
+      console.log($id);
+    },
   },
-  mounted(){
+  mounted() {
     this.index2(1, this.search);
-  }
-
-}
+  },
+};
 </script>
