@@ -67,6 +67,7 @@ export default {
 		value4: ""
       },
 	  nino: [],
+	  datosNinos:[],
 	  tutor: [],
       selected: "",
 	  switch2: true,
@@ -82,38 +83,53 @@ export default {
     },
   },
   methods: {
+	  traerNombre(tabla){
+		console.log('Datos de los ninos')
+		tabla.forEach(function(valor, indice, array){
+			valor.nombres=valor.datos.nombres
+		}); 
+		console.log(tabla)
+		return tabla
+	  },
     async index2(page, search) {
       //async para que se llame cada vez que se necesite
       let me = this;
       const response = await axios
-        .get(
-          `/api/nino/get?page=${page}&buscar=${
-            this.valMultipe.value3
-		  }&todos='true'`,/*
-		  `/api/tutor/get?page=${page}&buscar=${
-            this.valMultipe.value4
-		  }&todos='true'` */
-		  
-        )
+        .get(`/api/nino/get?completo=false`)
         .then(function(response) {
           var respuesta = response.data;
 		  me.nino = respuesta.ninos.data;
-         // me.tutor = respuesta.tutors.data;
+		  me.nino = me.traerNombre(me.nino)
 		  me.pagination = respuesta.pagination;
-		  console.log(me.nino);
+        })
+
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    async index3(page, search) {
+      //async para que se llame cada vez que se necesite
+      let me = this;
+      const response = await axios
+        .get(`/api/tutor/get?completo=false`)
+        .then(function(response) {
+          var respuesta = response.data;
+		  me.tutor = respuesta.tutors.data;
+		  me.tutor = me.traerNombre(me.tutor)
+		  me.pagination = respuesta.pagination;
         })
         .catch(function(error) {
           console.log(error);
         });
     },
     acceptAlert() {
-      console.log(this.valMultipe.value2.id);
+      console.log(this.valMultipe.value1);
       axios
         .post("/api/tutoria/post/", {
 		  nombre: this.valMultipe.value1,
-		  fecha: this.valMultipe.fecha,
+		  fecha: this.getDate(this.valMultipe.fecha),
 		  nino_id: this.valMultipe.value3.id,
-        //  tutor_id: this.valMultipe.value4.id,
+          tutor_id: this.valMultipe.value4.id,
 
         })
         .then(function(response) {
@@ -157,13 +173,19 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
-    },
+	},
+	getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+      },
     mostrar(id) {
       console.log($id);
     },
   },
   mounted() {
-    this.index2(1, this.search);
+    this.index2(1, '');
+    this.index3(1, '');
   },
 };
 </script>

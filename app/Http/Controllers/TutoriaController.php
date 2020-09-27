@@ -50,6 +50,8 @@ class TutoriaController extends Controller
 		//if(!$request->ajax())return redirect('/');
 		try {
 			$tutoria = new Tutoria();
+			$tutoria->nombre = $request->nombre;
+			$tutoria->fecha = $request->fecha;
 			$tutoria->nino_id = $request->nino_id;
 			$tutoria->tutor_id = $request->tutor_id;
 			$tutoria->save();
