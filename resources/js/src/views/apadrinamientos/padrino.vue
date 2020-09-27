@@ -5,10 +5,21 @@
 						<h2>Padrinos</h2>
 						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/padrino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size="large" ></vs-button> </router-link>  </vx-tooltip>
 					</div><br>	
-					<vs-table stripe max-items="5" :data="arrayData">
 
+					<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+        				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
+        				<v-select v-model="selectedFormat" :options="formats" class="my-4" />
+        				<div class="flex">
+          					<span class="mr-4">Ancho automatico de celda:</span>
+          					<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
+        				</div>
+    				</vs-prompt>
+
+					<vs-table title="Padrinos" pagination max-items="10" search :data="arrayData" noDataText="No hay datos disponibles">
+        				<template slot="header">
+							<vs-button @click="activePrompt=true">Exportar</vs-button>
+        				</template>
 						<template slot="thead">
-							
 							<vs-th>Nombres</vs-th>
 							<vs-th>Apelidos</vs-th>
               				<vs-th>Genero</vs-th>
@@ -18,9 +29,30 @@
 							<vs-th></vs-th>
 						</template>
 
-						<template>
-							<vs-tr v-for="padrino in arrayData" :key="padrino.id">
-								<vs-td v-text="padrino.datos.nombres" ></vs-td>
+						<template slot-scope="{data}">
+                			<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+								
+								<vs-td :data="data[indextr].datos.nombres">
+                        			{{data[indextr].datos.nombres}}
+                    			</vs-td>
+								<vs-td :data="data[indextr].datos.apellidos">
+                        			{{data[indextr].datos.apellidos}}
+                    			</vs-td>
+								<vs-td :data="data[indextr].datos.genero">
+                        			{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}
+                    			</vs-td>
+								<vs-td :data="data[indextr].correo">
+                        			{{data[indextr].correo}}
+                    			</vs-td>
+								<vs-td :data="data[indextr].estado">
+                        			<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
+				                  		<span slot="on" >Activo</span>
+				                  		<span slot="off">Desactivo</span>
+			                  		</vs-switch>
+                   				 </vs-td>
+
+
+								<!-- <vs-td v-text="padrino.datos.nombres" ></vs-td>
 								<vs-td v-text="padrino.datos.apellidos" ></vs-td>
 								<vs-td v-text="padrino.datos.genero== 1 ? 'Masculino' : 'Femenino'" ></vs-td>
 								<vs-td v-text="padrino.correo" ></vs-td>
@@ -29,7 +61,8 @@
 										<span slot="on" >Activo</span>
 										<span slot="off">Desactivo</span>
 									</vs-switch>
-								</vs-td>
+								</vs-td> -->
+
 								<vs-td>
 									<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
 								</vs-td>
@@ -37,9 +70,6 @@
 							</vs-tr>
 						</template>
 					</vs-table>
-					<div>
-						<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
-					</div>
 				</vx-card>
 			</div>
 </template>
@@ -71,11 +101,29 @@ export default {
       offset : 3,
       search : '',
       arrayData: [],
-      nombre: '',
+	  nombres: '',
+	  apellidos: '',
+	  correo: '',
 	  switch2:false,
 	  titulo:'Registrado exitosamente!',
 	  id: 0,
 	  estado: null,
+	  fileName: '',
+      formats:['xlsx', 'csv', 'txt'],
+      cellAutoWidth: true,
+	  selectedFormat: 'xlsx',
+	  headerVal: ['id', 'datos.nombre', 'datos.apellidos','datos.genero','correo','estado'],
+	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Género','Correo','Estado'],
+      activePrompt: false,
+      'selected': [],
+      'tableList': [
+        'vs-th: Component',
+        'vs-tr: Component',
+        'vs-td: Component',
+        'thread: Slot',
+        'tbody: Slot',
+        'header: Slot'
+      ]
     }
   },
   components: {
@@ -152,7 +200,7 @@ export default {
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/padrino/get?page=${page}&search=${search}`)
+			`/api/padrino/get?completo=true`)
 		.then(function (response) {
 			console.log(page)
 			var respuesta= response.data;
@@ -163,39 +211,49 @@ export default {
 			console.log(error);
 		});
 	},
-	guardar(){
-	axios
-	.post("/api/padrino/post", {
-		//Esto sirve para enviar parametros al controlador
-		nombre: this.nombre,
-	})
-	.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-	})
-	.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
-	});
+	close(){
+		let titulo = "Cancelado"
+		let texto = "Cambio de estado cancelado"
+		this.$vs.notify({
+        color:'danger',
+        title:`${titulo}`,
+        text:`${titulo}`
+	  })
+	this.index(this.pagination.current_page, this.search);
 	},
-	actualizar(id){
-		axios
-		.put("/api/padrino/update", {
-		//Esto sirve para enviar parametros al controlador
-		nombre: this.nombre,
-		id: id, //Este id es el que le entra a la funcion para buscar el registro en BD
+	exportToExcel () {
+      import('@/vendor/Export2Excel').then(excel => {
+		const list = this.arrayData
+        const data = this.formatJson(this.headerVal, list)
+        excel.export_json_to_excel({
+          header: this.headerTitle,
+          data,
+          filename: this.fileName,
+          autoWidth: this.cellAutoWidth,
+          bookType: this.selectedFormat
 		})
-		.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-		})
-		.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
-		});
-	},
+
+        this.clearFields()
+      })
+    },
+    formatJson (filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        // Add col name which needs to be translated
+        // if (j === 'timestamp') {
+        //   return parseTime(v[j])
+        // } else {
+        //   return v[j]
+        // }
+
+        return v[j]
+      }))
+    },
+	clearFields () {
+      this.filename = ''
+      this.cellAutoWidth = true
+      this.selectedFormat = 'xlsx'
+    }
+  
   },
   mounted(){
     this.index(1, this.search);
