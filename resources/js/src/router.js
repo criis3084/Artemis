@@ -98,14 +98,14 @@ const router = new Router({
 			  rule: 'editor'
 			}
     },		
-    {			
-			path: '/ver/ppi/:id/:id2',
-			name: 'ver-ppi',
-			component: () => import('./views/apadrinamientos/nino/verppi.vue'),
-			meta: {
-			  rule: 'editor'
-			}
-    },		
+    // {			
+		// 	path: '/ver/ppi/:id/:id2',
+		// 	name: 'ver-ppi',
+		// 	component: () => import('./views/apadrinamientos/nino/verppi.vue'),
+		// 	meta: {
+		// 	  rule: 'editor'
+		// 	}
+    // },		
     {
       path: '/ingresar/fotografia/:id',
       name: 'ingresar-fotografia',

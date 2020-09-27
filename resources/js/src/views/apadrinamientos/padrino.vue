@@ -20,6 +20,7 @@
 							<vs-button @click="activePrompt=true">Exportar</vs-button>
         				</template>
 						<template slot="thead">
+							<!-- <vs-th>Ver</vs-th> -->
 							<vs-th>Nombres</vs-th>
 							<vs-th>Apelidos</vs-th>
               				<vs-th>Genero</vs-th>
@@ -31,7 +32,9 @@
 
 						<template slot-scope="{data}">
                 			<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-								
+								<!-- <vs-td>
+									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
+								</vs-td> -->
 								<vs-td :data="data[indextr].datos.nombres">
                         			{{data[indextr].datos.nombres}}
                     			</vs-td>
@@ -68,23 +71,28 @@
 								</vs-td>
 
 							</vs-tr>
+
+							<editPadrino v-bind:identificador="abrir_editar" 
+								v-bind:id="id" 
+								v-bind:nombres="nombres" 
+								v-bind:apellidos="apellidos" 
+								v-bind:genero="genero" 
+								v-bind:CUI="CUI" 
+								v-bind:numero_telefono="numero_telefono" 
+								v-bind:fecha_nacimiento="fecha_nacimiento" 
+								v-bind:direccion="direccion" 
+								v-bind:correo="correo" 
+								v-bind:ruta_imagen="ruta_imagen" 
+								v-bind:sector_id="sector_id" 
+								v-on:cerrado="index(pagination.current_page, search);"	>
+							</editPadrino>
+
 						</template>
 					</vs-table>
 				</vx-card>
 			</div>
 
-			<!-- <editNino v-bind:identificador="abrir_editar" 
-								v-bind:id="id" 
-								v-bind:nombres="nombres" 
-								v-bind:apellidos="apellidos" 
-								v-bind:genero="genero" 
-								v-bind:codigo="codigo" 
-								v-bind:fecha_ingreso="fecha_ingreso" 
-								v-bind:fecha_nacimiento="fecha_nacimiento" 
-								v-bind:direccion="direccion" 
-								v-bind:ruta_imagen="ruta_imagen" 
-								v-on:cerrado="index(pagination.current_page, search);"	>
-			</editNino> -->
+			
 
 </template>
 
@@ -98,6 +106,7 @@ import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.
 import VxTimeline from '@/components/timeline/VxTimeline'
 import Formulario from './formulariopadrin.vue'
 import axios from 'axios'
+import EditPadrino from './formulariopadrinedit.vue'
 
 export default {
   data () {
@@ -145,10 +154,19 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    Formulario
+	Formulario,
+	EditPadrino
     
   },
   methods: {
+	cambiar(padrino){
+		  console.log("Entra Aca?");
+		  console.log(padrino);
+		  this.id = padrino.id;
+		  this.nombre = padrino.nombre;
+		  this.aldea_id = padrino.aldea_id;
+		//   this.abrir_editar = true;
+	},
 	abrirDialog(id, estado){
 
 		let titulo = '';
