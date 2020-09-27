@@ -6,10 +6,22 @@
 						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = 'large' ></vs-button>  </vx-tooltip>
 					</div>
 					<br>
-			<vs-table stripe max-items="5" :data="arrayData">
+			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+        <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
+        <v-select v-model="selectedFormat" :options="formats" class="my-4" />
+        <div class="flex">
+          <span class="mr-4">Ancho automatico de celda:</span>
+          <vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
+        </div>
+          </vs-prompt>
 
+			<vs-table title="Tutores" pagination max-items="5" search :data="arrayData">
+	   <template slot="header">
+          <vs-button @click="activePrompt=true">Exportar</vs-button>
+        </template>
 				<template slot="thead">
                     <vs-th>Ver</vs-th>
+					<vs-th>Id</vs-th>
                     <vs-th>Nombres</vs-th>
                     <vs-th>Apellidos</vs-th>
 					<vs-th>Especialidad</vs-th>
@@ -19,17 +31,18 @@
                     <vs-th></vs-th>
 				</template>
 
-				<template>
-					<vs-tr v-for="tutor in arrayData" :key="tutor.id">
+				<template slot-scope="{data}">
+					<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                         <vs-td>
 						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>			
 					    </vs-td>
-						<vs-td v-text="tutor.datos.nombres" ></vs-td>
-                        <vs-td v-text="tutor.datos.apellidos" ></vs-td>
-                        <vs-td v-text="tutor.especialidad" ></vs-td>
-                        <vs-td v-text="tutor.datos.numero_telefono" ></vs-td>
+						<vs-td :data="data[indextr].datos.id">{{data[indextr].datos.id}}</vs-td>
+						<vs-td :data="data[indextr].datos.nombres">{{data[indextr].datos.nombres}}</vs-td>
+                        <vs-td :data="data[indextr].datos.apellidos" >{{data[indextr].datos.apellidos}}</vs-td>
+                        <vs-td :data="data[indextr].especialidad">{{data[indextr].especialidad}}</vs-td>
+                        <vs-td :data="data[indextr].datos.telefono">{{data[indextr].datos.numero_telefono}}</vs-td>
 						<vs-td>
-							<vs-switch color="success" v-model="tutor.estado" @click="abrirDialog(tutor.id, tutor.estado)">
+							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 								<span slot="on" >Activo</span>
 								<span slot="off">Desactivo</span>
 							</vs-switch>
@@ -43,9 +56,6 @@
 					</vs-tr>
 				</template>
 			</vs-table>
-			<div>
-				<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
-			</div>
 		</vx-card>
 	</div>
 </template>
@@ -58,7 +68,7 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
-
+import vSelect from 'vue-select'
 import axios from 'axios'
 
 export default {
@@ -80,6 +90,13 @@ export default {
 	  switch2:false,
 	  id: 0,
 	  estado: null,
+	  activePrompt: false,
+	  fileName: '',
+      formats:['xlsx', 'csv', 'txt'],
+      cellAutoWidth: true,
+	  selectedFormat: 'xlsx',
+	  headerVal: ['id', 'nombres', 'apellidos','especialidad_id','numero_telefono'],
+	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Especialidad', 'Telefono']
     }
   },
   components: {
@@ -87,7 +104,7 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-   
+    vSelect
   },
   methods: {
 	  muestra(){
@@ -182,6 +199,39 @@ export default {
 	aNuevo(){
 		 this.$router.push("/ingresar/tutor");
 	  },
+	  exportToExcel () {
+      import('@/vendor/Export2Excel').then(excel => {
+		const list = this.arrayData
+        const data = this.formatJson(this.headerVal, list)
+        excel.export_json_to_excel({
+          header: this.headerTitle,
+          data,
+          filename: this.fileName,
+          autoWidth: this.cellAutoWidth,
+          bookType: this.selectedFormat
+		})
+
+        this.clearFields()
+      })
+    },
+    formatJson (filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        // Add col name which needs to be translated
+        // if (j === 'timestamp') {
+        //   return parseTime(v[j])
+        // } else {
+        //   return v[j]
+        // }
+
+        return v[j]
+      }))
+    },
+	clearFields () {
+      this.filename = ''
+      this.cellAutoWidth = true
+      this.selectedFormat = 'xlsx'
+	}
+	  
   },
   mounted(){
     this.index(1, this.search);
