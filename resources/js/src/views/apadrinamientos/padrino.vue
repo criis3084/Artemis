@@ -4,28 +4,22 @@
 					<div class = "demo-alignment">
 						<h2>Padrinos</h2>
 						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/padrino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size="large" ></vs-button> </router-link>  </vx-tooltip>
-					</div>
+					</div><br>	
 					<vs-table stripe max-items="5" :data="arrayData">
 
 						<template slot="thead">
-							<vs-th>Ver</vs-th>
+							
 							<vs-th>Nombres</vs-th>
 							<vs-th>Apelidos</vs-th>
-              <vs-th>Genero</vs-th>
+              				<vs-th>Genero</vs-th>
 							<vs-th>Correo Electrónico</vs-th>
 		
 							<vs-th>Estado</vs-th>
-							<vs-th></vs-th>
-							<vs-th></vs-th>
 							<vs-th></vs-th>
 						</template>
 
 						<template>
 							<vs-tr v-for="padrino in arrayData" :key="padrino.id">
-								<vs-td>
-									<vx-tooltip text="Información Completa"> <vs-button color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
-									
-								</vs-td>
 								<vs-td v-text="padrino.datos.nombres" ></vs-td>
 								<vs-td v-text="padrino.datos.apellidos" ></vs-td>
 								<vs-td v-text="padrino.datos.genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
@@ -37,13 +31,7 @@
 									</vs-switch>
 								</vs-td>
 								<vs-td>
-									<vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-								</vs-td>
-								<vs-td>
-									<vx-tooltip text="Historial de PPI"> <vs-button color="dark" type="flat" icon="poll" size="large"></vs-button>  </vx-tooltip>
-								</vs-td>
-								<vs-td>
-									<vx-tooltip text="Historial de Fotografias"> <vs-button color="dark" type="flat" icon="camera_alt" size="large"></vs-button> </vx-tooltip>
+									<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
 								</vs-td>
 
 							</vs-tr>

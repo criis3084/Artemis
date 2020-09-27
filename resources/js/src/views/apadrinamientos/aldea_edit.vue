@@ -13,16 +13,12 @@
       <div class="con-exemple-prompt">
         <b></b>
 			
-		<vs-input placeholder="Nombre del sector" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
+		<vs-input placeholder="Nombre de la aldea" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
 
 		<vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
 			LLene todos los campos
 		</vs-alert>
       </div>
-
-		<template>
-		<v-select label="nombre" :options="aldeasT" v-model="aldea_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-		</template> 
 	</vs-prompt>
 
 
@@ -43,7 +39,6 @@ export default {
 		},
 	    id:{default: 0},
 	    nombre:String,
-	    aldea_id:{default: 0},
 	},
 	components: {
 	Dropdown,
@@ -59,11 +54,9 @@ export default {
 	  },
 	  idT:0,
 	  nombreT:'',
-	  aldea_idT:0,
-	  aldeasT: [],
 	  selected: '',
 	  switch2:true,
-	  titulo:'Actualizar Sector'
+	  titulo:'Actualizar aldea'
 	}
   },
   computed:{
@@ -73,29 +66,14 @@ export default {
 	copia() {
 		this.nombreT =this.$props.nombre;
 		this.idT =this.$props.id;
-		this.aldea_idT =this.$props.aldea_id;
 		return true;	
 	}
   },
   methods:{
-	async index2(page, search){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/aldea/get?page=${page}&buscar=${this.valMultipe.value2}&todos='true'`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.aldeasT = respuesta.aldeas.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
 	acceptAlert () {
-	axios.put("/api/sector/update/",{
+	axios.put("/api/aldea/update/",{
 		id:this.idT,
 		nombre:this.nombreT,
-		aldea_id:this.aldea_idT.id
 	}).then(function(response) {
 			console.log(response)
 		})
@@ -123,7 +101,6 @@ export default {
 	},
   },
   mounted(){
-    this.index2(1, this.search);
   },
 }
 </script>

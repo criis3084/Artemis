@@ -17,8 +17,6 @@
 					<vs-th>Especialidad</vs-th>
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Estado</vs-th>
-					<vs-th>Fecha de creación</vs-th>
-					<vs-th>Fecha de actualización</vs-th>
 					<vs-th></vs-th>
                     <vs-th></vs-th>
 				</template>
@@ -26,7 +24,7 @@
 				<template>
 					<vs-tr v-for="tutor in arrayData" :key="tutor.id">
                         <vs-td>
-						    <vx-tooltip text="Información Completa"> <vs-button color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>			
+						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>			
 					    </vs-td>
 						<vs-td v-text="tutor.datos.nombres" ></vs-td>
                         <vs-td v-text="tutor.datos.apellidos" ></vs-td>
@@ -38,13 +36,11 @@
 								<span slot="off">Desactivo</span>
 							</vs-switch>
 						</vs-td>
-						<vs-td v-text="tutor.created_at" ></vs-td>
-						<vs-td v-text="tutor.updated_at" ></vs-td>
 						<vs-td>
-							<vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+							<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
 						</vs-td>
                         <vs-td>
-							<vx-tooltip text="Listado de alumnos"> <vs-button  color="dark" type="flat" icon="list" size="large"> </vs-button>  </vx-tooltip>
+							<vx-tooltip text="Listado de alumnos"> <vs-button radius color="dark" type="flat" icon="list" size="large"> </vs-button>  </vx-tooltip>
 						</vs-td>
 					</vs-tr>
 				</template>

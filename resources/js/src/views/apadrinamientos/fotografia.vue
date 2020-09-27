@@ -1,11 +1,11 @@
 <template>
-			<div>
+			  <div>
                 <div class = "demo-alignment">
-						<h2>Historial de Fotografías</h2>
-						<vx-tooltip text = "Agregar nueva fotografía"> 
-                            <vs-button @click="$router.push('/ingresar/fotografia/'+id)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
-                        </vx-tooltip>
-				</div>
+						        <h2>Historial de Fotografías</h2>
+						        <vx-tooltip text = "Agregar nueva fotografía"> 
+                      <vs-button @click="$router.push('/ingresar/fotografia/'+id)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
+                    </vx-tooltip>
+				        </div>
                 <div class = "demo-alignment">
                     <h5>Nombre del niño:</h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
                 </div>
@@ -13,9 +13,9 @@
                     <h5>Código:</h5><h5>{{codigo}}</h5>
                 </div>
                     <br>
-                <div class = "demo-alignment">
-                    
-                <!-- <div id="demo-basic-card"  v-for="historialfotografia in arrayData" :key="historialfotografia.id">
+
+                <!-- <div class = "demo-alignment">
+                <div id="demo-basic-card"  v-for="historialfotografia in arrayData" :key="historialfotografia.id">
                     <div class="vx-row" >
                         <div class="vx-col w-full sm:w-1/2 lg:w-1/3 mb-base" >
                         <vx-card >
@@ -29,8 +29,8 @@
                         </vx-card>
                         </div>
                     </div>
+                </div>
                 </div> -->
-            </div>
 
 
 				<vx-card>

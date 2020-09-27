@@ -93,13 +93,13 @@ export default [
     submenu: [
       {
         url: '/tutoria/tutoria',
-        name: 'eCommerce',
+        name: 'tutoria',
         slug: 'tutoria-tutoria',
         i18n: 'Tutorías'
       },
       {
         url: '/tutoria/tutor',
-        name: 'eCommerce',
+        name: 'tutor',
         slug: 'tutoria-tutor',
         i18n: 'Tutores'
       },
@@ -116,19 +116,19 @@ export default [
     submenu: [
       {
         url: '/general/escuela',
-        name: 'eCommerce',
+        name: 'escuela',
         slug: 'general-escuela',
         i18n: 'Escuelas'
       },
       {
         url: '/general/sector',
-        name: 'eCommerce',
+        name: 'sector',
         slug: 'general-sector',
         i18n: 'Sectores'
       },
       {
         url: '/general/aldea',
-        name: 'eCommerce',
+        name: 'aldea',
         slug: 'general-aldea',
         i18n: 'Aldeas'
       },

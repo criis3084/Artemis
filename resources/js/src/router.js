@@ -81,7 +81,15 @@ const router = new Router({
 			meta: {
 			  rule: 'editor'
 			}
-		},
+    },
+    {
+      path: '/apadrinamiento/ppi/:id',
+      name: 'apadrinamiento-ppi',
+      component: () => import('./views/apadrinamientos/nino/ppi.vue'),
+      meta: {
+        rule: 'editor'
+      }
+    },
 		{			
 			path: '/ingresar/ppi/:id',
 			name: 'ingresar-ppi',
@@ -138,15 +146,6 @@ const router = new Router({
             rule: 'editor'
           }
         },
-        {
-          path: '/apadrinamiento/ppi',
-          name: 'apadrinamiento-ppi',
-          component: () => import('./views/apadrinamientos/ppi.vue'),
-          meta: {
-            rule: 'editor'
-          }
-        },
-        
         {
           path: '/ingresar/padrino',
           name: 'datos-padrino',

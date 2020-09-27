@@ -52,12 +52,18 @@
 			                  </vs-switch>
                     </vs-td>
 					<vs-td>
-							<vx-tooltip text="Editar"> <vs-button  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+							<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
 					</vs-td>
                 </vs-tr>
             </template>
         </vs-table>
-
+      <escuelaEdit
+			v-bind:identificador="abrir_editar"
+			v-bind:id="id"
+			v-bind:nombre="nombre"
+      v-bind:direccion="direccion"
+			v-on:cerrado="index(1,'');"
+			></escuelaEdit>
    
 </vx-card>
 </template>
@@ -66,6 +72,7 @@
 <script>
 
 import VueApexCharts from 'vue-apexcharts'
+import escuelaEdit from './escuela_edit.vue'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
@@ -92,6 +99,7 @@ export default {
       search : '',
       arrayData: [],
       nombre: '',
+      abrir_editar:false,
 	  switch2:false,
 	  id: 0,
 	  estado: null,
@@ -101,7 +109,17 @@ export default {
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
 	  headerVal: ['id', 'nombre', 'direccion','estado'],
-	  headerTitle: ['Id', 'Nombre', 'Direccion', 'Estado']
+	  headerTitle: ['Id', 'Nombre', 'Direccion', 'Estado'],
+    activePrompt: false,
+    'selected': [],
+    'tableList': [
+        'vs-th: Component',
+        'vs-tr: Component',
+        'vs-td: Component',
+        'thread: Slot',
+        'tbody: Slot',
+        'header: Slot'
+      ]
 	  
     }
   },
@@ -111,23 +129,24 @@ export default {
     ChangeTimeDurationDropdown,
     VxTimeline,
     formularioEscuela,
-    vSelect
-	
+    vSelect,
+    escuelaEdit
     
   },
   methods: {
-	  editRecord () {
-		  
-     this.$router.push("/apps/user/user-edit/" + this.params.arrayData.id).catch(() => {})
-    
-      /*
-              Below line will be for actual product
-              Currently it's commented due to demo purpose - Above url is for demo purpose
-
-              this.$router.push("/apps/user/user-edit/" + this.params.data.id).catch(() => {})
-            */
-    },
-	 
+	  cambiar(escuela){
+		  console.log("Entra Aca?");
+		  console.log(escuela);
+		  this.id = escuela.id;
+      this.nombre = escuela.nombre;
+      this.direccion = escuela.direccion;
+		  this.abrir_editar = true;
+	  },
+	  getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+      },
 	abrirDialog(id, estado){
 
 		let titulo = '';
@@ -212,39 +231,6 @@ export default {
 		})
 		.catch(function (error) {
 			console.log(error);
-		});
-	},
-	guardar(){
-	axios
-	.post("/api/escuela/post", {
-		//Esto sirve para enviar parametros al controlador
-		nombre: this.nombre,
-	})
-	.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-	})
-	.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
-	});
-	},
-	actualizar(id){
-		axios
-		.put("/api/escuela/update", {
-		//Esto sirve para enviar parametros al controlador
-		nombre: this.nombre,
-		id: id, //Este id es el que le entra a la funcion para buscar el registro en BD
-		})
-		.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-		})
-		.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
 		});
 	},
 	exportToExcel () {

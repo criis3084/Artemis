@@ -9,33 +9,39 @@
 <!-- Este es el componente inicial -->
 	<template>
 			<div>
-				<div><formulario></formulario></div>
-				<vx-card title="Roles" code-toggler>
+				<div class = "demo-alignment">
+					<h2>Historial de PPI</h2>
+					<vx-tooltip text = "Agregar nuevo PPI"> 
+                      <vs-button @click="$router.push('/ingresar/ppi/'+id)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
+                    </vx-tooltip>
+				</div>
+				<div class = "demo-alignment">
+                    <h5>Nombre del niño:</h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
+                </div>
+                <div class = "demo-alignment">
+                    <h5>Código:</h5><h5>{{codigo}}</h5>
+                </div>
+                <br>
 
+				<vx-card>
 					<vs-table stripe max-items="5" :data="arrayData">
 
 						<template slot="thead">
-							<vs-th>Nombre</vs-th>
-							<vs-th>Aldea</vs-th>
-<!--
-							<vs-th>Creado</vs-th>
-							<vs-th>Actualizado</vs-th>
--->
-							<vs-th>Eliminar</vs-th>
+							<vs-th>Ver</vs-th>
+							<vs-th>Fecha</vs-th>
+							<vs-th>Total</vs-th>
 							<vs-th>Estado</vs-th>
 						</template>
 
 						<template>
-							<vs-tr v-for="sector in arrayData" :key="sector.id">
-								<vs-td v-text="sector.nombre" ></vs-td>
-								<vs-td v-text="sector.aldea.nombre" ></vs-td>
-								<!--
-								<vs-td v-text="sector.created_at" ></vs-td>
-								<vs-td v-text="sector.updated_at" ></vs-td>
-								-->
-								<vs-button color="danger" type="filled" icon="delete"></vs-button>
+							<vs-tr v-for="historialPpi in arrayData" :key="historialPpi.id">
 								<vs-td>
-									<vs-switch color="success" v-model="sector.estado" @click="abrirDialog(sector.id, sector.estado)">
+									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
+								</vs-td>							
+								<vs-td v-text="getDate(historialPpi.created_at)" ></vs-td>
+								<vs-td v-text="historialPpi.ppi.total" ></vs-td>
+								<vs-td>
+									<vs-switch color="success" v-model="historialPpi.estado" @click="abrirDialog(historialPpi.id, historialPpi.estado)">
 										<span slot="on" >Activo</span>
 										<span slot="off">Desactivo</span>
 									</vs-switch>
@@ -58,7 +64,6 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
-import Formulario from './formulario.vue'
 import axios from 'axios'
 
 export default {
@@ -77,7 +82,10 @@ export default {
       offset : 3,
       search : '',
       arrayData: [],
+      codigo: '',
+      id: '',
       nombre: '',
+      apellido: '',
 	  switch2:false,
 	  id: 0,
 	  estado: null,
@@ -88,10 +96,35 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    Formulario
     
   },
   methods: {
+	  getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+	},
+	async index(page, search){ //async para que se llame cada vez que se necesite
+        let me = this;
+        let x = this.$route.params.id;
+        console.log("hola"+x);
+		const response = await axios.get(
+			`/api/historialPpi/get?&criterio=nino_id&buscar=${x}&completo=true`)
+		.then(function (response) {
+			console.log(page)
+			var respuesta= response.data;
+            me.arrayData = respuesta.historialPpis.data;
+            me.nombre = respuesta.historialPpis.data[0].datos_nino[0].nombres;
+            me.apellido = respuesta.historialPpis.data[0].datos_nino[0].apellidos;
+            me.codigo = respuesta.historialPpis.data[0].nino.codigo;
+            me.id = respuesta.historialPpis.data[0].datos_nino[0].id;
+            console.log(me.nombre);
+			me.pagination= respuesta.pagination;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+    },
 	abrirDialog(id, estado){
 
 		let titulo = '';
@@ -126,7 +159,7 @@ export default {
 		
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
-			axios.put('/api/sector/activar', {
+			axios.put('/api/historialPpi/activar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -138,7 +171,7 @@ export default {
 		}
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
-			axios.put('/api/sector/desactivar', {
+			axios.put('/api/historialPpi/desactivar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -153,53 +186,6 @@ export default {
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
         })
-	},
-	async index(page, search){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/sector/get?page=${page}&search=${search}`)
-		.then(function (response) {
-			console.log(page)
-			var respuesta= response.data;
-			me.arrayData = respuesta.sectores.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
-	guardar(){
-	axios
-	.post("/api/rol/post", {
-		//Esto sirve para enviar parametros al controlador
-		nombre: this.nombre,
-	})
-	.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-	})
-	.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
-	});
-	},
-	actualizar(id){
-		axios
-		.put("/api/rol/update", {
-		//Esto sirve para enviar parametros al controlador
-		nombre: this.nombre,
-		id: id, //Este id es el que le entra a la funcion para buscar el registro en BD
-		})
-		.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-		})
-		.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
-		});
 	},
   },
   mounted(){

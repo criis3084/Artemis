@@ -44,7 +44,7 @@
 			                  </vs-switch>
                     </vs-td>
                     <vs-td>
-						<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+						<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
 					</vs-td>
                 </vs-tr>
             </template>
@@ -210,22 +210,6 @@ export default {
 			console.log(error);
 		});
   },
-    actualizar (id) {
-      axios.put('/api/sector/update', {
-        //Esto sirve para enviar parametros al controlador
-        nombre: this.nombre,
-        id: id //Este id es el que le entra a la funcion para buscar el registro en BD
-      })
-		.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-		})
-		.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
-		});
-	},
 
 	exportToExcel () {
       import('@/vendor/Export2Excel').then(excel => {

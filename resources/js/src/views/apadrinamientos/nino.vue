@@ -32,7 +32,7 @@
 						<template>
 							<vs-tr v-for="nino in arrayData" :key="nino.id">
 								<vs-td>
-									<vx-tooltip text="Información Completa"> <vs-button color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
+									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
 								</vs-td>
 
 		    					<!--
@@ -59,7 +59,7 @@
 								<vs-td>
 									  <div class="flex items-center">
 										<vx-tooltip text="Editar"><vs-button @click="cambiar(nino)" radius color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
-										<vx-tooltip text="Historial de PPI">  <vs-button @click="$router.push('/ingresar/ppi/'+nino.id)" radius color="dark" type="flat" icon="poll" size="large"> </vs-button></vx-tooltip>
+										<vx-tooltip text="Historial de PPI">  <vs-button @click="$router.push('/apadrinamiento/ppi/'+nino.id)" radius color="dark" type="flat" icon="poll" size="large"> </vs-button></vx-tooltip>
 										<vx-tooltip text="Historial de Fotografias"> <vs-button @click="$router.push('/apadrinamiento/fotografia/'+nino.id)" radius color="dark" type="flat" icon="camera_alt" size="large" > </vs-button> </vx-tooltip>
 									  </div>
 								<!--
@@ -239,39 +239,6 @@ export default {
 		})
 		.catch(function (error) {
 			console.log(error);
-		});
-	},
-	guardar(){
-	axios
-	.post("/api/rol/post", {
-		//Esto sirve para enviar parametros al controlador
-		nombre: this.nombre,
-	})
-	.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-	})
-	.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
-	});
-	},
-	actualizar(id){
-		axios
-		.put("/api/rol/update", {
-		//Esto sirve para enviar parametros al controlador
-		nombre: this.nombre,
-		id: id, //Este id es el que le entra a la funcion para buscar el registro en BD
-		})
-		.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-		})
-		.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
 		});
 	},
   },

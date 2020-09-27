@@ -37,7 +37,7 @@
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="my-4">
 									<small class="date-label">Fecha de nacimiento</small>
-									<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_nacimiento"></datepicker>
+									<datepicker :format="dateFormat" :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_nacimiento"></datepicker>
 								</div>
 							</div>
 
@@ -139,7 +139,6 @@
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import vSelect from 'vue-select'
-
 // For custom error message
 import { Validator } from 'vee-validate';
 const dict = {
@@ -166,13 +165,11 @@ const dict = {
     },
   }
 };
-
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
 // register custom messages
 Validator.localize('en', dict);
 import { es } from 'vuejs-datepicker/src/locale'
-
 export default {
   data() {
     return {
@@ -193,9 +190,17 @@ export default {
 	  rol_id:'',
 	  langEn: es,
 	  codigo:'',
+	  waterMark : 'Select a date',
+      dateVal : new Date(),
+	  dateFormat : 'yyyy-MM-dd',
     }
   },
   methods: {
+	  getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+      },
 	async importarRoles(){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
@@ -223,7 +228,7 @@ export default {
         password:this.password,
         descripcion:this.descripcion,
 		genero:this.genero,
-		fecha_nacimiento:this.fecha_nacimiento,
+		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
 		direccion:this.direccion,
 		rol_id:this.rol_id.id
 	}).then(function(response) {
@@ -232,10 +237,10 @@ export default {
 		.catch(function(error) {
 		console.log(error)
         });
-        this.$emit('cerrado','Se cerro el formulario');
+        this.$emit('cerrado','Se cerró el formulario');
 	},
 	successUpload(){
-      this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
+      this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
     },
     validateStep1() {
       return new Promise((resolve, reject) => {
@@ -263,7 +268,8 @@ export default {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-3').then(result => {
           if (result) {
-			this.acceptAlert;
+			console.log(this.getDate(this.fecha_nacimiento));
+			this.acceptAlert();
             alert('Form submitted!');
             resolve(true)
           } else {

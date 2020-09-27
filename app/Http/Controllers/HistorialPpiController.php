@@ -20,17 +20,17 @@ class HistorialPpiController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$historialPpi = HistorialPpi::with('nino')->with('ppi')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
 			}
 			else{
-				$historialPpi = HistorialPpi::with('nino')->with('ppi')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$historialPpi = HistorialPpi::with('nino')->with('ppi')->orderBy('id', 'desc')->paginate(20);
+				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->orderBy('id', 'desc')->paginate(20);
 			}
 			else{
-				$historialPpi = HistorialPpi::with('nino')->with('ppi')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 			}
 		}
 		return [
@@ -42,7 +42,7 @@ class HistorialPpiController extends Controller
 				'from'         => $historialPpi->firstItem(),
 				'to'           => $historialPpi->lastItem(),
 			],
-			"HistorialPpis"=>$historialPpi
+			"historialPpis"=>$historialPpi
 		];
     }
 
