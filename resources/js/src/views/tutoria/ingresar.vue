@@ -294,7 +294,7 @@ export default {
 	TabContent,
 	Datepicker,
 	vSelect,
-  },
+  },	
 	mounted(){
     this.importarRoles();
   },

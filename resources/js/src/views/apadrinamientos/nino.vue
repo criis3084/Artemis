@@ -60,7 +60,7 @@
                    				</vs-td>
 								<vs-td>
 									  <div class="flex items-center">
-										<vx-tooltip text="Editar"><vs-button @click="cambiar(nino)" radius color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
+										<vx-tooltip text="Editar"><vs-button @click="$router.push('/editar/nino/'+data[indextr].id)" radius color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
 										<vx-tooltip text="Historial de PPI">  <vs-button @click="$router.push('/apadrinamiento/ppi/'+data[indextr].id)" radius color="dark" type="flat" icon="poll" size="large"> </vs-button></vx-tooltip>
 										<vx-tooltip text="Historial de Fotografias"> <vs-button @click="$router.push('/apadrinamiento/fotografia/'+data[indextr].id)" radius color="dark" type="flat" icon="camera_alt" size="large" > </vs-button> </vx-tooltip>
 									  </div>
@@ -72,7 +72,7 @@
 								-->
 								</vs-td>
 							</vs-tr>
-								<editNino v-bind:identificador="abrir_editar" 
+								<!-- <editNino v-bind:identificador="abrir_editar" 
 								v-bind:id="id" 
 								v-bind:nombres="nombres" 
 								v-bind:apellidos="apellidos" 
@@ -82,7 +82,7 @@
 								v-bind:fecha_nacimiento="fecha_nacimiento" 
 								v-bind:direccion="direccion" 
 								v-bind:ruta_imagen="ruta_imagen" 
-								v-on:cerrado="index(pagination.current_page, search);"	></editNino>
+								v-on:cerrado="index(pagination.current_page, search);"	></editNino> -->
 						</template>
 					</vs-table>
 				</vx-card>
@@ -98,7 +98,7 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
 import Formulario from './formulario.vue'
-import EditNino from './editNino.vue'
+import EditNino from './nino/editNino.vue'
 import axios from 'axios'
 
 export default {

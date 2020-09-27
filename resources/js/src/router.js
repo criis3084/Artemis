@@ -69,11 +69,19 @@ const router = new Router({
 		{			
 			path: '/ingresar/nino',
 			name: 'ingresar-nino',
-			component: () => import('./views/apadrinamientos/nino/ingresar.vue'),
+			component: () => import('./views/apadrinamientos/nino/form-ingresar.vue'),
 			meta: {
 			  rule: 'editor'
 			}
-		},
+    },
+    {
+      path: '/editar/nino/:id',
+      name: 'datos-nino',
+      component: () => import('./views/apadrinamientos/nino/editNino.vue'),
+      meta: {
+        rule: 'editor'
+      }
+    },
 		{			
 			path: '/ingresar/familia',
 			name: 'ingresar-familia',
