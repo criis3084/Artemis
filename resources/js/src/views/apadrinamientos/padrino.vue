@@ -64,7 +64,7 @@
 								</vs-td> -->
 
 								<vs-td>
-									<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+									<vx-tooltip text="Editar"> <vs-button @click="$router.push('/editar/padrino/'+data[indextr].id)" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
 								</vs-td>
 
 							</vs-tr>
@@ -72,6 +72,20 @@
 					</vs-table>
 				</vx-card>
 			</div>
+
+			<!-- <editNino v-bind:identificador="abrir_editar" 
+								v-bind:id="id" 
+								v-bind:nombres="nombres" 
+								v-bind:apellidos="apellidos" 
+								v-bind:genero="genero" 
+								v-bind:codigo="codigo" 
+								v-bind:fecha_ingreso="fecha_ingreso" 
+								v-bind:fecha_nacimiento="fecha_nacimiento" 
+								v-bind:direccion="direccion" 
+								v-bind:ruta_imagen="ruta_imagen" 
+								v-on:cerrado="index(pagination.current_page, search);"	>
+			</editNino> -->
+
 </template>
 
 
@@ -125,7 +139,7 @@ export default {
         'header: Slot'
       ]
     }
-  },
+  	},
   components: {
     VueApexCharts,
     StatisticsCardLine,
@@ -255,9 +269,11 @@ export default {
     }
   
   },
+  
   mounted(){
     this.index(1, this.search);
   }
+  
 }
 </script>
 

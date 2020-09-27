@@ -121,7 +121,7 @@ export default {
         let x = this.$route.params.id;
         console.log("hola"+x);
 		const response = await axios.get(
-			`/api/historialFotografia/get?&criterio=nino_id&buscar=${x}&completo=true`)
+			`/api/historialFotografia/get?&criterio=id&buscar=${x}&completo=true`)
 		.then(function (response) {
 			console.log(page)
 			var respuesta= response.data;
