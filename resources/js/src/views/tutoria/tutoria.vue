@@ -3,6 +3,10 @@
     <vx-card>
       <formulariotutoria v-on:cerrado="index(pagination.current_page, search);"></formulariotutoria>
     <vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+     
+     
+     
+     
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
         <div class="flex">
@@ -52,30 +56,29 @@
                   <span slot="off">Desactivo</span>
                 </vs-switch>
               </vs-td>
+              	<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+				
             </vs-td>
             <vs-td>
-              <vx-tooltip text="Editar">
-                <vs-button color="dark" type="flat" icon="edit" size="large">
-                </vs-button>
-              </vx-tooltip>
+              
+             
             </vs-td>
           </vs-tr>
         </template>
       </vs-table>
-      <div>
-        <vs-pagination
-          :total="pagination.last_page"
-          :max="9"
-          v-model="pagination.current_page"
-          @change="index(pagination.current_page, search)"
-          prev-icon="arrow_back"
-          next-icon="arrow_forward"
-        ></vs-pagination>
-      </div>
+     		<turoriaEdit
+			v-bind:identificador="abrir_editar"
+			v-bind:id="id"
+			v-bind:nombre="nombre"
+      v-bind:fecha="fecha"
+		
+			v-on:cerrado="index(1,'');"
+		></turoriaEdit>
     </vx-card>
   </div>
 </template>
 
+   
 <script>
 import VueApexCharts from "vue-apexcharts";
 import StatisticsCardLine from "@/components/statistics-cards/StatisticsCardLine.vue";
@@ -83,6 +86,7 @@ import StatisticsCardLine from "@/components/statistics-cards/StatisticsCardLine
 import ChangeTimeDurationDropdown from "@/components/ChangeTimeDurationDropdown.vue";
 import VxTimeline from "@/components/timeline/VxTimeline";
 import Formulariotutoria from "./formulariotutoria.vue";
+import tutoriaEdit from "./tutoriaEdit.vue";
 import axios from "axios";
 import vSelect from 'vue-select'
 export default {
@@ -111,6 +115,9 @@ export default {
       nombre: "",
       fecha: "",
       switch2: false,
+      nino_id:0,
+      tutor_id:0,
+      abrir_editar:false,
       id: 0,
       estado: null
     };
@@ -122,8 +129,65 @@ export default {
     VxTimeline,
     Formulariotutoria,
     vSelect,
+    tutoriaEdit,
   },
   methods: {
+    traerNombre(tabla){
+		console.log('Datos de los ninos')
+		tabla.forEach(function(valor, indice, array){
+			valor.nombres=valor.datos.nombres
+		}); 
+		console.log(tabla)
+		return tabla
+	  },
+    async index2(page, search) {
+      //async para que se llame cada vez que se necesite
+      let me = this;
+      const response = await axios
+        .get(`/api/nino/get?completo=false`)
+        .then(function(response) {
+          var respuesta = response.data;
+		  me.nino = respuesta.ninos.data;
+		  me.nino = me.traerNombre(me.nino)
+		  me.pagination = respuesta.pagination;
+        })
+
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    async index3(page, search) {
+      //async para que se llame cada vez que se necesite
+      let me = this;
+      const response = await axios
+        .get(`/api/tutor/get?completo=false`)
+        .then(function(response) {
+          var respuesta = response.data;
+		  me.tutor = respuesta.tutors.data;
+		  me.tutor = me.traerNombre(me.tutor)
+		  me.pagination = respuesta.pagination;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+
+    cambiar(tutoria){
+		  console.log("Entra Aca?");
+		  console.log(tutoria);
+		  this.id = tutoria.id;
+      this.nombre = tutoria.nombre;
+      this.fecha = tutoria.fecha;
+      this.nino_id = tutoria.nino_id;
+      this.tutor_id = tutoria.tutor_id;
+		  this.abrir_editar = true;
+    },
+    getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+    },
+
     abrirDialog(id, estado) {
       let titulo = "";
       let color = "";
@@ -194,6 +258,7 @@ export default {
     async index(page, search) {
       //async para que se llame cada vez que se necesite
       let me = this;
+      this.abrir_editar=false
       const response = await axios
         .get(`/api/tutoria/get?completo=true`)
         .then(function(response) {
