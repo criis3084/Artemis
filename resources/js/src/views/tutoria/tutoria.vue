@@ -1,9 +1,19 @@
 <template>
   <div>
     <vx-card>
-      <formulariotutoria></formulariotutoria>
-
+      <formulariotutoria v-on:cerrado="index(pagination.current_page, search);"></formulariotutoria>
+    <vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+        <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
+        <v-select v-model="selectedFormat" :options="formats" class="my-4" />
+        <div class="flex">
+          <span class="mr-4">Ancho automatico de celda:</span>
+          <vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
+        </div>
+    </vs-prompt>
       <vs-table pagination max-items="10" search :data="arrayData">
+         <template slot="header">
+          <vs-button @click="activePrompt=true">Exportar</vs-button>
+        </template>
         <template slot="thead">
           <vs-th>Razón tutoría</vs-th>
           <vs-th>Nombres Niño</vs-th>
@@ -74,7 +84,7 @@ import ChangeTimeDurationDropdown from "@/components/ChangeTimeDurationDropdown.
 import VxTimeline from "@/components/timeline/VxTimeline";
 import Formulariotutoria from "./formulariotutoria.vue";
 import axios from "axios";
-
+import vSelect from 'vue-select'
 export default {
   data() {
     return {
@@ -91,6 +101,13 @@ export default {
       offset: 3,
       search: "",
       arrayData: [],
+       fileName: '',
+      formats:['xlsx', 'csv', 'txt'],
+      cellAutoWidth: true,
+	    selectedFormat: 'xlsx',
+	    headerVal: ['id', 'nombre', 'fecha', 'nino.id','tutor.id', 'estado' ],
+	    headerTitle: ['Id', 'Nombre', 'Fecha', 'Id Niño', 'Id tutor', 'Estado'],
+      activePrompt: false,
       nombre: "",
       fecha: "",
       switch2: false,
@@ -103,7 +120,8 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    Formulariotutoria
+    Formulariotutoria,
+    vSelect,
   },
   methods: {
     abrirDialog(id, estado) {
@@ -188,6 +206,41 @@ export default {
           console.log(error);
         });
     },
+
+exportToExcel () {
+      import('@/vendor/Export2Excel').then(excel => {
+		const list = this.arrayData
+        const data = this.formatJson(this.headerVal, list)
+        excel.export_json_to_excel({
+          header: this.headerTitle,
+          data,
+          filename: this.fileName,
+          autoWidth: this.cellAutoWidth,
+          bookType: this.selectedFormat
+		})
+
+        this.clearFields()
+      })
+    },
+    formatJson (filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        // Add col name which needs to be translated
+        // if (j === 'timestamp') {
+        //   return parseTime(v[j])
+        // } else {
+        //   return v[j]
+        // }
+
+        return v[j]
+      }))
+    },
+	clearFields () {
+      this.filename = ''
+      this.cellAutoWidth = true
+      this.selectedFormat = 'xlsx'
+    },
+
+
     guardar() {
       axios
         .post("/api/tutoria/post", {
