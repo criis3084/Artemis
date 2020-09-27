@@ -9,7 +9,7 @@
 <!-- Este es el componente inicial -->
 <template>
  <vx-card>
-   <formularioEscuela></formularioEscuela>
+   <formularioEscuela v-on:cerrado="index(pagination.current_page, search);"></formularioEscuela>
 	 <vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />

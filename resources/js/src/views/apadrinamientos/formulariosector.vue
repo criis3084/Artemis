@@ -91,6 +91,7 @@ export default {
 		.catch(function(error) {
 		console.log(error)
 		});
+	this.$emit('cerrado','Se cerro el formulario');
 	},
 	close () {
 	  this.$vs.notify({
@@ -98,6 +99,7 @@ export default {
 		title:'Closed',
 		text:'You close a dialog!'
 	  })
+	this.$emit('cerrado','Se cerro el formulario');
 	},
 	clearValMultiple () {
 	  this.valMultipe.value1 = ''
@@ -106,6 +108,7 @@ export default {
 	  this.valMultipe.value4 = ''
 	  this.valMultipe.value5 = ''
 	  this.fechaN = ''
+	  this.$emit('cerrado','Se cerro el formulario');
 	},
 	saveProduct(){
 	axios.post("/api/sector/post/",{

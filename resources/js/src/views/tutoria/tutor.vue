@@ -1,11 +1,9 @@
 <template>
 	<div>
 		<vx-card>
-			<formulariotutor v-on:cerrado="index(pagination.current_page, search);">></formulariotutor>
-			<h5>Tabla bonita</h5>
 					<div class = "demo-alignment">
 						<h2>Tutores</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/tutor"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = 'large' ></vs-button> </router-link> </vx-tooltip>
+						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = 'large' ></vs-button>  </vx-tooltip>
 					</div>
 					<br>
 			<vs-table stripe max-items="5" :data="arrayData">
@@ -60,7 +58,7 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
-import Formulariotutor from './formulariotutor.vue'
+
 import axios from 'axios'
 
 export default {
@@ -89,7 +87,7 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    Formulariotutor
+   
   },
   methods: {
 	  muestra(){
@@ -182,7 +180,7 @@ export default {
 		});
 	},
 	aNuevo(){
-		 this.$router("/ingresar/tutor");
+		 this.$router.push("/ingresar/tutor");
 	  },
   },
   mounted(){

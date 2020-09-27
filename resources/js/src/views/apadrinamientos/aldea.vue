@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<vx-card>
-			<formularioaldea v-on:cerrado="index(pagination.current_page, search);">></formularioaldea>
+			<formularioaldea v-on:cerrado="index(pagination.current_page, search);"></formularioaldea>
 
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         		<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
@@ -70,9 +70,7 @@
 
 
 			</vs-table>
-			<div>
-				<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
-			</div>
+			
 
 			<aldeaEdit
 			v-bind:identificador="abrir_editar"

@@ -240,7 +240,8 @@ export default {
 		.catch(function(error) {
 		console.log(error)
         });
-        this.$emit('cerrado','Se cerró el formulario');
+		this.$emit('cerrado','Se cerró el formulario');
+		this.$router.push('/tutoria/tutor');
 	},
 	successUpload(){
       this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
@@ -273,7 +274,8 @@ export default {
           if (result) {
 			console.log(this.getDate(this.fecha_nacimiento));
 			this.acceptAlert();
-            // alert('Form submitted!');
+			// alert('Form submitted!');
+			this.$router.push('/tutoria/tutor');
             resolve(true)
           } else {
             reject('correct all values');

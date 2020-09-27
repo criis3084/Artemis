@@ -1,16 +1,16 @@
 <template>
 			  <div>
                 <div class = "demo-alignment">
-						        <h2>Historial de Fotografías</h2>
+						        <h2> Historial de Fotografías</h2>
 						        <vx-tooltip text = "Agregar nueva fotografía"> 
                       <vs-button @click="$router.push('/ingresar/fotografia/'+id)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
-                    </vx-tooltip>
+                    </vx-tooltip><vs-divider/>
 				        </div>
                 <div class = "demo-alignment">
-                    <h5>Nombre del niño:</h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
+                    <h5> <b>Nombre del niño: </b> </h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
                 </div>
                 <div class = "demo-alignment">
-                    <h5>Código:</h5><h5>{{codigo}}</h5>
+                    <h5> <b>Código: </b> </h5><h5>{{codigo}}</h5>
                 </div>
                     <br>
 

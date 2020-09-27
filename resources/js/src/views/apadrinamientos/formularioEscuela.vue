@@ -89,12 +89,13 @@ export default {
 		.catch(function(error) {
 		console.log(error)
 		})
-		this.$emit('cerrado','Se cerro el formulario');
+		
 		this.$vs.notify({
 		color:'success',
 		title:'Exito',
 		text:'Registro Creado!'
 	  })
+	  this.$emit('cerrado','Se cerro el formulario');
 	},
 	close () {
 	  this.$vs.notify({

@@ -22,7 +22,7 @@
 							<vs-tr v-for="padrino in arrayData" :key="padrino.id">
 								<vs-td v-text="padrino.datos.nombres" ></vs-td>
 								<vs-td v-text="padrino.datos.apellidos" ></vs-td>
-								<vs-td v-text="padrino.datos.genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
+								<vs-td v-text="padrino.datos.genero== 1 ? 'Masculino' : 'Femenino'" ></vs-td>
 								<vs-td v-text="padrino.correo" ></vs-td>
 								<vs-td>
 									<vs-switch color="success" v-model="padrino.estado" @click="abrirDialog(padrino.id, padrino.estado)">

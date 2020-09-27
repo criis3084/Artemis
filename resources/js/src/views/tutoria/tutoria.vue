@@ -6,26 +6,28 @@
 					<vs-table stripe max-items="5" :data="arrayData">
 
 						<template slot="thead">
-							<vs-th>Ver</vs-th>
+							
+							<vs-th>Razón tutoría</vs-th>
 							<vs-th>Nombres Niño</vs-th>
 							<vs-th>Apelidos Niño</vs-th>
                             <vs-th>Genero Niño</vs-th>
                             <vs-th>Nombres Tutor</vs-th>
-		    				<vs-th>Apelidos Tutor</vs-th>
+		    				<vs-th>Apellidos Tutor</vs-th>
+							<vs-th>Fecha</vs-th>
 							<vs-th>Estado</vs-th>
 							<vs-th></vs-th>
 						</template>
 
 						<template>
 							<vs-tr v-for="tutoria in arrayData" :key="tutoria.id">
-                            	<vs-td>
-									<vx-tooltip text="Información Completa"> <vs-button color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
-								</vs-td>
+                            	
+								<vs-td v-text="tutoria.nombre" ></vs-td>
 								<vs-td v-text="tutoria.datos_nino[0].nombres" ></vs-td>
 								<vs-td v-text="tutoria.datos_nino[0].apellidos" ></vs-td>
-								<vs-td v-text="tutoria.datos_nino[0].genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
+								<vs-td v-text="tutoria.datos_nino[0].genero== 1 ? 'Masculino' : 'Femenino'" ></vs-td>
 								<vs-td v-text="tutoria.datos_tutor[0].nombres" ></vs-td>
 								<vs-td v-text="tutoria.datos_tutor[0].apellidos" ></vs-td>
+								<vs-td v-text="tutoria.fecha" ></vs-td>
 								<vs-td>
 									<vs-switch color="success" v-model="tutoria.estado" @click="abrirDialog(tutoria.id, tutoria.estado)">
 										<span slot="on" >Activo</span>
@@ -73,7 +75,8 @@ export default {
       offset : 3,
       search : '',
       arrayData: [],
-      nombre: '',
+	  nombre: '',
+	  fecha:'',
 	  switch2:false,
 	  id: 0,
 	  estado: null,
@@ -153,7 +156,7 @@ export default {
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/tutoria/get?page=${page}&search=${search}`)
+			`/api/tutoria/get?completo=true`)
 		.then(function (response) {
 			console.log(page)
 			var respuesta= response.data;

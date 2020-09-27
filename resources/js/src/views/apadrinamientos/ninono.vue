@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<vx-card>
-			<formulario></formulario>
+			<h1>falta arreglar</h1>
 
 			<vs-table stripe max-items="5" :data="arrayData">
 
