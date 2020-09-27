@@ -73,6 +73,7 @@ export default {
       arrayData: [],
       nombre: '',
 	  switch2:false,
+	  titulo:'Registrado exitosamente!',
 	  id: 0,
 	  estado: null,
     }

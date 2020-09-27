@@ -50,11 +50,10 @@
               <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
             </div>
 
-            <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-select v-model="city" class="w-full select-large" label="City">
-                <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="(item,index) in cityOptions" class="w-full" />
-              </vs-select>
-            </div>
+      <div class="vx-col md:w-1/2 w-full mt-5">
+				<small class="date-label">Sector</small>
+				<v-select label="nombre" :options="sectores" v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+			</div>
 
           </div>
           </form>
@@ -66,12 +65,15 @@
           <div class="vx-row">
 
             <div class="vx-col md:w-1/2 w-full">
-                <template>
-					<vs-upload action="https://jsonplaceholder.typicode.com/posts/" limit="1" text="Subir fotografia" @on-success="successUpload" />
-				</template>
+          <template>
+					  <vs-upload action="https://jsonplaceholder.typicode.com/posts/" limit="1" text="Subir fotografia" @on-success="successUpload" />
+				  </template> 
             </div>
-
-			<div class="vx-col md:w-1/2 w-full mt-5">
+            <div class="vx-col md:w-1/2 w-full mt-5">
+              <vs-input type="email" label="Ruta de imagen"  v-model="ruta_imagen" class="w-full" name="ruta_imagen" />
+              <span class="text-danger">{{ errors.first('step-2.ruta_imagen') }}</span>
+            </div>
+		      	<div class="vx-col md:w-1/2 w-full mt-5">
               <vs-input type="email" label="Correo"  v-model="correo" class="w-full" name="correo" v-validate="'required|email'" />
               <span class="text-danger">{{ errors.first('step-2.correo') }}</span>
             </div>
@@ -82,14 +84,22 @@
 
       </form-wizard>
     </div>
+    <div class="vx-col md:w-1/2 w-full mt-5">
+  <router-link to="/apadrinamiento/padrino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+    </div>
+
   </vx-card>
 </template>
 
 <script>
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import vSelect from 'vue-select'
+// import VueSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
+import axios from 'axios'
 import { es } from 'vuejs-datepicker/src/locale'
+
 // For custom error message
 import { Validator } from 'vee-validate'
 const dict = {
@@ -118,39 +128,40 @@ Validator.localize('en', dict)
 export default {
   data () {
     return {
-      nombres: '',
-      apellidos: '',
-	  correo: '',
-	  CUI:'',
-	  genero:'',
-	  fecha_nacimiento:'',
-      city: 'new-york',
+      nombres: "",
+      apellidos: "",
+      direccion: "",
+      genero:'',
+      fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+      CUI:'',
+      numero_telefono:'',
+      correo:'',
+      ruta_imagen:'',
+      sectores: [],
+	    sector_id:'',
 	  langEn: es,
-	  direccion:'',
-	  numero_telefono:'',
-	  ruta_imagen:'',
-	  correo:'',
-      
-      cityOptions: [
-        { text: 'New York', value: 'new-york' },
-        { text: 'Chicago', value: 'chicago' },
-        { text: 'San Francisco', value: 'san-francisco' },
-        { text: 'Boston', value: 'boston' }
-      ],
-      statusOptions: [
-        { text: 'Plannning', value: 'plannning' },
-        { text: 'In Progress', value: 'in progress' },
-        { text: 'Finished', value: 'finished' }
-      ],
-      LocationOptions: [
-        { text: 'New York', value: 'new-york' },
-        { text: 'Chicago', value: 'chicago' },
-        { text: 'San Francisco', value: 'san-francisco' },
-        { text: 'Boston', value: 'boston' }
-      ]
     }
   },
   methods: {
+    getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+      },
+	async importarSectores(){ //async para que se llame cada vez que se necesite
+		let me = this;
+		const response = await axios.get(
+			`/api/sector/get?completo=select`)
+		.then(function (response) {
+			var respuesta= response.data;
+            me.sectores = respuesta.sectores.data;
+            console.log(me.sectores);
+			me.pagination= respuesta.pagination;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	},
     validateStep1 () {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-1').then(result => {
@@ -175,35 +186,44 @@ export default {
     },
 
     formSubmitted () {
-      axios.post('/api/escuela/post', {
-		nombres: this.nombres,
-		apellidos: this.apellidos,
-		CUI: this.CUI,
-		genero: this.genero,
-		fecha_nacimiento: this.fecha_nacimiento,
-		direccion: this.direccion,
-		numero_telefono: this.numero_telefono,
-
-	})
-	.then(function(response) {
-		toastr.success(response.data.message, "Listo");
-		l.stop();
-		me.closeModal();
-	})
-	.catch(function(error) {
-		l.stop();
-		toastr.error(error.response.data.message, "Error");
-	});
-       this.$vs.notify({color:'success', title:'Registro', text:'Registro con exito'})
+      // alert('Form submitted!');
+      axios.post("/api/padrino/post/",{
+		    nombres:this.nombres,
+        apellidos:this.apellidos,
+        CUI:this.CUI,
+        numero_telefono:this.numero_telefono,
+        correo:this.correo,
+        ruta_imagen:this.ruta_imagen,
+		    genero:this.genero,
+		    fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+		    direccion:this.direccion,
+		    sector_id:this.sector_id.id
+	}).then(function(response) {
+      console.log(response)
+		})
+		.catch(function(error) {
+		console.log(error)
+        });
+        this.$emit('cerrado','Se cerró el formulario');
+        // this.$vs.notify({
+        //   color:'success',
+        //   title:`${titulo}`,
+        //   text:'La acción se realizo exitósamente'
+        // });
+        this.$router.push('/apadrinamiento/padrino');
     },
-    successUpload () {
-      this.$vs.notify({color:'success', title:'Upload Success', text:'Lorem ipsum dolor sit amet, consectetur'})
+    successUpload(){
+      this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
     },
   },
   components: {
     FormWizard,
-    TabContent,
-    Datepicker
-  }
+	  TabContent,
+  	Datepicker,
+	  vSelect,
+  },
+	mounted(){
+    this.importarSectores();
+  },
 }
 </script>

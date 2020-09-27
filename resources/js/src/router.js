@@ -123,6 +123,14 @@ const router = new Router({
           }
         },
         {
+          path: '/ingresar/padrino',
+          name: 'datos-padrino',
+          component: () => import('./views/apadrinamientos/formulariopadrin.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
           path: '/apadrinamiento/apadrinamiento',
           name: 'apadrinamiento-apadrinamiento',
           component: () => import('./views/apadrinamientos/apadrinamiento.vue'),
@@ -146,14 +154,7 @@ const router = new Router({
             rule: 'editor'
           }
         },
-        {
-          path: '/ingresar/padrino',
-          name: 'datos-padrino',
-          component: () => import('./views/apadrinamientos/formulariopadrin.vue'),
-          meta: {
-            rule: 'editor'
-          }
-        },
+        
         {
           path: '/dashboard/ecommerce',
           name: 'dashboard-ecommerce',

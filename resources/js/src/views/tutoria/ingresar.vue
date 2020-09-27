@@ -139,6 +139,8 @@
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import vSelect from 'vue-select'
+import Datepicker from 'vuejs-datepicker'
+import axios from 'axios'
 // For custom error message
 import { Validator } from 'vee-validate';
 const dict = {
@@ -165,8 +167,7 @@ const dict = {
     },
   }
 };
-import Datepicker from 'vuejs-datepicker'
-import axios from 'axios'
+
 // register custom messages
 Validator.localize('en', dict);
 import { es } from 'vuejs-datepicker/src/locale'
@@ -190,6 +191,7 @@ export default {
 	  rol_id:'',
 	  langEn: es,
 	  codigo:'',
+	  titulo:'Registrado exitosamente!',
 	  waterMark : 'Select a date',
       dateVal : new Date(),
 	  dateFormat : 'yyyy-MM-dd',
@@ -230,6 +232,7 @@ export default {
 		genero:this.genero,
 		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
 		direccion:this.direccion,
+		
 		rol_id:this.rol_id.id
 	}).then(function(response) {
 			console.log(response)
@@ -270,13 +273,18 @@ export default {
           if (result) {
 			console.log(this.getDate(this.fecha_nacimiento));
 			this.acceptAlert();
-            alert('Form submitted!');
+            // alert('Form submitted!');
             resolve(true)
           } else {
             reject('correct all values');
           }
         })
-      })
+	  })
+	//   this.$vs.notify({
+    //       color:'success',
+    //       title:`${titulo}`,
+    //       text:'La acción se realizo exitósamente'
+    //     });
     }
   },
   components: {
