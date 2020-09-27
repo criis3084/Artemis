@@ -3,7 +3,7 @@
                 <div class = "demo-alignment">
 						        <h2> Historial de Fotografías</h2>
 						        <vx-tooltip text = "Agregar nueva fotografía"> 
-                      <vs-button @click="$router.push('/ingresar/fotografia/'+id)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
+                      <vs-button @click="$router.push('/ingresar/fotografia/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
                     </vx-tooltip><vs-divider/>
 				        </div>
                 <div class = "demo-alignment">
@@ -95,11 +95,11 @@ export default {
       search : '',
       arrayData: [],
       codigo: '',
-      id: '',
       nombre: '',
       apellido: '',
 	  switch2:false,
 	  id: 0,
+	  id_recibido:0,
       estado: null,
       url:"https://pbs.twimg.com/profile_images/1305883698471018496/_4BfrCaP.jpg",
     }
@@ -118,20 +118,18 @@ export default {
     },
     async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;
-        let x = this.$route.params.id;
-        console.log("hola"+x);
+		me.id_recibido = this.$route.params.id
 		const response = await axios.get(
-			`/api/historialFotografia/get?&criterio=nino_id&buscar=${x}&completo=true`)
+			`/api/historialFotografia/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
             me.arrayData = respuesta.historialfotografias.data;
             me.nombre = respuesta.historialfotografias.data[0].datos_nino[0].nombres;
             me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
             me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
             me.id = respuesta.historialfotografias.data[0].datos_nino[0].id;
-            console.log(me.nombre);
 			me.pagination= respuesta.pagination;
+
 		})
 		.catch(function (error) {
 			console.log(error);

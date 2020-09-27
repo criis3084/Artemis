@@ -60,7 +60,8 @@ export default {
         codigo: '',
         id:'',
         nombre: '',
-        apellido: '',
+		apellido: '',
+		id_recibido:''
 	}
   },
   methods:{
@@ -69,19 +70,16 @@ export default {
     },
      async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;
-        let x = this.$route.params.id;
-        console.log("hola"+x);
+        me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
-			`/api/historialFotografia/get?&criterio=nino_id&buscar=${x}&completo=true`)
+			`/api/historialFotografia/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
             me.arrayData = respuesta.historialfotografias.data;
             me.nombre = respuesta.historialfotografias.data[0].datos_nino[0].nombres;
             me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
             me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
             me.id = respuesta.historialfotografias.data[0].nino.id;
-            console.log(me.nombre);
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {

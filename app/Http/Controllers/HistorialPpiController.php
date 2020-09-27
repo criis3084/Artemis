@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\HistorialClinico;
 use App\HistorialPpi;
+use App\Ppi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
@@ -50,9 +51,24 @@ class HistorialPpiController extends Controller
     {
 		//if(!$request->ajax())return redirect('/');
 		try {
+			$ppi = new Ppi();
+			$ppi->respuesta1 = $request->respuesta1;
+			$ppi->respuesta2 = $request->respuesta2;
+			$ppi->respuesta3 = $request->respuesta3;
+			$ppi->respuesta4 = $request->respuesta4;
+			$ppi->respuesta5 = $request->respuesta5;
+			$ppi->respuesta6 = $request->respuesta6;
+			$ppi->respuesta7 = $request->respuesta7;
+			$ppi->respuesta8 = $request->respuesta8;
+			$ppi->respuesta9 = $request->respuesta9;
+			$ppi->respuesta10 = $request->respuesta10;
+			$ppi->total = $request->total;
+			$ppi->save();
+			
 			$historialPpi = new HistorialPpi();
+			$historialPpi->fecha_estudio = $request->fecha_estudio;
 			$historialPpi->nino_id = $request->nino_id;
-			$historialPpi->ppi_id = $request->ppi_id;
+			$historialPpi->ppi_id = $ppi->id;
 			$historialPpi->save();
 			return Response::json(['message' => 'Historial Ppi Creado'], 200);
 			#return ['id' => $nino->id];

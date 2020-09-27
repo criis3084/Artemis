@@ -12,7 +12,7 @@
 				<div class = "demo-alignment">
 					<h2>Historial de PPI</h2>
 					<vx-tooltip text = "Agregar nuevo PPI"> 
-                      <vs-button @click="$router.push('/ingresar/ppi/'+id)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
+                      <vs-button @click="$router.push('/ingresar/ppi/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
                     </vx-tooltip>
 				</div>
 				<div class = "demo-alignment">
@@ -83,7 +83,7 @@ export default {
       search : '',
       arrayData: [],
       codigo: '',
-      id: '',
+      id_recibido: 0,
       nombre: '',
       apellido: '',
 	  switch2:false,
@@ -106,19 +106,16 @@ export default {
 	},
 	async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;
-        let x = this.$route.params.id;
-        console.log("hola"+x);
+        me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
-			`/api/historialPpi/get?&criterio=nino_id&buscar=${x}&completo=true`)
+			`/api/historialPpi/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
             me.arrayData = respuesta.historialPpis.data;
             me.nombre = respuesta.historialPpis.data[0].datos_nino[0].nombres;
             me.apellido = respuesta.historialPpis.data[0].datos_nino[0].apellidos;
             me.codigo = respuesta.historialPpis.data[0].nino.codigo;
             me.id = respuesta.historialPpis.data[0].datos_nino[0].id;
-            console.log(me.nombre);
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {

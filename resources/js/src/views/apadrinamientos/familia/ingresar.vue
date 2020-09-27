@@ -14,16 +14,16 @@
 						<div v-if="cantidad_ingresos_nino.length">
 							<div v-for="(numero,index) in cantidad_ingresos_nino" :key="index">
 								<vs-divider class="mt-10" ></vs-divider>
+								<vs-button radius color="danger" type="gradient" @click="quitar_nino(numero)" icon="icon_x"></vs-button>
 								<formIngresarNino></formIngresarNino>
 							</div>
 						</div>
 				</div>
-
-					<vs-row	vs-align="center" vs-type="flex"  class="m-10" vs-justify="space-around" vs-w="12">
-						<div class="vx-col md:w-1/4 w-full mt-5">
-								<vs-button @click="sumar_nino">Agregar nuevo niño apadrinado</vs-button>
-						</div>
-					</vs-row>
+				<vs-row	vs-align="center" vs-type="flex"  class="m-10" vs-justify="space-around" vs-w="12">
+					<div class="vx-col md:w-1/4 w-full mt-5">
+							<vs-button @click="sumar_nino">Agregar nuevo niño apadrinado</vs-button>
+					</div>
+				</vs-row>
 			</tab-content>
 
 			<!-- tab 2 content -->
@@ -33,6 +33,7 @@
 						<div v-if="cantidad_ingresos_padrino.length">
 							<div v-for="(numero,index) in cantidad_ingresos_padrino" :key="index">
 								<vs-divider class="mt-10" ></vs-divider>
+								<vs-button radius color="danger" type="gradient" @click="quitar_padrino(index)" icon="icon_x"></vs-button>
 								<formIngresarPadrino></formIngresarPadrino>
 							</div>
 						</div>
@@ -52,8 +53,9 @@
 
 					<formIngresarFamilia>  </formIngresarFamilia>
 					<div v-if="cantidad_ingresos_familia.length">
-						<div v-for="(numero,id) in cantidad_ingresos_familia" :key="id">
+						<div v-for="(numero,index) in cantidad_ingresos_familia" :key="index">
 							<vs-divider class="mt-10" ></vs-divider>
+							<vs-button radius color="danger" type="gradient" @click="quitar_familia(numero)" icon="icon_x"></vs-button>
 							<formIngresarFamilia></formIngresarFamilia>
 						</div>
 					</div>
@@ -123,14 +125,36 @@ export default {
       alert("Form submitted!");
 	},
 	sumar_nino(){
-		  this.cantidad_ingresos_nino.push(1);
+		this.cantidad_ingresos_nino.push(this.cantidad_ingresos_nino.length+1);
+		console.log(this.cantidad_ingresos_nino)
 	},
 	sumar_padrino(){
-		  this.cantidad_ingresos_padrino.push(1);
+		this.cantidad_ingresos_padrino.push(this.cantidad_ingresos_padrino.length+1);
 	},
 	sumar_familia(){
-		  this.cantidad_ingresos_familia.push(1);
+		this.cantidad_ingresos_familia.push(this.cantidad_ingresos_familia.length+1);
 	},
+	quitar_nino(id){
+		console.log(id)
+		this.cantidad_ingresos_nino.splice(id-1,1)
+		this.cantidad_ingresos_nino = this.reordenar(this.cantidad_ingresos_nino)
+		console.log(this.cantidad_ingresos_nino)
+	},
+	quitar_padrino(id){
+		this.cantidad_ingresos_padrino.splice(id,1)
+	},
+	quitar_familia(id){
+		this.cantidad_ingresos_familia.splice(id,1)
+	},
+	reordenar (arreglo)
+	{
+		let tam = arreglo.length
+		arreglo =[]
+		for (var i = 1; i <= tam; i++) {
+			arreglo.push(i);
+		}
+		return arreglo
+	}
   },
   components: {
     FormWizard,
