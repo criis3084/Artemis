@@ -39,7 +39,7 @@
 
 					<vs-row	vs-align="center" vs-type="flex"  class="m-10" vs-justify="space-around" vs-w="12">
 						<div class="vx-col md:w-1/4 w-full mt-5">
-								<vs-button @click="sumar_padrino">Agregar nuevo niño apadrinado</vs-button>
+								<vs-button @click="sumar_padrino">Agregar nuevo Padrino</vs-button>
 						</div>
 					</vs-row>
 
@@ -50,8 +50,35 @@
 			<tab-content title="Step 3" class="mb-5" icon="feather icon-image">
 				<div class="vx-row">
 
+					<formIngresarFamilia>  </formIngresarFamilia>
+					<div v-if="cantidad_ingresos_familia.length">
+						<div v-for="(numero,id) in cantidad_ingresos_familia" :key="id">
+							<vs-divider class="mt-10" ></vs-divider>
+							<formIngresarFamilia></formIngresarFamilia>
+						</div>
+					</div>
+
+					<div class="vx-col md:w-1/2 w-full mt-5">
+						<div class="vx-col w-full">
+							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Dirección Familiar" v-model="direccion"/>
+							<span class="text-danger">La dirección es requerida</span>
+						</div>
+					</div>
+
+					<div class="vx-col md:w-1/2 w-full mt-3">
+						<small class="date-label">Sector de Vivienda</small>
+						<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					</div>
+
+					<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
+						<div class="vx-col md:w-1/4 w-full mt-5">
+								<vs-button @click="sumar_familia">Agregar nuevo familiar del niño</vs-button>
+						</div>
+					</vs-row>
+
 				</div>
 			</tab-content>
+
 		</form-wizard>
 	</vx-card>
 </template>
@@ -59,9 +86,10 @@
 <script>
 import formIngresarNino from './form_ingresar_nino.vue'
 import formIngresarPadrino from './form_ingresar_padrino.vue'
+import formIngresarFamilia from './form_ingresar_familia.vue'
 import {FormWizard, TabContent} from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-
+import vSelect from 'vue-select'
 import axios from 'axios'
 
 
@@ -71,10 +99,26 @@ export default {
 	  firstName: "",
 	  cantidad_ingresos_nino:[],
 	  cantidad_ingresos_padrino:[],
-      /// other data....
+	  cantidad_ingresos_familia:[],
+	  sectores:[],
+	  sector_id:0,
+	  direccion:''
     }
   },
   methods: {
+	async importarSectores(){ //async para que se llame cada vez que se necesite
+		let me = this;
+		const response = await axios.get(
+		`/api/sector/get?&completo=select`)
+		.then(function (response) {
+			var respuesta= response.data;
+			me.sectores = respuesta.sectores.data;
+			me.pagination= respuesta.pagination;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	},
     formSubmitted() {
       alert("Form submitted!");
 	},
@@ -84,13 +128,21 @@ export default {
 	sumar_padrino(){
 		  this.cantidad_ingresos_padrino.push(1);
 	},
+	sumar_familia(){
+		  this.cantidad_ingresos_familia.push(1);
+	},
   },
   components: {
     FormWizard,
 	TabContent,
 	formIngresarNino,
-	formIngresarPadrino
-  }
+	formIngresarPadrino,
+	formIngresarFamilia,
+	vSelect,
+  },
+  mounted(){
+    this.importarSectores();
+  },
 }
 </script>
         
