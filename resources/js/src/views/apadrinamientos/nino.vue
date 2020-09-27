@@ -189,8 +189,7 @@ export default {
 			title: `${titulo}`,
 			text: '¿Está seguro de llevar a cabo esta acción?',
 			accept: this.cambiarEstado
-		})
-
+		});
 		this.index(this.pagination.current_page, this.search);
 	},
 	cambiarEstado(color){
@@ -224,7 +223,8 @@ export default {
           color:'success',
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
-        })
+		});
+		this.index(this.pagination.current_page, this.search);
 	},
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;

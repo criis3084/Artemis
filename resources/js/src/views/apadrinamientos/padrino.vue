@@ -72,20 +72,6 @@
 
 							</vs-tr>
 
-							<editPadrino v-bind:identificador="abrir_editar" 
-								v-bind:id="id" 
-								v-bind:nombres="nombres" 
-								v-bind:apellidos="apellidos" 
-								v-bind:genero="genero" 
-								v-bind:CUI="CUI" 
-								v-bind:numero_telefono="numero_telefono" 
-								v-bind:fecha_nacimiento="fecha_nacimiento" 
-								v-bind:direccion="direccion" 
-								v-bind:correo="correo" 
-								v-bind:ruta_imagen="ruta_imagen" 
-								v-bind:sector_id="sector_id" 
-								v-on:cerrado="index(pagination.current_page, search);"	>
-							</editPadrino>
 
 						</template>
 					</vs-table>
@@ -159,14 +145,6 @@ export default {
     
   },
   methods: {
-	cambiar(padrino){
-		  console.log("Entra Aca?");
-		  console.log(padrino);
-		  this.id = padrino.id;
-		  this.nombre = padrino.nombre;
-		  this.aldea_id = padrino.aldea_id;
-		//   this.abrir_editar = true;
-	},
 	abrirDialog(id, estado){
 
 		let titulo = '';
@@ -227,7 +205,8 @@ export default {
           color:'success',
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
-        })
+		})
+		this.index(this.pagination.current_page, this.search);
 	},
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
