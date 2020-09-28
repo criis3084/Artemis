@@ -10,6 +10,48 @@ use Exception;
 
 class PpiController extends Controller
 {
+	public function index(Request $request)
+    {
+		#if(!$request->ajax())return redirect('/');
+		// Filtro por un criterio y estado
+		$buscar = $request->buscar;
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				/*
+				$persona_sin_acceso = PersonaSinAcceso::join('sectors', 'sectors.id', '=', 'persona_sin_accesos.id')
+				->select('persona_sin_accesos.*','sectors.nombre as nombre_sector','aldeas.nombre as nombre_aldea')
+				->orderBy('id', 'desc')->paginate(20);
+				*/
+				$ppi = Ppi::orderBy('id', 'desc')->where('estado',1)->paginate(20);
+			}
+			else{
+				$ppi = Ppi::where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+			}
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$ppi = Ppi::orderBy('id', 'desc')->paginate(20);
+			}
+			else{
+				$ppi = Ppi::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+			}
+		}
+
+		return [
+			'pagination' => [
+				'total'        => $ppi->total(),
+				'current_page' => $ppi->currentPage(),
+				'per_page'     => $ppi->perPage(),
+				'last_page'    => $ppi->lastPage(),
+				'from'         => $ppi->firstItem(),
+				'to'           => $ppi->lastItem(),
+			],
+			"ppis"=>$ppi
+		];
+    }
     public function store(Request $request)
     {
 		#if(!$request->ajax())return redirect('/');

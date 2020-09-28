@@ -6,7 +6,7 @@
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="my-4">
 					<small class="date-label">Fecha de Estudio</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha"></datepicker>
+					<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha" disabled></datepicker>
 				</div>
 			</div>
 
@@ -17,12 +17,12 @@
 						<vs-list-header title="1. ¿Cuántos miembros del hogar tienen 13 años de edad o menos?"></vs-list-header>
 						</h4>
 						<ul class="centerx mt-3">
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="133">  0  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="123">  1  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="117">  2  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="112">  3  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="110">  4  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="100">  5  </vs-radio>
+								<vs-radio color="success" disabled class="m-3" v-model="respuesta1" vs-value="133">  0  </vs-radio>
+								<vs-radio color="success" disabled class="m-3" v-model="respuesta1" vs-value="123">  1  </vs-radio>
+								<vs-radio color="success" disabled class="m-3" v-model="respuesta1" vs-value="117">  2  </vs-radio>
+								<vs-radio color="success" disabled class="m-3" v-model="respuesta1" vs-value="112">  3  </vs-radio>
+								<vs-radio color="success" disabled class="m-3" v-model="respuesta1" vs-value="110">  4  </vs-radio>
+								<vs-radio color="success" disabled class="m-3" v-model="respuesta1" vs-value="100">  5  </vs-radio>
 						</ul>
 					</vs-list>
 				</div>
@@ -37,9 +37,9 @@
 						<vs-list-header title="2. De los niños de 7-13 años de edad, ¿están todos estudiando?"></vs-list-header>
 						</h4>
 						<ul class="centerx mt-3">
-							<vs-radio color="success" class="m-3" v-model="respuesta2" vs-value="206">  Sí  </vs-radio>
-							<vs-radio color="success" class="m-3" v-model="respuesta2" vs-value="200">  No  </vs-radio>
-							<vs-radio color="success" class="m-3" v-model="respuesta2" vs-value="202">  No hay niños de 7-13 años </vs-radio>
+							<vs-radio color="success" class="m-3" disabled v-model="respuesta2" vs-value="206">  Sí  </vs-radio>
+							<vs-radio color="success" class="m-3" disabled v-model="respuesta2" vs-value="200">  No  </vs-radio>
+							<vs-radio color="success" class="m-3" disabled v-model="respuesta2" vs-value="202">  No hay niños de 7-13 años </vs-radio>
 						</ul>
 					</vs-list>
 				</div>
@@ -52,8 +52,8 @@
 					<vs-list-header title="3. ¿Sabe la madre leer y escribir?"></vs-list-header>
 					</h4>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta3" vs-value="306">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta3" vs-value="300">  No  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta3" vs-value="306">  Sí  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta3" vs-value="300">  No  </vs-radio>
 					</ul>
 				</vs-list>
 			</div>
@@ -65,8 +65,8 @@
 					<vs-list-header title="4. ¿Trabaja algún miembro de la familia como jornalero o empleado doméstcio?"></vs-list-header>
 					</h4>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta4" vs-value="400">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta4" vs-value="405">  No  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta4" vs-value="400">  Sí  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta4" vs-value="405">  No  </vs-radio>
 					</ul>
 				</vs-list>
 			</div>
@@ -77,10 +77,10 @@
 					<vs-list-header title="5. ¿Qué tipo de piso tiene la casa?"></vs-list-header>
 					</h4>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta5" vs-value="500">  Tierra  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta5" vs-value="503">  Torta  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta5" vs-value="509">  Ladrillo de cemento</vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta5" vs-value="515">  Cerámico </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta5" vs-value="500">  Tierra  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta5" vs-value="503">  Torta  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta5" vs-value="509">  Ladrillo de cemento</vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta5" vs-value="515">  Cerámico </vs-radio>
 					</ul>
 				</vs-list>
 			</div>
@@ -91,8 +91,8 @@
 					<vs-list-header title="6. ¿En su casa hay refrigerador?"></vs-list-header>
 					</h4>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta6" vs-value="609">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta6" vs-value="600">  No  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta6" vs-value="609">  Sí  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta6" vs-value="600">  No  </vs-radio>
 					</ul>
 				</vs-list>
 			</div>
@@ -103,8 +103,8 @@
 					<vs-list-header title="7. ¿En su casa hay estufa eléctrica o de gas?"></vs-list-header>
 					</h4>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta7" vs-value="708">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta7" vs-value="700">  No  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta7" vs-value="708">  Sí  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta7" vs-value="700">  No  </vs-radio>
 					</ul>
 				</vs-list>
 			</div>
@@ -115,8 +115,8 @@
 					<vs-list-header title="8. ¿Muele maíz en su casa o lo lleva al molino?"></vs-list-header>
 					</h4>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta8" vs-value="800">  En su casa  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta8" vs-value="803">  Al molino </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta8" vs-value="800">  En su casa  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta8" vs-value="803">  Al molino </vs-radio>
 					</ul>
 				</vs-list>
 			</div>
@@ -127,8 +127,8 @@
 					<vs-list-header title="9. ¿En su casa hay plancha eléctrica?"></vs-list-header>
 					</h4>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta9" vs-value="908">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta9" vs-value="900">  No  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta9" vs-value="908">  Sí  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta9" vs-value="900">  No  </vs-radio>
 					</ul>
 				</vs-list>
 			</div>
@@ -139,8 +139,8 @@
 					<vs-list-header title="10. ¿Alguien en el hogar tiene una empresa de agricultura?"></vs-list-header>
 					</h4>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta10" vs-value="1003">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta10" vs-value="1000">  No  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta10" vs-value="1003">  Sí  </vs-radio>
+						<vs-radio color="success" class="m-3" disabled v-model="respuesta10" vs-value="1000">  No  </vs-radio>
 					</ul>
 				</vs-list>
 			</div>
@@ -153,8 +153,7 @@
 				El PPI es peligroso
 			</vs-alert>
 			<vs-divider></vs-divider>
-
-			<vs-button @click="guardar">Registrar PPI</vs-button>
+				<router-link :to="ruta()"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar al historial</vs-button></router-link>
 			</div>
 		</vx-card>
 	</div>
@@ -195,9 +194,41 @@ export default {
 		id:0,
 		fecha:"",
 		langEn: es,
+		id_historial:0,
+		id_ppi:0,
+		id_nino:0,
 	}
   },
-  methods:{
+  methods:{	
+	async traerPpi(){ 
+        let me = this;
+        me.id_historial = this.$route.params.id;
+		const response = await axios.get(
+			`/api/historialPpi/get?&criterio=id&buscar=${me.id_historial}&completo=true`)
+		.then(function (response) {
+			var respuesta= response.data;
+			var informacion = respuesta.historialPpis.data[0];
+			me.respuesta1 = informacion.ppi.respuesta1+100;
+			me.respuesta2 = informacion.ppi.respuesta2+200;
+			me.respuesta3 = informacion.ppi.respuesta3+300;
+			me.respuesta4 = informacion.ppi.respuesta4+400;
+			me.respuesta5 = informacion.ppi.respuesta5+500;
+			me.respuesta6 = informacion.ppi.respuesta6+600;
+			me.respuesta7 = informacion.ppi.respuesta7+700;
+			me.respuesta8 = informacion.ppi.respuesta8+800;
+			me.respuesta9 = informacion.ppi.respuesta9+900;
+			me.respuesta10 = informacion.ppi.respuesta10+1000;
+			me.fecha = informacion.fecha_estudio;
+			me.id_nino = informacion.nino_id;
+			me.pagination= respuesta.pagination;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	},
+	ruta(){
+		return '/apadrinamiento/ppi/'+this.id_nino
+	},
 	guardar(){
 		this.id=parseInt(this.$route.params.id)
 		console.log(this.getDate(this.fecha))
@@ -263,6 +294,9 @@ export default {
 		
 		return "Total: " + (this.valor1+this.valor2+this.valor3+this.valor4+this.valor5+this.valor6+this.valor7+this.valor8+this.valor9+this.valor10)
 	},
+  },
+  mounted(){
+    this.traerPpi();
   },
   components: {
 	Datepicker,
