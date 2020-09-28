@@ -8,9 +8,7 @@
 				</div>
 				<br>
 				<vx-card :title="titulo()" class="mb-base">
-					<vs-button @click="actualizar">Actualizar Grafica</vs-button>
-
-					<chartjs-component-line-chart :height="250" :data="datos" :options="opciones"></chartjs-component-line-chart>
+					<chartjs-component-line-chart :height="125" v-if="ya" :data="datos" :options="opciones"></chartjs-component-line-chart>
 				<vs-divider></vs-divider>
 				<!--
 				<chartjs-line-chart :height="250" :data="datos" :options="optiones" ></chartjs-line-chart>
@@ -86,6 +84,7 @@ export default {
 		switch2:false,
 		id: 0,
 		estado: null,
+		ya:false,
 		datos:{},
 		opciones:{}
     }
@@ -101,12 +100,6 @@ export default {
 	titulo(){
 		return 'Nombre: '+this.nombre +' '+ this.apellido + "     "+ ' Codigo: ' +this.codigo
 	},
-	actualizar(){
-		this.arrayData
-		this.datos=this.traerData(this.arrayData)
-		this.opciones=this.traerOptions(this.arrayData)
-		this.renderChart(this.datos, this.opciones)
-	},
 	traerNombre(tabla){
 		console.log('Datos de los ninos')
 		tabla.forEach(function(valor, indice, array){
@@ -116,14 +109,15 @@ export default {
 		return tabla
 	},
 	traerData(arreglo){
-		console.log('*********************************************************************************')
 		let valores =[]
 		let fechas =[]
-		if (arreglo === undefined)
+		if (arreglo !== undefined)
 		{
 			arreglo.forEach(function(valor, indice, array){
-				valores.push(valor.ppi.total)
-				fechas.push(valor.fecha_estudio)
+				if (valor.estado ==1){
+					valores.push(valor.ppi.total)
+					fechas.push(valor.fecha_estudio)
+				}
 			});
 		}
 		let data =  {
@@ -141,10 +135,10 @@ export default {
 	},
 	traerOptions(arreglo){
 		let options={
-				title: {
-					display: true,
-					text: 'Registro de Avance de PPI'
-				}
+			title: {
+				display: true,
+				text: 'Registro de Avance de PPI'
+			}
 		}
 		return options
 	},
@@ -170,8 +164,9 @@ export default {
 		.catch(function (error) {
 			console.log(error);
 		});
-		me.datos = me.traerData(me.arrayData)
+		me.datos = me.traerData(me.arrayData);
 		me.opciones = me.traerOptions(me.arrayData)
+		me.ya=true;
     },
 	abrirDialog(id, estado){
 
@@ -235,11 +230,10 @@ export default {
           text:'La acción se realizo exitósamente'
         })
 	},
-  },
-  mounted(){
-	this.index(1, this.search);
-
-}
+	},
+	mounted(){
+		this.index(1, this.search);
+	}
 }
 </script>
 

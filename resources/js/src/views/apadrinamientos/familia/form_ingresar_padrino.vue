@@ -160,15 +160,42 @@ export default {
           }
         })
       })
-    }
-  },
-  components: {
-    FormWizard,
-	TabContent,
-	Datepicker,
-	vSelect,
-  },
-mounted(){
+	},
+	ingresarPadrino(){
+		axios.post("/api/padrino/post/",{
+			nombres:this.nombresT,
+			apellidos:this.apellidosT,
+			CUI:this.CUIT,
+			numero_telefono:this.numero_telefonoT,
+			genero:this.generoT,
+			fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
+			sector_id:this.sector_idT.id,
+			direccion:this.direccionT,
+			correo:this.correoT,
+			ruta_imagen:this.ruta_imagenT
+		}).then(function(response) {
+      		console.log(response)
+		})
+		.catch(function(error) {
+			console.log(error)
+		});
+			/*
+			this.$emit('cerrado','Se cerró el formulario');
+    	    this.$vs.notify({
+          	color:'success',
+          	title:`${this.titulo}`,
+			  text:'La acción se realizo exitósamente'
+			  */
+		this.$router.push('/apadrinamiento/padrino');
+	}
+	},
+	components: {
+		FormWizard,
+		TabContent,
+		Datepicker,
+		vSelect,
+	},
+	mounted(){
     this.importarSectores();
   },
   computed:{

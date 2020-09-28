@@ -15,7 +15,7 @@
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
 
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="codigo"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Codigo" v-model="codigo"/>
 					<span class="text-danger">el codigo es requerido</span>
 
 					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombres"/>
@@ -57,8 +57,8 @@
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-8">
-				<small class="date-label">Sector Cambiar a padrino</small>
-				<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<small class="date-label">Padrino</small>
+				<v-select label="nombres" :options="padrinos" class="mt-1"  v-model="padrino_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 			</div>
 		</div>
 	</div>
@@ -99,95 +99,127 @@ const dict = {
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
 // register custom messages
-Validator.localize('en', dict);
+Validator.localize('es', dict);
 import { es } from 'vuejs-datepicker/src/locale'
 
 export default {
-  data() {
-    return {
-	  nombres: "",
-	  nombre_fotografia:"",
-      apellidos: "",
-      direccion: "",
-      fecha_nacimiento: "",
-      fecha_ingreso: "",
-	  genero:"",
-	  sector_id:0,
-	  escuela_id:0,
-	  sectores:[],
-	  escuelas:[],
-	  langEn: es,
-	  codigo:'',
-    }
-  },
-  methods: {
-	async importarSectores(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-		`/api/sector/get?&completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.sectores = respuesta.sectores.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},async importarEscuelas(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/escuela/get?&completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.escuelas = respuesta.escuelas.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
+	data() {
+		return {
+		nombres: "",
+		nombre_fotografia:"",
+		apellidos: "",
+		direccion: "",
+		fecha_nacimiento: "",
+		fecha_ingreso: "",
+		genero:"",
+		padrino_id:0,
+		escuela_id:0,
+		padrinos:[],
+		escuelas:[],
+		langEn: es,
+		codigo:'',
+		}
 	},
-	successUpload(){
-      this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
-    },
-    validateStep1() {
-      return new Promise((resolve, reject) => {
-        this.$validator.validateAll('step-1').then(result => {
-          if (result) {
-			console.log(result)
-            resolve(true)
-          } else {
-            reject("correct all values");
-          }
-        })
-      })
-    },
-    validateStep2() {
-      return new Promise((resolve, reject) => {
-        this.$validator.validateAll("step-2").then(result => {
-          if (result) {
-            resolve(true)
-          } else {
-            reject("correct all values");
-          }
-        })
-      })
-    }
-  },
-  components: {
-    FormWizard,
-	TabContent,
-	Datepicker,
-	vSelect,
-  },
-mounted(){
-    this.importarSectores();
-    this.importarEscuelas();
-  },
-  computed:{
-	  fotografia(){
-		  console.log(nombre_fotografia);
-		  return 1
-	  }
-  }
+	methods: {
+		traerNombre(tabla){
+			tabla.forEach(function(valor, indice, array){
+				valor.nombres=valor.datos.nombres
+			}); 
+			return tabla
+		},
+		async importarPadrinos(){ //async para que se llame cada vez que se necesite
+			let me = this;
+			const response = await axios.get(
+			`/api/padrino/get?&completo=true`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.padrinos = respuesta.padrinos.data;
+				me.padrinos = me.traerNombre(me.padrinos)
+				me.pagination= respuesta.pagination;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		},
+		async importarEscuelas(){ //async para que se llame cada vez que se necesite
+			let me = this;
+			const response = await axios.get(`/api/escuela/get?&completo=select`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.escuelas = respuesta.escuelas.data;
+				me.pagination= respuesta.pagination;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		},
+		successUpload(){
+		this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
+		},
+		validateStep1() {
+		return new Promise((resolve, reject) => {
+			this.$validator.validateAll('step-1').then(result => {
+			if (result) {
+				console.log(result)
+				resolve(true)
+			} else {
+				reject("correct all values");
+			}
+			})
+		})
+		},
+		validateStep2() {
+		return new Promise((resolve, reject) => {
+			this.$validator.validateAll("step-2").then(result => {
+			if (result) {
+				resolve(true)
+			} else {
+				reject("correct all values");
+			}
+			})
+		})
+		},
+		ingresarNino(){
+			axios.post("/api/nino/post/",{
+				nombres:this.nombresT,
+				apellidos:this.apellidosT,
+				genero:this.generoT,
+				fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
+				sector_id:this.sector_idT.id,
+				direccion:this.direccionT,
+				codigo:this.codigoT,
+				fecha_ingreso:this.getDate(this.fecha_ingresoT),
+				ruta_imagen:this.ruta_imagenT,
+				escuela_id:this.escuela_idT.id
+			}).then(function(response) {
+				console.log(response)
+			})
+			.catch(function(error) {
+				console.log(error)
+			});
+			/*
+				this.$emit('cerrado','Se cerró el formulario');
+				this.$vs.notify({
+				color:'success',
+				title:`${this.titulo}`,
+				text:'La acción se realizo exitósamente'
+				});
+				this.$router.push('/apadrinamiento/nino');
+			*/
+		},
+	},
+	components: {
+		FormWizard,
+		TabContent,
+		Datepicker,
+		vSelect,
+	},
+	mounted(){
+		this.importarPadrinos();
+		this.importarEscuelas();
+	},
+	computed:{
+
+	}
 }
 </script>
