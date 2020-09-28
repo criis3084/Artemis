@@ -3,7 +3,7 @@
 		<vx-card>
 					<div class = "demo-alignment">
 						<h2>Tutores</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = 'large' ></vs-button>  </vx-tooltip>
+						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
 					</div>
 					<br>
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
@@ -37,10 +37,10 @@
 						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>			
 					    </vs-td>
 						<vs-td :data="data[indextr].datos.id">{{data[indextr].datos.id}}</vs-td>
-						<vs-td :data="data[indextr].datos.nombres">{{data[indextr].datos.nombres}}</vs-td>
-                        <vs-td :data="data[indextr].datos.apellidos" >{{data[indextr].datos.apellidos}}</vs-td>
+						<vs-td :data="data[indextr].datos.nombres">{{data[indextr].nombres}}</vs-td>
+                        <vs-td :data="data[indextr].datos.apellidos" >{{data[indextr].apellidos}}</vs-td>
                         <vs-td :data="data[indextr].especialidad">{{data[indextr].especialidad}}</vs-td>
-                        <vs-td :data="data[indextr].datos.telefono">{{data[indextr].datos.numero_telefono}}</vs-td>
+                        <vs-td :data="data[indextr].datos.telefono">{{data[indextr].numero_telefono}}</vs-td>
 						<vs-td>
 							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 								<span slot="on" >Activo</span>
@@ -75,13 +75,13 @@ export default {
   data () {
     return {
       //Aqui van a guardar todas su variables.
-       pagination : {
+      pagination : {
         'total' : 0,
-          'current_page' : 0,
-          'per_page' : 0,
-          'last_page' : 0,
-          'from' : 0,
-          'to' : 0
+        'current_page' : 0,
+        'per_page' : 0,
+        'last_page' : 0,
+        'from' : 0,
+        'to' : 0
       },
       offset : 3,
       search : '',
@@ -95,7 +95,7 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'nombres', 'apellidos','especialidad_id','numero_telefono'],
+	  headerVal: ['id', 'nombres', 'apellidos', 'especialidad', 'numero_telefono'],
 	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Especialidad', 'Telefono']
     }
   },
@@ -107,101 +107,100 @@ export default {
     vSelect
   },
   methods: {
-	  muestra(){
+	  muestra () {
 		  console.log('Se ha cerrado el dialog')
 	  },
-	abrirDialog(id, estado){
 
-		let titulo = '';
-		let color = '';
+    abrirDialog (id, estado) {
 
-		if(estado === 0 || estado === false){
-			// cambiar de color al boton
-			color = 'success'
-			titulo = 'Confirmar activación'
-		}
+      let titulo = ''
+      let color = ''
 
-		else if(estado === 1 || estado === true){
-			color = 'danger'
-			titulo = 'Confirmar desactivación'
-		}
+      if (estado === 0 || estado === false) {
+        // cambiar de color al boton
+        color = 'success'
+        titulo = 'Confirmar activación'
+      } else if (estado === 1 || estado === true) {
+        color = 'danger'
+        titulo = 'Confirmar desactivación'
+      }
 		
-		this.id = id
-		this.estado = estado
+      this.id = id
+      this.estado = estado
 
-		this.$vs.dialog({
-			type:'confirm',
-			color: `${color}`,
-			title: `${titulo}`,
-			text: '¿Está seguro de llevar a cabo esta acción?',
-			accept: this.cambiarEstado,
-			cancel: this.close
-		})
-	},
-	cambiarEstado(color){
-		let titulo = ''
+      this.$vs.dialog({
+        type:'confirm',
+        color: `${color}`,
+        title: `${titulo}`,
+        text: '¿Está seguro de llevar a cabo esta acción?',
+        accept: this.cambiarEstado,
+        cancel: this.close
+      })
+    },
+    cambiarEstado (color) {
+      let titulo = ''
 		
-		if(this.estado === 0 || this.estado === false){
-			titulo = 'Activado exitósamente'
-			axios.put('/api/tutor/activar', {
-				id: this.id
-			})
-			.then(function (response) {
-				console.log(response.data.message)
-			})
-			.catch(function (error) {
-				console.log(error.response.data.message)
-			});
-		}
-		else if(this.estado === 1 || this.estado === true){
-			titulo = 'Desactivado exitósamente'
-			axios.put('/api/tutor/desactivar', {
-				id: this.id
-			})
-			.then(function (response) {
-				console.log(response.data.message)
-			})
-			.catch(function (error) {
-				console.log(error.response.data.message)
-			});
+      if (this.estado === 0 || this.estado === false) {
+        titulo = 'Activado exitósamente'
+        axios.put('/api/tutor/activar', {
+          id: this.id
+        })
+          .then(function (response) {
+            console.log(response.data.message)
+          })
+          .catch(function (error) {
+            console.log(error.response.data.message)
+          })
+      } else if (this.estado === 1 || this.estado === true) {
+        titulo = 'Desactivado exitósamente'
+        axios.put('/api/tutor/desactivar', {
+          id: this.id
+        })
+          .then(function (response) {
+            console.log(response.data.message)
+          })
+          .catch(function (error) {
+            console.log(error.response.data.message)
+          })
 
-		}
-		this.$vs.notify({
-          color:'success',
-          title:`${titulo}`,
-          text:'La acción se realizó exitósamente'
-		})
-	},
-	close(){
-		let titulo = "Cancelado"
-		let texto = "Cambio de estado cancelado"
-		this.$vs.notify({
+      }
+      this.$vs.notify({
+        color:'success',
+        title:`${titulo}`,
+        text:'La acción se realizó exitósamente'
+      })
+    },
+    close () {
+      const titulo = 'Cancelado'
+      const texto = 'Cambio de estado cancelado'
+      this.$vs.notify({
         color:'danger',
         title:`${titulo}`,
         text:`${titulo}`
 	  })
-	this.index(this.pagination.current_page, this.search);
+      this.index(this.pagination.current_page, this.search)
     },
-	async index(page, search){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/tutor/get?page=${page}&search=${search}&completo=true`)
-		.then(function (response) {
-			console.log(page)
-			var respuesta= response.data;
-			me.arrayData = respuesta.tutors.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
-	aNuevo(){
-		 this.$router.push("/ingresar/tutor");
+    async index (page, search) { //async para que se llame cada vez que se necesite
+      const me = this
+      const response = await axios.get(
+        `/api/tutor/get?page=${page}&search=${search}&completo=true`)
+        .then(function (response) {
+          console.log(page)
+          const respuesta = response.data
+		  me.arrayData = respuesta.tutors.data
+		  me.tutor = me.traerNombre(me.arrayData)
+          me.pagination = respuesta.pagination
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    aNuevo () {
+		 this.$router.push('/ingresar/tutor')
 	  },
 	  exportToExcel () {
       import('@/vendor/Export2Excel').then(excel => {
-		const list = this.arrayData
+        const list = this.arrayData
         const data = this.formatJson(this.headerVal, list)
         excel.export_json_to_excel({
           header: this.headerTitle,
@@ -209,7 +208,7 @@ export default {
           filename: this.fileName,
           autoWidth: this.cellAutoWidth,
           bookType: this.selectedFormat
-		})
+        })
 
         this.clearFields()
       })
@@ -226,24 +225,26 @@ export default {
         return v[j]
       }))
     },
-	clearFields () {
+    clearFields () {
       this.filename = ''
       this.cellAutoWidth = true
       this.selectedFormat = 'xlsx'
 	},
-	 traerNombre(tabla){
-		console.log('Datos de los ninos')
-		tabla.forEach(function(valor, indice, array){
-			valor.nombres=valor.datos.nombres
-			valor.apellidos=valor.datos.apalleidos
-		}); 
-		console.log(tabla)
-		return tabla
-	  }
+	traerNombre (tabla) {
+      console.log('Datos de tutores')
+      tabla.forEach(function (valor, indice, array) {
+		  valor.nombres = valor.datos.nombres
+		  valor.apellidos = valor.datos.apellidos
+		  valor.numero_telefono = valor.datos.numero_telefono
+      }) 
+      console.log(tabla)
+	  return tabla
+}
+	
 	  
   },
-  mounted(){
-    this.index(1, this.search);
+  mounted () {
+    this.index(1, this.search)
   }
 }
 </script>
