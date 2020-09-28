@@ -206,6 +206,14 @@ const router = new Router({
             rule: 'editor'
           }
         },
+        {
+          path:'/editar/tutor/:id',
+          name: 'editar-tutor',
+          component: () => import('./views/tutoria/tutorEdit.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
         // =============================================================================
         // Datos Generales
         // =============================================================================

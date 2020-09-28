@@ -48,7 +48,7 @@
 							</vs-switch>
 						</vs-td>
 						<vs-td>
-							<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+							<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/tutor/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
 						</vs-td>
                         <vs-td>
 							<vx-tooltip text="Listado de alumnos"> <vs-button radius color="dark" type="flat" icon="list" size="large"> </vs-button>  </vx-tooltip>
@@ -230,7 +230,16 @@ export default {
       this.filename = ''
       this.cellAutoWidth = true
       this.selectedFormat = 'xlsx'
-	}
+	},
+	 traerNombre(tabla){
+		console.log('Datos de los ninos')
+		tabla.forEach(function(valor, indice, array){
+			valor.nombres=valor.datos.nombres
+			valor.apellidos=valor.datos.apalleidos
+		}); 
+		console.log(tabla)
+		return tabla
+	  }
 	  
   },
   mounted(){

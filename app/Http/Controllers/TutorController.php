@@ -81,7 +81,36 @@ class TutorController extends Controller
 
 	public function update(Request $request)
 	{
-		//
+		try {
+		$tutor = Tutor::findOrFail($request->id);
+		$usuario = Usuario::findOrFail($tutor->usuario_id);
+		$usuario->nombres = $request->nombres;
+			$usuario->apellidos = $request->apellidos;
+			$usuario->CUI = $request->CUI;
+			$usuario->genero = $request->genero;
+			$usuario->numero_telefono = $request->numero_telefono;
+			$usuario->correo = $request->correo;
+			$usuario->direccion = $request->direccion;
+			$usuario->fecha_nacimiento = $request->fecha_nacimiento;
+			$usuario->imagen_perfil = $request->imagen_perfil;
+			$usuario->descripcion = $request->descripcion;
+			// Comprobacion de unico
+			$usuario->usuario = $request->usuario;
+			$usuario->password = $request->password;
+			$usuario->rol_id = $request->rol_id;
+			
+			$tutor->especialidad = $request->especialidad;
+			// $tutor->usuario_id = $usario->usuario_id;
+			//$tutor->usuario_id = $usuario->id;
+		
+			$usuario->save();
+		    $tutor->save();
+		    return Response::json(['message' => 'Usuario tutor actualizado'], 200);
+			#return ['id' => $nino->id];
+		} catch (Exception $e) {
+			return Response::json(['message' => $e->getMessage()], 400);
+		}
+		
 	}
 
 	public function activar(Request $request)

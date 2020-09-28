@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<vx-card>
-			<form-wizard @click="acceptAlert()" color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente">
+			<form-wizard  color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZAR DATOS DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
 				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
 				<!-- tab 1 content -->
@@ -10,28 +10,28 @@
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombres" v-validate="'required|alpha'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombresTutor" v-validate="'required|alpha'"/>
 									<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name="apellidos" v-validate="'required|alpha'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" name="apellidos" v-model="apellidosTutor" v-validate="'required|alpha'"/>
 									<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
 								</div>
 							</div>
 
                             <div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-file-text" icon-no-border label-placeholder="Especialidad" v-model="especialidad"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-file-text" icon-no-border label-placeholder="Especialidad" v-model="especialidadTutor"/>
 								</div>
 							</div>
 
-                            <div class="vx-col md:w-1/2 w-full mt-5">
+             <div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" v-model="CUI" name="cui" v-validate="'required'"/>
-									<span class="text-danger">{{ errors.first('step-1.cui') }}</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" name="cui" v-model="CUI" v-validate="'required'"/>
+                  <span class="text-danger">{{ errors.first('step-1.cui') }}</span>
 								</div>
 							</div>
 
@@ -54,7 +54,7 @@
 								</ul>
 							</div>
 
-                            <div class="vx-col md:w-1/2 w-full mt-5">
+              <div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono"/>
 								</div>
@@ -62,7 +62,7 @@
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" name="direccion" v-model="direccion" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" name="direccion" v-model="direccionTutor" v-validate="'required'"/>
 									<span class="text-danger">{{errors.first('step-1.direccion') }}</span>
 								</div>
 							</div>
@@ -85,7 +85,7 @@
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
 					<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Correo" v-model="correo" name="correo" v-validate="'email'"/>
-					<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
+          <span class="text-danger">{{ errors.first('step-2.correo') }}</span>
 				</div>
 			</div>
 
@@ -111,19 +111,20 @@
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
 					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Usuario" v-model="usuario" v-validate="'required'" name="campo"/>
+          <span class="text-danger">{{ errors.first('step-3.campo') }}</span>
 				</div>
 			</div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-lock" icon-no-border label-placeholder="Contraseña" v-model="password" name="campo" v-validate="'required'"/>
-					<span class="text-danger">{{ errors.first('step-3.campo') }}</span>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-lock" icon-no-border label-placeholder="Contraseña" name="campo" v-model="password" v-validate="'required'"/>
+          <span class="text-danger">{{ errors.first('step-3.campo') }}</span>
 				</div>
 			</div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Rol</small>
-				<v-select label="nombre" :options="roles" v-model="rol_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<v-select label="nombre" :options="roles"  v-model="rol_id"  :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 			</div>
 
         </form>
@@ -131,7 +132,7 @@
   </form-wizard>
 
     <div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/tutoria/tutor"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+ <router-link to="/tutoria/tutor"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border >Regresar</vs-button></router-link>
     </div>
 
 </vx-card>
@@ -145,7 +146,7 @@ import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
 // For custom error message
-import { Validator } from 'vee-validate';
+import { Validator } from 'vee-validate'
 const dict = {
   custom: {
     nombres: {
@@ -172,138 +173,167 @@ const dict = {
     campo: {
       required:'Dato requerido'
     }
+    
   }
 }
 
 // register custom messages
-Validator.localize('en', dict);
+Validator.localize('en', dict)
 import { es } from 'vuejs-datepicker/src/locale'
 export default {
-  data() {
+  data () {
     return {
-      nombres: "",
-      apellidos: "",
-      direccion: "",
-      especialidad:'',
+      arrayData: [],
+      idTutor:'',
+      id:'',
+      nombresTutor: '',
+      apellidosTutor: '',
+      direccionTutor: '',
+      especialidadTutor:'',
       genero:'',
       CUI:'',
       numero_telefono:'',
       correo:'',
       imagen_perfil:'',
-      fecha_nacimiento: "",
+      fecha_nacimiento:this.getDate(this.fecha_nacimiento),
       descripcion:'',
       usuario:'',
       password:'',
       roles: [],
-	  rol_id:'',
-	  langEn: es,
-	  codigo:'',
+      selected: '1',
+      rol_id:'',
+      langEn: es,
+      
+    id_recibido:'',
 	  titulo:'Registrado exitosamente!',
 	  waterMark : 'Select a date',
       dateVal : new Date(),
-	  dateFormat : 'yyyy-MM-dd',
+	  dateFormat : 'yyyy-MM-dd'
     }
   },
   methods: {
-	  getDate(datetime) {
-        let date = new Date(datetime);
-        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-        return dateString;
-      },
-	async importarRoles(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/rol/get?completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-            me.roles = respuesta.roles.data;
-            console.log(me.roles);
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
-	acceptAlert(){
-	axios.post("/api/tutor/post/",{
-		nombres:this.nombres,
-        apellidos:this.apellidos,
-        especialidad:this.especialidad,
+	  getDate (datetime) {
+      const date = new Date(datetime)
+      const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+      return dateString
+    },
+    async importarRoles () { //async para que se llame cada vez que se necesite
+      const me = this
+      const response = await axios.get(
+        '/api/rol/get?completo=select')
+        .then(function (response) {
+          const respuesta = response.data
+          me.roles = respuesta.roles.data
+          me.pagination = respuesta.pagination
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    formSubmitted () {
+      axios.put('/api/tutor/update/', {
+        id:this.id_recibido,
+        nombres:this.nombresTutor,
+        apellidos:this.apellidosTutor,
+        especialidad:this.especialidadTutor,
         CUI:this.CUI,
+        genero:this.genero,
         numero_telefono:this.numero_telefono,
         correo:this.correo,
         imagen_perfil:this.imagen_perfil,
         usuario:this.usuario,
         password:this.password,
         descripcion:this.descripcion,
-		genero:this.genero,
-		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
-		direccion:this.direccion,
-		
-		rol_id:this.rol_id.id
-	}).then(function(response) {
-			console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-        });
-		this.$emit('cerrado','Se cerró el formulario');
-		this.$router.push('/tutoria/tutor');
-	},
-	successUpload(){
-      this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
+        fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+        direccion:this.direccionTutor,
+        rol_id:this.rol_id.id
+      }).then(function (response) {
+        console.log(response)
+        
+      })
+        .catch(function (error) {
+          console.log(error)
+        })
+      this.$emit('cerrado', 'Se cerró el formulario')
+      this.$router.push('/tutoria/tutor')
     },
-    validateStep1() {
+    async index (page, search) { //async para que se llame cada vez que se necesite
+      const me = this
+       this.id_recibido = this.$route.params.id
+      const response = await axios.get(`/api/tutor/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
+        .then(function (response) {
+          console.log(page)
+          var respuesta =  response.data
+          me.arrayData = respuesta.tutors.data[0]
+          me.nombresTutor = me.arrayData.datos.nombres
+          me.apellidosTutor = me.arrayData.datos.apellidos
+          me.direccionTutor = me.arrayData.datos.direccion
+          me.especialidadTutor = me.arrayData.especialidad
+          me.idTutor = me.arrayData.datos.id
+          me.genero = me.arrayData.datos.genero
+          me.fecha_nacimiento = me.arrayData.datos.fecha_nacimiento
+          me.CUI = me.arrayData.datos.CUI
+          me.numero_telefono = me.arrayData.datos.numero_telefono
+          me.correo = me.arrayData.datos.correo
+          me.imagen_perfil = me.arrayData.datos.imagen_perfil
+          me.descripcion = me.arrayData.datos.descripcion
+          me.rol_id = me.arrayData.datos.rol_id
+          me.usuario = me.arrayData.datos.usuario
+          me.password = me.arrayData.datos.password
+          me.pagination = respuesta.pagination
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    successUpload () {
+      this.$vs.notify({color:'success', title:'Fotografía', text:'Fotografía importada'})
+    },
+    validateStep1 () {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-1').then(result => {
           if (result) {
             resolve(true)
           } else {
-            reject("correct all values");
+            reject('correct all values')
           }
         })
       })
     },
-    validateStep2() {
+    validateStep2 () {
       return new Promise((resolve, reject) => {
-        this.$validator.validateAll("step-2").then(result => {
+        this.$validator.validateAll('step-2').then(result => {
           if (result) {
             resolve(true)
           } else {
-            reject("correct all values");
+            reject('correct all values')
           }
         })
       })
     },
-    validateStep3() {
+    validateStep3 () {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-3').then(result => {
           if (result) {
-			console.log(this.getDate(this.fecha_nacimiento));
-			this.acceptAlert();
-			// alert('Form submitted!');
-			this.$router.push('/tutoria/tutor');
+            console.log(this.getDate(this.fecha_nacimiento))
             resolve(true)
           } else {
-            reject('correct all values');
+            reject('correct all values')
           }
         })
 	  })
-	//   this.$vs.notify({
-    //       color:'success',
-    //       title:`${titulo}`,
-    //       text:'La acción se realizo exitósamente'
-    //     });
+	
     }
   },
   components: {
     FormWizard,
-	TabContent,
-	Datepicker,
-	vSelect,
+    TabContent,
+    Datepicker,
+    vSelect
   },
-	mounted(){
-    this.importarRoles();
-  },
+  mounted () {
+    this.importarRoles()
+    this.index(1, this.search)
+  }
 }
 </script>
