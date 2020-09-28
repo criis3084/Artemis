@@ -126,22 +126,7 @@ const dict = {
 Validator.localize('en', dict)
 
 export default {
-    // props:{
-	// 	identificador:{
-	// 		default:false
-	// 	},
-	//     id:{default: 0},
-    //     nombres:String,
-    //     apellidos:String,
-    //     direccion:String,
-    //     genero:Boolean,
-    //     fecha_nacimiento:Date,
-    //     CUI:String,
-    //     numero_telefono:String,
-    //     correo:String,
-    //     ruta_imagen:String,
-	//     sector_id:{default: 0},
-	// },
+
   data () {
     return {
       nombresT: "",
@@ -156,47 +141,38 @@ export default {
       ruta_imagenT:'',
       sectoresT: [],
       arrayData: [],
-	  sector_idT:'',
-	  langEn: es,
+    sector_idT:'',
+    persona_sin_acceso_idT:'',
+    langEn: es,
+    id_recibido:'',
+    titulo:'Actualización registrada',
     }
   },
   computed: {
-    //   copia() {
-    //     this.nombresT =this.$props.nombres;
-    //     this.apellidosT =this.$props.apellidos;
-    //     this.direccionT =this.$props.direccion;
-    //     this.idT =this.$props.id;
-    //     this.generoT =this.$props.genero;
-    //     this.fecha_nacimientoT =this.$props.fecha_nacimiento;
-    //     this.CUIT =this.$props.CUI;
-    //     this.numero_telefonoT =this.$props.numero_telefono;
-    //     this.correoT =this.$props.correo;
-    //     this.ruta_imagenT =this.$props.ruta_imagen;
-	// 	this.sector_idT =this.$props.sector_id;
-	// 	return true;	
-	// }
   },
   methods: {
     async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;
-        let id_recibido = this.$route.params.id;
-        console.log("criterio   "+id_recibido);
+        this.id_recibido = this.$route.params.id;
+        console.log("criterio   "+this.id_recibido);
 		const response = await axios.get(
-			`/api/padrino/get?&criterio=id&buscar=${id_recibido}&completo=true`)
+			`/api/padrino/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 		.then(function (response) {
 			console.log(page)
 			var respuesta= response.data;
-            me.arrayData = respuesta.padrinos.data[0];
-            me.nombresT = me.arrayData.datos.nombres;
-            me.apellidosT = me.arrayData.datos.apellidos;
-            // me.nombresT = me.arrayData.datos.nombres;
-            // me.nombresT = me.arrayData.datos.nombres;
-            // me.nombresT = me.arrayData.datos.nombres;
-            // me.nombresT = me.arrayData.datos.nombres;
-            // me.nombresT = me.arrayData.datos.nombres;
-            // me.nombresT = me.arrayData.datos.nombres;
-            // me.nombresT = me.arrayData.datos.nombres;
-            // me.nombresT = me.arrayData.datos.nombres;
+              me.arrayData = respuesta.padrinos.data[0];
+              me.nombresT = me.arrayData.datos.nombres;
+              me.apellidosT = me.arrayData.datos.apellidos;
+              me.direccionT = me.arrayData.datos.direccion;
+              me.idT = me.arrayData.datos.id;
+              me.generoT = me.arrayData.datos.genero;
+              me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento;
+              me.CUIT = me.arrayData.datos.CUI;
+              me.numero_telefonoT = me.arrayData.datos.numero_telefono;
+              me.correoT = me.arrayData.correo;
+              me.ruta_imagenT = me.arrayData.ruta_imagen;
+              me.sector_idT = me.arrayData.datos.sector_id;
+              me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
             console.log(me. nombresT);
             console.log(me.arrayData);
 			me.pagination= respuesta.pagination;
@@ -251,6 +227,7 @@ export default {
     formSubmitted () {
       // alert('Form submitted!');
       axios.put("/api/padrino/update/",{
+        id:this.id_recibido,
 		    nombres:this.nombresT,
             apellidos:this.apellidosT,
             CUI:this.CUIT,
@@ -260,7 +237,8 @@ export default {
 		    genero:this.generoT,
 		    fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
 		    direccion:this.direccionT,
-		    sector_id:this.sector_idT.id
+        sector_id:this.sector_idT.id
+
 	}).then(function(response) {
       console.log(response)
 		})
@@ -268,12 +246,12 @@ export default {
 		console.log(error)
         });
         this.$emit('cerrado','Se cerró el formulario');
-        // this.$vs.notify({
-        //   color:'success',
-        //   title:`${titulo}`,
-        //   text:'La acción se realizo exitósamente'
-        // });
-        // this.$router.push('/apadrinamiento/padrino');
+        this.$vs.notify({
+          color:'success',
+          title:`${this.titulo}`,
+          text:'La acción se realizo exitósamente'
+        });
+        this.$router.push('/apadrinamiento/padrino');
     },
     successUpload(){
       this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
@@ -291,7 +269,6 @@ export default {
 	mounted(){
     this.importarSectores();
     this.index(1, this.search);
-    this.importarSectores();
   },
   
 }
