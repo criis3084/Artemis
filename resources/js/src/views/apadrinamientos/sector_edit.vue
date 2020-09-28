@@ -10,6 +10,7 @@
       :is-valid="copia"
 	  :title= "titulo"
       :active.sync="identificador">
+	  
       <div class="con-exemple-prompt">
         <b></b>
 			

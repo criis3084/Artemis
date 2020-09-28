@@ -69,11 +69,19 @@ const router = new Router({
 		{			
 			path: '/ingresar/nino',
 			name: 'ingresar-nino',
-			component: () => import('./views/apadrinamientos/nino/ingresar.vue'),
+			component: () => import('./views/apadrinamientos/nino/form-ingresar.vue'),
 			meta: {
 			  rule: 'editor'
 			}
-		},
+    },
+    {
+      path: '/editar/nino/:id',
+      name: 'datos-nino',
+      component: () => import('./views/apadrinamientos/nino/editNino.vue'),
+      meta: {
+        rule: 'editor'
+      }
+    },
 		{			
 			path: '/ingresar/familia',
 			name: 'ingresar-familia',
@@ -98,14 +106,14 @@ const router = new Router({
 			  rule: 'editor'
 			}
     },		
-    // {			
-		// 	path: '/ver/ppi/:id/:id2',
-		// 	name: 'ver-ppi',
-		// 	component: () => import('./views/apadrinamientos/nino/verppi.vue'),
-		// 	meta: {
-		// 	  rule: 'editor'
-		// 	}
-    // },		
+    {			
+		path: '/ver/ppi/:id',
+		name: 'ver-ppi',
+		component: () => import('./views/apadrinamientos/nino/verppi.vue'),
+		meta: {
+		  rule: 'editor'
+		}
+    },		
     {
       path: '/ingresar/fotografia/:id',
       name: 'ingresar-fotografia',

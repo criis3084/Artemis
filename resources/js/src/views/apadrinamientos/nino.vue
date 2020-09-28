@@ -7,11 +7,19 @@
 						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/nino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = 'large' ></vs-button> </router-link>  </vx-tooltip>
 					</div>
 					<br>
-					<!--
-						<formulario></formulario>
-					-->
-					<vs-table stripe max-items="5" :data="arrayData">
+					<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+        				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
+        				<v-select v-model="selectedFormat" :options="formats" class="my-4" />
+        				<div class="flex">
+          					<span class="mr-4">Ancho automatico de celda:</span>
+          					<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
+        				</div>
+    				</vs-prompt>
 
+					<vs-table title="Padrinos" pagination max-items="10" search :data="arrayData" noDataText="No hay datos disponibles">
+        				<template slot="header">
+							<vs-button @click="activePrompt=true">Exportar</vs-button>
+        				</template>
 						<template slot="thead">
 							<vs-th>Ver</vs-th>
 							<vs-th>Codigo</vs-th>
@@ -29,8 +37,8 @@
 
 						</template>
 
-						<template>
-							<vs-tr v-for="nino in arrayData" :key="nino.id">
+						<template slot-scope="{data}">
+                			<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 								<vs-td>
 									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
 								</vs-td>
@@ -38,29 +46,23 @@
 		    					<!--
 								<router-link :to="url" @click.stop.prevent class="text-inherit hover:text-primary">{{ params.value }}</router-link>
 								-->
-								<vs-td v-text="nino.codigo" ></vs-td>
-
-								<vs-td>
-									<div class="flex items-center">
-									<vs-avatar :src="imagenProfile" class="flex-shrink-0 mr-2" size="30px"/>
-									<span class="leading-none font-medium"> {{nino.datos.nombres}} </span>
-									</div>
-								</vs-td>
-								<vs-td v-text="nino.datos.apellidos" ></vs-td>
-								<vs-td v-text="nino.datos.genero== 0 ? 'Masculino' : 'Femenino'" ></vs-td>
-								<vs-td v-text="nino.datos.fecha_nacimiento" ></vs-td>
-								<vs-td v-text="nino.fecha_ingreso" ></vs-td>
-								<vs-td>
-									<vs-switch color="success" v-model="nino.estado" @click="abrirDialog(nino.id, nino.estado)">
-										<span slot="on" >Activo</span>
-										<span slot="off">Desactivo</span>
-									</vs-switch>
-								</vs-td>
+								<vs-td>{{data[indextr].codigo}}</vs-td>
+								<vs-td>{{data[indextr].datos.nombres}}</vs-td>
+								<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
+								<vs-td>{{data[indextr].datos.genero== 0 ? 'Masculino' : 'Femenino'}}</vs-td>
+								<vs-td>{{data[indextr].datos.fecha_nacimiento}}</vs-td>
+								<vs-td>{{data[indextr].datos.fecha_ingreso}}</vs-td>
+								<vs-td :data="data[indextr].estado">
+                        			<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
+				                  		<span slot="on" >Activo</span>
+				                  		<span slot="off">Desactivo</span>
+			                  		</vs-switch>
+                   				</vs-td>
 								<vs-td>
 									  <div class="flex items-center">
-										<vx-tooltip text="Editar"><vs-button @click="cambiar(nino)" radius color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
-										<vx-tooltip text="Historial de PPI">  <vs-button @click="$router.push('/apadrinamiento/ppi/'+nino.id)" radius color="dark" type="flat" icon="poll" size="large"> </vs-button></vx-tooltip>
-										<vx-tooltip text="Historial de Fotografias"> <vs-button @click="$router.push('/apadrinamiento/fotografia/'+nino.id)" radius color="dark" type="flat" icon="camera_alt" size="large" > </vs-button> </vx-tooltip>
+										<vx-tooltip text="Editar"><vs-button @click="$router.push('/editar/nino/'+data[indextr].id)" radius color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
+										<vx-tooltip text="Historial de PPI">  <vs-button @click="$router.push('/apadrinamiento/ppi/'+data[indextr].id)" radius color="dark" type="flat" icon="poll" size="large"> </vs-button></vx-tooltip>
+										<vx-tooltip text="Historial de Fotografias"> <vs-button @click="$router.push('/apadrinamiento/fotografia/'+data[indextr].id)" radius color="dark" type="flat" icon="camera_alt" size="large" > </vs-button> </vx-tooltip>
 									  </div>
 								<!--
 								</vs-td>
@@ -70,7 +72,7 @@
 								-->
 								</vs-td>
 							</vs-tr>
-								<editNino v-bind:identificador="abrir_editar" 
+								<!-- <editNino v-bind:identificador="abrir_editar" 
 								v-bind:id="id" 
 								v-bind:nombres="nombres" 
 								v-bind:apellidos="apellidos" 
@@ -80,12 +82,9 @@
 								v-bind:fecha_nacimiento="fecha_nacimiento" 
 								v-bind:direccion="direccion" 
 								v-bind:ruta_imagen="ruta_imagen" 
-								v-on:cerrado="index(pagination.current_page, search);"	></editNino>
+								v-on:cerrado="index(pagination.current_page, search);"	></editNino> -->
 						</template>
 					</vs-table>
-					<div>
-						<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
-					</div>
 				</vx-card>
 			</div>
 </template>
@@ -99,7 +98,7 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
 import Formulario from './formulario.vue'
-import EditNino from './editNino.vue'
+import EditNino from './nino/editNino.vue'
 import axios from 'axios'
 
 export default {
@@ -131,8 +130,24 @@ export default {
 		fecha_nacimiento:'',
 		direccion:'',
 		ruta_imagen:'',
-	imagenProfile:'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png'
-    }
+	    imagenProfile:'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png',
+	  fileName: '',
+      formats:['xlsx', 'csv', 'txt'],
+      cellAutoWidth: true,
+	  selectedFormat: 'xlsx',
+	  headerVal: ['codigo', 'datos.nombre', 'datos.apellidos','datos.genero','datos.fecha_nacimiento','datos.fecha_ingreso','estado'],
+	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Género','Fecha de nacimiento','Fecha de ingreso','Estado'],
+      activePrompt: false,
+      'selected': [],
+      'tableList': [
+        'vs-th: Component',
+        'vs-tr: Component',
+        'vs-td: Component',
+        'thread: Slot',
+        'tbody: Slot',
+        'header: Slot'
+      ]
+	}
   },
   components: {
     VueApexCharts,
@@ -241,6 +256,38 @@ export default {
 			console.log(error);
 		});
 	},
+	exportToExcel () {
+      import('@/vendor/Export2Excel').then(excel => {
+		const list = this.arrayData
+        const data = this.formatJson(this.headerVal, list)
+        excel.export_json_to_excel({
+          header: this.headerTitle,
+          data,
+          filename: this.fileName,
+          autoWidth: this.cellAutoWidth,
+          bookType: this.selectedFormat
+		})
+
+        this.clearFields()
+      })
+    },
+    formatJson (filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        // Add col name which needs to be translated
+        // if (j === 'timestamp') {
+        //   return parseTime(v[j])
+        // } else {
+        //   return v[j]
+        // }
+
+        return v[j]
+      }))
+    },
+	clearFields () {
+      this.filename = ''
+      this.cellAutoWidth = true
+      this.selectedFormat = 'xlsx'
+    }
   },
   mounted(){
 

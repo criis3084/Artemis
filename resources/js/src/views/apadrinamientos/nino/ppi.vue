@@ -1,29 +1,18 @@
-<!-- =========================================================================================
-  File Name: DashboardAnalytics.vue
-  Description: Dashboard Analytics
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-<!-- Este es el componente inicial -->
 	<template>
 			<div>
 				<div class = "demo-alignment">
 					<h2>Historial de PPI</h2>
 					<vx-tooltip text = "Agregar nuevo PPI"> 
-                      <vs-button @click="$router.push('/ingresar/ppi/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
+                      <vs-button @click="$router.push('/ingresar/ppi/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button>
                     </vx-tooltip>
 				</div>
-				<div class = "demo-alignment">
-                    <h5>Nombre del niño:</h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
-                </div>
-                <div class = "demo-alignment">
-                    <h5>Código:</h5><h5>{{codigo}}</h5>
-                </div>
-                <br>
-
-				<vx-card>
+				<br>
+				<vx-card :title="titulo()" class="mb-base">
+					<chartjs-component-line-chart :height="125" v-if="ya" :data="datos" :options="opciones"></chartjs-component-line-chart>
+				<vs-divider></vs-divider>
+				<!--
+				<chartjs-line-chart :height="250" :data="datos" :options="optiones" ></chartjs-line-chart>
+				-->
 					<vs-table stripe max-items="5" :data="arrayData">
 
 						<template slot="thead">
@@ -36,7 +25,7 @@
 						<template>
 							<vs-tr v-for="historialPpi in arrayData" :key="historialPpi.id">
 								<vs-td>
-									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
+									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/ppi/'+historialPpi.id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
 								</vs-td>							
 								<vs-td v-text="getDate(historialPpi.created_at)" ></vs-td>
 								<vs-td v-text="historialPpi.ppi.total" ></vs-td>
@@ -53,6 +42,9 @@
 						<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
 					</div>
 				</vx-card>
+				<div class="vx-col md:w-1/2 w-full mt-5">
+  <router-link to="/apadrinamiento/nino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+    </div>
 			</div>
 </template>
 
@@ -64,31 +56,37 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
+import ChartjsComponentLineChart from '@/views/charts-and-maps/charts/chartjs/charts-components/ChartjsComponentLineChart.vue'
+import { Line } from 'vue-chartjs'
 import axios from 'axios'
 
 export default {
+  extends: Line,
   data () {
     return {
-      //Aqui van a guardar todas su variables.
-      rols: [],
-       pagination : {
-        'total' : 0,
-          'current_page' : 0,
-          'per_page' : 0,
-          'last_page' : 0,
-          'from' : 0,
-          'to' : 0
-      },
-      offset : 3,
-      search : '',
-      arrayData: [],
-      codigo: '',
-      id_recibido: 0,
-      nombre: '',
-      apellido: '',
-	  switch2:false,
-	  id: 0,
-	  estado: null,
+		rols: [],
+		pagination : {
+			'total' : 0,
+			'current_page' : 0,
+			'per_page' : 0,
+			'last_page' : 0,
+			'from' : 0,
+			'to' : 0
+		},
+		offset : 3,
+		search : '',
+		arrayData: [],
+		codigo: '',
+		id_recibido: 0,
+		id_ppi: 0,
+		nombre: '',
+		apellido: '',
+		switch2:false,
+		id: 0,
+		estado: null,
+		ya:false,
+		datos:{},
+		opciones:{}
     }
   },
   components: {
@@ -96,10 +94,55 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    
+	ChartjsComponentLineChart,
   },
   methods: {
-	  getDate(datetime) {
+	titulo(){
+		return 'Nombre: '+this.nombre +' '+ this.apellido + "     "+ ' Codigo: ' +this.codigo
+	},
+	traerNombre(tabla){
+		console.log('Datos de los ninos')
+		tabla.forEach(function(valor, indice, array){
+			valor.nombres=valor.datos.nombres
+		}); 
+		console.log(tabla)
+		return tabla
+	},
+	traerData(arreglo){
+		let valores =[]
+		let fechas =[]
+		if (arreglo !== undefined)
+		{
+			arreglo.forEach(function(valor, indice, array){
+				if (valor.estado ==1){
+					valores.push(valor.ppi.total)
+					fechas.push(valor.fecha_estudio)
+				}
+			});
+		}
+		let data =  {
+	        labels: fechas,
+    	    datasets: [
+				{
+					data: valores,
+					label: 'Registros',
+					borderColor: '#7367F0',
+					fill: false
+				}
+			]
+		}
+		return data
+	},
+	traerOptions(arreglo){
+		let options={
+			title: {
+				display: true,
+				text: 'Registro de Avance de PPI'
+			}
+		}
+		return options
+	},
+	getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
@@ -115,12 +158,15 @@ export default {
             me.nombre = respuesta.historialPpis.data[0].datos_nino[0].nombres;
             me.apellido = respuesta.historialPpis.data[0].datos_nino[0].apellidos;
             me.codigo = respuesta.historialPpis.data[0].nino.codigo;
-            me.id = respuesta.historialPpis.data[0].datos_nino[0].id;
+			me.id = respuesta.historialPpis.data[0].datos_nino[0].id;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
+		me.datos = me.traerData(me.arrayData);
+		me.opciones = me.traerOptions(me.arrayData)
+		me.ya=true;
     },
 	abrirDialog(id, estado){
 
@@ -184,10 +230,10 @@ export default {
           text:'La acción se realizo exitósamente'
         })
 	},
-  },
-  mounted(){
-    this.index(1, this.search);
-  }
+	},
+	mounted(){
+		this.index(1, this.search);
+	}
 }
 </script>
 

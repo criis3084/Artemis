@@ -68,6 +68,9 @@
 
 
                 </vx-card>
+                <div class="vx-col md:w-1/2 w-full mt-5">
+  <router-link to="/apadrinamiento/nino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+    </div>
             </div>
 </template>
 

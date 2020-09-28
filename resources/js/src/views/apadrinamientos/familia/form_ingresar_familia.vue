@@ -50,6 +50,12 @@
 				</div>
 			</div>
 
+			<div class="vx-col md:w-1/2 w-full mt-6">
+				<div class="vx-col w-full">
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Parentesco con el niño apadrinado" v-model="relacion"/>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </template>
@@ -104,7 +110,8 @@ export default {
       fecha_nacimiento: "",
 	  telefono: "",
 	  sector_id:"",
-      correo: "",
+	  correo: "",
+	  relacion:"",
 	  sectores:[],
 	  langEn: es,
     }
@@ -148,7 +155,47 @@ export default {
           }
         })
       })
-    }
+	},
+	ingresarFamilia(){
+		axios.post("/api/encargado/post/",{
+			nombres:this.nombresT,
+			apellidos:this.apellidosT,
+			CUI:this.CUI,
+			numero_telefono:this.numero_telefono,
+			genero:this.generoT,
+			fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
+			sector_id:this.sector_idT.id,
+			direccion:this.direccionT,
+			ruta_imagen:this.ruta_imagenT,
+		}).then(function(response) {
+			console.log(response)
+		})
+		.catch(function(error) {
+			console.log(error)
+		});
+		axios.post("/api/relacion/post/",{
+			relacion:this.relacion,
+			direccion:this.direccion,
+			codigo:this.codigo,
+			nino_id:this.nino_id,
+			sector_id:this.sector_id,
+			encargado_id:this.encargado_id,
+		}).then(function(response) {
+			console.log(response)
+		})
+		.catch(function(error) {
+			console.log(error)
+		});
+		/*
+			this.$emit('cerrado','Se cerró el formulario');
+			this.$vs.notify({
+			color:'success',
+			title:`${this.titulo}`,
+			text:'La acción se realizo exitósamente'
+			});
+			this.$router.push('/apadrinamiento/nino');
+		*/
+	},
   },
   components: {
     FormWizard,

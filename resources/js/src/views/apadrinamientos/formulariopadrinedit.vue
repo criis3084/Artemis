@@ -269,7 +269,6 @@ export default {
 	mounted(){
     this.importarSectores();
     this.index(1, this.search);
-    this.importarSectores();
   },
   
 }
