@@ -14,28 +14,30 @@ class AldeaController extends Controller
 		#if (!$request->ajax()) return redirect('/');
 
 		$buscar = $request->buscar;
-		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		$completo = (isset($request->completo)) ? $request->completo : 'false';
 
 		if ($completo == 'false')
 		{
+			$count = Aldea::where('estado',1)->count();
 			if ($buscar==''){
-				$aldea = Aldea::orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$aldea = Aldea::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$aldea = Aldea::where('estado',1)->where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
+			$count = Aldea::all()->count();
 			if ($buscar==''){
-				$aldea = Aldea::orderBy('id', 'desc')->paginate(20);
+				$aldea = Aldea::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if($completo == 'select')
 		{
 			$count = Aldea::where('estado', 1)->count();
-			$sector = Aldea::orderBy('id', 'desc')->where('estado',1)->paginate($count+1);
+			$aldea = Aldea::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 		}
         return [
             'pagination' => [

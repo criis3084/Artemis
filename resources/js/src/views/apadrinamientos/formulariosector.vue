@@ -1,37 +1,35 @@
 <template>
- <div>
+	<div>
 		<div class="demo-alignment">
-			<h2>Sectores</h2>
-			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
+				<h2>Sectores</h2>
+				<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-plus" @click="abrirPrompt = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
-	<br>
+		<br>
 
-    <vs-prompt
-      @cancel="clearValMultiple"
-      @accept="acceptAlert"
-      @close="close"
-	  accept-text="Aceptar"
-	  cancel-text="Cancelar"
-      :is-valid="validName"
-	  :title= "titulo"
-      :active.sync="activePrompt2">
-      <div class="con-exemple-prompt">
-        <b></b>
-			
-		<vs-input placeholder="Nombre del sector" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+		<vs-prompt
+			@cancel="clearValMultiple"
+			@accept="guardarSector"
+			@close="close"
+			accept-text="Aceptar"
+			cancel-text="Cancelar"
+			:is-valid="validName"
+			:title= "titulo"
+			:active.sync="abrirPrompt"
+		>
+			<div class="con-exemple-prompt">
+				<b></b>				
+				<vs-input placeholder="Nombre del sector" v-model="sector" class="mt-4 mb-2 col-1 w-full" />
 
-		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
-			LLene todos los campos
-		</vs-alert>
-      </div>
+				<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
+					LLene todos los campos
+				</vs-alert>
+			</div>
 
-		<template>
-		<v-select label="nombre" :options="aldeasT" v-model="valMultipe.value2" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-		</template> 
-	</vs-prompt>
-
-
-	  </div>
+			<template>
+				<v-select label="nombre" :options="listado_aldeas" v-model="aldea_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+			</template> 
+		</vs-prompt>
+	</div>
 </template>
 
 <script>
@@ -49,49 +47,32 @@ export default {
   },
   data () {
 	return {
-	  activePrompt2:false,
-	  val:'',
-	  valMultipe:{
-		value1:'',
-		value2:''
-	  },
-	 aldeasT: [],
-	 selected: '',
-	  switch2:true,
-	  titulo:'Nuevo Sector'
+		abrirPrompt:false,
+		sector:'',
+		aldea_id:0,
+		listado_aldeas: [],
+		selected: '',
+		titulo:'Nuevo Sector'
 	}
   },
   computed:{
 	validName () {
-	  return this.valMultipe.value1.length >0
+	  return this.sector.length >0
 	}
   },
   methods:{
-	async index2(page, search){ //async para que se llame cada vez que se necesite
+	async importar_aldeas(){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/aldea/get?page=${page}&buscar=${this.valMultipe.value2}&todos='true'`)
+			`/api/aldea/get?todos=false`)
 		.then(function (response) {
 			var respuesta= response.data;
-			me.aldeasT = respuesta.aldeas.data;
+			me.listado_aldeas = respuesta.aldeas.data;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
-	},
-	acceptAlert () {
-	console.log(this.valMultipe.value2.id);
-	axios.post("/api/sector/post/",{
-		nombre:this.valMultipe.value1,
-		aldea_id:this.valMultipe.value2.id
-	}).then(function(response) {
-			console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-		});
-	this.$emit('cerrado','Se cerro el formulario');
 	},
 	close () {
 	  this.$vs.notify({
@@ -101,34 +82,25 @@ export default {
 	  })
 	this.$emit('cerrado','Se cerro el formulario');
 	},
-	clearValMultiple () {
-	  this.valMultipe.value1 = ''
-	  this.valMultipe.value2 = ''
-	  this.valMultipe.value3 = ''
-	  this.valMultipe.value4 = ''
-	  this.valMultipe.value5 = ''
-	  this.fechaN = ''
+	clearValMultiple() {
+	  this.sector = ''
 	  this.$emit('cerrado','Se cerro el formulario');
 	},
-	saveProduct(){
+	guardarSector(){
 	axios.post("/api/sector/post/",{
-		nombre:this.valMultipe.value1,
-		aldea_id:this.valMultipe.value2
+		nombre:this.sector,
+		aldea_id:this.aldea_id.id
 	}).then(function(response) {
 			console.log(response)
 		})
 		.catch(function(error) {
-		console.log(error)
+			console.log(error)
 		});
+	this.$emit('cerrado','Se cerro el formulario');
 	},
-	mostrar(id){
-		console.log($id);
-	}
-
   },
   mounted(){
-    this.index2(1, this.search);
+    this.importar_aldeas();
   }
-
 }
 </script>

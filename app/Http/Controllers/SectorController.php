@@ -17,25 +17,27 @@ class SectorController extends Controller
 
 		if ($completo == 'false')
 		{
+			$count = Sector::where('estado',1)->count();
 			if ($buscar==''){
-				$sector = Sector::with('aldea')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$sector = Sector::with('aldea')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$sector = Sector::with('aldea')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$sector = Sector::with('aldea')->where('estado',1)->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if ($completo == 'true'){
+			$count = Sector::all()->count();
 			if ($buscar==''){
-				$sector = Sector::with('aldea')->orderBy('id', 'desc')->paginate(20);
+				$sector = Sector::with('aldea')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$sector = Sector::with('aldea')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$sector = Sector::with('aldea')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if($completo == 'select')
 		{
 			$count = Sector::where('estado', 1)->count();
-			$sector = Sector::orderBy('id', 'desc')->where('estado',1)->paginate($count+1);
+			$sector = Sector::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 		}
         return [
             'pagination' => [
