@@ -13,7 +13,7 @@
 				<!--
 				<chartjs-line-chart :height="250" :data="datos" :options="optiones" ></chartjs-line-chart>
 				-->
-					<vs-table stripe max-items="5" :data="arrayData">
+					<vs-table pagination max-items="2" search :data="arrayData">
 
 						<template slot="thead">
 							<vs-th>Ver</vs-th>
@@ -22,15 +22,15 @@
 							<vs-th>Estado</vs-th>
 						</template>
 
-						<template>
-							<vs-tr v-for="historialPpi in arrayData" :key="historialPpi.id">
+						<template slot-scope="{data}">
+							<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
 								<vs-td>
-									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/ppi/'+historialPpi.id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
-								</vs-td>							
-								<vs-td v-text="getDate(historialPpi.created_at)" ></vs-td>
-								<vs-td v-text="historialPpi.ppi.total" ></vs-td>
+									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/ppi/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
+								</vs-td > 							
+								<vs-td >{{getDate(data[indextr].created_at)}}</vs-td>
+								<vs-td>{{data[indextr].ppi.total}}</vs-td>
 								<vs-td>
-									<vs-switch color="success" v-model="historialPpi.estado" @click="abrirDialog(historialPpi.id, historialPpi.estado)">
+									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 										<span slot="on" >Activo</span>
 										<span slot="off">Desactivo</span>
 									</vs-switch>
@@ -38,14 +38,11 @@
 							</vs-tr>
 						</template>
 					</vs-table>
-					<div>
-						<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
-					</div>
 				</vx-card>
 				<div class="vx-col md:w-1/2 w-full mt-5">
   <router-link to="/apadrinamiento/nino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
     </div>
-			</div>
+</div>
 </template>
 
 <script>
@@ -202,7 +199,8 @@ export default {
 		
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
-			axios.put('/api/historialPpi/activar', {
+			console.log(this.id)
+			axios.put('/api/historialPpi/activar/', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -214,7 +212,8 @@ export default {
 		}
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
-			axios.put('/api/historialPpi/desactivar', {
+			console.log(this.id)
+			axios.put('/api/historialPpi/desactivar/', {
 				id: this.id
 			})
 			.then(function (response) {

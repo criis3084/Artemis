@@ -86,7 +86,7 @@ class HistorialPpiController extends Controller
     {
         #if(!$request->ajax())return redirect('/');
         $historialPpi = HistorialPpi::findOrFail($request->id);
-        $historialPpi->estado = '0';
+        $historialPpi->estado = '1';
         $historialPpi->save();
 		return Response::json(['message' => 'Relacion Desactivada'], 200);
 	}
