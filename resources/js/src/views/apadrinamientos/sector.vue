@@ -1,7 +1,7 @@
 
 <template>
  <vx-card>
-   <formulariosector v-on:cerrado="index(pagination.current_page, search);"></formulariosector>
+   <formulariosector v-on:cerrado="index();"></formulariosector>
 	 <vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -55,7 +55,7 @@
 			v-bind:id="id"
 			v-bind:nombre="nombre"
 			v-bind:aldea_id="aldea_id"
-			v-on:cerrado="index(1,'');"
+			v-on:cerrado="index();"
 		></sectorEdit>
    
 </vx-card>
@@ -78,33 +78,31 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      //Aqui van a guardar todas su variables.
-      search : '',
-      arrayData: [],
-      nombre: '',
-	  switch2:false,
-	  id: 0,
-	  aldea_id:0,
-	  nombre:'',
-	  estado: null,
-	  abrir_editar:false,
-	  fileName: '',
-      formats:['xlsx', 'csv', 'txt'],
-      cellAutoWidth: true,
-	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'nombre', 'aldea_nombre','estado'],
-	  headerTitle: ['Id', 'Nombre', 'Aldea', 'Estado'],
-    activePrompt: false,
-    'selected': [],
-    'tableList': [
-        'vs-th: Component',
-        'vs-tr: Component',
-        'vs-td: Component',
-        'thread: Slot',
-        'tbody: Slot',
-        'header: Slot'
-      ]
-    }
+		//Aqui van a guardar todas su variables.
+		search : '',
+		arrayData: [],
+		id: 0,
+		aldea_id:0,
+		nombre:'',
+		estado: null,
+		abrir_editar:false,
+		fileName: '',
+		formats:['xlsx', 'csv', 'txt'],
+		cellAutoWidth: true,
+		selectedFormat: 'xlsx',
+		headerVal: ['id', 'nombre', 'aldea_nombre','estado'],
+		headerTitle: ['Id', 'Nombre', 'Aldea', 'Estado'],
+		activePrompt: false,
+		'selected': [],
+		'tableList': [
+			'vs-th: Component',
+			'vs-tr: Component',
+			'vs-td: Component',
+			'thread: Slot',
+			'tbody: Slot',
+			'header: Slot'
+		]
+	}
   },
   components: {
     VueApexCharts,
@@ -123,8 +121,6 @@ export default {
 		return tabla
 	},
 	cambiar(sector){
-		  console.log("Entra Aca?");
-		  console.log(sector);
 		  this.id = sector.id;
 		  this.nombre = sector.nombre;
 		  this.aldea_id = sector.aldea_id;
@@ -200,15 +196,13 @@ export default {
         title:`${titulo}`,
         text:`${titulo}`
 	  })
-	this.index(this.pagination.current_page, this.search);
+	this.index();
     },
-	async index(page, search){ //async para que se llame cada vez que se necesite
+	async index(){
 		let me = this;
 		this.abrir_editar=false
-		const response = await axios.get(
-			`/api/sector/get?page=${page}&search=${search}&completo=true`)
+		const response = await axios.get(`/api/sector/get?completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
 			me.arrayData = respuesta.sectores.data;
 			me.arrayData = me.traerNombre(me.arrayData)
@@ -218,7 +212,6 @@ export default {
 			console.log(error);
 		});
   },
-
 	exportToExcel () {
       import('@/vendor/Export2Excel').then(excel => {
 		const list = this.arrayData
@@ -254,7 +247,7 @@ export default {
   
   },
   mounted(){
-    this.index(1, this.search);
+    this.index();
   }
 }
 </script>

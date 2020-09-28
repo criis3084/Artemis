@@ -15,22 +15,24 @@ class EscuelaController extends Controller
 		// Filtro por un criterio y estado
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		$completo = (isset($request->completo)) ? $request->completo :'false';
 		
 		if ($completo == 'false')
 		{
+			$count = Escuela::where('estado',1)->count();
 			if ($buscar==''){
-				$escuela = Escuela::orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$escuela = Escuela::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$escuela = Escuela::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$escuela = Escuela::where('estado',1)->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
+			$count = Escuela::all()->count();
 			if ($buscar==''){
-				$escuela = Escuela::orderBy('id', 'desc')->paginate(20);
+				$escuela = Escuela::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$escuela = Escuela::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$escuela = Escuela::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if($completo == 'select')
