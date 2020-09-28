@@ -88,7 +88,7 @@ class HistorialPpiController extends Controller
         $historialPpi = HistorialPpi::findOrFail($request->id);
         $historialPpi->estado = '1';
         $historialPpi->save();
-		return Response::json(['message' => 'Relacion Desactivada'], 200);
+		return Response::json(['message' => 'PPI Activado'], 200);
 	}
 	public function desactivar(Request $request)
     {
@@ -96,7 +96,7 @@ class HistorialPpiController extends Controller
         $historialPpi = HistorialPpi::findOrFail($request->id);
         $historialPpi->estado = '0';
         $historialPpi->save();
-		return Response::json(['message' => 'Relacion Desactivada'], 200);
+		return Response::json(['message' => 'PPI Desactivado'], 200);
 	}
 
 }

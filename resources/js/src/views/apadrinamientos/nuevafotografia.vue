@@ -9,7 +9,7 @@
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload action="https://jsonplaceholder.typicode.com/posts/" @on-success="successUpload" />
+						<vs-upload :action="hola(this)" id='laImagen' v-on:change="aVeer(this)" limit='1' text="Imagen de Perfil" />
 					</template>
 				</div>
 			</div>
@@ -65,6 +65,13 @@ export default {
 	}
   },
   methods:{
+	  hola(ob){
+			//localStorage.imagen = 'guardada';
+			console.log(ob)
+	  },
+	  aVeer(ob){
+		  console.log(ob)
+	  },
       successUpload(){
       this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
     },
@@ -90,5 +97,11 @@ export default {
   mounted(){
     this.index(1, this.search);
   },
+  computed:{
+	  obtenerNombre(){
+		  console.log('?? - '+document.getElementById("laImagen"));
+		  return true
+	  }
+  }
 }
 </script>

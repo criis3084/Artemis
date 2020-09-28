@@ -33,8 +33,8 @@
                         {{data[indextr].nombre}}
                     </vs-td>
 
-                    <vs-td :data="data[indextr].aldea.nombre">
-                        {{data[indextr].aldea.nombre}}
+                    <vs-td :data="data[indextr].aldea_nombre">
+                        {{data[indextr].aldea_nombre}}
                     </vs-td>
 
                     <vs-td :data="data[indextr].estado">
@@ -92,7 +92,7 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'nombre', 'nombre.aldea','estado'],
+	  headerVal: ['id', 'nombre', 'aldea_nombre','estado'],
 	  headerTitle: ['Id', 'Nombre', 'Aldea', 'Estado'],
     activePrompt: false,
     'selected': [],
@@ -116,15 +116,21 @@ export default {
 	sectorEdit    
   },
   methods: {
-		cambiar(sector){
+	traerNombre(tabla){
+		tabla.forEach(function(valor, indice, array){
+			valor.aldea_nombre=valor.aldea.nombre
+		}); 
+		return tabla
+	},
+	cambiar(sector){
 		  console.log("Entra Aca?");
 		  console.log(sector);
 		  this.id = sector.id;
 		  this.nombre = sector.nombre;
 		  this.aldea_id = sector.aldea_id;
 		  this.abrir_editar = true;
-	  },
-	  getDate(datetime) {
+	},
+	getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
@@ -205,6 +211,7 @@ export default {
 			console.log(page)
 			var respuesta= response.data;
 			me.arrayData = respuesta.sectores.data;
+			me.arrayData = me.traerNombre(me.arrayData)
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {

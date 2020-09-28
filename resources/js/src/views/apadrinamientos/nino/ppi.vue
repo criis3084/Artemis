@@ -166,10 +166,8 @@ export default {
 		me.ya=true;
     },
 	abrirDialog(id, estado){
-
 		let titulo = '';
 		let color = '';
-
 		if(estado === 0 || estado === false){
 			// cambiar de color al boton
 			color = 'success'
@@ -180,23 +178,22 @@ export default {
 			color = 'danger'
 			titulo = 'Confirmar desactivación'
 		}
-		
+
 		this.id = id
 		this.estado = estado
-
 		this.$vs.dialog({
 			type:'confirm',
 			color: `${color}`,
 			title: `${titulo}`,
 			text: '¿Está seguro de llevar a cabo esta acción?',
-			accept: this.cambiarEstado
+			accept: this.cambiarEstado,
+			cancel: this.close
 		})
 
-		this.index(this.pagination.current_page, this.search);
 	},
 	cambiarEstado(color){
 		let titulo = ''
-		
+
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
 			console.log(this.id)
@@ -227,8 +224,19 @@ export default {
           color:'success',
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
-        })
+		})
+
 	},
+	close(){
+		let titulo = "Cancelado"
+		let texto = "Cambio de estado cancelado"
+		this.$vs.notify({
+			color:'danger',
+			title:`${titulo}`,
+			text:`${titulo}`
+		})
+		this.index(this.pagination.current_page, this.search);
+	}
 	},
 	mounted(){
 		this.index(1, this.search);
