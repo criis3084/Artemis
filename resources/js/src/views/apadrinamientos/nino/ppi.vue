@@ -225,7 +225,7 @@ export default {
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
 		})
-
+		location.reload();
 	},
 	close(){
 		let titulo = "Cancelado"
