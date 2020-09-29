@@ -1,28 +1,25 @@
 <template>
- <div>
-
-    <vs-prompt
-      @cancel="clearValMultiple"
-      @accept="acceptAlert"
-      @close="close"
-	  accept-text="Aceptar"
-	  cancel-text="Cancelar"
-      :is-valid="copia"
-	  :title= "titulo"
-      :active.sync="identificador">
-      <div class="con-exemple-prompt">
-        <b></b>
-			
-		<vs-input placeholder="Nombre de la escuela" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
-        <vs-input placeholder="Dirección" v-model="direccionT" class="mt-4 mb-2 col-1 w-full" />
-		<vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
-			LLene todos los campos
-		</vs-alert>
-      </div>
-	</vs-prompt>
-
-
-	  </div>
+	<div>
+		<vs-prompt
+			@cancel="clearValMultiple"
+			@accept="actualizarEscuela"
+			@close="close"
+			accept-text="Aceptar"
+			cancel-text="Cancelar"
+			:is-valid="copia"
+			:title= "titulo"
+			:active.sync="identificador"
+		>
+			<div class="con-exemple-prompt">
+				<b></b>
+				<vs-input placeholder="Nombre de la escuela" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
+				<vs-input placeholder="Dirección" v-model="direccionT" class="mt-4 mb-2 col-1 w-full" />
+				<vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
+					LLene todos los campos
+				</vs-alert>
+			</div>
+		</vs-prompt>
+	</div>
 </template>
 
 <script>
@@ -62,9 +59,6 @@ export default {
 	}
   },
   computed:{
-	validName(){
-		return true;
-	},
 	copia() {
         this.nombreT =this.$props.nombre;
         this.direccionT =this.$props.direccion;
@@ -73,35 +67,29 @@ export default {
 	}
   },
   methods:{
-	acceptAlert () {
+	actualizarEscuela () {
 	axios.put("/api/escuela/update/",{
 		id:this.idT,
         nombre:this.nombreT,
         direccion:this.direccionT,
-	}).then(function(response) {
+		}).then(function(response) {
 			console.log(response)
 		})
 		.catch(function(error) {
-		console.log(error)
+			console.log(error)
 		});
-	this.$emit('cerrado','Se cerró el formulario');
+		this.$emit('cerrado','Se cerró el formulario');
 	},
 	close () {
-	this.$emit('cerrado','Se cerró el formulario');
-	  this.$vs.notify({
-		color:'danger',
-		title:'Closed',
-		text:'You close a dialog!'
-	  })
+		this.$emit('cerrado','Se cerró el formulario');
+		this.$vs.notify({
+			color:'danger',
+			title:'Closed',
+			text:'You close a dialog!'
+	  	})
 	},
 	clearValMultiple () {
-	this.$emit('cerrado','Se cerró el formulario');
-	  this.valMultipe.value1 = ''
-	  this.valMultipe.value2 = ''
-	  this.valMultipe.value3 = ''
-	  this.valMultipe.value4 = ''
-	  this.valMultipe.value5 = ''
-	  this.fechaN = ''
+		this.$emit('cerrado','Se cerró el formulario');
 	},
   },
   mounted(){

@@ -94,9 +94,8 @@ export default {
     validName() {
       return true;
     },
-    	copia() {
-            console.log("dsfs");
-            this.idT =this.$props.id;
+	copia() {
+		this.idT =this.$props.id;
         this.valMultipe.value1 =this.$props.nombre;
         this.valMultipe.fecha =this.$props.fecha;
         this.valMultipe.value3 =this.$props.nino_id;
@@ -109,13 +108,11 @@ export default {
   },
   methods: {
 	  traerNombre(tabla){
-		console.log('Datos de los ninos')
 		tabla.forEach(function(valor, indice, array){
 			valor.nombres=valor.datos.nombres
 		}); 
-		console.log(tabla)
 		return tabla
-	  },
+	},
     async index2(page, search) {
       //async para que se llame cada vez que se necesite
       let me = this;
@@ -223,9 +220,6 @@ acceptAlert () {
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
       },
-    mostrar(id) {
-      console.log($id);
-    },
   },
   mounted() {
 

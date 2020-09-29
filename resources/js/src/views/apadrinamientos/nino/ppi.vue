@@ -13,7 +13,7 @@
 				<!--
 				<chartjs-line-chart :height="250" :data="datos" :options="optiones" ></chartjs-line-chart>
 				-->
-					<vs-table pagination max-items="2" search :data="arrayData">
+					<vs-table pagination max-items="5" search :data="arrayData">
 
 						<template slot="thead">
 							<vs-th>Ver</vs-th>
@@ -27,7 +27,7 @@
 								<vs-td>
 									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/ppi/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
 								</vs-td > 							
-								<vs-td >{{getDate(data[indextr].created_at)}}</vs-td>
+								<vs-td >{{data[indextr].fecha_estudio}}</vs-td>
 								<vs-td>{{data[indextr].ppi.total}}</vs-td>
 								<vs-td>
 									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
@@ -98,7 +98,6 @@ export default {
 		return 'Nombre: '+this.nombre +' '+ this.apellido + "     "+ ' Codigo: ' +this.codigo
 	},
 	traerNombre(tabla){
-		console.log('Datos de los ninos')
 		tabla.forEach(function(valor, indice, array){
 			valor.nombres=valor.datos.nombres
 		}); 
@@ -112,8 +111,8 @@ export default {
 		{
 			arreglo.forEach(function(valor, indice, array){
 				if (valor.estado ==1){
-					valores.push(valor.ppi.total)
-					fechas.push(valor.fecha_estudio)
+					valores.unshift(valor.ppi.total)
+					fechas.unshift(valor.fecha_estudio)
 				}
 			});
 		}

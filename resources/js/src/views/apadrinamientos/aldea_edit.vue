@@ -1,9 +1,8 @@
 <template>
  <div>
-
     <vs-prompt
       @cancel="clearValMultiple"
-      @accept="acceptAlert"
+      @accept="actualizarAldea"
       @close="close"
 	  accept-text="Aceptar"
 	  cancel-text="Cancelar"
@@ -44,63 +43,53 @@ export default {
 	Dropdown,
 	Datepicker,
 	vSelect,
-  },
-  data () {
-	return {
-	  val:'',
-	  valMultipe:{
-		value1:'',
-		value2:''
-	  },
-	  idT:0,
-	  nombreT:'',
-	  selected: '',
-	  switch2:true,
-	  titulo:'Actualizar aldea'
+	},
+	data () {
+		return {
+			idT:0,
+			nombreT:'',
+			titulo:'Actualizar aldea'
+		}
+	},
+	computed:{
+		validName(){
+			return true;
+		},
+		copia() {
+			this.nombreT =this.$props.nombre;
+			this.idT =this.$props.id;
+			return true;	
+		}
+	},
+	methods:{
+		actualizarAldea () {
+			axios.put("/api/aldea/update/",{
+				id:this.idT,
+				nombre:this.nombreT,
+			}).then(function(response) {
+				console.log(response)
+			})
+			.catch(function(error) {
+				console.log(error)
+			});
+			this.$vs.notify({
+				color:'success',
+				title:'Creado',
+				text:'El registro ha sido actualizado'
+			})
+			this.$emit('cerrado','Se cerró el formulario');
+		},
+		close () {
+			this.$emit('cerrado','Se cerró el formulario');
+			this.$vs.notify({
+				color:'danger',
+				title:'Closed',
+				text:'You close a dialog!'
+			})
+		},
+		clearValMultiple () {
+			this.$emit('cerrado','Se cerró el formulario');
+		},
 	}
-  },
-  computed:{
-	validName(){
-		return true;
-	},
-	copia() {
-		this.nombreT =this.$props.nombre;
-		this.idT =this.$props.id;
-		return true;	
-	}
-  },
-  methods:{
-	acceptAlert () {
-	axios.put("/api/aldea/update/",{
-		id:this.idT,
-		nombre:this.nombreT,
-	}).then(function(response) {
-			console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-		});
-	this.$emit('cerrado','Se cerró el formulario');
-	},
-	close () {
-	this.$emit('cerrado','Se cerró el formulario');
-	  this.$vs.notify({
-		color:'danger',
-		title:'Closed',
-		text:'You close a dialog!'
-	  })
-	},
-	clearValMultiple () {
-	this.$emit('cerrado','Se cerró el formulario');
-	  this.valMultipe.value1 = ''
-	  this.valMultipe.value2 = ''
-	  this.valMultipe.value3 = ''
-	  this.valMultipe.value4 = ''
-	  this.valMultipe.value5 = ''
-	  this.fechaN = ''
-	},
-  },
-  mounted(){
-  },
 }
 </script>

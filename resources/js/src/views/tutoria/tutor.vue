@@ -6,14 +6,14 @@
 						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
 					</div>
 					<br>
-			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
         <div class="flex">
           <span class="mr-4">Ancho automatico de celda:</span>
           <vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
         </div>
-          </vs-prompt>
+			</vs-prompt>
 
 			<vs-table title="Tutores" pagination max-items="5" search :data="arrayData">
 	   <template slot="header">
@@ -51,11 +51,20 @@
 							<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/tutor/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
 						</vs-td>
                         <vs-td>
-							<vx-tooltip text="Listado de alumnos"> <vs-button radius color="dark" type="flat" icon="list" size="large"> </vs-button>  </vx-tooltip>
+							<vx-tooltip text="Listado de tutorias"> <vs-button radius color="dark" type="flat" icon="list" size="large" @click="openAlert('success',data[indextr])"> </vs-button>  </vx-tooltip>
 						</vs-td>
 					</vs-tr>
 				</template>
 			</vs-table>
+
+				<vs-prompt
+					:buttons-hidden="true"
+					title="Listado de tutorias"
+					:active.sync="abrirListado">
+						<li v-for="(tutoria,index) in listadoTutorias" v-bind:key="index">
+							{{ tutoria }}
+						</li>
+				</vs-prompt>
 		</vx-card>
 	</div>
 </template>
@@ -91,7 +100,9 @@ export default {
 	  id: 0,
 	  estado: null,
 	  activePrompt: false,
+	  abrirListado: false,
 	  fileName: '',
+	  listadoTutorias:[],
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
@@ -107,10 +118,28 @@ export default {
     vSelect
   },
   methods: {
-	  muestra () {
-		  console.log('Se ha cerrado el dialog')
-	  },
-
+    openAlert(color,tutor){
+		this.listado(tutor)
+	},
+	//title: ` - ${this.colorAlert}`,
+	async listado(tutor) {
+		let me = this
+		let l_tutorias=[]
+			await axios.get(
+			`/api/tutor/get?criterio=id&buscar=${tutor.id}&completo=datosAnidados`)
+			.then(function (response) {
+				const respuesta = response.data
+				l_tutorias = respuesta.tutors.data[0].tutorias
+				me.listadoTutorias =[]
+				l_tutorias.forEach(function(valor, indice, array){
+					me.listadoTutorias.push(valor.nombre)
+				});
+				me.abrirListado=true;
+			})
+		.catch(function (error) {
+			console.log(error)
+		})		
+	},
     abrirDialog (id, estado) {
 
       let titulo = ''
@@ -171,21 +200,20 @@ export default {
       })
     },
     close () {
-      const titulo = 'Cancelado'
-      const texto = 'Cambio de estado cancelado'
-      this.$vs.notify({
-        color:'danger',
-        title:`${titulo}`,
-        text:`${titulo}`
-	  })
-      this.index(this.pagination.current_page, this.search)
+      	const titulo = 'Cancelado'
+      	const texto = 'Cambio de estado cancelado'
+		this.$vs.notify({
+			color:'danger',
+			title:`${titulo}`,
+			text:`${titulo}`
+		})
+		this.index()
     },
-    async index (page, search) { //async para que se llame cada vez que se necesite
+    async index () { //async para que se llame cada vez que se necesite
       const me = this
       const response = await axios.get(
-        `/api/tutor/get?page=${page}&search=${search}&completo=true`)
+        `/api/tutor/get?completo=true`)
         .then(function (response) {
-          console.log(page)
           const respuesta = response.data
 		  me.arrayData = respuesta.tutors.data
 		  me.tutor = me.traerNombre(me.arrayData)
@@ -197,17 +225,17 @@ export default {
     },
     aNuevo () {
 		 this.$router.push('/ingresar/tutor')
-	  },
-	  exportToExcel () {
-      import('@/vendor/Export2Excel').then(excel => {
-        const list = this.arrayData
+	},
+	exportToExcel () {
+		import('@/vendor/Export2Excel').then(excel => {
+		const list = this.arrayData
         const data = this.formatJson(this.headerVal, list)
         excel.export_json_to_excel({
-          header: this.headerTitle,
-          data,
-          filename: this.fileName,
-          autoWidth: this.cellAutoWidth,
-          bookType: this.selectedFormat
+			header: this.headerTitle,
+			data,
+			filename: this.fileName,
+			autoWidth: this.cellAutoWidth,
+			bookType: this.selectedFormat
         })
 
         this.clearFields()
@@ -231,20 +259,18 @@ export default {
       this.selectedFormat = 'xlsx'
 	},
 	traerNombre (tabla) {
-      console.log('Datos de tutores')
       tabla.forEach(function (valor, indice, array) {
 		  valor.nombres = valor.datos.nombres
 		  valor.apellidos = valor.datos.apellidos
 		  valor.numero_telefono = valor.datos.numero_telefono
       }) 
-      console.log(tabla)
 	  return tabla
 }
 	
 	  
   },
   mounted () {
-    this.index(1, this.search)
+    this.index()
   }
 }
 </script>

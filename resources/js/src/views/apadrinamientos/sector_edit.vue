@@ -59,7 +59,7 @@ export default {
 			titulo:'Actualizar Sector'
 		}
 	},
-  computed:{
+  	computed:{
 		validName(){
 			return true;
 		},
@@ -70,48 +70,46 @@ export default {
 			return true;	
 		}
 	},
-  methods:{
-	async importar_aldeas(){ 
-		let me = this;
-		const response = await axios.get(
-			`/api/aldea/get?todos=false`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.listado_aldeas = respuesta.aldeas.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
-	editarAldea () {
-		axios.put("/api/sector/update/",{
-			id:this.idT,
-			nombre:this.nombreT,
-			aldea_id:this.aldea_idT.id
-		}).then(function(response) {
-				console.log(response)
+	methods:{
+		async importar_aldeas(){ 
+			let me = this;
+			const response = await axios.get(
+				`/api/aldea/get?todos=false`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.listado_aldeas = respuesta.aldeas.data;
+				me.pagination= respuesta.pagination;
 			})
-			.catch(function(error) {
-			console.log(error)
+			.catch(function (error) {
+				console.log(error);
 			});
-		this.$emit('cerrado','Se cerró el formulario');
+		},
+		editarAldea () {
+			axios.put("/api/sector/update/",{
+				id:this.idT,
+				nombre:this.nombreT,
+				aldea_id:this.aldea_idT.id
+			}).then(function(response) {
+					console.log(response)
+				})
+				.catch(function(error) {
+				console.log(error)
+				});
+			this.$vs.notify({
+				color:'success',
+				title:'Creado',
+				text:'El registro ha sido actualizado'
+			})
+			this.$emit('cerrado','Se cerró el formulario');
+		},
+		close () {
+			this.nombreT='';
+			this.$emit('cerrado','Se cerró el formulario');
+
+		},
 	},
-	close () {
-		this.$emit('cerrado','Se cerró el formulario');
-		this.$vs.notify({
-			color:'danger',
-			title:'Closed',
-			text:'You close a dialog!'
-		})
-	},
-	clearValMultiple () {
-		this.nombreT='';
-		this.$emit('cerrado','Se cerró el formulario');
-	},
-  },
-  mounted(){
-    this.importar_aldeas();
-  },
+  	mounted(){
+    	this.importar_aldeas();
+  	},
 }
 </script>

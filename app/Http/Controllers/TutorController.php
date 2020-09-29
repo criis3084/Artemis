@@ -19,19 +19,24 @@ class TutorController extends Controller
 		
 		if ($completo == 'false')
 		{
+			$count = Tutor::where('estado',1)->count();
 			if ($buscar==''){
-				$tutor = Tutor::with('datos')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$tutor = Tutor::with('datos')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$tutor = Tutor::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$tutor = Tutor::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
+			$count = Tutor::all()->count();
 			if ($buscar==''){
-				$tutor = Tutor::with('datos')->orderBy('id', 'desc')->paginate(20);
+				$tutor = Tutor::with('datos')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$tutor = Tutor::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$tutor = Tutor::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(1);
 			}
+		}else if($completo == 'datosAnidados')
+		{
+			$tutor = Tutor::with('datos')->with('tutorias')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(1);
 		}
 		return [
 			'pagination' => [

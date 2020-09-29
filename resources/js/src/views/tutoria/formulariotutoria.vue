@@ -84,11 +84,9 @@ export default {
   },
   methods: {
 	  traerNombre(tabla){
-		console.log('Datos de los ninos')
 		tabla.forEach(function(valor, indice, array){
 			valor.nombres=valor.datos.nombres
 		}); 
-		console.log(tabla)
 		return tabla
 	  },
     async index2(page, search) {
@@ -123,7 +121,6 @@ export default {
         });
     },
     acceptAlert() {
-      console.log(this.valMultipe.value1);
       axios
         .post("/api/tutoria/post/", {
 		  nombre: this.valMultipe.value1,
@@ -179,9 +176,6 @@ export default {
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
       },
-    mostrar(id) {
-      console.log($id);
-    },
   },
   mounted() {
     this.index2(1, '');

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<vx-card>
-			<formularioaldea v-on:cerrado="index(pagination.current_page, search);"></formularioaldea>
+			<formularioaldea v-on:cerrado="index();"></formularioaldea>
 
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         		<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
@@ -76,7 +76,7 @@
 			v-bind:identificador="abrir_editar"
 			v-bind:id="id"
 			v-bind:nombre="nombre"
-			v-on:cerrado="index(1,'');"
+			v-on:cerrado="index();"
 			></aldeaEdit>
 
 		</vx-card>
@@ -143,8 +143,6 @@ export default {
   },
   methods: {
 	  cambiar(aldea){
-		  console.log("Entra Aca?");
-		  console.log(aldea);
 		  this.id = aldea.id;
 		  this.nombre = aldea.nombre;
 		  this.abrir_editar = true;
@@ -154,9 +152,6 @@ export default {
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
       },
-	  muestra(){
-		  console.log('Se ha cerrado el dialog')
-	  },
 	  abrirDialog(id, estado){
 
 		let titulo = '';
@@ -227,15 +222,14 @@ export default {
         title:`${titulo}`,
         text:`${titulo}`
 	  })
-	this.index(this.pagination.current_page, this.search);
+	this.index();
     },
 	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		this.abrir_editar=false
 		const response = await axios.get(
-			`/api/aldea/get?page=${page}&search=${search}&completo=true`)
+			`/api/aldea/get?completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
 			me.arrayData = respuesta.aldeas.data;
 			me.pagination= respuesta.pagination;
@@ -278,7 +272,7 @@ export default {
     }
   },
   mounted(){
-    this.index(1, this.search);
+    this.index();
   }
 }
 </script>

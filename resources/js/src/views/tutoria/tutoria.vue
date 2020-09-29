@@ -1,17 +1,15 @@
 <template>
   <div>
     <vx-card>
-      <formulariotutoria v-on:cerrado="index(pagination.current_page, search);"></formulariotutoria>
-    <vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
-     
-     
-     
+		<formulariotutoria v-on:cerrado="index(pagination.current_page, search);"></formulariotutoria>
+		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+   
      
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
         <div class="flex">
-          <span class="mr-4">Ancho automatico de celda:</span>
-          <vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
+			<span class="mr-4">Ancho automatico de celda:</span>
+			<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
         </div>
     </vs-prompt>
       <vs-table pagination max-items="10" search :data="arrayData">
@@ -133,11 +131,9 @@ export default {
   },
   methods: {
     traerNombre(tabla){
-		console.log('Datos de los ninos')
 		tabla.forEach(function(valor, indice, array){
 			valor.nombres=valor.datos.nombres
 		}); 
-		console.log(tabla)
 		return tabla
 	  },
     async index2(page, search) {
@@ -173,15 +169,13 @@ export default {
     },
 
     cambiar(tutoria){
-		  console.log("Entra Aca?");
-		  console.log(tutoria);
-		  this.id = tutoria.id;
-      this.nombre = tutoria.nombre;
-      this.fecha = tutoria.fecha;
-      this.nino_id = tutoria.nino_id;
-      this.tutor_id = tutoria.tutor_id;
-		  this.abrir_editar = true;
-    },
+		this.id = tutoria.id;
+		this.nombre = tutoria.nombre;
+		this.fecha = tutoria.fecha;
+		this.nino_id = tutoria.nino_id;
+		this.tutor_id = tutoria.tutor_id;
+		this.abrir_editar = true;
+	},
     getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -262,7 +256,6 @@ export default {
       const response = await axios
         .get(`/api/tutoria/get?completo=true`)
         .then(function(response) {
-          console.log(page);
           var respuesta = response.data;
           me.arrayData = respuesta.tutorias.data;
           me.pagination = respuesta.pagination;

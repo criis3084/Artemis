@@ -49,9 +49,9 @@
 								<vs-td>{{data[indextr].codigo}}</vs-td>
 								<vs-td>{{data[indextr].datos.nombres}}</vs-td>
 								<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
-								<vs-td>{{data[indextr].datos.genero== 0 ? 'Masculino' : 'Femenino'}}</vs-td>
+								<vs-td>{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}</vs-td>
 								<vs-td>{{data[indextr].datos.fecha_nacimiento}}</vs-td>
-								<vs-td>{{data[indextr].datos.fecha_ingreso}}</vs-td>
+								<vs-td>{{data[indextr].fecha_ingreso}}</vs-td>
 								<vs-td :data="data[indextr].estado">
                         			<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 				                  		<span slot="on" >Activo</span>
@@ -251,6 +251,7 @@ export default {
 			var respuesta= response.data;
 			me.arrayData = respuesta.ninos.data;
 			me.pagination= respuesta.pagination;
+			console.log(me.arrayData);
 		})
 		.catch(function (error) {
 			console.log(error);
