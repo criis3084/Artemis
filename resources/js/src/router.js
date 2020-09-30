@@ -223,6 +223,50 @@ const router = new Router({
           }
         },
         // =============================================================================
+        // MICROPRESTAMO
+        // =============================================================================
+        {
+          path:'/microprestamo/abono',
+          name: 'microprestamo-abono',
+          component: () => import('./views/Microprestamos/Abono_prestamo/abonoPrestamo.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path: '/microprestamo/destino',
+          name: 'microprestamo-destino',
+          component: () => import('./views/Microprestamos/Destino_inversion/destinoInversion.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {			
+          path: '/microprestamo/integrante',
+          name: 'microprestamo-integrante',
+          component: () => import('./views/Microprestamos/Detalle_integrante/detalleIntegrante.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        
+        {
+          path:'/microprestamo/grupo',
+          name: 'microprestamo-grupo',
+          component: () => import('./views/Microprestamos/Grupo_prestamo/grupoPrestamo.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path: '/microprestamo/microprestamo',
+          name: 'microprestamo-microprestamo',
+          component: () => import('./views/Microprestamos/Microprestamo/microprestamo.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        // =============================================================================
         // Datos Generales
         // =============================================================================
         
