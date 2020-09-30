@@ -9,7 +9,7 @@
 					<vs-th>Ver</vs-th>
 					<vs-th>Codigo</vs-th>
 					<vs-th>Nombres</vs-th>
-					<vs-th>Apelidos</vs-th>
+					<vs-th>Apellidos</vs-th>
 					<vs-th>Genero</vs-th>
 					<vs-th>Fecha de Nacimiento</vs-th>
 					<vs-th>Fecha de Ingreso</vs-th>

@@ -48,7 +48,7 @@ export default {
 		return {
 			idT:0,
 			nombreT:'',
-			titulo:'Actualizar aldea'
+			titulo:'Actualizar Aldea'
 		}
 	},
 	computed:{
@@ -83,8 +83,8 @@ export default {
 			this.$emit('cerrado','Se cerró el formulario');
 			this.$vs.notify({
 				color:'danger',
-				title:'Closed',
-				text:'You close a dialog!'
+				title:'Cerrado',
+				text:'Diálogo cerrado!'
 			})
 		},
 		clearValMultiple () {

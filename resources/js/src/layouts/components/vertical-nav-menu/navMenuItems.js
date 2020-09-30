@@ -105,6 +105,82 @@ export default [
       },
     ]
   },
+   // =============================================================================
+  // MICROPRESTAMOS
+  // =============================================================================
+  {
+    url: null,
+    name: 'Microprestamo',
+    icon: 'DollarSignIcon',
+    i18n: 'Micropréstamos',
+    submenu: [
+      {
+        url: '/microprestamo/microprestamo',
+        name: 'microprestamo',
+        slug: 'microprestamo-microprestamo',
+        i18n: 'Micropréstamos'
+      },
+      {
+        url: '/microprestamo/abono',
+        name: 'abono',
+        slug: 'microprestamo-abono',
+        i18n: 'Abonos'
+      },
+      {
+        url: '/microprestamo/grupo',
+        name: 'grupo',
+        slug: 'microprestamo-grupo',
+        i18n: 'Grupos'
+      },
+      {
+        url: '/microprestamo/integrante',
+        name: 'integrante',
+        slug: 'microprestamo-integrante',
+        i18n: 'Integrantes'
+      },
+      {
+        url: '/microprestamo/destino',
+        name: 'destino',
+        slug: 'microprestamo-destino',
+        i18n: 'Destinos de inversión'
+      },
+    ]
+  },
+   // =============================================================================
+  // VIVIENDA
+  // =============================================================================
+  {
+    url: null,
+    name: 'Vivienda',
+    icon: 'HomeIcon',
+    i18n: 'Viviendas',
+    submenu: [
+      {
+        url: '/vivienda/vivienda',
+        name: 'vivienda',
+        slug: 'vivienda-vivienda',
+        i18n: 'Viviendas'
+      },
+      {
+        url: '/vivienda/abono',
+        name: 'abono',
+        slug: 'vivienda-abono',
+        i18n: 'Abonos'
+      },
+      {
+        url: '/vivienda/tipo',
+        name: 'tipo',
+        slug: 'vivienda-tipo',
+        i18n: 'Tipos de vivienda'
+      },
+      {
+        url: '/vivienda/constructor',
+        name: 'constructor',
+        slug: 'vivienda-constructor',
+        i18n: 'Constructores'
+      },
+    ]
+  },
   // =============================================================================
   // Datos Generales
   // =============================================================================

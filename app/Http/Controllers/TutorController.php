@@ -7,6 +7,7 @@ use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Image;
 
 class TutorController extends Controller
 {
@@ -140,5 +141,26 @@ class TutorController extends Controller
 		$tutor->save();
 		$usuario->save();
 		return Response::json(['message' => 'Tutor Desactivado'], 200);
+	}
+	public function imagen(Request $request){
+		$imagen = $request->photos;
+		$imagen = $request->photos->extension();
+		dd($imagen);
+		$imagen->move(public_path('storage/public'), 'nueva.jpg');
+		//dd($imagen);
+		return Response::json(['message' => "hi"], 200);
+		/*
+		$ruta = public_path().'/transactions/';
+            if($request->hasFile('photo')){
+                $imagenOriginal = $request->file('photo');
+                $imagen = Image ::make($imagenOriginal);
+                $temp_name = $this->random_string() . '.' . $imagenOriginal->getClientOriginalExtension();
+                $imagen->save($ruta . $temp_name, 100);
+                $transaction->photo = $temp_name;
+		}
+            else{
+                $transaction->photo = 'transaction.png';
+		}
+		*/
 	}
 }

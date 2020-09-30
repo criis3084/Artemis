@@ -568,6 +568,9 @@ Route::group(['prefix' => 'tutor'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.tutor', 'uses' => 'TutorController@desactivar'
     ]);
+    Route::post('/imagen', [
+        'as' => 'admin.tutor', 'uses' => 'TutorController@imagen'
+    ]);
 });
 Route::group(['prefix' => 'administrativo'], function () {
     Route::get('/get', [

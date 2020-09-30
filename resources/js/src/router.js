@@ -231,6 +231,83 @@ const router = new Router({
           }
         },
         // =============================================================================
+        // MICROPRESTAMO
+        // =============================================================================
+        {
+          path:'/microprestamo/abono',
+          name: 'microprestamo-abono',
+          component: () => import('./views/Microprestamos/Abono_prestamo/abonoPrestamo.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path: '/microprestamo/destino',
+          name: 'microprestamo-destino',
+          component: () => import('./views/Microprestamos/Destino_inversion/destinoInversion.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {			
+          path: '/microprestamo/integrante',
+          name: 'microprestamo-integrante',
+          component: () => import('./views/Microprestamos/Detalle_integrante/detalleIntegrante.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        
+        {
+          path:'/microprestamo/grupo',
+          name: 'microprestamo-grupo',
+          component: () => import('./views/Microprestamos/Grupo_prestamo/grupoPrestamo.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path: '/microprestamo/microprestamo',
+          name: 'microprestamo-microprestamo',
+          component: () => import('./views/Microprestamos/Microprestamo/microprestamo.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        // =============================================================================
+        // VIVIENDA
+        // =============================================================================
+        {
+          path:'/vivienda/vivienda',
+          name: 'vivienda-vivienda',
+          component: () => import('./views/Viviendas/Vivienda/vivienda.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path:'/vivienda/tipo',
+          name: 'vivienda-tipo',
+          component: () => import('./views/Viviendas/Tipo_vivienda/tipoVivienda.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },{
+          path:'/vivienda/constructor',
+          name: 'vivienda-constructor',
+          component: () => import('./views/Viviendas/Constructor/constructor.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },{
+          path:'/vivienda/abono',
+          name: 'vivienda-abono',
+          component: () => import('./views/Viviendas/Abono_vivienda/abonoVivienda.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        // =============================================================================
         // Datos Generales
         // =============================================================================
         

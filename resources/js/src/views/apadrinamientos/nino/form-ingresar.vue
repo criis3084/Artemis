@@ -30,7 +30,7 @@
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
-								<small class="date-label">Genero</small>
+								<small class="date-label">Género</small>
 								<ul class="demo-alignment">
 										<li>
 											<vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1" selected>Masculino</vs-radio>
@@ -43,7 +43,7 @@
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" v-model="direccion"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" v-model="direccion"/>
 									<span class="text-danger">La dirección es requerida</span>
 								</div>
 							</div>
@@ -72,15 +72,15 @@
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload action="https://jsonplaceholder.typicode.com/posts/" @on-success="successUpload" />
+						<vs-upload action="https://jsonplaceholder.typicode.com/posts/" @on-success="successUpload" limit="1" text="Subir fotografía" />
 					</template>
 				</div>
 			</div>
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Codigo" v-model="codigo"/>
-						<span class="text-danger">El codigo es requerido</span>
+						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Código" v-model="codigo"/>
+						<span class="text-danger">El código es requerido</span>
 					</div>
 				</div>
 			</div>
@@ -95,6 +95,9 @@
 
  
   </form-wizard>
+  <div class="vx-col md:w-1/2 w-full mt-5">
+  <router-link to="/apadrinamiento/nino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+    </div>
 </vx-card>
 </div>
 </template>

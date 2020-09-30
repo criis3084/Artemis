@@ -55,7 +55,7 @@ export default {
       direccionT:'',
 	  selected: '',
 	  switch2:true,
-	  titulo:'Actualizar aldea'
+	  titulo:'Actualizar Escuela'
 	}
   },
   computed:{
@@ -84,8 +84,8 @@ export default {
 		this.$emit('cerrado','Se cerró el formulario');
 		this.$vs.notify({
 			color:'danger',
-			title:'Closed',
-			text:'You close a dialog!'
+			title:'Cerrado',
+			text:'Diálogo cerrado!'
 	  	})
 	},
 	clearValMultiple () {

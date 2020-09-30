@@ -19,8 +19,8 @@
         <template slot="thead">
           <vs-th>Razón tutoría</vs-th>
           <vs-th>Nombres Niño</vs-th>
-          <vs-th>Apelidos Niño</vs-th>
-          <vs-th>Genero Niño</vs-th>
+          <vs-th>Apellidos Niño</vs-th>
+          <vs-th>Género Niño</vs-th>
           <vs-th>Nombres Tutor</vs-th>
           <vs-th>Apellidos Tutor</vs-th>
           <vs-th>Fecha</vs-th>
@@ -58,8 +58,7 @@
 				
             </vs-td>
             <vs-td>
-              
-             
+
             </vs-td>
           </vs-tr>
         </template>
@@ -69,7 +68,6 @@
 			v-bind:id="id"
 			v-bind:nombre="nombre"
       v-bind:fecha="fecha"
-		
 			v-on:cerrado="index(1,'');"
 		></turoriaEdit>
     </vx-card>
