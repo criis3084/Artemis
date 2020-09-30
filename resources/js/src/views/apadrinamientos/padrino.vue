@@ -22,7 +22,7 @@
 						<template slot="thead">
 							<!-- <vs-th>Ver</vs-th> -->
 							<vs-th>Nombres</vs-th>
-							<vs-th>Apelidos</vs-th>
+							<vs-th>Apellidos</vs-th>
               				<vs-th>Genero</vs-th>
 							<vs-th>Correo Electrónico</vs-th>
 		
