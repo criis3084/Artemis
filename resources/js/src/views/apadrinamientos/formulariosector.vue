@@ -19,15 +19,15 @@
 			<div class="con-exemple-prompt">
 				<b></b>				
 				<vs-input placeholder="Nombre del sector" v-model="sector" class="mt-4 mb-2 col-1 w-full" />
-
-				<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
-					LLene todos los campos
-				</vs-alert>
 			</div>
 
 			<template>
 				<v-select label="nombre" :options="listado_aldeas" v-model="aldea_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</template> 
+			</template>
+			 
+			<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
+				LLene todos los campos
+			</vs-alert>
 		</vs-prompt>
 	</div>
 </template>
@@ -57,7 +57,7 @@ export default {
 	},
 	computed:{
 		validName () {
-			return this.sector.length >0
+			return this.sector.length > 0 && this.aldea_id != 0
 		}
 	},
 	methods:{

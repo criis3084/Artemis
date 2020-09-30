@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<vx-card>
-			<form-wizard @click="acceptAlert()" color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente">
+			<form-wizard @click="acceptAlert()" color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" enctype="multipart/form-data">
 				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
 				<!-- tab 1 content -->
@@ -77,7 +77,7 @@
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload action="https://jsonplaceholder.typicode.com/posts/" @on-success="successUpload" />
+						<vs-upload automatic action="/api/tutor/imagen" @change="datos(this)" @on-success="successUpload" />
 					</template>
 				</div>
 			</div>
@@ -205,11 +205,14 @@ export default {
     }
   },
   methods: {
-	  getDate(datetime) {
-        let date = new Date(datetime);
-        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-        return dateString;
-      },
+	datos(e){
+		console.log(e)
+	},
+	getDate(datetime) {
+	let date = new Date(datetime);
+	let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+	return dateString;
+	},
 	async importarRoles(){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
