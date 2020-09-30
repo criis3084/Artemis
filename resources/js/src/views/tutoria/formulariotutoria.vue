@@ -21,7 +21,7 @@
 		<vs-input placeholder="Razón de la tutoría" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 		<div class="vx-col md:w-1/2 w-full mt-5">
 			<div class="my-4">
-				<small class="date-label">Fecha de nacimiento</small>
+				<small class="date-label">Fecha de Tutoría</small>
 				<datepicker :format="dateFormat" name="end-date" v-model="valMultipe.fecha"></datepicker>
 			</div>
 		</div>
