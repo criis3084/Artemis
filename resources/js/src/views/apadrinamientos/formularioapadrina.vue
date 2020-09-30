@@ -14,7 +14,7 @@
 	  :title= "titulo"
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
-        <b></b>.
+        <b></b>
 			
 		<vs-input placeholder="Nombre del sector" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 

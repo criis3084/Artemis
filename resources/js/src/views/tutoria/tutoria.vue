@@ -20,7 +20,7 @@
           <vs-th>Razón tutoría</vs-th>
           <vs-th>Nombres Niño</vs-th>
           <vs-th>Apellidos Niño</vs-th>
-          <vs-th>Genero Niño</vs-th>
+          <vs-th>Género Niño</vs-th>
           <vs-th>Nombres Tutor</vs-th>
           <vs-th>Apellidos Tutor</vs-th>
           <vs-th>Fecha</vs-th>

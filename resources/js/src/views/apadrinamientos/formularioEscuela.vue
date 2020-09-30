@@ -24,7 +24,7 @@
       </div>
 
 		<template>
-		<vs-input placeholder="Direccion" v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
+		<vs-input placeholder="Dirección" v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
 		</template> 
         <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 			LLene todos los campos

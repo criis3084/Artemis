@@ -9,7 +9,7 @@
 							<vs-th>Ver</vs-th>
 							<vs-th>Nombres Niño</vs-th>
 							<vs-th>Apelidos Niño</vs-th>
-              <vs-th>Genero Niño</vs-th>
+              <vs-th>Género Niño</vs-th>
               <vs-th>Nombres Padrino</vs-th>
 							<vs-th>Apelidos Padrino</vs-th>
 							<vs-th>Estado</vs-th>

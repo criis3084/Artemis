@@ -9,17 +9,17 @@
           <form data-vv-scope="step-1">
           <div class="vx-row">
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Nombres" v-model="nombres" class="w-full" name="first_name" v-validate="'required|alpha'" />
+              <vs-input label="Nombres" v-model="nombres" class="w-full" icon-pack="feather" icon="icon-user" name="first_name" v-validate="'required|alpha'" />
               <span class="text-danger">{{ errors.first('step-1.first_name') }}</span>
             </div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Apellidos"  v-model="apellidos" class="w-full" name="last_name" v-validate="'required|alpha'" />
+              <vs-input label="Apellidos"  v-model="apellidos" class="w-full" icon-pack="feather" icon="icon-user" name="last_name" v-validate="'required|alpha'" />
               <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="CUI"  v-model="CUI" class="w-full" name="cui" v-validate="'required'" />
+              <vs-input label="CUI"  v-model="CUI" class="w-full" icon-pack="feather" icon="icon-hash" name="cui" v-validate="'required'" />
               <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
             </div>
 
@@ -41,12 +41,12 @@
 			</div>
 	        
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Dirección"  v-model="direccion" class="w-full" name="campo" v-validate="'required'" />
+              <vs-input label="Dirección"  v-model="direccion" class="w-full" icon-pack="feather" icon="icon-map-pin" name="campo" v-validate="'required'" />
               <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Numero de telefono"  v-model="numero_telefono" class="w-full" name="campo" v-validate="'required'" />
+              <vs-input label="Numero de telefono"  v-model="numero_telefono" class="w-full" icon-pack="feather" icon="icon-phone" name="campo" v-validate="'required'" />
               <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
             </div>
 
@@ -60,21 +60,21 @@
         </tab-content>
 
         <!-- tab 2 content -->
-        <tab-content title="Step 2" class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
+        <tab-content title="Step 2" class="mb-5" icon="feather icon-file-plus" :before-change="validateStep2">
           <form data-vv-scope="step-2">
           <div class="vx-row">
 
             <div class="vx-col md:w-1/2 w-full">
           <template>
-					  <vs-upload action="https://jsonplaceholder.typicode.com/posts/" limit="1" text="Subir fotografia" @on-success="successUpload" />
+					  <vs-upload action="https://jsonplaceholder.typicode.com/posts/" limit="1" text="Subir fotografía" @on-success="successUpload" />
 				  </template> 
             </div>
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input type="email" label="Ruta de imagen"  v-model="ruta_imagen" class="w-full" name="ruta_imagen" />
+              <vs-input label="Ruta de imagen"  v-model="ruta_imagen" class="w-full"  icon-pack="feather" icon="icon-image" name="ruta_imagen" />
               <span class="text-danger">{{ errors.first('step-2.ruta_imagen') }}</span>
             </div>
 		      	<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input type="email" label="Correo"  v-model="correo" class="w-full" name="correo" v-validate="'required|email'" />
+              <vs-input type="email" label="Correo"  v-model="correo" class="w-full"  icon-pack="feather" icon="icon-mail" name="correo" v-validate="'required|email'" />
               <span class="text-danger">{{ errors.first('step-2.correo') }}</span>
             </div>
 

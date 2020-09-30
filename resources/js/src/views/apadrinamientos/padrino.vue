@@ -23,7 +23,7 @@
 							<!-- <vs-th>Ver</vs-th> -->
 							<vs-th>Nombres</vs-th>
 							<vs-th>Apelidos</vs-th>
-              				<vs-th>Genero</vs-th>
+              				<vs-th>Género</vs-th>
 							<vs-th>Correo Electrónico</vs-th>
 		
 							<vs-th>Estado</vs-th>

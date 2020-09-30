@@ -31,8 +31,10 @@
 		<br>
       </div>
 		<template>
+      <small class="date-label">Niño:</small>
 		<v-select label="nombres" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		<br>
+    <small class="date-label">Tutor:</small>
 		<v-select label="nombres" :options="tutor" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		
 		</template> 
