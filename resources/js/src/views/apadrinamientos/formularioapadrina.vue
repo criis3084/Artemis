@@ -2,29 +2,30 @@
  <div>
 		<div class="demo-alignment">
 			<h2>Apadrinamientos</h2>
-			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-user-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
+			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
 	<br>
-
+  
     <vs-prompt
       @cancel="clearValMultiple"
       @accept="acceptAlert"
+	  
       @close="close"
+	  accept-text="Aceptar"
+	  cancel-text="Cancelar"
       :is-valid="validName"
 	  :title= "titulo"
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
         <b></b>
-			
-		<vs-input placeholder="Nombre del sector" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
-
-		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
-			LLene todos los campos
-		</vs-alert>
-      </div>
-
+		</div>
 		<template>
-		<v-select label="nombre" :options="aldeasT" v-model="valMultipe.value2" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+      <small class="date-label">Nino:</small>
+		<v-select label="nombres" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<br>
+    <small class="date-label">Padrino:</small>
+		<v-select label="nombres" :options="padrino" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		
 		</template> 
 	</vs-prompt>
 
@@ -33,97 +34,143 @@
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker'
-import axios from 'axios'
+import Datepicker from "vuejs-datepicker";
+import axios from "axios";
 //C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
-import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
-import vSelect from 'vue-select'
+import Dropdown from "@/views/components/vuesax/dropdown/Dropdown.vue";
+import vSelect from "vue-select";
 
 export default {
   components: {
-	Dropdown,
-	Datepicker,
-	vSelect,
+    Dropdown,
+    Datepicker,
+    vSelect,
   },
-  data () {
-	return {
-	  activePrompt2:false,
-	  val:'',
-	  valMultipe:{
-		value1:'',
-		value2:''
+  data() {
+    return {
+      activePrompt2: false,
+      val: "",
+      valMultipe: {
+        value1: "",
+		value2: "",
+		 fecha: "",
+		value3: "",
+		value4: ""
+      },
+	  nino: [],
+	  datosNinos:[],
+	  padrino: [],
+      selected: "",
+	  switch2: true,
+	 
+	  dateVal : new Date(),
+	  titulo: "Nuevo apadrinamiento",
+	  dateFormat : 'yyyy-MM-dd',
+    };
+  },
+  computed: {
+    validName() {
+	//  return this.valMultipe.value3.length > 0;
+	  //return this.valMultipe.value4.length > 0;
+    },
+  },
+  methods: {
+	  traerNombre(tabla){
+		tabla.forEach(function(valor, indice, array){
+			valor.nombres=valor.datos.nombres
+		}); 
+		return tabla
 	  },
-	 aldeasT: [],
-	 selected: '',
-	  switch2:true,
-	  titulo:'Nuevo Niño'
-	}
-  },
-  computed:{
-	validName () {
-	  return this.valMultipe.value1.length >0
-	}
-  },
-  methods:{
-	async index2(page, search){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/aldea/get?page=${page}&buscar=${this.valMultipe.value2}&todos='true'`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.aldeasT = respuesta.aldeas.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
-	acceptAlert () {
-	console.log(this.valMultipe.value2.id);
-	axios.post("/api/sector/post/",{
-		nombre:this.valMultipe.value1,
-		aldea_id:this.valMultipe.value2.id
-	}).then(function(response) {
-			console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-		});
-	},
-	close () {
-	  this.$vs.notify({
-		color:'danger',
-		title:'Closed',
-		text:'You close a dialog!'
-	  })
-	},
-	clearValMultiple () {
-	  this.valMultipe.value1 = ''
-	  this.valMultipe.value2 = ''
-	  this.valMultipe.value3 = ''
-	  this.valMultipe.value4 = ''
-	  this.valMultipe.value5 = ''
-	  this.fechaN = ''
-	},
-	saveProduct(){
-	axios.post("/api/sector/post/",{
-		nombre:this.valMultipe.value1,
-		aldea_id:this.valMultipe.value2
-	}).then(function(response) {
-			console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-		});
-	},
-	mostrar(id){
-		console.log($id);
-	}
+    async index2(page, search) {
+      //async para que se llame cada vez que se necesite
+      let me = this;
+      const response = await axios
+        .get(`/api/nino/get?completo=false`)
+        .then(function(response) {
+          var respuesta = response.data;
+		  me.nino = respuesta.ninos.data;
+		  me.nino = me.traerNombre(me.nino)
+		  me.pagination = respuesta.pagination;
+        })
 
-  },
-  mounted(){
-    this.index2(1, this.search);
-  }
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    async index3(page, search) {
+      //async para que se llame cada vez que se necesite
+      let me = this;
+      const response = await axios
+        .get(`/api/padrino/get?completo=false`)
+        .then(function(response) {
+          var respuesta = response.data;
+		  me.padrino = respuesta.padrinos.data;
+		  me.padrino = me.traerNombre(me.padrino)
+		  me.pagination = respuesta.pagination;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    acceptAlert() {
+      axios
+        .post("/api/apadrinamiento/post/", {
+		 
+		  nino_id: this.valMultipe.value3.id,
+          padrino_id: this.valMultipe.value4.id,
 
-}
+        })
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+	  this.$emit("cerrado", "Se cerro el formulario");
+	  this.valMultipe.value3 = "";
+	  this.valMultipe.value4 = "";
+    },
+    close() {
+      this.$vs.notify({
+        color: "danger",
+        title: "Cerrado",
+        text: "Diálogo cerrado!",
+      });
+      this.$emit("cerrado", "Se cerro el formulario");
+    },
+    clearValMultiple() {
+      this.valMultipe.value1 = "";
+      this.valMultipe.value2 = "";
+      this.valMultipe.value3 = "";
+      this.valMultipe.value4 = "";
+	  this.valMultipe.value5 = "";
+	  this.valMultipe.fecha = "";
+      this.fechaN = "";
+      this.$emit("cerrado", "Se cerro el formulario");
+    },
+    saveProduct() {
+      axios
+        .post("/api/apadrinamiento/post/", {
+		  nino_id: this.valMultipe.value3.id,
+          padrino_id: this.valMultipe.value4.id,
+
+        })
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+	},
+	getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+      },
+  },
+  mounted() {
+    this.index2(1, '');
+    this.index3(1, '');
+  },
+};
 </script>
