@@ -77,7 +77,7 @@
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload automatic action="/api/tutor/imagen" @change="datos(this)" @on-success="successUpload" />
+						<vs-upload automatic action="/api/tutor/imagen" fileName='photos' @change="datos" @on-success="successUpload" />
 					</template>
 				</div>
 			</div>
@@ -206,7 +206,7 @@ export default {
   },
   methods: {
 	datos(e){
-		console.log(e)
+		console.log(e.target)
 	},
 	getDate(datetime) {
 	let date = new Date(datetime);
@@ -253,8 +253,9 @@ export default {
 		this.$emit('cerrado','Se cerró el formulario');
 		this.$router.push('/tutoria/tutor');
 	},
-	successUpload(){
-      this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
+	successUpload(e){
+		console.log(e)
+      	//this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
     },
     validateStep1() {
       return new Promise((resolve, reject) => {

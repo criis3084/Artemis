@@ -7,8 +7,7 @@ use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
-
-use function GuzzleHttp\json_decode;
+use Image;
 
 class TutorController extends Controller
 {
@@ -144,43 +143,24 @@ class TutorController extends Controller
 		return Response::json(['message' => 'Tutor Desactivado'], 200);
 	}
 	public function imagen(Request $request){
-		
-		return Response::json(['message' => $request->files], 200);
+		$imagen = $request->photos;
+		$imagen = $request->photos->extension();
+		dd($imagen);
+		$imagen->move(public_path('storage/public'), 'nueva.jpg');
+		//dd($imagen);
+		return Response::json(['message' => "hi"], 200);
+		/*
+		$ruta = public_path().'/transactions/';
+            if($request->hasFile('photo')){
+                $imagenOriginal = $request->file('photo');
+                $imagen = Image ::make($imagenOriginal);
+                $temp_name = $this->random_string() . '.' . $imagenOriginal->getClientOriginalExtension();
+                $imagen->save($ruta . $temp_name, 100);
+                $transaction->photo = $temp_name;
+		}
+            else{
+                $transaction->photo = 'transaction.png';
+		}
+		*/
 	}
 }
-
-/*
-
-ymfony\Component\HttpFoundation\FileBag {#48
-	#parameters: array:1 [
-	  "null" => Symfony\Component\HttpFoundation\File\UploadedFile {#33
-		-test: false
-		-originalName: "fernando_pessoa_ii_by_nuvem.jpg"
-		-mimeType: "image/jpeg"
-		-error: 0
-		path: "C:\Users\Jonhy\AppData\Local\Temp"
-		filename: "php246B.tmp"
-		basename: "php246B.tmp"
-		pathname: "C:\Users\Jonhy\AppData\Local\Temp\php246B.tmp"
-		extension: "tmp"
-		realPath: "C:\Users\Jonhy\AppData\Local\Temp\php246B.tmp"
-		aTime: 2020-09-29 22:09:16
-		mTime: 2020-09-29 22:09:16
-		cTime: 2020-09-29 22:09:16
-		inode: 0
-		size: 117665
-		perms: 0100666
-		owner: 0
-		group: 0
-		type: "file"
-		writable: true
-		readable: true
-		executable: false
-		file: true
-		dir: false
-		link: false
-		linkTarget: "C:\Users\Jonhy\AppData\Local\Temp\php246B.tmp"
-	  }
-	]
-  }
-  */

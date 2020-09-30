@@ -59,8 +59,8 @@
 					<div v-if="cantidad_ingresos_familia.length">
 						<div v-for="(numero,index) in cantidad_ingresos_familia" :key="index">
 							<vs-divider class="mt-10" ></vs-divider>
-							<vs-button radius color="danger" type="gradient" @click="quitar_familia(numero)" icon="icon_x"></vs-button>
-							<formIngresarFamilia></formIngresarFamilia>
+							<vs-button radius color="danger" type="gradient" @click="quitar_familia(index)" icon="icon_x"></vs-button>
+							<formIngresarFamilia v-if="cantidad_ingresos_familia[numero]==numero"></formIngresarFamilia>
 						</div>
 					</div>
 
@@ -192,13 +192,16 @@ export default {
 		this.cantidad_ingresos_familia.push(this.cantidad_ingresos_familia.length+1);
 	},
 	quitar_nino(id){
-		console.log(id)
 		this.cantidad_ingresos_nino.splice(id-1,1)
 		this.cantidad_ingresos_nino = this.reordenar(this.cantidad_ingresos_nino)
 		console.log(this.cantidad_ingresos_nino)
 	},
 	quitar_padrino(id){
+		console.log(id)
+		console.log(this.cantidad_ingresos_padrino)
 		this.cantidad_ingresos_padrino.splice(id,1)
+		//this.cantidad_ingresos_padrino = this.reordenar(this.cantidad_ingresos_padrino)
+		console.log(this.cantidad_ingresos_padrino)
 	},
 	quitar_familia(id){
 		this.cantidad_ingresos_familia.splice(id,1)
