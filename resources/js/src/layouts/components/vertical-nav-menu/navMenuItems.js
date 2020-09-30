@@ -146,6 +146,41 @@ export default [
       },
     ]
   },
+   // =============================================================================
+  // VIVIENDA
+  // =============================================================================
+  {
+    url: null,
+    name: 'Vivienda',
+    icon: 'HomeIcon',
+    i18n: 'Viviendas',
+    submenu: [
+      {
+        url: '/vivienda/vivienda',
+        name: 'vivienda',
+        slug: 'vivienda-vivienda',
+        i18n: 'Viviendas'
+      },
+      {
+        url: '/vivienda/abono',
+        name: 'abono',
+        slug: 'vivienda-abono',
+        i18n: 'Abonos'
+      },
+      {
+        url: '/vivienda/tipo',
+        name: 'tipo',
+        slug: 'vivienda-tipo',
+        i18n: 'Tipos de vivienda'
+      },
+      {
+        url: '/vivienda/constructor',
+        name: 'constructor',
+        slug: 'vivienda-constructor',
+        i18n: 'Constructores'
+      },
+    ]
+  },
   // =============================================================================
   // Datos Generales
   // =============================================================================

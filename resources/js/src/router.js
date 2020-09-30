@@ -267,6 +267,39 @@ const router = new Router({
           }
         },
         // =============================================================================
+        // VIVIENDA
+        // =============================================================================
+        {
+          path:'/vivienda/vivienda',
+          name: 'vivienda-vivienda',
+          component: () => import('./views/Viviendas/Vivienda/vivienda.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path:'/vivienda/tipo',
+          name: 'vivienda-tipo',
+          component: () => import('./views/Viviendas/Tipo_vivienda/tipoVivienda.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },{
+          path:'/vivienda/constructor',
+          name: 'vivienda-constructor',
+          component: () => import('./views/Viviendas/Constructor/constructor.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },{
+          path:'/vivienda/abono',
+          name: 'vivienda-abono',
+          component: () => import('./views/Viviendas/Abono_vivienda/abonoVivienda.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        // =============================================================================
         // Datos Generales
         // =============================================================================
         
