@@ -140,8 +140,8 @@ export default {
     close() {
       this.$vs.notify({
         color: "danger",
-        title: "Closed",
-        text: "You close a dialog!",
+        title: "Cerrado",
+        text: "Diálogo cerrado!",
       });
       this.$emit("cerrado", "Se cerro el formulario");
     },

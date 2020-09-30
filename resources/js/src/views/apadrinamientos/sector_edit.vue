@@ -103,13 +103,19 @@ export default {
 			this.$emit('cerrado','Se cerró el formulario');
 		},
 		close () {
-			this.nombreT='';
 			this.$emit('cerrado','Se cerró el formulario');
-
+			this.$vs.notify({
+				color:'danger',
+				title:'Cerrado',
+				text:'Diálogo cerrado!'
+			})
 		},
-	},
+		clearValMultiple () {
+			this.$emit('cerrado','Se cerró el formulario');
+		},
   	mounted(){
     	this.importar_aldeas();
-  	},
+  		},
+	}
 }
 </script>

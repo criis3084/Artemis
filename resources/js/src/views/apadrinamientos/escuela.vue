@@ -25,7 +25,7 @@
             <template slot="thead">
                 <vs-th >Id</vs-th>
                 <vs-th >Nombre</vs-th>
-                <vs-th >Direccion</vs-th>
+                <vs-th >Dirección</vs-th>
 				<vs-th >Activo</vs-th>
 				<vs-th >Acciones</vs-th>
             </template>

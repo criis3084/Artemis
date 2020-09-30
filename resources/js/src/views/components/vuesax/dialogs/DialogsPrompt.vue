@@ -173,7 +173,7 @@ export default {
       this.$vs.notify({
         color:'danger',
         title:'Closed',
-        text:'You close a dialog!'
+        text:'Diálogo cerrado!'
       })
     },
     clearValMultiple () {
