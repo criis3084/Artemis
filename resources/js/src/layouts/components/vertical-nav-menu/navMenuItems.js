@@ -37,12 +37,6 @@ export default [
     i18n: 'Apadrinamiento',
     submenu: [
       {
-        url: '/apadrinamiento/nino',
-        name: 'nino',
-        slug: 'apadrinamiento-nino',
-        i18n: 'Niños',
-        submenu: [
-          {
             url: '/apadrinamiento/nino',
             name: 'nino',
             slug: 'apadrinamiento-nino',
@@ -53,8 +47,6 @@ export default [
             name: 'ninono',
             slug: 'apadrinamiento-ninono',
             i18n: 'Niños no apadrinados',
-          }
-        ]
       },
       {
         url: '/apadrinamiento/padrino',
