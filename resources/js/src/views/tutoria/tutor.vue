@@ -37,9 +37,15 @@
 						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/tutor/'+data[indextr].id)"></vs-button></vx-tooltip>			
 					    </vs-td>
 						<vs-td :data="data[indextr].datos.id">{{data[indextr].datos.id}}</vs-td>
-						<vs-td :data="data[indextr].datos.nombres">{{data[indextr].nombres}}</vs-td>
-            <vs-td :data="data[indextr].datos.apellidos" >{{data[indextr].apellidos}}</vs-td>
-            <vs-td :data="data[indextr].especialidad">{{data[indextr].especialidad}}</vs-td>
+
+						<vs-td>
+								<div class="flex items-center">
+								<vs-avatar :src="data[indextr].imagen_perfil" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
+								{{data[indextr].nombres}}
+								</div>
+						</vs-td>
+		            	<vs-td :data="data[indextr].datos.apellidos" >{{data[indextr].apellidos}}</vs-td>
+        			    <vs-td :data="data[indextr].especialidad">{{data[indextr].especialidad}}</vs-td>
                         <vs-td :data="data[indextr].datos.telefono">{{data[indextr].numero_telefono}}</vs-td>
 						<vs-td>
 							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
@@ -129,75 +135,75 @@ export default {
 			`/api/tutor/get?criterio=id&buscar=${tutor.id}&completo=datosAnidados`)
 			.then(function (response) {
 				const respuesta = response.data
-				l_tutorias = respuesta.tutors.data[0].tutorias
+        l_tutorias = respuesta.tutors.data[0].tutorias
+        
 				me.listadoTutorias =[]
 				l_tutorias.forEach(function(valor, indice, array){
 					me.listadoTutorias.push(valor.nombre)
 				});
-				me.abrirListado=true;
+        me.abrirListado=true;
+        console.log(l_tutorias)
 			})
 		.catch(function (error) {
 			console.log(error)
 		})		
 	},
     abrirDialog (id, estado) {
+		let titulo = ''
+		let color = ''
 
-      let titulo = ''
-      let color = ''
-
-      if (estado === 0 || estado === false) {
-        // cambiar de color al boton
-        color = 'success'
-        titulo = 'Confirmar activación'
-      } else if (estado === 1 || estado === true) {
-        color = 'danger'
-        titulo = 'Confirmar desactivación'
-      }
+		if (estado === 0 || estado === false) {
+			// cambiar de color al boton
+			color = 'success'
+			titulo = 'Confirmar activación'
+		} else if (estado === 1 || estado === true) {
+			color = 'danger'
+			titulo = 'Confirmar desactivación'
+		}
 		
-      this.id = id
-      this.estado = estado
+		this.id = id
+		this.estado = estado
 
-      this.$vs.dialog({
-        type:'confirm',
-        color: `${color}`,
-        title: `${titulo}`,
-        text: '¿Está seguro de llevar a cabo esta acción?',
-        accept: this.cambiarEstado,
-        cancel: this.close
-      })
+		this.$vs.dialog({
+			type:'confirm',
+			color: `${color}`,
+			title: `${titulo}`,
+			text: '¿Está seguro de llevar a cabo esta acción?',
+			accept: this.cambiarEstado,
+			cancel: this.close
+		})
     },
     cambiarEstado (color) {
-      let titulo = ''
+		let titulo = ''
 		
-      if (this.estado === 0 || this.estado === false) {
-        titulo = 'Activado exitósamente'
-        axios.put('/api/tutor/activar', {
-          id: this.id
-        })
-          .then(function (response) {
-            console.log(response.data.message)
-          })
-          .catch(function (error) {
-            console.log(error.response.data.message)
-          })
-      } else if (this.estado === 1 || this.estado === true) {
-        titulo = 'Desactivado exitósamente'
-        axios.put('/api/tutor/desactivar', {
-          id: this.id
-        })
-          .then(function (response) {
-            console.log(response.data.message)
-          })
-          .catch(function (error) {
-            console.log(error.response.data.message)
-          })
-
-      }
-      this.$vs.notify({
-        color:'success',
-        title:`${titulo}`,
-        text:'La acción se realizó exitósamente'
-      })
+		if (this.estado === 0 || this.estado === false) {
+		titulo = 'Activado exitósamente'
+		axios.put('/api/tutor/activar', {
+			id: this.id
+		})
+			.then(function (response) {
+			console.log(response.data.message)
+			})
+			.catch(function (error) {
+			console.log(error.response.data.message)
+			})
+		} else if (this.estado === 1 || this.estado === true) {
+			titulo = 'Desactivado exitósamente'
+			axios.put('/api/tutor/desactivar', {
+			id: this.id
+		})
+		.then(function (response) {
+			console.log(response.data.message)
+			})
+		.catch(function (error) {
+			console.log(error.response.data.message)
+			})
+		}
+		this.$vs.notify({
+			color:'success',
+			title:`${titulo}`,
+			text:'La acción se realizó exitósamente'
+		})
     },
     close () {
       	const titulo = 'Cancelado'
@@ -210,18 +216,18 @@ export default {
 		this.index()
     },
     async index () { //async para que se llame cada vez que se necesite
-      const me = this
-      const response = await axios.get(
-        `/api/tutor/get?completo=true`)
-        .then(function (response) {
-          const respuesta = response.data
-		  me.arrayData = respuesta.tutors.data
-		  me.tutor = me.traerNombre(me.arrayData)
-          me.pagination = respuesta.pagination
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+		const me = this
+		const response = await axios.get(
+		`/api/tutor/get?completo=true`)
+		.then(function (response) {
+			const respuesta = response.data
+			me.arrayData = respuesta.tutors.data
+			me.tutor = me.traerNombre(me.arrayData)
+			me.pagination = respuesta.pagination
+		})
+		.catch(function (error) {
+			console.log(error)
+		})
     },
     aNuevo () {
 		 this.$router.push('/ingresar/tutor')
@@ -254,17 +260,20 @@ export default {
       }))
     },
     clearFields () {
-      this.filename = ''
-      this.cellAutoWidth = true
-      this.selectedFormat = 'xlsx'
+		this.filename = ''
+		this.cellAutoWidth = true
+		this.selectedFormat = 'xlsx'
 	},
 	traerNombre (tabla) {
-      tabla.forEach(function (valor, indice, array) {
-		  valor.nombres = valor.datos.nombres
-		  valor.apellidos = valor.datos.apellidos
-		  valor.numero_telefono = valor.datos.numero_telefono
-      }) 
-	  return tabla
+		console.log(tabla);
+		tabla.forEach(function (valor, indice, array) {
+			valor.nombres = valor.datos.nombres
+			valor.apellidos = valor.datos.apellidos
+			valor.numero_telefono = valor.datos.numero_telefono
+			valor.imagen_perfil = valor.datos.imagen_perfil
+		}) 
+		console.log(tabla);
+		return tabla
 }
 	
 	  

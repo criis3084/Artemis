@@ -12,18 +12,10 @@
             <div class="vx-row mt-6">
               <div class="vx-col md:w-2/5 w-full flex items-center justify-center">
                 <div class="product-img-container w-3/5 mx-auto mb-10 md:mb-0">
-                  <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png" :alt="this.nombresTutor" class="responsive">
-
-                  <!--
-                    UnComment Below line for true flow
-                    <img :src="item_data.image" :alt="item_data.name" class="responsive">
-
-                    Remove above img tag which is for demo purpose in actual flow
-                  -->
+				  <vs-avatar size="310px" :src="this.imagen_perfil"/>
                 </div>
               </div>
 
-              <!-- Item Content -->
               <div class="vx-col md:w-3/5 w-full">
                 <span>Nombres y apellidos</span>
                 <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.nombresTutor +" " + this.apellidosTutor }}</h1>
@@ -37,11 +29,11 @@
                 </p>
                 <p class="flex items-center flex-wrap"> 
                    <vx-tooltip text="Télefono"> <span class="material-icons ">contact_phone </span> </vx-tooltip>
-                    <span class="text-2xl leading-none font-medium text-primary mr-4">{{this.numero_telefono }}</span>
+                    <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.numero_telefono }}</span>
                 </p>
                  <p class="flex items-center flex-wrap"> 
                     <vx-tooltip text="Correo electrónico"><span class="material-icons ">email </span></vx-tooltip>
-                    <span class="text-2xl leading-none font-medium text-primary mr-4">{{this.correo }}</span>
+                    <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.correo }}</span>
                 </p>
 
                 <vs-divider />
@@ -154,7 +146,7 @@ export default{
           me.usuario = me.arrayData.datos.usuario
           me.password = me.arrayData.datos.password
           me.pagination = respuesta.pagination
-          console.log(me.nombresTutor)
+          console.log(me.imagen_perfil)
         })
         .catch(function (error) {
           console.log(error)

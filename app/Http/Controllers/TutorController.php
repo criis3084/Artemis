@@ -74,7 +74,7 @@ class TutorController extends Controller
 			$usuario->password = $request->password;
 			$usuario->rol_id = $request->rol_id;
 			$usuario->save();
-
+			
 			$tutor = new Tutor();
 			$tutor->especialidad = $request->especialidad;
 			// $tutor->usuario_id = $usario->usuario_id;
@@ -86,7 +86,7 @@ class TutorController extends Controller
 			return Response::json(['message' => $e->getMessage()], 400);
 		}
 	}
-
+	
 	public function update(Request $request)
 	{
 		try {
@@ -146,12 +146,12 @@ class TutorController extends Controller
 	}
 	public function imagen(Request $request){
 		$imagen = $request->photos;
-		$nombreEliminar = public_path('storage\public\\') .  $request->header("imagenanterior");
+		$nombreEliminar = public_path('storage\public\tutores\\') .  $request->header("imagenanterior");
 		if (File::exists($nombreEliminar)) {
 			File::delete($nombreEliminar);
 		}
 		$completo = time() . "." . $imagen->extension();
-		$imagen->move(public_path('storage/public/'), $completo);
+		$imagen->move(public_path('storage/public/tutores/'), $completo);
 		return Response::json($completo, 200);
 	}
 }
