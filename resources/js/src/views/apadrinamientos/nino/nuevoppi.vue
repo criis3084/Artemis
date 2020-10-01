@@ -2,7 +2,9 @@
 	<div>
 		<vx-card>
 			<div>
-
+				<div class="vx-col md:w-1/2 w-full mt-5">
+            		<vs-button @click="regresar" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
+        		</div>
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="my-4">
 					<small class="date-label">Fecha de Estudio</small>
@@ -228,6 +230,10 @@ export default {
 			console.log(error)
 		});
 		this.$router.push('/apadrinamiento/ppi/'+this.id);
+	},
+	regresar(){
+		let id_recibido = this.$route.params.id;
+		this.$router.push('/apadrinamiento/ppi/'+id_recibido);
 	},
 	getDate(datetime) {
         let date = new Date(datetime);
