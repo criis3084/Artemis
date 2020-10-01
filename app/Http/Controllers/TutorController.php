@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
 use Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class TutorController extends Controller
 {
@@ -144,23 +146,12 @@ class TutorController extends Controller
 	}
 	public function imagen(Request $request){
 		$imagen = $request->photos;
-		$imagen = $request->photos->extension();
-		dd($imagen);
-		$imagen->move(public_path('storage/public'), 'nueva.jpg');
-		//dd($imagen);
-		return Response::json(['message' => "hi"], 200);
-		/*
-		$ruta = public_path().'/transactions/';
-            if($request->hasFile('photo')){
-                $imagenOriginal = $request->file('photo');
-                $imagen = Image ::make($imagenOriginal);
-                $temp_name = $this->random_string() . '.' . $imagenOriginal->getClientOriginalExtension();
-                $imagen->save($ruta . $temp_name, 100);
-                $transaction->photo = $temp_name;
+		$nombreEliminar = public_path('storage\public\\') .  $request->header("imagenanterior");
+		if (File::exists($nombreEliminar)) {
+			File::delete($nombreEliminar);
 		}
-            else{
-                $transaction->photo = 'transaction.png';
-		}
-		*/
+		$completo = time() . "." . $imagen->extension();
+		$imagen->move(public_path('storage/public/'), $completo);
+		return Response::json($completo, 200);
 	}
 }

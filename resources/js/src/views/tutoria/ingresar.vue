@@ -77,7 +77,7 @@
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload automatic action="/api/tutor/imagen" fileName='photos' @change="datos" @on-success="successUpload" />
+						<vs-upload automatic action="/api/tutor/imagen" limit='1' :headers="head" fileName='photos' @on-success="successUpload" />
 					</template>
 				</div>
 			</div>
@@ -86,12 +86,6 @@
 				<div class="vx-col w-full">
 					<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Correo" v-model="correo" name="correo" v-validate="'email'"/>
 					<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
-				</div>
-			</div>
-
-            <div class="vx-col md:w-1/2 w-full mt-5">
-				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-image" icon-no-border label-placeholder="Ruta de imagen" v-model="imagen_perfil"/>
 				</div>
 			</div>
 
@@ -131,7 +125,7 @@
   </form-wizard>
 
     <div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/tutoria/tutor"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+		<router-link to="/tutoria/tutor"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
     </div>
 
 </vx-card>
@@ -175,39 +169,40 @@ const dict = {
   }
 }
 
-// register custom messages
 Validator.localize('en', dict);
 import { es } from 'vuejs-datepicker/src/locale'
 export default {
   data() {
     return {
-      nombres: "",
-      apellidos: "",
-      direccion: "",
-      especialidad:'',
-      genero:'',
-      CUI:'',
-      numero_telefono:'',
-      correo:'',
-      imagen_perfil:'',
-      fecha_nacimiento: "",
-      descripcion:'',
-      usuario:'',
-      password:'',
-      roles: [],
-	  rol_id:'',
-	  langEn: es,
-	  codigo:'',
-	  titulo:'Registrado exitosamente!',
-	  waterMark : 'Select a date',
-      dateVal : new Date(),
-	  dateFormat : 'yyyy-MM-dd',
+		nombres: "",
+		apellidos: "",
+		direccion: "",
+		especialidad:'',
+		genero:'',
+		CUI:'',
+		numero_telefono:'',
+		correo:'',
+		imagen_perfil:'',
+		fecha_nacimiento: "",
+		descripcion:'',
+		usuario:'',
+		password:'',
+		roles: [],
+		rol_id:'',
+		langEn: es,
+		codigo:'',
+		subir_imagen:false,
+		titulo:'Registrado exitosamente!',
+		waterMark : 'Select a date',
+		dateVal : new Date(),
+		dateFormat : 'yyyy-MM-dd',
+		head:{
+			"imagenanterior":""	
+		},
+		imagen:''
     }
   },
   methods: {
-	datos(e){
-		console.log(e.target)
-	},
 	getDate(datetime) {
 	let date = new Date(datetime);
 	let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -220,7 +215,6 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
             me.roles = respuesta.roles.data;
-            console.log(me.roles);
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -235,7 +229,7 @@ export default {
         CUI:this.CUI,
         numero_telefono:this.numero_telefono,
         correo:this.correo,
-        imagen_perfil:this.imagen_perfil,
+        imagen_perfil:this.imagen,
         usuario:this.usuario,
         password:this.password,
         descripcion:this.descripcion,
@@ -254,8 +248,8 @@ export default {
 		this.$router.push('/tutoria/tutor');
 	},
 	successUpload(e){
-		console.log(e)
-      	//this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
+		this.imagen=e.currentTarget.response.replace(/['"]+/g, '')
+		this.head.imagenanterior=this.imagen
     },
     validateStep1() {
       return new Promise((resolve, reject) => {
@@ -283,7 +277,6 @@ export default {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-3').then(result => {
           if (result) {
-			console.log(this.getDate(this.fecha_nacimiento));
 			this.acceptAlert();
 			// alert('Form submitted!');
 			this.$router.push('/tutoria/tutor');
