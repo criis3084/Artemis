@@ -82,6 +82,22 @@ const router = new Router({
         rule: 'editor'
       }
     },
+    {
+      path: '/editar/ninono/:id',
+      name: 'datos-ninono',
+      component: () => import('./views/apadrinamientos/ninonoEdit.vue'),
+      meta: {
+        rule: 'editor'
+      }
+    },
+    {
+      path: '/ver/ninono/:id',
+      name: 'ver-ninono',
+      component: () => import('./views/apadrinamientos/DetallesNinono.vue'),
+      meta: {
+        rule: 'editor'
+      }
+    },
 		{			
 			path: '/ingresar/familia',
 			name: 'ingresar-familia',

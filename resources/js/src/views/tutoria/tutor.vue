@@ -135,12 +135,14 @@ export default {
 			`/api/tutor/get?criterio=id&buscar=${tutor.id}&completo=datosAnidados`)
 			.then(function (response) {
 				const respuesta = response.data
-				l_tutorias = respuesta.tutors.data[0].tutorias
+        l_tutorias = respuesta.tutors.data[0].tutorias
+        
 				me.listadoTutorias =[]
 				l_tutorias.forEach(function(valor, indice, array){
 					me.listadoTutorias.push(valor.nombre)
 				});
-				me.abrirListado=true;
+        me.abrirListado=true;
+        console.log(l_tutorias)
 			})
 		.catch(function (error) {
 			console.log(error)
