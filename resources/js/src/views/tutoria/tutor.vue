@@ -36,7 +36,7 @@
                         <vs-td>
 						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/tutor/'+data[indextr].id)"></vs-button></vx-tooltip>			
 					    </vs-td>
-						<vs-td :data="data[indextr].datos.id">{{data[indextr].datos.id}}</vs-td>
+						<vs-td :data="data[indextr].id">{{data[indextr].id}}</vs-td>
 						<vs-td :data="data[indextr].datos.nombres">{{data[indextr].nombres}}</vs-td>
                         <vs-td :data="data[indextr].datos.apellidos" >{{data[indextr].apellidos}}</vs-td>
                         <vs-td :data="data[indextr].especialidad">{{data[indextr].especialidad}}</vs-td>
@@ -129,12 +129,14 @@ export default {
 			`/api/tutor/get?criterio=id&buscar=${tutor.id}&completo=datosAnidados`)
 			.then(function (response) {
 				const respuesta = response.data
-				l_tutorias = respuesta.tutors.data[0].tutorias
+        l_tutorias = respuesta.tutors.data[0].tutorias
+        
 				me.listadoTutorias =[]
 				l_tutorias.forEach(function(valor, indice, array){
 					me.listadoTutorias.push(valor.nombre)
 				});
-				me.abrirListado=true;
+        me.abrirListado=true;
+        console.log(l_tutorias)
 			})
 		.catch(function (error) {
 			console.log(error)

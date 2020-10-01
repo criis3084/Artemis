@@ -21,8 +21,9 @@
         				</template>
 						<template slot="thead">
 							<!-- <vs-th>Ver</vs-th> -->
+							<vs-th>Id</vs-th>
 							<vs-th>Nombres</vs-th>
-							<vs-th>Apelidos</vs-th>
+							<vs-th>Apellidos</vs-th>
               				<vs-th>Género</vs-th>
 							<vs-th>Correo Electrónico</vs-th>
 		
@@ -35,11 +36,12 @@
 								<!-- <vs-td>
 									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
 								</vs-td> -->
-								<vs-td :data="data[indextr].datos.nombres">
-                        			{{data[indextr].datos.nombres}}
+								<vs-td>{{data[indextr].id}}</vs-td>
+								<vs-td :data="data[indextr].nombres">
+                        			{{data[indextr].nombres}}
                     			</vs-td>
-								<vs-td :data="data[indextr].datos.apellidos">
-                        			{{data[indextr].datos.apellidos}}
+								<vs-td :data="data[indextr].apellidos">
+                        			{{data[indextr].apellidos}}
                     			</vs-td>
 								<vs-td :data="data[indextr].datos.genero">
                         			{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}
@@ -54,20 +56,12 @@
 			                  		</vs-switch>
                    				 </vs-td>
 
-
-								<!-- <vs-td v-text="padrino.datos.nombres" ></vs-td>
-								<vs-td v-text="padrino.datos.apellidos" ></vs-td>
-								<vs-td v-text="padrino.datos.genero== 1 ? 'Masculino' : 'Femenino'" ></vs-td>
-								<vs-td v-text="padrino.correo" ></vs-td>
-								<vs-td>
-									<vs-switch color="success" v-model="padrino.estado" @click="abrirDialog(padrino.id, padrino.estado)">
-										<span slot="on" >Activo</span>
-										<span slot="off">Desactivo</span>
-									</vs-switch>
-								</vs-td> -->
-
 								<vs-td>
 									<vx-tooltip text="Editar"> <vs-button @click="$router.push('/editar/padrino/'+data[indextr].id)" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+								</vs-td>
+
+								<vs-td>
+									<vx-tooltip text="Apadrinamientos"> <vs-button radius color="dark" type="flat" icon="list" size="large"> </vs-button>  </vx-tooltip>
 								</vs-td>
 
 							</vs-tr>
@@ -75,6 +69,15 @@
 
 						</template>
 					</vs-table>
+
+				<vs-prompt
+				 :buttons-hidden="true"
+				  title="Listado de apadrinamientos"
+				 :active.sync="abrirListado">
+					<li >
+						
+					</li>
+				</vs-prompt>
 				</vx-card>
 			</div>
 
@@ -92,6 +95,7 @@ import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.
 import VxTimeline from '@/components/timeline/VxTimeline'
 import Formulario from './formulariopadrin.vue'
 import axios from 'axios'
+import vSelect from 'vue-select'
 import EditPadrino from './formulariopadrinedit.vue'
 
 export default {
@@ -106,7 +110,7 @@ export default {
           'last_page' : 0,
           'from' : 0,
           'to' : 0
-      },
+	  },
       offset : 3,
       search : '',
       arrayData: [],
@@ -121,10 +125,11 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'datos.nombre', 'datos.apellidos','datos.genero','correo','estado'],
-	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Género','Correo','Estado'],
+	  headerVal: ['id', 'nombres', 'apellidos','correo','estado'],
+	  headerTitle: ['Id', 'Nombre', 'Apellidos','Correo','Estado'],
       activePrompt: false,
-      'selected': [],
+	  abrirListado: false,
+	  activePrompt: false,
       'tableList': [
         'vs-th: Component',
         'vs-tr: Component',
@@ -141,7 +146,8 @@ export default {
     ChangeTimeDurationDropdown,
     VxTimeline,
 	Formulario,
-	EditPadrino
+	EditPadrino,
+	vSelect
     
   },
   methods: {
@@ -216,6 +222,7 @@ export default {
 			console.log(page)
 			var respuesta= response.data;
 			me.arrayData = respuesta.padrinos.data;
+			me.padrinos = me.traerNombre(me.arrayData)
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -263,6 +270,14 @@ export default {
       this.filename = ''
       this.cellAutoWidth = true
       this.selectedFormat = 'xlsx'
+    },
+
+    traerNombre (tabla) {
+      tabla.forEach(function (valor, indice, array) {
+        valor.nombres = valor.datos.nombres
+        valor.apellidos = valor.datos.apellidos
+      }) 
+      return tabla
     }
   
   },
