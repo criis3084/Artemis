@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<vx-card>
-			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE NIÑO" subtitle="" finishButtonText="Enviar" back-button-text="Atras" next-button-text="Siguiente" @on-complete="formSubmitted">
+			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZACIÓN DE NIÑO" subtitle="" finishButtonText="Enviar" back-button-text="Atras" next-button-text="Siguiente" @on-complete="formSubmitted">
 				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
 				<!-- tab 1 content -->
@@ -11,7 +11,7 @@
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Código" v-model="codigoT"/>
-									<span class="text-danger">los códigos son requeridos</span>
+									<span class="text-warning">El código es requerido</span>
 								</div>
 							</div>
 
@@ -19,14 +19,14 @@
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombresT"/>
-									<span class="text-danger">los nombres son requeridos</span>
+									<span class="text-warning">los nombres son requeridos</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidosT"/>
-									<span class="text-danger">los apellidos son requeridos</span>
+									<span class="text-warning">los apellidos son requeridos</span>
 								</div>
 							</div>
 
@@ -59,7 +59,7 @@
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" v-model="direccionT"/>
-									<span class="text-danger">La dirección es requerida</span>
+									<span class="text-warning">La dirección es requerida</span>
 								</div>
 							</div>
 
@@ -90,7 +90,7 @@
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<div class="vx-col w-full">
 						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ruta de imagen" v-model="ruta_imagenT"/>
-						<span class="text-danger">La ruta es requerida</span>
+						<span class="text-warning">La ruta es requerida</span>
 					</div>
 				</div>
 			</div>
@@ -157,7 +157,7 @@ export default {
 	  ruta_imagenT:"",
 	  sector_idT:0,
 	  escuela_idT:0,
-	  
+	//   id_recibido:0,
 	  sectoresT:[],
 	  escuelasT:[],
 	  titulo:'Actualización registrada!',

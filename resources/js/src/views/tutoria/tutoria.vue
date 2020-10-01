@@ -20,12 +20,12 @@
           <vs-th>Razón tutoría</vs-th>
           <vs-th>Nombres Niño</vs-th>
           <vs-th>Apellidos Niño</vs-th>
-          <vs-th>Genero Niño</vs-th>
+          <vs-th>Género Niño</vs-th>
           <vs-th>Nombres Tutor</vs-th>
           <vs-th>Apellidos Tutor</vs-th>
           <vs-th>Fecha</vs-th>
           <vs-th>Estado</vs-th>
-          <vs-th></vs-th>
+          <vs-th>Acciones</vs-th>
         </template>
 
         <template slot-scope="{ data }">
@@ -54,11 +54,10 @@
                   <span slot="off">Desactivo</span>
                 </vs-switch>
               </vs-td>
-              	<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-				
+              
             </vs-td>
+            	<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>	
             <vs-td>
-
             </vs-td>
           </vs-tr>
         </template>

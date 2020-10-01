@@ -31,10 +31,10 @@
 		<br>
       </div>
 		<template>
-      <small class="date-label">Datos del niño</small>
+      <small class="date-label">Niño:</small>
 		<v-select label="nombres" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		<br>
-     <small class="date-label">Datos del tutor</small>
+    <small class="date-label">Tutor:</small>
 		<v-select label="nombres" :options="tutor" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		
 		</template> 
@@ -81,7 +81,7 @@ export default {
   },
   computed: {
     validName() {
-      return this.valMultipe.value1.length > 0;
+      return this.valMultipe.value1.length > 0 && this.valMultipe.value3 != 0 && this.valMultipe.value4 != 0 && this.valMultipe.fecha != "";
     },
   },
   methods: {

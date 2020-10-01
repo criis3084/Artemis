@@ -222,6 +222,14 @@ const router = new Router({
             rule:'editor'
           }
         },
+        {
+          path:'/ver/tutor/:id',
+          name: 'ver-tutor',
+          component: () => import('./views/tutoria/verTutor.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
         // =============================================================================
         // MICROPRESTAMO
         // =============================================================================

@@ -46,7 +46,7 @@
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Numero de telefono"  v-model="numero_telefonoT" class="w-full" name="campo" v-validate="'required'" />
+              <vs-input label="Número de teléfono"  v-model="numero_telefonoT" class="w-full" name="campo" v-validate="'required'" />
               <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
             </div>
 
@@ -66,7 +66,7 @@
 
             <div class="vx-col md:w-1/2 w-full">
           <template>
-					  <vs-upload action="https://jsonplaceholder.typicode.com/posts/" limit="1" text="Subir fotografia" @on-success="successUpload" />
+					  <vs-upload action="https://jsonplaceholder.typicode.com/posts/" limit="1" text="Subir fotografía" @on-success="successUpload" />
 				  </template> 
             </div>
             <div class="vx-col md:w-1/2 w-full mt-5">

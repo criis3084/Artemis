@@ -2,6 +2,11 @@
 	<div>
 		<vx-card>
 			<div>
+				<div class="vx-col md:w-1/2 w-full mt-5">
+            		<vs-button @click="regresar" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
+        		</div>
+			</div>
+			<div>
 			 <div class = "demo-alignment">
                     <h5>Nueva fotografía para el niño:</h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
             </div>
@@ -9,35 +14,35 @@
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload :action="hola(this)" id='laImagen' v-on:change="aVeer(this)" limit='1' text="Imagen de Perfil" />
+						<vs-upload :action="hola(this)" id='laImagen' v-on:change="aVeer(this)" limit='1' text="Subir fotografía" />
 					</template>
 				</div>
 			</div>
 			
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Ruta de imagen" v-model="ruta"/>
-				</div>
-			</div>
-
-            <div class="vx-col md:w-1/2 w-full mt-5">
-				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-image" icon-no-border label-placeholder="Descripcion" v-model="descripcion"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Ruta de fotografía" v-model="ruta"/>
 				</div>
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Título" v-model="titulo"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Título de fotografía" v-model="titulo"/>
 				</div>
 			</div>
 
+            <div class="vx-col md:w-1/2 w-full mt-5">
+				<div class="vx-col w-full">
+					<vs-input class="w-full" icon-pack="feather" icon="icon-image" icon-no-border label-placeholder="Descripción de fotografía" v-model="descripcion"/>
+				</div>
+			</div>
+
+			
+
 		</form>
 
-        <div class="vx-col md:w-1/2 w-full mt-5">
-            <vs-button @click="$router.push('/apadrinamiento/fotografia/'+id)" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
-        </div>
-
+        <br>
+		<vs-button @click="guardar">Registrar imagen</vs-button>
 			</div>
 		</vx-card>
 	</div>
@@ -55,7 +60,7 @@ export default {
     return {
 		ruta:'',
 		descripcion:'',
-        titulo:'',
+		titulo:'',
         arrayData: [],
         codigo: '',
         id:'',
@@ -65,6 +70,37 @@ export default {
 	}
   },
   methods:{
+	  regresar(){
+		let id_recibido = this.$route.params.id;
+		this.$router.push('/apadrinamiento/fotografia/'+id_recibido);
+	},
+	  guardar(){
+		this.id=parseInt(this.$route.params.id)
+		console.log(this.getDate(this.fecha))
+		console.log(this.id,this.valorT,this.valor1)
+		axios.post("/api/historialFotografia/post/",{
+			nino_id:this.id,
+			ruta:this.ruta,
+			descripcion:this.descripcion,
+			titulo:this.titulo,
+		}).then(function(response) {
+				console.log(response)
+				this.$vs.notify({
+					color:'success',
+					title:'Exito',
+					text:'Registro Creado!'
+				});
+			})
+			.catch(function(error) {
+			console.log(error)
+		});
+		this.$router.push('/apadrinamiento/fotografia/'+this.id);
+	},
+	getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+	},
 	  hola(ob){
 			//localStorage.imagen = 'guardada';
 			console.log(ob)
@@ -73,7 +109,7 @@ export default {
 		  console.log(ob)
 	  },
       successUpload(){
-      this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
+      this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
     },
      async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;

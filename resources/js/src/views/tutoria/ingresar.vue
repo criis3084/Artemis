@@ -62,7 +62,7 @@
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" name="direccion" v-model="direccion" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" name="direccion" v-model="direccion" v-validate="'required'"/>
 									<span class="text-danger">{{errors.first('step-1.direccion') }}</span>
 								</div>
 							</div>

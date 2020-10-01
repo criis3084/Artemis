@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\HistorialFotografia;
+use App\Fotografia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
@@ -50,11 +51,18 @@ class HistorialFotografiaController extends Controller
     {
 		//if(!$request->ajax())return redirect('/');
 		try {
+			$fotografia = new Fotografia();
+			$fotografia->ruta = $request->ruta;
+			$fotografia->descripcion = $request->descripcion;
+			$fotografia->titulo = $request->titulo;
+			$fotografia->save();
+
 			$historialFotografias = new HistorialFotografia();
 			$historialFotografias->nino_id = $request->nino_id;
-			$historialFotografias->fotografia_id = $request->fotografia_id;
+			$historialFotografias->fotografia_id = $fotografia->id;
 			$historialFotografias->save();
-			return Response::json(['message' => 'Historial Fotografia Creada'], 200);
+
+			return Response::json(['message' => 'Historial Fotografía Creada'], 200);
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
