@@ -40,7 +40,7 @@
 						<template slot-scope="{data}">
                 			<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 								<vs-td>
-									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
+									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"  @click="$router.push('/ver/nino/'+data[indextr].id)" ></vs-button></vx-tooltip>
 								</vs-td>
 
 		    					<!--
@@ -64,25 +64,10 @@
 										<vx-tooltip text="Historial de PPI">  <vs-button @click="$router.push('/apadrinamiento/ppi/'+data[indextr].id)" radius color="dark" type="flat" icon="poll" size="large"> </vs-button></vx-tooltip>
 										<vx-tooltip text="Historial de Fotografias"> <vs-button @click="$router.push('/apadrinamiento/fotografia/'+data[indextr].id)" radius color="dark" type="flat" icon="camera_alt" size="large" > </vs-button> </vx-tooltip>
 									  </div>
-								<!--
-								</vs-td>
-								<vs-td>
-								</vs-td>
-								<vs-td>
-								-->
+								
 								</vs-td>
 							</vs-tr>
-								<!-- <editNino v-bind:identificador="abrir_editar" 
-								v-bind:id="id" 
-								v-bind:nombres="nombres" 
-								v-bind:apellidos="apellidos" 
-								v-bind:genero="genero" 
-								v-bind:codigo="codigo" 
-								v-bind:fecha_ingreso="fecha_ingreso" 
-								v-bind:fecha_nacimiento="fecha_nacimiento" 
-								v-bind:direccion="direccion" 
-								v-bind:ruta_imagen="ruta_imagen" 
-								v-on:cerrado="index(pagination.current_page, search);"	></editNino> -->
+	
 						</template>
 					</vs-table>
 				</vx-card>
@@ -135,8 +120,8 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['codigo', 'datos.nombre', 'datos.apellidos','datos.genero','datos.fecha_nacimiento','datos.fecha_ingreso','estado'],
-	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Género','Fecha de nacimiento','Fecha de ingreso','Estado'],
+	  headerVal: ['id', 'nombres', 'apellidos', 'fecha_nacimiento', 'fecha_ingreso', 'estado'],
+	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Fecha de nacimiento', 'Fecha de ingreso', 'Estado'],
       activePrompt: false,
       'selected': [],
       'tableList': [
@@ -250,6 +235,7 @@ export default {
 			console.log(page)
 			var respuesta= response.data;
 			me.arrayData = respuesta.ninos.data;
+			me.nino = me.traerNombre(me.arrayData)
 			me.pagination= respuesta.pagination;
 			console.log(me.arrayData);
 		})
@@ -288,6 +274,14 @@ export default {
       this.filename = ''
       this.cellAutoWidth = true
       this.selectedFormat = 'xlsx'
+	},
+	traerNombre (tabla) {
+      tabla.forEach(function (valor, indice, array) {
+	  valor.nombres = valor.datos.nombres
+	  valor.apellidos = valor.datos.apellidos
+	  valor.fecha_nacimiento = valor.datos.fecha_nacimiento
+      }) 
+	  return tabla
     }
   },
   mounted(){

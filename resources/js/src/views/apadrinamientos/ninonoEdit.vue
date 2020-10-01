@@ -10,7 +10,7 @@
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Código" v-model="codigoT"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Código" v-model="codigoT" v-validate="'required'"/>
 										<span class="text-danger">{{ errors.first('step-1.campo') }}</span>
 								</div>
 							</div>
@@ -136,11 +136,13 @@ const dict = {
       required: 'La direccion es requerida'
     },
     fecha: {
-      required: 'La fecha de nacimiento es requerida'
+      required: 'La fecha es requerida'
     },
     sector: {
-      required: 'el sector es requerido',
-      alpha: 'Event name may only contain alphabetic characters'
+      required: 'El sector es requerido',
+    },
+    campo:{
+      required:'El campo es requerido '
     }
   }
 }
@@ -184,7 +186,7 @@ export default {
       this.id_recibido = this.$route.params.id
       console.log(`criterio   ${this.id_recibido}`)
       const response = await axios.get(
-        `/api/nino/get?&criterio=id&buscar=${this.id_recibido}&completo=ninono`)
+        `/api/nino/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
           console.log(page)
           const respuesta = response.data

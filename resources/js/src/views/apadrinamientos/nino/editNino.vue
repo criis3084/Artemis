@@ -10,30 +10,31 @@
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Código" v-model="codigoT"/>
-									<span class="text-warning">El código es requerido</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Código" v-model="codigoT" name="codigo" v-validate="'required'"/>
+									<span class="text-danger">{{ errors.first('step-1.campo') }}</span>
 								</div>
 							</div>
 
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombresT"/>
-									<span class="text-warning">los nombres son requeridos</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombresT" name="nombres" v-validate="'required'"/>
+									<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidosT"/>
-									<span class="text-warning">los apellidos son requeridos</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidosT" name="apellidos" v-validate="'required'"/>
+									<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="my-4">
 									<small class="date-label">Fecha Nacimiento</small>
-									<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_nacimientoT"></datepicker>
+									<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha" v-model="fecha_nacimientoT" v-validate="'required'"></datepicker>
+									<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
 								</div>
 							</div>
 
@@ -58,8 +59,15 @@
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" v-model="direccionT"/>
-									<span class="text-warning">La dirección es requerida</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" v-model="direccionT" name="direccion" v-validate="'required'"/>
+									<span class="text-danger">{{errors.first('step-1.direccion') }}</span>
+								</div>
+							</div>
+
+							<div class="vx-col md:w-1/2 w-full mt-5">
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Télefono" v-model="numero_telefono" name="telefono" v-validate="'required'"/>
+									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
 								</div>
 							</div>
 
@@ -117,24 +125,26 @@ const dict = {
   custom: {
     nombres: {
       required: 'Los Nombres son requeridos',
-      alpha: "El nombre solo debe incluir letras"
     },
     apellidos: {
 	  required: 'Los apellidos son requeridos',
-      alpha: "El nombre solo debe incluir letras"
+
     },
     direccion: {
       required: 'La direccion es requerida',
-      email: "Please enter valid email"
+      
     },
-    fecha_nacimiento: {
-      required: 'La fecha de nacimiento es requerida',
-      alpha: "Job title may only contain alphabetic characters"
+    fecha: {
+      required: 'La fecha es requerida',
+      
     },
     sector: {
-      required: 'el sector es requerido',
-      alpha: "Event name may only contain alphabetic characters"
-    },
+      required: 'El sector es requerido',
+      
+	},
+	campo:{
+		required: 'El campo es requerido'
+	}
   }
 };
 
@@ -157,6 +167,7 @@ export default {
 	  ruta_imagenT:"",
 	  sector_idT:0,
 	  escuela_idT:0,
+	  numero_telefono:'',
 	//   id_recibido:0,
 	  sectoresT:[],
 	  escuelasT:[],
@@ -183,7 +194,8 @@ export default {
               me.arrayData = respuesta.ninos.data[0];
               me.nombresT = me.arrayData.datos.nombres;
               me.apellidosT = me.arrayData.datos.apellidos;
-              me.direccionT = me.arrayData.datos.direccion;
+			  me.direccionT = me.arrayData.datos.direccion;
+			  me.numero_telefono = me.arrayData.datos.numero_telefono;
 			  me.idT = me.arrayData.datos.id;
 			  me.codigoT = me.arrayData.codigo;
 			  me.generoT = me.arrayData.datos.genero;

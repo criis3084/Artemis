@@ -83,6 +83,14 @@ const router = new Router({
       }
     },
     {
+      path: '/ver/nino/:id',
+      name: 'ver-nino',
+      component: () => import('./views/apadrinamientos/nino/verNino.vue'),
+      meta: {
+        rule: 'editor'
+      }
+    },
+    {
       path: '/editar/ninono/:id',
       name: 'datos-ninono',
       component: () => import('./views/apadrinamientos/ninonoEdit.vue'),
