@@ -23,9 +23,13 @@
       <small class="date-label">Nino:</small>
 		<v-select label="nombres" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		<br>
+    
     <small class="date-label">Padrino:</small>
 		<v-select label="nombres" :options="padrino" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		
+    <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
+			LLene todos los campos
+		</vs-alert>
 		</template> 
 	</vs-prompt>
 
@@ -70,8 +74,8 @@ export default {
   },
   computed: {
     validName() {
-	//  return this.valMultipe.value3.length > 0;
-	  //return this.valMultipe.value4.length > 0;
+	    return this.valMultipe.value3 != 0 && this.valMultipe.value4 != 0;
+
     },
   },
   methods: {

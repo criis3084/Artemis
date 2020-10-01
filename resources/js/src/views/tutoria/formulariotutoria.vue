@@ -81,7 +81,7 @@ export default {
   },
   computed: {
     validName() {
-      return this.valMultipe.value1.length > 0;
+      return this.valMultipe.value1.length > 0 && this.valMultipe.value3 != 0 && this.valMultipe.value4 != 0 && this.valMultipe.fecha != "";
     },
   },
   methods: {
