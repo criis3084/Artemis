@@ -1,7 +1,7 @@
 <template>
  <div>
 		<div class="demo-alignment">
-			<h2>Escuelas</h2>
+			<h2>Tipo de Viviendas</h2>
 			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient"  icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
 	<br>
@@ -16,22 +16,16 @@
 	  :title= "titulo"
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
-        <b></b>
-			
-		<vs-input placeholder="Nombre de la escuela" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
-
-		
+        <b></b>	
+		<vs-input placeholder="Nombre del tipo de Vivienda" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
       </div>
-
 		<template>
-		<vs-input placeholder="Dirección" v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
+		<vs-input placeholder="Descripción" v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
 		</template> 
         <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 			LLene todos los campos
 		</vs-alert>
 	</vs-prompt>
-
-
 	  </div>
 </template>
 
@@ -56,7 +50,7 @@ export default {
 	 aldeasT: [],
 	 selected: '',
 	  switch2:true,
-	  titulo:'Nuevo Escuela'
+	  titulo:'Nuevo Tipo de Vivienda'
 	}
   },
   computed:{
@@ -68,10 +62,10 @@ export default {
 	async index2(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/escuela/get?page=${page}&search=${search}`)
+			`/api/tipoVivienda/get?page=${page}&search=${search}`)
 		.then(function (response) {
 			var respuesta= response.data;
-			me.aldeasT = respuesta.escuelas.data;
+			me.aldeasT = respuesta.tipoviviendas.data;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -80,9 +74,9 @@ export default {
 	},
 	acceptAlert () {
 	console.log(this.valMultipe.value2.id)
-	axios.post("/api/escuela/post/",{
+	axios.post("/api/tipoVivienda/post/",{
 		nombre:this.valMultipe.value1,
-		direccion:this.valMultipe.value2
+		descripcion:this.valMultipe.value2
 	}).then(function(response) {
 			console.log(response)
 		})
@@ -93,10 +87,11 @@ export default {
 		this.$vs.notify({
 		color:'success',
 		title:'Exito',
-		text:'Registro Creado!'
-	  })
-	   this.valMultipe.value1 = '';
-	    this.valMultipe.value2 = '';
+        text:'Registro Creado!'
+       
+      })
+       this.valMultipe.value1 = '';
+      this.valMultipe.value2 = '';
 	  this.$emit('cerrado','Se cerro el formulario');
 	},
 	close () {
@@ -104,7 +99,8 @@ export default {
 		color:'danger',
 		title:'Cerrado',
 		text:'Cerró el formulario!'
-	  })
+      })
+      
 	  this.$emit('cerrado','Se cerro el formulario');
 	},
 	clearValMultiple () {
@@ -113,9 +109,9 @@ export default {
 	  this.$emit('cerrado','Se cerro el formulario');
 	},
 	saveProduct(){
-	axios.post("/api/escuela/post/",{
+	axios.post("/api/tipoVivienda/post/",{
 		nombre:this.valMultipe.value1,
-		direccion:this.valMultipe.value2
+		descripcion:this.valMultipe.value2
 	}).then(function(response) {
 			console.log(response)
 		})

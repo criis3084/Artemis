@@ -68,6 +68,7 @@ export default {
 			title:'Creado',
 			text:'El registro ha sido creado!'
 		})
+		this.valMultipe.value1 = '';
 		this.$emit('cerrado','Se cerro el formulario');
 	},
 	close(){

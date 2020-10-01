@@ -64,7 +64,7 @@
       v-bind:direccion="direccion"
 			v-on:cerrado="index(1,'');"
 			></escuelaEdit>
-   
+
 </vx-card>
 </template>
 

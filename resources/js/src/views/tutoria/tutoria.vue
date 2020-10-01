@@ -104,7 +104,7 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	    selectedFormat: 'xlsx',
-	    headerVal: ['id', 'nombre', 'fecha', 'nino.id','tutor.id', 'estado' ],
+	    headerVal: ['id', 'nombres', 'fecha', 'nino.id','tutor.id', 'estado' ],
 	    headerTitle: ['Id', 'Nombre', 'Fecha', 'Id Niño', 'Id tutor', 'Estado'],
       activePrompt: false,
       nombre: "",
@@ -129,7 +129,7 @@ export default {
   methods: {
     traerNombre(tabla){
 		tabla.forEach(function(valor, indice, array){
-			valor.nombres=valor.datos.nombres
+			valor.nombres=valor.datos_tutor[0].nombres
 		}); 
 		return tabla
 	  },
