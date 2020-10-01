@@ -10,14 +10,14 @@
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombres" v-validate="'required|alpha'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombres" v-validate="'required'"/>
 									<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name="apellidos" v-validate="'required|alpha'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name="apellidos" v-validate="'required'"/>
 									<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
 								</div>
 							</div>
@@ -77,7 +77,7 @@
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload automatic action="/api/tutor/imagen" limit='1' :headers="head" fileName='photos' @on-success="successUpload" />
+						<vs-upload automatic action="/api/tutor/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar"/>
 					</template>
 				</div>
 			</div>
@@ -199,14 +199,13 @@ export default {
 		head:{
 			"imagenanterior":""	
 		},
-		imagen:''
     }
   },
   methods: {
 	getDate(datetime) {
-	let date = new Date(datetime);
-	let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-	return dateString;
+		let date = new Date(datetime);
+		let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+		return dateString;
 	},
 	async importarRoles(){ //async para que se llame cada vez que se necesite
 		let me = this;
@@ -222,34 +221,42 @@ export default {
 		});
 	},
 	acceptAlert(){
-	axios.post("/api/tutor/post/",{
-		nombres:this.nombres,
-        apellidos:this.apellidos,
-        especialidad:this.especialidad,
-        CUI:this.CUI,
-        numero_telefono:this.numero_telefono,
-        correo:this.correo,
-        imagen_perfil:this.imagen,
-        usuario:this.usuario,
-        password:this.password,
-        descripcion:this.descripcion,
-		genero:this.genero,
-		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
-		direccion:this.direccion,
 		
-		rol_id:this.rol_id.id
-	}).then(function(response) {
-			console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-        });
-		this.$emit('cerrado','Se cerró el formulario');
-		this.$router.push('/tutoria/tutor');
+		if (this.imagen_perfil === ''){
+			this.imagen_perfil= "default.png"
+		}
+		
+		axios.post("/api/tutor/post/",{
+			nombres:this.nombres,
+			apellidos:this.apellidos,
+			especialidad:this.especialidad,
+			CUI:this.CUI,
+			numero_telefono:this.numero_telefono,
+			correo:this.correo,
+			imagen_perfil: '/storage/public/tutores/' + this.imagen_perfil,
+			usuario:this.usuario,
+			password:this.password,
+			descripcion:this.descripcion,
+			genero:this.genero,
+			fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+			direccion:this.direccion,
+			
+			rol_id:this.rol_id.id
+		}).then(function(response) {
+				console.log(response)
+			})
+			.catch(function(error) {
+			console.log(error)
+			});
+			this.$emit('cerrado','Se cerró el formulario');
+			this.$router.push('/tutoria/tutor');
 	},
-	successUpload(e){
-		this.imagen=e.currentTarget.response.replace(/['"]+/g, '')
-		this.head.imagenanterior=this.imagen
+	vaciar(){
+		this.imagen_perfil='';
+	},
+	respuesta(e){
+		this.imagen_perfil=e.currentTarget.response.replace(/['"]+/g, '')
+		this.head.imagenanterior=this.imagen_perfil
     },
     validateStep1() {
       return new Promise((resolve, reject) => {
