@@ -157,7 +157,7 @@ export default {
 	  ruta_imagenT:"",
 	  sector_idT:0,
 	  escuela_idT:0,
-	  
+	//   id_recibido:0,
 	  sectoresT:[],
 	  escuelasT:[],
 	  titulo:'Actualización registrada!',

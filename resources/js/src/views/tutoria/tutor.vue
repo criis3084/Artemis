@@ -38,8 +38,8 @@
 					    </vs-td>
 						<vs-td :data="data[indextr].id">{{data[indextr].id}}</vs-td>
 						<vs-td :data="data[indextr].datos.nombres">{{data[indextr].nombres}}</vs-td>
-                        <vs-td :data="data[indextr].datos.apellidos" >{{data[indextr].apellidos}}</vs-td>
-                        <vs-td :data="data[indextr].especialidad">{{data[indextr].especialidad}}</vs-td>
+            <vs-td :data="data[indextr].datos.apellidos" >{{data[indextr].apellidos}}</vs-td>
+            <vs-td :data="data[indextr].especialidad">{{data[indextr].especialidad}}</vs-td>
                         <vs-td :data="data[indextr].datos.telefono">{{data[indextr].numero_telefono}}</vs-td>
 						<vs-td>
 							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
