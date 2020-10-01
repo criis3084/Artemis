@@ -39,9 +39,9 @@
 
                     <vs-td :data="data[indextr].estado">
                         <vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
-				                  <span slot="on" >Activo</span>
-				                  <span slot="off">Desactivo</span>
-			                  </vs-switch>
+							<span slot="on" >Activo</span>
+							<span slot="off">Desactivo</span>
+						</vs-switch>
                     </vs-td>
                     <vs-td>
 						<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>

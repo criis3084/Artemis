@@ -206,6 +206,7 @@ export default {
 			this.mostrarEditar=true;
 		},
 		vaciar(){
+			console.log('imagen vaciada!')
 			this.imagen_perfil='';
 		},
 		respuesta(e){

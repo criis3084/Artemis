@@ -12,10 +12,10 @@
 			<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
         </div>
     </vs-prompt>
-      <vs-table pagination max-items="10" search :data="arrayData">
-         <template slot="header">
-          <vs-button @click="activePrompt=true">Exportar</vs-button>
-        </template>
+		<vs-table pagination max-items="10" search :data="arrayData">
+			<template slot="header">
+				<vs-button @click="activePrompt=true">Exportar</vs-button>
+        	</template>
         <template slot="thead">
           <vs-th>Razón tutoría</vs-th>
           <vs-th>Nombres Niño</vs-th>
@@ -56,8 +56,8 @@
               </vs-td>
               
             </vs-td>
-            	<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>	
             <vs-td>
+            	<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>	
             </vs-td>
           </vs-tr>
         </template>
@@ -66,7 +66,7 @@
 			v-bind:identificador="abrir_editar"
 			v-bind:id="id"
 			v-bind:nombre="nombre"
-      v-bind:fecha="fecha"
+			v-bind:fecha="fecha"
 			v-on:cerrado="index(1,'');"
 		></turoriaEdit>
     </vx-card>
@@ -180,26 +180,26 @@ export default {
     },
 
     abrirDialog(id, estado) {
-      let titulo = "";
-      let color = "";
-      if (estado === 0 || estado === false) {
-        // cambiar de color al boton
-        color = "success";
-        titulo = "Confirmar activación";
-      } else if (estado === 1 || estado === true) {
-        color = "danger";
-        titulo = "Confirmar desactivación";
-      }
-      this.id = id;
-      this.estado = estado;
-      this.$vs.dialog({
-        type: "confirm",
-        color: `${color}`,
-        title: `${titulo}`,
-        text: "¿Está seguro de llevar a cabo esta acción?",
-        accept: this.cambiarEstado,
-        cancel: this.close
-      });
+		let titulo = "";
+		let color = "";
+		if (estado === 0 || estado === false) {
+		// cambiar de color al boton
+		color = "success";
+		titulo = "Confirmar activación";
+		} else if (estado === 1 || estado === true) {
+		color = "danger";
+		titulo = "Confirmar desactivación";
+		}
+		this.id = id;
+		this.estado = estado;
+		this.$vs.dialog({
+		type: "confirm",
+		color: `${color}`,
+		title: `${titulo}`,
+		text: "¿Está seguro de llevar a cabo esta acción?",
+		accept: this.cambiarEstado,
+		cancel: this.close
+		});
     },
     cambiarEstado(color) {
       let titulo = "";

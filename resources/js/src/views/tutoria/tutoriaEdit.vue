@@ -8,31 +8,28 @@
 	  accept-text="Aceptar"
 	  cancel-text="Cancelar"
       :is-valid="copia"
-      
 	  :title= "titulo"
       :active.sync="identificador">
+
       <div class="con-exemple-prompt">
-        <b></b>
-		
-        <vs-input placeholder="Razón de la tutoría" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
-        <div class="vx-col md:w-1/2 w-full mt-5">
-			<div class="my-4">
-				<small class="date-label">Fecha de nacimiento</small>
-				<datepicker :format="dateFormat" name="end-date" v-model="valMultipe.fecha"></datepicker>
-			</div>
-		</div>
-		<vs-alert  color="danger" vs-icon="new_releases" class="mt-4" >
-			LLene todos los campos
-		</vs-alert>
-		<br>
+			<b></b>
+			
+			<vs-input placeholder="Razón de la tutoría" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+				<div class="vx-col md:w-1/2 w-full mt-5">
+					<div class="my-4">
+						<small class="date-label">Fecha de nacimiento</small>
+						<datepicker :format="dateFormat" name="end-date" v-model="valMultipe.fecha"></datepicker>
+					</div>
+				</div>
+			<vs-alert  color="danger" vs-icon="new_releases" class="mt-4" >
+				LLene todos los campos
+			</vs-alert>
+			<br>
       </div>
 		<template>
-		<v-select label="nombres" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-		
-       
-        <br>
-		<v-select label="nombres" :options="tutor" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-		
+			<v-select label="nombres" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+			<br>
+			<v-select label="nombres" :options="tutor" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		</template> 
 	</vs-prompt>
 
@@ -66,8 +63,6 @@ export default {
   },
   data() {
     return {
-      activePrompt2: false,
-      val: "",
       valMultipe: {
         value1: "",
 		value2: "",
