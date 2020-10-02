@@ -97,6 +97,7 @@ export default {
   },
   methods: {
 	traerNombreNino(tabla){
+		console.log(typeof(tabla));
 		tabla.forEach(function(valor, indice, array){
 			valor.nino_nombres=valor.datos.nombres
 		}); 

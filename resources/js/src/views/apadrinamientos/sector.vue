@@ -82,8 +82,8 @@ export default {
 			id: 0,
 			aldea_id:0,
 			nombre:'',
-			abrir_editar:false,
 			estado: null,
+			abrir_editar:false,
 			fileName: '',
 			formats:['xlsx', 'csv', 'txt'],
 			cellAutoWidth: true,
@@ -119,7 +119,6 @@ export default {
 			return tabla
 		},
 		cambiar(sector){
-			console.log(sector)
 			this.id = sector.id;
 			this.nombre = sector.nombre;
 			this.aldea_id = sector.aldea_id;
