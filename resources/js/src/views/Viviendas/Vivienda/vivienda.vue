@@ -29,7 +29,6 @@
             <vs-th>Constructor</vs-th>
 			<vs-th>Estado</vs-th>
             <vs-th>Acciones</vs-th>
-			<vs-th></vs-th>
         </template>
 
         <template slot-scope="{ data }">

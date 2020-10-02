@@ -1,5 +1,5 @@
 <template>
-  <vx-card title="Ingreso de padrinos" code-toggler>
+  <vx-card title="Ingreso de constructores" code-toggler>
 
     <div class="mt-5">
       <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">

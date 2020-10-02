@@ -51,6 +51,11 @@ class ViviendaController extends Controller
 	{
 		try {
 			$vivienda = new Vivienda();
+			$vivienda->costo_total = $request->costo_total;
+			$vivienda->direccion = $request->direccion;
+			$vivienda->fecha_inicio = $request->fecha_inicio;
+			$vivienda->duracion = $request->duracion;
+			$vivienda->imagen_final = $request->imagen_final;
 			$vivienda->encargado_id = $request->encargado_id;
 			$vivienda->constructor_id = $request->constructor_id;
 			$vivienda->tipo_vivienda_id = $request->tipo_vivienda_id;

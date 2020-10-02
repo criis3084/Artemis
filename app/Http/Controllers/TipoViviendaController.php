@@ -31,7 +31,7 @@ class TipoViviendaController extends Controller
                 'from'         => $tipoVivienda->firstItem(),
                 'to'           => $tipoVivienda->lastItem(),
             ],
-            'destinosInversiones' => $tipoVivienda
+            'tipoViviendas' => $tipoVivienda
 		];
     }
     public function store(Request $request)
@@ -42,7 +42,7 @@ class TipoViviendaController extends Controller
 			$tipoVivienda->nombre = $request->nombre;
 			$tipoVivienda->descripcion = $request->descripcion;
 			$tipoVivienda->save();
-			return Response::json(['message' => 'TipoVivienda Creada'], 200);
+			return Response::json(['message' => 'Tipo de vivienda Creada'], 200);
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}
