@@ -301,6 +301,7 @@ const router = new Router({
         // =============================================================================
         // VIVIENDA
         // =============================================================================
+        // VIVIENDA
         {
           path:'/vivienda/vivienda',
           name: 'vivienda-vivienda',
@@ -309,6 +310,31 @@ const router = new Router({
             rule:'editor'
           }
         },
+        {
+          path:'/ingresar/vivienda',
+          name: 'ingresar-vivienda',
+          component: () => import('./views/Viviendas/Vivienda/ingresar.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path:'/editar/vivienda',
+          name: 'editar-vivienda',
+          component: () => import('./views/Viviendas/Vivienda/editar.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path:'/ver/vivienda',
+          name: 'ver-vivienda',
+          component: () => import('./views/Viviendas/Vivienda/ver.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        // TIPO VIVIENDA
         {
           path:'/vivienda/tipo',
           name: 'vivienda-tipo',
