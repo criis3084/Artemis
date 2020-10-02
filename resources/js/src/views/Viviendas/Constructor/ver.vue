@@ -1,0 +1,208 @@
+<template>
+  <div id="item-detail-page">
+    <vx-card title="Información del Tutor">
+
+
+      <template slot="no-body">
+
+        <div class="item-content">
+
+          <!-- Item Main Info -->
+          <div class="product-details p-6">
+            <div class="vx-row mt-6">
+              
+
+              <div class="vx-col md:w-3/5 w-full">
+                <span>Nombres y apellidos</span>
+                <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.nombresConstructor +" " + this.apellidosConstructor }}</h1>
+                <p>{{"Número de CUI"+" "+ this.CUI }}</p>
+
+                <vs-divider />
+                <span>Contacto</span>
+                <p class="flex items-center flex-wrap">
+                  <vx-tooltip text="Dirección"><span class="material-icons ">house</span></vx-tooltip>
+                  <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.direccionConstructor }}</span>
+                </p>
+                <p class="flex items-center flex-wrap"> 
+                   <vx-tooltip text="Télefono"> <span class="material-icons ">contact_phone </span> </vx-tooltip>
+                    <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.numero_telefono }}</span>
+                </p>
+
+                <vs-divider />
+                <span>Información adicional</span>
+
+                <p class="flex items-center flex-wrap">
+                      <vx-tooltip text="Fecha de nacimiento"> <span class="material-icons ">date_range</span> </vx-tooltip>
+                <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.fecha_nacimiento }}</span>
+                </p>
+                <vs-divider/>
+                
+                <div class="vx-row">
+                  <div class="vx-col flex flex-wrap items-center">
+                   <vx-tooltip text="Editar Información"> <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-edit" radius  @click="$router.push('/editar/constructor/'+id_recibido)"></vs-button> </vx-tooltip>
+                    <vx-tooltip text="Regresar"><router-link to="/vivienda/constructor"><vs-button class="mr-4" type="border" icon-pack="feather" color="#00aaff" icon="icon-corner-down-left" radius></vs-button></router-link></vx-tooltip>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </template>
+    </vx-card>
+  </div>
+</template>
+
+<script>
+import 'swiper/dist/css/swiper.min.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import algoliasearch from 'algoliasearch/lite'
+import StarRating from 'vue-star-rating'
+import axios from 'axios'
+
+export default{
+  components: {
+    swiper,
+    swiperSlide,
+    StarRating
+  },
+  data () {
+    return {
+      algolia_index: algoliasearch(
+        'latency',
+        '6be0576ff61c053d5f9a3225e2a90f76'
+      ).initIndex('instant_search'),
+      item_data: null,
+      error_occured: false,
+      error_msg: '',
+      arrayData: [],
+      idConstructor:'',
+      id:'',
+      nombresConstructor: '',
+      apellidosConstructor: '',
+      direccionConstructor: '',
+      genero:'',
+      CUI:'',
+      numero_telefono:'',
+      correo:'',
+      imagen_perfil:'',
+      fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+      descripcion:'',
+      usuario:'',
+      password:'',
+      roles: [],
+      selected: '1',
+      rol:'',
+      id_recibido:''
+
+      // Related Products Swiper
+      // Below is data which is common in any item
+      // Algolia's dataSet don't provide this kind of data. So, here's dummy data for demo
+    }
+  },
+  computed: {
+  },
+  methods: {
+    getDate (datetime) {
+      const date = new Date(datetime)
+      const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+      return dateString
+    },
+    async index (page, search) { //async para que se llame cada vez que se necesite
+      const me = this
+      this.id_recibido = this.$route.params.id
+      const response = await axios.get(`/api/constructor/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
+        .then(function (response) {
+          console.log(page)
+          var respuesta =  response.data
+          me.arrayData = respuesta.constructors.data[0]
+          me.nombresConstructor = me.arrayData.datos.nombres
+          me.apellidosConstructor = me.arrayData.datos.apellidos
+          me.direccionConstructor = me.arrayData.datos.direccion
+          me.idConstructor = me.arrayData.datos.id
+          me.genero = me.arrayData.datos.genero
+          me.fecha_nacimiento = me.arrayData.datos.fecha_nacimiento
+          me.CUI = me.arrayData.datos.CUI
+          me.numero_telefono = me.arrayData.datos.numero_telefono
+
+          me.pagination = respuesta.pagination
+          console.log(me.imagen_perfil)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  },
+  created () {
+  },
+  mounted () {
+    this.index(1, this.search)
+  }
+}
+</script>
+
+<style lang="scss">
+
+@import "@sass/vuexy/_variables.scss";
+
+#item-detail-page {
+  .color-radio {
+    height: 2.28rem;
+    width: 2.28rem;
+
+    > div {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .item-features {
+    background-color: #f7f7f7;
+
+    .theme-dark & {
+      background-color: $theme-dark-secondary-bg;
+    }
+  }
+
+  .product-sales-meta-list {
+    .vs-list--icon {
+      padding-left: 0;
+    }
+  }
+
+  .related-product-swiper {
+      // padding-right: 2rem;
+      // padding-left: 2rem;
+
+    .swiper-wrapper {
+      padding-bottom: 2rem;
+
+      > .swiper-slide {
+        background-color: #f7f7f7;
+        box-shadow: 0 4px 18px 0 rgba(0,0,0,0.1), 0 5px 12px 0 rgba(0,0,0,0.08) !important;
+
+        .theme-dark & {
+          background-color: $theme-light-dark-bg;
+        }
+      }
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      transform: scale(.5);
+      filter: hue-rotate(40deg);
+    }
+
+    .swiper-button-next {
+      right: 0
+    }
+
+    .swiper-button-prev {
+      left: 0;
+    }
+  }
+}
+</style>

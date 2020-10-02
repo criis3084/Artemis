@@ -316,14 +316,42 @@ const router = new Router({
           meta: {
             rule:'editor'
           }
-        },{
+        },
+        //CONSTRUCTOR
+        {
           path:'/vivienda/constructor',
           name: 'vivienda-constructor',
           component: () => import('./views/Viviendas/Constructor/constructor.vue'),
           meta: {
             rule:'editor'
           }
-        },{
+        },
+        {
+          path:'/ingresar/constructor',
+          name: 'ingresar-constructor',
+          component: () => import('./views/Viviendas/Constructor/ingresar.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path:'/editar/constructor/:id',
+          name: 'editar-constructor',
+          component: () => import('./views/Viviendas/Constructor/editar.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path:'/ver/constructor/:id',
+          name: 'ver-constructor',
+          component: () => import('./views/Viviendas/Constructor/ver.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        //ABONO
+        {
           path:'/vivienda/abono',
           name: 'vivienda-abono',
           component: () => import('./views/Viviendas/Abono_vivienda/abonoVivienda.vue'),
