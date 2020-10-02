@@ -60,7 +60,7 @@ export default {
 			return true;
 		},
 		copia() {
-			this.montar()
+			this.importar_aldea()
 			return true;
 		}
 	},
@@ -89,25 +89,28 @@ methods:{
 			return {}
 		},
 		async importar_aldea(){ 
-			let me = this;
-			const response = await axios.get(`/api/aldea/get?completo=false`)
-			.then(function (response) {
-				var respuesta= response.data;
-				me.listado_aldea = respuesta.aldeas.data;
-				
-				me.listado_aldea.forEach(function(elemento, indice, array) {
-					if (elemento.id==me.$props.aldea_id)
-					{
-						me.aldea_idT=elemento
-					}
+			if(this.$props.identificador==true)
+			{
+				let me = this;
+				const response = await axios.get(`/api/aldea/get?completo=false`)
+				.then(function (response) {
+					var respuesta= response.data;
+					me.listado_aldea = respuesta.aldeas.data;
+					
+					me.listado_aldea.forEach(function(elemento, indice, array) {
+						if (elemento.id==me.$props.aldea_id)
+						{
+							me.aldea_idT=elemento
+						}
+					})
+					me.idT =me.$props.id;
+					me.nombreT =me.$props.nombre;
+
 				})
-				me.idT =me.$props.id;
-				me.nombreT =me.$props.nombre;
-				
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
+				.catch(function (error) {
+					console.log(error);
+				});
+			}
 		},
 		editarAldea () {
 			console.log(this.aldea_idT)
@@ -139,15 +142,6 @@ methods:{
 		clearValMultiple () {
 			this.$emit('cerrado','Se cerró el formulario');
 		},
-		montar(){
-			if(this.$props.identificador==true)
-			{
-				this.importar_aldea();
-			}
-		}
-	},
-  	mounted(){
-
 	}
 }
 </script>
