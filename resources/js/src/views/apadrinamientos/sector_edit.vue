@@ -12,17 +12,14 @@
 		>
 			<div class="con-exemple-prompt">
 				<b></b>
-					
 				<vs-input placeholder="Nombre del sector" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
-
 				<vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
 					LLene todos los campos
 				</vs-alert>
 			</div>
-
-			<template>
-				<v-select label="nombre" :options="listado_aldeas" v-model="aldea_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</template> 
+				<template>
+					<v-select label="nombre" :options="listado_aldea" @change="ver" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				</template> 
 		</vs-prompt>
 	</div>
 </template>
@@ -30,7 +27,6 @@
 <script>
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
-//C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
 import vSelect from 'vue-select'
 
@@ -53,10 +49,8 @@ export default {
 			idT:0,
 			nombreT:'',
 			aldea_idT:0,
-			listado_aldeas: [],
-			selected: '',
-			titulo:'Actualizar Sector',
-			selected: {id: 0, label: ''},
+			listado_aldea: [],
+			titulo:'Actualizar Sector'
 		}
 	},
   	computed:{
@@ -67,7 +61,6 @@ export default {
 			return true;
 		},
 		copia() {
-
 			this.nombreT =this.$props.nombre;
 			this.idT =this.$props.id;
 			this.aldea_idT =this.$props.aldea_id;
@@ -75,22 +68,18 @@ export default {
 		}
 	},
 	methods:{
-		async importar_aldeas(){ 
-			console.log('importando...')
+		async importar_aldea(){ 
 			let me = this;
-			const response = await axios.get(
-				`/api/aldea/get?completo=false`)
+			const response = await axios.get(`/api/aldea/get?completo=false`)
 			.then(function (response) {
 				var respuesta= response.data;
-				me.listado_aldeas = respuesta.aldeas.data;
-				console.log(me.listado_aldeas)
+				me.listado_aldea = respuesta.aldeas.data;
 			})
 			.catch(function (error) {
 				console.log(error);
 			});
 		},
 		editarAldea () {
-			cnosole.log(this.aldea_idT)
 			axios.put("/api/sector/update/",{
 				id:this.idT,
 				nombre:this.nombreT,
@@ -119,9 +108,9 @@ export default {
 		clearValMultiple () {
 			this.$emit('cerrado','Se cerró el formulario');
 		},
-  	mounted(){
-		this.importar_aldeas();
 	},
+  	mounted(){
+		this.importar_aldea();
 	}
 }
 </script>

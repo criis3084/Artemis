@@ -82,8 +82,8 @@ export default {
 			id: 0,
 			aldea_id:0,
 			nombre:'',
-			estado: null,
 			abrir_editar:false,
+			estado: null,
 			fileName: '',
 			formats:['xlsx', 'csv', 'txt'],
 			cellAutoWidth: true,
@@ -119,10 +119,11 @@ export default {
 			return tabla
 		},
 		cambiar(sector){
-				this.id = sector.id;
-				this.nombre = sector.nombre;
-				this.aldea_id = sector.aldea_id;
-				this.abrir_editar = true;
+			console.log(sector)
+			this.id = sector.id;
+			this.nombre = sector.nombre;
+			this.aldea_id = sector.aldea_id;
+			this.abrir_editar = true;
 		},
 		getDate(datetime) {
 			let date = new Date(datetime);
