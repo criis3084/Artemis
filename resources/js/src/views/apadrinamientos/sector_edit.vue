@@ -55,14 +55,19 @@ export default {
 			aldea_idT:0,
 			listado_aldeas: [],
 			selected: '',
-			titulo:'Actualizar Sector'
+			titulo:'Actualizar Sector',
+			selected: {id: 0, label: ''},
 		}
 	},
   	computed:{
+		ver(e){
+			console.log(e)
+		},
 		validName(){
 			return true;
 		},
 		copia() {
+
 			this.nombreT =this.$props.nombre;
 			this.idT =this.$props.id;
 			this.aldea_idT =this.$props.aldea_id;
@@ -71,19 +76,21 @@ export default {
 	},
 	methods:{
 		async importar_aldeas(){ 
+			console.log('importando...')
 			let me = this;
 			const response = await axios.get(
-				`/api/aldea/get?todos=false`)
+				`/api/aldea/get?completo=false`)
 			.then(function (response) {
 				var respuesta= response.data;
 				me.listado_aldeas = respuesta.aldeas.data;
-				me.pagination= respuesta.pagination;
+				console.log(me.listado_aldeas)
 			})
 			.catch(function (error) {
 				console.log(error);
 			});
 		},
 		editarAldea () {
+			cnosole.log(this.aldea_idT)
 			axios.put("/api/sector/update/",{
 				id:this.idT,
 				nombre:this.nombreT,
@@ -113,8 +120,8 @@ export default {
 			this.$emit('cerrado','Se cerró el formulario');
 		},
   	mounted(){
-    	this.importar_aldeas();
-  		},
+		this.importar_aldeas();
+	},
 	}
 }
 </script>

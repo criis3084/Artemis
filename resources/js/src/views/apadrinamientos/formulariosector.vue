@@ -64,11 +64,10 @@ export default {
 		async importar_aldeas(){ //async para que se llame cada vez que se necesite
 			let me = this;
 			const response = await axios.get(
-				`/api/aldea/get?todos=false`)
+				`/api/aldea/get?completo=false`)
 			.then(function (response) {
 				var respuesta= response.data;
 				me.listado_aldeas = respuesta.aldeas.data;
-				me.pagination= respuesta.pagination;
 			})
 			.catch(function (error) {
 				console.log(error);

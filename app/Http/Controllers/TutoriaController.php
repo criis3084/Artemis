@@ -64,6 +64,14 @@ class TutoriaController extends Controller
 
 	public function update(Request $request)
 	{
+		//if(!$request->ajax())return redirect('/');
+		$tutoria = Tutoria::findOrFail($request->id);
+		$tutoria->nombre = $request->nombre;
+		$tutoria->fecha = $request->fecha;
+		$tutoria->nino_id = $request->nino_id;
+		$tutoria->tutor_id = $request->tutor_id;
+		$tutoria->save();
+		return Response::json(['message' => 'Relazion Acualizada'], 200);
 		//
 	}
 
