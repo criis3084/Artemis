@@ -120,58 +120,18 @@ export default {
     ChangeTimeDurationDropdown,
     VxTimeline,
     Formulario,
-    vSelect,
- 
-    Formulario,
+    vSelect
   },
   methods: {
-    traerNombreNino(tabla){
+    traerNombres(tabla){
 		tabla.forEach(function(valor, indice, array){
       valor.nombress=valor.datos_nino[0].nombres
       valor.apellidoss=valor.datos_nino[0].apellidos
+      valor.nombres = valor.datos_padrino[0].nombres
+      valor.apellidos = valor.datos_padrino[0].apellidos
     }); 
     console.log(tabla);
 		return tabla
-    },
-
-    traerNombrePadrino(tabla){
-		tabla.forEach(function(valor, indice, array){
-      valor.nombres=valor.datos_padrino[0].nombres
-      valor.apellidos=valor.datos_padrino[0].apellidos
-    }); 
-    console.log(tabla);
-		return tabla
-    },
-    async index2(page, search) {
-      //async para que se llame cada vez que se necesite
-      let me = this;
-      const response = await axios
-        .get(`/api/nino/get?completo=false`)
-        .then(function(response) {
-          var respuesta = response.data;
-		  me.nino = respuesta.ninos.data;
-		  me.nino = me.traerNombreNino(me.nino)
-		  me.pagination = respuesta.pagination;
-        })
-
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
-    async index3(page, search) {
-      //async para que se llame cada vez que se necesite
-      let me = this;
-      const response = await axios
-        .get(`/api/padrino/get?completo=false`)
-        .then(function(response) {
-          var respuesta = response.data;
-		  me.padrino = respuesta.padrinos.data;
-		  me.padrino = me.traerNombreParino(me.padrino)
-		  me.pagination = respuesta.pagination;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
     },
 
     cambiar(tutoria){
@@ -264,6 +224,7 @@ export default {
         .then(function(response) {
           var respuesta = response.data;
           me.arrayData = respuesta.apadrinamientos.data;
+          me.padrino = me.traerNombres(me.arrayData)
           me.pagination = respuesta.pagination;
         })
         .catch(function(error) {

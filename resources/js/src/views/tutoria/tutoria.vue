@@ -67,6 +67,7 @@
 			v-bind:id="id"
 			v-bind:nombre="nombre"
 			v-bind:fecha="fecha"
+     
 			v-on:cerrado="index(1,'');"
 		></turoriaEdit>
     </vx-card>
@@ -104,8 +105,8 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	    selectedFormat: 'xlsx',
-	    headerVal: ['id', 'nombres', 'fecha', 'nino.id','tutor.id', 'estado' ],
-	    headerTitle: ['Id', 'Nombre', 'Fecha', 'Id Niño', 'Id tutor', 'Estado'],
+	    headerVal: ['id', 'nombresN', 'apellidosN','nombresT','apellidosT','nombre','fecha' ],
+	    headerTitle: ['Id', 'Nombres niño','Apellidos niño','Nombres tutor','Apellidos tutor','Rázon tutoria','Fecha',],
       activePrompt: false,
       nombre: "",
       fecha: "",
@@ -124,46 +125,18 @@ export default {
     VxTimeline,
     Formulariotutoria,
     vSelect,
-    tutoriaEdit,
+    tutoriaEdit
   },
   methods: {
     traerNombre(tabla){
 		tabla.forEach(function(valor, indice, array){
-			valor.nombres=valor.datos_tutor[0].nombres
+      valor.nombresN=valor.datos_nino[0].nombres
+      valor.apellidosN=valor.datos_nino[0].apellidos
+      valor.nombresT = valor.datos_tutor[0].nombres
+      valor.apellidosT = valor.datos_tutor[0].apellidos
 		}); 
 		return tabla
 	  },
-    async index2(page, search) {
-      //async para que se llame cada vez que se necesite
-      let me = this;
-      const response = await axios
-        .get(`/api/nino/get?completo=false`)
-        .then(function(response) {
-          var respuesta = response.data;
-		  me.nino = respuesta.ninos.data;
-		  me.nino = me.traerNombre(me.nino)
-		  me.pagination = respuesta.pagination;
-        })
-
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
-    async index3(page, search) {
-      //async para que se llame cada vez que se necesite
-      let me = this;
-      const response = await axios
-        .get(`/api/tutor/get?completo=false`)
-        .then(function(response) {
-          var respuesta = response.data;
-		  me.tutor = respuesta.tutors.data;
-		  me.tutor = me.traerNombre(me.tutor)
-		  me.pagination = respuesta.pagination;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
 
     cambiar(tutoria){
 		this.id = tutoria.id;
@@ -255,6 +228,7 @@ export default {
         .then(function(response) {
           var respuesta = response.data;
           me.arrayData = respuesta.tutorias.data;
+          me.tutor = me.traerNombre(me.arrayData)
           me.pagination = respuesta.pagination;
         })
         .catch(function(error) {
