@@ -22,7 +22,7 @@
 		<div class="vx-col md:w-1/2 w-full mt-5">
 			<div class="my-4">
 				<small class="date-label">Fecha de Tutoría</small>
-				<datepicker :format="dateFormat" name="end-date" v-model="valMultipe.fecha"></datepicker>
+				<datepicker :format="dateFormat" :disabledDates="disabledDates" name="end-date" v-model="valMultipe.fecha" ></datepicker>
 			</div>
 		</div>
 		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
@@ -74,7 +74,10 @@ export default {
       selected: "",
 	  switch2: true,
 	 
-	  dateVal : new Date(),
+	  disabledDates:{
+        to: new Date(Date.now() - 8640000)
+      },
+
 	  titulo: "Nueva tutoría",
 	  dateFormat : 'yyyy-MM-dd',
     };
@@ -177,7 +180,9 @@ export default {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
-      },
+      }
+      
+
   },
   mounted() {
     this.index2(1, '');
