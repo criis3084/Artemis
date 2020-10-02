@@ -22,7 +22,7 @@
 					<vs-th>Estado</vs-th>
 					<!-- <vs-th>Fecha de creación</vs-th>
 					<vs-th>Fecha de actualización</vs-th> -->
-					<vs-th></vs-th>
+					<vs-th>Acciones</vs-th>
 
 				</template>
 
