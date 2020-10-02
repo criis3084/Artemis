@@ -227,7 +227,7 @@ export default {
 		.then(function (response) {
 			console.log(page)
             var respuesta= response.data;
-			me.arrayData = respuesta.destinosInversiones.data;
+			me.arrayData = respuesta.tipoViviendas.data;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {

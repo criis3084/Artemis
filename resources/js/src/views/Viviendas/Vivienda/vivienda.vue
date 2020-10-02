@@ -52,7 +52,7 @@
               </vs-td>
             </vs-td>
             <vs-td>
-				<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/vivienda/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
+				<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/vivienda/editar/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
 			</vs-td>
           </vs-tr>
         </template>
