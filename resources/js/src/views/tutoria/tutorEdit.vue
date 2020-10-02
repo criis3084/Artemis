@@ -2,7 +2,7 @@
 	<div>
 		<vx-card>
 			<form-wizard  color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZAR DATOS DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
-				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
+				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
 					<!-- tab 1 content -->
 					<form data-vv-scope="step-1" >
 						<div class="vx-row">

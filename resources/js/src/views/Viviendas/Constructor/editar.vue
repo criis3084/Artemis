@@ -1,5 +1,5 @@
 <template>
-  <vx-card title="Actualización de padrino" code-toggler>
+  <vx-card title="Actualización de constructor" code-toggler>
 
     <div class="mt-5">
       <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
@@ -58,33 +58,10 @@
           </div>
           </form>
         </tab-content>
-
-        <!-- tab 2 content -->
-        <tab-content title="Step 2" class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
-          <form data-vv-scope="step-2">
-          <div class="vx-row">
-
-            <div class="vx-col md:w-1/2 w-full">
-          <template>
-					  <vs-upload action="https://jsonplaceholder.typicode.com/posts/" limit="1" text="Subir fotografía" @on-success="successUpload" />
-				  </template> 
-            </div>
-            <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input type="email" label="Ruta de imagen"  v-model="ruta_imagenT" class="w-full" name="ruta_imagen" />
-              <span class="text-danger">{{ errors.first('step-2.ruta_imagen') }}</span>
-            </div>
-		      	<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input type="email" label="Correo"  v-model="correoT" class="w-full" name="correo" v-validate="'required|email'" />
-              <span class="text-danger">{{ errors.first('step-2.correo') }}</span>
-            </div>
-
-          </div>
-          </form>
-        </tab-content>
       </form-wizard>
     </div>
     <div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/apadrinamiento/padrino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+  <router-link to="/vivienda/constructor"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
     </div>
 
   </vx-card>
@@ -137,8 +114,6 @@ export default {
       fecha_nacimientoT:this.getDate(this.fecha_nacimiento),
       CUIT:'',
       numero_telefonoT:'',
-      correoT:'',
-      ruta_imagenT:'',
       sectoresT: [],
       arrayData: [],
     sector_idT:'',
@@ -156,11 +131,11 @@ export default {
         this.id_recibido = this.$route.params.id;
         console.log("criterio   "+this.id_recibido);
 		const response = await axios.get(
-			`/api/padrino/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
+			`/api/constructor/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 		.then(function (response) {
 			console.log(page)
 			var respuesta= response.data;
-              me.arrayData = respuesta.padrinos.data[0];
+              me.arrayData = respuesta.constructors.data[0];
               me.nombresT = me.arrayData.datos.nombres;
               me.apellidosT = me.arrayData.datos.apellidos;
               me.direccionT = me.arrayData.datos.direccion;
@@ -169,8 +144,6 @@ export default {
               me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento;
               me.CUIT = me.arrayData.datos.CUI;
               me.numero_telefonoT = me.arrayData.datos.numero_telefono;
-              me.correoT = me.arrayData.correo;
-              me.ruta_imagenT = me.arrayData.ruta_imagen;
               me.sector_idT = me.arrayData.datos.sector_id;
               me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
             console.log(me. nombresT);
@@ -212,28 +185,15 @@ export default {
         })
       })
     },
-    validateStep2 () {
-      return new Promise((resolve, reject) => {
-        this.$validator.validateAll('step-2').then(result => {
-          if (result) {
-            resolve(true)
-          } else {
-            reject('correct all values')
-          }
-        })
-      })
-    },
 
     formSubmitted () {
       // alert('Form submitted!');
-      axios.put("/api/padrino/update/",{
+      axios.put("/api/constructor/update/",{
         id:this.id_recibido,
 		    nombres:this.nombresT,
             apellidos:this.apellidosT,
             CUI:this.CUIT,
             numero_telefono:this.numero_telefonoT,
-            correo:this.correoT,
-            ruta_imagen:this.ruta_imagenT,
 		    genero:this.generoT,
 		    fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
 		    direccion:this.direccionT,
@@ -251,7 +211,7 @@ export default {
           title:`${this.titulo}`,
           text:'La acción se realizo exitósamente'
         });
-        this.$router.push('/apadrinamiento/padrino');
+        this.$router.push('/vivienda/constructor');
     },
     successUpload(){
       this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
