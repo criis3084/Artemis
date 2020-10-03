@@ -319,7 +319,7 @@ const router = new Router({
           }
         },
         {
-          path:'/editar/vivienda',
+          path:'/editar/vivienda/:id',
           name: 'editar-vivienda',
           component: () => import('./views/Viviendas/Vivienda/editar.vue'),
           meta: {
@@ -327,7 +327,7 @@ const router = new Router({
           }
         },
         {
-          path:'/ver/vivienda',
+          path:'/ver/vivienda/:id',
           name: 'ver-vivienda',
           component: () => import('./views/Viviendas/Vivienda/ver.vue'),
           meta: {
