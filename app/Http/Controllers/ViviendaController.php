@@ -17,32 +17,24 @@ class ViviendaController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
-		
+		$count = Vivienda::all()->count();
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$vivienda = Vivienda::with('residente')->with('constructor')->with('datos_constructor')->with('datos_residente')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$vivienda = Vivienda::with('residente')->with('constructor')->with('datos_constructor')->with('datos_residente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$vivienda = Vivienda::with('residente')->with('constructor')->with('datos_constructor')->with('datos_residente')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$vivienda = Vivienda::with('residente')->with('constructor')->with('datos_constructor')->with('datos_residente')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$vivienda = Vivienda::with('residente')->with('constructor')->with('datos_constructor')->with('datos_residente')->orderBy('id', 'desc')->paginate(20);
+				$vivienda = Vivienda::with('residente')->with('constructor')->with('datos_constructor')->with('datos_residente')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$vivienda = Vivienda::with('residente')->with('constructor')->with('datos_constructor')->with('datos_residente')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$vivienda = Vivienda::with('residente')->with('constructor')->with('datos_constructor')->with('datos_residente')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
-			'pagination' => [
-				'total'        => $vivienda->total(),
-				'current_page' => $vivienda->currentPage(),
-				'per_page'     => $vivienda->perPage(),
-				'last_page'    => $vivienda->lastPage(),
-				'from'         => $vivienda->firstItem(),
-				'to'           => $vivienda->lastItem(),
-			],
 			"viviendas"=>$vivienda
 		];
 	}
