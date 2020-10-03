@@ -39,14 +39,6 @@ class ConstructorController extends Controller
 			$constructor = Constructor::with('datos')->with('construcciones')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(1);
 		}
 		return [
-			'pagination' => [
-				'total'        => $constructor->total(),
-				'current_page' => $constructor->currentPage(),
-				'per_page'     => $constructor->perPage(),
-				'last_page'    => $constructor->lastPage(),
-				'from'         => $constructor->firstItem(),
-				'to'           => $constructor->lastItem(),
-			],
 			"constructors"=>$constructor
 		];
 	}

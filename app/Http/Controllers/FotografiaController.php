@@ -16,20 +16,14 @@ class FotografiaController extends Controller
         $criterio = $request->criterio;
 		
 		if ($buscar==''){
-			$fotografia = Fotografia::orderBy('id', 'desc')->where('estado',1)->paginate(20);
+			$count = Fotografia::where('estado',1)->count();
+			$fotografia = Fotografia::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 		}
 		else{
-			$fotografia = Fotografia::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+			$count = Fotografia::all()->count();
+			$fotografia = Fotografia::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 		}
         return [
-            'pagination' => [
-                'total'        => $fotografia->total(),
-                'current_page' => $fotografia->currentPage(),
-                'per_page'     => $fotografia->perPage(),
-                'last_page'    => $fotografia->lastPage(),
-                'from'         => $fotografia->firstItem(),
-                'to'           => $fotografia->lastItem(),
-            ],
             'fotografias' => $fotografia
 		];
 		

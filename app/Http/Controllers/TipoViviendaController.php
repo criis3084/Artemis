@@ -11,27 +11,30 @@ class TipoViviendaController extends Controller
 {
     public function index(Request $request)
     {
-		#if (!$request->ajax()) return redirect('/');
-
-        $buscar = $request->buscar;
-		if ($buscar==''){
-			$tipoVivienda = TipoVivienda::orderBy('id', 'desc')->paginate(20);
-			#$tipoVivienda = TipoVivienda::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as tipoVivienda', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
-		}
-		else{
-			$tipoVivienda = TipoVivienda::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
-		}
+		$buscar = $request->buscar;
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
 		
-        return [
-            'pagination' => [
-                'total'        => $tipoVivienda->total(),
-                'current_page' => $tipoVivienda->currentPage(),
-                'per_page'     => $tipoVivienda->perPage(),
-                'last_page'    => $tipoVivienda->lastPage(),
-                'from'         => $tipoVivienda->firstItem(),
-                'to'           => $tipoVivienda->lastItem(),
-            ],
-            'tipoViviendas' => $tipoVivienda
+		if ($completo == 'false')
+		{
+			$count = TipoVivienda::where('estado',1)->count();
+			if ($buscar==''){
+				$tipoVivienda = TipoVivienda::with('viviendas')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+			}
+			else{
+				$tipoVivienda = TipoVivienda::with('viviendas')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+			}
+		} else if ($completo == 'true'){
+			$count = TipoVivienda::all()->count();
+			if ($buscar==''){
+				$tipoVivienda = TipoVivienda::with('viviendas')->orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$tipoVivienda = TipoVivienda::with('viviendas')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+			}
+		}
+		return [
+			"tipoViviendas"=>$tipoVivienda
 		];
     }
     public function store(Request $request)

@@ -11,11 +11,11 @@
 
               <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Destinatario</small>
-				<v-select label="encargado_nombres" :options="encargadosT" v-model="encargado_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<v-select label="conjuntoEncargado" :options="encargadosT" v-model="encargado_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 			</div>
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Constructor</small>
-				<v-select label="constructor_nombres" :options="constructorsT" v-model="constructor_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<v-select label="conjuntoConstructor" :options="constructorsT" v-model="constructor_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 			</div>
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Tipo de vivienda</small>
@@ -109,6 +109,7 @@ export default {
         tipo_vivienda_idT:'',
         encargado_nombres:'',
         encargado_apellidos:'',
+        conjuntoEncargado:'',
         constructor_nombres:'',
         constructor_apellidos:'',
     langEn: es,
@@ -148,7 +149,8 @@ export default {
 
 			tabla.forEach(function(valor, indice, array){
 				valor.encargado_nombres=valor.datos.nombres
-				valor.encargado_apellidos=valor.datos.apellidos
+        valor.encargado_apellidos=valor.datos.apellidos
+        valor.conjuntoEncargado=valor.encargado_nombres + ' '+ valor.encargado_apellidos
             }); 
 
 			return tabla
@@ -157,19 +159,29 @@ export default {
         console.log(tabla);
 			tabla.forEach(function(valor, indice, array){
 				valor.constructor_nombres=valor.datos.nombres
-				valor.constructor_apellidos=valor.datos.apellidos
+        valor.constructor_apellidos=valor.datos.apellidos
+        valor.conjuntoConstructor=valor.constructor_nombres + ' '+ valor.constructor_apellidos
             });
             console.log(tabla); 
 			return tabla
 	},
     async importarTipo(){ //async para que se llame cada vez que se necesite
-		let me = this;
+    let me = this;
+    let encontrado=false;
+		let elementoE={}
 		const response = await axios.get(
 			`/api/tipoVivienda/get?completo=select`)
 		.then(function (response) {
 			var respuesta= response.data;
             me.tipoViviendasT = respuesta.tipoViviendas.data;
-            console.log(me.tipoViviendasT);
+            me.tipoViviendasT.forEach(function(elemento, indice, array) {
+				if (elemento.id==me.tipo_vivienda_idT)
+				{
+					elementoE=elemento
+					encontrado=true
+				}
+			})
+			me.tipo_vivienda_idT = encontrado == true ? elementoE : {id:me.tipo_vivienda_idT,nombre:'tipo de vivienda desactivado'} 
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -177,26 +189,48 @@ export default {
 		});
     },
     async importarConstructor(){ //async para que se llame cada vez que se necesite
-		const me = this
+    const me = this
+    let encontrado=false;
+		let elementoE={}
 		const response = await axios.get(
 		`/api/constructor/get?completo=true`)
 		.then(function (response) {
 			const respuesta = response.data
 			me.arrayData = respuesta.constructors.data
-            me.constructorsT = me.traerDatosConstructor(me.arrayData)
+      me.constructorsT = me.traerDatosConstructor(me.arrayData)
+      me.constructorsT.forEach(function(elemento, indice, array) {
+				if (elemento.id==me.constructor_idT)
+				{
+					elementoE=elemento
+					encontrado=true
+				}
+			})
+			me.constructor_idT = encontrado == true ? elementoE : {id:me.constructor_idT,nombre:'Constructor desactivado'} 
+			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error)
 		})
     },
     async importarEncargados(){ //async para que se llame cada vez que se necesite
-		const me = this
+    const me = this
+    let encontrado=false;
+		let elementoE={}
 		const response = await axios.get(
 		`/api/encargado/get?completo=true`)
 		.then(function (response) {
 			const respuesta = response.data
 			me.arrayData = respuesta.encargados.data
-            me.encargadosT = me.traerDatosEncargados(me.arrayData)
+      me.encargadosT = me.traerDatosEncargados(me.arrayData)
+      me.encargadosT.forEach(function(elemento, indice, array) {
+				if (elemento.id==me.encargado_idT)
+				{
+					elementoE=elemento
+					encontrado=true
+				}
+			})
+			me.encargado_idT = encontrado == true ? elementoE : {id:me.encargado_idT,nombre:'Encargado desactivado'} 
+			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error)
@@ -255,10 +289,10 @@ export default {
 	  vSelect,
   },
 	mounted(){
+    this.index(1, this.search);
     this.importarTipo();
     this.importarConstructor();
     this.importarEncargados();
-    this.index(1, this.search);
   },
   
 }

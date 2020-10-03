@@ -23,29 +23,23 @@ class PadrinoController extends Controller
 		
 		if ($completo == 'false')
 		{
+			$count = Padrino::where('estado',1)->count();
 			if ($buscar==''){
-				$padrino = Padrino::with('datos')->with('apadrinamiento')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$padrino = Padrino::with('datos')->with('apadrinamiento')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$padrino = Padrino::with('datos')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$padrino = Padrino::with('datos')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
+			$count = Padrino::all()->count();
 			if ($buscar==''){
-				$padrino = Padrino::with('datos')->with('apadrinamiento')->orderBy('id', 'desc')->paginate(20);
+				$padrino = Padrino::with('datos')->with('apadrinamiento')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$padrino = Padrino::with('datos')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$padrino = Padrino::with('datos')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
-			'pagination' => [
-				'total'        => $padrino->total(),
-				'current_page' => $padrino->currentPage(),
-				'per_page'     => $padrino->perPage(),
-				'last_page'    => $padrino->lastPage(),
-				'from'         => $padrino->firstItem(),
-				'to'           => $padrino->lastItem(),
-			],
 			"padrinos"=>$padrino
 		];
     }
