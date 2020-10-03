@@ -34,7 +34,9 @@
 			<tab-content title="Step 2" class="mb-5" icon="feather icon-briefcase">
 
 				<div class="vx-row">
-					<formIngresarNino ></formIngresarNino>
+					<formIngresarNino 
+					v-on:validado="validandoNino"
+					 ></formIngresarNino>
 						<div v-if="cantidad_ingresos_nino.length">
 							<div v-for="(numero,index) in cantidad_ingresos_nino" :key="index">
 								<vs-divider class="mt-10" ></vs-divider>
@@ -125,108 +127,111 @@ export default {
     }
   },
   data() {
-    return {
-	  firstName: "",
-	  cantidad_ingresos_nino:[],
-	  cantidad_ingresos_padrino:[],
-	  cantidad_ingresos_familia:[],
-	  sectores:[],
-	  sector_id:0,
-	  direccion:'',
-	  codigo_familia:''
-    }
-  },
-  methods: {
-	async importarSectores(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-		`/api/sector/get?&completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.sectores = respuesta.sectores.data;
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
-    formSubmitted(){
-		// aqui traeremos un dato del componente hijo para validar todo el formulario
-		/*
-		// alert('Form submitted!');
-		axios.post("/api/nino/post/",{
-				codigo:this.codigoT,
-				nombres:this.nombresT,
-				apellidos:this.apellidosT,
-				genero:this.generoT,
-				ruta_imagen:this.ruta_imagenT,
-				fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
-				fecha_ingreso:this.getDate(this.fecha_ingresoT),
-				direccion:this.direccionT,
-				sector_id:this.sector_idT.id,
-				escuela_id:this.escuela_idT.id
-		}).then(function(response) {
-		console.log(response)
-			})
-			.catch(function(error) {
-			console.log(error)
-			});
-			this.$emit('cerrado','Se cerró el formulario');
-			this.$vs.notify({
-			color:'success',
-			title:`${this.titulo}`,
-			text:'La acción se realizo exitósamente'
-			});
-			this.$router.push('/apadrinamiento/nino');
-		},
-		*/
-	},
-	sumar_nino(){
-		this.cantidad_ingresos_nino.push(this.cantidad_ingresos_nino.length+1);
-		console.log(this.cantidad_ingresos_nino)
-	},
-	sumar_padrino(){
-		this.cantidad_ingresos_padrino.push(this.cantidad_ingresos_padrino.length+1);
-	},
-	sumar_familia(){
-		this.cantidad_ingresos_familia.push(this.cantidad_ingresos_familia.length+1);
-	},
-	quitar_nino(id){
-		this.cantidad_ingresos_nino.splice(id-1,1)
-		this.cantidad_ingresos_nino = this.reordenar(this.cantidad_ingresos_nino)
-		console.log(this.cantidad_ingresos_nino)
-	},
-	quitar_padrino(id){
-		console.log(id)
-		console.log(this.cantidad_ingresos_padrino)
-		this.cantidad_ingresos_padrino.splice(id,1)
-		//this.cantidad_ingresos_padrino = this.reordenar(this.cantidad_ingresos_padrino)
-		console.log(this.cantidad_ingresos_padrino)
-	},
-	quitar_familia(id){
-		this.cantidad_ingresos_familia.splice(id,1)
-	},
-	reordenar (arreglo)
-	{
-		let tam = arreglo.length
-		arreglo =[]
-		for (var i = 1; i <= tam; i++) {
-			arreglo.push(i);
+		return {
+			firstName: "",
+			cantidad_ingresos_nino:[],
+			cantidad_ingresos_padrino:[],
+			cantidad_ingresos_familia:[],
+			sectores:[],
+			sector_id:0,
+			direccion:'',
+			codigo_familia:''
 		}
-		return arreglo
-	}
-  },
-  components: {
-    FormWizard,
-	TabContent,
-	formIngresarNino,
-	formIngresarPadrino,
-	formIngresarFamilia,
-	vSelect,
-  },
-  mounted(){
-    this.importarSectores();
-  },
+	},
+  	methods: {
+		validandoNino(e){
+			console.log(e)
+		},
+		formSubmitted(){
+			// aqui traeremos un dato del componente hijo para validar todo el formulario
+			/*
+			// alert('Form submitted!');
+			axios.post("/api/nino/post/",{
+					codigo:this.codigoT,
+					nombres:this.nombresT,
+					apellidos:this.apellidosT,
+					genero:this.generoT,
+					ruta_imagen:this.ruta_imagenT,
+					fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
+					fecha_ingreso:this.getDate(this.fecha_ingresoT),
+					direccion:this.direccionT,
+					sector_id:this.sector_idT.id,
+					escuela_id:this.escuela_idT.id
+			}).then(function(response) {
+			console.log(response)
+				})
+				.catch(function(error) {
+				console.log(error)
+				});
+				this.$emit('cerrado','Se cerró el formulario');
+				this.$vs.notify({
+				color:'success',
+				title:`${this.titulo}`,
+				text:'La acción se realizo exitósamente'
+				});
+				this.$router.push('/apadrinamiento/nino');
+			},
+			*/
+		},
+		sumar_nino(){
+			this.cantidad_ingresos_nino.push(this.cantidad_ingresos_nino.length+1);
+			console.log(this.cantidad_ingresos_nino)
+		},
+		sumar_padrino(){
+			this.cantidad_ingresos_padrino.push(this.cantidad_ingresos_padrino.length+1);
+		},
+		sumar_familia(){
+			this.cantidad_ingresos_familia.push(this.cantidad_ingresos_familia.length+1);
+		},
+		quitar_nino(id){
+			this.cantidad_ingresos_nino.splice(id-1,1)
+			this.cantidad_ingresos_nino = this.reordenar(this.cantidad_ingresos_nino)
+			console.log(this.cantidad_ingresos_nino)
+		},
+		quitar_padrino(id){
+			console.log(id)
+			console.log(this.cantidad_ingresos_padrino)
+			this.cantidad_ingresos_padrino.splice(id,1)
+			//this.cantidad_ingresos_padrino = this.reordenar(this.cantidad_ingresos_padrino)
+			console.log(this.cantidad_ingresos_padrino)
+		},
+		quitar_familia(id){
+			this.cantidad_ingresos_familia.splice(id,1)
+		},
+		reordenar (arreglo)
+		{
+			let tam = arreglo.length
+			arreglo =[]
+			for (var i = 1; i <= tam; i++) {
+				arreglo.push(i);
+			}
+			return arreglo
+		},
+		async importarSectores(){ //async para que se llame cada vez que se necesite
+			let me = this;
+			const response = await axios.get(
+			`/api/sector/get?&completo=select`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.sectores = respuesta.sectores.data;
+				me.pagination= respuesta.pagination;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		},
+	},
+	components: {
+		FormWizard,
+		TabContent,
+		formIngresarNino,
+		formIngresarPadrino,
+		formIngresarFamilia,
+		vSelect,
+	},
+	mounted(){
+		this.importarSectores();
+	},
 }
 </script>
         

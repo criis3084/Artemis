@@ -1,6 +1,5 @@
 <template>
-	<div>
-		
+	<div>		
 		<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<vx-card noShadow class="center" title="INGRESAR FAMILIARES DEL NIÑO" title-color="primary">
