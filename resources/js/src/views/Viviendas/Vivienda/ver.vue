@@ -1,0 +1,295 @@
+<template>
+  <div id="item-detail-page">
+    <vx-card title="Información de la vivienda">
+
+
+      <template slot="no-body">
+
+        <div class="item-content">
+
+          <!-- Item Main Info -->
+          <div class="product-details p-6">
+            <div class="vx-row mt-6">
+                
+
+
+              <div class="vx-col md:w-2/5 w-full flex items-center justify-center">
+                <div class="product-img-container w-3/5 mx-auto mb-10 md:mb-0">
+                  <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png" :alt="this.imagen_finalT" class="responsive">
+
+                  <!--
+                    UnComment Below line for true flow
+                    <img :src="item_data.image" :alt="item_data.name" class="responsive">
+
+                    Remove above img tag which is for demo purpose in actual flow
+                  -->
+                </div>
+              </div>
+
+
+
+
+              <div class="vx-col md:w-3/5 w-full">
+                <span>Destinatario</span>
+                <p class="flex items-center flex-wrap">
+                <vx-tooltip text="Nombre de encargado"><span class="material-icons ">person</span></vx-tooltip>
+                <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.encargado_nombres + " " + this.encargado_apellidos }}</span>
+                </p>
+                <span>Constructor</span>
+                <p class="flex items-center flex-wrap">
+                <vx-tooltip text="Nombre de constructor"><span class="material-icons ">person_outline</span></vx-tooltip>
+                <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.constructor_nombres + " " + this.constructor_apellidos }}</span>
+                </p>
+
+                <vs-divider />
+                <span>Información adicional</span>
+                <p class="flex items-center flex-wrap">
+                  <vx-tooltip text="Tipo de vivienda"><span class="material-icons ">place</span></vx-tooltip>
+                  <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.tipo_vivienda_idT}}</span>
+                </p>
+                <p class="flex items-center flex-wrap">
+                  <vx-tooltip text="Dirección"><span class="material-icons ">house_siding</span></vx-tooltip>
+                  <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.direccionT }}</span>
+                </p>
+                <p class="flex items-center flex-wrap"> 
+                   <vx-tooltip text="Fecha de inicio"> <span class="material-icons ">calendar_today </span> </vx-tooltip>
+                    <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.fecha_inicioT }}</span>
+                </p>
+
+                <p class="flex items-center flex-wrap"> 
+                   <vx-tooltip text="Meses de duración"> <span class="material-icons ">date_range </span> </vx-tooltip>
+                    <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.duracionT }}</span>
+                </p>
+
+                <p class="flex items-center flex-wrap">
+                      <vx-tooltip text="Costo total"> <span class="material-icons ">attach_money</span> </vx-tooltip>
+                <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.costo_totalT }}</span>
+                </p>
+                <vs-divider/>
+                
+                <div class="vx-row">
+                  <div class="vx-col flex flex-wrap items-center">
+                   <vx-tooltip text="Editar Información"> <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-edit" radius  @click="$router.push('/editar/vivienda/'+id_recibido)"></vs-button> </vx-tooltip>
+                    <vx-tooltip text="Regresar"><router-link to="/vivienda/vivienda"><vs-button class="mr-4" type="border" icon-pack="feather" color="#00aaff" icon="icon-corner-down-left" radius></vs-button></router-link></vx-tooltip>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </template>
+    </vx-card>
+  </div>
+</template>
+
+<script>
+import 'swiper/dist/css/swiper.min.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import algoliasearch from 'algoliasearch/lite'
+import StarRating from 'vue-star-rating'
+import axios from 'axios'
+
+export default{
+  components: {
+    swiper,
+    swiperSlide,
+    StarRating
+  },
+  data () {
+    return {
+      duracionT: "",
+      direccionT: "",
+      fecha_inicioT:this.getDate(this.fecha_inicio),
+      imagen_finalT:'',
+      costo_totalT:'',
+      encargadosT: [],
+        encargado_idT:'',
+     constructorsT: [],
+       constructor_idT:'',
+      tipoViviendasT: [],
+        tipo_vivienda_idT:'',
+        encargado_nombres:'',
+        encargado_apellidos:'',
+        constructor_nombres:'',
+        constructor_apellidos:'',
+      id_recibido:''
+
+      // Related Products Swiper
+      // Below is data which is common in any item
+      // Algolia's dataSet don't provide this kind of data. So, here's dummy data for demo
+    }
+  },
+  computed: {
+  },
+  methods: {
+    async index(page, search){ //async para que se llame cada vez que se necesite
+        let me = this;
+        this.id_recibido = this.$route.params.id;
+        
+        console.log("criterio   "+this.id_recibido);
+		const response = await axios.get(
+			`/api/vivienda/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
+		.then(function (response) {
+			console.log(page)
+			var respuesta= response.data;
+              me.arrayData = respuesta.viviendas.data[0];
+              me.duracionT = me.arrayData.duracion;
+              me.imagen_finalT = me.arrayData.imagen_final;
+              me.direccionT = me.arrayData.direccion;
+              me.costo_totalT = me.arrayData.costo_total;
+              me.fecha_inicioT = me.arrayData.fecha_inicio;
+              me.encargado_idT = me.arrayData.encargado_id;
+              me.constructor_idT = me.arrayData.constructor_id;
+              me.importarConstructor(me.constructor_idT);
+              me.tipo_vivienda_idT = me.arrayData.tipoVivienda.nombre;
+            console.log(me.arrayData);
+			me.pagination= respuesta.pagination;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+    },
+    traerDatosEncargados(tabla){
+            console.log(tabla);
+			tabla.forEach(function(valor, indice, array){
+				valor.encargado_nombres=valor.datos.nombres
+				valor.encargado_apellidos=valor.datos.apellidos
+            }); 
+            console.log(tabla);
+			return tabla
+        },
+    traerDatosConstructor(tabla){
+        console.log(tabla);
+			tabla.forEach(function(valor, indice, array){
+				valor.constructor_nombres=valor.datos.nombres
+				valor.constructor_apellidos=valor.datos.apellidos
+            });
+            console.log(tabla); 
+			return tabla
+	},
+    async importarTipo(){ //async para que se llame cada vez que se necesite
+		let me = this;
+		const response = await axios.get(
+			`/api/tipoVivienda/get?completo=select`)
+		.then(function (response) {
+			var respuesta= response.data;
+            me.tipoViviendasT = respuesta.tipoViviendas.data;
+            console.log(me.tipoViviendasT);
+			me.pagination= respuesta.pagination;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+    },
+    async importarConstructor(constructor){ //async para que se llame cada vez que se necesite
+		const me = this
+		const response = await axios.get(
+		`/api/constructor/get?criterio=id&buscar=${constructor}`)
+		.then(function (response) {
+			const respuesta = response.data
+			me.arrayData = respuesta.constructors.data
+            me.constructorsT = me.arrayData
+            me.constructor_nombres = me.constructorsT[0].datos.nombres
+            me.constructor_apellidos = me.constructorsT[0].datos.apellidos
+		})
+		.catch(function (error) {
+			console.log(error)
+        })
+    },
+    async importarEncargados(){ //async para que se llame cada vez que se necesite
+		const me = this
+		const response = await axios.get(
+		`/api/encargado/get?completo=true`)
+		.then(function (response) {
+			const respuesta = response.data
+			me.arrayData = respuesta.encargados.data
+            me.encargadosT = me.arrayData
+            me.encargado_nombres = me.encargadosT[0].datos.nombres
+            me.encargado_apellidos = me.encargadosT[0].datos.apellidos
+		})
+		.catch(function (error) {
+			console.log(error)
+		})
+	},
+    getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+      },
+  },
+  created () {
+  },
+ 	mounted(){
+    this.index(1, this.search);
+    this.importarTipo();
+    this.importarEncargados();
+  },
+}
+</script>
+
+<style lang="scss">
+
+@import "@sass/vuexy/_variables.scss";
+
+#item-detail-page {
+  .color-radio {
+    height: 2.28rem;
+    width: 2.28rem;
+
+    > div {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .item-features {
+    background-color: #f7f7f7;
+
+    .theme-dark & {
+      background-color: $theme-dark-secondary-bg;
+    }
+  }
+
+  .product-sales-meta-list {
+    .vs-list--icon {
+      padding-left: 0;
+    }
+  }
+
+  .related-product-swiper {
+      // padding-right: 2rem;
+      // padding-left: 2rem;
+
+    .swiper-wrapper {
+      padding-bottom: 2rem;
+
+      > .swiper-slide {
+        background-color: #f7f7f7;
+        box-shadow: 0 4px 18px 0 rgba(0,0,0,0.1), 0 5px 12px 0 rgba(0,0,0,0.08) !important;
+
+        .theme-dark & {
+          background-color: $theme-light-dark-bg;
+        }
+      }
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      transform: scale(.5);
+      filter: hue-rotate(40deg);
+    }
+
+    .swiper-button-next {
+      right: 0
+    }
+
+    .swiper-button-prev {
+      left: 0;
+    }
+  }
+}
+</style>
