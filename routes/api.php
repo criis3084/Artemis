@@ -448,6 +448,9 @@ Route::group(['prefix' => 'padrino'], function () {
 	]);
     Route::put('/desactivar', [
         'as' => 'admin.padrino', 'uses' => 'PadrinoController@desactivar'
+	]);
+	Route::post('/imagen', [
+        'as' => 'admin.tutor', 'uses' => 'PadrinoController@imagen'
     ]);
 });
 Route::group(['prefix' => 'sector'], function () {

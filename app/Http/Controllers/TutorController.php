@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
 use Image;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 class TutorController extends Controller

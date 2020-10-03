@@ -135,14 +135,12 @@ export default {
 			`/api/tutor/get?criterio=id&buscar=${tutor.id}&completo=datosAnidados`)
 			.then(function (response) {
 				const respuesta = response.data
-        l_tutorias = respuesta.tutors.data[0].tutorias
-        
+		        l_tutorias = respuesta.tutors.data[0].tutorias
 				me.listadoTutorias =[]
 				l_tutorias.forEach(function(valor, indice, array){
 					me.listadoTutorias.push(valor.nombre)
 				});
-        me.abrirListado=true;
-        console.log(l_tutorias)
+        		me.abrirListado=true;
 			})
 		.catch(function (error) {
 			console.log(error)
@@ -264,15 +262,13 @@ export default {
 		this.cellAutoWidth = true
 		this.selectedFormat = 'xlsx'
 	},
-	traerNombre (tabla) {
-		console.log(tabla);
+	traerNombre(tabla) {
 		tabla.forEach(function (valor, indice, array) {
 			valor.nombres = valor.datos.nombres
 			valor.apellidos = valor.datos.apellidos
 			valor.numero_telefono = valor.datos.numero_telefono
 			valor.imagen_perfil = valor.datos.imagen_perfil
 		}) 
-		console.log(tabla);
 		return tabla
 }
 	

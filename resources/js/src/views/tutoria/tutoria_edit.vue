@@ -71,13 +71,6 @@ export default {
 	  nino: [],
 	  datosNinos:[],
 	  tutor: [],
-      selected: "",
-	  switch2: true,
-   // nombre:"",
-   // fecha:"",
-    //nino_id:0,
-    //tutor_id:0,
-	  dateVal : new Date(),
 	  titulo: "Nueva tutoría",
 	  dateFormat : 'yyyy-MM-dd',
     };
@@ -87,11 +80,8 @@ export default {
       return true;
     },
 	copia() {
-		this.idT =this.$props.id;
-        this.valMultipe.value1 =this.$props.nombre;
-        this.valMultipe.fecha =this.$props.fecha;
-        this.valMultipe.value3 =this.$props.nino_id;
-        this.valMultipe.value4 =this.$props.tutor_id;
+		this.importar_nino();
+		this.importar_tutor();
         return true;
 	}
   },
@@ -109,34 +99,53 @@ export default {
 		}); 
 		return tabla
 	},
-    async index2() {
-      //async para que se llame cada vez que se necesite
-      let me = this;
-      const response = await axios.get(`/api/nino/get?completo=false`)
-        .then(function(response) {
-          var respuesta = response.data;
-		  me.nino = respuesta.ninos.data;
-		  me.nino = me.traerNombreNino(me.nino)
-		  me.pagination = respuesta.pagination;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
-    async index3() {
-      //async para que se llame cada vez que se necesite
-      let me = this;
-      const response = await axios
-        .get(`/api/tutor/get?completo=false`)
-        .then(function(response) {
-          var respuesta = response.data;
-		  me.tutor = respuesta.tutors.data;
-		  me.tutor = me.traerNombreTutor(me.tutor)
-		  me.pagination = respuesta.pagination;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+    async importar_nino() {
+		if(this.$props.identificador==true)
+		{
+			let me = this;
+			const response = await axios.get(`/api/nino/get?completo=false`)
+				.then(function(response) {
+				var respuesta = response.data;
+				me.nino = respuesta.ninos.data;
+				me.nino = me.traerNombreNino(me.nino)
+				me.pagination = respuesta.pagination;
+				me.nino.forEach(function(elemento, indice, array) {
+					if (elemento.id==me.$props.nino_id)
+					{
+						me.valMultipe.value3=elemento
+					}
+				})
+					me.idT =me.$props.id;
+					me.valMultipe.value1 =me.$props.nombre;
+					me.valMultipe.fecha =me.$props.fecha;
+				})
+				.catch(function(error) {
+				console.log(error);
+				});
+		}
+	},
+    async importar_tutor() {
+		if(this.$props.identificador==true)
+		{
+		let me = this;
+		const response = await axios
+			.get(`/api/tutor/get?completo=false`)
+			.then(function(response) {
+				var respuesta = response.data;
+				me.tutor = respuesta.tutors.data;
+				me.tutor = me.traerNombreTutor(me.tutor)
+				me.pagination = respuesta.pagination;
+				me.tutor.forEach(function(elemento, indice, array) {
+					if (elemento.id==me.$props.tutor_id)
+					{
+						me.valMultipe.value4=elemento
+					}
+				})
+			})
+			.catch(function(error) {
+			console.log(error);
+			});
+		}
     },
 	acceptAlert () {
 		axios.put("/api/tutoria/update/",{
@@ -183,8 +192,8 @@ export default {
       },
   },
   mounted() {
-    this.index2();
-    this.index3();
+    this.importar_nino();
+    this.importar_tutor();
   },
 };
 </script>

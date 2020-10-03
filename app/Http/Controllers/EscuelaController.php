@@ -16,10 +16,9 @@ class EscuelaController extends Controller
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo :'false';
-		
+		$count = Escuela::all()->count();
 		if ($completo == 'false')
 		{
-			$count = Escuela::where('estado',1)->count();
 			if ($buscar==''){
 				$escuela = Escuela::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
@@ -27,7 +26,6 @@ class EscuelaController extends Controller
 				$escuela = Escuela::where('estado',1)->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
-			$count = Escuela::all()->count();
 			if ($buscar==''){
 				$escuela = Escuela::orderBy('id', 'desc')->paginate($count);
 			}
@@ -37,18 +35,9 @@ class EscuelaController extends Controller
 		}
 		else if($completo == 'select')
 		{
-			$count = Escuela::where('estado', 1)->count();
-			$escuela = Escuela::orderBy('id', 'desc')->where('estado',1)->paginate($count+1);
+			$escuela = Escuela::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 		}
         return [
-            'pagination' => [
-                'total'        => $escuela->total(),
-                'current_page' => $escuela->currentPage(),
-                'per_page'     => $escuela->perPage(),
-                'last_page'    => $escuela->lastPage(),
-                'from'         => $escuela->firstItem(),
-                'to'           => $escuela->lastItem(),
-            ],
             'escuelas' => $escuela
 		];
 		

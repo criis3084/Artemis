@@ -61,7 +61,7 @@
 								</vs-td>
 
 								<vs-td>
-									<vx-tooltip text="Apadrinamientos"> <vs-button radius color="dark" type="flat" icon="list" size="large"> </vs-button>  </vx-tooltip>
+									<vx-tooltip text="Apadrinamientos"> <vs-button radius color="dark" type="flat" icon="list" size="large" @click="openAlert('success',data[indextr])"> </vs-button>  </vx-tooltip>
 								</vs-td>
 
 							</vs-tr>
@@ -71,13 +71,14 @@
 					</vs-table>
 
 				<vs-prompt
-				 :buttons-hidden="true"
-				  title="Listado de apadrinamientos"
-				 :active.sync="abrirListado">
-					<li >
-						
-					</li>
+					:buttons-hidden="true"
+					title="Niños apadrinados"
+					:active.sync="abrirListado">
+						<li v-for="(nino,index) in listadoApadrinamientos" v-bind:key="index">
+							{{nino.codigo }} - {{nino.nombres + " " + nino.apellidos}} 
+						</li>
 				</vs-prompt>
+
 				</vx-card>
 			</div>
 
@@ -101,23 +102,12 @@ import EditPadrino from './formulariopadrinedit.vue'
 export default {
   data () {
     return {
-      //Aqui van a guardar todas su variables.
-      //rols: [],
-       pagination : {
-        'total' : 0,
-          'current_page' : 0,
-          'per_page' : 0,
-          'last_page' : 0,
-          'from' : 0,
-          'to' : 0
-	  },
-      offset : 3,
-      search : '',
+	  search : '',
+	  listadoApadrinamientos:[],
       arrayData: [],
 	  nombres: '',
 	  apellidos: '',
 	  correo: '',
-	  switch2:false,
 	  titulo:'Registrado exitosamente!',
 	  id: 0,
 	  estado: null,
@@ -151,6 +141,26 @@ export default {
     
   },
   methods: {
+	openAlert(color,padrino){
+		this.listado(padrino)
+	},
+	async listado(padrino) {
+		let me = this
+		let l_tutorias=[]
+			await axios.get(`/api/apadrinamiento/get?criterio=padrino_id&buscar=${padrino.id}&completo=true`)
+			.then(function (response) {
+				const respuesta = response.data
+				l_tutorias = respuesta.apadrinamientos.data
+				me.listadoApadrinamientos =[]
+				l_tutorias.forEach(function(valor, indice, array){
+					me.listadoApadrinamientos.push({codigo:valor.nino.codigo, nombres:valor.datos_nino[0].nombres,apellidos:valor.datos_nino[0].apellidos})
+				});
+        		me.abrirListado=true;
+			})
+		.catch(function (error) {
+			console.log(error)
+		})		
+	},
 	abrirDialog(id, estado){
 
 		let titulo = '';
@@ -178,7 +188,7 @@ export default {
 			accept: this.cambiarEstado
 		})
 
-		this.index(this.pagination.current_page, this.search);
+		this.index();
 	},
 	cambiarEstado(color){
 		let titulo = ''
@@ -212,18 +222,16 @@ export default {
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
 		})
-		this.index(this.pagination.current_page, this.search);
+		this.index();
 	},
-	async index(page, search){ //async para que se llame cada vez que se necesite
+	async index(){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
 			`/api/padrino/get?completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
 			me.arrayData = respuesta.padrinos.data;
 			me.padrinos = me.traerNombre(me.arrayData)
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -237,7 +245,7 @@ export default {
         title:`${titulo}`,
         text:`${titulo}`
 	  })
-	this.index(this.pagination.current_page, this.search);
+	this.index();
 	},
 	exportToExcel () {
       import('@/vendor/Export2Excel').then(excel => {
@@ -283,7 +291,7 @@ export default {
   },
   
   mounted(){
-    this.index(1, this.search);
+    this.index();
   }
   
 }

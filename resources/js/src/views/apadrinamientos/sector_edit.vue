@@ -13,13 +13,13 @@
 			<div class="con-exemple-prompt">
 				<b></b>
 				<vs-input placeholder="Nombre del sector" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
-				<vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
-					LLene todos los campos
-				</vs-alert>
 			</div>
 				<template>
 					<v-select label="nombre" :options="listado_aldea" v-model="aldea_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 				</template> 
+				<vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
+					LLene todos los campos
+				</vs-alert>
 		</vs-prompt>
 	</div>
 </template>
@@ -50,48 +50,24 @@ export default {
 			nombreT:'',
 			aldea_idE:0,
 			aldea_nombreE:'',
-			aldea_idT:0,
+			aldea_idT:{id:-1,nombre:''},
 			listado_aldea: [],
 			titulo:'Actualizar Sector',
 		}
 	},
   	computed:{
-		validName(){
-			return true;
-		},
 		copia() {
 			this.importar_aldea()
-			return true;
+			return true 
 		}
 	},
-
-methods:{
-		datosSelect(tabla,buscar)
-		{
-			let idTemporal=0
-			let nombreTemporal=''
-			if (tabla.length !==0){
-				tabla.forEach(function(elemento, indice, array) {
-					if (elemento.id==buscar)
-					{
-						console.log('encontrado')
-						idTemporal= elemento.id
-						nombreTemporal= elemento.nombre
-
-						console.log(idTemporal)
-						console.log(nombreTemporal)
-						return {id:idTemporal,nombre:nombreTemporal}
-						//idTemporal=elemento.id
-						//nombreTemporal=elemento.nombre
-					}
-				})
-			}
-			return {}
-		},
+	methods:{
 		async importar_aldea(){ 
 			if(this.$props.identificador==true)
 			{
 				let me = this;
+				let encontrado=false;
+				let elementoE={}
 				const response = await axios.get(`/api/aldea/get?completo=false`)
 				.then(function (response) {
 					var respuesta= response.data;
@@ -100,9 +76,11 @@ methods:{
 					me.listado_aldea.forEach(function(elemento, indice, array) {
 						if (elemento.id==me.$props.aldea_id)
 						{
-							me.aldea_idT=elemento
+							elementoE=elemento
+							encontrado=true
 						}
 					})
+					me.aldea_idT = encontrado == true ? elementoE:{id:me.$props.aldea_id,nombre:'Aldea desactivada'} 
 					me.idT =me.$props.id;
 					me.nombreT =me.$props.nombre;
 
@@ -113,7 +91,6 @@ methods:{
 			}
 		},
 		editarAldea () {
-			console.log(this.aldea_idT)
 			axios.put("/api/sector/update/",{
 				id:this.idT,
 				nombre:this.nombreT,

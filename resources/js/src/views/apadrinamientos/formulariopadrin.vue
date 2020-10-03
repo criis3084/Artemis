@@ -1,94 +1,89 @@
 <template>
-  <vx-card title="Ingreso de padrinos" code-toggler>
+	<vx-card title="Ingreso de padrinos" code-toggler>
 
-    <div class="mt-5">
-      <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
-        <tab-content title="Step 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
+		<div class="mt-5">
+			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+			<tab-content title="Step 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
-          <!-- tab 1 content -->
-          <form data-vv-scope="step-1">
-          <div class="vx-row">
-            <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Nombres" v-model="nombres" class="w-full" icon-pack="feather" icon="icon-user" name="first_name" v-validate="'required|alpha'" />
-              <span class="text-danger">{{ errors.first('step-1.first_name') }}</span>
-            </div>
+				<!-- tab 1 content -->
+				<form data-vv-scope="step-1">
+				<div class="vx-row">
+				<div class="vx-col md:w-1/2 w-full mt-5">
+					<vs-input label="Nombres" v-model="nombres" class="w-full" icon-pack="feather" icon="icon-user" name="first_name" v-validate="'required'" />
+					<span class="text-danger">{{ errors.first('step-1.first_name') }}</span>
+				</div>
 
-            <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Apellidos"  v-model="apellidos" class="w-full" icon-pack="feather" icon="icon-user" name="last_name" v-validate="'required|alpha'" />
-              <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
-            </div>
+				<div class="vx-col md:w-1/2 w-full mt-5">
+					<vs-input label="Apellidos"  v-model="apellidos" class="w-full" icon-pack="feather" icon="icon-user" name="last_name" v-validate="'required'" />
+					<span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
+				</div>
 
-			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="CUI"  v-model="CUI" class="w-full" icon-pack="feather" icon="icon-hash" name="cui" v-validate="'required'" />
-              <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
-            </div>
+				<div class="vx-col md:w-1/2 w-full mt-5">
+					<vs-input label="CUI"  v-model="CUI" class="w-full" icon-pack="feather" icon="icon-hash" name="cui" v-validate="'required'" />
+					<span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+				</div>
 
-            <div class="vx-col md:w-1/2 w-full mt-5">
-				<small class="date-label">Género</small>
-				<ul class="demo-alignment">
-					<li>
-					    <vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1" selected>Masculino</vs-radio>
-					</li>
-					<li>
-						<vs-radio color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
-					</li>
-				</ul>
-            </div>
+				<div class="vx-col md:w-1/2 w-full mt-5">
+					<small class="date-label">Género</small>
+					<ul class="demo-alignment">
+						<li>
+							<vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1" selected>Masculino</vs-radio>
+						</li>
+						<li>
+							<vs-radio color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
+						</li>
+					</ul>
+				</div>
 
-			<div class="vx-col md:w-1/2 w-full mt-5">
-			  <small class="date-label">Fecha de nacimiento</small>
-			  <datepicker :language="$vs.rtl ? langEn : langEn"  v-model="fecha_nacimiento"></datepicker>
-			</div>
-	        
-			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Dirección"  v-model="direccion" class="w-full" icon-pack="feather" icon="icon-map-pin" name="campo" v-validate="'required'" />
-              <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
-            </div>
+				<div class="vx-col md:w-1/2 w-full mt-5">
+					<small class="date-label">Fecha de nacimiento</small>
+					<datepicker :language="$vs.rtl ? langEn : langEn"  v-model="fecha_nacimiento"></datepicker>
+				</div>
+				
+				<div class="vx-col md:w-1/2 w-full mt-5">
+					<vs-input label="Dirección"  v-model="direccion" class="w-full" icon-pack="feather" icon="icon-map-pin" name="campo" v-validate="'required'" />
+					<span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+				</div>
 
-			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Numero de telefono"  v-model="numero_telefono" class="w-full" icon-pack="feather" icon="icon-phone" name="campo" v-validate="'required'" />
-              <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
-            </div>
+				<div class="vx-col md:w-1/2 w-full mt-5">
+					<vs-input label="Numero de telefono"  v-model="numero_telefono" class="w-full" icon-pack="feather" icon="icon-phone" name="campo" v-validate="'required'" />
+					<span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+				</div>
 
-      <div class="vx-col md:w-1/2 w-full mt-5">
-				<small class="date-label">Sector</small>
-				<v-select label="nombre" :options="sectores" v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</div>
+				<div class="vx-col md:w-1/2 w-full mt-5">
+					<small class="date-label">Sector</small>
+					<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				</div>
 
-          </div>
-          </form>
-        </tab-content>
+				</div>
+				</form>
+			</tab-content>
 
-        <!-- tab 2 content -->
-        <tab-content title="Step 2" class="mb-5" icon="feather icon-file-plus" :before-change="validateStep2">
-          <form data-vv-scope="step-2">
-          <div class="vx-row">
+			<!-- tab 2 content -->
+			<tab-content title="Step 2" class="mb-5" icon="feather icon-file-plus" :before-change="validateStep2">
+				<form data-vv-scope="step-2">
+				<div class="vx-row">
 
-            <div class="vx-col md:w-1/2 w-full">
-          <template>
-					  <vs-upload action="https://jsonplaceholder.typicode.com/posts/" limit="1" text="Subir fotografía" @on-success="successUpload" />
-				  </template> 
-            </div>
-            <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Ruta de imagen"  v-model="ruta_imagen" class="w-full"  icon-pack="feather" icon="icon-image" name="ruta_imagen" />
-              <span class="text-danger">{{ errors.first('step-2.ruta_imagen') }}</span>
-            </div>
-		      	<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input type="email" label="Correo"  v-model="correo" class="w-full"  icon-pack="feather" icon="icon-mail" name="correo" v-validate="'required|email'" />
-              <span class="text-danger">{{ errors.first('step-2.correo') }}</span>
-            </div>
+				<div class="vx-col md:w-1/2 w-full">
+						<template>
+							<vs-upload automatic action="/api/padrino/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar"/>	
+						</template> 
+				</div>
+					<div class="vx-col md:w-1/2 w-full mt-5">
+					<vs-input type="email" label="Correo"  v-model="correo" class="w-full"  icon-pack="feather" icon="icon-mail" name="correo" v-validate="'required|email'" />
+					<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
+				</div>
 
-          </div>
-          </form>
-        </tab-content>
+				</div>
+				</form>
+			</tab-content>
 
-      </form-wizard>
-    </div>
-    <div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/apadrinamiento/padrino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
-    </div>
-
-  </vx-card>
+			</form-wizard>
+		</div>
+		<div class="vx-col md:w-1/2 w-full mt-5">
+			<router-link to="/apadrinamiento/padrino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+		</div>
+	</vx-card>
 </template>
 
 <script>
@@ -128,21 +123,31 @@ Validator.localize('en', dict)
 export default {
   data () {
     return {
-      nombres: "",
-      apellidos: "",
-      direccion: "",
-      genero:'',
-      fecha_nacimiento:this.getDate(this.fecha_nacimiento),
-      CUI:'',
-      numero_telefono:'',
-      correo:'',
-      ruta_imagen:'',
-      sectores: [],
-	    sector_id:'',
-	  langEn: es,
-    }
+		nombres: "",
+		apellidos: "",
+		direccion: "",
+		genero:'',
+		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+		CUI:'',
+		numero_telefono:'',
+		correo:'',
+		ruta_imagen:'',
+		sectores: [],
+		sector_id:'',
+		langEn: es,
+		head:{
+				"imagenanterior":""	
+		},
+	}
   },
   methods: {
+	vaciar(){
+		this.imagen_perfil='';
+	},
+	respuesta(e){
+		this.ruta_imagen=e.currentTarget.response.replace(/['"]+/g, '')
+		this.head.imagenanterior=this.ruta_imagen
+    },
     getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -155,8 +160,6 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
             me.sectores = respuesta.sectores.data;
-            console.log(me.sectores);
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -186,18 +189,20 @@ export default {
     },
 
     formSubmitted () {
-      // alert('Form submitted!');
-      axios.post("/api/padrino/post/",{
-		    nombres:this.nombres,
-        apellidos:this.apellidos,
-        CUI:this.CUI,
-        numero_telefono:this.numero_telefono,
-        correo:this.correo,
-        ruta_imagen:this.ruta_imagen,
-		    genero:this.genero,
-		    fecha_nacimiento:this.getDate(this.fecha_nacimiento),
-		    direccion:this.direccion,
-		    sector_id:this.sector_id.id
+		if (this.ruta_imagen === ''){
+			this.ruta_imagen= "default.png"
+		}
+		axios.post("/api/padrino/post/",{
+		nombres:this.nombres,
+		apellidos:this.apellidos,
+		CUI:this.CUI,
+		numero_telefono:this.numero_telefono,
+		correo:this.correo,
+		ruta_imagen:'/storage/public/padrino/' + this.ruta_imagen,
+		genero:this.genero,
+		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+		direccion:this.direccion,
+		sector_id:this.sector_id.id
 	}).then(function(response) {
       console.log(response)
 		})

@@ -14,7 +14,7 @@ class ApadrinamientoController extends Controller
 		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
-		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		$completo = (isset($request->completo)) ? $request->completo : 'false';
 		
 		if ($completo == 'false')
 		{

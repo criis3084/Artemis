@@ -8,6 +8,8 @@ use App\PersonaSinAcceso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Illuminate\Support\Facades\File;
+
 
 class PadrinoController extends Controller
 {
@@ -22,17 +24,17 @@ class PadrinoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$padrino = Padrino::with('datos')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$padrino = Padrino::with('datos')->with('apadrinamiento')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
 			}
 			else{
-				$padrino = Padrino::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$padrino = Padrino::with('datos')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$padrino = Padrino::with('datos')->orderBy('id', 'desc')->paginate(20);
+				$padrino = Padrino::with('datos')->with('apadrinamiento')->orderBy('id', 'desc')->paginate(20);
 			}
 			else{
-				$padrino = Padrino::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$padrino = Padrino::with('datos')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 			}
 		}
 		return [
@@ -124,5 +126,17 @@ class PadrinoController extends Controller
         $persona->estado = '0';
         $padrino->save();
         $persona->save();
-    }
+	}
+
+	public function imagen(Request $request){
+		$imagen = $request->photos;
+		$nombreEliminar = public_path('storage\public\padrinos\\') .  $request->header("imagenanterior");
+		if (File::exists($nombreEliminar)) {
+			File::delete($nombreEliminar);
+		}
+		$completo = time() . "." . $imagen->extension();
+		$imagen->move(public_path('storage/public/padrinos/'), $completo);
+		return Response::json($completo, 200);
+	}
+	
 }

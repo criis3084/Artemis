@@ -143,11 +143,7 @@ export default {
     EditNino
   },
   methods: {
-      mostrar(id){
-		  console.log('/ingresar/ppi/'+id)
-	  },
 	  cambiar(Nino){
-		  console.log(Nino);
 		  this.id = Nino.id;
 		  this.nombres = Nino.datos.nombres;
 		  this.apellidos = Nino.datos.apellidos;
@@ -190,7 +186,7 @@ export default {
 			text: '¿Está seguro de llevar a cabo esta acción?',
 			accept: this.cambiarEstado
 		});
-		this.index(this.pagination.current_page, this.search);
+		this.index();
 	},
 	cambiarEstado(color){
 		let titulo = ''
@@ -224,20 +220,17 @@ export default {
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
 		});
-		this.index(this.pagination.current_page, this.search);
+		this.index();
 	},
-	async index(page, search){ //async para que se llame cada vez que se necesite
+	async index(){ //async para que se llame cada vez que se necesite
 		let me = this;
 		this.abrir_editar=false
 		const response = await axios.get(
-			`/api/nino/get?page=${page}&search=${search}`)
+			`/api/nino/get?completo=false`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
 			me.arrayData = respuesta.ninos.data;
 			me.nino = me.traerNombre(me.arrayData)
-			me.pagination= respuesta.pagination;
-			console.log(me.arrayData);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -286,7 +279,7 @@ export default {
   },
   mounted(){
 
-    this.index(1, this.search);
+    this.index();
   },
   computed:{
 

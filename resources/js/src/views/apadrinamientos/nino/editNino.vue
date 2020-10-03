@@ -182,31 +182,27 @@ export default {
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
       },
-	async index(page, search){ //async para que se llame cada vez que se necesite
+	async index(){ //async para que se llame cada vez que se necesite
         let me = this;
         this.id_recibido = this.$route.params.id;
-        console.log("criterio   "+this.id_recibido);
 		const response = await axios.get(
 			`/api/nino/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
-              me.arrayData = respuesta.ninos.data[0];
-              me.nombresT = me.arrayData.datos.nombres;
-              me.apellidosT = me.arrayData.datos.apellidos;
-			  me.direccionT = me.arrayData.datos.direccion;
-			  me.numero_telefono = me.arrayData.datos.numero_telefono;
-			  me.idT = me.arrayData.datos.id;
-			  me.codigoT = me.arrayData.codigo;
-			  me.generoT = me.arrayData.datos.genero;
-			  me.ruta_imagenT = me.arrayData.ruta_imagen;
-			  me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento;
-			  me.fecha_ingresoT = me.arrayData.fecha_ingreso;
-			  me.sector_idT = me.arrayData.datos.sector_id;
-			  me.escuela_idT = me.arrayData.escuela_id;
-              me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
-            console.log(me. nombresT);
-            console.log(me.arrayData);
+			me.arrayData = respuesta.ninos.data[0];
+			me.nombresT = me.arrayData.datos.nombres;
+			me.apellidosT = me.arrayData.datos.apellidos;
+			me.direccionT = me.arrayData.datos.direccion;
+			me.numero_telefono = me.arrayData.datos.numero_telefono;
+			me.idT = me.arrayData.datos.id;
+			me.codigoT = me.arrayData.codigo;
+			me.generoT = me.arrayData.datos.genero;
+			me.ruta_imagenT = me.arrayData.ruta_imagen;
+			me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento;
+			me.fecha_ingresoT = me.arrayData.fecha_ingreso;
+			me.sector_idT = me.arrayData.datos.sector_id;
+			me.escuela_idT = me.arrayData.escuela_id;
+			me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -215,12 +211,21 @@ export default {
     },
 	async importarSectores(){ //async para que se llame cada vez que se necesite
 		let me = this;
+		let encontrado=false;
+		let elementoE={}
 		const response = await axios.get(
 			`/api/sector/get?completo=select`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.sectoresT = respuesta.sectores.data;
-            console.log(me.sectoresT);
+			me.sectoresT = respuesta.sectores.data;
+			me.sectoresT.forEach(function(elemento, indice, array) {
+				if (elemento.id==me.sector_idT)
+				{
+					elementoE=elemento
+					encontrado=true
+				}
+			})
+			me.sector_idT = encontrado == true ? elementoE : {id:me.sector_idT,nombre:'Sector desactivado'} 
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -229,13 +234,22 @@ export default {
 	},
 	async importarEscuelas(){ //async para que se llame cada vez que se necesite
 		let me = this;
+		let encontrado=false;
+		let elementoE={}
 		const response = await axios.get(
 			`/api/escuela/get?&completo=select`)
 		.then(function (response) {
 			var respuesta= response.data;
 			me.escuelasT = respuesta.escuelas.data;
-			console.log(me.escuelasT);
-			me.pagination= respuesta.pagination;
+
+			me.escuelasT.forEach(function(elemento, indice, array) {
+				if (elemento.id==me.escuela_idT)
+				{
+					elementoE=elemento
+					encontrado=true
+				}
+			})
+			me.escuela_idT = encontrado == true ? elementoE : {id:me.escuela_idT,nombre:'Escuela desactivada'} 
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -302,9 +316,9 @@ export default {
 	vSelect,
   },
 	mounted(){
+	this.index();
 	this.importarSectores();
 	this.importarEscuelas();
-    this.index(1, this.search);
   },
 }
 </script>

@@ -142,7 +142,6 @@ export default {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-1').then(result => {
           if (result) {
-			console.log(result)
             resolve(true)
           } else {
             reject("correct all values");
@@ -179,13 +178,6 @@ export default {
 		.catch(function(error) {
 			console.log(error)
 		});
-			/*
-			this.$emit('cerrado','Se cerró el formulario');
-    	    this.$vs.notify({
-          	color:'success',
-          	title:`${this.titulo}`,
-			  text:'La acción se realizo exitósamente'
-			  */
 		this.$router.push('/apadrinamiento/padrino');
 	}
 	},
@@ -198,11 +190,5 @@ export default {
 	mounted(){
     this.importarSectores();
   },
-  computed:{
-	  fotografia(){
-		  console.log(nombre_fotografia);
-		  return 1
-	  }
-  }
 }
 </script>
