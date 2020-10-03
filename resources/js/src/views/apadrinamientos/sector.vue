@@ -119,10 +119,10 @@ export default {
 			return tabla
 		},
 		cambiar(sector){
-				this.id = sector.id;
-				this.nombre = sector.nombre;
-				this.aldea_id = sector.aldea_id;
-				this.abrir_editar = true;
+			this.id = sector.id;
+			this.nombre = sector.nombre;
+			this.aldea_id = sector.aldea_id;
+			this.abrir_editar = true;
 		},
 		getDate(datetime) {
 			let date = new Date(datetime);

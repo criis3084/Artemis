@@ -97,6 +97,7 @@ export default {
   },
   methods: {
 	traerNombreNino(tabla){
+		console.log(typeof(tabla));
 		tabla.forEach(function(valor, indice, array){
 			valor.nino_nombres=valor.datos.nombres
 		}); 
@@ -111,15 +112,13 @@ export default {
     async index2() {
       //async para que se llame cada vez que se necesite
       let me = this;
-      const response = await axios
-        .get(`/api/nino/get?completo=false`)
+      const response = await axios.get(`/api/nino/get?completo=false`)
         .then(function(response) {
           var respuesta = response.data;
 		  me.nino = respuesta.ninos.data;
 		  me.nino = me.traerNombreNino(me.nino)
 		  me.pagination = respuesta.pagination;
         })
-
         .catch(function(error) {
           console.log(error);
         });
