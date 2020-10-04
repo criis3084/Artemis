@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(TipoPaciente::class, function (Faker $faker) {
     return [
-        'nombre'=> $faker->jobTitle,
+        'nombre'=> $faker->word,
         'estado' => $faker->numberBetween($min = 0, $max = 1),
         'descripcion'=> $faker->realText($maxNbChars = 100)
     ];

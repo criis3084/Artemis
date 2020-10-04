@@ -16,12 +16,12 @@ class CreateNinosTable extends Migration
         Schema::create('ninos', function (Blueprint $table) {
 			$table->id();
 			$table->string('codigo',20);
-			$table->date('fecha_ingreso');
+			$table->date('fecha_ingreso')->nullable();
 			$table->date('fecha_egreso')->nullable();
 			$table->string('ruta_imagen')->nullable();
 			$table->string('grado')->nullable();
 			$table->string('ocupacion')->nullable();
-			$table->boolean('estado')->default(1);
+			$table->boolean('estado')->default(0);
 			$table->foreignId('persona_sin_acceso_id')->constrained();
 			$table->foreignId('escuela_id')->constrained();			
 			$table->timestamps();

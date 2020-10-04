@@ -68,9 +68,10 @@ class NinoController extends Controller
             $nino->escuela_id = $request->escuela_id;
 			
             $nino->persona_sin_acceso_id = $persona->id;
-            $nino->save();
-
-            return Response::json(['message' => 'Nino Creado'], 200);
+			$nino->save();
+			
+			return ['id' => $nino->id];
+            #return Response::json(['message' => 'Nino Creado'], 200);
             #return ['id' => $nino->id];
         } catch (Exception $e) {
             return Response::json(['message' => $e->getMessage()], 400);

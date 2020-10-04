@@ -65,9 +65,13 @@ class EncargadoController extends Controller
 
             $encargado = new Encargado();
             $encargado->ruta_imagen = $request->ruta_imagen;
+            $encargado->ocupacion = $request->ocupacion;
+            $encargado->escolaridad = $request->escolaridad;
+            $encargado->ingresos = $request->ingresos;
             $encargado->persona_sin_acceso_id = $persona->id;
             $encargado->save();
 
+			return ['id' => $encargado->id];
             return Response::json(['message' => 'Encargado Creado'], 200);
             #return ['id' => $nino->id];
         } catch (Exception $e) {

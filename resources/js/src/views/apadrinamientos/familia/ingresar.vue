@@ -21,6 +21,7 @@
 								v-bind:ingresar="ingresar"
 								v-bind:id_formulario="numero.id"
 								v-on:validado="validandoNino"
+								v-on:toFalse="toFalse"
 							>
 							</formIngresarNino>
 						</div>
@@ -62,38 +63,44 @@
 						<div v-for="(numero,index) in cantidad_familia" :key="index">
 							<div v-if="numero.visible">
 								<vs-divider class="mt-10"  v-if="numero.id!=1"></vs-divider>
-										<vs-button radius color="danger" type="gradient" @click="quitar_familia(numero.id)" v-if="numero.id!=1" icon="X"></vs-button>
-										<formIngresarFamilia
-											v-bind:direccion="direccion"
-											v-bind:sector_id="sector_id.id"
-											v-bind:codigo_familia="codigo_familia"
-											v-bind:ingresar="ingresar"
-											v-bind:id_formulario="numero.id"
-											v-on:validado="validandoFamilia"
-											v-on:toFalse="toFalse"
-										>
-										</formIngresarFamilia>
+									<vs-button radius color="danger" type="gradient" @click="quitar_familia(numero.id)" v-if="numero.id!=1" icon="X"></vs-button>
+									<formIngresarFamilia
+										v-bind:direccion="direccion"
+										v-bind:sector_id="sector_id.id"
+										v-bind:ingresar="ingresar"
+										v-bind:id_formulario="numero.id"
+										v-on:validado="validandoFamilia"
+										v-on:toFalse="toFalse"
+									>
+									</formIngresarFamilia>
 							</div>
 						</div>
 					</div>
 
-					<div class="vx-col md:w-1/2 w-full mt-5">
-						<div class="vx-col w-full">
-							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Dirección Familiar" v-model="direccion"/>
-							<span class="text-danger">La dirección es requerida</span>
-						</div>
-					</div>
+					<vs-divider position="center" class="mt-6">Datos Generales</vs-divider>
+					<div class="vx-row">
 
-					<div class="vx-col md:w-1/2 w-full mt-3">
-						<small class="date-label">Sector de Vivienda</small>
-						<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-					</div>
-
-					<div class="vx-col md:w-1/2 w-full mt-5">
-						<div class="vx-col w-full">
-							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Codigo de la Familia" v-model="codigo_familia"/>
-							<span class="text-danger">El codigo de la familia es requerida</span>
+						<div class="vx-col md:w-1/2 w-full mt-3">
+							<div class="vx-col w-full">
+								<small class="date-label">Sector de Vivienda</small>
+								<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+							</div>
 						</div>
+
+						<div class="vx-col md:w-1/2 w-full mt-5">
+							<div class="vx-col w-full">
+								<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Dirección Familiar" v-model="direccion"/>
+								<span class="text-danger">La dirección es requerida</span>
+							</div>
+						</div>
+
+						<div class="vx-col md:w-1/2 w-full">
+							<div class="vx-col w-full">
+								<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Codigo de la Familia" v-model="codigo_familia"/>
+								<span class="text-danger">El codigo de la familia es requerida</span>
+							</div>
+						</div>
+
 					</div>
 
 					<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">

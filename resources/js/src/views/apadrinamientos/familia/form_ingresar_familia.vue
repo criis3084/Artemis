@@ -1,5 +1,6 @@
 <template>
-	<div>		
+	<div>	
+		<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>	
 		<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<vx-card noShadow class="center" title="INGRESAR FAMILIARES DEL NIÑO" title-color="primary">
@@ -121,6 +122,15 @@ export default {
 		id_formulario:{
 			default:0
 		},
+		direccion:{
+			default:''
+		},
+		sector_id:{
+			default:0
+		},
+		ingresar:{
+			default:false
+		},
 	},
 	data() {
 		return {
@@ -184,7 +194,22 @@ export default {
 			this.validateForm();
 		},
 	},
+	computed:{
+		copia(){
+			console.log('ingresando...')
+			if(this.$props.ingresar==true)
+			{
+				console.log('y verdadero')
+				this.ingresarFamilia()
+			}
+		}
+	},
 	methods: {
+		getDate(datetime) {
+			let date = new Date(datetime);
+			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+			return dateString;
+		},
 		successUpload(){
 			this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
 		},
@@ -210,21 +235,26 @@ export default {
 		},
 		ingresarFamilia(){
 			axios.post("/api/encargado/post/",{
-				nombres:this.nombresT,
-				apellidos:this.apellidosT,
+				nombres:this.nombres,
+				apellidos:this.apellidos,
 				CUI:this.CUI,
-				numero_telefono:this.numero_telefono,
-				genero:this.generoT,
-				fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
-				sector_id:this.sector_idT.id,
-				direccion:this.direccionT,
-				ruta_imagen:this.ruta_imagenT,
+				numero_telefono:this.telefono,
+				genero:this.genero,
+				fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+				sector_id: this.$props.sector_id,
+				direccion: this.$props.direccion,
+
+				ruta_imagen:this.ruta_imagen,
+				ocupacion:this.ocupacion,
+				escolaridad:this.escolaridad,
+				ingresos:this.ingresos,
 			}).then(function(response) {
 				console.log(response)
 			})
 			.catch(function(error) {
 				console.log(error)
 			});
+			/*
 			axios.post("/api/relacion/post/",{
 				relacion:this.relacion,
 				direccion:this.direccion,
@@ -238,7 +268,6 @@ export default {
 			.catch(function(error) {
 				console.log(error)
 			});
-			/*
 				this.$emit('cerrado','Se cerró el formulario');
 				this.$vs.notify({
 				color:'success',

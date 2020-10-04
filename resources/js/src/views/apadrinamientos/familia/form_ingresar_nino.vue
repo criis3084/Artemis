@@ -41,15 +41,34 @@
 							<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_nacimiento" v-model="fecha_nacimiento"></datepicker>
 						</div>
 					</div>
-					
-					<div class="vx-col md:w-1/2 w-full mt-8">
-						<small class="date-label">Escuela</small>
-						<v-select label="nombre" :options="escuelas" class="mt-1" name="escuela_id"  v-model="escuela_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-					</div>
 
-					<div class="vx-col md:w-1/2 w-full mt-6">
-						<div class="vx-col w-full">
-							<vs-input v-model="grado" name="grado" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Grado" />
+					<div class="vx-col md:w-1/2 w-full mt-5">
+						<div class="my-4">
+							<small class="date-label">Estudia</small>
+								<ul class="demo-alignment">
+									<li>
+										<vs-radio color="rgb(0, 170, 228)" v-model="estudia" :vs-value="true">Si</vs-radio>
+									</li>
+									<li>
+										<vs-radio color="rgb(255, 0, 128)" v-model="estudia" :vs-value="false">No</vs-radio>
+									</li>
+								</ul>
+						</div>
+					</div>					
+
+					<div v-if="estudia" class="vx-col w-full">
+
+						<div class="vx-col md:w-1/2 w-full mt-3">
+							<div class="vx-col w-full">
+								<small class="date-label">Escuela</small>
+								<v-select label="nombre" :options="escuelas" class="mt-1" name="escuela_id"  v-model="escuela_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+							</div>
+						</div>
+
+						<div class="vx-col md:w-1/2 w-full mt-6">
+							<div class="vx-col w-full">
+								<vs-input v-model="grado" name="grado" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Grado" />
+							</div>
 						</div>
 					</div>
 
@@ -57,18 +76,6 @@
 						<div class="vx-col w-full">
 							<vs-input v-model="ocupacion" name="ocupacion" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupación" />
 						</div>
-					</div>
-
-					<div class="vx-col md:w-1/2 w-full mt-5">
-						<div class="my-4">
-							<small class="date-label">Fecha de apadrinamiento</small>
-							<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_ingreso" v-model="fecha_ingreso"></datepicker>
-						</div>
-					</div>
-
-					<div class="vx-col md:w-1/2 w-full mt-8">
-						<small class="date-label">Padrino</small>
-						<v-select label="nombres" :options="padrinos" class="mt-1" name="padrino_id" v-model="padrino_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 					</div>
 				</div>
 	</div>
@@ -150,6 +157,7 @@ export default {
 			langEn: es,
 			validate_codigo:false,
 			errores: null,
+			estudia:true,
 		}
 	},
 	computed:{
@@ -161,11 +169,6 @@ export default {
 				this.ingresarNino()
 			}
 		}
-			/*
-		copia() {
-			return true 
-		}
-		*/
 	},
 	watch: {
     	codigo(value) {
@@ -186,10 +189,6 @@ export default {
 		},
 		fecha_nacimiento(value){	
 			this.validator.validate('fecha_nacimiento', value);
-			this.validateForm();
-		},
-		fecha_ingreso(value){	
-			this.validator.validate('fecha_ingreso', value);
 			this.validateForm();
 		},
 		ocupacion(value){	
@@ -251,9 +250,8 @@ export default {
 				grado: this.grado,
 				ocupacion: this.ocupacion,
 				fecha_nacimiento :this.fecha_nacimiento,
-				fecha_ingreso :this.fecha_ingreso,
 			}).then((result) => {
-				if (result && (this.escuela_id.id!==undefined) && (this.padrino_id.id!==undefined)){
+				if (result){
 					this.$emit('validado',{validado:result,id_form:this.$props.id_formulario});
 					return;
 				}
@@ -270,7 +268,6 @@ export default {
 				direccion: this.$props.direccion,
 				
 				codigo:this.codigo,
-				fecha_ingreso:this.getDate(this.fecha_ingreso),
 				ruta_imagen:this.ruta_imagen,
 				grado:this.grado,
 				ocupacion:this.ocupacion,
@@ -285,8 +282,8 @@ export default {
 			.catch(function(error) {
 				console.log(error)
 			});
-				this.$emit('toFalse','adios');
 			/*
+				this.$emit('toFalse','adios');
 				this.$emit('cerrado','Se cerró el formulario');
 				this.$vs.notify({
 				color:'success',
@@ -316,7 +313,6 @@ export default {
 			grado: 'required',
 			ocupacion: 'required',
 			fecha_nacimiento :'required',
-			fecha_ingreso:'required',
 		});
 		//this.$set(this, 'errores', this.validator.errors);
 
