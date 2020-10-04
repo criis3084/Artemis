@@ -20,22 +20,22 @@ class AbonoViviendaController extends Controller
 		{
 			$count = AbonoVivienda::where('estado',1)->count();
 			if ($buscar==''){
-				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$abonoVivienda = AbonoVivienda::with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+				$abonoVivienda = AbonoVivienda::with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			$count = AbonoVivienda::all()->count();
 			if ($buscar==''){
-				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->orderBy('id', 'desc')->paginate($count);
+				$abonoVivienda = AbonoVivienda::with('usuario')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$abonoVivienda = AbonoVivienda::with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
-			"abonos"=>$abonoVivienda
+			"abonoViviendas"=>$abonoVivienda
 		];
 	}
 
@@ -48,12 +48,9 @@ class AbonoViviendaController extends Controller
 			$abonoVivienda->cantidad_restante = $request->cantidad_restante;
 			$abonoVivienda->descripcion = $request->descripcion;
 			$abonoVivienda->fecha_pago = $request->fecha_pago;
-			$abonoVivienda->mora = $request->mora;
-			$abonoVivienda->microprestamo_id = $request->microprestamo_id;
-			$abonoVivienda->detalle_integrante_id = $request->detalle_integrante_id;
 			$abonoVivienda->usuario_id = $request->usuario_id;
 			$abonoVivienda->save();
-			return Response::json(['message' => 'Abono Prestamo Creada'], 200);
+			return Response::json(['message' => 'Abono Vivienda Creada'], 200);
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
@@ -69,13 +66,9 @@ class AbonoViviendaController extends Controller
 		$abonoVivienda->cantidad_restante = $request->cantidad_restante;
 		$abonoVivienda->descripcion = $request->descripcion;
 		$abonoVivienda->fecha_pago = $request->fecha_pago;
-		$abonoVivienda->mora = $request->mora;
-		// revisar si se deben de modificar estos o no
-		$abonoVivienda->microprestamo_id = $request->microprestamo_id;
-		$abonoVivienda->detalle_integrante_id = $request->detalle_integrante_id;
 		$abonoVivienda->usuario_id = $request->usuario_id;
 		$abonoVivienda->save();
-		return Response::json(['message' => 'Abono Prestamo Actualizado'], 200);
+		return Response::json(['message' => 'Abono Vivienda Actualizado'], 200);
 
 	}
 
@@ -85,7 +78,7 @@ class AbonoViviendaController extends Controller
         $abonoVivienda = AbonoVivienda::findOrFail($request->id);
         $abonoVivienda->estado = '1';
         $abonoVivienda->save();
-		return Response::json(['message' => 'AbonoVivienda Activada'], 200);
+		return Response::json(['message' => 'Abono Vivienda Activada'], 200);
 	}
 	
 	public function desactivar(Request $request)
@@ -94,7 +87,7 @@ class AbonoViviendaController extends Controller
 		$abonoVivienda = AbonoVivienda::findOrFail($request->id);
 		$abonoVivienda->estado = '0';
 		$abonoVivienda->save();
-		return Response::json(['message' => 'AbonoVivienda Desactivada'], 200);
+		return Response::json(['message' => 'Abono Vivienda Desactivada'], 200);
 
 	}
 }

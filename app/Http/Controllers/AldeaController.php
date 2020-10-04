@@ -40,14 +40,6 @@ class AldeaController extends Controller
 			$aldea = Aldea::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 		}
         return [
-            'pagination' => [
-                'total'        => $aldea->total(),
-                'current_page' => $aldea->currentPage(),
-                'per_page'     => $aldea->perPage(),
-                'last_page'    => $aldea->lastPage(),
-                'from'         => $aldea->firstItem(),
-                'to'           => $aldea->lastItem(),
-            ],
             'aldeas' => $aldea
 		];
     }

@@ -16,7 +16,8 @@ class CreateHistorialAbonoViviendasTable extends Migration
         Schema::create('historial_abono_viviendas', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('abono_vivienda_id')->constrained();
-			$table->foreignId('vivienda_id')->constrained();
+            $table->foreignId('vivienda_id')->constrained();
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }

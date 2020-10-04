@@ -92,4 +92,15 @@ class ViviendaController extends Controller
         $Vivienda->save();
 		return Response::json(['message' => 'Vivienda Desactivada'], 200);
 	}
+
+	// public function imagen(Request $request){
+	// 	$imagen = $request->photos;
+	// 	$nombreEliminar = public_path('storage\public\viviendas\\') .  $request->header("imagenanterior");
+	// 	if (File::exists($nombreEliminar)) {
+	// 		File::delete($nombreEliminar);
+	// 	}
+	// 	$completo = time() . "." . $imagen->extension();
+	// 	$imagen->move(public_path('storage/public/viviendas/'), $completo);
+	// 	return Response::json($completo, 200);
+	// }
 }

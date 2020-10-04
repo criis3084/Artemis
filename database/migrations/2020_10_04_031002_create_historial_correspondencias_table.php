@@ -16,7 +16,8 @@ class CreateHistorialCorrespondenciasTable extends Migration
         Schema::create('historial_correspondencias', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('correspondencia_id')->constrained();
-			$table->foreignId('apadrinamiento_id')->constrained();
+            $table->foreignId('apadrinamiento_id')->constrained();
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }

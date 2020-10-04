@@ -18,18 +18,20 @@ class CorrespondenciaController extends Controller
 		
 		if ($completo == 'false')
 		{
+			$count = Correspondencia::where('estado',1)->count();
 			if ($buscar==''){
-				$correspondencia = Correspondencia::with('apadrinamiento')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$correspondencia = Correspondencia::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$correspondencia = Correspondencia::with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$correspondencia = Correspondencia::where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
+			$count = Fotografia::all()->count();
 			if ($buscar==''){
-				$correspondencia = Correspondencia::with('apadrinamiento')->orderBy('id', 'desc')->paginate(20);
+				$correspondencia = Correspondencia::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$correspondencia = Correspondencia::with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$correspondencia = Correspondencia::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [

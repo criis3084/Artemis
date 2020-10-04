@@ -14,7 +14,6 @@ $factory->define(AbonoVivienda::class, function (Faker $faker) {
         'fecha_pago' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'cantidad_restante' => $faker->numberBetween($min = 10000, $max = 100000),
         'estado' => $faker->numberBetween($min = 0, $max = 1),
-        'vivienda_id' => factory(App\Vivienda::class),
         // 'vivienda_id' => Vivienda::pluck('id')[$faker->numberBetween(1,Vivienda::count()-1)],
         'usuario_id' => factory(App\Usuario::class),
         // 'usuario_id' => Usuario::pluck('id')[$faker->numberBetween(1,Usuario::count()-1)],

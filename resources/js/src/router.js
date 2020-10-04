@@ -378,9 +378,17 @@ const router = new Router({
         },
         //ABONO
         {
-          path:'/vivienda/abono',
+          path:'/vivienda/abono/:id',
           name: 'vivienda-abono',
           component: () => import('./views/Viviendas/Abono_vivienda/abonoVivienda.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path:'/abonar/vivienda/:id',  
+          name: 'abonar-vivienda',
+          component: () => import('./views/Viviendas/Abono_vivienda/abonar.vue'),
           meta: {
             rule:'editor'
           }

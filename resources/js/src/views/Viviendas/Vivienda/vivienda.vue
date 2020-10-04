@@ -23,11 +23,12 @@
         </template>
         <template slot="thead">
             <vs-th>Ver</vs-th>
-		  	<vs-th>Fecha</vs-th>
-		    <vs-th>Dirección</vs-th>
+		  	    <vs-th>Fecha</vs-th>
+		        <vs-th>Dirección</vs-th>
             <vs-th>Destinatario</vs-th>
             <vs-th>Constructor</vs-th>
-			<vs-th>Estado</vs-th>
+            <vs-th>Deuda</vs-th>
+			      <vs-th>Estado</vs-th>
             <vs-th>Acciones</vs-th>
         </template>
 
@@ -40,7 +41,7 @@
             <vs-td>{{ data[indextr].direccion }}</vs-td>
             <vs-td>{{ data[indextr].datos_residente[0].nombres + ' ' +  data[indextr].datos_residente[0].apellidos}}</vs-td>
             <vs-td>{{ data[indextr].datos_constructor[0].nombres + ' ' + data[indextr].datos_constructor[0].apellidos}}</vs-td>
-            <vs-td>
+            <vs-td>{{ 'Q'+data[indextr].costo_total}}</vs-td>
               <vs-td :data="data[indextr].estado">
                 <vs-switch
                   color="success"
@@ -50,9 +51,11 @@
                   <span slot="off">Desactivo</span>
                 </vs-switch>
               </vs-td>
-            </vs-td>
             <vs-td>
 				<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/vivienda/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
+			</vs-td>
+      <vs-td>
+				<vx-tooltip text="Abonar a la deuda"> <vs-button radius color="dark" type="flat" icon="dollar-sign" size="large" @click="$router.push('/vivienda/abono/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
 			</vs-td>
           </vs-tr>
         </template>
