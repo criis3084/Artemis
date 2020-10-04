@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Profesion::class, function (Faker $faker) {
     return [
-        'nombre' => $faker->jobTitle,
+        'nombre' => $faker->word,
         'estado' => $faker->numberBetween($min = 0, $max = 1),
     ];
 });

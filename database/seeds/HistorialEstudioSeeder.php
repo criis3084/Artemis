@@ -11,6 +11,6 @@ class HistorialEstudioSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\HistorialEstudio::class, 50)->create();
     }
 }

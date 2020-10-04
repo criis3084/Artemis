@@ -63,6 +63,7 @@ class DatabaseSeeder extends Seeder
         $this->call(HistorialExamenSeeder::class);
         $this->call(RecetaSeeder::class);
         $this->call(AsignacionMedicamentoSeeder::class);
-       
+        $this->call(EstudioSocioeconomicoSeeder::class);
+        $this->call(HistorialEstudioSeeder::class);
     }
 }

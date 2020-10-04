@@ -11,6 +11,6 @@ class EstudioSocioeconomicoSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\EstudioSocioeconomico::class, 50)->create();
     }
 }

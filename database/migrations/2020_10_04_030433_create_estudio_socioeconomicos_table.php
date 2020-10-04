@@ -19,12 +19,12 @@ class CreateEstudioSocioeconomicosTable extends Migration
 			$table->date('fecha_ingreso');
 			$table->float('total_ingresos',8,2);
 			$table->text('alimentacion');
-			$table->int('situacion_vivienda');
+			$table->integer('situacion_vivienda');
 			$table->float('costo_vivienda',6,2);
 			$table->boolean('luz');
 			$table->boolean('agua');
 			$table->boolean('drenaje');
-			$table->int('cantidad_cuartos');
+			$table->integer('cantidad_cuartos');
 			$table->string('bano');
 			$table->string('paredes');
 			$table->string('techo');
