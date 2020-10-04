@@ -199,7 +199,7 @@ export default {
 			this.validator.validate('grado', value);
 			this.validateForm();
 		},
-		escuela_id(value){	
+		escuela_id(value){
 			this.validator.validate('escuela_id', value);
 			this.validateForm();
 		},
