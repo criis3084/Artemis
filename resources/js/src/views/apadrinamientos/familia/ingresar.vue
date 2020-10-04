@@ -11,20 +11,16 @@
 			<tab-content title="Step 1" class="mb-5" icon="feather icon-home" :before-change="validateStep1">
 
 				<div class="vx-row">
-			<!-- 
-					<formIngresarNino 
-					v-on:validado="validandoNino"
-					v-bind:id_formulario="0"
-					>
-					</formIngresarNino>
-				 -->
 					<div v-for="(numero,index) in cantidad_ninos" :key="index">
 						<div v-if="numero.visible">
 							<vs-divider class="mt-10"  v-if="numero.id!=1"></vs-divider>
 							<vs-button radius color="danger" type="gradient" @click="quitar_nino(numero.id)" v-if="numero.id!=1" icon="X"></vs-button>
-							<formIngresarNino 
-								v-on:validado="validandoNino"
+							<formIngresarNino
+								v-bind:direccion="direccion"
+								v-bind:sector_id="sector_id.id"
+								v-bind:ingresar="ingresar"
 								v-bind:id_formulario="numero.id"
+								v-on:validado="validandoNino"
 							>
 							</formIngresarNino>
 						</div>
@@ -35,7 +31,6 @@
 							<vs-button @click="sumar_nino">Agregar nuevo niño apadrinado</vs-button>
 					</div>
 				</vs-row>
-
 
 			<!--
 				<div class="vx-row">
@@ -63,14 +58,22 @@
 			<!-- tab 2 content -->
 			<tab-content title="Step 2" class="mb-5" icon="feather icon-briefcase">
 
-				<div class="vx-row">
-
-					<formIngresarFamilia>  </formIngresarFamilia>
-					<div v-if="cantidad_ingresos_familia.length">
-						<div v-for="(numero,index) in cantidad_ingresos_familia" :key="index">
-							<vs-divider class="mt-10" ></vs-divider>
-							<vs-button radius color="danger" type="gradient" @click="quitar_familia(index)" icon="icon_x"></vs-button>
-							<formIngresarFamilia v-if="cantidad_ingresos_familia[numero]==numero"></formIngresarFamilia>
+					<div class="vx-row">
+						<div v-for="(numero,index) in cantidad_familia" :key="index">
+							<div v-if="numero.visible">
+								<vs-divider class="mt-10"  v-if="numero.id!=1"></vs-divider>
+										<vs-button radius color="danger" type="gradient" @click="quitar_familia(numero.id)" v-if="numero.id!=1" icon="X"></vs-button>
+										<formIngresarFamilia
+											v-bind:direccion="direccion"
+											v-bind:sector_id="sector_id.id"
+											v-bind:codigo_familia="codigo_familia"
+											v-bind:ingresar="ingresar"
+											v-bind:id_formulario="numero.id"
+											v-on:validado="validandoFamilia"
+											v-on:toFalse="toFalse"
+										>
+										</formIngresarFamilia>
+							</div>
 						</div>
 					</div>
 
@@ -98,9 +101,6 @@
 								<vs-button @click="sumar_familia">Agregar nuevo familiar del niño</vs-button>
 						</div>
 					</vs-row>
-
-				</div>
-
 
 			</tab-content>
 
@@ -150,11 +150,16 @@ export default {
 			sector_id:0,
 			direccion:'',
 			codigo_familia:'',
+			ingresar:false,
 			cantidad_ninos:[],
+			cantidad_familia:[],
 			ninosValidados:false,
 		}
 	},
   	methods: {
+		toFalse(){
+			this.ingresar=false;
+		},
 		validandoNino(e){
 			this.cantidad_ninos.forEach(function(elemento, indice, array) {
 				if (elemento.visible==true && elemento.id==e.id_form)
@@ -164,7 +169,26 @@ export default {
 				}
 			})
 		},
+		validandoFamilia(e){
+			this.cantidad_familia.forEach(function(elemento, indice, array) {
+				if (elemento.visible==true && elemento.id==e.id_form)
+				{
+					elemento.validado = e.validado
+					console.log(elemento.id + ' - ' + elemento.validado)
+				}
+			})
+		},
 		formSubmitted(){
+			/*
+			this.cantidad_ninos.forEach(function(elemento, indice, array) {
+				if (elemento.visible==true && elemento.id==e.id_form)
+				{
+					elemento.validado = e.validado
+				}
+			})
+			*/
+			this.ingresar=true;
+			console.log('haciendo el envio')
 			// aqui traeremos un dato del componente hijo para validar todo el formulario
 			/*
 			// alert('Form submitted!');
@@ -203,7 +227,8 @@ export default {
 			this.cantidad_ingresos_padrino.push(this.cantidad_ingresos_padrino.length+1);
 		},
 		sumar_familia(){
-			this.cantidad_ingresos_familia.push(this.cantidad_ingresos_familia.length+1);
+			this.cantidad_familia.push({id:this.cantidad_familia.length+1,visible:true,validado:false})
+			console.log(this.cantidad_familia)
 		},
 		quitar_nino(id){
 			this.cantidad_ninos.forEach(function(elemento, indice, array) {
@@ -214,14 +239,16 @@ export default {
 			})
 			console.log('quitando a ',id)
 		},
-		quitar_padrino(id){
-			console.log(id)
-			console.log(this.cantidad_ingresos_padrino)
-			this.cantidad_ingresos_padrino.splice(id,1)
-			//this.cantidad_ingresos_padrino = this.reordenar(this.cantidad_ingresos_padrino)
-			console.log(this.cantidad_ingresos_padrino)
-		},
 		quitar_familia(id){
+			this.cantidad_familia.forEach(function(elemento, indice, array) {
+				if (elemento.id==id)
+				{
+					elemento.visible=false;
+				}
+			})
+			console.log('quitando a ',id)
+		},
+		quitar_padrino(id){
 			this.cantidad_ingresos_familia.splice(id,1)
 		},
 		reordenar (arreglo)
@@ -268,6 +295,7 @@ export default {
 	mounted(){
 		this.importarSectores();
 		this.cantidad_ninos.push({id:1,visible:true,validado:false})
+		this.cantidad_familia.push({id:1,visible:true,validado:false})
 	},
 }
 </script>

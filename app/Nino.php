@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nino extends Model
 {
-	protected $fillable = ['codigo','fecha_ingreso','fecha_egreso','ruta_imagen','estado','persona_sin_acceso_id','escuela_id'];
+	protected $fillable = ['codigo','fecha_ingreso','fecha_egreso','ruta_imagen','estado','persona_sin_acceso_id','escuela_id','grado','ocupacion'];
 
 	public function escuela(){
 		return $this->belongsTo('App\Escuela','escuela_id','id');

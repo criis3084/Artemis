@@ -1,5 +1,6 @@
 <template>
 	<div>
+				<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>
 				<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<vx-card noShadow class="center" title="INGRESAR DATOS DEL NIÑO APADRINADO"	title-color="primary">
@@ -20,7 +21,6 @@
 
 							<vs-input v-model="apellidos" name="apellidos" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" />
 
-							<span class="text-danger">los apellidos son requeridos</span>
 							<br>
 
 							<small class="date-label mt-10">Genero</small>
@@ -47,6 +47,18 @@
 						<v-select label="nombre" :options="escuelas" class="mt-1" name="escuela_id"  v-model="escuela_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 					</div>
 
+					<div class="vx-col md:w-1/2 w-full mt-6">
+						<div class="vx-col w-full">
+							<vs-input v-model="grado" name="grado" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Grado" />
+						</div>
+					</div>
+
+					<div class="vx-col md:w-1/2 w-full mt-6">
+						<div class="vx-col w-full">
+							<vs-input v-model="ocupacion" name="ocupacion" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupación" />
+						</div>
+					</div>
+
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<div class="my-4">
 							<small class="date-label">Fecha de apadrinamiento</small>
@@ -56,7 +68,7 @@
 
 					<div class="vx-col md:w-1/2 w-full mt-8">
 						<small class="date-label">Padrino</small>
-						<v-select label="nombres" :options="padrinos" class="mt-1" name="padrino_id"  v-model="padrino_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<v-select label="nombres" :options="padrinos" class="mt-1" name="padrino_id" v-model="padrino_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 					</div>
 				</div>
 	</div>
@@ -106,26 +118,54 @@ export default {
 		id_formulario:{
 			default:0
 		},
+		direccion:{
+			default:''
+		},
+		sector_id:{
+			default:0
+		},
+		ingresar:{
+			default:false
+		},
 	},
 	validator: null,
 	data() {
 		return {
 			nombres: "",
-			nombre_fotografia:"",
 			apellidos: "",
-			direccion: "",
-			fecha_nacimiento: "",
-			fecha_ingreso: "",
 			genero:"",
-			padrino_id:0,
+			fecha_nacimiento: "",
+
+			codigo:'',
+			fecha_ingreso: "",
+			ruta_imagen:"",
+			grado:"",
+			ocupacion:"",
 			escuela_id:0,
+			
+			padrino_id:0,
+
 			padrinos:[],
 			escuelas:[],
 			langEn: es,
-			codigo:'',
 			validate_codigo:false,
 			errores: null,
 		}
+	},
+	computed:{
+		copia(){
+			console.log('ingresando...')
+			if(this.$props.ingresar==true)
+			{
+				console.log('y verdadero')
+				this.ingresarNino()
+			}
+		}
+			/*
+		copia() {
+			return true 
+		}
+		*/
 	},
 	watch: {
     	codigo(value) {
@@ -148,20 +188,25 @@ export default {
 			this.validator.validate('fecha_nacimiento', value);
 			this.validateForm();
 		},
-		escuela_id(value){	
-			this.validator.validate('escuela_id', value);
-			this.validateForm();
-		},
 		fecha_ingreso(value){	
 			this.validator.validate('fecha_ingreso', value);
 			this.validateForm();
 		},
-		padrino_id(value){	
-			this.validator.validate('padrino_id', value);
+		ocupacion(value){	
+			this.validator.validate('ocupacion', value);
+			this.validateForm();
+		},
+		grado(value){	
+			this.validator.validate('grado', value);
 			this.validateForm();
 		},
 	},
 	methods: {
+		getDate(datetime) {
+			let date = new Date(datetime);
+			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+			return dateString;
+		},
 		traerNombre(tabla){
 			tabla.forEach(function(valor, indice, array){
 				valor.nombres=valor.datos.nombres
@@ -203,28 +248,33 @@ export default {
 				nombres: this.nombres,
 				apellidos: this.apellidos,
 				genero: this.genero,
+				grado: this.grado,
+				ocupacion: this.ocupacion,
 				fecha_nacimiento :this.fecha_nacimiento,
 				fecha_ingreso :this.fecha_ingreso,
 			}).then((result) => {
-				if (result && this.escuela_id.id!==undefined && this.padrino_id.id!==undefined) {
-					console.log(result);
+				if (result && (this.escuela_id.id!==undefined) && (this.padrino_id.id!==undefined)){
 					this.$emit('validado',{validado:result,id_form:this.$props.id_formulario});
-				return;
+					return;
 				}
-					this.$emit('validado',{validado:false,id_form:this.$props.id_formulario});
-					console.log('Oops!');
+				this.$emit('validado',{validado:false,id_form:this.$props.id_formulario});
 			});
 		},
 		ingresarNino(){
 			axios.post("/api/nino/post/",{
-				codigo:this.codigoT,
-				nombres:this.nombresT,
-				apellidos:this.apellidosT,
-				genero:this.generoT,
+				nombres:this.nombres,
+				apellidos:this.apellidos,
+				genero:this.genero,
 				fecha_nacimiento:this.getDate(this.fecha_nacimiento),
-				escuela_id:this.escuela_id.id,
+				sector_id: this.$props.sector_id,
+				direccion: this.$props.direccion,
+				
+				codigo:this.codigo,
 				fecha_ingreso:this.getDate(this.fecha_ingreso),
 				ruta_imagen:this.ruta_imagen,
+				grado:this.grado,
+				ocupacion:this.ocupacion,
+				escuela_id:this.escuela_id.id
 				/*
 				padrino_id:this.padrino_id,
 				direccion:this.direccionT,
@@ -235,6 +285,7 @@ export default {
 			.catch(function(error) {
 				console.log(error)
 			});
+				this.$emit('toFalse','adios');
 			/*
 				this.$emit('cerrado','Se cerró el formulario');
 				this.$vs.notify({
@@ -262,10 +313,10 @@ export default {
 			nombres: 'required|alpha_spaces',
 			apellidos: 'required|alpha_spaces',
 			genero: 'required',
+			grado: 'required',
+			ocupacion: 'required',
 			fecha_nacimiento :'required',
-			escuela_id:'required',
 			fecha_ingreso:'required',
-			padrino_id:'required',
 		});
 		//this.$set(this, 'errores', this.validator.errors);
 
