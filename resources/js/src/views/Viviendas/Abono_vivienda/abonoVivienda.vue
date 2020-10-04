@@ -12,49 +12,31 @@
                 <div class = "demo-alignment">
                     <h5> <b>Dirección: </b> </h5><h5>{{direccion}}</h5>
                 </div>
-                    <br>
-
-                <!-- <div class = "demo-alignment">
-                <div id="demo-basic-card"  v-for="historialfotografia in arrayData" :key="historialfotografia.id">
-                    <div class="vx-row" >
-                        <div class="vx-col w-full sm:w-1/2 lg:w-1/3 mb-base" >
-                        <vx-card >
-                            <div slot="no-body">
-                                <img :src="url" alt="content-img" class="responsive card-img-top">
-                            </div>
-                            <h5 v-text="historialfotografia.fotografia.titulo"></h5>
-                            <p class="text-grey" v-text="historialfotografia.nino_id"></p>
-                            <p class="text-grey" v-text="historialfotografia.fotografia.descripcion"></p>
-                            <p class="text-grey" v-text="getDate(historialfotografia.created_at)"></p>
-                        </vx-card>
-                        </div>
-                    </div>
+                <div class = "demo-alignment">
+                    <h5> <b>Costo total: </b> </h5><h5>{{costo_total}}</h5>
                 </div>
-                </div> -->
-
-
+                    <br>
 				<vx-card>
 
-                    <vs-table stripe max-items="5" :data="arrayData">
+          <vs-table pagination max-items="5" search :data="arrayData">
 						<template slot="thead">
-							<vs-th>Imagen</vs-th>
-							<vs-th>Título</vs-th>
-							<vs-th>Descripción</vs-th>
-                            <vs-th>Fecha</vs-th>
+              <vs-th>Ver</vs-th>
+							<vs-th>Fecha</vs-th>
+							<vs-th>Monto Abono</vs-th>
+							<vs-th>Resto de deuda</vs-th>
 							<vs-th>Estado</vs-th>
 						</template>
 
-						<template>
-							<vs-tr v-for="historialfotografia in arrayData" :key="historialfotografia.id">
-								<!-- <vs-td v-text="historialfotografia.fotografia.ruta" ></vs-td> -->
-                                <vs-td>
-                                <img :src="url" alt="content-img" class="responsive card-img-top">
-                                </vs-td>
-                                <vs-td v-text="historialfotografia.fotografia.titulo" ></vs-td>
-								<vs-td v-text="historialfotografia.fotografia.descripcion" ></vs-td>
-                                <vs-td v-text="getDate(historialfotografia.created_at)" ></vs-td>
+						<template slot-scope="{data}">
+							<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
 								<vs-td>
-									<vs-switch color="success" v-model="historialfotografia.estado" @click="abrirDialog(historialfotografia.id, historialfotografia.estado)">
+									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/vivienda/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
+								</vs-td > 							
+								<vs-td >{{data[indextr].created_at}}</vs-td>
+								<vs-td>{{data[indextr].abono.cantidad_abono}}</vs-td>
+                <vs-td>{{data[indextr].abono.cantidad_restante}}</vs-td>
+								<vs-td>
+									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 										<span slot="on" >Activo</span>
 										<span slot="off">Desactivo</span>
 									</vs-switch>
@@ -62,14 +44,11 @@
 							</vs-tr>
 						</template>
 					</vs-table>
-					<div>
-						<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
-					</div>
 
 
-                </vx-card>
+        </vx-card>
                 <div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/apadrinamiento/nino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+  <router-link to="/vivienda/vivienda"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
     </div>
             </div>
 </template>
@@ -100,6 +79,7 @@ export default {
       direccion: '',
       nombre: '',
       apellido: '',
+      costo_total:'',
 	  switch2:false,
 	  id: 0,
 	  id_recibido:0,
@@ -123,22 +103,35 @@ export default {
         let me = this;
 		me.id_recibido = this.$route.params.id
 		const response = await axios.get(
-			`/api/abonoVivienda/get?&criterio=vivienda_id&buscar=${me.id_recibido}&completo=true`)
+			`/api/historialAbonoVivienda/get?&criterio=vivienda_id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.arrayData = respuesta.abonoViviendas.data;
-
-            
-            me.nombre = respuesta.abonoViviendas.data[0].datos_nino[0].nombres;
-            me.apellido = respuesta.abonoViviendas.data[0].datos_nino[0].apellidos;
-            me.direccion = respuesta.abonoViviendas.data[0].vivienda.direccion;
-            me.id = respuesta.abonoViviendas.data[0].datos_nino[0].id;
+      me.arrayData = respuesta.historialAbonoViviendas.data;
 			me.pagination= respuesta.pagination;
 
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
+    },
+     async index2 (page, search) { //async para que se llame cada vez que se necesite
+      const me = this
+      this.id_recibido = this.$route.params.id
+      console.log(`criterio   ${this.id_recibido}`)
+      const response = await axios.get(
+        `/api/vivienda/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
+        .then(function (response) {
+          console.log(page)
+          const respuesta = response.data;
+          me.arrayData = respuesta.viviendas.data;
+          me.nombre = respuesta.viviendas.data[0].datos_residente[0].nombres;
+            me.apellido = respuesta.viviendas.data[0].datos_residente[0].apellidos;
+            me.direccion = respuesta.viviendas.data[0].direccion;
+            me.costo_total = respuesta.viviendas.data[0].costo_total;
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     abrirDialog(id, estado){
 
@@ -174,7 +167,7 @@ export default {
 		
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
-			axios.put('/api/historialFotografia/activar', {
+			axios.put('/api/historialAbonoVivienda/activar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -186,7 +179,7 @@ export default {
 		}
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
-			axios.put('/api/historialFotografia/desactivar', {
+			axios.put('/api/historialAbonoVivienda/desactivar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -206,6 +199,7 @@ export default {
   },
   mounted(){
     this.index(1, this.search);
+    this.index2(1, this.search);
   },
   computed:{
 
