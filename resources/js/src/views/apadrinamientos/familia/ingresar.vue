@@ -8,8 +8,36 @@
 		</vs-row>
 		<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="Submit" on-validate @on-complete="formSubmitted">
 			<!-- tab 1 content -->
-			<tab-content title="Step 1" class="mb-5" icon="feather icon-home">
+			<tab-content title="Step 1" class="mb-5" icon="feather icon-home" :before-change="validateStep1">
 
+				<div class="vx-row">
+			<!-- 
+					<formIngresarNino 
+					v-on:validado="validandoNino"
+					v-bind:id_formulario="0"
+					>
+					</formIngresarNino>
+				 -->
+					<div v-for="(numero,index) in cantidad_ninos" :key="index">
+						<div v-if="numero.visible">
+							<vs-divider class="mt-10"  v-if="numero.id!=1"></vs-divider>
+							<vs-button radius color="danger" type="gradient" @click="quitar_nino(numero.id)" v-if="numero.id!=1" icon="X"></vs-button>
+							<formIngresarNino 
+								v-on:validado="validandoNino"
+								v-bind:id_formulario="numero.id"
+							>
+							</formIngresarNino>
+						</div>
+					</div>
+				</div>
+				<vs-row	vs-align="center" vs-type="flex"  class="m-10" vs-justify="space-around" vs-w="12">
+					<div class="vx-col md:w-1/4 w-full mt-5">
+							<vs-button @click="sumar_nino">Agregar nuevo niño apadrinado</vs-button>
+					</div>
+				</vs-row>
+
+
+			<!--
 				<div class="vx-row">
 					<formIngresarPadrino></formIngresarPadrino>
 						<div v-if="cantidad_ingresos_padrino.length">
@@ -26,35 +54,15 @@
 						</div>
 					</vs-row>
 
+
 				</div>
+			  -->
 			
 			</tab-content>
 
 			<!-- tab 2 content -->
 			<tab-content title="Step 2" class="mb-5" icon="feather icon-briefcase">
 
-				<div class="vx-row">
-					<formIngresarNino 
-					v-on:validado="validandoNino"
-					 ></formIngresarNino>
-						<div v-if="cantidad_ingresos_nino.length">
-							<div v-for="(numero,index) in cantidad_ingresos_nino" :key="index">
-								<vs-divider class="mt-10" ></vs-divider>
-								<vs-button radius color="danger" type="gradient" @click="quitar_nino(numero)" icon="icon_x"></vs-button>
-								<formIngresarNino></formIngresarNino>
-							</div>
-						</div>
-				</div>
-				<vs-row	vs-align="center" vs-type="flex"  class="m-10" vs-justify="space-around" vs-w="12">
-					<div class="vx-col md:w-1/4 w-full mt-5">
-							<vs-button @click="sumar_nino">Agregar nuevo niño apadrinado</vs-button>
-					</div>
-				</vs-row>
-
-			</tab-content>
-
-			<!-- tab 3 content -->
-			<tab-content title="Step 3" class="mb-5" icon="feather icon-image">
 				<div class="vx-row">
 
 					<formIngresarFamilia>  </formIngresarFamilia>
@@ -92,6 +100,12 @@
 					</vs-row>
 
 				</div>
+
+
+			</tab-content>
+
+			<!-- tab 3 content -->
+			<tab-content title="Step 3" class="mb-5" icon="feather icon-image">
 			</tab-content>
 
 		</form-wizard>
@@ -135,12 +149,20 @@ export default {
 			sectores:[],
 			sector_id:0,
 			direccion:'',
-			codigo_familia:''
+			codigo_familia:'',
+			cantidad_ninos:[],
+			ninosValidados:false,
 		}
 	},
   	methods: {
 		validandoNino(e){
-			console.log(e)
+			this.cantidad_ninos.forEach(function(elemento, indice, array) {
+				if (elemento.visible==true && elemento.id==e.id_form)
+				{
+					elemento.validado = e.validado
+					console.log(elemento.id + ' - ' + elemento.validado)
+				}
+			})
 		},
 		formSubmitted(){
 			// aqui traeremos un dato del componente hijo para validar todo el formulario
@@ -174,8 +196,8 @@ export default {
 			*/
 		},
 		sumar_nino(){
-			this.cantidad_ingresos_nino.push(this.cantidad_ingresos_nino.length+1);
-			console.log(this.cantidad_ingresos_nino)
+			this.cantidad_ninos.push({id:this.cantidad_ninos.length+1,visible:true,validado:false})
+			console.log(this.cantidad_ninos)
 		},
 		sumar_padrino(){
 			this.cantidad_ingresos_padrino.push(this.cantidad_ingresos_padrino.length+1);
@@ -184,9 +206,13 @@ export default {
 			this.cantidad_ingresos_familia.push(this.cantidad_ingresos_familia.length+1);
 		},
 		quitar_nino(id){
-			this.cantidad_ingresos_nino.splice(id-1,1)
-			this.cantidad_ingresos_nino = this.reordenar(this.cantidad_ingresos_nino)
-			console.log(this.cantidad_ingresos_nino)
+			this.cantidad_ninos.forEach(function(elemento, indice, array) {
+				if (elemento.id==id)
+				{
+					elemento.visible=false;
+				}
+			})
+			console.log('quitando a ',id)
 		},
 		quitar_padrino(id){
 			console.log(id)
@@ -206,6 +232,16 @@ export default {
 				arreglo.push(i);
 			}
 			return arreglo
+		},
+		validateStep1() {
+			this.cantidad_ninos.forEach(function(elemento, indice, array) {
+				if (elemento.visible==true && elemento.validado==true)
+				{
+					return false
+				}
+			})
+			console.log('a ver')
+			return true
 		},
 		async importarSectores(){ //async para que se llame cada vez que se necesite
 			let me = this;
@@ -231,6 +267,7 @@ export default {
 	},
 	mounted(){
 		this.importarSectores();
+		this.cantidad_ninos.push({id:1,visible:true,validado:false})
 	},
 }
 </script>

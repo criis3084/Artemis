@@ -46,8 +46,11 @@
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
-					<vs-input label="Numero de telefono"  v-model="numero_telefono" class="w-full" icon-pack="feather" icon="icon-phone" name="campo" v-validate="'required'" />
-					<span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+				<ValidationProvider :rules="{ regex:/[a-zA-Z]/ }" v-slot="{ errors }"> 
+					<vs-input label="Numero de telefono"  v-model="numero_telefono" class="w-full" icon-pack="feather" icon="icon-phone" name="campo" />
+					 <span>{{ errors[0] }}</span>
+				</ValidationProvider>
+			
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
@@ -87,6 +90,7 @@
 </template>
 
 <script>
+import { ValidationProvider } from 'vee-validate';
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import vSelect from 'vue-select'
@@ -96,12 +100,18 @@ import axios from 'axios'
 import { es } from 'vuejs-datepicker/src/locale'
 
 // For custom error message
-import { Validator } from 'vee-validate'
+
+import { extend } from 'vee-validate';
+import { messages } from 'vee-validate';
+import { Validator } from 'vee-validate';
+
+
 const dict = {
   custom: {
     first_name: {
       required: 'Los nombres son requeridos',
-      alpha: 'Solo se permiten letras'
+	  alpha: 'Solo se permiten letras'
+	  
     },
     last_name: {
       required: 'Los apellidos son requeridos',
@@ -112,13 +122,21 @@ const dict = {
       email: 'Por favo ingrese un correo valido'
     },
     campo: {
-      required: 'Información requerida'
-    }
+	  required: 'Información requerida',
+	  
+	},
+	  celular: {
+	  Validator: 'no existe',
+	  
+	},
+	
+	
+	
   }
 }
 
 // register custom messages
-Validator.localize('en', dict)
+Validator.localize('es', dict)
 
 export default {
   data () {
@@ -187,7 +205,6 @@ export default {
         })
       })
     },
-
     formSubmitted () {
 		if (this.ruta_imagen === ''){
 			this.ruta_imagen= "default.png"
@@ -222,6 +239,8 @@ export default {
     },
   },
   components: {
+	 
+	   ValidationProvider,
     FormWizard,
 	  TabContent,
   	Datepicker,

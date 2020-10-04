@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\EstudioSocioeconomico;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Exception;
 
 class EstudioSocioeconomicoController extends Controller
 {

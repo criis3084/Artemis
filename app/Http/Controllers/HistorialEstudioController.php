@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\HistorialEstudio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Exception;
 
 class HistorialEstudioController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $buscar = $request->buscar;
 		$criterio = $request->criterio;

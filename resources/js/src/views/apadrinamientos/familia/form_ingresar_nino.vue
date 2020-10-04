@@ -14,40 +14,22 @@
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<div class="vx-col w-full">
 
-
-							<!--
-							<div class="column is-12">
-								<label class="label">Email</label>
-								<p class="control has-icon has-icon-right">
-									<input v-model="email" name="email" :class="{'input': true, 'is-danger': errors.has('email') }" type="text" placeholder="Email">
-									<i v-show="errors.has('email')" class="fa fa-warning"></i>
-									<span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
-								</p>
-							</div>
-							
-
-							-->
 							<vs-input v-model="codigo" name='codigo' class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Codigo"  />
-							<span v-show="errors.has('codigo')" class="text-danger">{{ errors.first('codigo') }}</span>
 
+							<vs-input v-model="nombres" name='nombres' class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" />
 
-							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombres" name='nombres'/>
-							<!--
-							<i v-show="errors.has('nombres')" class="fa fa-warning"></i>
-							<span v-show="errors.has('nombres')" class="text-danger">{{ errors.first('nombres') }}</span>
-							-->
+							<vs-input v-model="apellidos" name="apellidos" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" />
 
-							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos"/>
 							<span class="text-danger">los apellidos son requeridos</span>
 							<br>
 
 							<small class="date-label mt-10">Genero</small>
 								<ul class="demo-alignment">
 									<li>
-										<vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1" selected>Masculino</vs-radio>
+										<vs-radio color="rgb(0, 170, 228)" v-model="genero" name='genero' vs-value="1" selected>Masculino</vs-radio>
 									</li>
 									<li>
-										<vs-radio color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
+										<vs-radio color="rgb(255, 0, 128)" v-model="genero" name='genero' vs-value="0">Femenino</vs-radio>
 									</li>
 								</ul>
 						</div>
@@ -56,25 +38,25 @@
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<div class="my-4">
 							<small class="date-label">Fecha Nacimiento</small>
-							<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_nacimiento"></datepicker>
+							<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_nacimiento" v-model="fecha_nacimiento"></datepicker>
 						</div>
 					</div>
 					
 					<div class="vx-col md:w-1/2 w-full mt-8">
 						<small class="date-label">Escuela</small>
-						<v-select label="nombre" :options="escuelas" class="mt-1" v-model="escuela_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<v-select label="nombre" :options="escuelas" class="mt-1" name="escuela_id"  v-model="escuela_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 					</div>
 
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<div class="my-4">
 							<small class="date-label">Fecha de apadrinamiento</small>
-							<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_ingreso"></datepicker>
+							<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_ingreso" v-model="fecha_ingreso"></datepicker>
 						</div>
 					</div>
 
 					<div class="vx-col md:w-1/2 w-full mt-8">
 						<small class="date-label">Padrino</small>
-						<v-select label="nombres" :options="padrinos" class="mt-1"  v-model="padrino_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<v-select label="nombres" :options="padrinos" class="mt-1" name="padrino_id"  v-model="padrino_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 					</div>
 				</div>
 	</div>
@@ -120,6 +102,11 @@ const dict = {
 };
 */
 export default {
+	props:{
+		id_formulario:{
+			default:0
+		},
+	},
 	validator: null,
 	data() {
 		return {
@@ -137,7 +124,7 @@ export default {
 			langEn: es,
 			codigo:'',
 			validate_codigo:false,
-			errors: null
+			errores: null,
 		}
 	},
 	watch: {
@@ -147,6 +134,30 @@ export default {
 		},
 		nombres(value){	
 			this.validator.validate('nombres', value);
+			this.validateForm();
+		},
+		apellidos(value){	
+			this.validator.validate('apellidos', value);
+			this.validateForm();
+		},
+		genero(value){	
+			this.validator.validate('genero', value);
+			this.validateForm();
+		},
+		fecha_nacimiento(value){	
+			this.validator.validate('fecha_nacimiento', value);
+			this.validateForm();
+		},
+		escuela_id(value){	
+			this.validator.validate('escuela_id', value);
+			this.validateForm();
+		},
+		fecha_ingreso(value){	
+			this.validator.validate('fecha_ingreso', value);
+			this.validateForm();
+		},
+		padrino_id(value){	
+			this.validator.validate('padrino_id', value);
 			this.validateForm();
 		},
 	},
@@ -190,26 +201,34 @@ export default {
 			this.validator.validateAll({
 				codigo: this.codigo,
 				nombres: this.nombres,
+				apellidos: this.apellidos,
+				genero: this.genero,
+				fecha_nacimiento :this.fecha_nacimiento,
+				fecha_ingreso :this.fecha_ingreso,
 			}).then((result) => {
-				if (result) {
-				console.log('All is well');
+				if (result && this.escuela_id.id!==undefined && this.padrino_id.id!==undefined) {
+					console.log(result);
+					this.$emit('validado',{validado:result,id_form:this.$props.id_formulario});
 				return;
 				}
-				console.log('Oops!');
+					this.$emit('validado',{validado:false,id_form:this.$props.id_formulario});
+					console.log('Oops!');
 			});
 		},
 		ingresarNino(){
 			axios.post("/api/nino/post/",{
+				codigo:this.codigoT,
 				nombres:this.nombresT,
 				apellidos:this.apellidosT,
 				genero:this.generoT,
-				fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
-				sector_id:this.sector_idT.id,
+				fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+				escuela_id:this.escuela_id.id,
+				fecha_ingreso:this.getDate(this.fecha_ingreso),
+				ruta_imagen:this.ruta_imagen,
+				/*
+				padrino_id:this.padrino_id,
 				direccion:this.direccionT,
-				codigo:this.codigoT,
-				fecha_ingreso:this.getDate(this.fecha_ingresoT),
-				ruta_imagen:this.ruta_imagenT,
-				escuela_id:this.escuela_idT.id
+				*/
 			}).then(function(response) {
 				console.log(response)
 			})
@@ -241,8 +260,15 @@ export default {
 		this.validator = new Validator({
 			codigo: 'required',
 			nombres: 'required|alpha_spaces',
+			apellidos: 'required|alpha_spaces',
+			genero: 'required',
+			fecha_nacimiento :'required',
+			escuela_id:'required',
+			fecha_ingreso:'required',
+			padrino_id:'required',
 		});
-		this.$set(this, 'errors', this.validator.errors);
+		//this.$set(this, 'errores', this.validator.errors);
+
 	}
 }
 </script>
