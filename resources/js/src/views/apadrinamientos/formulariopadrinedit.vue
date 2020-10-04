@@ -183,12 +183,21 @@ export default {
     },
     async importarSectores(){ //async para que se llame cada vez que se necesite
 		let me = this;
+		let encontrado=false;
+		let elementoE={}
 		const response = await axios.get(
 			`/api/sector/get?completo=select`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.sectoresT = respuesta.sectores.data;
-            console.log(me.sectoresT);
+			me.sectoresT = respuesta.sectores.data;
+			me.sectoresT.forEach(function(elemento, indice, array) {
+				if (elemento.id==me.sector_idT)
+				{
+					elementoE=elemento
+					encontrado=true
+				}
+			})
+			me.sector_idT = encontrado == true ? elementoE : {id:me.sector_idT,nombre:'Sector desactivado'} 
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
@@ -267,8 +276,9 @@ export default {
 	  vSelect,
   },
 	mounted(){
-    this.importarSectores();
     this.index(1, this.search);
+    this.importarSectores();
+
   },
   
 }

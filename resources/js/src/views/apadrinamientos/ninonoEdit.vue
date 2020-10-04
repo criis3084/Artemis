@@ -212,36 +212,52 @@ export default {
           console.log(error)
         })
     },
-    async importarSectores () { //async para que se llame cada vez que se necesite
-      const me = this
-      const response = await axios.get(
-        '/api/sector/get?completo=select')
-        .then(function (response) {
-          const respuesta = response.data
-          me.sectoresT = respuesta.sectores.data
-          console.log(me.sectoresT)
-          me.pagination = respuesta.pagination
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    },
-    async importarEscuelas () { //async para que se llame cada vez que se necesite
-      const me = this
-      const response = await axios.get(
-        '/api/escuela/get?&completo=select')
-        .then(function (response) {
-          const respuesta = response.data
-          me.escuelasT = respuesta.escuelas.data
-          console.log(me.escuelasT)
-          me.pagination = respuesta.pagination
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    },
-    successUpload () {
-      this.$vs.notify({color:'success', title:'Fotografia', text:'Fotografia importada'})
+    async importarSectores(){ //async para que se llame cada vez que se necesite
+		let me = this;
+		let encontrado=false;
+		let elementoE={}
+		const response = await axios.get(
+			`/api/sector/get?completo=select`)
+		.then(function (response) {
+			var respuesta= response.data;
+			me.sectoresT = respuesta.sectores.data;
+			me.sectoresT.forEach(function(elemento, indice, array) {
+				if (elemento.id==me.sector_idT)
+				{
+					elementoE=elemento
+					encontrado=true
+				}
+			})
+			me.sector_idT = encontrado == true ? elementoE : {id:me.sector_idT,nombre:'Sector desactivado'} 
+			me.pagination= respuesta.pagination;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	},
+	async importarEscuelas(){ //async para que se llame cada vez que se necesite
+		let me = this;
+		let encontrado=false;
+		let elementoE={}
+		const response = await axios.get(
+			`/api/escuela/get?&completo=select`)
+		.then(function (response) {
+			var respuesta= response.data;
+			me.escuelasT = respuesta.escuelas.data;
+
+			me.escuelasT.forEach(function(elemento, indice, array) {
+				if (elemento.id==me.escuela_idT)
+				{
+					elementoE=elemento
+					encontrado=true
+				}
+			})
+			me.escuela_idT = encontrado == true ? elementoE : {id:me.escuela_idT,nombre:'Escuela desactivada'} 
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	},
     },
     validateStep1 () {
       return new Promise((resolve, reject) => {
@@ -292,9 +308,7 @@ export default {
         text:'La acción se realizo exitósamente'
       })
       this.$router.push('/apadrinamiento/ninono')
-	}
-	
-  },
+	},
   components: {
     FormWizard,
     TabContent,
@@ -302,9 +316,10 @@ export default {
     vSelect
   },
   mounted () {
+    this.index(1, this.search)
     this.importarSectores()
     this.importarEscuelas()
-    this.index(1, this.search)
+
   }
 }
 </script>

@@ -41,14 +41,6 @@ class TutorController extends Controller
 			$tutor = Tutor::with('datos')->with('tutorias')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(1);
 		}
 		return [
-			'pagination' => [
-				'total'        => $tutor->total(),
-				'current_page' => $tutor->currentPage(),
-				'per_page'     => $tutor->perPage(),
-				'last_page'    => $tutor->lastPage(),
-				'from'         => $tutor->firstItem(),
-				'to'           => $tutor->lastItem(),
-			],
 			"tutors"=>$tutor
 		];
 	}

@@ -18,29 +18,23 @@ class AbonoViviendaController extends Controller
 		
 		if ($completo == 'false')
 		{
+			$count = AbonoVivienda::where('estado',1)->count();
 			if ($buscar==''){
-				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
+			$count = AbonoVivienda::all()->count();
 			if ($buscar==''){
-				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->orderBy('id', 'desc')->paginate(20);
+				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$abonoVivienda = AbonoVivienda::with('vivienda')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
-			'pagination' => [
-				'total'        => $abonoVivienda->total(),
-				'current_page' => $abonoVivienda->currentPage(),
-				'per_page'     => $abonoVivienda->perPage(),
-				'last_page'    => $abonoVivienda->lastPage(),
-				'from'         => $abonoVivienda->firstItem(),
-				'to'           => $abonoVivienda->lastItem(),
-			],
 			"abonos"=>$abonoVivienda
 		];
 	}

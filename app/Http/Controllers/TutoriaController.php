@@ -18,29 +18,23 @@ class TutoriaController extends Controller
 		
 		if ($completo == 'false')
 		{
+			$count = Tutoria::where('estado',1)->count();
 			if ($buscar==''){
-				$tutoria = Tutoria::with('nino')->with('tutor')->with('datos_tutor')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$tutoria = Tutoria::with('nino')->with('tutor')->with('datos_tutor')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$tutoria = Tutoria::with('nino')->with('tutor')->with('datos_tutor')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$tutoria = Tutoria::with('nino')->with('tutor')->with('datos_tutor')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
+			$count = Tutoria::all()->count();
 			if ($buscar==''){
-				$tutoria = Tutoria::with('nino')->with('tutor')->with('datos_tutor')->with('datos_nino')->orderBy('id', 'desc')->paginate(20);
+				$tutoria = Tutoria::with('nino')->with('tutor')->with('datos_tutor')->with('datos_nino')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$tutoria = Tutoria::with('nino')->with('tutor')->with('datos_tutor')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$tutoria = Tutoria::with('nino')->with('tutor')->with('datos_tutor')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
-			'pagination' => [
-				'total'        => $tutoria->total(),
-				'current_page' => $tutoria->currentPage(),
-				'per_page'     => $tutoria->perPage(),
-				'last_page'    => $tutoria->lastPage(),
-				'from'         => $tutoria->firstItem(),
-				'to'           => $tutoria->lastItem(),
-			],
 			"tutorias"=>$tutoria
 		];
 	}
