@@ -137,7 +137,7 @@ export default {
 			nombres: "",
 			apellidos: "",
 			CUI:"",
-			genero:1,
+			genero:'',
 			telefono: "",
 			fecha_nacimiento: "",
 			relacion: "",
@@ -169,7 +169,7 @@ export default {
 			this.validator.validate('genero', value);
 			this.validateForm();
 		},
-		telefono(value){	
+		telefono(value){
 			this.validator.validate('telefono', value);
 			this.validateForm();
 		},
@@ -222,9 +222,9 @@ export default {
 				telefono :this.telefono,
 				fecha_nacimiento :this.fecha_nacimiento,
 				relacion: this.relacion,
-				escolaridad: this.ingresos,
+				escolaridad: this.escolaridad,
 				ocupacion: this.ocupacion,
-				ingresos: this.escolaridad,
+				ingresos: this.ingresos,
 			}).then((result) => {
 				if (result ){
 					this.$emit('validado',{validado:result,id_form:this.$props.id_formulario});
@@ -241,7 +241,7 @@ export default {
 				numero_telefono:this.telefono,
 				genero:this.genero,
 				fecha_nacimiento:this.getDate(this.fecha_nacimiento),
-				sector_id: this.$props.sector_id,
+				sector_id: this.$props.sector_id.id,
 				direccion: this.$props.direccion,
 
 				ruta_imagen:this.ruta_imagen,
@@ -295,7 +295,7 @@ export default {
 			relacion: 'required',
 			escolaridad:'required',
 			ocupacion:'required',
-			ingresos:'required',
+			ingresos:'required|decimal:2',
 		});
 	}
 }

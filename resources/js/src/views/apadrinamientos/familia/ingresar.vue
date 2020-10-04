@@ -17,7 +17,7 @@
 							<vs-button radius color="danger" type="gradient" @click="quitar_nino(numero.id)" v-if="numero.id!=1" icon="X"></vs-button>
 							<formIngresarNino
 								v-bind:direccion="direccion"
-								v-bind:sector_id="sector_id.id"
+								v-bind:sector_id="sector_id"
 								v-bind:ingresar="ingresar"
 								v-bind:id_formulario="numero.id"
 								v-on:validado="validandoNino"
@@ -66,7 +66,7 @@
 									<vs-button radius color="danger" type="gradient" @click="quitar_familia(numero.id)" v-if="numero.id!=1" icon="X"></vs-button>
 									<formIngresarFamilia
 										v-bind:direccion="direccion"
-										v-bind:sector_id="sector_id.id"
+										v-bind:sector_id="sector_id"
 										v-bind:ingresar="ingresar"
 										v-bind:id_formulario="numero.id"
 										v-on:validado="validandoFamilia"
