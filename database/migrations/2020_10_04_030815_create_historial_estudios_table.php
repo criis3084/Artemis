@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCorrespondenciasTable extends Migration
+class CreateHistorialEstudiosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateCorrespondenciasTable extends Migration
      */
     public function up()
     {
-        Schema::create('correspondencias', function (Blueprint $table) {
+        Schema::create('historial_estudios', function (Blueprint $table) {
 			$table->id();
-			$table->text('mensaje');
-			$table->text('encabezado');
-			$table->text('piePagina');
-			$table->boolean('estado')->default(1);
-			$table->timestamps();
+			$table->foreignId('estudio_socioeconomico_id')->constrained();
+			$table->foreignId('relacion_id')->constrained();
+            $table->timestamps();
         });
     }
 
@@ -30,6 +28,6 @@ class CreateCorrespondenciasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('correspondencias');
+        Schema::dropIfExists('historial_estudios');
     }
 }

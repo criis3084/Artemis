@@ -1,6 +1,5 @@
 <template>
 	<div>
-			<form data-vv-scope="step-1" :is-valid="validateStep1" >
 				<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<vx-card noShadow class="center" title="INGRESAR DATOS DEL NIÑO APADRINADO"	title-color="primary">
@@ -15,14 +14,28 @@
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<div class="vx-col w-full">
 
-							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Codigo" v-model="codigo" name='codigo' v-validate="'required|alpha'"/>
-							<i v-show="errors.has('codigo')" class="fa fa-warning"></i>
-							<span v-show="errors.has('codigo')" class="help is-danger">{{ errors.first('codigo') }}</span>
 
-							<span class="text-danger">El codigo es un campo obliatorio</span>
+							<!--
+							<div class="column is-12">
+								<label class="label">Email</label>
+								<p class="control has-icon has-icon-right">
+									<input v-model="email" name="email" :class="{'input': true, 'is-danger': errors.has('email') }" type="text" placeholder="Email">
+									<i v-show="errors.has('email')" class="fa fa-warning"></i>
+									<span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+								</p>
+							</div>
+							
 
-							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombres" v-validate="'required|alpha'"/>
-							<span class="text-danger">los nombres son requeridos</span>
+							-->
+							<vs-input v-model="codigo" name='codigo' class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Codigo"  />
+							<span v-show="errors.has('codigo')" class="text-danger">{{ errors.first('codigo') }}</span>
+
+
+							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombres" name='nombres'/>
+							<!--
+							<i v-show="errors.has('nombres')" class="fa fa-warning"></i>
+							<span v-show="errors.has('nombres')" class="text-danger">{{ errors.first('nombres') }}</span>
+							-->
 
 							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos"/>
 							<span class="text-danger">los apellidos son requeridos</span>
@@ -64,7 +77,6 @@
 						<v-select label="nombres" :options="padrinos" class="mt-1"  v-model="padrino_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 					</div>
 				</div>
-			</form>
 	</div>
 </template>
 
@@ -72,9 +84,12 @@
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import vSelect from 'vue-select'
-
-// For custom error message
+import Datepicker from 'vuejs-datepicker'
+import axios from 'axios'
+import { es } from 'vuejs-datepicker/src/locale'
 import { Validator } from 'vee-validate';
+/*
+Validator.localize('es', dict);
 const dict = {
   custom: {
     codigo: {
@@ -103,35 +118,37 @@ const dict = {
     },
   }
 };
-
-import Datepicker from 'vuejs-datepicker'
-import axios from 'axios'
-// register custom messages
-Validator.localize('es', dict);
-import { es } from 'vuejs-datepicker/src/locale'
-
+*/
 export default {
+	validator: null,
 	data() {
 		return {
-		nombres: "",
-		nombre_fotografia:"",
-		apellidos: "",
-		direccion: "",
-		fecha_nacimiento: "",
-		fecha_ingreso: "",
-		genero:"",
-		padrino_id:0,
-		escuela_id:0,
-		padrinos:[],
-		escuelas:[],
-		langEn: es,
-		codigo:'',
+			nombres: "",
+			nombre_fotografia:"",
+			apellidos: "",
+			direccion: "",
+			fecha_nacimiento: "",
+			fecha_ingreso: "",
+			genero:"",
+			padrino_id:0,
+			escuela_id:0,
+			padrinos:[],
+			escuelas:[],
+			langEn: es,
+			codigo:'',
+			validate_codigo:false,
+			errors: null
 		}
 	},
-	copia() {
-		this.validateStep1();
-		console.log('validando form 1')
-		return true 
+	watch: {
+    	codigo(value) {
+			this.validator.validate('codigo', value);
+			this.validateForm();
+		},
+		nombres(value){	
+			this.validator.validate('nombres', value);
+			this.validateForm();
+		},
 	},
 	methods: {
 		traerNombre(tabla){
@@ -167,19 +184,19 @@ export default {
 			});
 		},
 		successUpload(){
-		this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
+			this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
 		},
-		validateStep1() {
-			return new Promise((resolve, reject) => {
-				this.$validator.validateAll('step-1').then(result => {
+		validateForm() {
+			this.validator.validateAll({
+				codigo: this.codigo,
+				nombres: this.nombres,
+			}).then((result) => {
 				if (result) {
-					console.log(result)
-					resolve(true)
-				} else {
-					reject("correct all values");
+				console.log('All is well');
+				return;
 				}
-				})
-			})
+				console.log('Oops!');
+			});
 		},
 		ingresarNino(){
 			axios.post("/api/nino/post/",{
@@ -220,15 +237,12 @@ export default {
 		this.importarPadrinos();
 		this.importarEscuelas();
 	},
-	computed: {
-		codigo: {
-		get () {
-			return this.$store.state.codigo;
-		},
-		set (val) {
-			this.$store.commit('UPDATE_MESSAGE', val);
-		}
-		}
+	created() {
+		this.validator = new Validator({
+			codigo: 'required',
+			nombres: 'required|alpha_spaces',
+		});
+		this.$set(this, 'errors', this.validator.errors);
 	}
 }
 </script>

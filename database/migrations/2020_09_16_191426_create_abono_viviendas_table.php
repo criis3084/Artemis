@@ -15,12 +15,11 @@ class CreateAbonoViviendasTable extends Migration
     {
         Schema::create('abono_viviendas', function (Blueprint $table) {
 			$table->id();
-			$table->integer('cantidad_abono');
+			$table->float('cantidad_abono',8,2);
 			$table->string('descripcion');
 			$table->date('fecha_pago');
-			$table->integer('cantidad_restante');
+			$table->float('cantidad_restante',8,2);
 			$table->boolean('estado')->default(1);
-			$table->foreignId('vivienda_id')->constrained();
 			$table->foreignId('usuario_id')->constrained();
 			$table->timestamps();
         });

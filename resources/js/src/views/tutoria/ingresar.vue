@@ -74,7 +74,7 @@
     <!-- tab 2 content -->
     <tab-content title="Paso 2" class="mb-5" icon="feather icon-file-plus" :before-change="validateStep2">
 		<form data-vv-scope="step-2">
-			<div class="vx-row">
+			<div class="vx-row">c
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
 						<vs-upload automatic action="/api/tutor/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar"/>

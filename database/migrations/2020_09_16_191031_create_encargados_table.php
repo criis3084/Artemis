@@ -17,6 +17,9 @@ class CreateEncargadosTable extends Migration
 			$table->id();
 			$table->string('ruta_imagen')->nullable();
 			$table->boolean('estado')->default(1);
+			$table->string('escolaridad')->nullable();
+			$table->string('ocupacion')->nullable();
+			$table->float('ingresos',8,2)->nullable();
 			$table->foreignId('persona_sin_acceso_id')->constrained();
 			$table->timestamps();
         });
