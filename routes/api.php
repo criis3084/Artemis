@@ -1004,3 +1004,65 @@ Route::group(['prefix' => 'asignacionMedicamento'], function () {
         'as' => 'admin.asignacionMedicamento', 'uses' => 'AsignacionMedicamentoController@desactivar'
     ]);
 });
+Route::group(['prefix' => 'historialAbonoVivienda'], function () {
+    Route::get('/get', [
+        'as' => 'admin.historialAbonoVivienda', 'uses' => 'HistorialAbonoViviendaController@index'
+    ]);
+    Route::post('/post', [
+        'as' => 'admin.historialAbonoVivienda', 'uses' => 'HistorialAbonoViviendaController@store'
+    ]);
+    Route::put('/activar', [
+        'as' => 'admin.historialAbonoVivienda', 'uses' => 'HistorialAbonoViviendaController@activar'
+	]);
+    Route::put('/desactivar', [
+        'as' => 'admin.historialAbonoVivienda', 'uses' => 'HistorialAbonoViviendaController@desactivar'
+    ]);
+});
+Route::group(['prefix' => 'historialCorrespondencia'], function () {
+    Route::get('/get', [
+        'as' => 'admin.historialCorrespondencia', 'uses' => 'HistorialCorrespondenciaController@index'
+    ]);
+    Route::post('/post', [
+        'as' => 'admin.historialCorrespondencia', 'uses' => 'HistorialCorrespondenciaController@store'
+    ]);
+    Route::put('/activar', [
+        'as' => 'admin.historialCorrespondencia', 'uses' => 'HistorialCorrespondenciaController@activar'
+	]);
+    Route::put('/desactivar', [
+        'as' => 'admin.historialCorrespondencia', 'uses' => 'HistorialCorrespondenciaController@desactivar'
+    ]);
+});
+Route::group(['prefix' => 'historialEstudio'], function () {
+    Route::get('/get', [
+        'as' => 'admin.historialEstudio', 'uses' => 'HistorialEstudioController@index'
+    ]);
+    Route::post('/post', [
+        'as' => 'admin.historialEstudio', 'uses' => 'HistorialEstudioController@store'
+    ]);
+    Route::put('/update', [
+        'as' => 'admin.historialEstudio', 'uses' => 'HistorialEstudioController@update'
+	]);
+    Route::put('/activar', [
+        'as' => 'admin.historialEstudio', 'uses' => 'HistorialEstudioController@activar'
+	]);
+    Route::put('/desactivar', [
+        'as' => 'admin.historialEstudio', 'uses' => 'HistorialEstudioController@desactivar'
+    ]);
+});
+Route::group(['prefix' => 'estudioSocioeconomico'], function () {
+    Route::get('/get', [
+        'as' => 'admin.estudioSocioeconomico', 'uses' => 'EstudioSocioeconomicoController@index'
+    ]);
+    Route::post('/post', [
+        'as' => 'admin.estudioSocioeconomico', 'uses' => 'EstudioSocioeconomicoController@store'
+    ]);
+    Route::put('/update', [
+        'as' => 'admin.estudioSocioeconomico', 'uses' => 'EstudioSocioeconomicoController@update'
+	]);
+    Route::put('/activar', [
+        'as' => 'admin.estudioSocioeconomico', 'uses' => 'EstudioSocioeconomicoController@activar'
+	]);
+    Route::put('/desactivar', [
+        'as' => 'admin.estudioSocioeconomico', 'uses' => 'EstudioSocioeconomicoController@desactivar'
+    ]);
+});

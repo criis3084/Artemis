@@ -4,82 +4,69 @@ namespace App\Http\Controllers;
 
 use App\HistorialCorrespondencia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Exception;
 
 class HistorialCorrespondenciaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+		// Filtro por un criterio y estado
+		$buscar = $request->buscar;
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		$count = HistorialCorrespondencia::all()->count();
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+			}
+			else{
+				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+			}
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+			}
+		}
+		return [
+			"historialCorrespondencias"=>$historialCorrespondencia
+		];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+		//if(!$request->ajax())return redirect('/');
+		try {
+			$historialCorrespondencia = new HistorialCorrespondencia();
+			$historialCorrespondencia->correspondencia_id = $request->correspondencia_id;
+			$historialCorrespondencia->apadrinamiento_id = $request->apadrinamiento_id;
+			$historialCorrespondencia->save();
+
+			return Response::json(['message' => 'Historial Creado'], 200);
+			#return ['id' => $nino->id];
+		} catch (Exception $e) {
+			return Response::json(['message' => $e->getMessage()], 400);
+		}
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\HistorialCorrespondencia  $historialCorrespondencia
-     * @return \Illuminate\Http\Response
-     */
-    public function show(HistorialCorrespondencia $historialCorrespondencia)
+	public function activar(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\HistorialCorrespondencia  $historialCorrespondencia
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(HistorialCorrespondencia $historialCorrespondencia)
+        #if(!$request->ajax())return redirect('/');
+        $historialCorrespondencia = HistorialCorrespondencia::findOrFail($request->id);
+        $historialCorrespondencia->estado = '1';
+        $historialCorrespondencia->save();
+		return Response::json(['message' => 'Historial Activado'], 200);
+	}
+	public function desactivar(Request $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\HistorialCorrespondencia  $historialCorrespondencia
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, HistorialCorrespondencia $historialCorrespondencia)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\HistorialCorrespondencia  $historialCorrespondencia
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(HistorialCorrespondencia $historialCorrespondencia)
-    {
-        //
-    }
+        #if(!$request->ajax())return redirect('/');
+        $historialCorrespondencia = HistorialCorrespondencia::findOrFail($request->id);
+        $historialCorrespondencia->estado = '0';
+        $historialCorrespondencia->save();
+		return Response::json(['message' => 'Historial Desactivado'], 200);
+	}
 }

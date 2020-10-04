@@ -8,14 +8,13 @@ use Illuminate\Http\Request;
 class EstudioSocioeconomicoController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $buscar = $request->buscar;
 		$completo = (isset($request->completo)) ? $request->completo : 'false';
-
+		$count = EstudioSocioeconomico::all()->count();
 		if ($completo == 'false')
 		{
-			$count = EstudioSocioeconomico::where('estado',1)->count();
 			if ($buscar==''){
 				$estudioSocioeconomico = EstudioSocioeconomico::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
@@ -30,11 +29,6 @@ class EstudioSocioeconomicoController extends Controller
 			else{
 				$estudioSocioeconomico = EstudioSocioeconomico::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
-		}
-		else if($completo == 'select')
-		{
-			$count = EstudioSocioeconomico::where('estado', 1)->count();
-			$estudioSocioeconomico = EstudioSocioeconomico::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 		}
         return [
             'estudioSocioeconomicos' => $estudioSocioeconomico
