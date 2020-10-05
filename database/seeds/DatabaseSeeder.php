@@ -65,5 +65,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AsignacionMedicamentoSeeder::class);
         $this->call(EstudioSocioeconomicoSeeder::class);
         $this->call(HistorialEstudioSeeder::class);
+        $this->call(HistorialAbonoViviendaSeeder::class);
+        $this->call(HistorialCorrespondenciaSeeder::class);
+        
     }
 }

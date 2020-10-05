@@ -11,6 +11,6 @@ class HistorialAbonoViviendaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\HistorialAbonoVivienda::class, 50)->create();
     }
 }
