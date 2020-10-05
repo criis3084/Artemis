@@ -13,5 +13,7 @@ $factory->define(HistorialAbonoVivienda::class, function (Faker $faker) {
         'abono_vivienda_id' => factory(App\AbonoVivienda::class),
         'vivienda_id' => factory(App\Vivienda::class),
         'estado' => $faker->numberBetween($min = 0, $max = 1),
+        'created_at' => $faker->dateTime($max = 'now', $timezone = null),
+        'updated_at' => $faker->dateTime($max = 'now', $timezone = null),
     ];
 });

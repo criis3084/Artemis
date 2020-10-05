@@ -2,8 +2,8 @@
 			  <div>
                 <div class = "demo-alignment">
 						        <h2> Historial de Abonos</h2>
-						        <vx-tooltip text = "Agregar nueva fotografía"> 
-                      <vs-button @click="$router.push('/ingresar/fotografia/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
+						        <vx-tooltip text = "Agregar nuevo abono"> 
+                      <vs-button @click="$router.push('/abonar/vivienda/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-dollar-sign" color = "primary" size = "large"> </vs-button> 
                     </vx-tooltip><vs-divider/>
 				        </div>
                 <div class = "demo-alignment">
@@ -13,7 +13,7 @@
                     <h5> <b>Dirección: </b> </h5><h5>{{direccion}}</h5>
                 </div>
                 <div class = "demo-alignment">
-                    <h5> <b>Costo total: </b> </h5><h5>{{costo_total}}</h5>
+                    <h5> <b>Costo total: </b> </h5><h5>{{currency(costo_total)}}</h5>
                 </div>
                     <br>
 				<vx-card>
@@ -32,9 +32,9 @@
 								<vs-td>
 									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/vivienda/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
 								</vs-td > 							
-								<vs-td >{{data[indextr].created_at}}</vs-td>
-								<vs-td>{{data[indextr].abono.cantidad_abono}}</vs-td>
-                <vs-td>{{data[indextr].abono.cantidad_restante}}</vs-td>
+								<vs-td >{{getDate(data[indextr].abono.created_at)}}</vs-td>
+								<vs-td>{{currency(data[indextr].abono.cantidad_abono)}}</vs-td>
+                <vs-td>{{currency(data[indextr].abono.cantidad_restante)}}</vs-td>
 								<vs-td>
 									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 										<span slot="on" >Activo</span>
@@ -85,6 +85,7 @@ export default {
 	  id_recibido:0,
       estado: null,
       url:"https://pbs.twimg.com/profile_images/1305883698471018496/_4BfrCaP.jpg",
+
     }
   },
   components: {
@@ -98,6 +99,14 @@ export default {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
+    },
+    currency(numero) {
+        let formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'GTQ',
+        });
+        let mil = formatter.format(numero);
+        return mil;
     },
     async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;

@@ -20,7 +20,8 @@ class CreateNinosTable extends Migration
 			$table->date('fecha_egreso')->nullable();
 			$table->string('ruta_imagen')->nullable();
 			$table->string('grado')->nullable();
-			$table->string('ocupacion')->nullable();
+            $table->string('ocupacion')->nullable();
+			$table->string('actividades')->nullable();
 			$table->boolean('estado')->default(0);
 			$table->foreignId('persona_sin_acceso_id')->constrained();
 			$table->foreignId('escuela_id')->constrained();			

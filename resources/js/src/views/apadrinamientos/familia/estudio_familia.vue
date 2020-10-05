@@ -10,7 +10,8 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Total de ingresos mensuales" name='total_ingresos' v-model="total_ingresos"/>
+					<small class="date-label">Total de ingresos mensuales</small>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border name='total_ingresos' v-model="total_ingresos"/>
 				</div>
 			</div>
 
@@ -34,7 +35,7 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Costos de la vivienda" name='descripcion_costo' v-model="descripcion_costo"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label-placeholder="Costos de la vivienda" name='descripcion_costo' v-model="descripcion_costo"/>
 				</div>
 			</div>
 
@@ -53,14 +54,14 @@
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Número de cuartos</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border name='numero_cuartos' v-model="numero_cuartos"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-box" icon-no-border name='numero_cuartos' v-model="numero_cuartos"/>
 				</div>
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Baño</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border name='bano' v-model="bano"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-droplet" icon-no-border name='bano' v-model="bano"/>
 				</div>
 			</div>
 
@@ -69,26 +70,26 @@
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">paredes</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border name='paredes' v-model="paredes"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-grid" icon-no-border name='paredes' v-model="paredes"/>
 				</div>
 			</div>
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Techo</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border name='techo' v-model="techo"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-up" icon-no-border name='techo' v-model="techo"/>
 				</div>
 			</div>
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Piso</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border name='piso' v-model="piso"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='piso' v-model="piso"/>
 				</div>
 			</div>
 
 			<div class="vx-col w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Evaluación general de diagnostico</small>
-					<vs-textarea class="w-full" icon-pack="feather" icon="icon-user" icon-no-border name='evaluacion_diagnostico' v-model="evaluacion_diagnostico"/>
+					<vs-textarea class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border name='evaluacion_diagnostico' v-model="evaluacion_diagnostico"/>
 				</div>
 			</div>
 

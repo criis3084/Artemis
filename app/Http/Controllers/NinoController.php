@@ -65,6 +65,7 @@ class NinoController extends Controller
             $nino->ruta_imagen = $request->ruta_imagen;
             $nino->grado = $request->grado;
 			$nino->ocupacion = $request->ocupacion;
+			$nino->actividades = $request->actividades;
             $nino->escuela_id = $request->escuela_id;
 			
             $nino->persona_sin_acceso_id = $persona->id;
@@ -102,6 +103,9 @@ class NinoController extends Controller
 		$nino->fecha_ingreso = $request->fecha_ingreso;
 		$nino->fecha_egreso  = $request->fecha_egreso;
 		$nino->ruta_imagen   = $request->ruta_imagen;
+		$nino->grado = $request->grado;
+		$nino->ocupacion = $request->ocupacion;
+		$nino->actividades = $request->actividades;
 		$nino->escuela_id    = $request->escuela_id;
 		
 		$nino->save();
