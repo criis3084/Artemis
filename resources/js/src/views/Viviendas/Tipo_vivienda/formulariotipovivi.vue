@@ -59,10 +59,9 @@ export default {
 	}
   },
   methods:{
-	async index2(page, search){ //async para que se llame cada vez que se necesite
+	async index2(){ //async para que se llame cada vez que se necesite
 		let me = this;
-		const response = await axios.get(
-			`/api/tipoVivienda/get?page=${page}&search=${search}`)
+		const response = await axios.get(`/api/tipoVivienda/get?completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
 			me.aldeasT = respuesta.tipoviviendas.data;

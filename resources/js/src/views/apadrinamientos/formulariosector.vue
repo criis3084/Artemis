@@ -18,7 +18,7 @@
 		>
 			<div class="con-exemple-prompt">
 				<b></b>				
-				<vs-input placeholder="Nombre del sector" v-model="sector" class="mt-4 mb-2 col-1 w-full" />
+				<vs-input type="text" placeholder="Nombre del sector" v-model="sector" class="mt-4 mb-2 col-1 w-full" />
 			</div>
 
 			<template>
@@ -35,15 +35,17 @@
 <script>
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
-//C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
 import vSelect from 'vue-select'
+
 
 export default {
 	components: {
 		Dropdown,
 		Datepicker,
 		vSelect,
+	//	VeeValidate,
+		//Vue,
 	},
 	data () {
 		return {
@@ -57,7 +59,7 @@ export default {
 	},
 	computed:{
 		validName () {
-			return this.sector.length > 0 && this.aldea_id != 0
+			return this.sector.length > 0 && this.aldea_id != 0 
 		}
 	},
 	methods:{

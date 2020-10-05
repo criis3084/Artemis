@@ -9,7 +9,7 @@
 <!-- Este es el componente inicial -->
 <template>
  <vx-card>
-   <formulariotipovivi v-on:cerrado="index(pagination.current_page, search);"></formulariotipovivi>
+   <formulariotipovivi v-on:cerrado="index();"></formulariotipovivi>
 	 <vs-prompt title="Exportar a Excel" class="export-options" @cancel="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -217,15 +217,13 @@ export default {
         title:`${titulo}`,
         text:`${titulo}`
 	  })
-	this.index(this.pagination.current_page, this.search);
+	this.index();
     },
-	async index(page, search){ //async para que se llame cada vez que se necesite
+	async index(){ //async para que se llame cada vez que se necesite
     let me = this;
     this.abrir_editar=false;
-		const response = await axios.get(
-			`/api/tipoVivienda/get?page=${page}&search=${search}&completo=true`)
+		const response = await axios.get(`/api/tipoVivienda/get?completo=true`)
 		.then(function (response) {
-			console.log(page)
             var respuesta= response.data;
 			me.arrayData = respuesta.tipoViviendas.data;
 			me.pagination= respuesta.pagination;

@@ -140,6 +140,13 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+         this.valMultipe.value1 = "";
+      this.valMultipe.value2 = "";
+      this.valMultipe.value3 = "";
+      this.valMultipe.value4 = "";
+	  this.valMultipe.value5 = "";
+	  this.valMultipe.fecha = "";
+      this.fechaN = "";
       this.$emit("cerrado", "Se cerro el formulario");
     },
     close() {
@@ -148,6 +155,7 @@ export default {
         title: "Cerrado",
         text: "Diálogo cerrado!",
       });
+    
       this.$emit("cerrado", "Se cerro el formulario");
     },
     clearValMultiple() {
