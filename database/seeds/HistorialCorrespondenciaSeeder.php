@@ -11,6 +11,6 @@ class HistorialCorrespondenciaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\HistorialCorrespondencia::class, 50)->create();
     }
 }
