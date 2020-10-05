@@ -12,7 +12,7 @@ $factory->define(EstudioSocioeconomico::class, function (Faker $faker) {
         'total_ingresos' => $faker->numberBetween($min = 0, $max = 3000),
         'alimentacion' => $faker->word,
         'situacion_vivienda' => $faker->numberBetween($min = 0, $max = 3),
-        'costo_vivienda' => $faker->numberBetween($min = 0, $max = 1000),
+        'costo_vivienda' => $faker->word,
         'luz' => $faker->numberBetween($min = 0, $max = 100),
         'agua' => $faker->numberBetween($min = 0, $max = 100),
         'drenaje' => $faker->numberBetween($min = 0, $max = 100),

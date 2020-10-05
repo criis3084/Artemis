@@ -20,7 +20,7 @@ class CreateEstudioSocioeconomicosTable extends Migration
 			$table->float('total_ingresos',8,2);
 			$table->text('alimentacion');
 			$table->integer('situacion_vivienda');
-			$table->float('costo_vivienda',6,2);
+			$table->string('descripcion_costo');
 			$table->boolean('luz');
 			$table->boolean('agua');
 			$table->boolean('drenaje');

@@ -149,10 +149,10 @@
 			<vs-divider></vs-divider>
 
 			<vs-alert v-if="calcularTotal>34" :title="titulo" color="success" icon="check_circle" >
-				El PPI es optimo
+				PPI no aceptable para el programa
 			</vs-alert>
 			<vs-alert :title="titulo" color="danger" v-else icon="error">
-				El PPI es peligroso
+				PPI aceptable para el programa
 			</vs-alert>
 			<vs-divider></vs-divider>
 
