@@ -1,9 +1,9 @@
 <template>
 	<div>
-				<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>
+			<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>
 				<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
 					<div class="vx-col md:w-1/2 w-full mt-5">
-						<vx-card noShadow class="center" title="INGRESAR DATOS DEL NIÑO APADRINADO"	title-color="primary">
+						<vx-card noShadow class="center" title="INGRESAR DATOS DEL NIÑO"	title-color="primary">
 						</vx-card>
 					</div>
 				</vs-row>
@@ -219,7 +219,7 @@ export default {
 		async importarPadrinos(){ //async para que se llame cada vez que se necesite
 			let me = this;
 			const response = await axios.get(
-			`/api/padrino/get?&completo=true`)
+			`/api/padrino/get?&completo=false`)
 			.then(function (response) {
 				var respuesta= response.data;
 				me.padrinos = respuesta.padrinos.data;
@@ -232,7 +232,7 @@ export default {
 		},
 		async importarEscuelas(){ //async para que se llame cada vez que se necesite
 			let me = this;
-			const response = await axios.get(`/api/escuela/get?&completo=select`)
+			const response = await axios.get(`/api/escuela/get?&completo=false`)
 			.then(function (response) {
 				var respuesta= response.data;
 				me.escuelas = respuesta.escuelas.data;
@@ -277,10 +277,6 @@ export default {
 				grado:this.grado,
 				ocupacion:this.ocupacion,
 				escuela_id:this.escuela_id.id
-				/*
-				padrino_id:this.padrino_id,
-				direccion:this.direccionT,
-				*/
 			}).then(function(response) {
 				console.log(response)
 			})

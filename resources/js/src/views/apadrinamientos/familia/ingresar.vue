@@ -29,30 +29,9 @@
 				</div>
 				<vs-row	vs-align="center" vs-type="flex"  class="m-10" vs-justify="space-around" vs-w="12">
 					<div class="vx-col md:w-1/4 w-full mt-5">
-							<vs-button @click="sumar_nino">Agregar nuevo niño apadrinado</vs-button>
+							<vs-button @click="sumar_nino">Agregar nuevo niño</vs-button>
 					</div>
 				</vs-row>
-
-			<!--
-				<div class="vx-row">
-					<formIngresarPadrino></formIngresarPadrino>
-						<div v-if="cantidad_ingresos_padrino.length">
-							<div v-for="(numero,index) in cantidad_ingresos_padrino" :key="index">
-								<vs-divider class="mt-10" ></vs-divider>
-								<vs-button radius color="danger" type="gradient" @click="quitar_padrino(index)" icon="icon_x"></vs-button>
-								<formIngresarPadrino></formIngresarPadrino>
-							</div>
-						</div>
-
-					<vs-row	vs-align="center" vs-type="flex"  class="m-10" vs-justify="space-around" vs-w="12">
-						<div class="vx-col md:w-1/4 w-full mt-5">
-								<vs-button @click="sumar_padrino">Agregar nuevo Padrino</vs-button>
-						</div>
-					</vs-row>
-
-
-				</div>
-			  -->
 			
 			</tab-content>
 
@@ -113,10 +92,15 @@
 
 			<!-- tab 3 content -->
 			<tab-content title="Step 3" class="mb-5" icon="feather icon-image">
+				<ppiFamilia
+					v-bind:id_ninos="ninos"
+					v-bind:ingresar="ingresar"
+				></ppiFamilia>
 			</tab-content>
 
 			<!-- tab 4 content -->
 			<tab-content title="Estudio Socieconomico" class="mb-5" icon="feather icon-edit">
+				<estudioFamilia></estudioFamilia>
 			</tab-content>
 
 			
@@ -128,6 +112,8 @@
 import formIngresarNino from './form_ingresar_nino.vue'
 import formIngresarPadrino from './form_ingresar_padrino.vue'
 import formIngresarFamilia from './form_ingresar_familia.vue'
+import ppiFamilia from './ppi_familia.vue'
+import estudioFamilia from './estudio_familia.vue'
 import {FormWizard, TabContent} from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import vSelect from 'vue-select'
@@ -154,10 +140,6 @@ export default {
   },
   data() {
 		return {
-			firstName: "",
-			cantidad_ingresos_nino:[],
-			cantidad_ingresos_padrino:[],
-			cantidad_ingresos_familia:[],
 			sectores:[],
 			sector_id:0,
 			direccion:'',
@@ -165,7 +147,7 @@ export default {
 			ingresar:false,
 			cantidad_ninos:[],
 			cantidad_familia:[],
-			ninosValidados:false,
+			ninos:[],
 		}
 	},
   	methods: {
@@ -235,9 +217,6 @@ export default {
 			this.cantidad_ninos.push({id:this.cantidad_ninos.length+1,visible:true,validado:false})
 			console.log(this.cantidad_ninos)
 		},
-		sumar_padrino(){
-			this.cantidad_ingresos_padrino.push(this.cantidad_ingresos_padrino.length+1);
-		},
 		sumar_familia(){
 			this.cantidad_familia.push({id:this.cantidad_familia.length+1,visible:true,validado:false})
 			console.log(this.cantidad_familia)
@@ -260,27 +239,16 @@ export default {
 			})
 			console.log('quitando a ',id)
 		},
-		quitar_padrino(id){
-			this.cantidad_ingresos_familia.splice(id,1)
-		},
-		reordenar (arreglo)
-		{
-			let tam = arreglo.length
-			arreglo =[]
-			for (var i = 1; i <= tam; i++) {
-				arreglo.push(i);
-			}
-			return arreglo
-		},
 		validateStep1() {
+			let retornar=true
 			this.cantidad_ninos.forEach(function(elemento, indice, array) {
-				if (elemento.visible==true && elemento.validado==true)
+				console.log(elemento.id + ' - ' + elemento.validado + ' - ' + elemento.visible)
+				if (elemento.visible==true && elemento.validado==false)
 				{
-					return false
+					retornar = false
 				}
 			})
-			console.log('a ver')
-			return true
+			return retornar
 		},
 		async importarSectores(){ //async para que se llame cada vez que se necesite
 			let me = this;
@@ -302,6 +270,8 @@ export default {
 		formIngresarNino,
 		formIngresarPadrino,
 		formIngresarFamilia,
+		ppiFamilia,
+		estudioFamilia,
 		vSelect,
 	},
 	mounted(){
