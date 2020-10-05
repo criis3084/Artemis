@@ -115,6 +115,11 @@
 			<tab-content title="Step 3" class="mb-5" icon="feather icon-image">
 			</tab-content>
 
+			<!-- tab 4 content -->
+			<tab-content title="Estudio Socieconomico" class="mb-5" icon="feather icon-edit">
+			</tab-content>
+
+			
 		</form-wizard>
 	</vx-card>
 </template>
