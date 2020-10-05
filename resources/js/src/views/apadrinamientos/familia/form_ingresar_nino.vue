@@ -26,7 +26,7 @@
 							<small class="date-label mt-10">Genero</small>
 								<ul class="demo-alignment">
 									<li>
-										<vs-radio color="rgb(0, 170, 228)" v-model="genero" name='genero' vs-value="1" selected>Masculino</vs-radio>
+										<vs-radio color="rgb(0, 170, 228)" v-model="genero" name='genero' vs-value="1">Masculino</vs-radio>
 									</li>
 									<li>
 										<vs-radio color="rgb(255, 0, 128)" v-model="genero" name='genero' vs-value="0">Femenino</vs-radio>
@@ -35,22 +35,28 @@
 						</div>
 					</div>
 
-					<div class="vx-col md:w-1/2 w-full mt-5">
+					<div class="vx-col md:w-1/2 w-full mt-1">
 						<div class="my-4">
 							<small class="date-label">Fecha Nacimiento</small>
 							<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_nacimiento" v-model="fecha_nacimiento"></datepicker>
 						</div>
 					</div>
 
-					<div class="vx-col md:w-1/2 w-full mt-5">
+					<div class="vx-col md:w-1/2 w-full mt-6">
+						<div class="vx-col w-full">
+							<vs-input v-model="ocupacion" name="ocupacion" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupación" />
+						</div>
+					</div>
+
+					<div class="vx-col md:w-1/2 w-full">
 						<div class="my-4">
 							<small class="date-label">Estudia</small>
 								<ul class="demo-alignment">
 									<li>
-										<vs-radio color="rgb(0, 170, 228)" v-model="estudia" :vs-value="true">Si</vs-radio>
+										<vs-radio color="danger" v-model="estudia" :vs-value="false">No</vs-radio>
 									</li>
 									<li>
-										<vs-radio color="rgb(255, 0, 128)" v-model="estudia" :vs-value="false">No</vs-radio>
+										<vs-radio color="success" v-model="estudia" :vs-value="true">Si</vs-radio>
 									</li>
 								</ul>
 						</div>
@@ -72,11 +78,7 @@
 						</div>
 					</div>
 
-					<div class="vx-col md:w-1/2 w-full mt-6">
-						<div class="vx-col w-full">
-							<vs-input v-model="ocupacion" name="ocupacion" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupación" />
-						</div>
-					</div>
+
 				</div>
 	</div>
 </template>
@@ -140,7 +142,7 @@ export default {
 		return {
 			nombres: "",
 			apellidos: "",
-			genero:"",
+			genero:'',
 			fecha_nacimiento: "",
 
 			codigo:'',
@@ -148,9 +150,7 @@ export default {
 			ruta_imagen:"",
 			grado:"",
 			ocupacion:"",
-			escuela_id:0,
-			
-			padrino_id:0,
+			escuela_id:null,
 
 			padrinos:[],
 			escuelas:[],
@@ -197,6 +197,10 @@ export default {
 		},
 		grado(value){	
 			this.validator.validate('grado', value);
+			this.validateForm();
+		},
+		escuela_id(value){
+			this.validator.validate('escuela_id', value);
 			this.validateForm();
 		},
 	},
@@ -250,6 +254,7 @@ export default {
 				grado: this.grado,
 				ocupacion: this.ocupacion,
 				fecha_nacimiento :this.fecha_nacimiento,
+				escuela_id :this.escuela_id,
 			}).then((result) => {
 				if (result){
 					this.$emit('validado',{validado:result,id_form:this.$props.id_formulario});
@@ -264,7 +269,7 @@ export default {
 				apellidos:this.apellidos,
 				genero:this.genero,
 				fecha_nacimiento:this.getDate(this.fecha_nacimiento),
-				sector_id: this.$props.sector_id,
+				sector_id: this.$props.sector_id.id,
 				direccion: this.$props.direccion,
 				
 				codigo:this.codigo,
@@ -313,6 +318,7 @@ export default {
 			grado: 'required',
 			ocupacion: 'required',
 			fecha_nacimiento :'required',
+			escuela_id :'required',
 		});
 		//this.$set(this, 'errores', this.validator.errors);
 
