@@ -1,6 +1,6 @@
 <template>
 	<div>
-
+		<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>
 			<div class="vx-col md:w-1/2 w-full mt-1">
 				<div class="my-4">
 					<small class="date-label">Fecha de Ingreso</small>
@@ -54,7 +54,7 @@
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Número de cuartos</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-box" icon-no-border name='numero_cuartos' v-model="numero_cuartos"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-box" icon-no-border name='cantidad_cuartos' v-model="cantidad_cuartos"/>
 				</div>
 			</div>
 
@@ -65,7 +65,7 @@
 				</div>
 			</div>
 
-			<h3 class="date-label">Materiales de construcción</h3>
+			<vs-list-header title="Servicios con los que cuenta la vivienda"></vs-list-header>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
@@ -102,19 +102,14 @@
 import { es } from 'vuejs-datepicker/src/locale'
 import axios from 'axios'
 import Datepicker from 'vuejs-datepicker'
-
+import { Validator } from 'vee-validate';
 
 export default {
-/*
 	props:{
-		id_ninos:{
-			default:[]
-		},
 		ingresar:{
 			default:false
 		},
 	},
- */
  	data() {
 		return {
 			fecha_ingreso:'',
@@ -134,9 +129,85 @@ export default {
 			langEn: es,
 		}
 	},
+	watch: {
+		fecha_ingreso(value) {
+			this.validator.validate('fecha_ingreso', value);
+			this.validateForm();
+		},
+		total_ingresos(value) {
+			this.validator.validate('total_ingresos', value);
+			this.validateForm();
+		},
+		alimentacion(value) {
+			this.validator.validate('alimentacion', value);
+			this.validateForm();
+		},
+		situacion_vivienda(value) {
+			this.validator.validate('situacion_vivienda', value);
+			this.validateForm();
+		},
+		descripcion_costo(value) {
+			this.validator.validate('descripcion_costo', value);
+			this.validateForm();
+		},
+		cantidad_cuartos(value) {
+			this.validator.validate('cantidad_cuartos', value);
+			this.validateForm();
+		},
+		bano(value) {
+			this.validator.validate('bano', value);
+			this.validateForm();
+		},
+		paredes(value) {
+			this.validator.validate('paredes', value);
+			this.validateForm();
+		},
+		techo(value) {
+			this.validator.validate('techo', value);
+			this.validateForm();
+		},
+		piso(value) {
+			this.validator.validate('piso', value);
+			this.validateForm();
+		},
+		evaluacion_diagnostico(value) {
+			this.validator.validate('evaluacion_diagnostico', value);
+			this.validateForm();
+		},
+	},
 	methods:{
-		guardar(){
-			console.log(this.$props.id_ninos)
+		getDate(datetime) {
+			let date = new Date(datetime);
+			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+			return dateString;
+		},
+		enviando(id){
+			this.$emit('recibirEstudio',{id_estudio:id});
+		},
+		async ingresarEstudio(){
+			let me = this;
+			const response = await axios.post("/api/estudioSocioeconomico/post/",{
+				fecha_ingreso:this.getDate(this.fecha_ingreso),
+				total_ingresos:this.total_ingresos,
+				alimentacion:this.alimentacion,
+				situacion_vivienda:this.situacion_vivienda-100,
+				descripcion_costo:this.descripcion_costo,
+				luz:this.luz,
+				agua:this.agua,
+				drenaje:this.drenaje,
+				cantidad_cuartos:this.cantidad_cuartos,
+				bano:this.bano,
+				paredes:this.paredes,
+				techo:this.techo,
+				piso:this.piso,
+				evaluacion_diagnostico:this.evaluacion_diagnostico
+			}).then(function(response) {
+				console.log('id del estudio- ' +response.data.id)
+				me.enviando(response.data.id)
+			})
+			.catch(function(error) {
+				console.log(error)
+			});
 			/*
 			this.id=parseInt(this.$route.params.id)
 			console.log(this.getDate(this.fecha))
@@ -170,14 +241,57 @@ export default {
 			});
 			*/
 		},
+		validateForm() {
+			this.validator.validateAll({
+				fecha_ingreso: this.fecha_ingreso,
+				total_ingresos: this.total_ingresos,
+				alimentacion: this.alimentacion,
+				situacion_vivienda: this.situacion_vivienda,
+				descripcion_costo: this.descripcion_costo,
+				cantidad_cuartos: this.cantidad_cuartos,
+				bano: this.bano,
+				paredes: this.paredes,
+				techo: this.techo,
+				piso: this.piso,
+				evaluacion_diagnostico: this.evaluacion_diagnostico,
+			}).then((result) => {
+				if (result ){
+					this.$emit('validado',200);
+					return;
+				}
+				this.$emit('validado',400);
+			});
+		},
 		getDate(datetime) {
 			let date = new Date(datetime);
 			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 			return dateString;
 		}
-		},
+	},
 	computed: {
-
+		copia(){
+			console.log('Ingresando Estudio...')
+			if(this.$props.ingresar==true)
+			{
+				console.log('y verdadero')
+				this.ingresarEstudio()
+			}
+		}
+	},
+	created() {
+		this.validator = new Validator({
+			fecha_ingreso: 'required',
+			total_ingresos: 'required|numeric',
+			alimentacion: 'required',
+			situacion_vivienda: 'required',
+			descripcion_costo: 'required',
+			cantidad_cuartos: 'required|numeric',
+			bano: 'required',
+			paredes: 'required',
+			techo: 'required',
+			piso: 'required',
+			evaluacion_diagnostico: 'required',
+		});
 	},
 	components: {
 		Datepicker,

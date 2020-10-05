@@ -48,6 +48,14 @@
 						</div>
 					</div>
 
+					
+					<div class="vx-col w-full mt-6">
+						<div class="vx-col w-full">
+							<small class="date-label">Actividades que realiza</small>
+							<vs-textarea class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border name='actividades' v-model="actividades"/>
+						</div>
+					</div>
+
 					<div class="vx-col md:w-1/2 w-full">
 						<div class="my-4">
 							<small class="date-label">Estudia</small>
@@ -150,6 +158,7 @@ export default {
 			ruta_imagen:"",
 			grado:"",
 			ocupacion:"",
+			actividades:"",
 			escuela_id:null,
 
 			padrinos:[],
@@ -158,6 +167,7 @@ export default {
 			validate_codigo:false,
 			errores: null,
 			estudia:true,
+			ninoIngresado:0
 		}
 	},
 	computed:{
@@ -201,6 +211,10 @@ export default {
 		},
 		escuela_id(value){
 			this.validator.validate('escuela_id', value);
+			this.validateForm();
+		},
+		actividades(value){
+			this.validator.validate('actividades', value);
 			this.validateForm();
 		},
 	},
@@ -255,6 +269,7 @@ export default {
 				ocupacion: this.ocupacion,
 				fecha_nacimiento :this.fecha_nacimiento,
 				escuela_id :this.escuela_id,
+				actividades :this.actividades,
 			}).then((result) => {
 				if (result){
 					this.$emit('validado',{validado:result,id_form:this.$props.id_formulario});
@@ -263,28 +278,32 @@ export default {
 				this.$emit('validado',{validado:false,id_form:this.$props.id_formulario});
 			});
 		},
-		ingresarNino(){
-			axios.post("/api/nino/post/",{
-				nombres:this.nombres,
-				apellidos:this.apellidos,
-				genero:this.genero,
-				fecha_nacimiento:this.getDate(this.fecha_nacimiento),
-				sector_id: this.$props.sector_id.id,
-				direccion: this.$props.direccion,
+		enviando(id){
+			this.$emit('recibirNinos',{id_nino:id});
+		},
+		async ingresarNino(){
+			let me = this;
+			const response = await axios.post("/api/nino/post/",{
+				nombres:me.nombres,
+				apellidos:me.apellidos,
+				genero:me.genero,
+				fecha_nacimiento:me.getDate(me.fecha_nacimiento),
+				sector_id: me.$props.sector_id.id,
+				direccion: me.$props.direccion,
 				
-				codigo:this.codigo,
-				ruta_imagen:this.ruta_imagen,
-				grado:this.grado,
-				ocupacion:this.ocupacion,
-				escuela_id:this.escuela_id.id
+				codigo:me.codigo,
+				ruta_imagen:me.ruta_imagen,
+				grado:me.grado,
+				ocupacion:me.ocupacion,
+				actividades:me.actividades,
+				escuela_id:me.escuela_id.id
 			}).then(function(response) {
-				console.log(response)
+				me.enviando(response.data.id)
 			})
 			.catch(function(error) {
 				console.log(error)
 			});
 			/*
-				this.$emit('toFalse','adios');
 				this.$emit('cerrado','Se cerró el formulario');
 				this.$vs.notify({
 				color:'success',
@@ -315,6 +334,7 @@ export default {
 			ocupacion: 'required',
 			fecha_nacimiento :'required',
 			escuela_id :'required',
+			actividades :'required',
 		});
 		//this.$set(this, 'errores', this.validator.errors);
 

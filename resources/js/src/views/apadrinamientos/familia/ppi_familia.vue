@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>
 		<template>
 			<div class="vx-row mb-2">
 				<vs-list>
@@ -140,7 +141,6 @@
 			PPI no aceptable para el programa
 		</vs-alert>
 
-		<vs-divider></vs-divider>
 	</div>
 </template>
 
@@ -148,31 +148,28 @@
 
 import { es } from 'vuejs-datepicker/src/locale'
 import axios from 'axios'
+import { Validator } from 'vee-validate';
 import Datepicker from 'vuejs-datepicker'
-
 
 export default {
 	props:{
-		id_ninos:{
-			default:[]
-		},
 		ingresar:{
 			default:false
 		},
 	},
   	data() {
 		return {
-			respuesta1:0,
-			respuesta2:0,
-			respuesta3:0,
-			respuesta4:0,
-			respuesta5:0,
-			respuesta6:0,
-			respuesta7:0,
-			respuesta8:0,
-			respuesta9:0,
-			respuesta10:0,
-			resultado:0,
+			respuesta1:null,
+			respuesta2:null,
+			respuesta3:null,
+			respuesta4:null,
+			respuesta5:null,
+			respuesta6:null,
+			respuesta7:null,
+			respuesta8:null,
+			respuesta9:null,
+			respuesta10:null,
+			resultado:null,
 			valor1:0,
 			valor2:0,
 			valor3:0,
@@ -189,15 +186,55 @@ export default {
 			langEn: es,
 		}
 	},
+	watch: {
+		respuesta1(value) {
+			this.validator.validate('respuesta1', value);
+			this.validateForm();
+		},
+		respuesta2(value) {
+			this.validator.validate('respuesta2', value);
+			this.validateForm();
+		},
+		respuesta3(value) {
+			this.validator.validate('respuesta3', value);
+			this.validateForm();
+		},
+		respuesta4(value) {
+			this.validator.validate('respuesta4', value);
+			this.validateForm();
+		},
+		respuesta5(value) {
+			this.validator.validate('respuesta5', value);
+			this.validateForm();
+		},
+		respuesta6(value) {
+			this.validator.validate('respuesta6', value);
+			this.validateForm();
+		},
+		respuesta7(value) {
+			this.validator.validate('respuesta7', value);
+			this.validateForm();
+		},
+		respuesta8(value) {
+			this.validator.validate('respuesta8', value);
+			this.validateForm();
+		},
+		respuesta9(value) {
+			this.validator.validate('respuesta9', value);
+			this.validateForm();
+		},
+		respuesta10(value) {
+			this.validator.validate('respuesta10', value);
+			this.validateForm();
+		},
+	}, 
 	methods:{
-		guardar(){
-			console.log(this.$props.id_ninos)
-			/*
-			this.id=parseInt(this.$route.params.id)
-			console.log(this.getDate(this.fecha))
-			console.log(this.id,this.valorT,this.valor1)
-			axios.post("/api/historialPpi/post/",{
-				nino_id:this.id,
+		enviando(id){
+			this.$emit('recibirPpi',{ppi_id:id});
+		},
+		async ingresarPpi(){
+			let me = this;
+			const response = await axios.post("/api/ppi/post/",{
 				respuesta1:this.valor1,
 				respuesta2:this.valor2,
 				respuesta3:this.valor3,
@@ -210,28 +247,49 @@ export default {
 				respuesta10:this.valor10,
 				total:this.valorT,
 
-				fecha_estudio:Date.now() this.getDate(this.fecha)
-
 			}).then(function(response) {
-					console.log(response)
-					this.$vs.notify({
-						color:'success',
-						title:'Exito',
-						text:'Registro Creado!'
-					});
-				})
+				console.log('ppi ingresado')
+				me.enviando(response.data.id)
+			})
 				.catch(function(error) {
 				console.log(error)
 			});
-			*/
 		},
 		getDate(datetime) {
 			let date = new Date(datetime);
 			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 			return dateString;
-		}
 		},
+		validateForm() {
+			this.validator.validateAll({
+				respuesta1: this.respuesta1,
+				respuesta2: this.respuesta2,
+				respuesta3: this.respuesta3,
+				respuesta4: this.respuesta4,
+				respuesta5: this.respuesta5,
+				respuesta6: this.respuesta6,
+				respuesta7: this.respuesta7,
+				respuesta8: this.respuesta8,
+				respuesta9: this.respuesta9,
+				respuesta10: this.respuesta10,
+			}).then((result) => {
+				if (result ){
+					this.$emit('validado',200);
+					return;
+				}
+				this.$emit('validado',400);
+			});
+		},
+	},
 	computed: {
+		copia(){
+			console.log('ingresando ppi...')
+			if(this.$props.ingresar==true)
+			{
+				console.log('y verdadero')
+				this.ingresarPpi()
+			}
+		},
 		calcularTotal: function () {
 			console.log('calculando total..')
 			this.valor1 = this.respuesta1==0 ? 0 : this.respuesta1-100;
@@ -266,5 +324,19 @@ export default {
 	components: {
 		Datepicker,
 	},
+	created() {
+		this.validator = new Validator({
+			respuesta1: 'required',
+			respuesta2: 'required',
+			respuesta3: 'required',
+			respuesta4: 'required',
+			respuesta5: 'required',
+			respuesta6: 'required',
+			respuesta7: 'required',
+			respuesta8: 'required',
+			respuesta9: 'required',
+			respuesta10: 'required',
+		});
+	}
 }
 </script>

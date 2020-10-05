@@ -15,15 +15,15 @@ class CreateEstudioSocioeconomicosTable extends Migration
     {
         Schema::create('estudio_socioeconomicos', function (Blueprint $table) {
 			$table->id();
-			$table->date('fecha_boleta');
-			$table->date('fecha_ingreso');
+			$table->date('fecha_boleta')->nullable();
+			$table->date('fecha_ingreso')->nullable();
 			$table->float('total_ingresos',8,2);
 			$table->text('alimentacion');
 			$table->integer('situacion_vivienda');
 			$table->string('descripcion_costo');
-			$table->boolean('luz');
-			$table->boolean('agua');
-			$table->boolean('drenaje');
+			$table->boolean('luz')->default(0);
+			$table->boolean('agua')->default(0);
+			$table->boolean('drenaje')->default(0);
 			$table->integer('cantidad_cuartos');
 			$table->string('bano');
 			$table->string('paredes');

@@ -46,7 +46,7 @@ class EstudioSocioeconomicoController extends Controller
             $estudioSocioeconomico->total_ingresos = $request->total_ingresos;
             $estudioSocioeconomico->alimentacion = $request->alimentacion;
             $estudioSocioeconomico->situacion_vivienda = $request->situacion_vivienda;
-            $estudioSocioeconomico->costo_vivienda = $request->costo_vivienda;
+            $estudioSocioeconomico->descripcion_costo = $request->descripcion_costo;
             $estudioSocioeconomico->luz = $request->luz;
             $estudioSocioeconomico->agua = $request->agua;
             $estudioSocioeconomico->drenaje = $request->drenaje;
@@ -57,7 +57,7 @@ class EstudioSocioeconomicoController extends Controller
             $estudioSocioeconomico->piso = $request->piso;
             $estudioSocioeconomico->evaluacion_diagnostico = $request->evaluacion_diagnostico;
 			$estudioSocioeconomico->save();
-			return Response::json(['message' => 'Estudio Socioeconómico Creada'], 200);
+			return ['id' => $estudioSocioeconomico->id];
 		} catch (Exception $e) {
             return Response::json(['message' => $e->getMessage()], 400);
 		}

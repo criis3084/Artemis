@@ -69,7 +69,7 @@ class PpiController extends Controller
 			$ppi->respuesta10 = $request->respuesta10;
 			$ppi->total = $request->total;
 			$ppi->save();
-			return Response::json(['message' => 'Ppi Creado'], 200);
+			return ['id' => $ppi->id];
 		} catch (Exception $e) {
             return Response::json(['message' => $e->getMessage()], 400);
 		}

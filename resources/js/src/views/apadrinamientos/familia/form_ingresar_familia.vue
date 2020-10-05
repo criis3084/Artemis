@@ -1,6 +1,6 @@
 <template>
-	<div>	
-		<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>	
+	<div>
+		<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>
 		<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<vx-card noShadow class="center" title="INGRESAR FAMILIARES DEL NIÑO" title-color="primary">
@@ -196,7 +196,7 @@ export default {
 	},
 	computed:{
 		copia(){
-			console.log('ingresando...')
+			console.log('ingresando famililar...')
 			if(this.$props.ingresar==true)
 			{
 				console.log('y verdadero')
@@ -233,8 +233,12 @@ export default {
 				this.$emit('validado',{validado:false,id_form:this.$props.id_formulario});
 			});
 		},
-		ingresarFamilia(){
-			axios.post("/api/encargado/post/",{
+		enviando(id){
+			this.$emit('recibirFamiliares',{id_familiar:id});
+		},
+		async ingresarFamilia(){
+			let me = this;
+			const response = await axios.post("/api/encargado/post/",{
 				nombres:this.nombres,
 				apellidos:this.apellidos,
 				CUI:this.CUI,
@@ -249,7 +253,7 @@ export default {
 				escolaridad:this.escolaridad,
 				ingresos:this.ingresos,
 			}).then(function(response) {
-				console.log(response)
+				me.enviando(response.data.id)
 			})
 			.catch(function(error) {
 				console.log(error)

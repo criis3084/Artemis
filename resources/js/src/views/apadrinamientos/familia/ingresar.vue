@@ -8,7 +8,7 @@
 		</vs-row>
 		<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="Submit" on-validate @on-complete="formSubmitted">
 			<!-- tab 1 content -->
-			<tab-content title="Step 1" class="mb-5" icon="feather icon-home" :before-change="validateStep1">
+			<tab-content title="Niños" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
 
 				<div class="vx-row">
 					<div v-for="(numero,index) in cantidad_ninos" :key="index">
@@ -21,7 +21,7 @@
 								v-bind:ingresar="ingresar"
 								v-bind:id_formulario="numero.id"
 								v-on:validado="validandoNino"
-								v-on:toFalse="toFalse"
+								v-on:recibirNinos="recibirNinos"
 							>
 							</formIngresarNino>
 						</div>
@@ -36,7 +36,7 @@
 			</tab-content>
 
 			<!-- tab 2 content -->
-			<tab-content title="Step 2" class="mb-5" icon="feather icon-briefcase">
+			<tab-content title="Familiares" class="mb-5" icon="feather icon-users" :before-change="validateStep2">
 
 					<div class="vx-row">
 						<div v-for="(numero,index) in cantidad_familia" :key="index">
@@ -49,7 +49,7 @@
 										v-bind:ingresar="ingresar"
 										v-bind:id_formulario="numero.id"
 										v-on:validado="validandoFamilia"
-										v-on:toFalse="toFalse"
+										v-on:recibirFamiliares="recibirFamiliares"
 									>
 									</formIngresarFamilia>
 							</div>
@@ -82,7 +82,7 @@
 
 					</div>
 
-					<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
+					<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12" >
 						<div class="vx-col md:w-1/4 w-full mt-5">
 								<vs-button @click="sumar_familia">Agregar nuevo familiar del niño</vs-button>
 						</div>
@@ -91,16 +91,21 @@
 			</tab-content>
 
 			<!-- tab 3 content -->
-			<tab-content title="Step 3" class="mb-5" icon="feather icon-image">
+			<tab-content title="PPI" class="mb-5" icon="feather icon-trending-up" :before-change="validateStep3">
 				<ppiFamilia
-					v-bind:id_ninos="ninos"
 					v-bind:ingresar="ingresar"
+					v-on:validado="validandoPpi"
+					v-on:recibirPpi="recibirPpi"
 				></ppiFamilia>
 			</tab-content>
 
 			<!-- tab 4 content -->
-			<tab-content title="Estudio Socieconomico" class="mb-5" icon="feather icon-edit">
-				<estudioFamilia></estudioFamilia>
+			<tab-content title="Estudio Socieconomico" class="mb-5" icon="feather icon-file-text">
+				<estudioFamilia
+					v-bind:ingresar="ingresar"
+					v-on:validado="validandoEstudio"
+					v-on:recibirEstudio="recibirEstudio"
+				></estudioFamilia>
 			</tab-content>
 
 			
@@ -148,11 +153,34 @@ export default {
 			cantidad_ninos:[],
 			cantidad_familia:[],
 			ninos:[],
+			ninosIngresados:[],
+			famililaresIngresados:[],
+			ppi_id:0,
+			estudio_id:0,
+			ppi_validado:false,
+			estudio_validado:false,
 		}
 	},
   	methods: {
-		toFalse(){
-			this.ingresar=false;
+		recibirNinos(e){
+			console.log('Niño Ingresado: ')
+			console.log(e.id_nino)
+			this.ninosIngresados.push(e.id_nino)
+		},
+		recibirFamiliares(e){
+			console.log('Familiar Ingresado:')
+			console.log(e.id_familiar)
+			this.famililaresIngresados.push(e.id_familiar)
+		},
+		recibirPpi(e){
+			console.log('Ppi ingresado:')
+			console.log(e.ppi_id)
+			this.ppi_id=e.ppi_id
+		},
+		recibirEstudio(e){
+			console.log('Estudio ingresado:')
+			console.log(e.id_estudio)
+			this.estudio_id=e.id_estudio
 		},
 		validandoNino(e){
 			this.cantidad_ninos.forEach(function(elemento, indice, array) {
@@ -172,6 +200,20 @@ export default {
 				}
 			})
 		},
+		validandoPpi(e){
+			console.log(e)
+			if(e==200)
+			{
+				this.ppi_validado=true
+			}
+		},
+		validandoEstudio(e){
+			console.log(e)
+			if(e==200)
+			{
+				this.estudio_validado=true
+			}
+		},
 		formSubmitted(){
 			/*
 			this.cantidad_ninos.forEach(function(elemento, indice, array) {
@@ -181,8 +223,17 @@ export default {
 				}
 			})
 			*/
-			this.ingresar=true;
-			console.log('haciendo el envio')
+			if(this.estudio_validado==false){
+				this.$vs.notify({
+					color:'danger',
+					title:`Error en validación`,
+					text:'Ingrese correctamente los campos para continuar'
+				})
+			}
+			else{
+				this.ingresar=true;
+				console.log('haciendo el envio')
+			}
 			// aqui traeremos un dato del componente hijo para validar todo el formulario
 			/*
 			// alert('Form submitted!');
@@ -248,7 +299,42 @@ export default {
 					retornar = false
 				}
 			})
+			if (retornar == false){
+				this.$vs.notify({
+				color:'danger',
+				title:`Error en validación`,
+				text:'Ingrese correctamente los campos para continuar'
+			})
+			}
 			return retornar
+		},
+		validateStep2() {
+			let retornar=true
+				this.cantidad_familia.forEach(function(elemento, indice, array) {
+					console.log(elemento.id + ' - ' + elemento.validado + ' - ' + elemento.visible)
+					if (elemento.visible==true && elemento.validado==false)
+					{
+						retornar = false
+					}
+				})
+				if (retornar == false){
+					this.$vs.notify({
+					color:'danger',
+					title:`Error en validación`,
+					text:'Ingrese correctamente los campos para continuar'
+				})
+			}
+			return retornar
+		},
+		validateStep3() {
+			if(this.ppi_validado==false){
+				this.$vs.notify({
+					color:'danger',
+					title:`Error en validación`,
+					text:'Ingrese correctamente los campos para continuar'
+				})
+			}
+			return this.ppi_validado
 		},
 		async importarSectores(){ //async para que se llame cada vez que se necesite
 			let me = this;
@@ -257,7 +343,6 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me.sectores = respuesta.sectores.data;
-				me.pagination= respuesta.pagination;
 			})
 			.catch(function (error) {
 				console.log(error);
