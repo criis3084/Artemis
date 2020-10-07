@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>
 		<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<vx-card noShadow class="center" title="INGRESAR FAMILIARES DEL NIÑO" title-color="primary">
@@ -145,14 +144,14 @@ export default {
 			ocupacion: "",
 			ingresos: "",
 			langEn: es,
-			/*
-			sector_id:"",
-			direccion: "",
-			nombre_fotografia:"",
-			*/
 		}
 	},
 	watch: {
+		ingresar: function(newVal, oldVal) {
+			if (newVal == true){
+				this.ingresarFamilia()
+			}
+		},
 		nombres(value) {
 			this.validator.validate('nombres', value);
 			this.validateForm();
@@ -194,16 +193,6 @@ export default {
 			this.validateForm();
 		},
 	},
-	computed:{
-		copia(){
-			console.log('ingresando famililar...')
-			if(this.$props.ingresar==true)
-			{
-				console.log('y verdadero')
-				this.ingresarFamilia()
-			}
-		}
-	},
 	methods: {
 		getDate(datetime) {
 			let date = new Date(datetime);
@@ -234,11 +223,11 @@ export default {
 			});
 		},
 		enviando(id){
-			this.$emit('recibirFamiliares',{id_familiar:id});
+			this.$emit('recibirFamiliares',{id_familiar:id,relacion:this.relacion});
 		},
-		async ingresarFamilia(){
+		ingresarFamilia(){
 			let me = this;
-			const response = await axios.post("/api/encargado/post/",{
+			axios.post("/api/encargado/post/",{
 				nombres:this.nombres,
 				apellidos:this.apellidos,
 				CUI:this.CUI,
@@ -258,28 +247,6 @@ export default {
 			.catch(function(error) {
 				console.log(error)
 			});
-			/*
-			axios.post("/api/relacion/post/",{
-				relacion:this.relacion,
-				direccion:this.direccion,
-				codigo:this.codigo,
-				nino_id:this.nino_id,
-				sector_id:this.sector_id,
-				encargado_id:this.encargado_id,
-			}).then(function(response) {
-				console.log(response)
-			})
-			.catch(function(error) {
-				console.log(error)
-			});
-				this.$emit('cerrado','Se cerró el formulario');
-				this.$vs.notify({
-				color:'success',
-				title:`${this.titulo}`,
-				text:'La acción se realizo exitósamente'
-				});
-				this.$router.push('/apadrinamiento/nino');
-			*/
 		},
 	},
 	components: {

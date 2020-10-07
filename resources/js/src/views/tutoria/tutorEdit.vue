@@ -218,19 +218,6 @@ export default {
 			const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
 			return dateString
 		},
-		async importarRoles () { //async para que se llame cada vez que se necesite
-			const me = this
-			const response = await axios.get(
-			'/api/rol/get?completo=select')
-			.then(function (response) {
-				const respuesta = response.data
-				me.roles = respuesta.roles.data
-				me.pagination = respuesta.pagination
-			})
-			.catch(function (error) {
-				console.log(error)
-			})
-		},
 		formSubmitted () {
 			if (this.imagen_perfil === ''){
 				this.imagen_perfil= this.imagen_perfil_antigua;
@@ -292,6 +279,29 @@ export default {
 				console.log(error)
 			})
 		},
+		async importarRoles(){ //async para que se llame cada vez que se necesite
+		let me = this;
+		let encontrado=false;
+		let elementoE={}
+		const response = await axios.get(
+			`/api/rol/get?completo=select`)
+		.then(function (response) {
+			var respuesta= response.data;
+			me.roles = respuesta.roles.data;
+			me.roles.forEach(function(elemento, indice, array) {
+				if (elemento.id==me.rol_id)
+				{
+					elementoE=elemento
+					encontrado=true
+				}
+			})
+			me.rol_id = encontrado == true ? elementoE : {id:me.rol_id,nombre:'Rol desactivado'} 
+			me.pagination= respuesta.pagination;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	},
 		successUpload () {
 			this.$vs.notify({color:'success', title:'Fotografía', text:'Fotografía importada'})
 		},
@@ -338,8 +348,9 @@ export default {
 		vSelect
 	},
 	mounted () {
-		this.importarRoles()
+		
 		this.index(1, this.search)
+		this.importarRoles()
 	}
 }
 </script>
