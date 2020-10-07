@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>
 		<template>
 			<div class="vx-row mb-2">
 				<vs-list>
@@ -187,6 +186,11 @@ export default {
 		}
 	},
 	watch: {
+		ingresar: function(newVal, oldVal) {
+			if (newVal == true){
+				this.ingresarPpi()
+			}
+		},
 		respuesta1(value) {
 			this.validator.validate('respuesta1', value);
 			this.validateForm();
@@ -232,9 +236,9 @@ export default {
 		enviando(id){
 			this.$emit('recibirPpi',{ppi_id:id});
 		},
-		async ingresarPpi(){
+		ingresarPpi(){
 			let me = this;
-			const response = await axios.post("/api/ppi/post/",{
+			axios.post("/api/ppi/post/",{
 				respuesta1:this.valor1,
 				respuesta2:this.valor2,
 				respuesta3:this.valor3,
@@ -248,7 +252,6 @@ export default {
 				total:this.valorT,
 
 			}).then(function(response) {
-				console.log('ppi ingresado')
 				me.enviando(response.data.id)
 			})
 				.catch(function(error) {
@@ -282,14 +285,6 @@ export default {
 		},
 	},
 	computed: {
-		copia(){
-			console.log('ingresando ppi...')
-			if(this.$props.ingresar==true)
-			{
-				console.log('y verdadero')
-				this.ingresarPpi()
-			}
-		},
 		calcularTotal: function () {
 			console.log('calculando total..')
 			this.valor1 = this.respuesta1==0 ? 0 : this.respuesta1-100;
