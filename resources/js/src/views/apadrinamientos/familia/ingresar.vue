@@ -6,7 +6,7 @@
 					</vx-card>
 				</div>
 		</vs-row>
-		<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="Submit" on-validate @on-complete="formSubmitted">
+		<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="Submit" on-validate @on-complete="envioFormularios">
 			<!-- tab 1 content -->
 			<tab-content title="Niños" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
 
@@ -126,68 +126,72 @@ import axios from 'axios'
 
 
 export default {
-  props: {
-	// para las confirmaciones del niño
-    confirmacion1: {
-		type: String,
-  	  default: 'false'
-    },
-	// para las confirmaciones del padrino
-    confirmacion2: {
-		type: String,
-  	  default: 'false'
-    },
-	// para las confirmaciones de la familia
-    confirmacion3: {
-      type: String,
-  	  default: 'false'
-    }
-  },
   data() {
 		return {
 			sectores:[],
 			sector_id:0,
 			direccion:'',
 			codigo_familia:'',
+			
 			ingresar:false,
+			
 			cantidad_ninos:[],
 			cantidad_familia:[],
-			ninos:[],
+			
 			ninosIngresados:[],
 			famililaresIngresados:[],
+			
 			ppi_id:0,
 			estudio_id:0,
+			
 			ppi_validado:false,
 			estudio_validado:false,
+			
+			ninosI:1,
+			familiaresI:1
+		}
+	},
+	watch: {
+		ninosIngresados: function(newVal, oldVal) {
+			console.log('Se ingreso un niño')
+			console.log('Nuevo valor: ', newVal, ' | valor cambiado: ', oldVal)
+		},
+		famililaresIngresados: function(newVal, oldVal) {
+			console.log('Se ingreso un familiar')
+			console.log('Nuevo valor: ', newVal, ' | valor cambiado: ', oldVal)
+		},
+		ppi_id: function(newVal, oldVal) {
+			console.log('Se ingreso ppi')
+			console.log('Nuevo valor: ', newVal, ' | valor cambiado: ', oldVal)
+		},
+		estudio_id: function(newVal, oldVal) {
+			console.log('Se ingreso estudio')
+			console.log('Nuevo valor: ', newVal, ' | valor cambiado: ', oldVal)
 		}
 	},
   	methods: {
 		recibirNinos(e){
-			console.log('Niño Ingresado: ')
-			console.log(e.id_nino)
 			this.ninosIngresados.push(e.id_nino)
+			this.ingresoRelaciones()
 		},
 		recibirFamiliares(e){
-			console.log('Familiar Ingresado:')
-			console.log(e.id_familiar)
 			this.famililaresIngresados.push(e.id_familiar)
+			this.ingresoRelaciones()
 		},
 		recibirPpi(e){
-			console.log('Ppi ingresado:')
-			console.log(e.ppi_id)
 			this.ppi_id=e.ppi_id
+			this.ingresoRelaciones()
 		},
 		recibirEstudio(e){
-			console.log('Estudio ingresado:')
-			console.log(e.id_estudio)
 			this.estudio_id=e.id_estudio
+			this.ingresoRelaciones()
 		},
 		validandoNino(e){
 			this.cantidad_ninos.forEach(function(elemento, indice, array) {
 				if (elemento.visible==true && elemento.id==e.id_form)
 				{
 					elemento.validado = e.validado
-					console.log(elemento.id + ' - ' + elemento.validado)
+					console.log('Niño' + elemento.id + ' - ' + elemento.validado)
 				}
 			})
 		},
@@ -196,7 +200,7 @@ export default {
 				if (elemento.visible==true && elemento.id==e.id_form)
 				{
 					elemento.validado = e.validado
-					console.log(elemento.id + ' - ' + elemento.validado)
+					console.log('Familiar ' + elemento.id + ' - ' + elemento.validado)
 				}
 			})
 		},
@@ -208,21 +212,12 @@ export default {
 			}
 		},
 		validandoEstudio(e){
-			console.log(e)
 			if(e==200)
 			{
 				this.estudio_validado=true
 			}
 		},
-		formSubmitted(){
-			/*
-			this.cantidad_ninos.forEach(function(elemento, indice, array) {
-				if (elemento.visible==true && elemento.id==e.id_form)
-				{
-					elemento.validado = e.validado
-				}
-			})
-			*/
+		envioFormularios(){
 			if(this.estudio_validado==false){
 				this.$vs.notify({
 					color:'danger',
@@ -234,26 +229,32 @@ export default {
 				this.ingresar=true;
 				console.log('haciendo el envio')
 			}
-			// aqui traeremos un dato del componente hijo para validar todo el formulario
+		},
+		ingresoRelaciones(){
+			if(this.ninosI==this.ninosIngresados.length && this.familiaresI == this.famililaresIngresados.length && this.ppi_id !=0 && this.estudio_id !=0)
+			{
+				console.log('*****************************')
+				console.log('Todo correcto')
+				console.log(this.ninosIngresados)
+				console.log(this.famililaresIngresados)
+				console.log(this.ppi_id)
+				console.log(this.estudio_id)
+				console.log('*****************************')
+			}
 			/*
-			// alert('Form submitted!');
-			axios.post("/api/nino/post/",{
-					codigo:this.codigoT,
-					nombres:this.nombresT,
-					apellidos:this.apellidosT,
-					genero:this.generoT,
-					ruta_imagen:this.ruta_imagenT,
-					fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
-					fecha_ingreso:this.getDate(this.fecha_ingresoT),
-					direccion:this.direccionT,
-					sector_id:this.sector_idT.id,
-					escuela_id:this.escuela_idT.id
+			axios.post("/api/relacion/post/",{
+				relacion:this.relacion,
+				direccion:this.direccion,
+				codigo:this.codigo,
+				nino_id:this.nino_id,
+				sector_id:this.sector_id,
+				encargado_id:this.encargado_id,
 			}).then(function(response) {
-			console.log(response)
-				})
-				.catch(function(error) {
+				console.log(response)
+			})
+			.catch(function(error) {
 				console.log(error)
-				});
+			});
 				this.$emit('cerrado','Se cerró el formulario');
 				this.$vs.notify({
 				color:'success',
@@ -261,25 +262,25 @@ export default {
 				text:'La acción se realizo exitósamente'
 				});
 				this.$router.push('/apadrinamiento/nino');
-			},
 			*/
 		},
 		sumar_nino(){
 			this.cantidad_ninos.push({id:this.cantidad_ninos.length+1,visible:true,validado:false})
-			console.log(this.cantidad_ninos)
+			this.ninosI+=1
 		},
 		sumar_familia(){
 			this.cantidad_familia.push({id:this.cantidad_familia.length+1,visible:true,validado:false})
-			console.log(this.cantidad_familia)
+			this.familiaresI +=1
+			console.log(this.familiaresI)
 		},
 		quitar_nino(id){
 			this.cantidad_ninos.forEach(function(elemento, indice, array) {
-				if (elemento.id==id)
+				if (elemento.id==id && elemento.visible==true)
 				{
 					elemento.visible=false;
 				}
 			})
-			console.log('quitando a ',id)
+			this.ninosI-=1
 		},
 		quitar_familia(id){
 			this.cantidad_familia.forEach(function(elemento, indice, array) {
@@ -288,7 +289,8 @@ export default {
 					elemento.visible=false;
 				}
 			})
-			console.log('quitando a ',id)
+			this.familiaresI-=1
+			console.log(this.familiaresI)
 		},
 		validateStep1() {
 			let retornar=true

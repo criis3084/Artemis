@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>
 			<div class="vx-col md:w-1/2 w-full mt-1">
 				<div class="my-4">
 					<small class="date-label">Fecha de Ingreso</small>
@@ -130,6 +129,11 @@ export default {
 		}
 	},
 	watch: {
+		ingresar: function(newVal, oldVal) {
+			if (newVal == true){
+				this.ingresarEstudio()
+			}
+		},
 		fecha_ingreso(value) {
 			this.validator.validate('fecha_ingreso', value);
 			this.validateForm();
@@ -184,9 +188,9 @@ export default {
 		enviando(id){
 			this.$emit('recibirEstudio',{id_estudio:id});
 		},
-		async ingresarEstudio(){
+		ingresarEstudio(){
 			let me = this;
-			const response = await axios.post("/api/estudioSocioeconomico/post/",{
+			axios.post("/api/estudioSocioeconomico/post/",{
 				fecha_ingreso:this.getDate(this.fecha_ingreso),
 				total_ingresos:this.total_ingresos,
 				alimentacion:this.alimentacion,
@@ -202,44 +206,11 @@ export default {
 				piso:this.piso,
 				evaluacion_diagnostico:this.evaluacion_diagnostico
 			}).then(function(response) {
-				console.log('id del estudio- ' +response.data.id)
 				me.enviando(response.data.id)
 			})
 			.catch(function(error) {
 				console.log(error)
 			});
-			/*
-			this.id=parseInt(this.$route.params.id)
-			console.log(this.getDate(this.fecha))
-			console.log(this.id,this.valorT,this.valor1)
-			axios.post("/api/historialPpi/post/",{
-				nino_id:this.id,
-				respuesta1:this.valor1,
-				respuesta2:this.valor2,
-				respuesta3:this.valor3,
-				respuesta4:this.valor4,
-				respuesta5:this.valor5,
-				respuesta6:this.valor6,
-				respuesta7:this.valor7,
-				respuesta8:this.valor8,
-				respuesta9:this.valor9,
-				respuesta10:this.valor10,
-				total:this.valorT,
-
-				fecha_estudio:Date.now() this.getDate(this.fecha)
-
-			}).then(function(response) {
-					console.log(response)
-					this.$vs.notify({
-						color:'success',
-						title:'Exito',
-						text:'Registro Creado!'
-					});
-				})
-				.catch(function(error) {
-				console.log(error)
-			});
-			*/
 		},
 		validateForm() {
 			this.validator.validateAll({
@@ -266,16 +237,6 @@ export default {
 			let date = new Date(datetime);
 			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 			return dateString;
-		}
-	},
-	computed: {
-		copia(){
-			console.log('Ingresando Estudio...')
-			if(this.$props.ingresar==true)
-			{
-				console.log('y verdadero')
-				this.ingresarEstudio()
-			}
 		}
 	},
 	created() {

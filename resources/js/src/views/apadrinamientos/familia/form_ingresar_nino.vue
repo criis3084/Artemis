@@ -1,6 +1,5 @@
 <template>
 	<div>
-			<vs-prompt :active.sync="ingresar" :is-valid="copia"></vs-prompt>
 				<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<vx-card noShadow class="center" title="INGRESAR DATOS DEL NIÑO"	title-color="primary">
@@ -170,17 +169,12 @@ export default {
 			ninoIngresado:0
 		}
 	},
-	computed:{
-		copia(){
-			console.log('ingresando...')
-			if(this.$props.ingresar==true)
-			{
-				console.log('y verdadero')
+	watch: {
+		ingresar: function(newVal, oldVal) {
+			if (newVal == true){
 				this.ingresarNino()
 			}
-		}
-	},
-	watch: {
+		},
     	codigo(value) {
 			this.validator.validate('codigo', value);
 			this.validateForm();
@@ -230,9 +224,9 @@ export default {
 			}); 
 			return tabla
 		},
-		async importarPadrinos(){ //async para que se llame cada vez que se necesite
+		importarPadrinos(){ //async para que se llame cada vez que se necesite
 			let me = this;
-			const response = await axios.get(
+			axios.get(
 			`/api/padrino/get?&completo=false`)
 			.then(function (response) {
 				var respuesta= response.data;
@@ -303,15 +297,6 @@ export default {
 			.catch(function(error) {
 				console.log(error)
 			});
-			/*
-				this.$emit('cerrado','Se cerró el formulario');
-				this.$vs.notify({
-				color:'success',
-				title:`${this.titulo}`,
-				text:'La acción se realizo exitósamente'
-				});
-				this.$router.push('/apadrinamiento/nino');
-			*/
 		},
 	},
 	components: {
