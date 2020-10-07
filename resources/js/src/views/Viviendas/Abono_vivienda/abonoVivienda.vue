@@ -110,7 +110,7 @@ export default {
     },
     async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;
-		me.id_recibido = this.$route.params.id
+		this.id_recibido = this.$route.params.id
 		const response = await axios.get(
 			`/api/historialAbonoVivienda/get?&criterio=vivienda_id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
@@ -167,7 +167,8 @@ export default {
 			title: `${titulo}`,
 			text: '¿Está seguro de llevar a cabo esta acción?',
 			accept: this.cambiarEstado
-		})
+    })
+    
 
 		this.index(this.pagination.current_page, this.search);
     },
