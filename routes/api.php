@@ -414,6 +414,9 @@ Route::group(['prefix' => 'nino'], function () {
 	]);
     Route::put('/desactivar', [
         'as' => 'admin.nino', 'uses' => 'NinoController@desactivar'
+	]);
+	Route::post('/imagen', [
+        'as' => 'admin.nino', 'uses' => 'NinoController@imagen'
     ]);
 });
 Route::group(['prefix' => 'encargado'], function () {
@@ -431,6 +434,9 @@ Route::group(['prefix' => 'encargado'], function () {
 	]);
     Route::put('/desactivar', [
         'as' => 'admin.encargado', 'uses' => 'EncargadoController@desactivar'
+	]);
+	Route::post('/imagen', [
+        'as' => 'admin.encargado', 'uses' => 'EncargadoController@imagen'
     ]);
 });
 Route::group(['prefix' => 'padrino'], function () {
@@ -450,7 +456,7 @@ Route::group(['prefix' => 'padrino'], function () {
         'as' => 'admin.padrino', 'uses' => 'PadrinoController@desactivar'
 	]);
 	Route::post('/imagen', [
-        'as' => 'admin.tutor', 'uses' => 'PadrinoController@imagen'
+        'as' => 'admin.padrino', 'uses' => 'PadrinoController@imagen'
     ]);
 });
 Route::group(['prefix' => 'sector'], function () {

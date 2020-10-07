@@ -38,14 +38,14 @@
 				</div>
 			</div>
 
-			<vs-list>
+			<vs-list class="mt-6">
 					<h4> 
 					<vs-list-header title="Servicios con los que cuenta la vivienda"></vs-list-header>
 					</h4>
 					<ul class="centerx mt-3">
-							<vs-checkbox color="dark" v-model="luz">Luz</vs-checkbox>
-							<vs-checkbox color="dark" v-model="agua">Agua</vs-checkbox>
-							<vs-checkbox color="dark" v-model="drenaje">Drenaje</vs-checkbox>
+							<vs-checkbox color="dark" class="mt-2" v-model="luz">Luz</vs-checkbox>
+							<vs-checkbox color="dark" class="mt-2" v-model="agua">Agua</vs-checkbox>
+							<vs-checkbox color="dark" class="mt-2" v-model="drenaje">Drenaje</vs-checkbox>
 					</ul>
 			</vs-list>
 
@@ -64,7 +64,9 @@
 				</div>
 			</div>
 
-			<vs-list-header title="Servicios con los que cuenta la vivienda"></vs-list-header>
+			<h4>
+				<vs-list-header class="mt-6" title="Materiales de construcción"></vs-list-header>
+			</h4>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">

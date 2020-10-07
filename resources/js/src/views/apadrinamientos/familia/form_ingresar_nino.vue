@@ -8,7 +8,7 @@
 				</vs-row>
 				<div class="vx-row">
 					<div class="vx-col md:w-1/2 w-full mt-5">
-						<vs-upload @on-success="successUpload" limit='1' text="Imagen de Perfil" />
+						<vs-upload automatic action="/api/nino/imagen" limit='1' text="Imagen de perfil" :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar"/>
 					</div>
 				
 					<div class="vx-col md:w-1/2 w-full mt-5">
@@ -166,7 +166,11 @@ export default {
 			validate_codigo:false,
 			errores: null,
 			estudia:true,
-			ninoIngresado:0
+			ninoIngresado:0,
+
+			head:{
+					"imagenanterior":""	
+				},
 		}
 	},
 	watch: {
@@ -203,6 +207,16 @@ export default {
 			this.validator.validate('grado', value);
 			this.validateForm();
 		},
+		estudia(value){
+			if(value==false){
+				this.grado='XXXX'
+				this.escuela_id={id:1}
+			}
+			if(value==true){
+				this.grado=''
+				this.escuela_id=null
+			}
+		},
 		escuela_id(value){
 			this.validator.validate('escuela_id', value);
 			this.validateForm();
@@ -224,15 +238,14 @@ export default {
 			}); 
 			return tabla
 		},
-		importarPadrinos(){ //async para que se llame cada vez que se necesite
+		async importarPadrinos(){ //async para que se llame cada vez que se necesite
 			let me = this;
-			axios.get(
+			const response = await axios.get(
 			`/api/padrino/get?&completo=false`)
 			.then(function (response) {
 				var respuesta= response.data;
 				me.padrinos = respuesta.padrinos.data;
 				me.padrinos = me.traerNombre(me.padrinos)
-				me.pagination= respuesta.pagination;
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -244,7 +257,6 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me.escuelas = respuesta.escuelas.data;
-				me.pagination= respuesta.pagination;
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -275,9 +287,12 @@ export default {
 		enviando(id){
 			this.$emit('recibirNinos',{id_nino:id});
 		},
-		async ingresarNino(){
+		ingresarNino(){
+			if (this.ruta_imagen === ''){
+				this.ruta_imagen= "default.png"
+			}
 			let me = this;
-			const response = await axios.post("/api/nino/post/",{
+			axios.post("/api/nino/post/",{
 				nombres:me.nombres,
 				apellidos:me.apellidos,
 				genero:me.genero,
@@ -286,7 +301,7 @@ export default {
 				direccion: me.$props.direccion,
 				
 				codigo:me.codigo,
-				ruta_imagen:me.ruta_imagen,
+				ruta_imagen: '/storage/public/ninos/' + me.ruta_imagen,
 				grado:me.grado,
 				ocupacion:me.ocupacion,
 				actividades:me.actividades,
@@ -298,6 +313,13 @@ export default {
 				console.log(error)
 			});
 		},
+		vaciar(){
+			this.ruta_imagen='';
+		},
+		respuesta(e){
+			this.ruta_imagen=e.currentTarget.response.replace(/['"]+/g, '')
+			this.head.imagenanterior=this.ruta_imagen
+	    },
 	},
 	components: {
 		FormWizard,
