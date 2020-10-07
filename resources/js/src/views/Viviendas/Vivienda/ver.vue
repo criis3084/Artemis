@@ -33,22 +33,22 @@
                 <span>Destinatario</span>
                 <p class="flex items-center flex-wrap">
                 <vx-tooltip text="Nombre de encargado"><span class="material-icons ">person</span></vx-tooltip>
-                <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.encargado_nombres + " " + this.encargado_apellidos }}</span>
+                <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.encargado_nombres2 + " " + this.encargado_apellidos2 }}</span>
                 </p>
                 <span>Constructor</span>
                 <p class="flex items-center flex-wrap">
                 <vx-tooltip text="Nombre de constructor"><span class="material-icons ">person_outline</span></vx-tooltip>
-                <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.constructor_nombres + " " + this.constructor_apellidos }}</span>
+                <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.constructor_nombres2 + " " + this.constructor_apellidos2 }}</span>
                 </p>
 
                 <vs-divider />
                 <span>Información adicional</span>
                 <p class="flex items-center flex-wrap">
-                  <vx-tooltip text="Tipo de vivienda"><span class="material-icons ">place</span></vx-tooltip>
+                  <vx-tooltip text="Tipo de vivienda"><span class="material-icons ">house_siding</span></vx-tooltip>
                   <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.tipo_vivienda_idT}}</span>
                 </p>
                 <p class="flex items-center flex-wrap">
-                  <vx-tooltip text="Dirección"><span class="material-icons ">house_siding</span></vx-tooltip>
+                  <vx-tooltip text="Dirección"><span class="material-icons ">place</span></vx-tooltip>
                   <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.direccionT }}</span>
                 </p>
                 <p class="flex items-center flex-wrap"> 
@@ -63,7 +63,7 @@
 
                 <p class="flex items-center flex-wrap">
                       <vx-tooltip text="Costo total"> <span class="material-icons ">attach_money</span> </vx-tooltip>
-                <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.costo_totalT }}</span>
+                <span class="text-2xl leading-none font-medium text-primary mr-4"> {{currency(this.costo_totalT) }}</span>
                 </p>
                 <vs-divider/>
                 
@@ -111,10 +111,12 @@ export default{
        constructor_idT:'',
       tipoViviendasT: [],
         tipo_vivienda_idT:'',
-        encargado_nombres:'',
-        encargado_apellidos:'',
-        constructor_nombres:'',
-        constructor_apellidos:'',
+        encargado_nombres2:'',
+        encargado_apellidos2:'',
+        constructor_nombres2:'',
+        constructor_apellidos2:'',
+        tipo_nombre:'',
+        vivienda_nombreT:'',
       id_recibido:''
 
       // Related Products Swiper
@@ -141,10 +143,11 @@ export default{
               me.direccionT = me.arrayData.direccion;
               me.costo_totalT = me.arrayData.costo_total;
               me.fecha_inicioT = me.arrayData.fecha_inicio;
-              me.encargado_idT = me.arrayData.encargado_id;
-              me.constructor_idT = me.arrayData.constructor_id;
-              me.importarConstructor(me.constructor_idT);
-              me.tipo_vivienda_idT = me.arrayData.tipoVivienda.nombre;
+              me.encargado_nombres2 = me.arrayData.datos_residente[0].nombres;
+              me.encargado_apellidos2 = me.arrayData.datos_residente[0].apellidos;
+              me.constructor_nombres2 = me.arrayData.datos_constructor[0].nombres;
+              me.constructor_apellidos2 = me.arrayData.datos_constructor[0].apellidos;
+              me.tipo_vivienda_idT = me.arrayData.tipo_vivienda.nombre;
             console.log(me.arrayData);
 			me.pagination= respuesta.pagination;
 		})
@@ -152,81 +155,25 @@ export default{
 			console.log(error);
 		});
     },
-    traerDatosEncargados(tabla){
-            console.log(tabla);
-			tabla.forEach(function(valor, indice, array){
-				valor.encargado_nombres=valor.datos.nombres
-				valor.encargado_apellidos=valor.datos.apellidos
-            }); 
-            console.log(tabla);
-			return tabla
-        },
-    traerDatosConstructor(tabla){
-        console.log(tabla);
-			tabla.forEach(function(valor, indice, array){
-				valor.constructor_nombres=valor.datos.nombres
-				valor.constructor_apellidos=valor.datos.apellidos
-            });
-            console.log(tabla); 
-			return tabla
-	},
-    async importarTipo(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/tipoVivienda/get?completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-            me.tipoViviendasT = respuesta.tipoViviendas.data;
-            console.log(me.tipoViviendasT);
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-    },
-    async importarConstructor(constructor){ //async para que se llame cada vez que se necesite
-		const me = this
-		const response = await axios.get(
-		`/api/constructor/get?criterio=id&buscar=${constructor}`)
-		.then(function (response) {
-			const respuesta = response.data
-			me.arrayData = respuesta.constructors.data
-            me.constructorsT = me.arrayData
-            me.constructor_nombres = me.constructorsT[0].datos.nombres
-            me.constructor_apellidos = me.constructorsT[0].datos.apellidos
-		})
-		.catch(function (error) {
-			console.log(error)
-        })
-    },
-    async importarEncargados(){ //async para que se llame cada vez que se necesite
-		const me = this
-		const response = await axios.get(
-		`/api/encargado/get?completo=true`)
-		.then(function (response) {
-			const respuesta = response.data
-			me.arrayData = respuesta.encargados.data
-            me.encargadosT = me.arrayData
-            me.encargado_nombres = me.encargadosT[0].datos.nombres
-            me.encargado_apellidos = me.encargadosT[0].datos.apellidos
-		})
-		.catch(function (error) {
-			console.log(error)
-		})
-	},
     getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
       },
+       currency(numero) {
+        let formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'GTQ',
+        });
+        let mil = formatter.format(numero);
+        return mil;
+    },
   },
   created () {
   },
  	mounted(){
     this.index(1, this.search);
-    this.importarTipo();
-    this.importarEncargados();
-  },
+    },
 }
 </script>
 

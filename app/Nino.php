@@ -15,4 +15,5 @@ class Nino extends Model
 	public function datos(){
 		return $this->belongsTo('App\PersonaSinAcceso','persona_sin_acceso_id','id');
 	}
+
 }
