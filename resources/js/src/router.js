@@ -211,6 +211,32 @@ const router = new Router({
             rule: 'admin'
           }
         },
+        ///////////////CORRESPONDENCIA
+        {
+          path: '/apadrinamiento/correspondencia/:id',
+          name: 'apadrinamiento-correspondencia',
+          component: () => import('./views/apadrinamientos/nino/correspondencia.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {			
+          path: '/ingresar/correspondencia/:id',
+          name: 'ingresar-correspondencia',
+          component: () => import('./views/apadrinamientos/nino/nuevocorrespondencia.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },		
+        {			
+        path: '/ver/correspondencia/:id',
+        name: 'ver-correspondencia',
+        component: () => import('./views/apadrinamientos/nino/vercorrespondencia.vue'),
+        meta: {
+          rule: 'editor'
+        }
+        },
+
         // =============================================================================
         // TUTORIA
         // =============================================================================

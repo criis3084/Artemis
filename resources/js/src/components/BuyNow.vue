@@ -9,7 +9,7 @@
 ========================================================================================== -->
 
 <template functional>
-  <vs-button color="danger" type="filled" class="buy-now" target :href="{url: 'http://www.pornhub.com'}">Salir</vs-button>
+  <!-- <vs-button color="danger" type="filled" class="buy-now" target :href="{url: 'http://www.pornhub.com'}">Salir</vs-button> -->
 </template>
 
 <style lang="scss">
