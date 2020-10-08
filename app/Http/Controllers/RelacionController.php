@@ -6,6 +6,7 @@ use App\Relacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use SebastianBergmann\Type\ObjectType;
 
 class RelacionController extends Controller
@@ -16,23 +17,27 @@ class RelacionController extends Controller
 		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
-		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
-		
+		$completo = (isset($request->completo)) ? $request->completo : 'false';
+		$count = Relacion::all()->count();
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$relacion = Relacion::with('nino')->with('encargado')->with('sector')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$relacion = Relacion::with('sector')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$relacion = Relacion::with('nino')->with('encargado')->with('sector')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$relacion = Relacion::with('sector')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$relacion = Relacion::with('nino')->with('encargado')->with('sector')->orderBy('id', 'desc')->paginate(20);
+				$relacion = Relacion::with('sector')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$relacion = Relacion::with('nino')->with('encargado')->with('sector')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$relacion = Relacion::with('sector')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
+		}
+		else if ($completo=='informacion')
+		{
+			$relacion = Relacion::with('sector')->with('datos_nino')->with('datos_encargado')->with('nino')->with('encargado')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 		}
 		return [
 			"relaciones"=>$relacion

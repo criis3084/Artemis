@@ -1,4 +1,4 @@
-<template>
+ <template>
 	<div>
 		<vx-card>
 			<div>
@@ -197,13 +197,40 @@ export default {
 		id:0,
 		fecha:"",
 		langEn: es,
+		ppi_id:0,
+		codigo_familiar:0,
+		listadoNinos:[]
 	}
   },
-  methods:{
-	guardar(){
+  	methods:{
+	enviando(id){
+		this.ppi_id=id;
+	},
+	guardar(){	
+		let me = this;
 		this.id=parseInt(this.$route.params.id)
-		console.log(this.getDate(this.fecha))
-		console.log(this.id,this.valorT,this.valor1)
+		axios.post("/api/ppi/post/",{
+				respuesta1:this.valor1,
+				respuesta2:this.valor2,
+				respuesta3:this.valor3,
+				respuesta4:this.valor4,
+				respuesta5:this.valor5,
+				respuesta6:this.valor6,
+				respuesta7:this.valor7,
+				respuesta8:this.valor8,
+				respuesta9:this.valor9,
+				respuesta10:this.valor10,
+				total:this.valorT,
+
+			}).then(function(response) {
+				me.enviando(response.data.id)
+			})
+				.catch(function(error) {
+				console.log(error)
+			});
+			this.buscarCodigo()
+
+		/*
 		axios.post("/api/historialPpi/post/",{
 			nino_id:this.id,
 			respuesta1:this.valor1,
@@ -229,7 +256,59 @@ export default {
 			.catch(function(error) {
 			console.log(error)
 		});
-		this.$router.push('/apadrinamiento/ppi/'+this.id);
+		*/
+
+		//this.$router.push('/apadrinamiento/ppi/'+this.id);
+	},
+	llenarPpis(nino_id){
+
+	},
+	setearValor(unArreglo){
+			this.listadoNinos=unArreglo.slice();
+			let hash = {};
+			this.listadoNinos = this.listadoNinos.filter(o => hash[o.nino_id] ? false : hash[o.nino_id] = true);
+			let ppiT=this.ppi_id
+			let today = this.getDate(this.fecha)
+			this.listadoNinos.forEach(function(elemento, indice, array) {
+
+					axios.post("/api/historialPpi/post/",{
+						nino_id:elemento.nino_id,
+						ppi_id:ppiT,
+						fecha_estudio:today
+					}).then(function(response) {
+							console.log(response)
+					})
+						.catch(function(error) {
+						console.log(error)
+					});
+
+			})
+			this.$router.push('/apadrinamiento/ppi/'+this.id);
+	},
+	buscarHermanos(codigoT){
+		let me = this;
+		axios.get(`/api/relacion/get?criterio=codigo&buscar=${codigoT}&completo=informacion`)
+		.then(function (response) {
+			var respuesta= response.data;
+			me.arrayData = respuesta.relaciones.data;
+			me.setearValor(me.arrayData)
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	},
+	buscarCodigo(){
+			let nino_id = this.$route.params.id;
+			let me = this;
+ 			axios.get(`/api/relacion/get?criterio=nino_id&buscar=${nino_id}&completo=informacion`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.arrayData = respuesta.relaciones.data;
+				me.buscarHermanos(me.arrayData[0].codigo)
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
 	},
 	regresar(){
 		let id_recibido = this.$route.params.id;

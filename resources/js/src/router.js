@@ -202,6 +202,14 @@ const router = new Router({
             rule: 'editor'
           }
         },
+        {
+          path: '/ver/familia/:id',
+          name: 'ver-familia',
+          component: () => import('./views/apadrinamientos/familia/ver_familia.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
         
         {
           path: '/dashboard/ecommerce',

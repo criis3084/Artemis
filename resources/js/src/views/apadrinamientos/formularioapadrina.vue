@@ -89,12 +89,11 @@ export default {
       //async para que se llame cada vez que se necesite
       let me = this;
       const response = await axios
-        .get(`/api/nino/get?completo=false`)
+        .get(`/api/nino/get?completo=ninono`)
         .then(function(response) {
           var respuesta = response.data;
 		  me.nino = respuesta.ninos.data;
 		  me.nino = me.traerNombre(me.nino)
-		  me.pagination = respuesta.pagination;
         })
 
         .catch(function(error) {
@@ -129,7 +128,16 @@ export default {
         })
         .catch(function(error) {
           console.log(error);
-        });
+		});
+		axios.put('/api/nino/activar', {
+			id: this.valMultipe.value3.id
+		})
+		.then(function (response) {
+			console.log(response.data.message)
+		})
+		.catch(function (error) {
+			console.log(error.response.data.message)
+		});
 	  this.$emit("cerrado", "Se cerro el formulario");
 	  this.valMultipe.value3 = "";
 	  this.valMultipe.value4 = "";

@@ -135,19 +135,16 @@
 			</vs-list>
 		</div>
 		<vs-divider></vs-divider>
-		{{valorT}}
-		<div v-if="valorT<34">
-			solo aqui
-			<vs-alert title="PPI" color="success" icon="check_circle" >
-					PPI no aceptable para el programa
-			</vs-alert>
-		</div>
-		<div v-else>
-			JAJAJA
-		</div>
-		<vs-alert title="titulo" color="danger" icon="error">
-				PPI aceptable para el programa
-		</vs-alert>
+		<vx-card
+			:title="titulo"
+			title-color="#fff"
+			:card-background="valorT<34 ? 'success':'danger'"
+			content-color="#fff"
+			>
+
+			<p v-if="valorT>34"> PPI no aceptable para el programa</p>
+			<p v-else>	PPI aceptable  para el programa	 </p>
+		</vx-card>
 
 	</div>
 </template>

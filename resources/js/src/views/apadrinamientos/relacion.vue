@@ -14,10 +14,10 @@
 			<vs-button @click="activePrompt=true">Exportar</vs-button>
 			</template>
 				<template slot="thead">
-				
+					<vs-th>Ver</vs-th>
 					<vs-th >Código</vs-th>
 					<vs-th >Dirección</vs-th>
-          <vs-th >Sector</vs-th>
+					<vs-th >Sector</vs-th>
 					<vs-th >Estado</vs-th>
 					<vs-th >Acciones</vs-th>
 				</template>
@@ -25,32 +25,34 @@
 				<template slot-scope="{data}">
 					<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
-					
+					<vs-td>
+						<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"  @click="$router.push('/ver/familia/'+data[indextr].codigo)" ></vs-button></vx-tooltip>
+					</vs-td>
 
-						<vs-td :data="data[indextr].codigo">
-							{{data[indextr].codigo}}
-						</vs-td>
-            
-            <vs-td :data="data[indextr].direccion">
-							{{data[indextr].direccion}}
-						</vs-td>
+					<vs-td :data="data[indextr].codigo">
+						{{data[indextr].codigo}}
+					</vs-td>
+		
+					<vs-td :data="data[indextr].direccion">
+						{{data[indextr].direccion}}
+					</vs-td>
 
-						<vs-td :data="data[indextr].nombre">
-							{{data[indextr].nombre}}
-						</vs-td>
+					<vs-td :data="data[indextr].nombre">
+						{{data[indextr].nombre}}
+					</vs-td>
 
-						<vs-td :data="data[indextr].estado">
-							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
-								<span slot="on" >Activo</span>
-								<span slot="off">Desactivo</span>
-							</vs-switch>
-						</vs-td>
-						<vs-td>
-							<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-						</vs-td>
-					</vs-tr>
-				</template>
-			</vs-table>
+					<vs-td :data="data[indextr].estado">
+						<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
+							<span slot="on" >Activo</span>
+							<span slot="off">Desactivo</span>
+						</vs-switch>
+					</vs-td>
+					<vs-td>
+						<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+					</vs-td>
+				</vs-tr>
+			</template>
+		</vs-table>
 
 			<sectorEdit
 				v-bind:identificador="abrir_editar"
@@ -193,11 +195,11 @@ export default {
 			let titulo = "Cancelado"
 			let texto = "Cambio de estado cancelado"
 			this.$vs.notify({
-			color:'danger',
-			title:`${titulo}`,
-			text:`${titulo}`
+				color:'danger',
+				title:`${titulo}`,
+				text:`${titulo}`
 			})
-		this.index();
+			this.index();
 		},
 		async index(){
 			let me = this;
@@ -207,6 +209,8 @@ export default {
 				var respuesta= response.data;
 				me.arrayData = respuesta.relaciones.data;
 				me.arrayData = me.traerNombre(me.arrayData)
+				let hash = {};
+				me.arrayData = me.arrayData.filter(o => hash[o.codigo] ? false : hash[o.codigo] = true);
 			})
 			.catch(function (error) {
 				console.log(error);

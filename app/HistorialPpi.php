@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class HistorialPpi extends Model
 {
+
 	protected $fillable = ['fecha_estudio','nino_id','ppi_id','estado'];
 
 	public function nino(){

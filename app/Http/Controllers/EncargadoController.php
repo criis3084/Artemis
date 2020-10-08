@@ -7,6 +7,7 @@ use App\PersonaSinAcceso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Illuminate\Support\Facades\File;
 
 class EncargadoController extends Controller
 {
@@ -129,5 +130,15 @@ class EncargadoController extends Controller
 		$persona->estado = '0';
 		$encargado->save();
 		$persona->save();
+	}
+	public function imagen(Request $request){
+		$imagen = $request->photos;
+		$nombreEliminar = public_path('storage\public\familiares\\') .  $request->header("imagenanterior");
+		if (File::exists($nombreEliminar)) {
+			File::delete($nombreEliminar);
+		}
+		$completo = time() . "." . $imagen->extension();
+		$imagen->move(public_path('storage/public/familiares/'), $completo);
+		return Response::json($completo, 200);
 	}
 }

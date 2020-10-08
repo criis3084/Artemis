@@ -154,7 +154,6 @@ export default {
 
 			codigo:'',
 			fecha_ingreso: "",
-			ruta_imagen:"",
 			grado:"",
 			ocupacion:"",
 			actividades:"",
@@ -168,6 +167,7 @@ export default {
 			estudia:true,
 			ninoIngresado:0,
 
+			ruta_imagen:"",
 			head:{
 					"imagenanterior":""	
 				},

@@ -8,7 +8,7 @@
 		</vs-row>
 		<div class="vx-row">
 			<div class="vx-col md:w-1/2 w-full mt-5">
-				<vs-upload @on-success="successUpload" limit="1" text="Imagen de Perfil" />
+				<vs-upload automatic action="/api/encargado/imagen" limit='1' text="Imagen de perfil" :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar"/>
 			</div>
 		
 			<div class="vx-col md:w-1/2 w-full mt-5">
@@ -50,14 +50,14 @@
 				</div>
 			</div>
 
-			<div class="vx-col md:w-1/2 w-full mt-6">
+			<div class="vx-col md:w-1/2 w-full mt-2">
 				<div class="vx-col w-full">
 					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Parentesco con el niño/niña apadrinado" name="relacion" v-model="relacion"/>
 					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
 
-			<div class="vx-col md:w-1/2 w-full mt-6">
+			<div class="vx-col md:w-1/2 w-full mt-2	">
 				<div class="vx-col w-full">
 					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Escolaridad" name="escolaridad" v-model="escolaridad"/>
 					<span class="text-danger">{{msg}}</span>
@@ -150,7 +150,11 @@ export default {
       ocupacion: '',
       ingresos: '',
 	    langEn: es,
-	    msg:''
+		msg:'',
+		ruta_imagen:"",
+		head:{
+			"imagenanterior":""	
+		},
     }
   },
   watch: {
@@ -241,8 +245,11 @@ export default {
       this.$emit('recibirFamiliares', {id_familiar:id, relacion:this.relacion})
     },
     ingresarFamilia () {
-      const me = this
-      axios.post('/api/encargado/post/', {
+		if (this.ruta_imagen === ''){
+			this.ruta_imagen= "default.png"
+		}
+		const me = this
+		axios.post('/api/encargado/post/', {
         nombres:this.nombres,
         apellidos:this.apellidos,
         CUI:this.CUI,
@@ -252,7 +259,7 @@ export default {
         sector_id: this.$props.sector_id.id,
         direccion: this.$props.direccion,
 
-        ruta_imagen:this.ruta_imagen,
+        ruta_imagen:'/storage/public/familiares/' + me.ruta_imagen,
         ocupacion:this.ocupacion,
         escolaridad:this.escolaridad,
         ingresos:this.ingresos
@@ -263,11 +270,16 @@ export default {
           console.log(error)
         })
     },
-
     validarNombre () {
-		  this.msg = 'El campo es requerido' 
-		  
-    }
+		  this.msg = 'El campo es requerido' 	  
+	},
+	vaciar(){
+		this.ruta_imagen='';
+	},
+	respuesta(e){
+		this.ruta_imagen=e.currentTarget.response.replace(/['"]+/g, '')
+		this.head.imagenanterior=this.ruta_imagen
+	},
   },
   components: {
     FormWizard,

@@ -196,7 +196,6 @@ export default {
 				if (elemento.visible==true && elemento.id==e.id_form)
 				{
 					elemento.validado = e.validado
-					console.log('Niño' + elemento.id + ' - ' + elemento.validado)
 				}
 			})
 		},
@@ -205,12 +204,10 @@ export default {
 				if (elemento.visible==true && elemento.id==e.id_form)
 				{
 					elemento.validado = e.validado
-					console.log('Familiar ' + elemento.id + ' - ' + elemento.validado)
 				}
 			})
 		},
 		validandoPpi(e){
-			console.log(e)
 			if(e==200)
 			{
 				this.ppi_validado=true
@@ -220,6 +217,9 @@ export default {
 			if(e==200)
 			{
 				this.estudio_validado=true
+			}
+			else{
+				this.estudio_validado=false
 			}
 		},
 		envioFormularios(){
@@ -232,19 +232,11 @@ export default {
 			}
 			else{
 				this.ingresar=true;
-				console.log('haciendo el envio')
 			}
 		},
 		ingresoRelaciones(){
 			if(this.ninosI==this.ninosIngresados.length && this.familiaresI == this.famililaresIngresados.length && this.ppi_id !=0 && this.estudio_id !=0)
 			{
-				console.log('*****************************')
-				console.log('Todo correcto')
-				console.log(this.ninosIngresados)
-				console.log(this.famililaresIngresados)
-				console.log(this.ppi_id)
-				console.log(this.estudio_id)
-				console.log('*****************************')
 				let contador=0
 				let estadoT=0
 				let familiares = this.famililaresIngresados
@@ -270,7 +262,7 @@ export default {
 							estado:1,
 							encargado_id:elemento2.id,
 						}).then(function(response) {
-							console.log('relacion ingresada')
+							console.log(response)
 						})
 						.catch(function(error) {
 							console.log(error)
@@ -299,16 +291,12 @@ export default {
 					});					
 					
 				});
-
-				/*
-					this.$emit('cerrado','Se cerró el formulario');
-					this.$vs.notify({
-						color:'success',
-					title:`${this.titulo}`,
-					text:'La acción se realizo exitósamente'
-					});
-					this.$router.push('/apadrinamiento/nino');
-				*/
+				this.$vs.notify({
+					color:'success',
+					title:`Correcto`,
+					text:'Los datos familiares se han ingresado correctamente'
+				});
+					this.$router.push('/apadrinamiento/familia');
 			}
 		},
 		sumar_nino(){
@@ -318,7 +306,6 @@ export default {
 		sumar_familia(){
 			this.cantidad_familia.push({id:this.cantidad_familia.length+1,visible:true,validado:false})
 			this.familiaresI +=1
-			console.log(this.familiaresI)
 		},
 		quitar_nino(id){
 			this.cantidad_ninos.forEach(function(elemento, indice, array) {
@@ -337,12 +324,10 @@ export default {
 				}
 			})
 			this.familiaresI-=1
-			console.log(this.familiaresI)
 		},
 		validateStep1() {
 			let retornar=true
 			this.cantidad_ninos.forEach(function(elemento, indice, array) {
-				console.log(elemento.id + ' - ' + elemento.validado + ' - ' + elemento.visible)
 				if (elemento.visible==true && elemento.validado==false)
 				{
 					retornar = false
@@ -359,17 +344,18 @@ export default {
 		},
 		validateStep2() {
 			let retornar=true
-				this.cantidad_familia.forEach(function(elemento, indice, array) {
-					console.log(elemento.id + ' - ' + elemento.validado + ' - ' + elemento.visible)
-					if (elemento.visible==true && elemento.validado==false)
-					{
-						retornar = false
-					}
-				})
-				if (retornar == false){
-					this.validacionD=false
-					console.log(this.validacionD)
-					this.$vs.notify({
+			this.cantidad_familia.forEach(function(elemento, indice, array) {
+				if (elemento.visible==true && elemento.validado==false)
+				{
+					retornar = false
+				}
+			})
+			if(this.sector_id==null || this.sector_id==0 || this.codigo_familia=='' || this.direccion ==''){
+				retornar = false
+			}
+			if (retornar == false){
+				this.validacionD=false
+				this.$vs.notify({
 					color:'danger',
 					title:`Error en validación`,
 					text:'Ingrese correctamente los campos para continuar'
