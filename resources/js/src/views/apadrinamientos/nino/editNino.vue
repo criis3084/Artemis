@@ -64,12 +64,12 @@
 								</div>
 							</div>
 
-							<div class="vx-col md:w-1/2 w-full mt-5">
+							<!-- <div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Télefono" v-model="numero_telefono" name="telefono" v-validate="'required'"/>
 									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
 								</div>
-							</div>
+							</div> -->
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<small class="date-label">Sector</small>
