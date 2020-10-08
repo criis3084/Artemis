@@ -122,6 +122,14 @@ const router = new Router({
         rule: 'editor'
       }
     },
+    {
+      path: '/apadrinamiento/estudiosocio/:id',
+      name: 'apadrinamiento-ppi',
+      component: () => import('./views/apadrinamientos/familia/estudiosocio.vue'),
+      meta: {
+        rule: 'editor'
+      }
+    },
 		{			
 			path: '/ingresar/ppi/:id',
 			name: 'ingresar-ppi',

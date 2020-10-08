@@ -3,7 +3,7 @@
 		<vx-card>
 			<div class = "demo-alignment">
 					<h2>Niños no apadrinados</h2>
-					<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
+					<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/familia"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = "large" ></vs-button> </router-link>   </vx-tooltip>
 			</div>
 			<br>
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
