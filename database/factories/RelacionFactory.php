@@ -12,7 +12,7 @@ $factory->define(Relacion::class, function (Faker $faker) {
     return [
         'relacion' => $faker->title($gender = null),     
         'direccion' => $faker->address,
-        'codigo' => $faker->numberBetween($min = 1000, $max = 9999),
+        'codigo' => $faker->numberBetween($min = 100, $max = 999),
         'nino_id' => Nino::pluck('id')[$faker->numberBetween(1,Nino::count()-1)],
         'encargado_id' => Encargado::pluck('id')[$faker->numberBetween(1,Encargado::count()-1)],
         'sector_id' => Sector::pluck('id')[$faker->numberBetween(1,Sector::count()-1)],

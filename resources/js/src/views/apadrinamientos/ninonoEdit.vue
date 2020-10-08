@@ -65,12 +65,19 @@
 								</div>
 							</div>
 
-							<!-- <div class="vx-col md:w-1/2 w-full mt-5">
+							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Télefono" v-model="numero_telefono" name="telefono" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Ocupación" v-model="ocupacionT" name="ocupacion" v-validate="'required'"/>
 									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
 								</div>
-							</div> -->
+							</div>
+
+							<div class="vx-col md:w-1/2 w-full mt-5">
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-pack="feather" icon="icon-coffee" icon-no-border label-placeholder="Actividades" v-model="actividadesT" name="actividades" v-validate="'required'"/>
+									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
+								</div>
+							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<small class="date-label">Sector</small>
@@ -163,7 +170,8 @@ export default {
 			escuela_idT:0,
 			numero_telefono:'',
 			ruta_imagen:'',
-
+			ocupacionT:"",
+			actividadesT:"",
 			sectoresT:[],
 			escuelasT:[],
 			titulo:'Actualización registrada!',
@@ -196,6 +204,8 @@ export default {
 				me.numero_telefono = me.arrayData.datos.numero_telefono
 				me.idT = me.arrayData.datos.id
 				me.codigoT = me.arrayData.codigo
+				me.ocupacionT = me.arrayData.ocupacion;
+				me.actividadesT = me.arrayData.actividades;
 				me.generoT = me.arrayData.datos.genero
 				me.imagen_perfil_antigua = me.arrayData.ruta_imagen
 				me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento
@@ -291,6 +301,8 @@ export default {
 				apellidos:this.apellidosT,
 				genero:this.generoT,
 				ruta_imagen:this.ruta_imagen,
+				ocupacion:this.ocupacion,
+				actividades:this.actividades,
 				fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
 				fecha_ingreso:this.getDate(this.fecha_ingresoT),
 				direccion:this.direccionT,

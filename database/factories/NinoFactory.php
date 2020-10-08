@@ -12,7 +12,8 @@ $factory->define(Nino::class, function (Faker $faker) {
         'codigo' => $faker->numberBetween($min = 1000, $max = 9999),
         'fecha_ingreso' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'fecha_egreso' => $faker->date($format = 'Y-m-d', $max = 'now'),
-        'ruta_imagen' => $faker->text($maxNbChars = 200), 
+        'ocupacion' => $faker->text($maxNbChars = 15), 
+        'actividades' => $faker->text($maxNbChars = 15), 
         'estado' => $faker->numberBetween($min = 0, $max = 1),
 
         'persona_sin_acceso_id' => PersonaSinAcceso::pluck('id')[$faker->numberBetween(1,PersonaSinAcceso::count()-1)],

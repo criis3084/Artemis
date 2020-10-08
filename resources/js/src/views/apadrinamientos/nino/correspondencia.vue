@@ -27,7 +27,7 @@
 								<vs-td>
 									<vx-tooltip text="Mostrar correspondencia completa"><vs-button @click="$router.push('/ver/correspondencia/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
 								</vs-td > 							
-								<vs-td >{{data[indextr].created_at}}</vs-td>
+								<vs-td >{{getDate(data[indextr].created_at)}}</vs-td>
 								<vs-td>
 									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 										<span slot="on" >Activo</span>
