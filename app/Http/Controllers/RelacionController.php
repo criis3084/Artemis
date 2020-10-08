@@ -50,6 +50,7 @@ class RelacionController extends Controller
 			$relacion->nino_id = $request->nino_id;
 			$relacion->encargado_id = $request->encargado_id;
 			$relacion->sector_id = $request->sector_id;
+			
 			$relacion->estado = $request->estado;
 			$relacion->save();
 			return ['id' => $relacion->id];
