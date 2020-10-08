@@ -70,7 +70,7 @@ class HistorialEstudioController extends Controller
 			$historialEstudio = new HistorialEstudio();
 
 			$historialEstudio->estudio_socioeconomico_id = $estudioT;
-			$historialEstudio->relacion_id = $request->relacion_id;
+			$historialEstudio->nino_id = $request->nino_id;
 
 			$historialEstudio->save();
 

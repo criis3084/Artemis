@@ -256,8 +256,6 @@ export default {
 				let yyyy = today.getFullYear();
 				today = `${yyyy}/${mm}/${dd}-`
 				this.ninosIngresados.forEach(function(elemento, indice, array){
-					contador +=1
-					estadoT = contador < 2 ?	1 : 0
 					familiares.forEach(function(elemento2, indice2, array2){
 						axios.post("/api/relacion/post/",{
 							direccion:direccionT,
@@ -265,8 +263,8 @@ export default {
 							sector_id:sector_idT,
 
 							relacion:elemento2.relacion,
-							estado:estadoT,
 							nino_id:elemento,
+							estado:1,
 							encargado_id:elemento2.id,
 						}).then(function(response) {
 							console.log('relacion ingresada')
@@ -280,6 +278,16 @@ export default {
 						nino_id:elemento,
 						ppi_id:ppiT,
 						fecha_estudio: today,
+					}).then(function(response) {
+						console.log(response)
+					})
+					.catch(function(error) {
+						console.log(error)
+					});
+					
+					axios.post("/api/historialEstudio/post/",{
+						estudio_id:estudioT,
+						nino_id:elemento,
 					}).then(function(response) {
 						console.log(response)
 					})
