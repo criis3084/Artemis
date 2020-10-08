@@ -35,14 +35,6 @@ class CorrespondenciaController extends Controller
 			}
 		}
 		return [
-			'pagination' => [
-				'total'        => $correspondencia->total(),
-				'current_page' => $correspondencia->currentPage(),
-				'per_page'     => $correspondencia->perPage(),
-				'last_page'    => $correspondencia->lastPage(),
-				'from'         => $correspondencia->firstItem(),
-				'to'           => $correspondencia->lastItem(),
-			],
 			"Correspondencias"=>$correspondencia
 		];
     }

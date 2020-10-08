@@ -66,6 +66,12 @@ export default [
         slug: 'apadrinamiento-familia',
         i18n: 'Familias'
       },
+      {
+        url: '/apadrinamiento/encargado',
+        name: 'encargado',
+        slug: 'apadrinamiento-encargado',
+        i18n: 'Familiares'
+      },
       // {
       //   url: '/dashboard/ecommerce',
       //   name: 'eCommerce',
