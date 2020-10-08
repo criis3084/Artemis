@@ -1,10 +1,10 @@
 <template>
 			<div>
 				<vx-card>
-
 					<div class = "demo-alignment">
 						<h2>Niños Apadrinados</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/nino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = 'large' ></vs-button> </router-link>  </vx-tooltip>
+					<!--	<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/nino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = 'large' ></vs-button> </router-link>  </vx-tooltip>
+					-->
 					</div>
 					<br>
 					<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
@@ -15,7 +15,6 @@
           					<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
         				</div>
     				</vs-prompt>
-
 					<vs-table title="Padrinos" pagination max-items="10" search :data="arrayData" noDataText="No hay datos disponibles">
         				<template slot="header">
 							<vs-button @click="activePrompt=true">Exportar</vs-button>
@@ -28,21 +27,13 @@
 							<vs-th>Género</vs-th>
 							<vs-th>Fecha de Nacimiento</vs-th>
 							<vs-th>Fecha de Ingreso</vs-th>
-<!--
-							<vs-th>Creado</vs-th>
-							<vs-th>Actualizado</vs-th>
--->
-							<vs-th>Estado</vs-th>
 							<vs-th>Acciones</vs-th>
-
 						</template>
-
 						<template slot-scope="{data}">
                 			<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 								<vs-td>
 									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"  @click="$router.push('/ver/nino/'+data[indextr].id)" ></vs-button></vx-tooltip>
 								</vs-td>
-
 		    					<!--
 								<router-link :to="url" @click.stop.prevent class="text-inherit hover:text-primary">{{ params.value }}</router-link>
 								-->
@@ -58,22 +49,15 @@
 								<vs-td>{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}</vs-td>
 								<vs-td>{{data[indextr].datos.fecha_nacimiento}}</vs-td>
 								<vs-td>{{data[indextr].fecha_ingreso}}</vs-td>
-								<vs-td :data="data[indextr].estado">
-                        			<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
-				                  		<span slot="on" >Activo</span>
-				                  		<span slot="off">Desactivo</span>
-			                  		</vs-switch>
-                   				</vs-td>
 								<vs-td>
 									  <div class="flex items-center">
 										<vx-tooltip text="Editar"><vs-button @click="$router.push('/editar/nino/'+data[indextr].id)" radius color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
 										<vx-tooltip text="Historial de PPI">  <vs-button @click="$router.push('/apadrinamiento/ppi/'+data[indextr].id)" radius color="dark" type="flat" icon="poll" size="large"> </vs-button></vx-tooltip>
 										<vx-tooltip text="Historial de Fotografias"> <vs-button @click="$router.push('/apadrinamiento/fotografia/'+data[indextr].id)" radius color="dark" type="flat" icon="camera_alt" size="large" > </vs-button> </vx-tooltip>
+									  	<vx-tooltip text="Estudio Socioeconómico"> <vs-button @click="$router.push('/apadrinamiento/estudiosocio/'+data[indextr].id)" radius color="dark" type="flat" icon="camera_alt" size="large" > </vs-button> </vx-tooltip>
 									  </div>
-								
 								</vs-td>
 							</vs-tr>
-	
 						</template>
 					</vs-table>
 				</vx-card>
