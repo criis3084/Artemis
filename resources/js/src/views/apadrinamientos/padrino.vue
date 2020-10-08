@@ -37,9 +37,15 @@
 									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
 								</vs-td> -->
 								<vs-td>{{data[indextr].id}}</vs-td>
-								<vs-td :data="data[indextr].nombres">
+								<vs-td>
+									<div class="flex items-center">
+										<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
+										{{data[indextr].nombres}}
+									</div>
+								</vs-td>
+								<!-- <vs-td :data="data[indextr].nombres">
                         			{{data[indextr].nombres}}
-                    			</vs-td>
+                    			</vs-td> -->
 								<vs-td :data="data[indextr].apellidos">
                         			{{data[indextr].apellidos}}
                     			</vs-td>

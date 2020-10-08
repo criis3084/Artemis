@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EstudioSocioeconomico;
 use App\HistorialEstudio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -41,17 +42,43 @@ class HistorialEstudioController extends Controller
 
     public function store(Request $request)
     {
-        try {
+		if (!isset($request->estudio_id))
+		{
+			$estudioSocioeconomico = new EstudioSocioeconomico();
+			$estudioSocioeconomico->fecha_boleta = $request->fecha_boleta;
+			$estudioSocioeconomico->fecha_ingreso = $request->fecha_ingreso;
+			$estudioSocioeconomico->total_ingresos = $request->total_ingresos;
+			$estudioSocioeconomico->alimentacion = $request->alimentacion;
+			$estudioSocioeconomico->situacion_vivienda = $request->situacion_vivienda;
+			$estudioSocioeconomico->descripcion_costo = $request->descripcion_costo;
+			$estudioSocioeconomico->luz = $request->luz;
+			$estudioSocioeconomico->agua = $request->agua;
+			$estudioSocioeconomico->drenaje = $request->drenaje;
+			$estudioSocioeconomico->cantidad_cuartos = $request->cantidad_cuartos;
+			$estudioSocioeconomico->bano = $request->bano;
+			$estudioSocioeconomico->paredes = $request->paredes;
+			$estudioSocioeconomico->techo = $request->techo;
+			$estudioSocioeconomico->piso = $request->piso;
+			$estudioSocioeconomico->evaluacion_diagnostico = $request->evaluacion_diagnostico;
+			$estudioSocioeconomico->save();
+			$estudioT = $estudioSocioeconomico->id;
+		}else
+		{
+			$estudioT = $request->estudio_id;
+		}
+		try {
 			$historialEstudio = new HistorialEstudio();
-			$historialEstudio->estudio_socioeconomico_id = $request->estudio_socioeconomico_id;
+
+			$historialEstudio->estudio_socioeconomico_id = $estudioT;
 			$historialEstudio->relacion_id = $request->relacion_id;
+
 			$historialEstudio->save();
-			return Response::json(['message' => 'Historial de estudio Creada'], 200);
-			#return ['id' => $nino->id];
+
+			return Response::json(['message' => 'Historial Estudio Creado'], 200);
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}
-    }
+	}
 
     public function update(Request $request, HistorialEstudio $historialEstudio)
     {

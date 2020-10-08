@@ -14,7 +14,7 @@
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload :action="hola(this)" id='laImagen' v-on:change="aVeer(this)" limit='1' text="Subir fotografía" />
+						<vs-upload automatic action="/api/historialFotografia/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Fotografia del niño" />
 					</template>
 				</div>
 			</div>
@@ -66,21 +66,24 @@ export default {
         id:'',
         nombre: '',
 		apellido: '',
-		id_recibido:''
+		id_recibido:'',
+		head:{
+			"imagenanterior":""	
+		},
 	}
   },
   methods:{
-	  regresar(){
+	regresar(){
 		let id_recibido = this.$route.params.id;
 		this.$router.push('/apadrinamiento/fotografia/'+id_recibido);
 	},
-	  guardar(){
+	guardar(){
 		this.id=parseInt(this.$route.params.id)
 		console.log(this.getDate(this.fecha))
 		console.log(this.id,this.valorT,this.valor1)
 		axios.post("/api/historialFotografia/post/",{
 			nino_id:this.id,
-			ruta:this.ruta,
+			ruta:  '/storage/public/historialFotografias/' +this.ruta,
 			descripcion:this.descripcion,
 			titulo:this.titulo,
 		}).then(function(response) {
@@ -101,17 +104,7 @@ export default {
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
 	},
-	  hola(ob){
-			//localStorage.imagen = 'guardada';
-			console.log(ob)
-	  },
-	  aVeer(ob){
-		  console.log(ob)
-	  },
-      successUpload(){
-      this.$vs.notify({color:'success',title:'Fotografía',text:'Fotografía importada'})
-    },
-     async index(page, search){ //async para que se llame cada vez que se necesite
+	async index(){ //async para que se llame cada vez que se necesite
         let me = this;
         me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
@@ -123,21 +116,21 @@ export default {
             me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
             me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
             me.id = respuesta.historialfotografias.data[0].nino.id;
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
-    },
+	},
+	vaciar(){
+			this.ruta='';
+	},
+	respuesta(e){
+		this.ruta=e.currentTarget.response.replace(/['"]+/g, '')
+		this.head.imagenanterior=this.ruta
+	},
   },
   mounted(){
-    this.index(1, this.search);
+    this.index();
   },
-  computed:{
-	  obtenerNombre(){
-		  console.log('?? - '+document.getElementById("laImagen"));
-		  return true
-	  }
-  }
 }
 </script>

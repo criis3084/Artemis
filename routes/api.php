@@ -692,16 +692,17 @@ Route::group(['prefix' => 'historialFotografia'], function () {
     Route::post('/post', [
         'as' => 'admin.historialFotografia', 'uses' => 'HistorialFotografiaController@store'
 	]);
-	/*
-    Route::put('/update', [
+	Route::put('/update', [
         'as' => 'admin.historialFotografia', 'uses' => 'HistorialFotografiaController@update'
 	]);
-	*/
-    Route::put('/activar', [
+	Route::put('/activar', [
         'as' => 'admin.historialFotografia', 'uses' => 'HistorialFotografiaController@activar'
 	]);
     Route::put('/desactivar', [
         'as' => 'admin.historialFotografia', 'uses' => 'HistorialFotografiaController@desactivar'
+	]);
+	Route::post('/imagen', [
+        'as' => 'admin.historialFotografia', 'uses' => 'HistorialFotografiaController@imagen'
     ]);
 });
 Route::group(['prefix' => 'detalleIntegrante'], function () {

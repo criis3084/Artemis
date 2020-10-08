@@ -262,9 +262,6 @@ export default {
 				console.log(error);
 			});
 		},
-		successUpload(){
-			this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
-		},
 		validateForm() {
 			this.validator.validateAll({
 				codigo: this.codigo,
