@@ -8,29 +8,29 @@
 		</vs-row>
 		<div class="vx-row">
 			<div class="vx-col md:w-1/2 w-full mt-5">
-				<vs-upload @on-success="successUpload" limit='1' text="Imagen de Perfil" />
+				<vs-upload @on-success="successUpload" limit="1" text="Imagen de Perfil" />
 			</div>
 		
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
 
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombres" name='nombres'/>
-					<span class="text-danger">los nombres son requeridos</span>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombres" name="nombres"/>
+					<span class="text-danger">{{msg}}</span>
 
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name='apellidos' />
-					<span class="text-danger">los apellidos son requeridos</span>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name="apellidos" />
+					<span class="text-danger">{{msg}}</span>
 					<br>
 
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="DPI" v-model="CUI" name='CUI' />
-					<span class="text-danger">El DPI es requerido</span>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="DPI" v-model="CUI" name="CUI" />
+					<span class="text-danger">{{msg}}</span>
 
 					<small class="date-label mt-10">Genero</small>
 						<ul class="demo-alignment">
 							<li>
-								<vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1" name='genero'>Masculino</vs-radio>
+								<vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1" name="genero">Masculino</vs-radio>
 							</li>
 							<li>
-								<vs-radio color="rgb(255, 0, 128)" v-model="genero" vs-value="0" name='genero'>Femenino</vs-radio>
+								<vs-radio color="rgb(255, 0, 128)" v-model="genero" vs-value="0" name="genero">Femenino</vs-radio>
 							</li>
 						</ul>
 				</div>
@@ -38,7 +38,8 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Numero de telefono" name='telefono' v-model="telefono"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Numero de telefono" name="telefono" v-model="telefono"/>
+					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
 
@@ -51,25 +52,29 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Parentesco con el niño/niña apadrinado" name='relacion' v-model="relacion"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Parentesco con el niño/niña apadrinado" name="relacion" v-model="relacion"/>
+					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Escolaridad" name='escolaridad' v-model="escolaridad"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Escolaridad" name="escolaridad" v-model="escolaridad"/>
+					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupacion" name='ocupacion' v-model="ocupacion"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupacion" name="ocupacion" v-model="ocupacion"/>
+					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ingresos Mensuales" name='ingresos' v-model="ingresos"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ingresos Mensuales" name="ingresos" v-model="ingresos"/>
+					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
 
@@ -83,7 +88,7 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
-import { Validator } from 'vee-validate';
+import { Validator } from 'vee-validate'
 import { es } from 'vuejs-datepicker/src/locale'
 // register custom messages
 
@@ -117,157 +122,172 @@ const dict = {
 */
 
 export default {
-	props:{
-		id_formulario:{
-			default:0
-		},
-		direccion:{
-			default:''
-		},
-		sector_id:{
-			default:0
-		},
-		ingresar:{
-			default:false
-		},
-	},
-	data() {
-		return {
-			nombres: "",
-			apellidos: "",
-			CUI:"",
-			genero:'',
-			telefono: "",
-			fecha_nacimiento: "",
-			relacion: "",
-			escolaridad: "",
-			ocupacion: "",
-			ingresos: "",
-			langEn: es,
-		}
-	},
-	watch: {
-		ingresar: function(newVal, oldVal) {
-			if (newVal == true){
-				this.ingresarFamilia()
-			}
-		},
-		nombres(value) {
-			this.validator.validate('nombres', value);
-			this.validateForm();
-		},
-		apellidos(value){	
-			this.validator.validate('apellidos', value);
-			this.validateForm();
-		},
-		CUI(value){	
-			this.validator.validate('CUI', value);
-			this.validateForm();
-		},
-		genero(value){	
-			this.validator.validate('genero', value);
-			this.validateForm();
-		},
-		telefono(value){
-			this.validator.validate('telefono', value);
-			this.validateForm();
-		},
-		fecha_nacimiento(value){	
-			this.validator.validate('fecha_nacimiento', value);
-			this.validateForm();
-		},
-		relacion(value){	
-			this.validator.validate('relacion', value);
-			this.validateForm();
-		},
-		escolaridad(value){	
-			this.validator.validate('escolaridad', value);
-			this.validateForm();
-		},
-		ocupacion(value){	
-			this.validator.validate('ocupacion', value);
-			this.validateForm();
-		},
-		ingresos(value){	
-			this.validator.validate('ingresos', value);
-			this.validateForm();
-		},
-	},
-	methods: {
-		getDate(datetime) {
-			let date = new Date(datetime);
-			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-			return dateString;
-		},
-		successUpload(){
-			this.$vs.notify({color:'success',title:'Fotografia',text:'Fotografia importada'})
-		},
-		validateForm() {
-			this.validator.validateAll({
-				nombres: this.nombres,
-				apellidos: this.apellidos,
-				CUI: this.CUI,
-				genero: this.genero,
-				telefono :this.telefono,
-				fecha_nacimiento :this.fecha_nacimiento,
-				relacion: this.relacion,
-				escolaridad: this.escolaridad,
-				ocupacion: this.ocupacion,
-				ingresos: this.ingresos,
-			}).then((result) => {
-				if (result ){
-					this.$emit('validado',{validado:result,id_form:this.$props.id_formulario});
-					return;
-				}
-				this.$emit('validado',{validado:false,id_form:this.$props.id_formulario});
-			});
-		},
-		enviando(id){
-			this.$emit('recibirFamiliares',{id_familiar:id,relacion:this.relacion});
-		},
-		ingresarFamilia(){
-			let me = this;
-			axios.post("/api/encargado/post/",{
-				nombres:this.nombres,
-				apellidos:this.apellidos,
-				CUI:this.CUI,
-				numero_telefono:this.telefono,
-				genero:this.genero,
-				fecha_nacimiento:this.getDate(this.fecha_nacimiento),
-				sector_id: this.$props.sector_id.id,
-				direccion: this.$props.direccion,
+  props:{
+    id_formulario:{
+      default:0
+    },
+    direccion:{
+      default:''
+    },
+    sector_id:{
+      default:0
+    },
+    ingresar:{
+      default:false
+    },
+    validacionD:true
+  },
+  data () {
+    return {
+      nombres: '',
+      apellidos: '',
+      CUI:'',
+      genero:'',
+      telefono: '',
+      fecha_nacimiento: '',
+      relacion: '',
+      escolaridad: '',
+      ocupacion: '',
+      ingresos: '',
+	    langEn: es,
+	    msg:''
+    }
+  },
+  watch: {
+    ingresar (newVal, oldVal) {
+      if (newVal == true) {
+        this.ingresarFamilia()
+		 this.validarNombre()
+      }
+    },
 
-				ruta_imagen:this.ruta_imagen,
-				ocupacion:this.ocupacion,
-				escolaridad:this.escolaridad,
-				ingresos:this.ingresos,
-			}).then(function(response) {
-				me.enviando(response.data.id)
-			})
-			.catch(function(error) {
-				console.log(error)
-			});
-		},
-	},
-	components: {
-		FormWizard,
-		TabContent,
-		Datepicker,
-		vSelect,
-	},
-	created() {
-		this.validator = new Validator({
-			nombres: 'required|alpha_spaces',
-			apellidos: 'required|alpha_spaces',
-			CUI: 'required',
-			genero: 'required',
-			telefono: 'required',
-			fecha_nacimiento :'required',
-			relacion: 'required',
-			escolaridad:'required',
-			ocupacion:'required',
-			ingresos:'required|decimal:2',
-		});
-	}
+    validacionD (newVal, oldVal) {
+      if (newVal == false) {
+		 this.validarNombre()
+      }
+    },
+
+    nombres (value) {
+      this.validator.validate('nombres', value)
+      this.validateForm()
+    },
+    apellidos (value) {	
+      this.validator.validate('apellidos', value)
+      this.validateForm()
+    },
+    CUI (value) {	
+      this.validator.validate('CUI', value)
+      this.validateForm()
+    },
+    genero (value) {	
+      this.validator.validate('genero', value)
+      this.validateForm()
+    },
+    telefono (value) {
+      this.validator.validate('telefono', value)
+      this.validateForm()
+    },
+    fecha_nacimiento (value) {	
+      this.validator.validate('fecha_nacimiento', value)
+      this.validateForm()
+    },
+    relacion (value) {	
+      this.validator.validate('relacion', value)
+      this.validateForm()
+    },
+    escolaridad (value) {	
+      this.validator.validate('escolaridad', value)
+      this.validateForm()
+    },
+    ocupacion (value) {	
+      this.validator.validate('ocupacion', value)
+      this.validateForm()
+    },
+    ingresos (value) {	
+      this.validator.validate('ingresos', value)
+      this.validateForm()
+    }
+  },
+  methods: {
+    getDate (datetime) {
+      const date = new Date(datetime)
+      const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+      return dateString
+    },
+    successUpload () {
+      this.$vs.notify({color:'success', title:'Fotografia', text:'Fotografia importada'})
+    },
+    validateForm () {
+      this.validator.validateAll({
+        nombres: this.nombres,
+        apellidos: this.apellidos,
+        CUI: this.CUI,
+        genero: this.genero,
+        telefono :this.telefono,
+        fecha_nacimiento :this.fecha_nacimiento,
+        relacion: this.relacion,
+        escolaridad: this.escolaridad,
+        ocupacion: this.ocupacion,
+        ingresos: this.ingresos
+      }).then((result) => {
+        if (result) {
+          this.$emit('validado', {validado:result, id_form:this.$props.id_formulario})
+          return
+        }
+        this.$emit('validado', {validado:false, id_form:this.$props.id_formulario})
+      })
+    },
+    enviando (id) {
+      this.$emit('recibirFamiliares', {id_familiar:id, relacion:this.relacion})
+    },
+    ingresarFamilia () {
+      const me = this
+      axios.post('/api/encargado/post/', {
+        nombres:this.nombres,
+        apellidos:this.apellidos,
+        CUI:this.CUI,
+        numero_telefono:this.telefono,
+        genero:this.genero,
+        fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+        sector_id: this.$props.sector_id.id,
+        direccion: this.$props.direccion,
+
+        ruta_imagen:this.ruta_imagen,
+        ocupacion:this.ocupacion,
+        escolaridad:this.escolaridad,
+        ingresos:this.ingresos
+      }).then(function (response) {
+        me.enviando(response.data.id)
+      })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+
+    validarNombre () {
+		  this.msg = 'El campo es requerido' 
+		  
+    }
+  },
+  components: {
+    FormWizard,
+    TabContent,
+    Datepicker,
+    vSelect
+  },
+  created () {
+    this.validator = new Validator({
+      nombres: 'required|alpha_spaces',
+      apellidos: 'required|alpha_spaces',
+      CUI: 'required',
+      genero: 'required',
+      telefono: 'required',
+      fecha_nacimiento :'required',
+      relacion: 'required',
+      escolaridad:'required',
+      ocupacion:'required',
+      ingresos:'required|decimal:2'
+    })
+  }
 }
 </script>

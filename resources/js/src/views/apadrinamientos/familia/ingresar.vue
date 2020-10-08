@@ -47,6 +47,7 @@
 										v-bind:direccion="direccion"
 										v-bind:sector_id="sector_id"
 										v-bind:ingresar="ingresar"
+										v-bind:validacionD ="validacionD"
 										v-bind:id_formulario="numero.id"
 										v-on:validado="validandoFamilia"
 										v-on:recibirFamiliares="recibirFamiliares"
@@ -148,7 +149,9 @@ export default {
 			estudio_validado:false,
 			
 			ninosI:1,
-			familiaresI:1
+			familiaresI:1,
+
+			validacionD:true
 		}
 	},
 	watch: {
@@ -320,6 +323,8 @@ export default {
 					}
 				})
 				if (retornar == false){
+					this.validacionD=false
+					console.log(this.validacionD)
 					this.$vs.notify({
 					color:'danger',
 					title:`Error en validación`,
