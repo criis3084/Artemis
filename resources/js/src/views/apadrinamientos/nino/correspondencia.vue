@@ -6,29 +6,28 @@
                       <vs-button @click="$router.push('/ingresar/correspondencia/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button>
                     </vx-tooltip>
 				</div>
+                <div class = "demo-alignment">
+			        <h5> <b>Nombre del niño: </b> </h5><h5>{{nombres_nino}}</h5><h5>{{apellidos_nino}}</h5>
+		        </div>
+                <div class = "demo-alignment">
+                    <h5> <b>Nombre del padrino: </b> </h5><h5>{{nombres_padrino}}</h5><h5>{{apellidos_padrino}}</h5>
+                </div>
 				<br>
-				<vx-card :title="titulo()" class="mb-base">
-					<chartjs-component-line-chart :height="125" v-if="ya" :data="datos" :options="opciones"></chartjs-component-line-chart>
-				<vs-divider></vs-divider>
-				<!--
-				<chartjs-line-chart :height="250" :data="datos" :options="optiones" ></chartjs-line-chart>
-				-->
+				<vx-card class="mb-base">
 					<vs-table pagination max-items="5" search :data="arrayData">
 
 						<template slot="thead">
 							<vs-th>Ver</vs-th>
 							<vs-th>Fecha</vs-th>
-							<vs-th>Total</vs-th>
 							<vs-th>Estado</vs-th>
 						</template>
 
 						<template slot-scope="{data}">
 							<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
 								<vs-td>
-									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/ppi/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
+									<vx-tooltip text="Mostrar correspondencia completa"><vs-button @click="$router.push('/ver/correspondencia/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
 								</vs-td > 							
-								<vs-td >{{data[indextr].fecha_estudio}}</vs-td>
-								<vs-td>{{data[indextr].ppi.total}}</vs-td>
+								<vs-td >{{data[indextr].created_at}}</vs-td>
 								<vs-td>
 									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 										<span slot="on" >Activo</span>
@@ -40,7 +39,7 @@
 					</vs-table>
 				</vx-card>
 				<div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/apadrinamiento/nino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+  <router-link to="/apadrinamiento/correspondencia"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
     </div>
 </div>
 </template>
@@ -76,8 +75,12 @@ export default {
 		codigo: '',
 		id_recibido: 0,
 		id_ppi: 0,
-		nombre: '',
-		apellido: '',
+		apadrinamiento_idT: '',
+        correspondencia_idT: '',
+        nombres_nino:'',
+        apellidos_nino:'',
+        nombres_padrino:'',
+        apellidos_padrino:'',
 		switch2:false,
 		id: 0,
 		estado: null,
@@ -97,47 +100,21 @@ export default {
 	titulo(){
 		return 'Nombre: '+this.nombre +' '+ this.apellido + "     "+ ' Codigo: ' +this.codigo
 	},
-	traerNombre(tabla){
-		tabla.forEach(function(valor, indice, array){
-			valor.nombres=valor.datos.nombres
-		}); 
-		console.log(tabla)
-		return tabla
-	},
-	traerData(arreglo){
-		let valores =[]
-		let fechas =[]
-		if (arreglo !== undefined)
-		{
-			arreglo.forEach(function(valor, indice, array){
-				if (valor.estado ==1){
-					valores.unshift(valor.ppi.total)
-					fechas.unshift(valor.fecha_estudio)
-				}
-			});
-		}
-		let data =  {
-	        labels: fechas,
-    	    datasets: [
-				{
-					data: valores,
-					label: 'Registros',
-					borderColor: '#7367F0',
-					fill: false
-				}
-			]
-		}
-		return data
-	},
-	traerOptions(arreglo){
-		let options={
-			title: {
-				display: true,
-				text: 'Registro de Avance de PPI'
-			}
-		}
-		return options
-	},
+	// traerNombres(tabla){
+	// 	tabla.forEach(function(valor, indice, array){
+    //   valor.nombress=valor.datos_nino[0].nombres
+    //   valor.apellidoss=valor.datos_nino[0].apellidos
+    //   valor.nombres = valor.datos_padrino[0].nombres
+    //   valor.apellidos = valor.datos_padrino[0].apellidos
+    //   this.nombres_nino = valor.nombress
+    // this.apellidos_nino = valor.apellidoss
+    // this.nombres_padrino = valor.nombres
+    // this.apellidos_padrino = valor.apellidos           
+    // }); 
+    // console.log(tabla);
+	// 	return tabla
+    // },
+
 	getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -146,22 +123,52 @@ export default {
 	async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;
         me.id_recibido = this.$route.params.id;
+        console.log("criterio");
+        console.log(me.id_recibido);
 		const response = await axios.get(
-			`/api/historialPpi/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
+			`/api/historialCorrespondencia/get?&criterio=apadrinamiento_id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.arrayData = respuesta.historialPpis.data;
-            me.nombre = respuesta.historialPpis.data[0].datos_nino[0].nombres;
-            me.apellido = respuesta.historialPpis.data[0].datos_nino[0].apellidos;
-            me.codigo = respuesta.historialPpis.data[0].nino.codigo;
-			me.id = respuesta.historialPpis.data[0].datos_nino[0].id;
-			me.pagination= respuesta.pagination;
+            me.arrayData = respuesta.historialCorrespondencias.data;
+            me.apadrinamiento_idT = me.arrayData[0].apadrinamiento_id;
+            me.importarApadrinamiento(me.apadrinamiento_idT);
+            me.correspondencia_idT = me.arrayData.correspondencia_id;
+            console.log("historial");
+            console.log(me.arrayData);
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
-		me.datos = me.traerData(me.arrayData);
-		me.opciones = me.traerOptions(me.arrayData)
+		me.ya=true;
+    },
+    importarApadrinamiento(apadrinamiento){ //async para que se llame cada vez que se necesite
+        let me = this;
+        console.log("id apa");
+        console.log(apadrinamiento);
+        me.id_recibido = this.$route.params.id;
+		axios.get(
+			`/api/apadrinamiento/get?&criterio=id&buscar=${apadrinamiento}&completo=true`)
+		.then(function (response) {
+			var respuesta= response.data;
+            me.arrayData = respuesta.apadrinamientos.data;
+            console.log("aca");
+            console.log(me.arrayData);
+            // me.padrino = me.traerNombres(me.arrayData);
+            me.nombres_nino = me.arrayData[0].datos_nino[0].nombres;
+            me.apellidos_nino = me.arrayData[0].datos_nino[0].apellidos;
+            me.nombres_padrino = me.arrayData[0].datos_padrino[0].nombres;
+            me.apellidos_padrino = me.arrayData[0].datos_padrino[0].apellidos;
+            console.log("variables");
+            console.log(me.nombres_nino);
+            console.log(me.apellidos_nino);
+            console.log(me.apellidos_padrino);
+            console.log(me.nombres_padrino);
+            console.log("Apadrinamiento");
+            console.log(me.arrayData);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
 		me.ya=true;
     },
 	abrirDialog(id, estado){
@@ -238,7 +245,8 @@ export default {
 	}
 	},
 	mounted(){
-		this.index(1, this.search);
+        this.index(1, this.search);
+        // this.importarApadrinamiento();
 	}
 }
 </script>
