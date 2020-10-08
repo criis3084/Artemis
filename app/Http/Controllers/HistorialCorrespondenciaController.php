@@ -15,9 +15,9 @@ class HistorialCorrespondenciaController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
-		$count = HistorialCorrespondencia::all()->count();
 		if ($completo == 'false')
 		{
+			$count = HistorialCorrespondencia::where('estado',1)->count();
 			if ($buscar==''){
 				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
@@ -25,6 +25,7 @@ class HistorialCorrespondenciaController extends Controller
 				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
+			$count = HistorialCorrespondencia::all()->count();
 			if ($buscar==''){
 				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->orderBy('id', 'desc')->paginate($count);
 			}

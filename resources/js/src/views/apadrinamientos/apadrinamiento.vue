@@ -53,8 +53,10 @@
               
             </vs-td>
             <vs-td>
-	          <vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-				
+              <div class="flex items-center">
+                <vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+                <vx-tooltip text="Historial de Correspondencia"> <vs-button @click="$router.push('/apadrinamiento/correspondencia/'+data[indextr].id)" radius color="dark" type="flat" icon="mail" size="large" > </vs-button> </vx-tooltip>
+              </div>
             </vs-td>
           </vs-tr>
         </template>

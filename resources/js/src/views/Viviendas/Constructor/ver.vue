@@ -1,6 +1,6 @@
 <template>
   <div id="item-detail-page">
-    <vx-card title="Información del Tutor">
+    <vx-card title="Información del Constructor">
 
 
       <template slot="no-body">

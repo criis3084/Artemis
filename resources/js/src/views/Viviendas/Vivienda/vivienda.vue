@@ -27,7 +27,7 @@
 		        <vs-th>Dirección</vs-th>
             <vs-th>Destinatario</vs-th>
             <vs-th>Constructor</vs-th>
-            <vs-th>Deuda</vs-th>
+            <vs-th>Costo total</vs-th>
 			      <vs-th>Estado</vs-th>
             <vs-th>Acciones</vs-th>
         </template>
