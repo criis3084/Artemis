@@ -135,9 +135,18 @@
 			</vs-list>
 		</div>
 		<vs-divider></vs-divider>
-
-		<vs-alert v-if="calcularTotal>34" :title="titulo" color="danger" icon="check_circle" >
-			PPI no aceptable para el programa
+		{{valorT}}
+		<div v-if="valorT<34">
+			solo aqui
+			<vs-alert title="PPI" color="success" icon="check_circle" >
+					PPI no aceptable para el programa
+			</vs-alert>
+		</div>
+		<div v-else>
+			JAJAJA
+		</div>
+		<vs-alert title="titulo" color="danger" icon="error">
+				PPI aceptable para el programa
 		</vs-alert>
 
 	</div>
@@ -193,42 +202,52 @@ export default {
 		},
 		respuesta1(value) {
 			this.validator.validate('respuesta1', value);
+			this.calcularTotal
 			this.validateForm();
 		},
 		respuesta2(value) {
 			this.validator.validate('respuesta2', value);
+			this.calcularTotal
 			this.validateForm();
 		},
 		respuesta3(value) {
 			this.validator.validate('respuesta3', value);
+			this.calcularTotal
 			this.validateForm();
 		},
 		respuesta4(value) {
 			this.validator.validate('respuesta4', value);
+			this.calcularTotal
 			this.validateForm();
 		},
 		respuesta5(value) {
 			this.validator.validate('respuesta5', value);
+			this.calcularTotal
 			this.validateForm();
 		},
 		respuesta6(value) {
 			this.validator.validate('respuesta6', value);
+			this.calcularTotal
 			this.validateForm();
 		},
 		respuesta7(value) {
 			this.validator.validate('respuesta7', value);
+			this.calcularTotal
 			this.validateForm();
 		},
 		respuesta8(value) {
 			this.validator.validate('respuesta8', value);
+			this.calcularTotal
 			this.validateForm();
 		},
 		respuesta9(value) {
 			this.validator.validate('respuesta9', value);
+			this.calcularTotal
 			this.validateForm();
 		},
 		respuesta10(value) {
 			this.validator.validate('respuesta10', value);
+			this.calcularTotal
 			this.validateForm();
 		},
 	}, 
@@ -283,37 +302,32 @@ export default {
 				this.$emit('validado',400);
 			});
 		},
+		mError(valor){
+			if(valor<34)
+			{
+				return true
+			}
+			return false
+		}
 	},
 	computed: {
-		calcularTotal: function () {
-			console.log('calculando total..')
-			this.valor1 = this.respuesta1==0 ? 0 : this.respuesta1-100;
-			this.valor2 = this.respuesta2==0 ? 0 : this.respuesta2-200;
-			this.valor3 = this.respuesta3==0 ? 0 : this.respuesta3-300;
-			this.valor4 = this.respuesta4==0 ? 0 : this.respuesta4-400;
-			this.valor5 = this.respuesta5==0 ? 0 : this.respuesta5-500;
-			this.valor6 = this.respuesta6==0 ? 0 : this.respuesta6-600;
-			this.valor7 = this.respuesta7==0 ? 0 : this.respuesta7-700;
-			this.valor8 = this.respuesta8==0 ? 0 : this.respuesta8-800;
-			this.valor9 = this.respuesta9==0 ? 0 : this.respuesta9-900;
-			this.valor10 = this.respuesta10==0 ? 0 : this.respuesta10-1000;
+		calcularTotal(){
+			this.valor1 = (this.respuesta1==0 || this.respuesta1 == null) ? 0 :this.respuesta1-100;
+			this.valor2 = (this.respuesta2==0 || this.respuesta2 == null) ? 0 :this.respuesta2-200;
+			this.valor3 = (this.respuesta3==0 || this.respuesta3 == null) ? 0 :this.respuesta3-300;
+			this.valor4 = (this.respuesta4==0 || this.respuesta4 == null) ? 0 :this.respuesta4-400;
+			this.valor5 = (this.respuesta5==0 || this.respuesta5 == null) ? 0 :this.respuesta5-500;
+			this.valor6 = (this.respuesta6==0 || this.respuesta6 == null) ? 0 :this.respuesta6-600;
+			this.valor7 = (this.respuesta7==0 || this.respuesta7 == null) ? 0 :this.respuesta7-700;
+			this.valor8 = (this.respuesta8==0 || this.respuesta8 == null) ? 0 :this.respuesta8-800;
+			this.valor9 = (this.respuesta9==0 || this.respuesta9 == null) ? 0 :this.respuesta9-900;
+            this.valor10= (this.respuesta10==0 || this.respuesta10 == null)  ? 0 :this.respuesta10-1000;
 			this.valorT =this.valor1+this.valor2+this.valor3+this.valor4+this.valor5+this.valor6+this.valor7+this.valor8+this.valor9+this.valor10
-			console.log(this.valorT)
+			this.titulo
 			return this.valorT
 		},
 		titulo(){
-			this.valor1 = this.respuesta1==0 ? 0 : this.respuesta1-100;
-			this.valor2 = this.respuesta2==0 ? 0 : this.respuesta2-200;
-			this.valor3 = this.respuesta3==0 ? 0 : this.respuesta3-300;
-			this.valor4 = this.respuesta4==0 ? 0 : this.respuesta4-400;
-			this.valor5 = this.respuesta5==0 ? 0 : this.respuesta5-500;
-			this.valor6 = this.respuesta6==0 ? 0 : this.respuesta6-600;
-			this.valor7 = this.respuesta7==0 ? 0 : this.respuesta7-700;
-			this.valor8 = this.respuesta8==0 ? 0 : this.respuesta8-800;
-			this.valor9 = this.respuesta9==0 ? 0 : this.respuesta9-900;
-			this.valor10 = this.respuesta10==0 ? 0 : this.respuesta10-1000;
-			
-			return "Total: " + (this.valor1+this.valor2+this.valor3+this.valor4+this.valor5+this.valor6+this.valor7+this.valor8+this.valor9+this.valor10)
+			return "Total: " + this.valorT
 		},
 	},
 	components: {

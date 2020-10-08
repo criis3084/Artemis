@@ -7,6 +7,7 @@ use App\Fotografia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Illuminate\Support\Facades\File;
 
 class HistorialFotografiaController extends Controller
 {
@@ -35,14 +36,6 @@ class HistorialFotografiaController extends Controller
 			}
 		}
 		return [
-			'pagination' => [
-				'total'        => $historialFotografias->total(),
-				'current_page' => $historialFotografias->currentPage(),
-				'per_page'     => $historialFotografias->perPage(),
-				'last_page'    => $historialFotografias->lastPage(),
-				'from'         => $historialFotografias->firstItem(),
-				'to'           => $historialFotografias->lastItem(),
-			],
 			"historialfotografias"=>$historialFotografias
 		];
     }
@@ -89,6 +82,16 @@ class HistorialFotografiaController extends Controller
         $historialFotografias->estado = '0';
         $historialFotografias->save();
 		return Response::json(['message' => 'Relacion Desactivada'], 200);
+	}
+	public function imagen(Request $request){
+		$imagen = $request->photos;
+		$nombreEliminar = public_path('storage\public\historialFotografias\\') .  $request->header("imagenanterior");
+		if (File::exists($nombreEliminar)) {
+			File::delete($nombreEliminar);
+		}
+		$completo = time() . "." . $imagen->extension();
+		$imagen->move(public_path('storage/public/historialFotografias/'), $completo);
+		return Response::json($completo, 200);
 	}
 
 }

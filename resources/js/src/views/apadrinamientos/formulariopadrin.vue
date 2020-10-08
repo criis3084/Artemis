@@ -69,7 +69,7 @@
 
 				<div class="vx-col md:w-1/2 w-full">
 						<template>
-							<vs-upload automatic action="/api/padrino/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar"/>	
+							<vs-upload automatic action="/api/padrino/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil"/>
 						</template> 
 				</div>
 					<div class="vx-col md:w-1/2 w-full mt-5">
@@ -215,7 +215,7 @@ export default {
 		CUI:this.CUI,
 		numero_telefono:this.numero_telefono,
 		correo:this.correo,
-		ruta_imagen:'/storage/public/padrino/' + this.ruta_imagen,
+		ruta_imagen:'/storage/public/padrinos/' + this.ruta_imagen,
 		genero:this.genero,
 		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
 		direccion:this.direccion,

@@ -12,7 +12,7 @@
             <div class="vx-row mt-6">
               <div class="vx-col md:w-2/5 w-full flex items-center justify-center">
                 <div class="product-img-container w-3/5 mx-auto mb-10 md:mb-0">
-                  <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png" :alt="this.ruta_imagenT" class="responsive">
+                  <img :src="this.ruta_imagenT" :alt="this.ruta_imagenT" class="responsive">
 
                   <!--
                     UnComment Below line for true flow

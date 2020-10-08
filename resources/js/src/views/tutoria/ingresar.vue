@@ -77,7 +77,7 @@
 			<div class="vx-row">c
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload automatic action="/api/tutor/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar"/>
+						<vs-upload automatic action="/api/tutor/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil"/>
 					</template>
 				</div>
 			</div>
@@ -191,7 +191,6 @@ export default {
 		rol_id:'',
 		langEn: es,
 		codigo:'',
-		subir_imagen:false,
 		titulo:'Registrado exitosamente!',
 		waterMark : 'Select a date',
 		dateVal : new Date(),

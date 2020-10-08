@@ -47,6 +47,7 @@
 										v-bind:direccion="direccion"
 										v-bind:sector_id="sector_id"
 										v-bind:ingresar="ingresar"
+										v-bind:validacionD ="validacionD"
 										v-bind:id_formulario="numero.id"
 										v-on:validado="validandoFamilia"
 										v-on:recibirFamiliares="recibirFamiliares"
@@ -148,7 +149,11 @@ export default {
 			estudio_validado:false,
 			
 			ninosI:1,
-			familiaresI:1
+			familiaresI:1,
+
+			validacionD:true,
+			
+			estado_relacion:0
 		}
 	},
 	watch: {
@@ -175,7 +180,7 @@ export default {
 			this.ingresoRelaciones()
 		},
 		recibirFamiliares(e){
-			this.famililaresIngresados.push(e.id_familiar)
+			this.famililaresIngresados.push({id:e.id_familiar,relacion:e.relacion})
 			this.ingresoRelaciones()
 		},
 		recibirPpi(e){
@@ -240,29 +245,63 @@ export default {
 				console.log(this.ppi_id)
 				console.log(this.estudio_id)
 				console.log('*****************************')
-			}
-			/*
-			axios.post("/api/relacion/post/",{
-				relacion:this.relacion,
-				direccion:this.direccion,
-				codigo:this.codigo,
-				nino_id:this.nino_id,
-				sector_id:this.sector_id,
-				encargado_id:this.encargado_id,
-			}).then(function(response) {
-				console.log(response)
-			})
-			.catch(function(error) {
-				console.log(error)
-			});
-				this.$emit('cerrado','Se cerró el formulario');
-				this.$vs.notify({
-				color:'success',
-				title:`${this.titulo}`,
-				text:'La acción se realizo exitósamente'
+				let contador=0
+				let estadoT=0
+				let familiares = this.famililaresIngresados
+				let direccionT= this.direccion
+				let codigo_familiaT=this.codigo_familia
+				let sector_idT=this.sector_id.id
+				let ppiT= this.ppi_id
+				let estudioT=this.estudio_id
+				let today= new Date()
+				let dd = today.getDate();
+				let mm = today.getMonth()+1; 
+				let yyyy = today.getFullYear();
+				today = `${yyyy}/${mm}/${dd}-`
+				this.ninosIngresados.forEach(function(elemento, indice, array){
+					contador +=1
+					estadoT = contador < 2 ?	1 : 0
+					familiares.forEach(function(elemento2, indice2, array2){
+						axios.post("/api/relacion/post/",{
+							direccion:direccionT,
+							codigo:codigo_familiaT,
+							sector_id:sector_idT,
+
+							relacion:elemento2.relacion,
+							estado:estadoT,
+							nino_id:elemento,
+							encargado_id:elemento2.id,
+						}).then(function(response) {
+							console.log('relacion ingresada')
+						})
+						.catch(function(error) {
+							console.log(error)
+						});
+					});
+					
+					axios.post("/api/historialPpi/post/",{
+						nino_id:elemento,
+						ppi_id:ppiT,
+						fecha_estudio: today,
+					}).then(function(response) {
+						console.log(response)
+					})
+					.catch(function(error) {
+						console.log(error)
+					});					
+					
 				});
-				this.$router.push('/apadrinamiento/nino');
-			*/
+
+				/*
+					this.$emit('cerrado','Se cerró el formulario');
+					this.$vs.notify({
+						color:'success',
+					title:`${this.titulo}`,
+					text:'La acción se realizo exitósamente'
+					});
+					this.$router.push('/apadrinamiento/nino');
+				*/
+			}
 		},
 		sumar_nino(){
 			this.cantidad_ninos.push({id:this.cantidad_ninos.length+1,visible:true,validado:false})
@@ -320,6 +359,8 @@ export default {
 					}
 				})
 				if (retornar == false){
+					this.validacionD=false
+					console.log(this.validacionD)
 					this.$vs.notify({
 					color:'danger',
 					title:`Error en validación`,

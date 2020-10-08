@@ -16,7 +16,7 @@ class HistorialPpiController extends Controller
 		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
-		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		$completo = (isset($request->completo)) ? $request->completo : 'false';
 		
 		if ($completo == 'false')
 		{
@@ -43,8 +43,8 @@ class HistorialPpiController extends Controller
 
     public function store(Request $request)
     {
-		//if(!$request->ajax())return redirect('/');
-		try {
+		if (!isset($request->ppi_id))
+		{
 			$ppi = new Ppi();
 			$ppi->respuesta1 = $request->respuesta1;
 			$ppi->respuesta2 = $request->respuesta2;
@@ -58,18 +58,23 @@ class HistorialPpiController extends Controller
 			$ppi->respuesta10 = $request->respuesta10;
 			$ppi->total = $request->total;
 			$ppi->save();
-			
+			$ppiT=$ppi->id;
+		}
+		else{
+			$ppiT = $request->ppi_id;
+		}
+		try {
 			$historialPpi = new HistorialPpi();
 			$historialPpi->fecha_estudio = $request->fecha_estudio;
 			$historialPpi->nino_id = $request->nino_id;
-			$historialPpi->ppi_id = $ppi->id;
+			$historialPpi->ppi_id = $ppiT;
 			$historialPpi->save();
 			return Response::json(['message' => 'Historial Ppi Creado'], 200);
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}
-    }
+	}
 
     public function show(HistorialPpi $historialPpi)
     {

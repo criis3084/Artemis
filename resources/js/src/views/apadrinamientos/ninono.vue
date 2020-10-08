@@ -1,19 +1,19 @@
 <template>
 	<div>
 		<vx-card>
-				<div class = "demo-alignment">
-						<h2>Niños no apadrinados</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
+			<div class = "demo-alignment">
+					<h2>Niños no apadrinados</h2>
+					<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
+			</div>
+			<br>
+			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
+				<v-select v-model="selectedFormat" :options="formats" class="my-4" />
+				<div class="flex">
+				<span class="mr-4">Ancho automatico de celda:</span>
+				<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
 				</div>
-				<br>
-	   <vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
-          <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
-          <v-select v-model="selectedFormat" :options="formats" class="my-4" />
-        <div class="flex">
-          <span class="mr-4">Ancho automatico de celda:</span>
-          <vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
-        </div>
-	 </vs-prompt>
+			</vs-prompt>
 
 			<vs-table title="Niños no apadrinados" stripe pagination max-items="7" search :data="arrayData">
 
@@ -42,7 +42,13 @@
 							
 						</vs-td>
 						<vs-td>{{data[indextr].id}}</vs-td>
-						<vs-td>{{data[indextr].datos.nombres}}</vs-td>
+						<vs-td>
+							<div class="flex items-center">
+								<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
+								{{data[indextr].datos.nombres}}
+							</div>
+						</vs-td>
+						<!-- <vs-td>{{data[indextr].datos.nombres}}</vs-td> -->
 						<vs-td >{{data[indextr].datos.apellidos}}</vs-td>
 						<vs-td >{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}</vs-td>
 						<vs-td >{{data[indextr].datos.fecha_nacimiento}}</vs-td>
@@ -151,7 +157,7 @@ export default {
         accept: this.cambiarEstado
       })
 
-      this.index(this.pagination.current_page, this.search)
+      this.index()
     },
     cambiarEstado (color) {
       let titulo = ''
@@ -185,17 +191,15 @@ export default {
         text:'La acción se realizo exitósamente'
       })
     },
-    async index (page, search) { //async para que se llame cada vez que se necesite
+    async index() { //async para que se llame cada vez que se necesite
       const me = this
       this.abrir_editar = false
       const response = await axios.get(
-        `/api/nino/get?page=${page}&search=${search}&completo=ninono`)
+        `/api/nino/get?completo=ninono`)
         .then(function (response) {
-          console.log(page)
           const respuesta = response.data
 		  me.arrayData = respuesta.ninos.data
 		  me.nino = me.traerNombre(me.arrayData)
-          me.pagination = respuesta.pagination
         })
         .catch(function (error) {
           console.log(error)
@@ -244,8 +248,7 @@ export default {
 	
   },
   mounted () {
-
-    this.index(1, this.search)
+    this.index()
   }
 }
 </script>

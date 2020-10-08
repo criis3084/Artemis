@@ -414,6 +414,9 @@ Route::group(['prefix' => 'nino'], function () {
 	]);
     Route::put('/desactivar', [
         'as' => 'admin.nino', 'uses' => 'NinoController@desactivar'
+	]);
+	Route::post('/imagen', [
+        'as' => 'admin.nino', 'uses' => 'NinoController@imagen'
     ]);
 });
 Route::group(['prefix' => 'encargado'], function () {
@@ -431,6 +434,9 @@ Route::group(['prefix' => 'encargado'], function () {
 	]);
     Route::put('/desactivar', [
         'as' => 'admin.encargado', 'uses' => 'EncargadoController@desactivar'
+	]);
+	Route::post('/imagen', [
+        'as' => 'admin.encargado', 'uses' => 'EncargadoController@imagen'
     ]);
 });
 Route::group(['prefix' => 'padrino'], function () {
@@ -450,7 +456,7 @@ Route::group(['prefix' => 'padrino'], function () {
         'as' => 'admin.padrino', 'uses' => 'PadrinoController@desactivar'
 	]);
 	Route::post('/imagen', [
-        'as' => 'admin.tutor', 'uses' => 'PadrinoController@imagen'
+        'as' => 'admin.padrino', 'uses' => 'PadrinoController@imagen'
     ]);
 });
 Route::group(['prefix' => 'sector'], function () {
@@ -686,16 +692,17 @@ Route::group(['prefix' => 'historialFotografia'], function () {
     Route::post('/post', [
         'as' => 'admin.historialFotografia', 'uses' => 'HistorialFotografiaController@store'
 	]);
-	/*
-    Route::put('/update', [
+	Route::put('/update', [
         'as' => 'admin.historialFotografia', 'uses' => 'HistorialFotografiaController@update'
 	]);
-	*/
-    Route::put('/activar', [
+	Route::put('/activar', [
         'as' => 'admin.historialFotografia', 'uses' => 'HistorialFotografiaController@activar'
 	]);
     Route::put('/desactivar', [
         'as' => 'admin.historialFotografia', 'uses' => 'HistorialFotografiaController@desactivar'
+	]);
+	Route::post('/imagen', [
+        'as' => 'admin.historialFotografia', 'uses' => 'HistorialFotografiaController@imagen'
     ]);
 });
 Route::group(['prefix' => 'detalleIntegrante'], function () {

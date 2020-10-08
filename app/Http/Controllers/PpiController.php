@@ -41,14 +41,6 @@ class PpiController extends Controller
 		}
 
 		return [
-			'pagination' => [
-				'total'        => $ppi->total(),
-				'current_page' => $ppi->currentPage(),
-				'per_page'     => $ppi->perPage(),
-				'last_page'    => $ppi->lastPage(),
-				'from'         => $ppi->firstItem(),
-				'to'           => $ppi->lastItem(),
-			],
 			"ppis"=>$ppi
 		];
     }
