@@ -41,7 +41,7 @@
             <vs-td>{{ data[indextr].direccion }}</vs-td>
             <vs-td>{{ data[indextr].datos_residente[0].nombres + ' ' +  data[indextr].datos_residente[0].apellidos}}</vs-td>
             <vs-td>{{ data[indextr].datos_constructor[0].nombres + ' ' + data[indextr].datos_constructor[0].apellidos}}</vs-td>
-            <vs-td>{{ 'Q'+data[indextr].costo_total}}</vs-td>
+            <vs-td>{{ currency(data[indextr].costo_total)}}</vs-td>
               <vs-td :data="data[indextr].estado">
                 <vs-switch
                   color="success"
@@ -118,7 +118,15 @@ export default {
   methods: {
       aNuevo () {
 		 this.$router.push('/ingresar/vivienda')
-	},
+  },
+  currency(numero) {
+        let formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'GTQ',
+        });
+        let mil = formatter.format(numero);
+        return mil;
+    },
     traerNombreEncargado(tabla){
 		tabla.forEach(function(valor, indice, array){
       valor.nombress=valor.datos_residente[0].nombres

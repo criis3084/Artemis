@@ -47,7 +47,13 @@
 								<router-link :to="url" @click.stop.prevent class="text-inherit hover:text-primary">{{ params.value }}</router-link>
 								-->
 								<vs-td>{{data[indextr].codigo}}</vs-td>
-								<vs-td>{{data[indextr].datos.nombres}}</vs-td>
+								<vs-td>
+									<div class="flex items-center">
+										<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
+										{{data[indextr].datos.nombres}}
+									</div>
+								</vs-td>
+								<!-- <vs-td>{{data[indextr].datos.nombres}}</vs-td> -->
 								<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
 								<vs-td>{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}</vs-td>
 								<vs-td>{{data[indextr].datos.fecha_nacimiento}}</vs-td>

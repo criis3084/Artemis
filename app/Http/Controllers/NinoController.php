@@ -7,6 +7,7 @@ use App\PersonaSinAcceso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Illuminate\Support\Facades\File;
 
 class NinoController extends Controller
 {
@@ -137,5 +138,15 @@ class NinoController extends Controller
         # $persona->estado = '0';
         $nino->save();
         $persona->save();
-    }
+	}
+	public function imagen(Request $request){
+		$imagen = $request->photos;
+		$nombreEliminar = public_path('storage\public\ninos\\') .  $request->header("imagenanterior");
+		if (File::exists($nombreEliminar)) {
+			File::delete($nombreEliminar);
+		}
+		$completo = time() . "." . $imagen->extension();
+		$imagen->move(public_path('storage/public/ninos/'), $completo);
+		return Response::json($completo, 200);
+	}
 }

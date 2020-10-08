@@ -16,7 +16,7 @@ class CreateHistorialEstudiosTable extends Migration
         Schema::create('historial_estudios', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('estudio_socioeconomico_id')->constrained();
-            $table->foreignId('relacion_id')->constrained();
+            $table->foreignId('nino_id')->constrained();
             $table->boolean('estado')->default(1);
             $table->timestamps();
         });

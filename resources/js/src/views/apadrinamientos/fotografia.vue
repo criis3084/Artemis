@@ -1,77 +1,71 @@
 <template>
-			  <div>
-                <div class = "demo-alignment">
-						        <h2> Historial de Fotografías</h2>
-						        <vx-tooltip text = "Agregar nueva fotografía"> 
-                      <vs-button @click="$router.push('/ingresar/fotografia/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
-                    </vx-tooltip><vs-divider/>
-				        </div>
-                <div class = "demo-alignment">
-                    <h5> <b>Nombre del niño: </b> </h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
-                </div>
-                <div class = "demo-alignment">
-                    <h5> <b>Código: </b> </h5><h5>{{codigo}}</h5>
-                </div>
-                    <br>
+	<div>
+		<div class = "demo-alignment">
+			<h2> Historial de Fotografías</h2>
+			<vx-tooltip text = "Agregar nueva fotografía"> 
+				<vs-button @click="$router.push('/ingresar/fotografia/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
+			</vx-tooltip>
+			<vs-divider/>
+		</div>
+		<div class = "demo-alignment">
+			<h5> <b>Nombre del niño: </b> </h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
+		</div>
+		<div class = "demo-alignment">
+			<h5> <b>Código: </b> </h5><h5>{{codigo}}</h5>
+		</div>
+			<br>
 
-                <!-- <div class = "demo-alignment">
-                <div id="demo-basic-card"  v-for="historialfotografia in arrayData" :key="historialfotografia.id">
-                    <div class="vx-row" >
-                        <div class="vx-col w-full sm:w-1/2 lg:w-1/3 mb-base" >
-                        <vx-card >
-                            <div slot="no-body">
-                                <img :src="url" alt="content-img" class="responsive card-img-top">
-                            </div>
-                            <h5 v-text="historialfotografia.fotografia.titulo"></h5>
-                            <p class="text-grey" v-text="historialfotografia.nino_id"></p>
-                            <p class="text-grey" v-text="historialfotografia.fotografia.descripcion"></p>
-                            <p class="text-grey" v-text="getDate(historialfotografia.created_at)"></p>
-                        </vx-card>
-                        </div>
-                    </div>
-                </div>
-                </div> -->
-
-
-				<vx-card>
-
-                    <vs-table stripe max-items="5" :data="arrayData">
-						<template slot="thead">
-							<vs-th>Imagen</vs-th>
-							<vs-th>Título</vs-th>
-							<vs-th>Descripción</vs-th>
-                            <vs-th>Fecha</vs-th>
-							<vs-th>Estado</vs-th>
-						</template>
-
-						<template>
-							<vs-tr v-for="historialfotografia in arrayData" :key="historialfotografia.id">
-								<!-- <vs-td v-text="historialfotografia.fotografia.ruta" ></vs-td> -->
-                                <vs-td>
-                                <img :src="url" alt="content-img" class="responsive card-img-top">
-                                </vs-td>
-                                <vs-td v-text="historialfotografia.fotografia.titulo" ></vs-td>
-								<vs-td v-text="historialfotografia.fotografia.descripcion" ></vs-td>
-                                <vs-td v-text="getDate(historialfotografia.created_at)" ></vs-td>
-								<vs-td>
-									<vs-switch color="success" v-model="historialfotografia.estado" @click="abrirDialog(historialfotografia.id, historialfotografia.estado)">
-										<span slot="on" >Activo</span>
-										<span slot="off">Desactivo</span>
-									</vs-switch>
-								</vs-td>
-							</vs-tr>
-						</template>
-					</vs-table>
-					<div>
-						<vs-pagination :total="pagination.last_page" :max="9" v-model="pagination.current_page" @change="index(pagination.current_page, search);" prev-icon="arrow_back" next-icon="arrow_forward"></vs-pagination>
+		<!-- <div class = "demo-alignment">
+		<div id="demo-basic-card"  v-for="historialfotografia in arrayData" :key="historialfotografia.id">
+			<div class="vx-row" >
+				<div class="vx-col w-full sm:w-1/2 lg:w-1/3 mb-base" >
+				<vx-card >
+					<div slot="no-body">
+						<img :src="url" alt="content-img" class="responsive card-img-top">
 					</div>
+					<h5 v-text="historialfotografia.fotografia.titulo"></h5>
+					<p class="text-grey" v-text="historialfotografia.nino_id"></p>
+					<p class="text-grey" v-text="historialfotografia.fotografia.descripcion"></p>
+					<p class="text-grey" v-text="getDate(historialfotografia.created_at)"></p>
+				</vx-card>
+				</div>
+			</div>
+		</div>
+		</div> -->
+		<vx-card>
+			<vs-table stripe max-items="5" :data="arrayData">
+				<template slot="thead">
+					<vs-th>Imagen</vs-th>
+					<vs-th>Título</vs-th>
+					<vs-th>Descripción</vs-th>
+					<vs-th>Fecha</vs-th>
+					<vs-th>Estado</vs-th>
+				</template>
 
-
-                </vx-card>
-                <div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/apadrinamiento/nino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
-    </div>
-            </div>
+				<template>
+					<vs-tr v-for="historialfotografia in arrayData" :key="historialfotografia.id">
+						<!-- <vs-td v-text="historialfotografia.fotografia.ruta" ></vs-td> -->
+						<vs-td>
+							<img :src="historialfotografia.fotografia.ruta" alt="content-img" class="responsive card-img-top">
+						</vs-td>
+						<vs-td v-text="historialfotografia.fotografia.titulo" ></vs-td>
+						<vs-td v-text="historialfotografia.fotografia.descripcion" ></vs-td>
+						<vs-td v-text="getDate(historialfotografia.created_at)" ></vs-td>
+						<vs-td>
+							<vs-switch color="success" v-model="historialfotografia.estado" @click="abrirDialog(historialfotografia.id, historialfotografia.estado)">
+							<span slot="on" >Activo</span>
+							<span slot="off">Desactivo</span>
+							</vs-switch>
+						</vs-td>
+					</vs-tr>
+				</template>
+			</vs-table>
+	
+		</vx-card>
+		<div class="vx-col md:w-1/2 w-full mt-5">
+			<router-link to="/apadrinamiento/nino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+		</div>
+	</div>
 </template>
 
 <script>

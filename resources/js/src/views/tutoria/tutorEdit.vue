@@ -76,7 +76,7 @@
 								<div class="vx-col md:w-1/2 w-full mt-5">
 										<img :src="imagen_perfil_antigua"  width="100" height="100" class="responsive">
 										<vx-tooltip text="Editar Imagen"> <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-edit" radius  @click="editarImagen"></vs-button> </vx-tooltip>
-										<vs-upload v-if="mostrarEditar" automatic action="/api/tutor/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar"/>
+										<vs-upload v-if="mostrarEditar" automatic action="/api/tutor/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil"/>
 								</div>
 							</div>
 
