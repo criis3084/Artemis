@@ -15,9 +15,8 @@ class CreateCorrespondenciasTable extends Migration
     {
         Schema::create('correspondencias', function (Blueprint $table) {
 			$table->id();
-			$table->text('mensaje');
-			$table->text('encabezado');
-			$table->text('piePagina');
+			$table->string('ruta_imagen');
+			$table->string('descripcion')->nullable();
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });

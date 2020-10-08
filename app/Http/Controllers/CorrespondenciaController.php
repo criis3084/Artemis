@@ -52,10 +52,8 @@ class CorrespondenciaController extends Controller
 		//if(!$request->ajax())return redirect('/');
 		try {
 			$correspondencia = new Correspondencia();
-			$correspondencia->mensaje = $request->mensaje;
-			$correspondencia->encabezado = $request->encabezado;
-			$correspondencia->piePagina = $request->piePagina;
-			$correspondencia->apadrinamiento_id = $request->apadrinamiento_id;
+			$correspondencia->ruta_imagen = $request->ruta_imagen;
+			$correspondencia->descripcion = $request->descripcion;
 			$correspondencia->save();
 			return Response::json(['message' => 'Correspondencia Creada'], 200);
 			#return ['id' => $nino->id];
@@ -77,10 +75,8 @@ class CorrespondenciaController extends Controller
     public function update(Request $request, Correspondencia $correspondencia)
     {
 		$correspondencia = Correspondencia::findOrFail($request->id);
-		$correspondencia->mensaje = $request->mensaje;
-		$correspondencia->encabezado = $request->encabezado;
-		$correspondencia->piePagina = $request->piePagina;
-		$correspondencia->apadrinamiento_id = $request->apadrinamiento_id;
+		$correspondencia->ruta_imagen = $request->ruta_imagen;
+		$correspondencia->descripcion = $request->descripcion;
 		$correspondencia->save();
 
 		return Response::json(['message' => 'Correspondencia Actualizada'], 200);
@@ -92,7 +88,7 @@ class CorrespondenciaController extends Controller
         $correspondencia = Correspondencia::findOrFail($request->id);
         $correspondencia->estado = '1';
         $correspondencia->save();
-		return Response::json(['message' => 'Correspondencia Desactivada'], 200);
+		return Response::json(['message' => 'Correspondencia Activada'], 200);
 	}
 
 	public function desactivar(Request $request)
