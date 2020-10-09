@@ -23,10 +23,10 @@
 							<vs-th>Estado</vs-th>
 						</template>
 
-						<template slot-scope="{data}">
+						<template>
 							<vs-tr v-for="historialCorrespondencia in arrayData" :key="historialCorrespondencia.id">
 								<vs-td>
-									<img :src="historialCorrespondencia.correspondencia.ruta_imagen" alt="content-img" class="responsive card-img-top">
+									<img :src="historialCorrespondencia.correspondencia.ruta_imagen" :alt="historialCorrespondencia.correspondencia.ruta_imagen" class="responsive card-img-top">
 								</vs-td>	
 								<vs-td v-text="historialCorrespondencia.correspondencia.descripcion" ></vs-td>
 								<vs-td v-text="getDate(historialCorrespondencia.correspondencia.created_at)" ></vs-td>
@@ -77,6 +77,7 @@ export default {
 		offset : 3,
 		search : '',
 		arrayData: [],
+		arrayDataT: [],
 		codigo: '',
 		id_recibido: 0,
 		id_ppi: 0,
@@ -155,21 +156,21 @@ export default {
 			`/api/apadrinamiento/get?&criterio=id&buscar=${apadrinamiento}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.arrayData = respuesta.apadrinamientos.data;
-            console.log("aca");
-            console.log(me.arrayData);
-            // me.padrino = me.traerNombres(me.arrayData);
-            me.nombres_nino = me.arrayData[0].datos_nino[0].nombres;
-            me.apellidos_nino = me.arrayData[0].datos_nino[0].apellidos;
-            me.nombres_padrino = me.arrayData[0].datos_padrino[0].nombres;
-            me.apellidos_padrino = me.arrayData[0].datos_padrino[0].apellidos;
-            console.log("variables");
-            console.log(me.nombres_nino);
-            console.log(me.apellidos_nino);
-            console.log(me.apellidos_padrino);
-            console.log(me.nombres_padrino);
-            console.log("Apadrinamiento");
-            console.log(me.arrayData);
+            me.arrayDataT = respuesta.apadrinamientos.data;
+            // console.log("aca");
+            // console.log(me.arrayDataT);
+            // me.padrino = me.traerNombres(me.arrayDataT);
+            me.nombres_nino = me.arrayDataT[0].datos_nino[0].nombres;
+            me.apellidos_nino = me.arrayDataT[0].datos_nino[0].apellidos;
+            me.nombres_padrino = me.arrayDataT[0].datos_padrino[0].nombres;
+            me.apellidos_padrino = me.arrayDataT[0].datos_padrino[0].apellidos;
+            // console.log("variables");
+            // console.log(me.nombres_nino);
+            // console.log(me.apellidos_nino);
+            // console.log(me.apellidos_padrino);
+            // console.log(me.nombres_padrino);
+            // console.log("Apadrinamiento");
+            // console.log(me.arrayDataT);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -236,7 +237,7 @@ export default {
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
 		})
-		location.reload();
+		this.index(this.pagination.current_page, this.search);
 	},
 	close(){
 		let titulo = "Cancelado"

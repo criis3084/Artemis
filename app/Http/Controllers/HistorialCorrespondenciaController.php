@@ -7,6 +7,7 @@ use App\Correspondencia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Illuminate\Support\Facades\File;
 
 class HistorialCorrespondenciaController extends Controller
 {
@@ -49,7 +50,7 @@ class HistorialCorrespondenciaController extends Controller
 			$correspondencia->save();
 
 			$historialCorrespondencia = new HistorialCorrespondencia();
-			$historialCorrespondencia->correspondencia_id = $request->correspondencia_id;
+			$historialCorrespondencia->correspondencia_id = $correspondencia->id;
 			$historialCorrespondencia->apadrinamiento_id = $request->apadrinamiento_id;
 			$historialCorrespondencia->save();
 
