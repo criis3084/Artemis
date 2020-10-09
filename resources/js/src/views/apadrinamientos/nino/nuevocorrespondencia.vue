@@ -55,10 +55,11 @@ import axios from 'axios'
 export default {
   data() {
     return {
-		ruta_imgane:'',
+		ruta_imagen:'',
 		descripcion:'',
 		titulo:'',
-        arrayData: [],
+		arrayData: [],
+		arrayDataT: [],
         codigo: '',
         id:'',
         nombre: '',
@@ -68,7 +69,8 @@ export default {
         correspondencia_idT: '',
         nombres_nino:'',
         apellidos_nino:'',
-        nombres_padrino:'',
+		nombres_padrino:'',
+		correspondencia_id:0,
         apellidos_padrino:'',
 		head:{
 			"imagenanterior":""	
@@ -80,13 +82,17 @@ export default {
 		let id_recibido = this.$route.params.id;
 		this.$router.push('/apadrinamiento/correspondencia/'+id_recibido);
 	},
+	enviando(id){
+		this.correspondencia_id=id;
+	},
 	guardar(){
-		this.id=parseInt(this.$route.params.id)
+		this.id=this.$route.params.id;
 		axios.post("/api/historialCorrespondencia/post/",{
             apadrinamiento_id:this.id,
-			ruta_imagen:  '/storage/public/correspondencia/' +this.ruta_imagen,
+			ruta_imagen:'/storage/public/correspondencia/' +this.ruta_imagen,
 			descripcion:this.descripcion,
 		}).then(function(response) {
+			me.enviando(response.data.id)
 				console.log(response)
 				this.$vs.notify({
 					color:'success',
@@ -111,21 +117,21 @@ export default {
 			`/api/apadrinamiento/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.arrayData = respuesta.apadrinamientos.data;
-            console.log("aca");
-            console.log(me.arrayData);
-            // me.padrino = me.traerNombres(me.arrayData);
-            me.nombres_nino = me.arrayData[0].datos_nino[0].nombres;
-            me.apellidos_nino = me.arrayData[0].datos_nino[0].apellidos;
-            me.nombres_padrino = me.arrayData[0].datos_padrino[0].nombres;
-            me.apellidos_padrino = me.arrayData[0].datos_padrino[0].apellidos;
-            console.log("variables");
-            console.log(me.nombres_nino);
-            console.log(me.apellidos_nino);
-            console.log(me.apellidos_padrino);
-            console.log(me.nombres_padrino);
-            console.log("Apadrinamiento");
-            console.log(me.arrayData);
+            me.arrayDataT = respuesta.apadrinamientos.data;
+            // console.log("aca");
+            // console.log(me.arrayDataT);
+            // me.padrino = me.traerNombres(me.arrayDataT);
+            me.nombres_nino = me.arrayDataT[0].datos_nino[0].nombres;
+            me.apellidos_nino = me.arrayDataT[0].datos_nino[0].apellidos;
+            me.nombres_padrino = me.arrayDataT[0].datos_padrino[0].nombres;
+            me.apellidos_padrino = me.arrayDataT[0].datos_padrino[0].apellidos;
+            // console.log("variables");
+            // console.log(me.nombres_nino);
+            // console.log(me.apellidos_nino);
+            // console.log(me.apellidos_padrino);
+            // console.log(me.nombres_padrino);
+            // console.log("Apadrinamiento");
+            // console.log(me.arrayDataT);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -133,10 +139,10 @@ export default {
 		me.ya=true;
     },
 	vaciar(){
-			this.ruta='';
+			this.ruta_imagen='';
 	},
 	respuesta(e){
-		this.ruta_imgane=e.currentTarget.response.replace(/['"]+/g, '')
+		this.ruta_imagen=e.currentTarget.response.replace(/['"]+/g, '')
 		this.head.imagenanterior=this.ruta_imagen
 	},
   },

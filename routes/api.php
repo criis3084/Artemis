@@ -1038,6 +1038,9 @@ Route::group(['prefix' => 'historialCorrespondencia'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.historialCorrespondencia', 'uses' => 'HistorialCorrespondenciaController@desactivar'
     ]);
+    Route::post('/imagen', [
+        'as' => 'admin.historialCorrespondencia', 'uses' => 'HistorialCorrespondenciaController@imagen'
+    ]);
 });
 Route::group(['prefix' => 'historialEstudio'], function () {
     Route::get('/get', [
