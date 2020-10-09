@@ -123,7 +123,7 @@ const router = new Router({
       }
     },
     {
-      path: '/apadrinamiento/estudiosocio/:id',
+      path: '/apadrinamiento/estudiosocio/:id/:estudio',
       name: 'apadrinamiento-ppi',
       component: () => import('./views/apadrinamientos/familia/estudiosocio.vue'),
       meta: {

@@ -228,41 +228,7 @@ export default {
 				.catch(function(error) {
 				console.log(error)
 			});
-			this.buscarCodigo()
-
-		/*
-		axios.post("/api/historialPpi/post/",{
-			nino_id:this.id,
-			respuesta1:this.valor1,
-			respuesta2:this.valor2,
-			respuesta3:this.valor3,
-			respuesta4:this.valor4,
-			respuesta5:this.valor5,
-			respuesta6:this.valor6,
-			respuesta7:this.valor7,
-			respuesta8:this.valor8,
-			respuesta9:this.valor9,
-			respuesta10:this.valor10,
-			total:this.valorT,
-			fecha_estudio:this.getDate(this.fecha)
-		}).then(function(response) {
-				console.log(response)
-				this.$vs.notify({
-					color:'success',
-					title:'Exito',
-					text:'Registro Creado!'
-				});
-			})
-			.catch(function(error) {
-			console.log(error)
-		});
-		*/
-
-		//this.$router.push('/apadrinamiento/ppi/'+this.id);
-	},
-	llenarPpis(nino_id){
-
-	},
+			this.buscarCodigo()	},
 	setearValor(unArreglo){
 			this.listadoNinos=unArreglo.slice();
 			let hash = {};
