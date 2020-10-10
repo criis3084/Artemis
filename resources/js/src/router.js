@@ -123,7 +123,7 @@ const router = new Router({
       }
     },
     {
-      path: '/apadrinamiento/estudiosocio/:id',
+      path: '/apadrinamiento/estudiosocio/:id/:estudio',
       name: 'apadrinamiento-ppi',
       component: () => import('./views/apadrinamientos/familia/estudiosocio.vue'),
       meta: {
@@ -197,7 +197,33 @@ const router = new Router({
         {
           path: '/apadrinamiento/encargado',
           name: 'apadrinamiento-encargado',
-          component: () => import('./views/apadrinamientos/encargado.vue'),
+          component: () => import('./views/apadrinamientos/familiar/familiar.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/editar/familiar/:id',
+          name: 'datos-familiar',
+          component: () => import('./views/apadrinamientos/familiar/editar.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+
+        {			
+          path: '/ver/familiar/:id',
+          name: 'ver-familiar',
+          component: () => import('./views/apadrinamientos/familiar/ver.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },		
+
+        {
+          path: '/ingresar/familiar',
+          name: 'datos-familiar',
+          component: () => import('./views/apadrinamientos/familiar/formulario.vue'),
           meta: {
             rule: 'editor'
           }

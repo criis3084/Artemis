@@ -17,29 +17,34 @@
 					<vs-table pagination max-items="5" search :data="arrayData">
 
 						<template slot="thead">
-							<vs-th>Ver</vs-th>
+							<vs-th>Imagen</vs-th>
+							<vs-th>Descripción</vs-th>
 							<vs-th>Fecha</vs-th>
 							<vs-th>Estado</vs-th>
 						</template>
 
-						<template slot-scope="{data}">
-							<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
+						<template>
+							<vs-tr v-for="historialCorrespondencia in arrayData" :key="historialCorrespondencia.id">
 								<vs-td>
-									<vx-tooltip text="Mostrar correspondencia completa"><vs-button @click="$router.push('/ver/correspondencia/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
-								</vs-td > 							
-								<vs-td >{{getDate(data[indextr].created_at)}}</vs-td>
+									<img :src="historialCorrespondencia.correspondencia.ruta_imagen" :alt="historialCorrespondencia.correspondencia.ruta_imagen" class="responsive card-img-top">
+								</vs-td>	
+								<vs-td v-text="historialCorrespondencia.correspondencia.descripcion" ></vs-td>
+								<vs-td v-text="getDate(historialCorrespondencia.correspondencia.created_at)" ></vs-td>
+								<!-- <vs-td>{{getDate(data[indextr].correspondencia.descripcion)}}</vs-td>					 -->
+								<!-- <vs-td >{{getDate(data[indextr].created_at)}}</vs-td> -->
 								<vs-td>
-									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
+									<vs-switch color="success" v-model="historialCorrespondencia.estado" @click="abrirDialog(historialCorrespondencia.id, historialCorrespondencia.estado)">
 										<span slot="on" >Activo</span>
 										<span slot="off">Desactivo</span>
 									</vs-switch>
 								</vs-td>
 							</vs-tr>
 						</template>
+						
 					</vs-table>
 				</vx-card>
 				<div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/apadrinamiento/correspondencia"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+  <router-link to="/apadrinamiento/apadrinamiento/"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
     </div>
 </div>
 </template>
@@ -72,6 +77,7 @@ export default {
 		offset : 3,
 		search : '',
 		arrayData: [],
+		arrayDataT: [],
 		codigo: '',
 		id_recibido: 0,
 		id_ppi: 0,
@@ -150,21 +156,21 @@ export default {
 			`/api/apadrinamiento/get?&criterio=id&buscar=${apadrinamiento}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.arrayData = respuesta.apadrinamientos.data;
-            console.log("aca");
-            console.log(me.arrayData);
-            // me.padrino = me.traerNombres(me.arrayData);
-            me.nombres_nino = me.arrayData[0].datos_nino[0].nombres;
-            me.apellidos_nino = me.arrayData[0].datos_nino[0].apellidos;
-            me.nombres_padrino = me.arrayData[0].datos_padrino[0].nombres;
-            me.apellidos_padrino = me.arrayData[0].datos_padrino[0].apellidos;
-            console.log("variables");
-            console.log(me.nombres_nino);
-            console.log(me.apellidos_nino);
-            console.log(me.apellidos_padrino);
-            console.log(me.nombres_padrino);
-            console.log("Apadrinamiento");
-            console.log(me.arrayData);
+            me.arrayDataT = respuesta.apadrinamientos.data;
+            // console.log("aca");
+            // console.log(me.arrayDataT);
+            // me.padrino = me.traerNombres(me.arrayDataT);
+            me.nombres_nino = me.arrayDataT[0].datos_nino[0].nombres;
+            me.apellidos_nino = me.arrayDataT[0].datos_nino[0].apellidos;
+            me.nombres_padrino = me.arrayDataT[0].datos_padrino[0].nombres;
+            me.apellidos_padrino = me.arrayDataT[0].datos_padrino[0].apellidos;
+            // console.log("variables");
+            // console.log(me.nombres_nino);
+            // console.log(me.apellidos_nino);
+            // console.log(me.apellidos_padrino);
+            // console.log(me.nombres_padrino);
+            // console.log("Apadrinamiento");
+            // console.log(me.arrayDataT);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -203,7 +209,7 @@ export default {
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
 			console.log(this.id)
-			axios.put('/api/historialPpi/activar/', {
+			axios.put('/api/historialCorrespondencia/activar/', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -216,7 +222,7 @@ export default {
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
 			console.log(this.id)
-			axios.put('/api/historialPpi/desactivar/', {
+			axios.put('/api/historialCorrespondencia/desactivar/', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -231,7 +237,7 @@ export default {
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
 		})
-		location.reload();
+		this.index(this.pagination.current_page, this.search);
 	},
 	close(){
 		let titulo = "Cancelado"

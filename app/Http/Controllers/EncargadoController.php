@@ -101,9 +101,11 @@ class EncargadoController extends Controller
 		$persona->direccion = $request->direccion;
 
 		$encargado->ruta_imagen = $request->ruta_imagen;
+		$encargado->ocupacion = $request->ocupacion;
+		$encargado->escolaridad = $request->escolaridad;
+		$encargado->ingresos = $request->ingresos;
 		$persona->save();
 		$encargado->save();
-		
 		return Response::json(['message' => 'Nino Actualizada'], 200);
     }
 

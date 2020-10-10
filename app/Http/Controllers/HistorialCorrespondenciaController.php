@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\HistorialCorrespondencia;
+use App\Correspondencia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Illuminate\Support\Facades\File;
 
 class HistorialCorrespondenciaController extends Controller
 {
@@ -42,8 +44,13 @@ class HistorialCorrespondenciaController extends Controller
     {
 		//if(!$request->ajax())return redirect('/');
 		try {
+			$correspondencia = new Correspondencia();
+			$correspondencia->ruta_imagen = $request->ruta_imagen;
+			$correspondencia->descripcion = $request->descripcion;
+			$correspondencia->save();
+
 			$historialCorrespondencia = new HistorialCorrespondencia();
-			$historialCorrespondencia->correspondencia_id = $request->correspondencia_id;
+			$historialCorrespondencia->correspondencia_id = $correspondencia->id;
 			$historialCorrespondencia->apadrinamiento_id = $request->apadrinamiento_id;
 			$historialCorrespondencia->save();
 
@@ -70,4 +77,15 @@ class HistorialCorrespondenciaController extends Controller
         $historialCorrespondencia->save();
 		return Response::json(['message' => 'Historial Desactivado'], 200);
 	}
+	public function imagen(Request $request){
+		$imagen = $request->photos;
+		$nombreEliminar = public_path('storage\public\correspondencia\\') .  $request->header("imagenanterior");
+		if (File::exists($nombreEliminar)) {
+			File::delete($nombreEliminar);
+		}
+		$completo = time() . "." . $imagen->extension();
+		$imagen->move(public_path('storage/public/correspondencia/'), $completo);
+		return Response::json($completo, 200);
+	}
+
 }
