@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\HistorialAbonoVivienda;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Exception;
+use App\AbonoVivienda;
+use Illuminate\Http\Request;
+use App\HistorialAbonoVivienda;
+use Illuminate\Support\Facades\Response;
 
 class HistorialAbonoViviendaController extends Controller
 {
@@ -41,8 +42,18 @@ class HistorialAbonoViviendaController extends Controller
     {
 		//if(!$request->ajax())return redirect('/');
 		try {
+
+            $abonoVivienda = new AbonoVivienda();
+			$abonoVivienda->cantidad_abono = $request->cantidad_abono;
+			$abonoVivienda->cantidad_restante = $request->cantidad_restante;
+			$abonoVivienda->descripcion = $request->descripcion;
+			$abonoVivienda->fecha_pago = $request->fecha_pago;
+			$abonoVivienda->usuario_id = $request->usuario_id;
+			$abonoVivienda->save();
+
+
 			$historialAbonoVivienda = new HistorialAbonoVivienda();
-			$historialAbonoVivienda->abono_vivienda_id = $request->abono_vivienda_id;
+			$historialAbonoVivienda->abono_vivienda_id = $abonoVivienda->id;
 			$historialAbonoVivienda->vivienda_id = $request->vivienda_id;
 			$historialAbonoVivienda->save();
 

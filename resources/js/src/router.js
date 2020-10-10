@@ -435,6 +435,14 @@ const router = new Router({
             rule:'editor'
           }
         },
+        {
+          path:'/vivienda/abono',  
+          name: 'abonar-viviendas',
+          component: () => import('./views/Viviendas/Abono_vivienda/v_Abonar'),
+          meta: {
+            rule:'editor'
+          }
+        },
         // =============================================================================
         // Datos Generales
         // =============================================================================
