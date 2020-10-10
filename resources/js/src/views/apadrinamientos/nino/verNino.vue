@@ -45,7 +45,12 @@
                 </p>
                 <p class="flex items-center flex-wrap">
                       <vx-tooltip text="Fecha de nacimiento"> <span> <vs-icon icon="cake" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
-                <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.fecha_nacimientoT }}</span>
+                <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.fecha_nacimientoT}}</span>
+                </p>
+
+                <p class="flex items-center flex-wrap">
+                      <vx-tooltip text="Edad"> <span> <vs-icon icon="cake" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
+                <span class="text-2xl leading-none font-medium text-primary mr-4"> {{calculateAge}}</span>
                 </p>
 
                 <vs-divider />
@@ -81,9 +86,21 @@
 
 <script>
 
+
 import axios from 'axios'
 
 export default {
+
+  computed:{
+        calculateAge: function() {
+          let currentDate = new Date();
+          let fecha_nacimientoTt = new Date(this.fecha_nacimientoT); 
+          let difference = currentDate - fecha_nacimientoTt;
+          let age = Math.floor(difference/31557600000);
+          return age
+          //console.log(age)
+        }
+      },
   data () {
     return {
       nombresT: '',
@@ -91,6 +108,7 @@ export default {
       direccionT: '',
       fecha_nacimientoT: '',
       fecha_ingresoT: '',
+      edad: '',
 	  generoT:'',
 	  codigoT:'',
 	  ruta_imagenT:'',
@@ -98,7 +116,8 @@ export default {
 	  escuela_idT:'',
       codigoT:'',
       numero_telefono:'',
-      id_recibido:''
+      id_recibido:'',
+      age:''
     }
   },
   methods: {
@@ -137,7 +156,9 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
-    }
+    },
+
+  
   },
   mounted () {
     this.index(1, this.search)
