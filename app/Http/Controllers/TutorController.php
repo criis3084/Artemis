@@ -34,11 +34,11 @@ class TutorController extends Controller
 				$tutor = Tutor::with('datos')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$tutor = Tutor::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(1);
+				$tutor = Tutor::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}else if($completo == 'datosAnidados')
 		{
-			$tutor = Tutor::with('datos')->with('tutorias')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(1);
+			$tutor = Tutor::with('datos')->with('tutorias')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 		}
 		return [
 			"tutors"=>$tutor

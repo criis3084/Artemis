@@ -11,11 +11,11 @@
 
               <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Destinatario</small>
-				<v-select label="encargado_nombres" :options="encargados" v-model="encargado_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<v-select label="encargado_nombreCompleto" :options="encargados" v-model="encargado_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 			</div>
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Constructor</small>
-				<v-select label="constructor_nombres" :options="constructors" v-model="constructor_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<v-select label="constructor_nombreCompleto" :options="constructors" v-model="constructor_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 			</div>
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Tipo de vivienda</small>
@@ -116,7 +116,8 @@ export default {
 
 			tabla.forEach(function(valor, indice, array){
 				valor.encargado_nombres=valor.datos.nombres
-				valor.encargado_apellidos=valor.datos.apellidos
+        valor.encargado_apellidos=valor.datos.apellidos
+        valor.encargado_nombreCompleto= valor.encargado_nombres + " " + valor.encargado_apellidos
             }); 
 
 			return tabla
@@ -125,7 +126,8 @@ export default {
         console.log(tabla);
 			tabla.forEach(function(valor, indice, array){
 				valor.constructor_nombres=valor.datos.nombres
-				valor.constructor_apellidos=valor.datos.apellidos
+        valor.constructor_apellidos=valor.datos.apellidos
+        valor.constructor_nombreCompleto = valor.constructor_nombres + " " + valor.constructor_apellidos
             });
             console.log(tabla); 
 			return tabla

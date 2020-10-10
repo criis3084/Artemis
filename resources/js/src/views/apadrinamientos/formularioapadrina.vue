@@ -21,11 +21,11 @@
 		</div>
 		<template>
       <small class="date-label">Nino:</small>
-		<v-select label="nombres" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<v-select label="nombrecompleto" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		<br>
     
     <small class="date-label">Padrino:</small>
-		<v-select label="nombres" :options="padrino" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<v-select label="nombrecompleto" :options="padrino" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		
     <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 			LLene todos los campos
@@ -81,7 +81,11 @@ export default {
   methods: {
 	  traerNombre(tabla){
 		tabla.forEach(function(valor, indice, array){
-			valor.nombres=valor.datos.nombres
+      valor.nombres=valor.datos.nombres
+      valor.apellidos=valor.datos.apellidos
+      valor.nombrecompleto=valor.nombres + " " + valor.apellidos
+
+     
 		}); 
 		return tabla
 	  },

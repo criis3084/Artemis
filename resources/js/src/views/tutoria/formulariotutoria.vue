@@ -32,10 +32,10 @@
       </div>
 		<template>
       <small class="date-label">Niño:</small>
-		<v-select label="nombres" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<v-select label="nombre_completo" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		<br>
     <small class="date-label">Tutor:</small>
-		<v-select label="nombres" :options="tutor" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<v-select label="nombre_completo" :options="tutor" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		
 		</template> 
 	</vs-prompt>
@@ -90,11 +90,14 @@ export default {
   methods: {
 	  traerNombre(tabla){
 		tabla.forEach(function(valor, indice, array){
-			valor.nombres=valor.datos.nombres
+    valor.nombres=valor.datos.nombres
+    valor.apellidos=valor.datos.apellidos
+    valor.nombre_completo = valor.nombres + " " + valor.apellidos
+    
 		}); 
 		return tabla
 	  },
-    async index2(page, search) {
+    async index2() {
       //async para que se llame cada vez que se necesite
       let me = this;
       const response = await axios
@@ -110,7 +113,7 @@ export default {
           console.log(error);
         });
     },
-    async index3(page, search) {
+    async index3() {
       //async para que se llame cada vez que se necesite
       let me = this;
       const response = await axios

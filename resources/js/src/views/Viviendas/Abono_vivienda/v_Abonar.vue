@@ -150,8 +150,8 @@ export default{
 
       tabla.forEach(function (valor, indice, array) {
         valor.encargado_nombres = valor.datos_residente[0].nombres
-		valor.encargado_apellidos = valor.datos_residente[0].apellidos
-		valor.encargado_nombreCompleto= valor.encargado_nombres + " " + valor.encargado_apellidos
+	    	valor.encargado_apellidos = valor.datos_residente[0].apellidos
+		    valor.encargado_nombreCompleto= valor.encargado_nombres + " " + valor.encargado_apellidos
       }) 
 
       return tabla
