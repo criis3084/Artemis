@@ -9,7 +9,7 @@
             <span>Nombre</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <v-select label="encargado_nombres" :options="encargados" v-model="encargado_id"  @input="buscar" @change="onChange($event)" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <v-select label="encargado_nombreCompleto" :options="encargados" v-model="encargado_id"  @input="buscar" @change="onChange($event)" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <span></span>
           </div>
         </div>
@@ -68,7 +68,7 @@
                                 <span class="font-medium text-primary cursor-pointer"></span>
                             </div>
                             <div class="flex justify-between mb-2">
-                                <span class="text-grey">Nombre Persona</span>
+                                <span class="text-grey"> {{nombreSeleccionado }} </span>
                             </div>
                             <vs-divider />
 
@@ -138,7 +138,8 @@ export default{
       configdateTimePicker: {
         date: null,
         inline: true
-      }
+	  },
+	  nombreSeleccionado:'Nombre de la persona',
     }
   },
   created () {
@@ -149,7 +150,8 @@ export default{
 
       tabla.forEach(function (valor, indice, array) {
         valor.encargado_nombres = valor.datos_residente[0].nombres
-        valor.encargado_apellidos = valor.datos_residente[0].apellidos
+		valor.encargado_apellidos = valor.datos_residente[0].apellidos
+		valor.encargado_nombreCompleto= valor.encargado_nombres + " " + valor.encargado_apellidos
       }) 
 
       return tabla
@@ -167,11 +169,12 @@ export default{
         .catch(function (error) {
           console.log(error)
         })
-    },
+	},
+	
     async buscar () {
       const me = this
-      this.id_recibido = this.encargado_id.id
-      //console.log(`Criterio   ${this.id_recibido }`)
+	  this.id_recibido = this.encargado_id.id
+	  this.nombreSeleccionado=this.encargado_id.encargado_nombres + " " + this.encargado_id.encargado_apellidos
       const response = await axios.get(
         `/api/vivienda/get?&criterio=encargado_id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {

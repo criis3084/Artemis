@@ -228,7 +228,6 @@ export default {
 			
       var respuesta= response.data;
 			me.arrayData = respuesta.escuelas.data;
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
