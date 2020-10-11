@@ -86,23 +86,23 @@
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Costo total de vivienda</span>
-                                <span>{{costoV}}</span>
+                                <span>{{currency(costoV)}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Pendiente por pagar</span>
-                                <span v-if="deuda > 0">{{deuda}}</span>
-                                <span v-else> {{costoV}}</span>
+                                <span v-if="deuda > 0">{{currency(deuda)}}</span>
+                                <span v-else> {{currency(costoV)}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Cantidad de abono</span>
-                                <span class="text-success">-{{cantidad}}</span>
+                                <span class="text-success">-{{currency(cantidad)}}</span>
                             </div>
 
                             <vs-divider />
 
                             <div class="flex justify-between font-semibold mb-3">
                                 <span>Total de deuda </span>
-                                <span>Q.{{total}}</span>
+                                <span>{{currency(total)}}</span>
                             </div>
 
                            
@@ -153,6 +153,14 @@ export default{
     setInterval(this.getNow, 1000)
   },
   methods:{
+    currency(numero) {
+        let formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'GTQ',
+        });
+        let mil = formatter.format(numero);
+        return mil;
+    },
     traerDatosEncargados (tabla) {
 
       tabla.forEach(function (valor, indice, array) {
