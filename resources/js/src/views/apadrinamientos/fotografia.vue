@@ -39,7 +39,7 @@
 					<vs-th>Título</vs-th>
 					<vs-th>Descripción</vs-th>
 					<vs-th>Fecha</vs-th>
-					<vs-th>Estado</vs-th>
+					<!-- <vs-th>Estado</vs-th> -->
 				</template>
 
 				<template>
@@ -51,12 +51,12 @@
 						<vs-td v-text="historialfotografia.fotografia.titulo" ></vs-td>
 						<vs-td v-text="historialfotografia.fotografia.descripcion" ></vs-td>
 						<vs-td v-text="getDate(historialfotografia.created_at)" ></vs-td>
-						<vs-td>
-							<vs-switch color="success" v-model="historialfotografia.estado" @click="abrirDialog(historialfotografia.id, historialfotografia.estado)">
+						<!-- <vs-td>
+							<vs-switch color="success" v-model="historialfotografia.estado" @click="abrirDialog(historialfotografia.fotografia.id, historialfotografia.fotografia.estado)">
 							<span slot="on" >Activo</span>
 							<span slot="off">Desactivo</span>
 							</vs-switch>
-						</vs-td>
+						</vs-td> -->
 					</vs-tr>
 				</template>
 			</vs-table>
@@ -108,15 +108,15 @@ export default {
     VxTimeline,
   },
   methods: {
-	  goBack(){
-      this.$router.go(-1)
+	goBack(){
+		this.$router.go(-1)
     },
     getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
     },
-    async index(page, search){ //async para que se llame cada vez que se necesite
+    async index(){ //async para que se llame cada vez que se necesite
         let me = this;
 		me.id_recibido = this.$route.params.id
 		const response = await axios.get(
@@ -128,8 +128,6 @@ export default {
             me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
             me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
             me.id = respuesta.historialfotografias.data[0].datos_nino[0].id;
-			me.pagination= respuesta.pagination;
-
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -159,17 +157,17 @@ export default {
 			color: `${color}`,
 			title: `${titulo}`,
 			text: '¿Está seguro de llevar a cabo esta acción?',
-			accept: this.cambiarEstado
+			accept: this.cambiarEstado(color)
 		})
 
-		this.index(this.pagination.current_page, this.search);
+		this.index();
     },
     cambiarEstado(color){
 		let titulo = ''
 		
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
-			axios.put('/api/historialFotografia/activar', {
+			axios.put('/api/fotografia/activar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -181,7 +179,7 @@ export default {
 		}
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
-			axios.put('/api/historialFotografia/desactivar', {
+			axios.put('/api/fotografia/desactivar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -196,11 +194,11 @@ export default {
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
         })
-        this.index(this.pagination.current_page, this.search);
+        this.index();
 	},
   },
   mounted(){
-    this.index(1, this.search);
+    this.index();
   },
   computed:{
 

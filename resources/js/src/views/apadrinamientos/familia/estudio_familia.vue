@@ -2,8 +2,8 @@
 	<div>
 			<div class="vx-col md:w-1/2 w-full mt-1">
 				<div class="my-4">
-					<small class="date-label">Fecha de Ingreso</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_ingreso" v-model="fecha_ingreso"></datepicker>
+					<small class="date-label">Fecha de Estudio</small>
+					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_boleta" v-model="fecha_boleta"></datepicker>
 				</div>
 			</div>
 
@@ -93,10 +93,9 @@
 					<vs-textarea class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border name='evaluacion_diagnostico' v-model="evaluacion_diagnostico"/>
 				</div>
 			</div>
-
-
 	</div>
 </template>
+
 
 <script>
 
@@ -113,7 +112,7 @@ export default {
 	},
  	data() {
 		return {
-			fecha_ingreso:'',
+			fecha_boleta:'',
 			total_ingresos:0,
 			alimentacion:'',
 			situacion_vivienda:0,
@@ -136,8 +135,8 @@ export default {
 				this.ingresarEstudio()
 			}
 		},
-		fecha_ingreso(value) {
-			this.validator.validate('fecha_ingreso', value);
+		fecha_boleta(value) {
+			this.validator.validate('fecha_boleta', value);
 			this.validateForm();
 		},
 		total_ingresos(value) {
@@ -193,7 +192,7 @@ export default {
 		ingresarEstudio(){
 			let me = this;
 			axios.post("/api/estudioSocioeconomico/post/",{
-				fecha_ingreso:this.getDate(this.fecha_ingreso),
+				fecha_boleta:this.getDate(this.fecha_boleta),
 				total_ingresos:this.total_ingresos,
 				alimentacion:this.alimentacion,
 				situacion_vivienda:this.situacion_vivienda-100,
@@ -216,7 +215,7 @@ export default {
 		},
 		validateForm() {
 			this.validator.validateAll({
-				fecha_ingreso: this.fecha_ingreso,
+				fecha_boleta: this.fecha_boleta,
 				total_ingresos: this.total_ingresos,
 				alimentacion: this.alimentacion,
 				situacion_vivienda: this.situacion_vivienda,
@@ -235,15 +234,10 @@ export default {
 				this.$emit('validado',400);
 			});
 		},
-		getDate(datetime) {
-			let date = new Date(datetime);
-			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-			return dateString;
-		}
 	},
 	created() {
 		this.validator = new Validator({
-			fecha_ingreso: 'required',
+			fecha_boleta: 'required',
 			total_ingresos: 'required|numeric',
 			alimentacion: 'required',
 			situacion_vivienda: 'required',

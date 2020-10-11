@@ -21,10 +21,10 @@
 					<span class="text-danger">{{msg}}</span>
 					<br>
 
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="DPI" v-model="CUI" name="CUI" />
+					<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="DPI" v-model="CUI" name="CUI" />
 					<span class="text-danger">{{msg}}</span>
 
-					<small class="date-label mt-10">Genero</small>
+					<small class="date-label mt-10">Género</small>
 						<ul class="demo-alignment">
 							<li>
 								<vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1" name="genero">Masculino</vs-radio>
@@ -38,7 +38,7 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Numero de telefono" name="telefono" v-model="telefono"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" name="telefono" v-model="telefono"/>
 					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
@@ -66,7 +66,7 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupacion" name="ocupacion" v-model="ocupacion"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupación" name="ocupacion" v-model="ocupacion"/>
 					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>

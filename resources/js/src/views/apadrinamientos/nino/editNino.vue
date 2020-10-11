@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<vx-card>
-			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZACIÓN DE NIÑO" subtitle="" finishButtonText="Enviar" back-button-text="Atras" next-button-text="Siguiente" @on-complete="formSubmitted">
+			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZACIÓN DE NIÑO" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
 				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
 				<!-- tab 1 content -->
@@ -46,7 +46,7 @@
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
-								<small class="date-label">Genero</small>
+								<small class="date-label">Género</small>
 								<ul class="demo-alignment">
 										<li>
 											<vs-radio color="rgb(0, 170, 228)" v-model="generoT" vs-value="1" selected>Masculino</vs-radio>
@@ -86,6 +86,13 @@
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<small class="date-label">Escuela</small>
 								<v-select label="nombre" :options="escuelasT" v-model="escuela_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+							</div>
+
+							<div class="vx-col md:w-1/2 w-full mt-5">
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-pack="feather" icon="icon-file-text" icon-no-border label-placeholder="Grado" v-model="gradoT" name="grado" v-validate="'required'"/>
+									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
+								</div>
 							</div>
 						</div>
 					</form>
@@ -169,6 +176,8 @@ export default {
 		codigoT:"",
 		ocupacionT:"",
 		actividadesT:"",
+		gradoT:"",
+		ruta_imagen:'',
 		sector_idT:0,
 		escuela_idT:0,
 		numero_telefono:'',
@@ -214,10 +223,10 @@ export default {
 				me.fecha_ingresoT = me.arrayData.fecha_ingreso;
 				me.ocupacionT = me.arrayData.ocupacion;
 				me.actividadesT = me.arrayData.actividades;
+				me.gradoT = me.arrayData.grado;
 				me.sector_idT = me.arrayData.datos.sector_id;
 				me.escuela_idT = me.arrayData.escuela_id;
 				me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
-				me.pagination= respuesta.pagination;
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -308,6 +317,7 @@ export default {
 				ruta_imagen:this.ruta_imagen,
 				ocupacion:this.ocupacionT,
 				actividades:this.actividadesT,
+				grado:this.gradoT,
 				fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
 				fecha_ingreso:this.getDate(this.fecha_ingresoT),
 				direccion:this.direccionT,

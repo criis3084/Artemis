@@ -20,9 +20,9 @@ class NinoController extends Controller
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
 		
+		$count = Nino::all()->count();
 		if ($completo == 'false')
 		{
-			$count = Nino::where('estado',1)->count();
 			if ($buscar==''){
 				$nino = Nino::with('datos')->with('escuela')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
@@ -30,7 +30,6 @@ class NinoController extends Controller
 				$nino = Nino::with('datos')->with('escuela')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
-			$count = Nino::all()->count();
 			if ($buscar==''){
 				$nino = Nino::with('datos')->with('escuela')->orderBy('id', 'desc')->paginate($count);
 			}
@@ -38,7 +37,6 @@ class NinoController extends Controller
 				$nino = Nino::with('datos')->with('escuela')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}else if($completo="ninono"){
-			$count = Nino::where('estado',0)->count();
 			$nino = Nino::with('datos')->with('escuela')->where('estado',0)->orderBy('id', 'desc')->paginate($count);
 		}
 		return [

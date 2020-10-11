@@ -1,6 +1,6 @@
 <template>
   <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="Submit" @on-complete="formSubmitted">
-      <tab-content title="Step 1" class="mb-5" icon="feather icon-home">
+      <tab-content title="Paso 1" class="mb-5" icon="feather icon-home">
 
           <!-- tab 1 content -->
           <div class="vx-row">
@@ -22,7 +22,7 @@
       </tab-content>
 
       <!-- tab 2 content -->
-      <tab-content title="Step 2" class="mb-5" icon="feather icon-briefcase">
+      <tab-content title="Paso 2" class="mb-5" icon="feather icon-briefcase">
           <div class="vx-row">
               <div class="vx-col md:w-1/2 w-full">
                   <vs-input label="Proposal Title" v-model="proposalTitle" class="w-full mt-4" />
@@ -35,7 +35,7 @@
       </tab-content>
 
       <!-- tab 3 content -->
-      <tab-content title="Step 3" class="mb-5" icon="feather icon-image">
+      <tab-content title="Paso 3" class="mb-5" icon="feather icon-image">
           <div class="vx-row">
               <div class="vx-col md:w-1/2 w-full">
                   <vs-input label="Event Name" v-model="eventName" class="w-full mt-5" />

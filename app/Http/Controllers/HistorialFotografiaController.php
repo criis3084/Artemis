@@ -73,7 +73,7 @@ class HistorialFotografiaController extends Controller
         $historialFotografias = HistorialFotografia::findOrFail($request->id);
         $historialFotografias->estado = '1';
         $historialFotografias->save();
-		return Response::json(['message' => 'Relacion Activada'], 200);
+		return Response::json(['message' => 'Historial Activado'], 200);
 	}
 	public function desactivar(Request $request)
     {
@@ -81,7 +81,7 @@ class HistorialFotografiaController extends Controller
         $historialFotografias = HistorialFotografia::findOrFail($request->id);
         $historialFotografias->estado = '0';
         $historialFotografias->save();
-		return Response::json(['message' => 'Relacion Desactivada'], 200);
+		return Response::json(['message' => 'Historial Desactivado'], 200);
 	}
 	public function imagen(Request $request){
 		$imagen = $request->photos;

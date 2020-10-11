@@ -26,7 +26,10 @@
 								<div v-if="nino.nino.estado==1">
 									<div class="flex items-center">
 										<vs-avatar :src="nino.nino.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="60px"/>
-										<h2> {{"  "}} <b> Codigo:</b> {{nino.nino.codigo}} </h2> 
+										<h2>&nbsp; <b> Codigo:</b> {{nino.nino.codigo}}</h2> 
+										<div class="vx-col w-1/2 text-right">
+										 <h3><b>Fecha de apadrinamiento: </b> {{nino.nino.fecha_ingreso}}  </h3>
+										</div>
 									</div>
 									<table style="width:100%" class="border-none mt-2">
 										<tr>
@@ -184,6 +187,15 @@
 				<p> {{ datosEstudio.evaluacion_diagnostico }} </p>
 			</vx-card>
 		</vx-card>
+
+		<div class="flex flex-wrap items-center justify-between mt-2">
+			<vx-input-group class="mb-base mr-3">
+			</vx-input-group>
+
+			<div class="flex items-center">
+				<vs-button class="mb-base mr-3" type="gradient" icon-pack="feather" color="success" @click="goBack">Regesar</vs-button>  
+			</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -208,6 +220,9 @@ export default {
 		}
 	},
 	methods: {
+		goBack(){
+			this.$router.go(-1)
+	    },
 		nombreMes(numero){
 			numero = parseInt(numero)
 			let nombre=''

@@ -23,7 +23,7 @@
 							<vs-th>Ver</vs-th>
 							<vs-th>Código</vs-th>
 							<vs-th>Nombres</vs-th>
-							<vs-th>Apelidos</vs-th>
+							<vs-th>Apellidos</vs-th>
 							<vs-th>Género</vs-th>
 							<vs-th>Fecha de Nacimiento</vs-th>
 							<vs-th>Fecha de Ingreso</vs-th>
@@ -180,7 +180,7 @@ export default {
 	},
 	cambiarEstado(color){
 		let titulo = ''
-		
+		console.log(this.id)
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
 			axios.put('/api/nino/activar', {
