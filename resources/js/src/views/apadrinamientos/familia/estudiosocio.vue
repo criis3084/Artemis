@@ -3,12 +3,12 @@
 		<vx-card>            
 			<div class="vx-row leading-loose p-base">
                 <div class="vx-col w-1/2 mt-base">
-                    <h1>Estudio Socioeconomico</h1>
+                    <h1><b>Estudio Socioeconomico</b> </h1>
 					<br/>
-                    <h5><b>Familia: </b> {{codigo_familiar}} </h5>
+                    <h2><b>Familia: </b> {{codigo_familiar}} </h2>
                 </div>
 				<div class="vx-col w-1/2 text-right">
-                    <h1>PPI Familiar</h1>
+                    <h3> <b>PPI Familiar</b>  </h3>
                         <br/>
                         <h6><b>Valor de ultimo PPI:</b> {{total_ppi}} </h6>
 						<br/>
@@ -43,9 +43,15 @@
 									<vs-divider/>
 									<p><b>Fecha de Nacimiento: </b> el {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[2] }} de {{ nombreMes(nino.datos_nino[0].fecha_nacimiento.split('-',3)[1]) }}  del  {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[0] }}</p>
 									<vs-divider/>
-									<p><b>Escuela:</b> {{ nino.nino.escuela_nombre }}  <b>Grado: </b>  {{nino.nino.grado}} </p>
+										<table style="width:75%" class="border-collapse mt-2">
+												<tr>
+													<td class="pointer-events-none text-left"><b>Escuela:</b> {{ nino.nino.escuela_nombre }}  </td>
+													<td class="pointer-events-none text-left"> <b>Grado: </b>  {{nino.nino.grado}} </td>
+												</tr>
+										</table>
 									<vs-divider/>
 									<p><b>Actividades:</b> {{ nino.nino.actividades }} </p>
+									<vs-divider/>
 								</div>
 							</div>
 						</div>
@@ -76,9 +82,15 @@
 									<vs-divider/>
 									<p><b>Fecha de Nacimiento: </b> el {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[2] }} de {{ nombreMes(nino.datos_nino[0].fecha_nacimiento.split('-',3)[1]) }}  del  {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[0] }}</p>
 									<vs-divider/>
-									<p><b>Escuela:</b> {{ nino.nino.escuela_nombre }}  <b>Grado: </b>  {{nino.nino.grado}} </p>
+										<table style="width:75%" class="border-collapse mt-2">
+												<tr>
+													<td class="pointer-events-none text-left"><b>Escuela:</b> {{ nino.nino.escuela_nombre }}  </td>
+													<td class="pointer-events-none text-left"> <b>Grado: </b>  {{nino.nino.grado}} </td>
+												</tr>
+										</table>
 									<vs-divider/>
 									<p><b>Actividades:</b> {{ nino.nino.actividades }} </p>
+									<vs-divider/>
 								</div>
 							</div>
 						</div>
@@ -101,6 +113,7 @@
 											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Parentesco</th>
 											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Escolaridad</th>
 											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ocupación</th>
+											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Telefono</th>
 											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ingresos</th>
 										</tr>
 										<tr v-for="(encargado,index2) in listadoFamilia" :key="index2">
@@ -110,6 +123,7 @@
 											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.relacion}}</td>
 											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.escolaridad}}</td>
 											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.ocupacion}}</td>
+											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.datos_encargado[0].numero_telefono}}</td>
 											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.ingresos}}</td>
 										</tr>
 								</table>
@@ -122,26 +136,43 @@
     		title="Información de la familia"
     		title-color="warning"
 			>
-				<p><b>Total de ingresos:</b> {{ datosEstudio.total_ingresos }} </p>
+				<p><b>Total de ingresos familiares: </b> Q.{{ datosEstudio.total_ingresos }} </p>
 				<vs-divider/>
 				<p><b>Alimentación:</b> {{ datosEstudio.alimentacion }} </p>
 				<vs-divider/>
-				<p><b>Situación de la vivienda:</b> {{datosEstudio.situacion_vivienda == 1 ? 'Propia' : datosEstudio.situacion_vivienda== 2 ? 'Alquilada' : 'Prestada' }}  <b> Costos de la vivienda:</b>  {{datosEstudio.descripcion_costo}} </p>
+
+				<table style="width:65%" class="border-collapse mt-2">
+					<tr>
+						<td class="pointer-events-none text-left"> <b>Dirección de la vivienda: </b> {{direccion}} </td>
+						<td class="pointer-events-none text-left"> <b>Sector: </b> {{sector}} </td>
+						</tr>
+				</table>
+				<vs-divider/>
+
+					<table style="width:75%" class="border-collapse mt-2">
+							<tr>
+								<td class="pointer-events-none text-left"> <b>Situación de la vivienda: </b> {{datosEstudio.situacion_vivienda == 1 ? 'Propia' : datosEstudio.situacion_vivienda== 2 ? 'Alquilada' : 'Prestada' }}  </td>
+								<td class="pointer-events-none text-left"> <b> Costos de la vivienda:   </b>  {{datosEstudio.descripcion_costo}} </td>
+							</tr>
+					</table>
 				<vs-divider/>
 
 				<p><b>Servicios con los que cuenta la vivienda:</b></p>
-					<div class="flex items-center">
-							<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.luz ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true">Luz</vs-checkbox>
-							<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.agua ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true">Agua</vs-checkbox>
-							<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.drenaje ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true">Drenaje</vs-checkbox>
-					</div>
+
+					<table style="width:50%" class="border-collapse mt-2">
+							<tr>
+								<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.luz ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"> <b> Luz </b></vs-checkbox> </td>
+								<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.agua ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"><b> Agua</b> </vs-checkbox> </td>
+								<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.drenaje ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"><b>Drenaje</b></vs-checkbox> </td>
+							</tr>
+					</table>
 				<vs-divider/>
 				<p><b>Numero de cuartos: </b> {{ datosEstudio.cantidad_cuartos }} </p>
 				<vs-divider/>
 				<p><b>Baño: </b> {{ datosEstudio.bano }} </p>
 				<vs-divider/>
 				<p><b> Materiales de construcción: </b> </p>
-					<table style="width:100%" class="border-collapse mt-2">
+					<table style="width:70%" class="border-collapse mt-2">
 							<tr>
 								<td class="pointer-events-none text-left"><b>Paredes: </b>  {{ datosEstudio.paredes}}</td>
 								<td class="pointer-events-none text-left"><b> Techo:  </b> {{datosEstudio.techo}}</td>
@@ -171,15 +202,15 @@ export default {
 			check:1,
 			fecha:'',
 			apellidos:[],
-			escuelas:[]
+			escuelas:[],
+			direccion:'',
+			sector:'',
 		}
 	},
 	methods: {
 		nombreMes(numero){
 			numero = parseInt(numero)
 			let nombre=''
-			console.log('numero fecha')
-			console.log(numero)
 			switch (numero) {
 				case 1:
 					nombre='enero' 
@@ -247,7 +278,6 @@ export default {
 			let difference = currentDate - fecha_nacimientoTt;
 			let age = Math.floor(difference/31557600000);
 			return age
-			console.log(age)
         },
 		async index(){
 			let datos = this.$route.params.id;
@@ -261,19 +291,6 @@ export default {
 				console.log(error);
 			});
 		},
-		async traerEscuela(escuela_id){
-			let escuela=''
-			const response = await axios.get(`/api/escuela/get?criterio=id&buscar=${escuela_id}`)
-				.then(function (response) {
-					var respuesta= response.data;
-					escuela = respuesta.escuelas.data[0].nombre;
-					return escuela
-				})
-				.catch(function (error) {
-					console.log(error);
-					return 'no hay'
-				});
-		},
 		async buscarFamilia(codigo){
 			let consulta=[]
 			let me = this
@@ -286,6 +303,11 @@ export default {
 				me.listadoFamilia = consulta.filter(o => hash[o.encargado_id] ? false : hash[o.encargado_id] = true);
 				me.listadoNinos	  = consulta.filter(o => hash[o.nino_id] ? false : hash[o.nino_id] = true);
 
+				console.log('Listado de familia')
+				console.log(me.listadoFamilia[0].direccion)
+				me.direccion=me.listadoFamilia[0].direccion
+				me.sector=me.listadoFamilia[0].sector.nombre
+				console.log(me.listadoFamilia[0].sector)
 
 				me.listadoNinos.forEach(function(elemento, indice, array) {
 					let nombreT=elemento.datos_nino[0].apellidos
@@ -300,8 +322,6 @@ export default {
 					}
 					const resultado = me.escuelas.find( escuela => escuela.id === elemento.nino.escuela_id );
 					elemento.nino.escuela_nombre = resultado.nombre
-					console.log('elemento con nombre')
-					console.log(elemento)
 				})
 
 			})
@@ -336,7 +356,6 @@ export default {
 			axios.get(`/api/historialPpi/get?criterio=nino_id&buscar=${nino_id}&completo=false`)
 			.then(function (response) {
 				var respuesta= response.data.historialPpis.data[0];
-				console.log('historialPPI')
 				me.fecha_ppi=respuesta.fecha_estudio
 				me.total_ppi=respuesta.ppi.total
 			})
@@ -348,7 +367,6 @@ export default {
 	mounted() {
 		this.traerEscuelas()
 		this.buscarCodigo()
-		// this.index()
 	},
 
 }
