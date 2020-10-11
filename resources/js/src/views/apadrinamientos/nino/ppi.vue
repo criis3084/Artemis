@@ -150,7 +150,7 @@ export default {
         let me = this;
         me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
-			`/api/historialPpi/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
+			`/api/historialPpi/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=false`)
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayData = respuesta.historialPpis.data;

@@ -18,10 +18,9 @@ class TutorController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
-		
+		$count = Tutor::all()->count();
 		if ($completo == 'false')
 		{
-			$count = Tutor::where('estado',1)->count();
 			if ($buscar==''){
 				$tutor = Tutor::with('datos')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
@@ -29,7 +28,6 @@ class TutorController extends Controller
 				$tutor = Tutor::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
-			$count = Tutor::all()->count();
 			if ($buscar==''){
 				$tutor = Tutor::with('datos')->orderBy('id', 'desc')->paginate($count);
 			}

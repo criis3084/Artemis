@@ -236,7 +236,6 @@ export default {
 			let ppiT=this.ppi_id
 			let today = this.getDate(this.fecha)
 			this.listadoNinos.forEach(function(elemento, indice, array) {
-
 					axios.post("/api/historialPpi/post/",{
 						nino_id:elemento.nino_id,
 						ppi_id:ppiT,
@@ -264,17 +263,17 @@ export default {
 		});
 	},
 	buscarCodigo(){
-			let nino_id = this.$route.params.id;
-			let me = this;
- 			axios.get(`/api/relacion/get?criterio=nino_id&buscar=${nino_id}&completo=informacion`)
-			.then(function (response) {
-				var respuesta= response.data;
-				me.arrayData = respuesta.relaciones.data;
-				me.buscarHermanos(me.arrayData[0].codigo)
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
+		let nino_id = this.$route.params.id;
+		let me = this;
+		axios.get(`/api/relacion/get?criterio=nino_id&buscar=${nino_id}&completo=informacion`)
+		.then(function (response) {
+			var respuesta= response.data;
+			me.arrayData = respuesta.relaciones.data;
+			me.buscarHermanos(me.arrayData[0].codigo)
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
 	},
 	regresar(){
 		let id_recibido = this.$route.params.id;

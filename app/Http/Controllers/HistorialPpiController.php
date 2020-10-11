@@ -32,7 +32,6 @@ class HistorialPpiController extends Controller
 			}
 			else{
 				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->where([$criterio, 'like', '%'. $buscar . '%'],['estado',1])->orderBy('id', 'desc')->paginate($count);
-
 			}
 		}
 		return [
