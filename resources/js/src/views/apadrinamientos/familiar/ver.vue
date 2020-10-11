@@ -52,15 +52,15 @@
                 <span>Información adicional</span>
                 
                 <p class="flex items-center flex-wrap">
-                    <vx-tooltip text="Escolaridad"> <span><vs-icon icon="location_city" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
+                    <vx-tooltip text="Escolaridad"> <span><vs-icon icon="school" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
                 <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.escolaridadT}}</span>
                 </p>
                  <p class="flex items-center flex-wrap">
-                    <vx-tooltip text="Ocupación"> <span><vs-icon icon="location_city" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
+                    <vx-tooltip text="Ocupación"> <span><vs-icon icon="work" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
                 <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.ocupacionT}}</span>
                 </p>
                  <p class="flex items-center flex-wrap">
-                    <vx-tooltip text="Ingresos"> <span><vs-icon icon="location_city" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
+                    <vx-tooltip text="Ingresos"> <span><vs-icon icon="money" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
                 <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.ingresosT}}</span>
                 </p>
                 <vs-divider/>

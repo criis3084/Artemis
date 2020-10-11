@@ -23,7 +23,7 @@
                         <h4>{{ encargado.datos_encargado[0].nombres + ' ' + encargado.datos_encargado[0].apellidos }}</h4>
                         <p class="text-grey">{{ encargado.datos_encargado[0].codigo }}</p>
                     </div>
-                    <vs-avatar @click="$router.push(url)" class="mx-auto my-6 block" size="80px" :src="encargado.ruta_imagen" />
+                    <vs-avatar @click="$router.push('/ver/familiar/'+encargado.encargado_id)" class="mx-auto my-6 block" size="80px" :src="encargado.encargado.ruta_imagen" />
                 </vx-card>
             </div>
 			</div>
