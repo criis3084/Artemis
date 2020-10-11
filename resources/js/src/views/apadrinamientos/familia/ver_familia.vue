@@ -27,7 +27,7 @@
 
 			<vs-button class="mr-4" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/apadrinamiento/ppi/'+ninoP)">Registros del PPI</vs-button>
 			<vs-button class="mr-4 mt-3" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/editar/ninono/'+ninoP)">Registros de Estudios Socioeconomicos</vs-button>  
-                    <router-link to="/apadrinamiento/familia"><vs-button class="mr-4 mt-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button></router-link>
+                    <vs-button @click="goBack" class="mr-4 mt-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
 		</div>
 	</vx-card>
 </template>
@@ -52,6 +52,9 @@ export default {
 
 	},
 	methods:{
+		goBack(){
+      		this.$router.go(-1)
+    	},
 		setearValor(unArreglo){
 			this.listadoFamilia=unArreglo.slice();
 			this.listadoNinos=unArreglo.slice();

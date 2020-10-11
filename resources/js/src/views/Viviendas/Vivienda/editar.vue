@@ -51,7 +51,7 @@
       </form-wizard>
     </div>
     <div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/vivienda/vivienda"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+ <vs-button @click="goBack" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
     </div>
 
   </vx-card>
@@ -120,6 +120,9 @@ export default {
   computed: {
   },
   methods: {
+    goBack(){
+      this.$router.go(-1)
+    },
     async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;
         this.id_recibido = this.$route.params.id;

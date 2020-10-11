@@ -68,7 +68,7 @@
                 <div class="vx-row">
                   <div class="vx-col flex flex-wrap items-center">
                    <vs-button class="mr-4" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/editar/familiar/'+id_recibido)">Editar Información</vs-button>  
-                    <router-link to="/apadrinamiento/encargado"><vs-button class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button></router-link>
+                    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
                   </div>
                 </div>
 
@@ -107,6 +107,9 @@ export default {
     }
   },
   methods: {
+    goBack(){
+      this.$router.go(-1)
+    },
 	  getDate (datetime) {
       const date = new Date(datetime)
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`

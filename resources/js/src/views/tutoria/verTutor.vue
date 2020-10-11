@@ -51,7 +51,7 @@
                 <div class="vx-row">
                   <div class="vx-col flex flex-wrap items-center">
                    <vx-tooltip text="Editar Información"> <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-edit" radius  @click="$router.push('/editar/tutor/'+id_recibido)"></vs-button> </vx-tooltip>
-                    <vx-tooltip text="Regresar"><router-link to="/tutoria/tutor"><vs-button class="mr-4" type="border" icon-pack="feather" color="#00aaff" icon="icon-corner-down-left" radius></vs-button></router-link></vx-tooltip>
+                    <vx-tooltip text="Regresar"><vs-button @click="goBack" class="mr-4" type="border" icon-pack="feather" color="#00aaff" icon="icon-corner-down-left" radius></vs-button></vx-tooltip>
                   </div>
                 </div>
 
@@ -117,6 +117,9 @@ export default{
   computed: {
   },
   methods: {
+    goBack(){
+      this.$router.go(-1)
+    },
     getDate (datetime) {
       const date = new Date(datetime)
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`

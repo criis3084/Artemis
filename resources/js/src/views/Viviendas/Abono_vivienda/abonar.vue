@@ -14,7 +14,7 @@
                 <div class="vx-row">
 
                     <!-- LEFT COL -->
-                    <div class="vx-col lg:w-2/3 w-full relative">
+                    <div class="vx-col lg:w-2/3 w-full">
                         <div class="items-list-view">
                             <item-list-view :item="item" class="mb-base">
 

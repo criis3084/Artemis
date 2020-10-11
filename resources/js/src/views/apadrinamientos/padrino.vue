@@ -21,7 +21,6 @@
         				</template>
 						<template slot="thead">
 							<!-- <vs-th>Ver</vs-th> -->
-							<vs-th>Id</vs-th>
 							<vs-th>Nombres</vs-th>
 							<vs-th>Apellidos</vs-th>
               				<vs-th>Género</vs-th>
@@ -36,7 +35,6 @@
 								<!-- <vs-td>
 									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"></vs-button></vx-tooltip>
 								</vs-td> -->
-								<vs-td>{{data[indextr].id}}</vs-td>
 								<vs-td>
 									<div class="flex items-center">
 										<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>

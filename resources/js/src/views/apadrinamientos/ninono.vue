@@ -23,10 +23,10 @@
 
 				<template slot="thead">
 					<vs-th>Ver</vs-th>
-					<vs-th>Codigo</vs-th>
+					<vs-th>Código</vs-th>
 					<vs-th>Nombres</vs-th>
 					<vs-th>Apellidos</vs-th>
-					<vs-th>Genero</vs-th>
+					<vs-th>Género</vs-th>
 					<vs-th>Fecha de Nacimiento</vs-th>
 					<vs-th>Fecha de Ingreso</vs-th>
 					<vs-th>Estado</vs-th>

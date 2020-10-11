@@ -119,7 +119,7 @@
 					</tab-content>
 			</form-wizard>
 			<div class="vx-col md:w-1/2 w-full mt-5">
-				<router-link to="/tutoria/tutor"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border >Regresar</vs-button></router-link>
+				<vs-button @click="goBack" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border >Regresar</vs-button>
 			</div>
 		</vx-card>
 	</div>
@@ -202,6 +202,9 @@ export default {
 		}
 	},
 	methods: {
+		goBack(){
+      this.$router.go(-1)
+    },
 		editarImagen(){
 			this.mostrarEditar=true;
 		},
