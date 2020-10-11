@@ -1,34 +1,27 @@
 	<template>
 			<div>
 				<div class = "demo-alignment">
-					<h2>Historial de PPI</h2>
-					<vx-tooltip text = "Agregar nuevo PPI"> 
-                      <vs-button @click="$router.push('/ingresar/ppi/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button>
+					<h2>Historial de Estudio Socioeconómico</h2>
+					<vx-tooltip text = "Agregar nuevo Estudio Socioeconómico"> 
+                      <vs-button @click="$router.push('/ingresar/estudiosocio/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button>
                     </vx-tooltip>
 				</div>
 				<br>
 				<vx-card :title="titulo()" class="mb-base">
-					<chartjs-component-line-chart :height="125" v-if="ya" :data="datos" :options="opciones"></chartjs-component-line-chart>
-				<vs-divider></vs-divider>
-				<!--
-				<chartjs-line-chart :height="250" :data="datos" :options="optiones" ></chartjs-line-chart>
-				-->
 					<vs-table pagination max-items="5" search :data="arrayData">
 
 						<template slot="thead">
 							<vs-th>Ver</vs-th>
 							<vs-th>Fecha</vs-th>
-							<vs-th>Total</vs-th>
 							<vs-th>Estado</vs-th>
 						</template>
 
 						<template slot-scope="{data}">
 							<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
 								<vs-td>
-									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/ppi/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
+									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/estudiosocio/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
 								</vs-td > 							
-								<vs-td >{{data[indextr].fecha_estudio}}</vs-td>
-								<vs-td>{{data[indextr].ppi.total}}</vs-td>
+								<vs-td >{{getDate(data[indextr].created_at)}}</vs-td>
 								<vs-td>
 									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 										<span slot="on" >Activo</span>
@@ -75,7 +68,6 @@ export default {
 		arrayData: [],
 		codigo: '',
 		id_recibido: 0,
-		id_ppi: 0,
 		nombre: '',
 		apellido: '',
 		switch2:false,
@@ -100,47 +92,6 @@ export default {
 	titulo(){
 		return 'Nombre: '+this.nombre +' '+ this.apellido + "     "+ ' Código: ' +this.codigo
 	},
-	traerNombre(tabla){
-		tabla.forEach(function(valor, indice, array){
-			valor.nombres=valor.datos.nombres
-		}); 
-		console.log(tabla)
-		return tabla
-	},
-	traerData(arreglo){
-		let valores =[]
-		let fechas =[]
-		if (arreglo !== undefined)
-		{
-			arreglo.forEach(function(valor, indice, array){
-				if (valor.estado ==1){
-					valores.unshift(valor.ppi.total)
-					fechas.unshift(valor.fecha_estudio)
-				}
-			});
-		}
-		let data =  {
-	        labels: fechas,
-    	    datasets: [
-				{
-					data: valores,
-					label: 'Registros',
-					borderColor: '#7367F0',
-					fill: false
-				}
-			]
-		}
-		return data
-	},
-	traerOptions(arreglo){
-		let options={
-			title: {
-				display: true,
-				text: 'Registro de Avance de PPI'
-			}
-		}
-		return options
-	},
 	getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -150,21 +101,21 @@ export default {
         let me = this;
         me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
-			`/api/historialPpi/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
+			`/api/historialEstudio/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=false`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.arrayData = respuesta.historialPpis.data;
-            me.nombre = respuesta.historialPpis.data[0].datos_nino[0].nombres;
-            me.apellido = respuesta.historialPpis.data[0].datos_nino[0].apellidos;
-            me.codigo = respuesta.historialPpis.data[0].nino.codigo;
-			me.id = respuesta.historialPpis.data[0].datos_nino[0].id;
-			me.pagination= respuesta.pagination;
+            me.arrayData = respuesta.historialEstudios.data;
+            me.nombre = respuesta.historialEstudios.data[0].datos_nino[0].nombres;
+            me.apellido = respuesta.historialEstudios.data[0].datos_nino[0].apellidos;
+            me.codigo = respuesta.historialEstudios.data[0].nino.codigo;
+			me.id = respuesta.historialEstudios.data[0].datos_nino[0].id;
+            me.pagination= respuesta.pagination;
+            console.log("array");
+            console.log(me.arrayData);
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
-		me.datos = me.traerData(me.arrayData);
-		me.opciones = me.traerOptions(me.arrayData)
 		me.ya=true;
     },
 	abrirDialog(id, estado){
@@ -199,7 +150,7 @@ export default {
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
 			console.log(this.id)
-			axios.put('/api/historialPpi/activar/', {
+			axios.put('/api/historialEstudio/activar/', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -212,7 +163,7 @@ export default {
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
 			console.log(this.id)
-			axios.put('/api/historialPpi/desactivar/', {
+			axios.put('/api/historialEstudio/desactivar/', {
 				id: this.id
 			})
 			.then(function (response) {
