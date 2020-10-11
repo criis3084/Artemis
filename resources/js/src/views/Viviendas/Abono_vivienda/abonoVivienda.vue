@@ -19,7 +19,7 @@
                     <br>
 				<vx-card>
 
-          <vs-table pagination max-items="5" search :data="arrayHistorial">
+          <vs-table pagination max-items="7" search :data="arrayHistorial">
 						<template slot="thead">
               <vs-th>Ver</vs-th>
 							<vs-th>Fecha</vs-th>
@@ -35,8 +35,8 @@
 									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/vivienda/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
 								</vs-td > 							
 								<vs-td >{{getDate(data[indextr].abono.fecha_pago)}}</vs-td>
-								<vs-td>{{data[indextr].abono.cantidad_abono}}</vs-td>
-                <vs-td>{{data[indextr].abono.cantidad_restante}}</vs-td>
+								<vs-td>{{currency(data[indextr].abono.cantidad_abono)}}</vs-td>
+                <vs-td>{{currency(data[indextr].abono.cantidad_restante)}}</vs-td>
                 <vs-td>{{data[indextr].abono.descripcion}}</vs-td>
 								<vs-td>
 									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
