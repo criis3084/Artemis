@@ -176,7 +176,7 @@ export default {
 		codigoT:"",
 		ocupacionT:"",
 		actividadesT:"",
-		gradoT:"";
+		gradoT:"",
 		sector_idT:0,
 		escuela_idT:0,
 		numero_telefono:'',

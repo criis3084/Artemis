@@ -178,7 +178,7 @@ export default {
 			ruta_imagen:'',
 			ocupacionT:"",
 			actividadesT:"",
-			gradoT:"";
+			gradoT:"",
 			sectoresT:[],
 			escuelasT:[],
 			titulo:'Actualización registrada!',
