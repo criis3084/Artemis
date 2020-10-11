@@ -6,7 +6,7 @@
       <vx-card title="Ingresar Abono">
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
-            <span>Nombre</span>
+            <span>Nombre del propietario</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
             <v-select label="encargado_nombreCompleto" :options="encargados" v-model="encargado_id"  @input="buscar" @change="onChange($event)" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
@@ -62,13 +62,20 @@
     <div class="vx-col lg:w-1/3 w-full">
     <div id="invoice-page">
                         <vx-card id="invoice-container">
-                            <p class="text-primary mb-3">Información adicional</p>
-                            <div class="flex justify-between">
-                                <span class="font-semibold"></span>
+                          <div class="flex justify-between mb-2">
+                               <img src="@assets/images/logo/logo.png" alt="vuexy-logo">
+                               <p class="text-primary">Partners in Development</p>
+                               
+                            </div>
+
+                            <span>Comprobante pago de vivienda</span>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold">Comprobante No.</span>
                                 <span class="font-medium text-primary cursor-pointer"></span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey"> {{nombreSeleccionado }} </span>
+                                <span class="text-grey"> {{getDate(fecha)}}</span>
                             </div>
                             <vs-divider />
 
@@ -223,20 +230,21 @@ export default{
         vivienda_id:this.vivienda_id
 
       }).then(function (response) {
-        console.log(response)
+        alert('Ingreso correctamente')
       })
         .catch(function (error) {
           console.log(error)
+          alert('Erro al ingresar')
         })
+      
+    },
+    limpiar () {
       this.deuda = 0
       this.total = 0
       this.vivienda_id = ''
       this.cantidad = 0
       this.costoV = 0
       this.descripcion = ''
-    },
-    buscarTotal () {
-    
     },
     Calcular () {
       console.log('Calcular')

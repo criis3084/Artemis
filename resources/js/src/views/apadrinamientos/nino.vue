@@ -54,7 +54,7 @@
 										<vx-tooltip text="Editar"><vs-button @click="$router.push('/editar/nino/'+data[indextr].id)" radius color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
 										<vx-tooltip text="Historial de PPI">  <vs-button @click="$router.push('/apadrinamiento/ppi/'+data[indextr].id)" radius color="dark" type="flat" icon="poll" size="large"> </vs-button></vx-tooltip>
 										<vx-tooltip text="Historial de Fotografias"> <vs-button @click="$router.push('/apadrinamiento/fotografia/'+data[indextr].id)" radius color="dark" type="flat" icon="camera_alt" size="large" > </vs-button> </vx-tooltip>
-									  	<vx-tooltip text="Estudio Socioeconómico"> <vs-button @click="$router.push('/apadrinamiento/estudiosocio/'+data[indextr].id)" radius color="dark" type="flat" icon="camera_alt" size="large" > </vs-button> </vx-tooltip>
+									  	<vx-tooltip text="Estudio Socioeconómico"> <vs-button @click="$router.push('/apadrinamiento/estudiosocio/'+data[indextr].id)" radius color="dark" type="flat" icon="assignment" size="large" > </vs-button> </vx-tooltip>
 									  </div>
 								</vs-td>
 							</vs-tr>

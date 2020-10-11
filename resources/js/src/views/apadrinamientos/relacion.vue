@@ -1,6 +1,9 @@
 <template>
 	<vx-card>
-		<formulariosector v-on:cerrado="index();"></formulariosector>
+			<div class = "demo-alignment">
+					<h2>Familias</h2>
+					<vx-tooltip text = "Agregar nueva familia"> <router-link to="/ingresar/familia"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = "large" ></vs-button> </router-link>   </vx-tooltip>
+			</div>
 		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
 			<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
 			<v-select v-model="selectedFormat" :options="formats" class="my-4" />

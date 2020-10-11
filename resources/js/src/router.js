@@ -122,14 +122,40 @@ const router = new Router({
         rule: 'editor'
       }
     },
+    //////////////////ESTUDIO SOCIO
     {
       path: '/apadrinamiento/estudiosocio/:id/:estudio',
-      name: 'apadrinamiento-ppi',
+      name: 'apadrinamiento-estudiosocio',
       component: () => import('./views/apadrinamientos/familia/estudiosocio.vue'),
       meta: {
         rule: 'editor'
       }
     },
+    {
+      path: '/apadrinamiento/estudiosocio/:id',
+      name: 'apadrinamiento-estudiosocio',
+      component: () => import('./views/apadrinamientos/nino/historialestudiosocio.vue'),
+      meta: {
+        rule: 'editor'
+      }
+    },
+    {
+      path: '/ver/estudiosocio/:id',
+      name: 'ver-estudiosocio',
+      component: () => import('./views/apadrinamientos/nino/verestudiosocio.vue'),
+      meta: {
+        rule: 'editor'
+      }
+    },
+    {
+      path: '/ingresar/estudiosocio/:id',
+      name: 'ingresar-estudiosocio',
+      component: () => import('./views/apadrinamientos/nino/nuevoestudiosocio.vue'),
+      meta: {
+        rule: 'admin'
+      }
+    },
+    /////////////////// PPI
 		{			
 			path: '/ingresar/ppi/:id',
 			name: 'ingresar-ppi',

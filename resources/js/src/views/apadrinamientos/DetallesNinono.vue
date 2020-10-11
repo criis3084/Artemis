@@ -39,10 +39,6 @@
                   <vx-tooltip text="Sector"><span><vs-icon icon="place" size="medium" color="dark"></vs-icon></span></vx-tooltip>
                   <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.sector_idT }}</span>
                 </p>
-                <p class="flex items-center flex-wrap"> 
-                   <vx-tooltip text="Télefono"> <span><vs-icon icon="call" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
-                    <span class="text-2xl leading-none font-medium text-primary mr-4">{{this.numero_telefono }}</span>
-                </p>
                 <p class="flex items-center flex-wrap">
                       <vx-tooltip text="Fecha de nacimiento"> <span> <vs-icon icon="cake" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
                 <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.fecha_nacimientoT }}</span>

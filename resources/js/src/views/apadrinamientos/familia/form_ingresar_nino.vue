@@ -14,7 +14,7 @@
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<div class="vx-col w-full">
 
-							<vs-input v-model="codigo" name='codigo' class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Codigo"  />
+							<vs-input v-model="codigo" name='codigo' class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="Código"  />
 
 							<vs-input v-model="nombres" name='nombres' class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" />
 
@@ -22,7 +22,7 @@
 
 							<br>
 
-							<small class="date-label mt-10">Genero</small>
+							<small class="date-label mt-10">Género</small>
 								<ul class="demo-alignment">
 									<li>
 										<vs-radio color="rgb(0, 170, 228)" v-model="genero" name='genero' vs-value="1">Masculino</vs-radio>
@@ -43,7 +43,7 @@
 
 					<div class="vx-col md:w-1/2 w-full mt-6">
 						<div class="vx-col w-full">
-							<vs-input v-model="ocupacion" name="ocupacion" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupación" />
+							<vs-input v-model="ocupacion" name="ocupacion" class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Ocupación" />
 						</div>
 					</div>
 
@@ -51,7 +51,7 @@
 					<div class="vx-col w-full mt-6">
 						<div class="vx-col w-full">
 							<small class="date-label">Actividades que realiza</small>
-							<vs-textarea class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border name='actividades' v-model="actividades"/>
+							<vs-textarea class="w-full" icon-pack="feather" icon="icon-coffee" icon-no-border name='actividades' v-model="actividades"/>
 						</div>
 					</div>
 
@@ -80,7 +80,7 @@
 
 						<div class="vx-col md:w-1/2 w-full mt-6">
 							<div class="vx-col w-full">
-								<vs-input v-model="grado" name="grado" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Grado" />
+								<vs-input v-model="grado" name="grado" class="w-full" icon-pack="feather" icon="icon-file-text" icon-no-border label-placeholder="Grado" />
 							</div>
 						</div>
 					</div>
