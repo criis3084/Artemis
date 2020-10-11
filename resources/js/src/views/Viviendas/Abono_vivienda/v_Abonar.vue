@@ -178,8 +178,9 @@ export default{
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.viviendas.data
+          console.log('importacion de viviendas')
+          console.log(me.arrayData)
           me.encargados = me.traerDatosEncargados(me.arrayData)
-          console.log(me.encargados)
         })
         .catch(function (error) {
           console.log(error)
