@@ -77,7 +77,7 @@ class FotografiaController extends Controller
 		];
     }
 
-    public function update(Request $request, Fotografia $fotografia)
+    public function update(Request $request)
     {
 		$fotografia = Fotografia::findOrFail($request->id);
 		$fotografia->ruta = $request->ruta;
@@ -88,18 +88,18 @@ class FotografiaController extends Controller
         //
     }
 
-	public function activar(Fotografia $fotografia)
+	public function activar(Request $request)
 	{
 		//if(!$request->ajax())return redirect('/');
-		$fotografia = Fotografia::findOrFail($fotografia->id);
+		$fotografia = Fotografia::findOrFail($request->id);
 		$fotografia->estado = '1';
 		$fotografia->save();
 		return Response::json(['message' => 'Fotografía Activada'], 200);
 	}
-	public function desactivar(Fotografia $fotografia)
+	public function desactivar(Request $request)
 	{
 		//if(!$request->ajax())return redirect('/');
-		$fotografia = Fotografia::findOrFail($fotografia->id);
+		$fotografia = Fotografia::findOrFail($request->id);
 		$fotografia->estado = '0';
 		$fotografia->save();
 		return Response::json(['message' => 'Fotografía Desactivada'], 200);

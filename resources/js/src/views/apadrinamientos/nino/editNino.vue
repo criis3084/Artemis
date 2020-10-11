@@ -177,6 +177,7 @@ export default {
 		ocupacionT:"",
 		actividadesT:"",
 		gradoT:"",
+		ruta_imagen:'',
 		sector_idT:0,
 		escuela_idT:0,
 		numero_telefono:'',
@@ -226,7 +227,6 @@ export default {
 				me.sector_idT = me.arrayData.datos.sector_id;
 				me.escuela_idT = me.arrayData.escuela_id;
 				me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
-				me.pagination= respuesta.pagination;
 			})
 			.catch(function (error) {
 				console.log(error);

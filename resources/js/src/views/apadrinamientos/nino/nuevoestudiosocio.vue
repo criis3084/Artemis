@@ -4,7 +4,7 @@
 			<div class="vx-col md:w-1/2 w-full mt-1">
 				<div class="my-4">
 					<small class="date-label">Fecha de estudio</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_estudio" v-model="fecha_estudio"></datepicker>
+					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_boleta" v-model="fecha_boleta"></datepicker>
 				</div>
 			</div>
 
@@ -120,7 +120,7 @@ export default {
 	data() {
 		return {
 			estudio_id:0,
-			fecha_estudio:'',
+			fecha_boleta:'',
 			total_ingresos:0,
 			alimentacion:'',
 			situacion_vivienda:0,
@@ -197,7 +197,7 @@ export default {
 		ingresarEstudio(){
 			let me = this;
 			axios.post("/api/estudioSocioeconomico/post/",{
-				fecha_estudio:this.getDate(this.fecha_estudio),
+				fecha_boleta:this.getDate(this.fecha_boleta),
 				total_ingresos:this.total_ingresos,
 				alimentacion:this.alimentacion,
 				situacion_vivienda:this.situacion_vivienda-100,
