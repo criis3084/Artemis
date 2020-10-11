@@ -19,7 +19,7 @@
 						<template slot-scope="{data}">
 							<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
 								<vs-td>
-									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/estudiosocio/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
+									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/apadrinamiento/estudiosocio/'+id_recibido+'/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
 								</vs-td > 							
 								<vs-td >{{getDate(data[indextr].created_at)}}</vs-td>
 								<vs-td>
