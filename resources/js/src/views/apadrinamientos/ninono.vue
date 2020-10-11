@@ -60,14 +60,12 @@
 							</vs-switch>
 						</vs-td>
 						<vs-td>
+              <div class="flex items-center">
 							<vx-tooltip text="Editar"> <vs-button  @click="$router.push('/editar/ninono/'+data[indextr].id)" color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-						</vs-td>
-						<vs-td>
 							<vx-tooltip text="Historial de PPI"> <vs-button color="dark" type="flat" icon="poll" size="large" @click="$router.push('/apadrinamiento/ppi/'+data[indextr].id)"></vs-button>  </vx-tooltip>
-						</vs-td>
-						<vs-td>
-							<vx-tooltip text="Historial de Fotografias"> <vs-button color="dark" type="flat" icon="camera_alt" size="large" @click="$router.push('/apadrinamiento/fotografia/'+data[indextr].id)"></vs-button> </vx-tooltip>
-						</vs-td>
+							<vx-tooltip text="Estudio Socioeconómico"> <vs-button @click="$router.push('/apadrinamiento/estudiosocio/'+data[indextr].id)" radius color="dark" type="flat" icon="assignment" size="large" > </vs-button> </vx-tooltip>
+              </div>
+          	</vs-td>
 					</vs-tr>
 				</template>
 			</vs-table>

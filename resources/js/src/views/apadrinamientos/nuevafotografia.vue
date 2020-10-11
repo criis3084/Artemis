@@ -18,12 +18,6 @@
 					</template>
 				</div>
 			</div>
-			
-            <div class="vx-col md:w-1/2 w-full mt-5">
-				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Ruta de fotografía" v-model="ruta"/>
-				</div>
-			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
