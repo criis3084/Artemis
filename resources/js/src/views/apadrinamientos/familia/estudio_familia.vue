@@ -93,8 +93,6 @@
 					<vs-textarea class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border name='evaluacion_diagnostico' v-model="evaluacion_diagnostico"/>
 				</div>
 			</div>
-
-
 	</div>
 </template>
 
@@ -235,11 +233,6 @@ export default {
 				this.$emit('validado',400);
 			});
 		},
-		getDate(datetime) {
-			let date = new Date(datetime);
-			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-			return dateString;
-		}
 	},
 	created() {
 		this.validator = new Validator({

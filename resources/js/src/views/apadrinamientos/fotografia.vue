@@ -108,15 +108,15 @@ export default {
     VxTimeline,
   },
   methods: {
-	  goBack(){
-      this.$router.go(-1)
+	goBack(){
+		this.$router.go(-1)
     },
     getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
     },
-    async index(page, search){ //async para que se llame cada vez que se necesite
+    async index(){ //async para que se llame cada vez que se necesite
         let me = this;
 		me.id_recibido = this.$route.params.id
 		const response = await axios.get(
@@ -128,8 +128,6 @@ export default {
             me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
             me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
             me.id = respuesta.historialfotografias.data[0].datos_nino[0].id;
-			me.pagination= respuesta.pagination;
-
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -162,7 +160,7 @@ export default {
 			accept: this.cambiarEstado
 		})
 
-		this.index(this.pagination.current_page, this.search);
+		this.index();
     },
     cambiarEstado(color){
 		let titulo = ''
@@ -196,11 +194,11 @@ export default {
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
         })
-        this.index(this.pagination.current_page, this.search);
+        this.index();
 	},
   },
   mounted(){
-    this.index(1, this.search);
+    this.index();
   },
   computed:{
 

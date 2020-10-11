@@ -170,46 +170,46 @@ import Datepicker from 'vuejs-datepicker'
 
 
 export default {
-  data() {
-    return {
-		respuesta1:0,
-		respuesta2:0,
-		respuesta3:0,
-		respuesta4:0,
-		respuesta5:0,
-		respuesta6:0,
-		respuesta7:0,
-		respuesta8:0,
-		respuesta9:0,
-		respuesta10:0,
-		resultado:0,
-		valor1:0,
-		valor2:0,
-		valor3:0,
-		valor4:0,
-		valor5:0,
-		valor6:0,
-		valor7:0,
-		valor8:0,
-		valor9:0,
-		valor10:0,
-		valorT:0,
-		id:0,
-		fecha:"",
-		langEn: es,
-		ppi_id:0,
-		codigo_familiar:0,
-		listadoNinos:[]
-	}
-  },
-  	methods:{
-	enviando(id){
-		this.ppi_id=id;
+	data() {
+		return {
+			respuesta1:0,
+			respuesta2:0,
+			respuesta3:0,
+			respuesta4:0,
+			respuesta5:0,
+			respuesta6:0,
+			respuesta7:0,
+			respuesta8:0,
+			respuesta9:0,
+			respuesta10:0,
+			resultado:0,
+			valor1:0,
+			valor2:0,
+			valor3:0,
+			valor4:0,
+			valor5:0,
+			valor6:0,
+			valor7:0,
+			valor8:0,
+			valor9:0,
+			valor10:0,
+			valorT:0,
+			id:0,
+			fecha:"",
+			langEn: es,
+			ppi_id:0,
+			codigo_familiar:0,
+			listadoNinos:[]
+		}
 	},
-	guardar(){	
-		let me = this;
-		this.id=parseInt(this.$route.params.id)
-		axios.post("/api/ppi/post/",{
+	methods:{
+		enviando(id){
+			this.ppi_id=id;
+		},
+		guardar(){	
+			let me = this;
+			this.id=parseInt(this.$route.params.id)
+			axios.post("/api/ppi/post/",{
 				respuesta1:this.valor1,
 				respuesta2:this.valor2,
 				respuesta3:this.valor3,
@@ -221,15 +221,15 @@ export default {
 				respuesta9:this.valor9,
 				respuesta10:this.valor10,
 				total:this.valorT,
-
 			}).then(function(response) {
-				me.enviando(response.data.id)
-			})
-				.catch(function(error) {
-				console.log(error)
-			});
-			this.buscarCodigo()	},
-	setearValor(unArreglo){
+					me.enviando(response.data.id)
+				})
+					.catch(function(error) {
+					console.log(error)
+				});
+				this.buscarCodigo()
+		},
+		setearValor(unArreglo){
 			this.listadoNinos=unArreglo.slice();
 			let hash = {};
 			this.listadoNinos = this.listadoNinos.filter(o => hash[o.nino_id] ? false : hash[o.nino_id] = true);
@@ -249,73 +249,74 @@ export default {
 
 			})
 			this.$router.push('/apadrinamiento/ppi/'+this.id);
+		},
+		buscarHermanos(codigoT){
+			let me = this;
+			axios.get(`/api/relacion/get?criterio=codigo&buscar=${codigoT}&completo=informacion`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.arrayData = respuesta.relaciones.data;
+				me.setearValor(me.arrayData)
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		},
+		buscarCodigo(){
+			let nino_id = this.$route.params.id;
+			let me = this;
+			axios.get(`/api/relacion/get?criterio=nino_id&buscar=${nino_id}&completo=informacion`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.arrayData = respuesta.relaciones.data;
+				me.buscarHermanos(me.arrayData[0].codigo)
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		},
+		regresar(){
+			let id_recibido = this.$route.params.id;
+			this.$router.push('/apadrinamiento/ppi/'+id_recibido);
+		},
+		getDate(datetime) {
+			let date = new Date(datetime);
+			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+			return dateString;
+		}
 	},
-	buscarHermanos(codigoT){
-		let me = this;
-		axios.get(`/api/relacion/get?criterio=codigo&buscar=${codigoT}&completo=informacion`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.arrayData = respuesta.relaciones.data;
-			me.setearValor(me.arrayData)
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
+	computed: {
+		calcularTotal: function () {
+			this.valor1 = this.respuesta1==0 ? 0 : this.respuesta1-100;
+			this.valor2 = this.respuesta2==0 ? 0 : this.respuesta2-200;
+			this.valor3 = this.respuesta3==0 ? 0 : this.respuesta3-300;
+			this.valor4 = this.respuesta4==0 ? 0 : this.respuesta4-400;
+			this.valor5 = this.respuesta5==0 ? 0 : this.respuesta5-500;
+			this.valor6 = this.respuesta6==0 ? 0 : this.respuesta6-600;
+			this.valor7 = this.respuesta7==0 ? 0 : this.respuesta7-700;
+			this.valor8 = this.respuesta8==0 ? 0 : this.respuesta8-800;
+			this.valor9 = this.respuesta9==0 ? 0 : this.respuesta9-900;
+			this.valor10 = this.respuesta10==0 ? 0 : this.respuesta10-1000;
+			this.valorT =this.valor1+this.valor2+this.valor3+this.valor4+this.valor5+this.valor6+this.valor7+this.valor8+this.valor9+this.valor10
+			return this.valorT
+		},
+		titulo(){
+			this.valor1 = this.respuesta1==0 ? 0 : this.respuesta1-100;
+			this.valor2 = this.respuesta2==0 ? 0 : this.respuesta2-200;
+			this.valor3 = this.respuesta3==0 ? 0 : this.respuesta3-300;
+			this.valor4 = this.respuesta4==0 ? 0 : this.respuesta4-400;
+			this.valor5 = this.respuesta5==0 ? 0 : this.respuesta5-500;
+			this.valor6 = this.respuesta6==0 ? 0 : this.respuesta6-600;
+			this.valor7 = this.respuesta7==0 ? 0 : this.respuesta7-700;
+			this.valor8 = this.respuesta8==0 ? 0 : this.respuesta8-800;
+			this.valor9 = this.respuesta9==0 ? 0 : this.respuesta9-900;
+			this.valor10 = this.respuesta10==0 ? 0 : this.respuesta10-1000;
+			
+			return "Total: " + (this.valor1+this.valor2+this.valor3+this.valor4+this.valor5+this.valor6+this.valor7+this.valor8+this.valor9+this.valor10)
+		},
+	  },
+	components: {
+		Datepicker,
 	},
-	buscarCodigo(){
-		let nino_id = this.$route.params.id;
-		let me = this;
-		axios.get(`/api/relacion/get?criterio=nino_id&buscar=${nino_id}&completo=informacion`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.arrayData = respuesta.relaciones.data;
-			me.buscarHermanos(me.arrayData[0].codigo)
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
-	regresar(){
-		let id_recibido = this.$route.params.id;
-		this.$router.push('/apadrinamiento/ppi/'+id_recibido);
-	},
-	getDate(datetime) {
-        let date = new Date(datetime);
-        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-        return dateString;
-	}
-  },computed: {
-    calcularTotal: function () {
-		this.valor1 = this.respuesta1==0 ? 0 : this.respuesta1-100;
-		this.valor2 = this.respuesta2==0 ? 0 : this.respuesta2-200;
-		this.valor3 = this.respuesta3==0 ? 0 : this.respuesta3-300;
-		this.valor4 = this.respuesta4==0 ? 0 : this.respuesta4-400;
-		this.valor5 = this.respuesta5==0 ? 0 : this.respuesta5-500;
-		this.valor6 = this.respuesta6==0 ? 0 : this.respuesta6-600;
-		this.valor7 = this.respuesta7==0 ? 0 : this.respuesta7-700;
-		this.valor8 = this.respuesta8==0 ? 0 : this.respuesta8-800;
-		this.valor9 = this.respuesta9==0 ? 0 : this.respuesta9-900;
-		this.valor10 = this.respuesta10==0 ? 0 : this.respuesta10-1000;
-		this.valorT =this.valor1+this.valor2+this.valor3+this.valor4+this.valor5+this.valor6+this.valor7+this.valor8+this.valor9+this.valor10
-		return this.valorT
-	},
-	titulo(){
-		this.valor1 = this.respuesta1==0 ? 0 : this.respuesta1-100;
-		this.valor2 = this.respuesta2==0 ? 0 : this.respuesta2-200;
-		this.valor3 = this.respuesta3==0 ? 0 : this.respuesta3-300;
-		this.valor4 = this.respuesta4==0 ? 0 : this.respuesta4-400;
-		this.valor5 = this.respuesta5==0 ? 0 : this.respuesta5-500;
-		this.valor6 = this.respuesta6==0 ? 0 : this.respuesta6-600;
-		this.valor7 = this.respuesta7==0 ? 0 : this.respuesta7-700;
-		this.valor8 = this.respuesta8==0 ? 0 : this.respuesta8-800;
-		this.valor9 = this.respuesta9==0 ? 0 : this.respuesta9-900;
-		this.valor10 = this.respuesta10==0 ? 0 : this.respuesta10-1000;
-		
-		return "Total: " + (this.valor1+this.valor2+this.valor3+this.valor4+this.valor5+this.valor6+this.valor7+this.valor8+this.valor9+this.valor10)
-	},
-  },
-  components: {
-	Datepicker,
-  },
 }
 </script>

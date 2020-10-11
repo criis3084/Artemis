@@ -26,8 +26,8 @@
 			</vs-list>
 
 			<vs-button class="mr-4" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/apadrinamiento/ppi/'+ninoP)">Registros del PPI</vs-button>
-			<vs-button class="mr-4 mt-3" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/editar/ninono/'+ninoP)">Registros de Estudios Socioeconomicos</vs-button>  
-                    <vs-button @click="goBack" class="mr-4 mt-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
+			<vs-button class="mr-4 mt-3" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/apadrinamiento/estudiosocio/'+ninoP)">Registros de Estudios Socioeconomicos</vs-button>  
+			<vs-button @click="goBack" class="mr-4 mt-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
 		</div>
 	</vx-card>
 </template>
