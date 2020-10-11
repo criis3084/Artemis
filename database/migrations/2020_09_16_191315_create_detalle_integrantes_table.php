@@ -17,6 +17,7 @@ class CreateDetalleIntegrantesTable extends Migration
 			$table->id();
 			$table->foreignId('encargado_id')->constrained();
 			$table->foreignId('grupo_prestamo_id')->constrained();
+			#$table->foreignId('destino_inversion_id')->constrained();
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });

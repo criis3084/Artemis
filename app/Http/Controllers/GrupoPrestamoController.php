@@ -12,25 +12,18 @@ class GrupoPrestamoController extends Controller
     public function index(Request $request)
     {
 		#if (!$request->ajax()) return redirect('/');
-        $buscar = $request->buscar;
+		$buscar = $request->buscar;
+		$count = GrupoPrestamo::all()->count();
 		if ($buscar==''){
-			$grupoPrestamo = GrupoPrestamo::orderBy('id', 'desc')->paginate(20);
+			$grupoPrestamo = GrupoPrestamo::with('integrantes')->orderBy('id', 'desc')->paginate($count);
 			#$grupoPrestamo = GrupoPrestamo::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as grupoPrestamo', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
 		}
 		else{
-			$grupoPrestamo = GrupoPrestamo::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+			$grupoPrestamo = GrupoPrestamo::with('integrantes')->where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 		}
 		
         return [
-            'pagination' => [
-                'total'        => $grupoPrestamo->total(),
-                'current_page' => $grupoPrestamo->currentPage(),
-                'per_page'     => $grupoPrestamo->perPage(),
-                'last_page'    => $grupoPrestamo->lastPage(),
-                'from'         => $grupoPrestamo->firstItem(),
-                'to'           => $grupoPrestamo->lastItem(),
-            ],
-            'aldeas' => $grupoPrestamo
+            'grupos' => $grupoPrestamo
 		];
     }
     public function store(Request $request)

@@ -22,7 +22,7 @@ class CreateMicroprestamosTable extends Migration
 			$table->tinyInteger('dia_pago');
 			$table->integer('mora_por_atraso')->default(0);
 			$table->tinyInteger('estado')->default(1);
-			$table->foreignId('destino_inversion_id')->constrained();
+			#$table->foreignId('destino_inversion_id')->constrained();
 			$table->timestamps();
         });
     }

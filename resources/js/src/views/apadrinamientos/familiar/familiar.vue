@@ -1,64 +1,64 @@
 <template>
-			<div>
-				<vx-card>
-					<div class = "demo-alignment">
-						<h2>Familiares</h2>
-					<!--	<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/nino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = 'large' ></vs-button> </router-link>  </vx-tooltip>
-					-->
-					</div>
-					<br>
-					<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
-        				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
-        				<v-select v-model="selectedFormat" :options="formats" class="my-4" />
-        				<div class="flex">
-          					<span class="mr-4">Ancho automatico de celda:</span>
-          					<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
-        				</div>
-    				</vs-prompt>
-					<vs-table title="Padrinos" pagination max-items="10" search :data="arrayData" noDataText="No hay datos disponibles">
-        				<template slot="header">
-							<vs-button @click="activePrompt=true">Exportar</vs-button>
-        				</template>
-						<template slot="thead">
-							<vs-th>Ver</vs-th>
-                            <vs-th>Id</vs-th>
-							<vs-th>Nombres</vs-th>
-							<vs-th>Apellidos</vs-th>
-							<vs-th>Escolaridad</vs-th>
-							<vs-th>Ocupacion</vs-th>
-							<vs-th>Ingresos</vs-th>
-							<vs-th>Acciones</vs-th>
-						</template>
-						<template slot-scope="{data}">
-                			<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-								<vs-td>
-									<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"  @click="$router.push('/ver/familiar/'+data[indextr].id)" ></vs-button></vx-tooltip>
-								</vs-td>
-		    					<!--
-								<router-link :to="url" @click.stop.prevent class="text-inherit hover:text-primary">{{ params.value }}</router-link>
-								-->
-								<vs-td>{{data[indextr].id}}</vs-td>
-                                <vs-td>
-									<div class="flex items-center">
-										<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
-										{{data[indextr].datos.nombres}}
-									</div>
-								</vs-td>
-								<!-- <vs-td>{{data[indextr].datos.nombres}}</vs-td> -->
-								<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
-								<vs-td>{{data[indextr].escolaridad}}</vs-td>
-                                <vs-td>{{data[indextr].ocupacion}}</vs-td>
-                                <vs-td>{{data[indextr].ingresos}}</vs-td>
-								<vs-td>
-									  <div class="flex items-center">
-										<vx-tooltip text="Editar"><vs-button @click="$router.push('/editar/familiar/'+data[indextr].id)" radius color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
-									</div>
-								</vs-td>
-							</vs-tr>
-						</template>
-					</vs-table>
-				</vx-card>
+	<div>
+		<vx-card>
+			<div class = "demo-alignment">
+				<h2>Familiares</h2>
+			<!--	<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/nino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = 'large' ></vs-button> </router-link>  </vx-tooltip>
+			-->
 			</div>
+			<br>
+			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
+				<v-select v-model="selectedFormat" :options="formats" class="my-4" />
+				<div class="flex">
+					<span class="mr-4">Ancho automatico de celda:</span>
+					<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
+				</div>
+			</vs-prompt>
+			<vs-table title="Padrinos" pagination max-items="10" search :data="arrayData" noDataText="No hay datos disponibles">
+				<template slot="header">
+					<vs-button @click="activePrompt=true">Exportar</vs-button>
+				</template>
+				<template slot="thead">
+					<vs-th>Ver</vs-th>
+					<vs-th>Id</vs-th>
+					<vs-th>Nombres</vs-th>
+					<vs-th>Apellidos</vs-th>
+					<vs-th>Escolaridad</vs-th>
+					<vs-th>Ocupacion</vs-th>
+					<vs-th>Ingresos</vs-th>
+					<vs-th>Acciones</vs-th>
+				</template>
+				<template slot-scope="{data}">
+					<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+						<vs-td>
+							<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"  @click="$router.push('/ver/familiar/'+data[indextr].id)" ></vs-button></vx-tooltip>
+						</vs-td>
+						<!--
+						<router-link :to="url" @click.stop.prevent class="text-inherit hover:text-primary">{{ params.value }}</router-link>
+						-->
+						<vs-td>{{data[indextr].id}}</vs-td>
+						<vs-td>
+							<div class="flex items-center">
+								<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
+								{{data[indextr].datos.nombres}}
+							</div>
+						</vs-td>
+						<!-- <vs-td>{{data[indextr].datos.nombres}}</vs-td> -->
+						<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
+						<vs-td>{{data[indextr].escolaridad}}</vs-td>
+						<vs-td>{{data[indextr].ocupacion}}</vs-td>
+						<vs-td>{{data[indextr].ingresos}}</vs-td>
+						<vs-td>
+								<div class="flex items-center">
+								<vx-tooltip text="Editar"><vs-button @click="$router.push('/editar/familiar/'+data[indextr].id)" radius color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
+							</div>
+						</vs-td>
+					</vs-tr>
+				</template>
+			</vs-table>
+		</vx-card>
+	</div>
 </template>
 
 

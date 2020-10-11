@@ -352,6 +352,14 @@ const router = new Router({
         // MICROPRESTAMO
         // =============================================================================
         {
+          path:'/microprestamo/ingresar',
+          name: 'microprestamo-ingresar',
+          component: () => import('./views/Microprestamos/microprestamo/nuevo_microprestamo.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
           path:'/microprestamo/abono',
           name: 'microprestamo-abono',
           component: () => import('./views/Microprestamos/Abono_prestamo/abonoPrestamo.vue'),

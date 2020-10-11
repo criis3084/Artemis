@@ -121,7 +121,7 @@ export default {
   },
   methods: {
       aNuevo () {
-		 this.$router.push('/ingresar/microprestamo')
+		 this.$router.push('/microprestamo/ingresar')
 	},
       traerNombre(tabla){
 			tabla.forEach(function(valor, indice, array){
