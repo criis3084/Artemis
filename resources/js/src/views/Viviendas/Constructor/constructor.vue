@@ -25,8 +25,7 @@
                     <vs-th>Apellidos</vs-th>
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Estado</vs-th>
-					<vs-th></vs-th>
-                    <vs-th></vs-th>
+					 <vs-th>Acciones</vs-th>
 				</template>
 
 				<template slot-scope="{data}">
@@ -45,10 +44,11 @@
 							</vs-switch>
 						</vs-td>
 						<vs-td>
+							<div class="flex items-center">
 							<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/constructor/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
-						</vs-td>
-                        <vs-td>
+						
 							<vx-tooltip text="Listado de construcciones"> <vs-button radius color="dark" type="flat" icon="list" size="large" @click="openAlert('success',data[indextr])"> </vs-button>  </vx-tooltip>
+							</div>
 						</vs-td>
 					</vs-tr>
 				</template>
