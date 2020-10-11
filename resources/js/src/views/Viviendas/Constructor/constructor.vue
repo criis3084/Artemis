@@ -123,10 +123,10 @@ export default {
 		let me = this
 		let l_construcciones=[]
 			await axios.get(
-			`/api/tutor/get?criterio=id&buscar=${tutor.id}&completo=datosAnidados`)
+			`/api/constructor/get?criterio=id&buscar=${constructor.id}&completo=datosAnidados`)
 			.then(function (response) {
 				const respuesta = response.data
-        l_construcciones = respuesta.tutors.data[0].construcciones
+        l_construcciones = respuesta.constructors.data[0].construcciones
         
 				me.listadoConstrucciones =[]
 				l_construcciones.forEach(function(valor, indice, array){
