@@ -21,7 +21,7 @@
 					<span class="text-danger">{{msg}}</span>
 					<br>
 
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="DPI" v-model="CUI" name="CUI" />
+					<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="DPI" v-model="CUI" name="CUI" />
 					<span class="text-danger">{{msg}}</span>
 
 					<small class="date-label mt-10">Género</small>
@@ -38,7 +38,7 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Número de teléfono" name="telefono" v-model="telefono"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" name="telefono" v-model="telefono"/>
 					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
@@ -66,7 +66,7 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupacion" name="ocupacion" v-model="ocupacion"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupación" name="ocupacion" v-model="ocupacion"/>
 					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
