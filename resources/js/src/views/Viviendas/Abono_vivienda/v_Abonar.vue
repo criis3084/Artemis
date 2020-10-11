@@ -9,7 +9,7 @@
             <span>Nombre del propietario</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <v-select label="encargado_nombreCompleto" :options="encargados" v-model="encargado_id"  @input="buscar" @change="onChange($event)" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <v-select label="encargado_nombreCompleto" :options="encargados" v-model="vivienda_id"  @input="buscar" @change="onChange($event)" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
             <span></span>
           </div>
         </div>
@@ -71,7 +71,7 @@
                             <span>Comprobante pago de vivienda</span>
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold">Comprobante No.</span>
-                                <span class="font-medium text-primary cursor-pointer"></span>
+                                <span class="font-medium text-primary cursor-pointer">{{nRecibo}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey"> {{nombreSeleccionado }} </span>
@@ -82,7 +82,7 @@
                             <p class="font-semibold mb-3">Detalles</p>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Número de vivienda</span>
-                                <span>{{vivienda_id}}</span>
+                                <span>{{vivienda_id.id}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Costo total de vivienda</span>
@@ -138,10 +138,11 @@ export default{
       vivienda_id:'',
       nombre_vivienda:'',
       encargado_nombres:'',
-      encargado_id:'',
+      encargadoVivienda_id:'',
       total:'',
       deuda:'',
       costoV:'',
+      nRecibo:'',
       configdateTimePicker: {
         date: null,
         inline: true
@@ -178,8 +179,9 @@ export default{
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.viviendas.data
+          console.log('importacion de viviendas')
+          console.log(me.arrayData)
           me.encargados = me.traerDatosEncargados(me.arrayData)
-          console.log(me.encargados)
         })
         .catch(function (error) {
           console.log(error)
@@ -188,14 +190,13 @@ export default{
 	
     async buscar () {
       const me = this
-	  this.id_recibido = this.encargado_id.id
-	  this.nombreSeleccionado=this.encargado_id.encargado_nombres + " " + this.encargado_id.encargado_apellidos
+	  this.id_recibido = this.vivienda_id.id
+	  this.nombreSeleccionado=this.vivienda_id.encargado_nombres + " " + this.vivienda_id.encargado_apellidos
       const response = await axios.get(
-        `/api/vivienda/get?&criterio=encargado_id&buscar=${this.id_recibido}&completo=true`)
+        `/api/vivienda/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
           const respuesta = response.data
           me.arrayV = respuesta.viviendas.data[0]
-          me.vivienda_id = me.arrayV.id
           me.nombre_vivienda = me.arrayV.direccion
           me.costoV = me.arrayV.costo_total
           // console.log(me.arrayV)
@@ -207,7 +208,7 @@ export default{
     },
     async buscarAbono () {
       const me = this
-      this.id_recibido = this.vivienda_id
+      this.id_recibido = this.vivienda_id.id
       console.log(`BuscarAbono   ${this.id_recibido}`)
       const response = await axios.get(
         `/api/historialAbonoVivienda/get?&criterio=vivienda_id&buscar=${this.id_recibido}&completo=true`)
@@ -229,15 +230,18 @@ export default{
     },
 
     guardar () {
+      var me = this
       axios.post('/api/historialAbonoVivienda/post/', {
         cantidad_abono:this.cantidad,
         cantidad_restante:this.total,
         descripcion:this.descripcion,
         fecha_pago:this.getDate(this.fecha),
         usuario_id:81,
-        vivienda_id:this.vivienda_id
+        vivienda_id:this.vivienda_id.id
 
       }).then(function (response) {
+        console.log(response.data.id)
+        me.seterResponse(response.data.id)
         alert('Ingreso correctamente')
       })
         .catch(function (error) {
@@ -253,6 +257,9 @@ export default{
       this.cantidad = 0
       this.costoV = 0
       this.descripcion = ''
+    },
+    seterResponse(id){
+      this.nRecibo = id
     },
     Calcular () {
       console.log('Calcular')

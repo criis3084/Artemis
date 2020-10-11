@@ -26,7 +26,10 @@
 								<div v-if="nino.nino.estado==1">
 									<div class="flex items-center">
 										<vs-avatar :src="nino.nino.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="60px"/>
-										<h2> {{"  "}} <b> Codigo:</b> {{nino.nino.codigo}} </h2> 
+										<h2>&nbsp; <b> Codigo:</b> {{nino.nino.codigo}}</h2> 
+										<div class="vx-col w-1/2 text-right">
+										 <h3><b>Fecha de apadrinamiento: </b> {{nino.nino.fecha_ingreso}}  </h3>
+										</div>
 									</div>
 									<table style="width:100%" class="border-none mt-2">
 										<tr>

@@ -57,8 +57,8 @@ class HistorialAbonoViviendaController extends Controller
 			$historialAbonoVivienda->vivienda_id = $request->vivienda_id;
 			$historialAbonoVivienda->save();
 
-			return Response::json(['message' => 'Historial Abono vivienda creado'], 200);
-			#return ['id' => $nino->id];
+			//return Response::json(['message' => 'Historial Abono vivienda creado'], 200);
+			return ['id' => $historialAbonoVivienda->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}
