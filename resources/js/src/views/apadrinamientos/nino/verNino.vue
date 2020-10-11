@@ -153,6 +153,7 @@ export default {
           me.escuela_idT = me.arrayData.escuela.nombre
           me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id
           console.log(me.nombresT)
+          console.log("array");
           console.log(me.arrayData)
           me.pagination = respuesta.pagination
         })
