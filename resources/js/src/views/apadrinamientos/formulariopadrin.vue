@@ -3,7 +3,7 @@
 
 		<div class="mt-5">
 			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
-			<tab-content title="Step 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
+			<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
 				<!-- tab 1 content -->
 				<form data-vv-scope="step-1">
@@ -47,7 +47,7 @@
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
 				<ValidationProvider :rules="{ regex:/[a-zA-Z]/ }" v-slot="{ errors }"> 
-					<vs-input label="Numero de telefono"  v-model="numero_telefono" class="w-full" icon-pack="feather" icon="icon-phone" name="campo" />
+					<vs-input label="Número de teléfono"  v-model="numero_telefono" class="w-full" icon-pack="feather" icon="icon-phone" name="campo" />
 					 <span>{{ errors[0] }}</span>
 				</ValidationProvider>
 			
@@ -63,7 +63,7 @@
 			</tab-content>
 
 			<!-- tab 2 content -->
-			<tab-content title="Step 2" class="mb-5" icon="feather icon-file-plus" :before-change="validateStep2">
+			<tab-content title="Paso 2" class="mb-5" icon="feather icon-file-plus" :before-change="validateStep2">
 				<form data-vv-scope="step-2">
 				<div class="vx-row">
 

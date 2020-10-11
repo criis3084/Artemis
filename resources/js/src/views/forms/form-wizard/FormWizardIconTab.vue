@@ -15,7 +15,7 @@
 
         <div class="mt-5">
             <form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="Submit" @on-complete="formSubmitted">
-                <tab-content title="Step 1" class="mb-5" icon="feather icon-home">
+                <tab-content title="Paso 1" class="mb-5" icon="feather icon-home">
 
                     <!-- tab 1 content -->
                     <div class="vx-row">
@@ -37,7 +37,7 @@
                 </tab-content>
 
                 <!-- tab 2 content -->
-                <tab-content title="Step 2" class="mb-5" icon="feather icon-briefcase">
+                <tab-content title="Paso 2" class="mb-5" icon="feather icon-briefcase">
                     <div class="vx-row">
                         <div class="vx-col md:w-1/2 w-full">
                             <vs-input label="Proposal Title" v-model="proposalTitle" class="w-full mt-4" />
@@ -50,7 +50,7 @@
                 </tab-content>
 
                 <!-- tab 3 content -->
-                <tab-content title="Step 3" class="mb-5" icon="feather icon-image">
+                <tab-content title="Paso 3" class="mb-5" icon="feather icon-image">
                     <div class="vx-row">
                         <div class="vx-col md:w-1/2 w-full">
                             <vs-input label="Event Name" v-model="eventName" class="w-full mt-5" />
@@ -82,7 +82,7 @@
         <template slot="codeContainer">
 &lt;template&gt;
   &lt;form-wizard color=&quot;rgba(var(--vs-primary), 1)&quot; :title=&quot;null&quot; :subtitle=&quot;null&quot; finishButtonText=&quot;Submit&quot; @on-complete=&quot;formSubmitted&quot;&gt;
-      &lt;tab-content title=&quot;Step 1&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-home&quot;&gt;
+      &lt;tab-content title=&quot;Paso 1&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-home&quot;&gt;
 
           &lt;!-- tab 1 content --&gt;
           &lt;div class=&quot;vx-row&quot;&gt;
@@ -104,7 +104,7 @@
       &lt;/tab-content&gt;
 
       &lt;!-- tab 2 content --&gt;
-      &lt;tab-content title=&quot;Step 2&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-briefcase&quot;&gt;
+      &lt;tab-content title=&quot;Paso 2&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-briefcase&quot;&gt;
           &lt;div class=&quot;vx-row&quot;&gt;
               &lt;div class=&quot;vx-col md:w-1/2 w-full&quot;&gt;
                   &lt;vs-input label=&quot;Proposal Title&quot; v-model=&quot;proposalTitle&quot; class=&quot;w-full mt-4&quot; /&gt;
@@ -117,7 +117,7 @@
       &lt;/tab-content&gt;
 
       &lt;!-- tab 3 content --&gt;
-      &lt;tab-content title=&quot;Step 3&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-image&quot;&gt;
+      &lt;tab-content title=&quot;Paso 3&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-image&quot;&gt;
           &lt;div class=&quot;vx-row&quot;&gt;
               &lt;div class=&quot;vx-col md:w-1/2 w-full&quot;&gt;
                   &lt;vs-input label=&quot;Event Name&quot; v-model=&quot;eventName&quot; class=&quot;w-full mt-5&quot; /&gt;
