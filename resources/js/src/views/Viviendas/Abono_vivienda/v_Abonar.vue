@@ -9,7 +9,8 @@
             <span>Nombre del propietario</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <v-select label="encargado_nombreCompleto" :options="encargados" v-model="vivienda_id"  @input="buscar" @change="onChange($event)" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <v-select label="encargado_nombreCompleto" :options="encargados" v-model="vivienda_id"  @input="buscar" @change="onChange($event)" :dir="$vs.rtl ? 'rtl' : 'ltr'" name="encargado" v-validate="'required'"/>
+            <span class="text-danger text-sm" v-show="errors.has('encargado')">{{ errors.first('encargado') }}</span>
             <span></span>
           </div>
         </div>
@@ -18,8 +19,8 @@
             <span>Cantidad de abono</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-input class="w-full" type="number" v-model="cantidad" name="cantidad"/>
-            <span></span>
+            <vs-input class="w-full"  v-model="cantidad" name="cantidad" v-validate="'required|numeric|max:4'"/>
+            <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
           </div>
         </div>
         <div class="vx-row mb-6">
@@ -27,8 +28,8 @@
             <span>Descripción</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-textarea class="w-full" v-model="descripcion" />
-            <span></span>
+            <vs-textarea class="w-full" name="descripcion" v-model="descripcion" v-validate="'required|max:60'" />
+            <span class="text-danger text-sm" v-show="errors.has('descripcion')">{{ errors.first('descripcion') }}</span>
           </div>
         </div>
         <div class="vx-row mb-6">
@@ -41,8 +42,8 @@
         </div>
         <div class="vx-row">
           <div class="vx-col sm:w-2/3 w-full ml-auto">
-            <vs-button class="mr-3 mb-2" @click="guardar">Aceptar</vs-button>
-            <vs-button color="warning" type="border" class="mb-2">Limipiar</vs-button>
+            <vs-button class="mr-3 mb-2" @click="enviarForm">Aceptar</vs-button>
+            <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button>
           </div>
         </div>
       </vx-card>
@@ -120,7 +121,25 @@ import 'flatpickr/dist/flatpickr.css'
 import { es } from 'vuejs-datepicker/src/locale'
 import vSelect from 'vue-select'
 import axios from 'axios'
-
+//validar
+import { Validator } from 'vee-validate'
+const dict = {
+  custom: {
+    cantidad: {
+      required: 'Este campo no puede quedar vacío',
+      numeric: 'Solo aceptan números',
+      max:'No se aceptan más de 4 números'
+    },
+    descripcion: {
+      required:'Información requerida',
+      max:'No se aceptan más de 60 caracteres'
+    },
+    encargado:{
+      required:'Seleccióne un propietario porfavor'
+    }
+  }
+}
+Validator.localize('es', dict)
 
 export default{
   data () {
@@ -147,27 +166,43 @@ export default{
         date: null,
         inline: true
 	  },
-	  nombreSeleccionado:'Nombre de la persona',
+	  nombreSeleccionado:'Nombre de la persona'
     }
   },
   created () {
     setInterval(this.getNow, 1000)
   },
   methods:{
-    currency(numero) {
-        let formatter = new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'GTQ',
-        });
-        let mil = formatter.format(numero);
-        return mil;
+    enviarForm () {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.guardar()
+        } else {
+          this.$vs.notify({
+            title:'Error',
+            text:'Porfavor ingrese correctamente los datos',
+            color:'warning',
+            position:'bottom-center',
+            icon:'priority_high'
+          })
+        }
+      })
+
+    },
+    currency (numero) {
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'GTQ'
+      })
+      const mil = formatter.format(numero)
+      return mil
     },
     traerDatosEncargados (tabla) {
 
       tabla.forEach(function (valor, indice, array) {
         valor.encargado_nombres = valor.datos_residente[0].nombres
 	    	valor.encargado_apellidos = valor.datos_residente[0].apellidos
-		    valor.encargado_nombreCompleto= valor.encargado_nombres + " " + valor.encargado_apellidos
+		    valor.encargado_nombreCompleto = `${valor.encargado_nombres  } ${  valor.encargado_apellidos}`
       }) 
 
       return tabla
@@ -186,12 +221,12 @@ export default{
         .catch(function (error) {
           console.log(error)
         })
-	},
+    },
 	
     async buscar () {
       const me = this
 	  this.id_recibido = this.vivienda_id.id
-	  this.nombreSeleccionado=this.vivienda_id.encargado_nombres + " " + this.vivienda_id.encargado_apellidos
+	  this.nombreSeleccionado = `${this.vivienda_id.encargado_nombres  } ${  this.vivienda_id.encargado_apellidos}`
       const response = await axios.get(
         `/api/vivienda/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
@@ -230,7 +265,7 @@ export default{
     },
 
     guardar () {
-      var me = this
+      const me = this
       axios.post('/api/historialAbonoVivienda/post/', {
         cantidad_abono:this.cantidad,
         cantidad_restante:this.total,
@@ -258,7 +293,7 @@ export default{
       this.costoV = 0
       this.descripcion = ''
     },
-    seterResponse(id){
+    seterResponse (id) {
       this.nRecibo = id
     },
     Calcular () {

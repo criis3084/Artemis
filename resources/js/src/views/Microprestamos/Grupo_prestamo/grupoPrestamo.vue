@@ -1,8 +1,8 @@
 <template>
-   <vx-card>
+   <vx-card >
        <div class = "demo-alignment">
            <h2>Grupos</h2>
-           <vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
+         <router-link to="/microprestamo/Nuevogrupo">  <vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = "large" ></vs-button>  </vx-tooltip></router-link>
            </div>
            <br>
         <vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
@@ -86,7 +86,14 @@ export default {
         'thread: Slot',
         'tbody: Slot',
         'header: Slot'
-      ]
+      ],
+      'fileName': '',
+      'formats':['xlsx', 'csv', 'txt'],
+      'cellAutoWidth': true,
+	  'selectedFormat': 'xlsx',
+	  'headerVal': ['id', 'nombre', 'direccion', 'estado'],
+	  'headerTitle': ['Id', 'Nombre', 'Direccion', 'Estado'],
+      'activePrompt': false
     }
   },
 
@@ -100,7 +107,7 @@ export default {
       const response = await axios.get('/api/grupoPrestamo/get?completo=true')
         .then(function (response) {
           const respuesta = response.data
-          me.arrayData = respuesta.aldeas.data
+          me.arrayData = respuesta.grupos.data
           console.log(me.arrayData)
         })
         .catch(function (error) {
