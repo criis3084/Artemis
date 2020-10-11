@@ -3,7 +3,7 @@
 
     <div class="mt-5">
       <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
-       <tab-content title="Step 1" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
+       <tab-content title="Paso 1" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
 
           <!-- tab 1 content -->
           <form data-vv-scope="step-1">

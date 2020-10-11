@@ -25,19 +25,19 @@ class RelacionController extends Controller
 				$relacion = Relacion::with('sector')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$relacion = Relacion::with('sector')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+				$relacion = Relacion::with('sector')->where($criterio, 'like', $buscar )->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
 				$relacion = Relacion::with('sector')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$relacion = Relacion::with('sector')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$relacion = Relacion::with('sector')->where($criterio, 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if ($completo=='informacion')
 		{
-			$relacion = Relacion::with('sector')->with('datos_nino')->with('datos_encargado')->with('nino')->with('encargado')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+			$relacion = Relacion::with('sector')->with('datos_nino')->with('datos_encargado')->with('nino')->with('encargado')->where($criterio, 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
 		}
 		return [
 			"relaciones"=>$relacion

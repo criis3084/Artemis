@@ -17,7 +17,7 @@
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload automatic action="/api/historialCorrespondencia/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Fotografia de la correspondencia" />
+						<vs-upload automatic action="/api/historialCorrespondencia/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Fotografía de la correspondencia" />
 					</template>
 				</div>
 			</div>

@@ -24,7 +24,7 @@
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
-            <span>Descripcion</span>
+            <span>Descripción</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
             <vs-textarea class="w-full" v-model="descripcion" />

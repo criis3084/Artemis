@@ -15,7 +15,7 @@
 
     <div class="mt-5">
       <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Submit">
-        <tab-content title="Step 1" class="mb-5" icon="feather icon-home" :before-change="validateStep1">
+        <tab-content title="Paso 1" class="mb-5" icon="feather icon-home" :before-change="validateStep1">
 
           <!-- tab 1 content -->
           <form data-vv-scope="step-1">
@@ -42,7 +42,7 @@
         </tab-content>
 
         <!-- tab 2 content -->
-        <tab-content title="Step 2" class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
+        <tab-content title="Paso 2" class="mb-5" icon="feather icon-briefcase" :before-change="validateStep2">
           <form data-vv-scope="step-2">
           <div class="vx-row">
             <div class="vx-col md:w-1/2 w-full">
@@ -60,7 +60,7 @@
         </tab-content>
 
         <!-- tab 3 content -->
-        <tab-content title="Step 3" class="mb-5" icon="feather icon-image" :before-change="validateStep3">
+        <tab-content title="Paso 3" class="mb-5" icon="feather icon-image" :before-change="validateStep3">
           <form data-vv-scope="step-3">
           <div class="vx-row">
             <div class="vx-col md:w-1/2 w-full">
@@ -95,7 +95,7 @@
     <template slot="codeContainer">
 &lt;template&gt;
   &lt;form-wizard color=&quot;rgba(var(--vs-primary), 1)&quot; errorColor=&quot;rgba(var(--vs-danger), 1)&quot; :title=&quot;null&quot; :subtitle=&quot;null&quot; finishButtonText=&quot;Submit&quot;&gt;
-    &lt;tab-content title=&quot;Step 1&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-home&quot; :before-change=&quot;validateStep1&quot;&gt;
+    &lt;tab-content title=&quot;Paso 1&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-home&quot; :before-change=&quot;validateStep1&quot;&gt;
 
       &lt;!-- tab 1 content --&gt;
       &lt;form data-vv-scope=&quot;step-1&quot;&gt;
@@ -122,7 +122,7 @@
     &lt;/tab-content&gt;
 
     &lt;!-- tab 2 content --&gt;
-    &lt;tab-content title=&quot;Step 2&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-briefcase&quot; :before-change=&quot;validateStep2&quot;&gt;
+    &lt;tab-content title=&quot;Paso 2&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-briefcase&quot; :before-change=&quot;validateStep2&quot;&gt;
       &lt;form data-vv-scope=&quot;step-2&quot;&gt;
       &lt;div class=&quot;vx-row&quot;&gt;
         &lt;div class=&quot;vx-col md:w-1/2 w-full&quot;&gt;
@@ -140,7 +140,7 @@
     &lt;/tab-content&gt;
 
     &lt;!-- tab 3 content --&gt;
-    &lt;tab-content title=&quot;Step 3&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-image&quot; :before-change=&quot;validateStep3&quot;&gt;
+    &lt;tab-content title=&quot;Paso 3&quot; class=&quot;mb-5&quot; icon=&quot;feather icon-image&quot; :before-change=&quot;validateStep3&quot;&gt;
       &lt;form data-vv-scope=&quot;step-3&quot;&gt;
       &lt;div class=&quot;vx-row&quot;&gt;
         &lt;div class=&quot;vx-col md:w-1/2 w-full&quot;&gt;

@@ -20,7 +20,7 @@
         <b></b>
 		</div>
 		<template>
-      <small class="date-label">Nino:</small>
+      <small class="date-label">Niño:</small>
 		<v-select label="nombrecompleto" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		<br>
     

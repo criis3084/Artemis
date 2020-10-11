@@ -27,7 +27,7 @@
               <div class="vx-col md:w-3/5 w-full">
                 <span>Nombres y apellidos</span>
                 <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.nombresT +" " + this.apellidosT }}</h1>
-                <p>{{"Codigo"+" "+ this.codigoT }}</p>
+                <p>{{"Código"+" "+ this.codigoT }}</p>
 
                 <vs-divider />
                 <span>Datos Personales</span>
