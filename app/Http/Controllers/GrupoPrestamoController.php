@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\GrupoPrestamo;
+use App\DetalleIntegrante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
-use Exception;
 
 class GrupoPrestamoController extends Controller
 {
@@ -37,7 +38,8 @@ class GrupoPrestamoController extends Controller
 			$grupoPrestamo->cantidad_prestamo_actual = $request->cantidad_prestamo_actual;
 			$grupoPrestamo->interes_ultimo_prestamo = $request->interes_ultimo_prestamo;
 			$grupoPrestamo->save();
-			return Response::json(['message' => 'GrupoPrestamo Creada'], 200);
+			
+			return ['id'=>$grupoPrestamo->id];
 		} catch (Exception $e) {
             return Response::json(['message' => $e->getMessage()], 400);
 		}

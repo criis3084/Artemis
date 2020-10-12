@@ -43,7 +43,7 @@ class DetalleIntegranteController extends Controller
 	{
 		try {	
             $detalleIntegrante = new DetalleIntegrante();
-            $detalleIntegrante->prestamo_individual = $request->codigo;
+            $detalleIntegrante->prestamo_individual = $request->prestamo_individual;
             $detalleIntegrante->encargado_id = $request->encargado_id;
             $detalleIntegrante->grupo_prestamo_id = $request->grupo_prestamo_id;
 			$detalleIntegrante->destino_inversion_id = $request->destino_inversion_id;

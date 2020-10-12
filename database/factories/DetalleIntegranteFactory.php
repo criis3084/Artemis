@@ -9,6 +9,7 @@ use App\Microprestamo;
 use App\DestinoInversion;
 use Faker\Generator as Faker;
 
+
 $factory->define(DetalleIntegrante::class, function (Faker $faker) {
     return [
         'prestamo_individual'=> $faker->numberBetween($min =1000, $max = 10000),

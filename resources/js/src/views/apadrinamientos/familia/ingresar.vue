@@ -252,8 +252,8 @@ export default {
 				today = `${yyyy}/${mm}/${dd}-`
 				this.ninosIngresados.forEach(function(elemento, indice, array){
 					familiares.forEach(function(elemento2, indice2, array2){
-						axios.post("/api/relacion/post/",{
-							direccion:direccionT,
+						axios.post ("/api/relacion/post/", {
+							direccion : direccionT,
 							codigo:codigo_familiaT,
 							sector_id:sector_idT,
 
