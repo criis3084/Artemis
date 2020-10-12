@@ -11,6 +11,6 @@ class DetalleIntegranteSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\DetalleIntegrante::class, 50)->create();
+        factory(App\DetalleIntegrante::class, 300)->create();
     }
 }

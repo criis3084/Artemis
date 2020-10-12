@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class AbonoPrestamo extends Model
 {
-	protected $fillable = ['cantidad_abono','cantidad_restante','descripcion','fecha_pago','mora','microprestamo_id','detalle_integrante_id','usuario_id','estado'];
+	protected $fillable = ['cantidad_abono','cantidad_restante','descripcion','fecha_pago','mora','detalle_integrante_id','usuario_id','estado'];
 
-	public function microprestamo(){
-		return $this->belongsTo('App\Microprestamo','microprestamo_id','id');
-	}
+
 	public function detalle_integrante(){
 		return $this->belongsTo('App\DetalleIntegrante','detalle_integrante_id','id');
 	}

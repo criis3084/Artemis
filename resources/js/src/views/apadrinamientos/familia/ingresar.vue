@@ -6,7 +6,7 @@
 					</vx-card>
 				</div>
 		</vs-row>
-		<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="Submit" on-validate @on-complete="envioFormularios">
+		<form-wizard color="rgba(var(--vs-primary), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" on-validate @on-complete="envioFormularios">
 			<!-- tab 1 content -->
 			<tab-content title="Niños" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
 
@@ -69,15 +69,15 @@
 
 						<div class="vx-col md:w-1/2 w-full mt-5">
 							<div class="vx-col w-full">
-								<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Dirección Familiar" v-model="direccion"/>
+								<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección Familiar" v-model="direccion"/>
 								<span class="text-danger">La dirección es requerida</span>
 							</div>
 						</div>
 
 						<div class="vx-col md:w-1/2 w-full">
 							<div class="vx-col w-full">
-								<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Codigo de la Familia" v-model="codigo_familia"/>
-								<span class="text-danger">El codigo de la familia es requerida</span>
+								<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="Código de la Familia" v-model="codigo_familia"/>
+								<span class="text-danger">El código de la familia es requerida</span>
 							</div>
 						</div>
 
@@ -101,7 +101,7 @@
 			</tab-content>
 
 			<!-- tab 4 content -->
-			<tab-content title="Estudio Socieconomico" class="mb-5" icon="feather icon-file-text">
+			<tab-content title="Estudio Socieconómico" class="mb-5" icon="feather icon-file-text">
 				<estudioFamilia
 					v-bind:ingresar="ingresar"
 					v-on:validado="validandoEstudio"
@@ -252,8 +252,8 @@ export default {
 				today = `${yyyy}/${mm}/${dd}-`
 				this.ninosIngresados.forEach(function(elemento, indice, array){
 					familiares.forEach(function(elemento2, indice2, array2){
-						axios.post("/api/relacion/post/",{
-							direccion:direccionT,
+						axios.post ("/api/relacion/post/", {
+							direccion : direccionT,
 							codigo:codigo_familiaT,
 							sector_id:sector_idT,
 

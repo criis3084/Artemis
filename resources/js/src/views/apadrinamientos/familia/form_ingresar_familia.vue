@@ -52,28 +52,28 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-2">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Parentesco con el niño/niña apadrinado" name="relacion" v-model="relacion"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-users" icon-no-border label-placeholder="Parentesco con el niño/niña apadrinado" name="relacion" v-model="relacion"/>
 					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-2	">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Escolaridad" name="escolaridad" v-model="escolaridad"/>
+					<vs-input class="w-full"  icon="school" icon-no-border label-placeholder="Escolaridad" name="escolaridad" v-model="escolaridad"/>
 					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ocupación" name="ocupacion" v-model="ocupacion"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Ocupación" name="ocupacion" v-model="ocupacion"/>
 					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Ingresos Mensuales" name="ingresos" v-model="ingresos"/>
+					<vs-input class="w-full" icon="local_atm" icon-no-border label-placeholder="Ingresos Mensuales" name="ingresos" v-model="ingresos"/>
 					<span class="text-danger">{{msg}}</span>
 				</div>
 			</div>

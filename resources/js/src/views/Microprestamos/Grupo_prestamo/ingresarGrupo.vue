@@ -16,17 +16,17 @@
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
-           <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Cantidad de préstamo" v-model="cantidad_prestamo_actual" />
+           <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Cantidad de préstamo" v-model="cantidad_prestamo_actual" />
           </div>
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
-            <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Cantidad de prestamo anterior" v-model="cantidad_ultimo_prestamo" />
+            <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Cantidad de préstamo anterior" v-model="cantidad_ultimo_prestamo" />
           </div>
         </div>
          <div class="vx-row mb-6">
           <div class="vx-col w-full">
-            <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Intéres" v-model="interes_ultimo_prestamo" />
+            <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Interés" v-model="interes_ultimo_prestamo" />
           </div>
         </div>
         <div class="vx-row">
@@ -47,13 +47,15 @@
         <vs-divider/>
          <vs-list>
          <vs-list-header title="Integrantes" color="success"></vs-list-header>
-           <vs-list-item title="Nombres" subtitle="">
-             <vs-button color="danger" type="border" icon-pack="feather" icon="icon-x-circle"></vs-button>
+         <div v-for="(encargado,index) in nombresE" :key="index">
+           <vs-list-item :title="encargado.nombres" subtitle="">
+             <vs-button color="danger" type="border" icon-pack="feather" icon="icon-x-circle" @click="borrarIntegrante(index)"></vs-button>
            </vs-list-item>
+          </div>
          </vs-list>
       </vx-card>
       <div class="vx-col w-full">
-            <vs-button class="mr-3 mb-2">Guardar grupo</vs-button>
+            <vs-button class="mr-3 mb-2" @click="guardarGrupo">Guardar grupo</vs-button>
             
       </div>
     </div>
@@ -74,39 +76,68 @@ export default {
       interes_ultimo_prestamo:'',
       encargados:[],
       inversiones:[],
+      cantidad_encargados:[],
+      encargadosI:1,
       encargado:'',
       integrantes:[],
-      inversion:''
+      inversion:'',
+      nombresE:[]
     }
   },
   methods:{
     traerNombre (tabla) {
       tabla.forEach(function (valor, indice, array) {
-        valor.nombres = valor.datos.nombres
-        valor.apellidos = valor.datos.apellidos
-        valor.nombre_completo = `${valor.nombres  } ${  valor.apellidos}`
+        valor.encargado_nombres = valor.datos.nombres
+        valor.encargado_apellidos = valor.datos.apellidos
+        valor.nombre_completo = `${valor.encargado_nombres  } ${  valor.encargado_apellidos}`
     
       }) 
       return tabla
 	  },
-    guardar () {
+    guardarDetalle (id) {
+      /*let nombreG = this.nombre
+      let descripcionG = this.descripcion
+      let cantidad_ultimo_prestamoG = this.cantidad_ultimo_prestamo
+      let cantidad_prestamo_actualG = this.cantidad_prestamo_actual
+      let interes_ultimo_prestamoG = this.interes_ultimo_prestamo*/
+
+
+      this.integrantes.forEach(function (elemento, indice, array) {
+        axios.post('/api/detalleIntegrante/post/', {
+          //tablaDetalleIntegrante
+          microprestamo_id: elemento.microprestamo_id,
+          prestamo_individual:elemento.prestamo_individual,
+          grupo_prestamo_id:id,
+          encargado_id:elemento.encargado_id,
+          destino_inversion_id:elemento.destino_inversion_id
+
+        }).then(function (response) {
+          console.log(response)
+        })
+          .catch(function (error) {
+            console.log(error)
+          })
+      })
+
+    },
+    guardarGrupo () {
+      let me = this
       axios.post('/api/grupoPrestamo/post/', {
-        nombre:this.nombre,
+        //tablaGrupo
+        nombre: this.nombre,
         descripcion:this.descripcion,
         cantidad_ultimo_prestamo:this.cantidad_ultimo_prestamo,
-        cantidad_prestamo_actual:this.cantidad_prestamo_actual
+        cantidad_prestamo_actual:this.cantidad_prestamo_actual,
+        interes_ultimo_prestamo:this.interes_ultimo_prestamo
+
       }).then(function (response) {
-        console.log(response)
+        console.log(response.data.id)
+        me.guardarDetalle(response.data.id)
       })
         .catch(function (error) {
           console.log(error)
         })
-		
-      this.$vs.notify({
-        color:'success',
-        title:'Exito',
-        text:'Registro Creado!'
-	  })
+ 
     },
     async traerPersona () {
       const me = this
@@ -136,8 +167,22 @@ export default {
 
     },*/
     agregar () {
-       console.log(this.encargado.id)
-       
+      this.id = this.encargado.id
+      this.nombreSeleccionado = `${this.encargado.encargado_nombres  } ${  this.encargado.encargado_apellidos}`
+      console.log(this.encargado.id)
+      //arreglo para guardar en la base de datos
+      this.integrantes.push({encargado_id:this.id, microprestamo_id:1, destino_inversion_id:1, prestamo_individual:0})
+
+      //Arreglo para mostrar nombres en frontend
+      this.nombresE.push({nombres:this.nombreSeleccionado})
+      console.log(this.nombresE)
+      console.log(this.integrantes)
+    },
+    borrarIntegrante (index) {
+      this.integrantes.splice(index, 1)
+      this.nombresE.splice(index, 1)
+      console.log(this.integrantes)
+      console.log(this.nombresE)
     },
 
     enviarForm () {

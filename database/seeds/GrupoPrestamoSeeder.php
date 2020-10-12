@@ -11,6 +11,6 @@ class GrupoPrestamoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\GrupoPrestamo::class, 50)->create();
+        factory(App\GrupoPrestamo::class, 25)->create();
     }
 }
