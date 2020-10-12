@@ -166,16 +166,16 @@ export default [
         i18n: 'Abonos'
       },
       {
-        url: '/vivienda/tipo',
-        name: 'tipo',
-        slug: 'vivienda-tipo',
-        i18n: 'Tipos de vivienda'
-      },
-      {
         url: '/vivienda/constructor',
         name: 'constructor',
         slug: 'vivienda-constructor',
         i18n: 'Constructores'
+      },
+      {
+        url: '/vivienda/tipo',
+        name: 'tipo',
+        slug: 'vivienda-tipo',
+        i18n: 'Tipos de vivienda'
       },
     ]
   },

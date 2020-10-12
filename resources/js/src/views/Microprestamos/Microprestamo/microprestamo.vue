@@ -23,7 +23,6 @@
         </template>
         <template slot="thead">
             <vs-th>Ver</vs-th>
-            <vs-th>Destino de Inversión</vs-th>
 		  	<vs-th>Total</vs-th>
 		    <vs-th>Interés</vs-th>
             <vs-th>Fecha</vs-th>
@@ -39,7 +38,6 @@
             <vs-td>
 				<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/vivienda/'+data[indextr].id)"></vs-button></vx-tooltip>			
 			</vs-td>
-            <vs-td>{{ data[indextr].destino_inversion_nombre}}</vs-td>
             <vs-td>{{ data[indextr].total }}</vs-td>
             <vs-td>{{ data[indextr].interes }}</vs-td>
             <vs-td>{{ data[indextr].fecha_inicio}}</vs-td>

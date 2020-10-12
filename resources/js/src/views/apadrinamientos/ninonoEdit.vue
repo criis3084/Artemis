@@ -38,13 +38,13 @@
 								</div>
 							</div>
 
-							<div class="vx-col md:w-1/2 w-full mt-5">
+							<!-- <div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="my-4">
 									<small class="date-label">Fecha Ingreso</small>
 									<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha" v-model="fecha_ingresoT" v-validate="'required'"></datepicker>
 									<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
 								</div>
-							</div>
+							</div> -->
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<small class="date-label">Genero</small>
@@ -176,9 +176,9 @@ export default {
 			escuela_idT:0,
 			numero_telefono:'',
 			ruta_imagen:'',
-			ocupacionT:"",
-			actividadesT:"",
-			gradoT:"",
+			ocupacionT:'',
+			actividadesT:'',
+			gradoT:'',
 			sectoresT:[],
 			escuelasT:[],
 			titulo:'Actualización registrada!',
@@ -312,8 +312,8 @@ export default {
 				apellidos:this.apellidosT,
 				genero:this.generoT,
 				ruta_imagen:this.ruta_imagen,
-				ocupacion:this.ocupacion,
-				actividades:this.actividades,
+				ocupacion:this.ocupacionT,
+				actividades:this.actividadesT,
 				grado:this.gradoT,
 				fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
 				fecha_ingreso:this.getDate(this.fecha_ingresoT),

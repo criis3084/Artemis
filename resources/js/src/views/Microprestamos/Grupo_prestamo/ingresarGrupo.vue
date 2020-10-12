@@ -1,32 +1,68 @@
 <template>
-<vx-card title="Nuevo Grupo">
   <div class="vx-row">
-    <div class="vx-col sm:w-1/2 w-full mb-2">
-      <vs-input class="w-full" label-placeholder="Nombre de grupo" v-model="nombre" />
-    </div>
-    <div class="vx-col sm:w-1/2 w-full mb-2">
-      <vs-input class="w-full" label-placeholder="Descripción" v-model="descripcion" />
+    <!-- Formulario Grupo -->
+    <div class="vx-col md:w-1/2 w-full mb-base">
+      <vx-card title="Nuevo Grupo" >
+        <div class="vx-row mb-6">
+          <div class="vx-col w-full">
+            <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Nombre de grupo" v-model="nombre" />
+          </div>
+        </div>
+        <div class="vx-row mb-6">
+          <div class="vx-col w-full">
+            <small>Descripción</small>
+            <vs-textarea class="w-full" icon-pack="feather" icon="icon-user" icon-no-border v-model="descripcion" />
+          </div>
+        </div>
+        <div class="vx-row mb-6">
+          <div class="vx-col w-full">
+           <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Cantidad de préstamo" v-model="cantidad_prestamo_actual" />
+          </div>
+        </div>
+        <div class="vx-row mb-6">
+          <div class="vx-col w-full">
+            <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Cantidad de prestamo anterior" v-model="cantidad_ultimo_prestamo" />
+          </div>
+        </div>
+         <div class="vx-row mb-6">
+          <div class="vx-col w-full">
+            <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Intéres" v-model="interes_ultimo_prestamo" />
+          </div>
+        </div>
+        <div class="vx-row">
+          <vs-button color="warning" type="border" class="mb-2" @click="nombre = descripcion = cantidad_prestamo_actual = cantidad_ultimo_prestamo = interes_ultimo_prestamo= ''">Limpiar</vs-button>
+        </div>
+      </vx-card>
+      </div>
+
+    <!-- Ver integrantes de grupo-->
+    <div class="vx-col md:w-1/2 w-full mb-base">
+      <vx-card title="Seleccione integrantes del grupo">
+        <div class="vx-row mb-6">
+          <div class="vx-col w-full">
+            <small>Seleccióne una persona</small>
+            <v-select label="nombre_completo" :options="encargados" v-model="encargado"  @input="agregar" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          </div>
+        </div>
+        <vs-divider/>
+         <vs-list>
+         <vs-list-header title="Integrantes" color="success"></vs-list-header>
+           <vs-list-item title="Nombres" subtitle="">
+             <vs-button color="danger" type="border" icon-pack="feather" icon="icon-x-circle"></vs-button>
+           </vs-list-item>
+         </vs-list>
+      </vx-card>
+      <div class="vx-col w-full">
+            <vs-button class="mr-3 mb-2">Guardar grupo</vs-button>
+            
+      </div>
     </div>
   </div>
-  <div class="vx-row">
-    <div class="vx-col sm:w-1/2 w-full mb-2">
-      <vs-input class="w-full" label-placeholder="Cantidad prestamo actual" v-model=" cantidad_prestamo_actual" />
-    </div>
-    <div class="vx-col sm:w-1/2 w-full mb-2">
-      <vs-input class="w-full" label-placeholder="Cantidad ultimo prestamo" v-model=" cantidad_ultimo_prestamo" />
-    </div>
-  </div>
-  <div class="vx-row">
-    <div class="vx-col w-full">
-      <vs-button class="mr-3 mb-2" @click="guardar">Guardar</vs-button>
-      <vs-button color="warning" type="border" class="mb-2" @click=" nombre = descripcion = cantidad_prestamo_actual = cantidad_ultimo_prestamo = '';">Limpiar</vs-button>
-    </div>
-  </div>
-  </vx-card>
 </template>
+
 <script>
 import axios from 'axios'
-
+import vSelect from 'vue-select'
 
 export default {
   data () {
@@ -34,10 +70,25 @@ export default {
       nombre:'',
       descripcion:'',
       cantidad_ultimo_prestamo:'',
-      cantidad_prestamo_actual:''
+      cantidad_prestamo_actual:'',
+      interes_ultimo_prestamo:'',
+      encargados:[],
+      inversiones:[],
+      encargado:'',
+      integrantes:[],
+      inversion:''
     }
   },
   methods:{
+    traerNombre (tabla) {
+      tabla.forEach(function (valor, indice, array) {
+        valor.nombres = valor.datos.nombres
+        valor.apellidos = valor.datos.apellidos
+        valor.nombre_completo = `${valor.nombres  } ${  valor.apellidos}`
+    
+      }) 
+      return tabla
+	  },
     guardar () {
       axios.post('/api/grupoPrestamo/post/', {
         nombre:this.nombre,
@@ -56,10 +107,58 @@ export default {
         title:'Exito',
         text:'Registro Creado!'
 	  })
+    },
+    async traerPersona () {
+      const me = this
+      const response = await axios.get('/api/encargado/get?completo=true')
+        .then(function (response) {
+          const respuesta = response.data
+          me.encargados = respuesta.encargados.data
+          me.encargados = me.traerNombre(me.encargados)
+          console.log(me.encargados)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+
+    },
+    /*async Inversion () {
+      const me = this
+      const response = await axios.get('/api/destinoInversion/get?completo=true')
+        .then(function (response) {
+          const respuesta = response.data
+          me.inversiones = respuesta.destinosInversiones.data
+          console.log(me.encargados)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+
+    },*/
+    agregar () {
+       console.log(this.encargado.id)
+       
+    },
+
+    enviarForm () {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          // if form have no errors
+          alert('form submitted!')
+        } else {
+          // form have errors
+        }
+      })
     }
   },
   computed:{
 
+  },
+  components:{
+    vSelect
+  },
+  mounted () {
+    this.traerPersona()
   }
 }
 </script>
