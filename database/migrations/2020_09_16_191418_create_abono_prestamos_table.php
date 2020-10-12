@@ -21,7 +21,6 @@ class CreateAbonoPrestamosTable extends Migration
 			$table->date('fecha_pago');
 			$table->integer('mora')->default(0);
 			$table->boolean('estado')->default(1);
-			$table->foreignId('microprestamo_id')->constrained();
 			$table->foreignId('detalle_integrante_id')->constrained();
 			$table->foreignId('usuario_id')->constrained();
 			$table->timestamps();

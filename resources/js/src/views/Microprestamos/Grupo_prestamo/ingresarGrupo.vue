@@ -16,17 +16,17 @@
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
-           <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Cantidad de préstamo" v-model="cantidad_prestamo_actual" />
+           <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Cantidad de préstamo" v-model="cantidad_prestamo_actual" />
           </div>
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
-            <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Cantidad de prestamo anterior" v-model="cantidad_ultimo_prestamo" />
+            <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Cantidad de préstamo anterior" v-model="cantidad_ultimo_prestamo" />
           </div>
         </div>
          <div class="vx-row mb-6">
           <div class="vx-col w-full">
-            <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Intéres" v-model="interes_ultimo_prestamo" />
+            <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Interés" v-model="interes_ultimo_prestamo" />
           </div>
         </div>
         <div class="vx-row">
@@ -76,6 +76,8 @@ export default {
       interes_ultimo_prestamo:'',
       encargados:[],
       inversiones:[],
+      cantidad_encargados:[],
+      encargadosI:1,
       encargado:'',
       integrantes:[],
       inversion:'',
@@ -83,6 +85,10 @@ export default {
     }
   },
   methods:{
+    sumar_encargado(){
+			this.cantidad_encargados.push({id:this.cantidad_encargados.length+1,visible:true,validado:false})
+			this.encargadosI+=1
+		},
     traerNombre (tabla) {
       tabla.forEach(function (valor, indice, array) {
         valor.encargado_nombres = valor.datos.nombres
