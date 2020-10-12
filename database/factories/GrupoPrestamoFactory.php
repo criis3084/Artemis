@@ -11,6 +11,7 @@ $factory->define(GrupoPrestamo::class, function (Faker $faker) {
         'descripcion' => $faker->text($maxNbChars = 200),
         'cantidad_ultimo_prestamo' => $faker-> randomFloat($nbMaxDecimals = 2, $min = 1, $max = 10000),
         'cantidad_prestamo_actual' => $faker-> randomFloat($nbMaxDecimals = 2, $min = 1, $max = 10000),
+        'interes_ultimo_prestamo' => $faker-> randomFloat($nbMaxDecimals = 2, $min = 1, $max = 5),
         'estado' => $faker->numberBetween($min = 0, $max = 1),
        // 'dia_pago' => $faker->dayOfWeek($max = 'now'), 
         'created_at' => $faker->dateTime($max = 'now', $timezone = null),

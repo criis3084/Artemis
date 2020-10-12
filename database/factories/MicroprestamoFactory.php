@@ -16,6 +16,6 @@ $factory->define(Microprestamo::class, function (Faker $faker) {
         'dia_pago' => $faker->numberBetween($min = 1, $max =7),
         'mora_por_atraso' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 6),
         'estado' => $faker->numberBetween($min = 0, $max = 1),
-        'destino_inversion_id' => DestinoInversion::pluck('id')[$faker->numberBetween(1,DestinoInversion::count()-1)],
+        //'destino_inversion_id' => DestinoInversion::pluck('id')[$faker->numberBetween(1,DestinoInversion::count()-1)],
     ];
 });

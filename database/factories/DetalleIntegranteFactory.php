@@ -12,5 +12,6 @@ $factory->define(DetalleIntegrante::class, function (Faker $faker) {
         'encargado_id' => Encargado::pluck('id')[$faker->numberBetween(1,Encargado::count()-1)],
         'grupo_prestamo_id' => GrupoPrestamo::pluck('id')[$faker->numberBetween(1,GrupoPrestamo::count()-1)],
         'estado' => $faker->numberBetween($min = 0, $max = 1),
+        'destino_inversion_id' => DestinoInversion::pluck('id')[$faker->numberBetween(1,DestinoInversion::count()-1)],
     ];
 });

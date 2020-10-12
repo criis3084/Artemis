@@ -35,6 +35,7 @@ class GrupoPrestamoController extends Controller
 			$grupoPrestamo->descripcion = $request->descripcion;
 			$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
 			$grupoPrestamo->cantidad_prestamo_actual = $request->cantidad_prestamo_actual;
+			$grupoPrestamo->interes_ultimo_prestamo = $request->interes_ultimo_prestamo;
 			$grupoPrestamo->save();
 			return Response::json(['message' => 'GrupoPrestamo Creada'], 200);
 		} catch (Exception $e) {

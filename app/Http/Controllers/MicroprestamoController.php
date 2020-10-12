@@ -18,18 +18,18 @@ class MicroprestamoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$microprestamo = Microprestamo::with('destino')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$microprestamo = Microprestamo::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$microprestamo = Microprestamo::with('destino')->where([['estado',1],[$criterio, 'like', '%'. $buscar . '%']])->orderBy('id', 'desc')->paginate($count);
+				$microprestamo = Microprestamo::where([['estado',1],[$criterio, 'like', '%'. $buscar . '%']])->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if ($completo == 'true'){
 			if ($buscar==''){
-				$microprestamo = Microprestamo::with('destino')->orderBy('id', 'desc')->paginate($count);
+				$microprestamo = Microprestamo::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$microprestamo = Microprestamo::with('destino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc');
+				$microprestamo = Microprestamo::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc');
 			}
 		}
 		else if($completo == 'select')
@@ -52,7 +52,7 @@ class MicroprestamoController extends Controller
 			$microprestamo->duracion = $request->duracion;
 			$microprestamo->dia_pago = $request->dia_pago;
 			$microprestamo->mora_por_atraso = $request->mora_por_atraso;
-			$microprestamo->destino_inversion_id = $request->destino_inversion_id;
+			//$microprestamo->destino_inversion_id = $request->destino_inversion_id;
 			$microprestamo->save();
 			return Response::json(['message' => 'Microprestamo Creado'], 200);
 		} catch (Exception $e) {
@@ -71,7 +71,7 @@ class MicroprestamoController extends Controller
 			'duracion'=> $microprestamo->duracion,
 			'dia_pago'=> $microprestamo->dia_pago,
 			'mora_por_atraso'=> $microprestamo->mora_por_atraso,
-			'destino_inversion_id'=> $microprestamo->destino_inversion_id,
+			//'destino_inversion_id'=> $microprestamo->destino_inversion_id,
 			'destino_inversion_nombre'=> $microprestamo->destino_inversion->nombre,
 		];
     }
