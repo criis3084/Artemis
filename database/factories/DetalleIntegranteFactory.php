@@ -5,6 +5,7 @@
 use App\DetalleIntegrante;
 use App\Encargado;
 use App\GrupoPrestamo;
+use App\DestinoInversion;
 use Faker\Generator as Faker;
 
 $factory->define(DetalleIntegrante::class, function (Faker $faker) {
