@@ -150,17 +150,46 @@ export default {
 			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 			return dateString;
 		},
+		ingresarIntegrantes(idMicroprestamo){
+			console.log('id desde funcion')
+			console.log(idMicroprestamo)
+			let contador=0
+			let listaCantidadesO=this.listaCantidades
+			let listaInversionesO=this.listaInversiones
+			console.log(listaCantidadesO)
+			console.log(listaInversionesO)
+			this.lista_encargados_plus.forEach(function(elemento, indice, array){
+				contador = contador+1
+				console.log('inversiones')
+				console.log(listaInversionesO[contador])
+				axios.put("/api/detalleIntegrante/update/",{
+					id:elemento.id,
+					prestamo_individual:listaCantidadesO[indice],
+					destino_inversion_id:listaInversionesO[indice].id,
+					microprestamo_id:idMicroprestamo
+				}).then(function(response) {
+					console.log(response)
+				})
+				.catch(function(error) {
+					console.log(error)
+				});
+			})
+
+		},
 		guardarPrestamo(){
+			let me = this
 			axios.post("/api/microprestamo/post/",{
 				total:this.sumarCantidades(),
 				interes:this.interes,
 				fecha_inicio:this.getDate(this.fecha_inicio),
 
 				duracion:this.duracion,
-				dia_pago:this.dia_pago.id ,
-				mora_por_atraso:this.mora_por_atraso,
+				dia_pago:this.dia_pago.id,
+				mora_por_atraso:this.mora_por_atraso
 			}).then(function(response) {
-				console.log(response)
+				console.log('id de microprestamo')
+				console.log(response.data.id)
+				me.ingresarIntegrantes(response.data.id)
 			})
 			.catch(function(error) {
 				console.log(error)
@@ -172,6 +201,7 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me.listado_grupos = respuesta.grupos.data;
+
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -215,12 +245,14 @@ export default {
 					elemento.datos_encargado=resultado
 					listaPlusT.push(elemento)
 					listaCantidadesT.push(0)
-					listaCantidadesT.push(0)
+					listaInversionesT.push(0)
 				}
 
 			})
 			this.listaCantidades=listaCantidadesT
+			this.listaInversiones=listaInversionesT
 			this.lista_encargados_plus=listaPlusT
+			console.log(this.lista_encargados_plus)
 		},
 		sumarCantidades(){
 			let prestamoTotal=0
