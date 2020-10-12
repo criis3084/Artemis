@@ -8,7 +8,7 @@ use App\GrupoPrestamo;
 use App\Microprestamo;
 use App\DestinoInversion;
 use Faker\Generator as Faker;
-use App\DestinoInversion;
+
 
 $factory->define(DetalleIntegrante::class, function (Faker $faker) {
     return [

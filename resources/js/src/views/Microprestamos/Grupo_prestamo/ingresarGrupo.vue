@@ -55,7 +55,7 @@
          </vs-list>
       </vx-card>
       <div class="vx-col w-full">
-            <vs-button class="mr-3 mb-2">Guardar grupo</vs-button>
+            <vs-button class="mr-3 mb-2" @click="guardarGrupo">Guardar grupo</vs-button>
             
       </div>
     </div>
@@ -85,10 +85,6 @@ export default {
     }
   },
   methods:{
-    sumar_encargado(){
-			this.cantidad_encargados.push({id:this.cantidad_encargados.length+1,visible:true,validado:false})
-			this.encargadosI+=1
-		},
     traerNombre (tabla) {
       tabla.forEach(function (valor, indice, array) {
         valor.encargado_nombres = valor.datos.nombres
@@ -98,24 +94,50 @@ export default {
       }) 
       return tabla
 	  },
-    guardar () {
+    guardarDetalle (id) {
+      /*let nombreG = this.nombre
+      let descripcionG = this.descripcion
+      let cantidad_ultimo_prestamoG = this.cantidad_ultimo_prestamo
+      let cantidad_prestamo_actualG = this.cantidad_prestamo_actual
+      let interes_ultimo_prestamoG = this.interes_ultimo_prestamo*/
+
+
+      this.integrantes.forEach(function (elemento, indice, array) {
+        axios.post('/api/detalleIntegrante/post/', {
+          //tablaDetalleIntegrante
+          microprestamo_id: elemento.microprestamo_id,
+          prestamo_individual:elemento.prestamo_individual,
+          grupo_prestamo_id:id,
+          encargado_id:elemento.encargado_id,
+          destino_inversion_id:elemento.destino_inversion_id
+
+        }).then(function (response) {
+          console.log(response)
+        })
+          .catch(function (error) {
+            console.log(error)
+          })
+      })
+
+    },
+    guardarGrupo () {
+      let me = this
       axios.post('/api/grupoPrestamo/post/', {
-        nombre:this.nombre,
+        //tablaGrupo
+        nombre: this.nombre,
         descripcion:this.descripcion,
         cantidad_ultimo_prestamo:this.cantidad_ultimo_prestamo,
-        cantidad_prestamo_actual:this.cantidad_prestamo_actual
+        cantidad_prestamo_actual:this.cantidad_prestamo_actual,
+        interes_ultimo_prestamo:this.interes_ultimo_prestamo
+
       }).then(function (response) {
-        console.log(response)
+        console.log(response.data.id)
+        me.guardarDetalle(response.data.id)
       })
         .catch(function (error) {
           console.log(error)
         })
-		
-      this.$vs.notify({
-        color:'success',
-        title:'Exito',
-        text:'Registro Creado!'
-	  })
+ 
     },
     async traerPersona () {
       const me = this
@@ -148,7 +170,10 @@ export default {
       this.id = this.encargado.id
       this.nombreSeleccionado = `${this.encargado.encargado_nombres  } ${  this.encargado.encargado_apellidos}`
       console.log(this.encargado.id)
-      this.integrantes.push({encargado_id:this.id, destino_inversion_id:1/*, nombres:this.nombreSeleccionado*/})
+      //arreglo para guardar en la base de datos
+      this.integrantes.push({encargado_id:this.id, microprestamo_id:1, destino_inversion_id:1, prestamo_individual:0})
+
+      //Arreglo para mostrar nombres en frontend
       this.nombresE.push({nombres:this.nombreSeleccionado})
       console.log(this.nombresE)
       console.log(this.integrantes)
