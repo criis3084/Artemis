@@ -140,7 +140,7 @@ export default {
 	async importarTipo(){ //async para que se llame cada vez que se necesite
 		let me = this;
 		const response = await axios.get(
-			`/api/tipoVivienda/get?completo=select`)
+			`/api/tipoVivienda/get?completo=false`)
 		.then(function (response) {
 			var respuesta= response.data;
             me.tipoViviendas = respuesta.tipoViviendas.data;
