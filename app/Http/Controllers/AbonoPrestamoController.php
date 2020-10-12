@@ -55,7 +55,7 @@ class AbonoPrestamoController extends Controller
 			$abonoPrestamo->descripcion = $request->descripcion;
 			$abonoPrestamo->fecha_pago = $request->fecha_pago;
 			$abonoPrestamo->mora = $request->mora;
-			$abonoPrestamo->microprestamo_id = $request->microprestamo_id;
+			// $abonoPrestamo->microprestamo_id = $request->microprestamo_id;
 			$abonoPrestamo->detalle_integrante_id = $request->detalle_integrante_id;
 			$abonoPrestamo->usuario_id = $request->usuario_id;
 			$abonoPrestamo->save();
@@ -76,7 +76,7 @@ class AbonoPrestamoController extends Controller
 		$abonoPrestamo->fecha_pago = $request->fecha_pago;
 		$abonoPrestamo->mora = $request->mora;
 		// revisar si se deben de modificar estos o no
-		$abonoPrestamo->microprestamo_id = $request->microprestamo_id;
+		// $abonoPrestamo->microprestamo_id = $request->microprestamo_id;
 		$abonoPrestamo->detalle_integrante_id = $request->detalle_integrante_id;
 		$abonoPrestamo->usuario_id = $request->usuario_id;
 		$abonoPrestamo->save();

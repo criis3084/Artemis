@@ -48,7 +48,8 @@ class DetalleIntegranteController extends Controller
             $detalleIntegrante->prestamo_individual = $request->codigo;
             $detalleIntegrante->encargado_id = $request->encargado_id;
             $detalleIntegrante->grupo_prestamo_id = $request->grupo_prestamo_id;
-            $detalleIntegrante->destino_inversion_id = $request->destino_inversion_id;
+			$detalleIntegrante->destino_inversion_id = $request->destino_inversion_id;
+			$detalleIntegrante->microprestamo_id = $request->microprestamo_id;
 			$detalleIntegrante->save();
 			
 			return ['id' => $detalleIntegrante->id];
@@ -66,6 +67,7 @@ class DetalleIntegranteController extends Controller
 		$detalleIntegrante->encargado_id = $request->encargado_id;
 		$detalleIntegrante->grupo_prestamo_id  = $request->grupo_prestamo_id;
 		$detalleIntegrante->destino_inversion_id   = $request->destino_inversion_id;
+		$detalleIntegrante->microprestamo_id = $request->microprestamo_id;
 		$detalleIntegrante->save();
 		
 		return Response::json(['message' => 'detalleIntegrante Actualizada'], 200);
