@@ -19,17 +19,17 @@ class AbonoPrestamoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$abonoPrestamo = AbonoPrestamo::with('microprestamo')->with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
 			}
 			else{
-				$abonoPrestamo = AbonoPrestamo::with('microprestamo')->with('detalle_integrante')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$abonoPrestamo = AbonoPrestamo::with('microprestamo')->with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->paginate(20);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->paginate(20);
 			}
 			else{
-				$abonoPrestamo = AbonoPrestamo::with('microprestamo')->with('detalle_integrante')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
 			}
 		}
 		return [
