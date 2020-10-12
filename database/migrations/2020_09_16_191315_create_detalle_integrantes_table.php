@@ -14,10 +14,11 @@ class CreateDetalleIntegrantesTable extends Migration
     public function up()
     {
         Schema::create('detalle_integrantes', function (Blueprint $table) {
-			$table->id();
+            $table->id();
+            $table->float('prestamo_individual',8,2);
 			$table->foreignId('encargado_id')->constrained();
 			$table->foreignId('grupo_prestamo_id')->constrained();
-			$table->foreignId('destino_inversion_id')->constrained();
+            $table->foreignId('destino_inversion_id')->constrained();
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });

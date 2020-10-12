@@ -89,7 +89,7 @@
 
 			<div class="vx-col w-full mt-6">
 				<div class="vx-col w-full">
-					<small class="date-label">Evaluación general de diagnostico</small>
+					<small class="date-label">Evaluación general de diagnóstico</small>
 					<vs-textarea class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border name='evaluacion_diagnostico' v-model="evaluacion_diagnostico"/>
 				</div>
 			</div>
