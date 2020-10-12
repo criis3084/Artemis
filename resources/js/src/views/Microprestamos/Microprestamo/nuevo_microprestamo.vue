@@ -3,14 +3,14 @@
 
 		<div class="vx-col md:w-1/2 w-full mt-3">
 			<div class="vx-col w-full">
-				<small class="date-label">Grupo para microprestamo</small>
+				<small class="date-label">Grupo para micropréstamo</small>
 				<v-select label="nombre" :options="listado_grupos" v-model="grupo_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 			</div>
 		</div>
 		<div v-if="lista_encargados_plus.length >0" class="mt-8">
-		<h3> <b> Cantidad del prestamo anterior: </b> {{grupo_select.cantidad_ultimo_prestamo}} &nbsp; &nbsp; <b>Interes del prestamo anterior: </b> {{grupo_select.interes_ultimo_prestamo}} </h3>
+		<h4> <b> Cantidad del préstamo anterior: </b> {{this.currency(grupo_select.cantidad_ultimo_prestamo)}} &nbsp; &nbsp; <b>Interés del préstamo anterior: </b> {{currency(grupo_select.interes_ultimo_prestamo)}} </h4>
 		<br>
-		<h3> <b> Limite sugerido del prestamo actual: </b> {{limiteActual()}}</h3>
+		<h4> <b> Límite sugerido del préstamo actual: </b> {{limiteActual()}}</h4>
 		<br>
 			<div class="vx-col md:w-1/2 w-full">
 				<div class="my-4">
@@ -18,45 +18,45 @@
 					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_nacimiento" v-model="fecha_inicio"></datepicker>
 				</div>
 			</div>
-
+			<br>
 			<div class="vx-col md:w-1/2 w-full">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Porcentaje de interes" v-model="interes"/>
-					<span class="text-danger">Porcentaje de interes</span>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-percent" icon-no-border label-placeholder="Porcentaje de interes" v-model="interes"/>
+					<span class="text-danger">Porcentaje de interés</span>
 				</div>
 			</div>
 
 			<div class="vx-col w-full mt-3">
-					<small class="date-label mt-5">Dia de pago</small>
+					<small class="date-label mt-5">Día de pago</small>
 					<v-select style="width:30%" label="mostrar" :options="dia_del_mes" v-model="dia_pago" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-
-					<vs-input  style="width:30%" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Mora por atraso" v-model="mora_por_atraso"/>
-					
-					<vs-input  style="width:30%" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Cantidad de meses para pagar" v-model="duracion"/>
-
+					<br>
+					<vs-input  style="width:30%" icon="local_atm" icon-no-border label-placeholder="Mora por atraso" v-model="mora_por_atraso"/>
+					<br>
+					<vs-input  style="width:30%" icon="date_range" icon-no-border label-placeholder="Cantidad de meses para pagar" v-model="duracion"/>
+					<br>
 			</div>
 
 			<table style="width:100%" class="border-collapse mt-2">
 					<tr>
-						<th class="pointer-events-none text-center"> <h4> Integrante </h4> </th>
-						<th class="pointer-events-none text-center"> <h4> Destino de inversión</h4> </th>
-						<th class="pointer-events-none text-center" style="width:30%"> <h4> Cantidad de prestamo </h4> </th>
-						<th class="pointer-events-none text-center" style="width:30%"> <h4> Pago mensual </h4> </th>
+						<th class="pointer-events-none text-center"> <h5> Integrante </h5> </th>
+						<th class="pointer-events-none text-center"> <h5> Destino de inversión</h5> </th>
+						<th class="pointer-events-none text-center" style="width:30%"> <h5> Cantidad de préstamo </h5> </th>
+						<th class="pointer-events-none text-center" style="width:30%"> <h5> Pago mensual </h5> </th>
 					</tr>
 					<tr v-for="(integrante,id) in lista_encargados_plus" :key="id" class="mt-4">
 						<td> {{integrante.datos_encargado.datos.nombres}} </td>
 						<td> <v-select style="width:90%" label="nombre" :options="destinos_inversion" v-model="listaInversiones[id]" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> </td>
 						<td> <vs-input style="width:40%" v-model="listaCantidades[id]" name="cantidad" v-validate="'required|numeric|max:4'"/> </td>
-						<td> Q.{{pagoEstimado(listaCantidades[id])}}.00 </td>
+						<td> Q {{pagoEstimado(listaCantidades[id])}}.00 </td>
 					</tr>
 			</table>
 			<vs-divider/>
 			<div class="vx-row leading-loose p-base">
 				<div class="vx-col w-1/2">
-                    <h4><b>Total de prestamo:</b> </h4>
+                    <h4><b>Total de préstamo:</b> </h4>
                 </div>
 				<div class="vx-col w-1/2 text-right">
-                    <h3> <b> Q.{{sumarCantidades()}} </b>  </h3>
+                    <h3> <b> Q {{sumarCantidades()}}.00 </b>  </h3>
                 </div>
 			</div>
 
@@ -109,6 +109,14 @@ export default {
     	},    
   },
 	methods: {
+		currency(numero) {
+		const formatter = new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'GTQ'
+		})
+		const mil = formatter.format(numero)
+		return mil
+		},
 		pagoEstimado(prestamoI){
 			prestamoI= parseFloat(prestamoI)
 			let duracionT=0
@@ -269,7 +277,7 @@ export default {
 			let ultimaCantidad = this.grupo_select.cantidad_ultimo_prestamo
 			let ultimoInteres = this.grupo_select.interes_ultimo_prestamo/100
 			let sugerido = (ultimaCantidad * ultimoInteres) + ultimaCantidad
-			return sugerido
+			return this.currency(sugerido)
 		}
 	},
 	mounted(){
