@@ -47,9 +47,11 @@
         <vs-divider/>
          <vs-list>
          <vs-list-header title="Integrantes" color="success"></vs-list-header>
-           <vs-list-item title="Nombres" subtitle="">
-             <vs-button color="danger" type="border" icon-pack="feather" icon="icon-x-circle"></vs-button>
+         <div v-for="(encargado,index) in nombresE" :key="index">
+           <vs-list-item :title="encargado.nombres" subtitle="">
+             <vs-button color="danger" type="border" icon-pack="feather" icon="icon-x-circle" @click="borrarIntegrante(index)"></vs-button>
            </vs-list-item>
+          </div>
          </vs-list>
       </vx-card>
       <div class="vx-col w-full">
@@ -76,15 +78,16 @@ export default {
       inversiones:[],
       encargado:'',
       integrantes:[],
-      inversion:''
+      inversion:'',
+      nombresE:[]
     }
   },
   methods:{
     traerNombre (tabla) {
       tabla.forEach(function (valor, indice, array) {
-        valor.nombres = valor.datos.nombres
-        valor.apellidos = valor.datos.apellidos
-        valor.nombre_completo = `${valor.nombres  } ${  valor.apellidos}`
+        valor.encargado_nombres = valor.datos.nombres
+        valor.encargado_apellidos = valor.datos.apellidos
+        valor.nombre_completo = `${valor.encargado_nombres  } ${  valor.encargado_apellidos}`
     
       }) 
       return tabla
@@ -136,8 +139,19 @@ export default {
 
     },*/
     agregar () {
-       console.log(this.encargado.id)
-       
+      this.id = this.encargado.id
+      this.nombreSeleccionado = `${this.encargado.encargado_nombres  } ${  this.encargado.encargado_apellidos}`
+      console.log(this.encargado.id)
+      this.integrantes.push({encargado_id:this.id, destino_inversion_id:1/*, nombres:this.nombreSeleccionado*/})
+      this.nombresE.push({nombres:this.nombreSeleccionado})
+      console.log(this.nombresE)
+      console.log(this.integrantes)
+    },
+    borrarIntegrante (index) {
+      this.integrantes.splice(index, 1)
+      this.nombresE.splice(index, 1)
+      console.log(this.integrantes)
+      console.log(this.nombresE)
     },
 
     enviarForm () {
