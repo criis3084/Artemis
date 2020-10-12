@@ -25,14 +25,14 @@ class ViviendaController extends Controller
 				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('estado', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->orderBy('id', 'desc')->paginate($count);
+				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->orderBy('estado', 'desc')->paginate($count);
 			}
 			else{
-				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->where($criterio, 'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->where($criterio, 'like',$buscar)->orderBy('estado', 'desc')->paginate($count);
 			}
 		}
 		return [

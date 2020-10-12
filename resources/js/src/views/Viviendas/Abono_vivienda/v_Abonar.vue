@@ -210,7 +210,7 @@ export default{
     async importarEncargados () { //async para que se llame cada vez que se necesite
       const me = this
       const response = await axios.get(
-        '/api/vivienda/get?completo=true')
+        '/api/vivienda/get?completo=false')
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.viviendas.data
