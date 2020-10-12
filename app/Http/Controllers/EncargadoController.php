@@ -18,33 +18,25 @@ class EncargadoController extends Controller
 		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
-		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
-		
+		$completo = (isset($request->completo)) ? $request->completo :'false';
+		$count = Encargado::all()->count();
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$encargado = Encargado::with('datos')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$encargado = Encargado::with('datos')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$encargado = Encargado::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$encargado = Encargado::with('datos')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$encargado = Encargado::with('datos')->orderBy('id', 'desc')->paginate(20);
+				$encargado = Encargado::with('datos')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$encargado = Encargado::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$encargado = Encargado::with('datos')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
-			'pagination' => [
-				'total'        => $encargado->total(),
-				'current_page' => $encargado->currentPage(),
-				'per_page'     => $encargado->perPage(),
-				'last_page'    => $encargado->lastPage(),
-				'from'         => $encargado->firstItem(),
-				'to'           => $encargado->lastItem(),
-			],
 			"encargados"=>$encargado
 		];
     }
