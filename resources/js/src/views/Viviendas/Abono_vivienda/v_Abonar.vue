@@ -3,6 +3,9 @@
 
     <!-- HORIZONTAL LAYOUT -->
     <div class="vx-col md:w-1/2 w-full mb-base">
+       <vs-alert v-if="alerta==true" color="success" title="Información" active="true">
+           El pago de la vivienda se ha completado 
+        </vs-alert>
       <vx-card title="Ingresar Abono">
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
@@ -19,7 +22,7 @@
             <span>Cantidad de abono</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-input class="w-full"  v-model="cantidad" name="cantidad" v-validate="'required|numeric|max:4'"/>
+            <vs-input class="w-full"  v-model="cantidad" name="cantidad" v-validate="'required|numeric|max:5'"/>
             <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
           </div>
         </div>
@@ -162,6 +165,7 @@ export default{
       deuda:'',
       costoV:'',
       nRecibo:'',
+      alerta:false,
       configdateTimePicker: {
         date: null,
         inline: true
@@ -277,6 +281,7 @@ export default{
       }).then(function (response) {
         console.log(response.data.id)
         me.seterResponse(response.data.id)
+        me.desactivar()
         alert('Ingreso correctamente')
       })
         .catch(function (error) {
@@ -285,6 +290,24 @@ export default{
         })
       
     },
+    desactivar () {
+      this.id_recibido = this.vivienda_id.id
+      if (this.total === 0) {
+        console.log(`Desactivar  ${this.id_recibido}`)
+        this.alerta = true
+        axios.put('/api/vivienda/desactivar', {
+          id: this.id_recibido
+        })
+          .then(function (response) {
+            console.log(response.data.message)
+            
+          })
+          .catch(function (error) {
+            console.log(error.response.data.message)
+          })
+      }
+
+    },
     limpiar () {
       this.deuda = 0
       this.total = 0
@@ -292,6 +315,7 @@ export default{
       this.cantidad = 0
       this.costoV = 0
       this.descripcion = ''
+      this.alerta = false
     },
     seterResponse (id) {
       this.nRecibo = id
