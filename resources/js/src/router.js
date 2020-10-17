@@ -579,6 +579,30 @@ const router = new Router({
           }
         },
         {
+          path: '/ver/proveedor/:id',
+          name: 'ver-proveedor',
+          component: () => import('./views/Farmacia/Proveedores/ver.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {			
+          path: '/ingresar/proveedor',
+          name: 'ingresar-proveedor',
+          component: () => import('./views/Farmacia/Proveedores/ingresar.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/editar/proveedor/:id',
+          name: 'datos-proveedor',
+          component: () => import('./views/Farmacia/Proveedores/editar.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
           path: '/farmacia/casas',
           name: 'farmacia-casas',
           component: () => import('./views/Farmacia/Casa_medica/casaMedica.vue'),

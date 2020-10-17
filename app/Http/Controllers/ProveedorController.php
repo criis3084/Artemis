@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Proveedor;
+use App\PersonaSinAcceso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
