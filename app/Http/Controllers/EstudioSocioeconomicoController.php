@@ -21,7 +21,7 @@ class EstudioSocioeconomicoController extends Controller
 				$estudioSocioeconomico = EstudioSocioeconomico::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$estudioSocioeconomico = EstudioSocioeconomico::where('estado',1)->where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$estudioSocioeconomico = EstudioSocioeconomico::where([['estado',1],['nombre', 'like', $buscar]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			$count = EstudioSocioeconomico::all()->count();
@@ -29,7 +29,7 @@ class EstudioSocioeconomicoController extends Controller
 				$estudioSocioeconomico = EstudioSocioeconomico::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$estudioSocioeconomico = EstudioSocioeconomico::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$estudioSocioeconomico = EstudioSocioeconomico::where('nombre', 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
         return [

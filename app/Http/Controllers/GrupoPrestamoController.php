@@ -12,37 +12,30 @@ class GrupoPrestamoController extends Controller
 {
     public function index(Request $request)
     {
-		#if (!$request->ajax()) return redirect('/');
+		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo :'false';
 		$count = GrupoPrestamo::all()->count();
-		if ($buscar==''){
-			$grupoPrestamo = GrupoPrestamo::with('integrantes')->orderBy('id', 'desc')->paginate($count);
-			#$grupoPrestamo = GrupoPrestamo::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as grupoPrestamo', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$grupoPrestamo = GrupoPrestamo::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+			}
+			else{
+				$grupoPrestamo = GrupoPrestamo::where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+			}
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$grupoPrestamo = GrupoPrestamo::orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$grupoPrestamo = GrupoPrestamo::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+			}
 		}
-		else{
-			$grupoPrestamo = GrupoPrestamo::with('integrantes')->where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
-		}
-		
-        return [
-            'grupos' => $grupoPrestamo
+		return [
+			"grupoPrestamos"=>$grupoPrestamo
 		];
-    }
-    public function store(Request $request)
-    {
-		#if(!$request->ajax())return redirect('/');
-        try {
-			$grupoPrestamo = new GrupoPrestamo();
-			$grupoPrestamo->nombre = $request->nombre;
-			$grupoPrestamo->descripcion = $request->descripcion;
-			$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
-			$grupoPrestamo->cantidad_prestamo_actual = $request->cantidad_prestamo_actual;
-			$grupoPrestamo->interes_ultimo_prestamo = $request->interes_ultimo_prestamo;
-			$grupoPrestamo->save();
-			
-			return ['id'=>$grupoPrestamo->id];
-		} catch (Exception $e) {
-            return Response::json(['message' => $e->getMessage()], 400);
-		}
     }
 
     public function update(Request $request)

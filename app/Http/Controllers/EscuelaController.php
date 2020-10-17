@@ -23,14 +23,14 @@ class EscuelaController extends Controller
 				$escuela = Escuela::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$escuela = Escuela::where('estado',1)->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$escuela = Escuela::where([['estado',1],[$criterio, 'like', $buscar ]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
 				$escuela = Escuela::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$escuela = Escuela::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$escuela = Escuela::where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if($completo == 'select')
@@ -41,29 +41,6 @@ class EscuelaController extends Controller
             'escuelas' => $escuela
 		];
 		
-		// Filtro solo por un criterio 
-		/*
-		$buscar = $request->buscar;
-        $criterio = $request->criterio;
-		
-			if ($buscar==''){
-				$escuela = Escuela::orderBy('id', 'desc')->where('estado',1)->paginate(20);
-			}
-			else{
-				$escuela = Escuela::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
-			}
-        return [
-            'pagination' => [
-                'total'        => $escuela->total(),
-                'current_page' => $escuela->currentPage(),
-                'per_page'     => $escuela->perPage(),
-                'last_page'    => $escuela->lastPage(),
-                'from'         => $escuela->firstItem(),
-                'to'           => $escuela->lastItem(),
-            ],
-            'escuelas' => $escuela
-		];
-		*/
     }
 
 	public function store(Request $request)

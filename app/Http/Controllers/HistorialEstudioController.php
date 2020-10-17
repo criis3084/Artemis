@@ -23,14 +23,14 @@ class HistorialEstudioController extends Controller
 				$historialEstudio = HistorialEstudio::with('estudioSocieconomico')->with('datos_nino')->with('nino')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$historialEstudio = HistorialEstudio::with('estudioSocieconomico')->with('datos_nino')->with('nino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$historialEstudio = HistorialEstudio::with('estudioSocieconomico')->with('datos_nino')->with('nino')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
 				$historialEstudio = HistorialEstudio::with('estudioSocieconomico')->with('datos_nino')->with('nino')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$historialEstudio = HistorialEstudio::with('estudioSocieconomico')->with('datos_nino')->with('nino')->where([$criterio, 'like', '%'. $buscar . '%'],['estado',1])->orderBy('id', 'desc')->paginate($count);
+				$historialEstudio = HistorialEstudio::with('estudioSocieconomico')->with('datos_nino')->with('nino')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [

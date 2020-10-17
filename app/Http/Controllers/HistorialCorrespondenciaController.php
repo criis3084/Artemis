@@ -24,7 +24,7 @@ class HistorialCorrespondenciaController extends Controller
 				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			$count = HistorialCorrespondencia::all()->count();
@@ -32,7 +32,7 @@ class HistorialCorrespondenciaController extends Controller
 				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$historialCorrespondencia = HistorialCorrespondencia::with('correspondencia')->with('apadrinamiento')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [

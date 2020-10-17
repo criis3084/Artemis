@@ -11,45 +11,29 @@ class FotografiaController extends Controller
 {
 	public function index(Request $request)
     {
-		// Filtro por un criterio y estado
-        $buscar = $request->buscar;
-        $criterio = $request->criterio;
-		
-		if ($buscar==''){
-			$count = Fotografia::where('estado',1)->count();
-			$fotografia = Fotografia::orderBy('id', 'desc')->where('estado',1)->paginate($count);
-		}
-		else{
-			$count = Fotografia::all()->count();
-			$fotografia = Fotografia::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
-		}
-        return [
-            'fotografias' => $fotografia
-		];
-		
-		// Filtro solo por un criterio 
-		/*
 		$buscar = $request->buscar;
-        $criterio = $request->criterio;
-		
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo :'false';
+		$count = Fotografia::all()->count();
+		if ($completo == 'false')
+		{
 			if ($buscar==''){
-				$escuela = Escuela::orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$fotografia = Fotografia::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$escuela = Escuela::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$fotografia = Fotografia::where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
-        return [
-            'pagination' => [
-                'total'        => $escuela->total(),
-                'current_page' => $escuela->currentPage(),
-                'per_page'     => $escuela->perPage(),
-                'last_page'    => $escuela->lastPage(),
-                'from'         => $escuela->firstItem(),
-                'to'           => $escuela->lastItem(),
-            ],
-            'aldeas' => $escuela
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$fotografia = Fotografia::orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$fotografia = Fotografia::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+			}
+		}
+		return [
+			"fotografias"=>$fotografia
 		];
-		*/
 	}
 	
     public function store(Request $request)

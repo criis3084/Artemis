@@ -23,14 +23,14 @@ class HistorialAbonoViviendaController extends Controller
 				$historialAbonoVivienda = HistorialAbonoVivienda::with('abono')->with('vivienda')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$historialAbonoVivienda = HistorialAbonoVivienda::with('abono')->with('vivienda')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+				$historialAbonoVivienda = HistorialAbonoVivienda::with('abono')->with('vivienda')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
 				$historialAbonoVivienda = HistorialAbonoVivienda::with('abono')->with('vivienda')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$historialAbonoVivienda = HistorialAbonoVivienda::with('abono')->with('vivienda')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$historialAbonoVivienda = HistorialAbonoVivienda::with('abono')->with('vivienda')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
