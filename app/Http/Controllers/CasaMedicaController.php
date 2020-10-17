@@ -21,7 +21,7 @@ class CasaMedicaController extends Controller
 				$casaMedica = CasaMedica::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$casaMedica = CasaMedica::where([['estado',1],[$criterio, 'like', '%'. $buscar . '%']])->orderBy('id', 'desc')->paginate($count);
+				$casaMedica = CasaMedica::where([['estado',1],[$criterio, 'like', $buscar ]])->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if ($completo == 'true'){
@@ -29,7 +29,7 @@ class CasaMedicaController extends Controller
 				$casaMedica = CasaMedica::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$casaMedica = CasaMedica::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc');
+				$casaMedica = CasaMedica::where($criterio, 'like', $buscar)->orderBy('id', 'desc');
 			}
 		}
 		else if($completo == 'select')

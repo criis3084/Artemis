@@ -21,7 +21,7 @@ class CategoriaMedicamentoController extends Controller
 				$categoriaMedicamento = CategoriaMedicamento::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$categoriaMedicamento = CategoriaMedicamento::where([['estado',1],[$criterio, 'like', '%'. $buscar . '%']])->orderBy('id', 'desc')->paginate($count);
+				$categoriaMedicamento = CategoriaMedicamento::where([['estado',1],[$criterio, 'like', $buscar]])->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if ($completo == 'true'){
@@ -29,7 +29,7 @@ class CategoriaMedicamentoController extends Controller
 				$categoriaMedicamento = CategoriaMedicamento::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$categoriaMedicamento = CategoriaMedicamento::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc');
+				$categoriaMedicamento = CategoriaMedicamento::where($criterio, 'like', $buscar )->orderBy('id', 'desc');
 			}
 		}
 		else if($completo == 'select')

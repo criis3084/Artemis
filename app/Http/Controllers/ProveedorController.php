@@ -83,16 +83,22 @@ class ProveedorController extends Controller
 	public function activar(Request $request)
 	{
 		$proveedor = Proveedor::findOrFail($request->id);
-        $proveedor->estado = '1';
-        $proveedor->save();
+		$persona = PersonaSinAcceso::findOrFail($constructor->id);
+		$proveedor->estado = '1';
+		$persona->estado = '1';
+		$proveedor->save();
+		$persona->save();
 		return Response::json(['message' => 'proveedor Activado'], 200);
 	}
 
 	public function desactivar(Request $request)
 	{
 		$proveedor = Proveedor::findOrFail($request->id);
-        $proveedor->estado = '0';
-        $proveedor->save();
+		$persona = PersonaSinAcceso::findOrFail($constructor->id);
+		$proveedor->estado = '0';
+		$persona->estado = '0';
+		$proveedor->save();
+		$persona->save();
 		return Response::json(['message' => 'proveedor Desactivado'], 200);
 	}
 }

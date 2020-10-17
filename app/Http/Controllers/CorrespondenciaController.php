@@ -23,7 +23,7 @@ class CorrespondenciaController extends Controller
 				$correspondencia = Correspondencia::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$correspondencia = Correspondencia::where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+				$correspondencia = Correspondencia::where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			$count = Fotografia::all()->count();
@@ -31,7 +31,7 @@ class CorrespondenciaController extends Controller
 				$correspondencia = Correspondencia::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$correspondencia = Correspondencia::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$correspondencia = Correspondencia::where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
