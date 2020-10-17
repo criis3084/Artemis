@@ -27,7 +27,7 @@ class CategoriaMedicamentoController extends Controller
 		else if ($completo == 'true'){
 			if ($buscar==''){
 				$categoriaMedicamento = CategoriaMedicamento::orderBy('id', 'desc')->paginate($count);
-			}CategoriaMedicamento
+			}
 			else{
 				$categoriaMedicamento = CategoriaMedicamento::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc');
 			}
