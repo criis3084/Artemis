@@ -37,7 +37,7 @@ class CategoriaMedicamentoController extends Controller
 			$categoriaMedicamento = CategoriaMedicamento::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 		}
         return[
-            'ca$categoriaMedicamentos' => $categoriaMedicamento
+            'categoriaMedicamentos' => $categoriaMedicamento
 		];
     }
     public function store(Request $request)
