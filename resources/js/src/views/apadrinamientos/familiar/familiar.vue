@@ -25,7 +25,7 @@
 					<vs-th>Nombres</vs-th>
 					<vs-th>Apellidos</vs-th>
 					<vs-th>Escolaridad</vs-th>
-					<vs-th>Ocupacion</vs-th>
+					<vs-th>Ocupación</vs-th>
 					<vs-th>Ingresos</vs-th>
 					<vs-th>Acciones</vs-th>
 				</template>
