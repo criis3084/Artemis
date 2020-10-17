@@ -11,7 +11,7 @@ class DetalleIntegrante extends Model
 	public function prestamista(){
 		return $this->belongsTo('App\Encargado','encargado_id','id');
 	}
-	public function grupo(){
+	public function grupos(){
 		return $this->belongsTo('App\GrupoPrestamo','grupo_prestamo_id','id');
 	}
 	public function abonos(){
@@ -22,5 +22,16 @@ class DetalleIntegrante extends Model
 	}
 	public function microprestamo(){
 		return $this->belongsTo('App\Microprestamo','microprestamo_id','id');
+	}
+	
+	public function datos_prestamista(){
+		return $this->hasManyThrough(
+			'App\PersonaSinAcceso',
+			'App\Encargado',
+			'id',
+			'id',
+			'encargado_id',
+			'persona_sin_acceso_id'
+		);
 	}
 }

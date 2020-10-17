@@ -21,17 +21,17 @@ class DetalleIntegranteController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$detalleIntegrante = DetalleIntegrante::with('prestamista')->with('microprestamo')->with('grupos')->with('abonos')->with('destino')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$detalleIntegrante = DetalleIntegrante::with('prestamista')->with('microprestamo')->with('grupos')->with('abonos')->with('destino')->with('datos_prestamista')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$detalleIntegrante = DetalleIntegrante::with('prestamista')->with('microprestamo')->with('grupos')->with('abonos')->with('destino')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$detalleIntegrante = DetalleIntegrante::with('prestamista')->with('microprestamo')->with('grupos')->with('abonos')->with('destino')->with('datos_prestamista')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$detalleIntegrante = DetalleIntegrante::with('prestamista')->with('microprestamo')->with('grupos')->with('abonos')->with('destino')->orderBy('id', 'desc')->paginate($count);
+				$detalleIntegrante = DetalleIntegrante::with('prestamista')->with('microprestamo')->with('grupos')->with('abonos')->with('destino')->with('datos_prestamista')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$detalleIntegrante = DetalleIntegrante::with('prestamista')->with('microprestamo')->with('grupos')->with('abonos')->with('destino')->where($criterio, 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
+				$detalleIntegrante = DetalleIntegrante::with('prestamista')->with('microprestamo')->with('grupos')->with('abonos')->with('destino')->with('datos_prestamista')->where($criterio, 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [

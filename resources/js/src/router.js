@@ -375,7 +375,7 @@ const router = new Router({
             rule: 'admin'
           }
         },
-        {			
+        {	
           path: '/microprestamo/integrante',
           name: 'microprestamo-integrante',
           component: () => import('./views/Microprestamos/Detalle_integrante/detalleIntegrante.vue'),
@@ -383,11 +383,26 @@ const router = new Router({
             rule: 'editor'
           }
         },
-        
+        {
+          path: '/microprestamo/historial/id',
+          name: 'microprestamo-historial',
+          component: () => import('./views/Microprestamos/Detalle_integrante/historialPago.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
         {
           path:'/microprestamo/grupo',
           name: 'microprestamo-grupo',
           component: () => import('./views/Microprestamos/Grupo_prestamo/grupoPrestamo.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
+          path:'/microprestamo/Vergrupo/:id',
+          name: 'microprestamo-Vergrupo',
+          component: () => import('./views/Microprestamos/Grupo_prestamo/VerGrupo.vue'),
           meta: {
             rule:'editor'
           }

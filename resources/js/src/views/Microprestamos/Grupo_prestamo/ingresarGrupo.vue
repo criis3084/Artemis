@@ -5,28 +5,21 @@
       <vx-card title="Nuevo Grupo" >
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
-            <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Nombre de grupo" v-model="nombre" />
+            <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Nombre de grupo" v-model="nombre" name="nombre" v-validate="'required|max:35'" />
+            <span class="text-danger text-sm" v-show="errors.has('nombre')">{{ errors.first('nombre') }}</span>
           </div>
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <small>Descripción</small>
-            <vs-textarea class="w-full" icon-pack="feather" icon="icon-user" icon-no-border v-model="descripcion" />
+            <vs-textarea class="w-full" icon-pack="feather" icon="icon-user" icon-no-border v-model="descripcion" name="descripcion" v-validate="'required|max:60'"/>
+            <span class="text-danger text-sm" v-show="errors.has('descripcion')">{{ errors.first('descripcion') }}</span>
           </div>
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
-           <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Cantidad de préstamo" v-model="cantidad_prestamo_actual" />
-          </div>
-        </div>
-        <div class="vx-row mb-6">
-          <div class="vx-col w-full">
-            <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Cantidad de préstamo anterior" v-model="cantidad_ultimo_prestamo" />
-          </div>
-        </div>
-         <div class="vx-row mb-6">
-          <div class="vx-col w-full">
-            <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Interés" v-model="interes_ultimo_prestamo" />
+           <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Cantidad de préstamo" v-model="cantidad_prestamo_actual" name="cantidad" v-validate="'required|numeric|max:4'"/>
+           <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
           </div>
         </div>
         <div class="vx-row">
@@ -41,7 +34,8 @@
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <small>Seleccióne una persona</small>
-            <v-select label="nombre_completo" :options="encargados" v-model="encargado"  @input="agregar" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+            <v-select label="nombre_completo" :options="NuevoEncargado" v-model="encargado"  @input="agregar" :dir="$vs.rtl ? 'rtl' : 'ltr'" name="encargado" v-validate="'required'" />
+            <span class="text-danger text-sm" v-show="errors.has('encargado')">{{ errors.first('encargado') }}</span>
           </div>
         </div>
         <vs-divider/>
@@ -55,7 +49,7 @@
          </vs-list>
       </vx-card>
       <div class="vx-col w-full">
-            <vs-button class="mr-3 mb-2" @click="guardarGrupo">Guardar grupo</vs-button>
+            <vs-button class="mr-3 mb-2" @click="enviarForm">Guardar grupo</vs-button>
             
       </div>
     </div>
@@ -63,6 +57,29 @@
 </template>
 
 <script>
+import { Validator } from 'vee-validate'
+const dict = {
+  custom: {
+    nombre: {
+      required: 'Este campo no puede quedar vacío',
+      max:'No se aceptan más de 35 caracteres'
+    },
+    descripcion: {
+      required:'Información requerida',
+      max:'No se aceptan más de 60 caracteres'
+    },
+    encargado:{
+      required:'Seleccióne miembros para el grupo porfavor'
+    },
+    cantidad:{
+      required:'Porfavor ingrese una cantidad',
+      numeric:'Solo se aceptan números',
+      max:'No se aceptan cantidades mayores a 4 digitos'
+    }
+  }
+}
+Validator.localize('es', dict)
+
 import axios from 'axios'
 import vSelect from 'vue-select'
 
@@ -81,19 +98,33 @@ export default {
       encargado:'',
       integrantes:[],
       inversion:'',
-      nombresE:[]
+      nombresE:[],
+      detalleIntegrante:[],
+      encargadosDetalle:[],
+      NuevoEncargado:[]
+      
     }
   },
   methods:{
     traerNombre (tabla) {
-      tabla.forEach(function (valor, indice, array) {
+      tabla.forEach(function (valor, indice, array) { //Para tabla encargado
         valor.encargado_nombres = valor.datos.nombres
         valor.encargado_apellidos = valor.datos.apellidos
         valor.nombre_completo = `${valor.encargado_nombres  } ${  valor.encargado_apellidos}`
     
       }) 
       return tabla
-	  },
+    },
+    traerDatosEncargados (tabla) { //para tabla DetalleIntegrante
+
+      tabla.forEach(function (valor, indice, array) {
+        valor.encargado_nombres = valor.datos_prestamista[0].nombres
+	    	valor.encargado_apellidos = valor.datos_prestamista[0].apellidos
+		    valor.encargado_nombreCompleto = `${valor.encargado_nombres  } ${  valor.encargado_apellidos}`
+      }) 
+
+      return tabla
+    },
     guardarDetalle (id) {
       /*let nombreG = this.nombre
       let descripcionG = this.descripcion
@@ -113,60 +144,88 @@ export default {
 
         }).then(function (response) {
           console.log(response)
+          alert('Integrantes agregados al grupo correctamente')
         })
           .catch(function (error) {
             console.log(error)
+            alert('Error al ingresar')
           })
       })
 
     },
     guardarGrupo () {
-      let me = this
+      const me = this
       axios.post('/api/grupoPrestamo/post/', {
         //tablaGrupo
         nombre: this.nombre,
         descripcion:this.descripcion,
-        cantidad_ultimo_prestamo:this.cantidad_ultimo_prestamo,
+        cantidad_ultimo_prestamo:0,
         cantidad_prestamo_actual:this.cantidad_prestamo_actual,
-        interes_ultimo_prestamo:this.interes_ultimo_prestamo
+        interes_ultimo_prestamo:0
 
       }).then(function (response) {
         console.log(response.data.id)
+        alert('Grupo creado correctamente')
         me.guardarDetalle(response.data.id)
       })
         .catch(function (error) {
           console.log(error)
+          alert('Error al crear al grupo')
         })
- 
+      
     },
-    async traerPersona () {
+    async traerPersona () { //tabla encargados
+    
       const me = this
-      const response = await axios.get('/api/encargado/get?completo=true')
+      const response = await axios.get('/api/encargado/get?completo=false')
         .then(function (response) {
           const respuesta = response.data
           me.encargados = respuesta.encargados.data
+          
           me.encargados = me.traerNombre(me.encargados)
-          console.log(me.encargados)
+          //console.log(me.encargados)
+          me.importarEncargados()
+  
         })
         .catch(function (error) {
           console.log(error)
         })
 
     },
-    /*async Inversion () {
+     importarEncargados () { //tabla detalle Integrante
+      const hash2 = {}
       const me = this
-      const response = await axios.get('/api/destinoInversion/get?completo=true')
+         axios.get(
+        '/api/detalleIntegrante/get?completo=false')
         .then(function (response) {
           const respuesta = response.data
-          me.inversiones = respuesta.destinosInversiones.data
-          console.log(me.encargados)
+          me.detalleIntegrante = respuesta.detalleIntegrantes.data
+          me.detalleIntegrante = me.detalleIntegrante.filter(o => hash2[o.encargado_id] ? false : hash2[o.encargado_id] = true)
+          me.encargadosDetalle = me.traerDatosEncargados(me.detalleIntegrante)
+          me.eliminarDuplicado(me.detalleIntegrante)
         })
         .catch(function (error) {
           console.log(error)
         })
+    },
+    eliminarDuplicado (copiaDetalle) {
+      const copia = this.encargados.slice()
+      //const copiaDetalle = this.detalleIntegrante.slice()
+      console.log(copia)
+      console.log(copiaDetalle)
+      var encontrado =''
+      const NuevoEncargados = []
+      copia.forEach(function (elemento, indice, array) {
+        encontrado = copiaDetalle.find(element => element.encargado_id === elemento.id)
+        if (encontrado == undefined) {
+          NuevoEncargados.push(elemento)
+        }
+      })
+      console.log(NuevoEncargados)
+      this.NuevoEncargado = NuevoEncargados
+    },
 
-    },*/
-    agregar () {
+    agregar () { //funcion para agregar los elemntos en el array
       this.id = this.encargado.id
       this.nombreSeleccionado = `${this.encargado.encargado_nombres  } ${  this.encargado.encargado_apellidos}`
       console.log(this.encargado.id)
@@ -188,10 +247,17 @@ export default {
     enviarForm () {
       this.$validator.validateAll().then(result => {
         if (result) {
-          // if form have no errors
-          alert('form submitted!')
+          this.guardarGrupo()
+          this.$router.push('/microprestamo/grupo')
         } else {
           // form have errors
+          this.$vs.notify({
+            title:'Error',
+            text:'Porfavor ingrese correctamente los datos',
+            color:'warning',
+            position:'bottom-center',
+            icon:'priority_high'
+          })
         }
       })
     }
@@ -204,6 +270,8 @@ export default {
   },
   mounted () {
     this.traerPersona()
+    /*this.importarEncargados()
+    this.eliminarDuplicado()*/
   }
 }
 </script>

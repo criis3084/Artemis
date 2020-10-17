@@ -20,17 +20,23 @@
       </template>
 
     <template slot="thead">
+      <vs-th>Ver</vs-th>
       <vs-th sort-key="nombre">ID</vs-th>
       <vs-th sort-key="nombre">Nombre</vs-th>
       <vs-th sort-key="us">Descripción</vs-th>
       <vs-th sort-key="website">Último Préstamo</vs-th>
       <vs-th sort-key="id">Préstamo Actual</vs-th>
+      <vs-th sort-key="Fecha de creación">Fecha de creación</vs-th>
       <vs-th sort-key="estado">Estado</vs-th>
+      
       <vs-th>Acciones</vs-th>
     </template>
 
     <template slot-scope="{data}">
       <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+        <vs-td>
+					<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/microprestamo/Vergrupo/'+data[indextr].id)"></vs-button></vx-tooltip>			
+				</vs-td>
 
         <vs-td :data="data[indextr].id">
           {{ data[indextr].id }}
@@ -51,7 +57,10 @@
         <vs-td :data="data[indextr].cantidad_prestamo_actual">
           Q{{ data[indextr].cantidad_prestamo_actual}}
         </vs-td>
-     
+        <vs-td :data="data[indextr].created_at">
+          {{getDate( data[indextr].created_at)}}
+        </vs-td>
+
         <vs-td :data="data[indextr].estado">
            <vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
              <span slot="on" >Activo</span>
@@ -101,6 +110,11 @@ export default {
     vSelect
   },
   methods:{
+    getDate (datetime) {
+      const date = new Date(datetime)
+      const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+      return dateString
+    },
     async index () {
       const me = this
       this.abrir_editar = false
