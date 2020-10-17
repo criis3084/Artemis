@@ -1,62 +1,63 @@
 <template>
 	<div>
 		<vx-card>
-			<div class = "demo-alignment">
-				<h2>Familiares</h2>
-			<!--	<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/nino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = 'large' ></vs-button> </router-link>  </vx-tooltip>
-			-->
-			</div>
-			<br>
+			<formularioaldea v-on:cerrado="index();"></formularioaldea>
+
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
-				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
-				<v-select v-model="selectedFormat" :options="formats" class="my-4" />
-				<div class="flex">
-					<span class="mr-4">Ancho automatico de celda:</span>
-					<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
-				</div>
-			</vs-prompt>
-			<vs-table title="Padrinos" pagination max-items="10" search :data="arrayData" noDataText="No hay datos disponibles">
-				<template slot="header">
-					<vs-button @click="activePrompt=true">Exportar</vs-button>
-				</template>
-				<template slot="thead">
-					<vs-th>Ver</vs-th>
+        		<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
+        		<v-select v-model="selectedFormat" :options="formats" class="my-4" />
+        		<div class="flex">
+          			<span class="mr-4">Ancho automatico de celda:</span>
+          			<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
+        		</div>
+    		</vs-prompt>
+
+			<vs-table title="Casas Médicas" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
+     			<template slot="header">
+          			<vs-button @click="activePrompt=true">Exportar</vs-button>
+        		</template>
+            	<template slot="thead">
 					<vs-th>Id</vs-th>
-					<vs-th>Nombres</vs-th>
-					<vs-th>Apellidos</vs-th>
-					<vs-th>Escolaridad</vs-th>
-					<vs-th>Ocupación</vs-th>
-					<vs-th>Ingresos</vs-th>
+					<vs-th>Nombre</vs-th>
+					<vs-th>Estado</vs-th>
 					<vs-th>Acciones</vs-th>
+
 				</template>
+
 				<template slot-scope="{data}">
-					<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-						<vs-td>
-							<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"  @click="$router.push('/ver/familiar/'+data[indextr].id)" ></vs-button></vx-tooltip>
-						</vs-td>
-						<!--
-						<router-link :to="url" @click.stop.prevent class="text-inherit hover:text-primary">{{ params.value }}</router-link>
-						-->
-						<vs-td>{{data[indextr].id}}</vs-td>
-						<vs-td>
-							<div class="flex items-center">
-								<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
-								{{data[indextr].datos.nombres}}
-							</div>
-						</vs-td>
-						<!-- <vs-td>{{data[indextr].datos.nombres}}</vs-td> -->
-						<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
-						<vs-td>{{data[indextr].escolaridad}}</vs-td>
-						<vs-td>{{data[indextr].ocupacion}}</vs-td>
-						<vs-td>{{data[indextr].ingresos}}</vs-td>
-						<vs-td>
-								<div class="flex items-center">
-								<vx-tooltip text="Editar"><vs-button @click="$router.push('/editar/familiar/'+data[indextr].id)" radius color="dark" type="flat" icon="edit" size="large">  </vs-button>  </vx-tooltip>
-							</div>
-						</vs-td>
-					</vs-tr>
-				</template>
+                <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+
+                    <vs-td :data="data[indextr].id">
+                        {{data[indextr].id}}
+                    </vs-td>
+
+                    <vs-td :data="data[indextr].nombre">
+                        {{data[indextr].nombre}}
+                    </vs-td>
+
+                    <vs-td :data="data[indextr].estado">
+                        <vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
+				                  <span slot="on" >Activo</span>
+				                  <span slot="off">Desactivo</span>
+			                  </vs-switch>
+                    </vs-td>
+                    <vs-td>
+						<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+					</vs-td>
+                </vs-tr>
+            	</template>
+
+
 			</vs-table>
+			
+
+			<aldeaEdit
+			v-bind:identificador="abrir_editar"
+			v-bind:id="id"
+			v-bind:nombre="nombre"
+			v-on:cerrado="index();"
+			></aldeaEdit>
+
 		</vx-card>
 	</div>
 </template>
@@ -65,19 +66,18 @@
 <script>
 
 import VueApexCharts from 'vue-apexcharts'
+import aldeaEdit from './editar.vue'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
-import Formulario from './formulario.vue'
-import EditNino from './editar.vue'
+import Formularioaldea from './ingresar.vue'
 import axios from 'axios'
 
 export default {
   data () {
     return {
       //Aqui van a guardar todas su variables.
-      rols: [],
        pagination : {
         'total' : 0,
           'current_page' : 0,
@@ -91,27 +91,18 @@ export default {
       arrayData: [],
       nombre: '',
 	  switch2:false,
+	  id: 0,
 	  estado: null,
 	  abrir_editar:false,
-		id:'',
-		nombres:'',
-		apellidos:'',
-		genero:'',
-		codigo:'',
-		fecha_ingreso:'',
-		fecha_nacimiento:'',
-		direccion:'',
-		ruta_imagen:'',
-	    imagenProfile:'https://img.pngio.com/profile-icon-png-image-free-download-searchpngcom-profile-icon-png-673_673.png',
 	  fileName: '',
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'nombres', 'apellidos', 'fecha_nacimiento', 'fecha_ingreso', 'estado'],
-	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Fecha de nacimiento', 'Fecha de ingreso', 'Estado'],
-      activePrompt: false,
-      'selected': [],
-      'tableList': [
+	  headerVal: ['id', 'nombre','estado'],
+	  headerTitle: ['Id', 'Nombre','Estado'],
+    activePrompt: false,
+    'selected': [],
+    'tableList': [
         'vs-th: Component',
         'vs-tr: Component',
         'vs-td: Component',
@@ -119,34 +110,29 @@ export default {
         'tbody: Slot',
         'header: Slot'
       ]
-	}
+    }
   },
   components: {
     VueApexCharts,
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    Formulario,
-    EditNino
+	Formularioaldea,
+	aldeaEdit 
   },
   methods: {
-	  cambiar(Encargado){
-		  this.id = Encargado.id;
-		  this.nombres = Encargado.datos.nombres;
-		  this.apellidos = Encargado.datos.apellidos;
-		  this.escolaridad = Encargado.escolaridad;
-		  this.ocupacion = Encargado.ocupacion;
-		  this.ingresos = Encargado.ingresos;
-		  this.ruta_imagen = Encargado.ruta_imagen;
+	  cambiar(casaMedica){
+		  this.id = casaMedica.id;
+		  this.nombre = casaMedica.nombre;
 		  this.abrir_editar = true;
 	  },
-	  aNuevo(){
-		 this.$router("/ingresar/familiar");
-	  },
-	  aEditar(){
-		 this.$router.push("/apps/user/user-edit/");
-	  },
+	  getDate(datetime) {
+        let date = new Date(datetime);
+        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        return dateString;
+      },
 	  abrirDialog(id, estado){
+
 		let titulo = '';
 		let color = '';
 
@@ -169,16 +155,16 @@ export default {
 			color: `${color}`,
 			title: `${titulo}`,
 			text: '¿Está seguro de llevar a cabo esta acción?',
-			accept: this.cambiarEstado
-		});
-		this.index();
+			accept: this.cambiarEstado,
+			cancel: this.close
+		})
 	},
 	cambiarEstado(color){
 		let titulo = ''
 		
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
-			axios.put('/api/encargado/activar', {
+			axios.put('/api/casaMedica/activar', {
 				id: this.id
 			})
 			.then(function (response) {
@@ -190,32 +176,42 @@ export default {
 		}
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
-			axios.put('/api/encargado/desactivar', {
+			axios.put('/api/casaMedica/desactivar', {
 				id: this.id
 			})
-			.then(function (response) {co
+			.then(function (response) {
 				console.log(response.data.message)
 			})
 			.catch(function (error) {
 				console.log(error.response.data.message)
 			});
+
 		}
 		this.$vs.notify({
           color:'success',
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
-		});
-		this.index();
+		})
 	},
-	async index(){ //async para que se llame cada vez que se necesite
+	close(){
+		let titulo = "Cancelado"
+		let texto = "Cambio de estado cancelado"
+		this.$vs.notify({
+        color:'danger',
+        title:`${titulo}`,
+        text:`${titulo}`
+	  })
+	this.index();
+    },
+	async index(page, search){ //async para que se llame cada vez que se necesite
 		let me = this;
 		this.abrir_editar=false
 		const response = await axios.get(
-			`/api/encargado/get?completo=false`)
+			`/api/casaMedica/get?completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
-			me.arrayData = respuesta.encargados.data;
-			me.encargado = me.traerNombre(me.arrayData)
+			me.arrayData = respuesta.casaMedicas.data;
+			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -247,27 +243,15 @@ export default {
 
         return v[j]
       }))
-    },
+	},
 	clearFields () {
       this.filename = ''
       this.cellAutoWidth = true
       this.selectedFormat = 'xlsx'
-	},
-	traerNombre (tabla) {
-      tabla.forEach(function (valor, indice, array) {
-	  valor.nombres = valor.datos.nombres
-	  valor.apellidos = valor.datos.apellidos
-	  valor.fecha_nacimiento = valor.datos.fecha_nacimiento
-      }) 
-	  return tabla
     }
   },
   mounted(){
-
     this.index();
-  },
-  computed:{
-
   }
 }
 </script>

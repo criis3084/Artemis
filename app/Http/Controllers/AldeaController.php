@@ -23,7 +23,7 @@ class AldeaController extends Controller
 				$aldea = Aldea::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$aldea = Aldea::where('estado',1)->where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$aldea = Aldea::where('estado',1)->where('nombre', 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			$count = Aldea::all()->count();
@@ -31,7 +31,7 @@ class AldeaController extends Controller
 				$aldea = Aldea::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$aldea = Aldea::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$aldea = Aldea::where('nombre', 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if($completo == 'select')

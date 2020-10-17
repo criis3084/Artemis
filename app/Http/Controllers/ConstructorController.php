@@ -24,7 +24,7 @@ class ConstructorController extends Controller
 				$constructor = Constructor::with('datos')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$constructor = Constructor::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+				$constructor = Constructor::with('datos')->where([[$criterio, 'like', $buscar ],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			$count = Constructor::all()->count();
@@ -32,11 +32,11 @@ class ConstructorController extends Controller
 				$constructor = Constructor::with('datos')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$constructor = Constructor::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(1);
+				$constructor = Constructor::with('datos')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate(1);
 			}
 		}else if($completo == 'datosAnidados')
 		{
-			$constructor = Constructor::with('datos')->with('construcciones')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(1);
+			$constructor = Constructor::with('datos')->with('construcciones')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate(1);
 		}
 		return [
 			"constructors"=>$constructor
@@ -57,9 +57,9 @@ class ConstructorController extends Controller
 			$persona->direccion = $request->direccion;
 			$persona->save();
 
-			$encargado = new Constructor();
-			$encargado->persona_sin_acceso_id = $persona->id;
-			$encargado->save();
+			$constructor = new Constructor();
+			$constructor->persona_sin_acceso_id = $persona->id;
+			$constructor->save();
 
 			return Response::json(['message' => 'Encargado Creado'], 200);
 			#return ['id' => $nino->id];

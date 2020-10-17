@@ -554,6 +554,113 @@ const router = new Router({
             rule: 'admin'
           }
         },
+        // =============================================================================
+        // =============================================================================
+        // SALUD
+        // =============================================================================
+        // =============================================================================
+        
+        // FARMACIA
+        // =============================================================================
+        {
+          path: '/farmacia/medicamentos',
+          name: 'farmacia-medicamentos',
+          component: () => import('./views/Farmacia/Medicamentos/medicamentos.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {
+          path: '/farmacia/proveedores',
+          name: 'farmacia-proveedores',
+          component: () => import('./views/Farmacia/Proveedores/proveedores.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {
+          path: '/farmacia/casas',
+          name: 'farmacia-casas',
+          component: () => import('./views/Farmacia/Casa_medica/casaMedica.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {
+          path: '/farmacia/categoria',
+          name: 'farmacia-categoria',
+          component: () => import('./views/Farmacia/Categorias/categorias.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        }, 
+        // CLINICA
+        // =============================================================================
+        {
+          path: '/clinica/pacientes',
+          name: 'clinica-pacientes',
+          component: () => import('./views/Clinica/Pacientes/pacientes.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        }, 
+        {
+          path: '/clinica/citas',
+          name: 'clinica-citas',
+          component: () => import('./views/Clinica/Citas/citas.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        }, 
+        {
+          path: '/clinica/tipoC',
+          name: 'clinica-tipoC',
+          component: () => import('./views/Clinica/Tipo_cita/tipoCita.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        }, 
+        {
+          path: '/clinica/tipoP',
+          name: 'clinica-tipoP',
+          component: () => import('./views/Clinica/Tipo_paciente/tipoPaciente.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        }, 
+        // LABORATORIO
+        // =============================================================================
+        {
+          path: '/laboratorio/examen',
+          name: 'laboratorio-examen',
+          component: () => import('./views/Laboratorio/Examenes/examenes.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        }, 
+        {
+          path: '/laboratorio/tipo',
+          name: 'laboratorio-tipo',
+          component: () => import('./views/Laboratorio/Tipo_examen/tipoExamen.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // =============================================================================
         // Application Routes

@@ -11,27 +11,28 @@ class DestinoInversionController extends Controller
 {
     public function index(Request $request)
     {
-		#if (!$request->ajax()) return redirect('/');
-
-        $buscar = $request->buscar;
-		if ($buscar==''){
-			$destinoInversion = DestinoInversion::orderBy('id', 'desc')->paginate(20);
-			#$destinoInversion = DestinoInversion::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as destinoInversion', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
+		$buscar = $request->buscar;
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo :'false';
+		$count = DestinoInversion::all()->count();
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$destinoInversion = DestinoInversion::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+			}
+			else{
+				$destinoInversion = DestinoInversion::where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+			}
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$destinoInversion = DestinoInversion::orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$destinoInversion = DestinoInversion::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+			}
 		}
-		else{
-			$destinoInversion = DestinoInversion::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
-		}
-		
-        return [
-            'pagination' => [
-                'total'        => $destinoInversion->total(),
-                'current_page' => $destinoInversion->currentPage(),
-                'per_page'     => $destinoInversion->perPage(),
-                'last_page'    => $destinoInversion->lastPage(),
-                'from'         => $destinoInversion->firstItem(),
-                'to'           => $destinoInversion->lastItem(),
-            ],
-            'destinosInversiones' => $destinoInversion
+		return [
+			"destinoInversions"=>$destinoInversion
 		];
     }
     public function store(Request $request)

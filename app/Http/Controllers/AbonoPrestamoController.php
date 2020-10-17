@@ -14,33 +14,25 @@ class AbonoPrestamoController extends Controller
 		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
-		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
-		
+		$completo = (isset($request->completo)) ? $request->completo :'false';
+		$count = AbonoPrestamo::all()->count();
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->paginate(20);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
-			'pagination' => [
-				'total'        => $abonoPrestamo->total(),
-				'current_page' => $abonoPrestamo->currentPage(),
-				'per_page'     => $abonoPrestamo->perPage(),
-				'last_page'    => $abonoPrestamo->lastPage(),
-				'from'         => $abonoPrestamo->firstItem(),
-				'to'           => $abonoPrestamo->lastItem(),
-			],
 			"abonos"=>$abonoPrestamo
 		];
 	}
@@ -89,7 +81,7 @@ class AbonoPrestamoController extends Controller
         $abonoPrestamo = AbonoPrestamo::findOrFail($request->id);
         $abonoPrestamo->estado = '1';
         $abonoPrestamo->save();
-		return Response::json(['message' => 'AbonoPrestamo Desactivada'], 200);
+		return Response::json(['message' => 'AbonoPrestamo Activado'], 200);
 	}
 
 	public function desactivar(Request $request)
@@ -98,6 +90,6 @@ class AbonoPrestamoController extends Controller
 		$abonoPrestamo = AbonoPrestamo::findOrFail($request->id);
 		$abonoPrestamo->estado = '0';
 		$abonoPrestamo->save();
-		return Response::json(['message' => 'AbonoPrestamo Desactivada'], 200);
+		return Response::json(['message' => 'AbonoPrestamo Desactivado'], 200);
 	}
 }

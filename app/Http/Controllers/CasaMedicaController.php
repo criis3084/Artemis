@@ -11,25 +11,32 @@ class CasaMedicaController extends Controller
 {
     public function index(Request $request)
     {
-		#if (!$request->ajax()) return redirect('/');
-        $buscar = $request->buscar;
-		if ($buscar==''){
-			$casaMedica = CasaMedica::orderBy('id', 'desc')->paginate(20);
-			#$casaMedica = CasaMedica::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as casaMedica', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
+		$buscar = $request->buscar;
+        $criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo : 'false';
+		$count = CasaMedica::all()->count();
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$casaMedica = CasaMedica::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+			}
+			else{
+				$casaMedica = CasaMedica::where([['estado',1],[$criterio, 'like', $buscar ]])->orderBy('id', 'desc')->paginate($count);
+			}
 		}
-		else{
-			$casaMedica = CasaMedica::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+		else if ($completo == 'true'){
+			if ($buscar==''){
+				$casaMedica = CasaMedica::orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$casaMedica = CasaMedica::where($criterio, 'like', $buscar)->orderBy('id', 'desc');
+			}
 		}
-		
-        return [
-            'pagination' => [
-                'total'        => $casaMedica->total(),
-                'current_page' => $casaMedica->currentPage(),
-                'per_page'     => $casaMedica->perPage(),
-                'last_page'    => $casaMedica->lastPage(),
-                'from'         => $casaMedica->firstItem(),
-                'to'           => $casaMedica->lastItem(),
-            ],
+		else if($completo == 'select')
+		{
+			$casaMedica = CasaMedica::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+		}
+        return[
             'casaMedicas' => $casaMedica
 		];
     }

@@ -15,32 +15,25 @@ class ApadrinamientoController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : 'false';
+		$count = Apadrinamiento::all()->count();
 		
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->where([[$criterio, 'like', $buscar ],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->orderBy('id', 'desc')->paginate(20);
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$apadrinamiento = Apadrinamiento::with('nino')->with('padrino')->with('datos_padrino')->with('datos_nino')->where($criterio, 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
-			'pagination' => [
-				'total'        => $apadrinamiento->total(),
-				'current_page' => $apadrinamiento->currentPage(),
-				'per_page'     => $apadrinamiento->perPage(),
-				'last_page'    => $apadrinamiento->lastPage(),
-				'from'         => $apadrinamiento->firstItem(),
-				'to'           => $apadrinamiento->lastItem(),
-			],
 			"apadrinamientos"=>$apadrinamiento
 		];
     }

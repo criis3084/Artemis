@@ -30,6 +30,10 @@ export default [
   // =============================================================================
   // APADRINAMIENTOS
   // =============================================================================
+  {header: 'Apps',
+    icon: 'PackageIcon',
+    i18n: 'Social',
+    items: [
   {
     url: null,
     name: 'Apadrinamiento',
@@ -208,6 +212,127 @@ export default [
       },
     ]
   },
+]},
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////   SALUD
+///////////////////////////////////////////////////////////////////////////////////////////
+{header: 'Salud',
+    icon: 'PackageIcon',
+    i18n: 'Salud',
+    items: [
+  {
+    url: null,
+    name: 'Farmacia',
+    icon: 'PlusCircleIcon',
+    i18n: 'Farmacia',
+    submenu: [
+      {
+            url: '/farmacia/medicamentos',
+            name: 'medicamentos',
+            slug: 'farmacia-medicamentos',
+            i18n: 'Medicamentos',
+      },
+      {
+            url: '/farmacia/proveedores',
+            name: 'proveedores',
+            slug: 'farmacia-proveedores',
+            i18n: 'Proveedores',
+      },
+      {
+        url: '/farmacia/casas',
+        name: 'casas',
+        slug: 'farmacia-casas',
+        i18n: 'Casas médicas',
+      },
+      {
+        url: '/farmacia/categoria',
+        name: 'categoria',
+        slug: 'farmacia-categoria',
+        i18n: 'Categorías',
+      },
+    ]
+  },
+  {
+    url: null,
+    name: 'clinica',
+    icon: 'ThermometerIcon',
+    i18n: 'Clínica',
+    submenu: [
+      {
+        url: '/clinica/pacientes',
+        name: 'pacientes',
+        slug: 'clinica-pacientes',
+        i18n: 'Pacientes'
+      },
+      {
+        url: '/clinica/citas',
+        name: 'citas',
+        slug: 'clinica-citas',
+        i18n: 'Citas'
+      },
+      {
+        url: '/clinica/tipoC',
+        name: 'tipo',
+        slug: 'clinica-tipo',
+        i18n: 'Tipo de citas'
+      },
+      {
+        url: '/clinica/tipoP',
+        name: 'tipo',
+        slug: 'clinica-tipo',
+        i18n: 'Tipo de pacientes'
+      },
+    ]
+  },
+  {
+    url: null,
+    name: 'laboratorio',
+    icon: 'FilterIcon',
+    i18n: 'Laboratorio',
+    submenu: [
+      {
+        url: '/laboratorio/examen',
+        name: 'examen',
+        slug: 'laboratorio-examen',
+        i18n: 'Exámenes'
+      },
+      {
+        url: '/laboratorio/tipo',
+        name: 'tipo',
+        slug: 'laboratorio-tipo',
+        i18n: 'Tipos de exámenes'
+      },
+    ]
+  },
+]},
+        // =============================================================================
+        // ADMINISTRACION
+        // =============================================================================
+{header: 'Administración',
+    icon: 'PackageIcon',
+    i18n: 'Administración',
+    items: [
+  {
+    url: null,
+    name: 'Admin',
+    icon: 'UserIcon',
+    i18n: 'Admin',
+    submenu: [
+      {
+            url: '/admin/usuario',
+            name: 'usuario',
+            slug: 'admin-usuario',
+            i18n: 'Usuarios',
+      },
+      {
+            url: '/admin/rol',
+            name: 'rol',
+            slug: 'admin-rol',
+            i18n: 'Roles',
+      },
+    ]
+  },
+]}
         // =============================================================================
         // APPS
         // =============================================================================

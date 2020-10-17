@@ -44,10 +44,10 @@
 						<th class="pointer-events-none text-center" style="width:30%"> <h5> Pago mensual </h5> </th>
 					</tr>
 					<tr v-for="(integrante,id) in lista_encargados_plus" :key="id" class="mt-4">
-						<td> {{integrante.datos_encargado.datos.nombres}} </td>
-						<td> <v-select style="width:90%" label="nombre" :options="destinos_inversion" v-model="listaInversiones[id]" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> </td>
-						<td> <vs-input style="width:40%" v-model="listaCantidades[id]" name="cantidad" v-validate="'required|numeric|max:4'"/> </td>
-						<td> Q {{pagoEstimado(listaCantidades[id])}}.00 </td>
+						<td style="text-align:left"> {{integrante.datos_encargado.datos.nombres}} </td>
+						<td style="text-align:center"> <v-select style="width:95%" label="nombre" :options="destinos_inversion" v-model="listaInversiones[id]" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> </td>
+						<td style="text-align:right"> <vs-input style="text-align:right" v-model="listaCantidades[id]" name="cantidad" v-validate="'required|numeric|max:4'"/> </td>
+						<td style="text-align:center"> Q {{pagoEstimado(listaCantidades[id])}}.00 </td>
 					</tr>
 			</table>
 			<vs-divider/>

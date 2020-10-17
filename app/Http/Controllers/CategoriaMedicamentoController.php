@@ -11,26 +11,33 @@ class CategoriaMedicamentoController extends Controller
 {
     public function index(Request $request)
     {
-		#if (!$request->ajax()) return redirect('/');
-        $buscar = $request->buscar;
-		if ($buscar==''){
-			$categoriaMedicamento = CategoriaMedicamento::orderBy('id', 'desc')->paginate(20);
-			#$categoriaMedicamento = CategoriaMedicamento::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as categoriaMedicamento', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
+		$buscar = $request->buscar;
+        $criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo : 'false';
+		$count = CategoriaMedicamento::all()->count();
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$categoriaMedicamento = CategoriaMedicamento::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+			}
+			else{
+				$categoriaMedicamento = CategoriaMedicamento::where([['estado',1],[$criterio, 'like', $buscar]])->orderBy('id', 'desc')->paginate($count);
+			}
 		}
-		else{
-			$categoriaMedicamento = CategoriaMedicamento::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+		else if ($completo == 'true'){
+			if ($buscar==''){
+				$categoriaMedicamento = CategoriaMedicamento::orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$categoriaMedicamento = CategoriaMedicamento::where($criterio, 'like', $buscar )->orderBy('id', 'desc');
+			}
 		}
-		
-        return [
-            'pagination' => [
-                'total'        => $categoriaMedicamento->total(),
-                'current_page' => $categoriaMedicamento->currentPage(),
-                'per_page'     => $categoriaMedicamento->perPage(),
-                'last_page'    => $categoriaMedicamento->lastPage(),
-                'from'         => $categoriaMedicamento->firstItem(),
-                'to'           => $categoriaMedicamento->lastItem(),
-            ],
-            'CategoriaMedicamentos' => $categoriaMedicamento
+		else if($completo == 'select')
+		{
+			$categoriaMedicamento = CategoriaMedicamento::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+		}
+        return[
+            'categoriaMedicamentos' => $categoriaMedicamento
 		];
     }
     public function store(Request $request)

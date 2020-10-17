@@ -28,7 +28,7 @@
 					<vs-th>Apellidos</vs-th>
 					<vs-th>Género</vs-th>
 					<vs-th>Fecha de Nacimiento</vs-th>
-					<vs-th>Fecha de Ingreso</vs-th>
+					<!-- <vs-th>Fecha de Ingreso</vs-th> -->
 					<vs-th>Estado</vs-th>
 					<vs-th></vs-th>
 					<vs-th></vs-th>
@@ -52,7 +52,7 @@
 						<vs-td >{{data[indextr].datos.apellidos}}</vs-td>
 						<vs-td >{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}</vs-td>
 						<vs-td >{{data[indextr].datos.fecha_nacimiento}}</vs-td>
-						<vs-td >{{data[indextr].fecha_ingreso}}</vs-td>
+						<!-- <vs-td >{{data[indextr].fecha_ingreso}}</vs-td> -->
 						<vs-td>
 							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 								<span slot="on" >Activo</span>
