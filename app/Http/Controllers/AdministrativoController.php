@@ -15,32 +15,24 @@ class AdministrativoController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
-		
+		$count = Administrativo::all()->count();
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$administrativo = Administrativo::with('datos')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$administrativo = Administrativo::with('datos')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$administrativo = Administrativo::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$administrativo = Administrativo::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$administrativo = Administrativo::with('datos')->orderBy('id', 'desc')->paginate(20);
+				$administrativo = Administrativo::with('datos')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$administrativo = Administrativo::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$administrativo = Administrativo::with('datos')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
-			'pagination' => [
-				'total'        => $administrativo->total(),
-				'current_page' => $administrativo->currentPage(),
-				'per_page'     => $administrativo->perPage(),
-				'last_page'    => $administrativo->lastPage(),
-				'from'         => $administrativo->firstItem(),
-				'to'           => $administrativo->lastItem(),
-			],
 			"administrativos"=>$administrativo
 		];
 	}

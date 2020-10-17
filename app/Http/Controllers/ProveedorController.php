@@ -39,9 +39,20 @@ class ProveedorController extends Controller
 	public function store(Request $request)
 	{
 		try {
+			$persona = new PersonaSinAcceso();
+			$persona->nombres = $request->nombres;
+			$persona->apellidos = $request->apellidos;
+			$persona->CUI = $request->CUI;
+			$persona->numero_telefono = $request->numero_telefono;
+			$persona->genero = $request->genero;
+			$persona->fecha_nacimiento = $request->fecha_nacimiento;
+			$persona->sector_id = $request->sector_id;
+			$persona->direccion = $request->direccion;
+			$persona->save();
+
 			$proveedor = new Proveedor();
 			$proveedor->nombre = $request->nombre;
-			$proveedor->persona_sin_acceso_id = $request->persona_sin_acceso_id;
+			$proveedor->persona_sin_acceso_id = $persona->id;
 			$proveedor->save();
 			return Response::json(['message' => 'proveedor Creada'], 200);
 			#return ['id' => $nino->id];
@@ -54,7 +65,17 @@ class ProveedorController extends Controller
 	{
 		$proveedor = Proveedor::findOrFail($request->id);
 		$proveedor->nombre = $request->nombre;
-		$proveedor->persona_sin_acceso_id = $request->persona_sin_acceso_id;
+		$persona = PersonaSinAcceso::findOrFail($proveedor->persona_sin_acceso_id);
+		$persona->nombres = $request->nombres;
+		$persona->apellidos = $request->apellidos;
+		$persona->genero = $request->genero;
+		$persona->fecha_nacimiento = $request->fecha_nacimiento;
+		$persona->sector_id = $request->sector_id;
+		$persona->CUI = $request->CUI;
+		$persona->numero_telefono = $request->numero_telefono;
+		$persona->direccion = $request->direccion;
+		
+		$persona->save();
 		$proveedor->save();
 		return Response::json(['message' => 'proveedor Actualizado'], 200);
 	}
