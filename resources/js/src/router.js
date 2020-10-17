@@ -598,9 +598,17 @@ const router = new Router({
           }
         }, 
         {
-          path: '/clinica/tipo',
-          name: 'clinica-tipo',
+          path: '/clinica/tipoC',
+          name: 'clinica-tipoC',
           component: () => import('./views/Clinica/Tipo_cita/tipoCita.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        }, 
+        {
+          path: '/clinica/tipoP',
+          name: 'clinica-tipoP',
+          component: () => import('./views/Clinica/Tipo_paciente/tipoPaciente.vue'),
           meta: {
             rule: 'admin'
           }

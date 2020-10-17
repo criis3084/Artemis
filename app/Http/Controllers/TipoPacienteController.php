@@ -11,26 +11,28 @@ class TipoPacienteController extends Controller
 {
     public function index(Request $request)
     {
-		#if (!$request->ajax()) return redirect('/');
-        $buscar = $request->buscar;
-		if ($buscar==''){
-			$tipoPaciente = TipoPaciente::orderBy('id', 'desc')->paginate(20);
-			#$tipoPaciente = TipoPaciente::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as tipoPaciente', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
+		$buscar = $request->buscar;
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo :'false';
+		$count = TipoPaciente::all()->count();
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$tipoPaciente = TipoPaciente::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+			}
+			else{
+				$tipoPaciente = TipoPaciente::where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+			}
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$tipoPaciente = TipoPaciente::orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$tipoPaciente = TipoPaciente::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+			}
 		}
-		else{
-			$tipoPaciente = TipoPaciente::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
-		}
-		
-        return [
-            'pagination' => [
-                'total'        => $tipoPaciente->total(),
-                'current_page' => $tipoPaciente->currentPage(),
-                'per_page'     => $tipoPaciente->perPage(),
-                'last_page'    => $tipoPaciente->lastPage(),
-                'from'         => $tipoPaciente->firstItem(),
-                'to'           => $tipoPaciente->lastItem(),
-            ],
-            'tipoPacientes' => $tipoPaciente
+		return [
+			"tipoPacientes"=>$tipoPaciente
 		];
     }
     public function store(Request $request)
