@@ -642,6 +642,14 @@ const router = new Router({
             rule: 'admin'
           }
         }, 
+        {			
+          path: '/ingresar/paciente',
+          name: 'ingresar-paciente',
+          component: () => import('./views/Clinica/Pacientes/ingresar.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
         {
           path: '/clinica/citas',
           name: 'clinica-citas',
