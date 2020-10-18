@@ -1,7 +1,7 @@
 <template>
   <div>
     <vx-card>
-		<Formulario v-on:cerrado="index(pagination.current_page, search);"></Formulario>
+		<Formulario v-on:cerrado="index();"></Formulario>
 		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
    
      
@@ -61,13 +61,13 @@
           </vs-tr>
         </template>
       </vs-table>
-     		<turoriaEdit
+     		<!-- <tutoriaEdit
 			v-bind:identificador="abrir_editar"
 			v-bind:id="id"
 			v-bind:nombre="nombre"
       v-bind:fecha="fecha"
 			v-on:cerrado="index(1,'');"
-		></turoriaEdit>
+		></tutoriaEdit> -->
     </vx-card>
   </div>
 </template>
@@ -87,14 +87,7 @@ export default {
     return {
       //Aqui van a guardar todas su variables.
       //rols: [],
-      pagination: {
-        total: 0,
-        current_page: 0,
-        per_page: 0,
-        last_page: 0,
-        from: 0,
-        to: 0
-      },
+     
       offset: 3,
       search: "",
       arrayData: [],
@@ -215,9 +208,9 @@ export default {
         title: `${titulo}`,
         text: `${titulo}`
       });
-      this.index(this.pagination.current_page, this.search);
+      this.index();
     },
-    async index(page, search) {
+    async index() {
       //async para que se llame cada vez que se necesite
       let me = this;
       this.abrir_editar=false
@@ -303,7 +296,7 @@ exportToExcel () {
     }
   },
   mounted() {
-    this.index(1, this.search);
+    this.index();
   }
 };
 </script>

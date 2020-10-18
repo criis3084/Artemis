@@ -29,7 +29,7 @@
 					<vs-th>Género</vs-th>
 					<vs-th>Fecha de Nacimiento</vs-th>
 					<!-- <vs-th>Fecha de Ingreso</vs-th> -->
-					<vs-th>Estado</vs-th>
+				
 					<vs-th></vs-th>
 					<vs-th></vs-th>
 					<vs-th></vs-th>
@@ -53,12 +53,7 @@
 						<vs-td >{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}</vs-td>
 						<vs-td >{{data[indextr].datos.fecha_nacimiento}}</vs-td>
 						<!-- <vs-td >{{data[indextr].fecha_ingreso}}</vs-td> -->
-						<vs-td>
-							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
-								<span slot="on" >Activo</span>
-								<span slot="off">Desactivo</span>
-							</vs-switch>
-						</vs-td>
+						
 						<vs-td>
               <div class="flex items-center">
 							<vx-tooltip text="Editar"> <vs-button  @click="$router.push('/editar/ninono/'+data[indextr].id)" color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>

@@ -17,7 +17,7 @@ $factory->define(Nino::class, function (Faker $faker) {
         'estado' => $faker->numberBetween($min = 0, $max = 1),
 
         'persona_sin_acceso_id' => PersonaSinAcceso::pluck('id')[$faker->numberBetween(1,PersonaSinAcceso::count()-1)],
-
+        'grado' => $faker->text($maxNbChars = 15), 
         'escuela_id' => Escuela::pluck('id')[$faker->numberBetween(1,Escuela::count()-1)],
         'created_at' => $faker->dateTime($max = 'now', $timezone = null),
         'updated_at' => $faker->dateTime($max = 'now', $timezone = null),
