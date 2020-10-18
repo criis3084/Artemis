@@ -11,25 +11,27 @@ class ProfesionController extends Controller
 {
     public function index(Request $request)
     {
-		#if (!$request->ajax()) return redirect('/');
-        $buscar = $request->buscar;
-		if ($buscar==''){
-			$profesion = Profesion::orderBy('id', 'desc')->paginate(20);
-			#$profesion = Profesion::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as profesion', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
+		$buscar = $request->buscar;
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo :'false';
+		$count = Profesion::all()->count();
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$profesion = Profesion::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+			}
+			else{
+				$profesion = Profesion::where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+			}
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$profesion = Profesion::orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$profesion = Profesion::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+			}
 		}
-		else{
-			$profesion = Profesion::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
-		}
-		
         return [
-            'pagination' => [
-                'total'        => $profesion->total(),
-                'current_page' => $profesion->currentPage(),
-                'per_page'     => $profesion->perPage(),
-                'last_page'    => $profesion->lastPage(),
-                'from'         => $profesion->firstItem(),
-                'to'           => $profesion->lastItem(),
-            ],
             'profesiones' => $profesion
 		];
     }

@@ -18,8 +18,7 @@ class NinoController extends Controller
 		// Filtro por un criterio y estado
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
-		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
-		
+		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';	
 		$count = Nino::all()->count();
 		if ($completo == 'false')
 		{
@@ -27,7 +26,7 @@ class NinoController extends Controller
 				$nino = Nino::with('datos')->with('escuela')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$nino = Nino::with('datos')->with('escuela')->where($criterio, 'like', $buscar )->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+				$nino = Nino::with('datos')->with('escuela')->where([[$criterio, 'like', $buscar ],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){

@@ -11,26 +11,28 @@ class TipoExamenController extends Controller
 {
     public function index(Request $request)
     {
-		#if (!$request->ajax()) return redirect('/');
-        $buscar = $request->buscar;
-		if ($buscar==''){
-			$tipoExamen = TipoExamen::orderBy('id', 'desc')->paginate(20);
-			#$tipoExamen = TipoExamen::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as tipoExamen', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
+		$buscar = $request->buscar;
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo :'false';
+		$count = TipoExamen::all()->count();
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$tipoExamen = TipoExamen::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+			}
+			else{
+				$tipoExamen = TipoExamen::where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+			}
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$tipoExamen = TipoExamen::orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$tipoExamen = TipoExamen::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+			}
 		}
-		else{
-			$tipoExamen = TipoExamen::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
-		}
-		
-        return [
-            'pagination' => [
-                'total'        => $tipoExamen->total(),
-                'current_page' => $tipoExamen->currentPage(),
-                'per_page'     => $tipoExamen->perPage(),
-                'last_page'    => $tipoExamen->lastPage(),
-                'from'         => $tipoExamen->firstItem(),
-                'to'           => $tipoExamen->lastItem(),
-            ],
-            'aldeas' => $tipoExamen
+		return [
+			"tipoExamenes"=>$tipoExamen
 		];
     }
     public function store(Request $request)

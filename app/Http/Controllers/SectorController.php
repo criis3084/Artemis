@@ -21,7 +21,7 @@ class SectorController extends Controller
 				$sector = Sector::with('aldea')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$sector = Sector::with('aldea')->where([['estado',1],[$criterio, 'like', '%'. $buscar . '%']])->orderBy('id', 'desc')->paginate($count);
+				$sector = Sector::with('aldea')->where([['estado',1],[$criterio, 'like', $buscar]])->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if ($completo == 'true'){
@@ -29,7 +29,7 @@ class SectorController extends Controller
 				$sector = Sector::with('aldea')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$sector = Sector::with('aldea')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc');
+				$sector = Sector::with('aldea')->where($criterio, 'like', $buscar)->orderBy('id', 'desc');
 			}
 		}
 		else if($completo == 'select')

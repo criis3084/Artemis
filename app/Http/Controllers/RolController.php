@@ -12,41 +12,27 @@ class RolController extends Controller
     public function index(Request $request)
     {
         $buscar = $request->buscar;
-        $criterio = $request->criterio;
-		$completo = (isset($request->completo)) ? $request->completo : 'false';
-
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo :'false';
+		$count = Rol::all()->count();
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$rol = Rol::with('aldea')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$rol = Rol::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$rol = Rol::with('aldea')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$rol = Rol::where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
-		}
-		else if ($completo == 'true'){
+		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$rol = Rol::with('aldea')->orderBy('id', 'desc')->paginate(20);
+				$rol = Rol::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$rol = Rol::with('aldea')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$rol = Rol::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
-		else if($completo == 'select')
-		{
-			$count = Rol::where('estado', 1)->count();
-			$rol = Rol::orderBy('id', 'desc')->where('estado',1)->paginate($count+1);
-		}
-        return [
-            'pagination' => [
-                'total'        => $rol->total(),
-                'current_page' => $rol->currentPage(),
-                'per_page'     => $rol->perPage(),
-                'last_page'    => $rol->lastPage(),
-                'from'         => $rol->firstItem(),
-                'to'           => $rol->lastItem(),
-            ],
-            'roles' => $rol
+		return [
+			"roles"=>$rol
 		];
     }
 
@@ -64,16 +50,26 @@ class RolController extends Controller
 
     public function update(Request $request)
     {
-        //actualizar datos
+        $rol = Rol::findOrFail($request->id);
+        $rol->nombre = $request->nombre;
+        $rol->save();
+		return Response::json(['message' => 'Abono Prestamo Actualizado'], 200);
+
     }
 
     public function activar(Request $request)
     {
-
+        $rol = Rol::findOrFail($request->id);
+        $rol->estado = '1';
+        $rol->save();
+		return Response::json(['message' => 'rol Activado'], 200);
     }
 
     public function desactivar(Request $request)
     {
-
+        $rol = Rol::findOrFail($request->id);
+        $rol->estado = '0';
+        $rol->save();
+		return Response::json(['message' => 'rol desactivado'], 200);           
     }
 }

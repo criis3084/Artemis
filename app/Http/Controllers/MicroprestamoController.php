@@ -21,7 +21,7 @@ class MicroprestamoController extends Controller
 				$microprestamo = Microprestamo::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$microprestamo = Microprestamo::where([['estado',1],[$criterio, 'like', '%'. $buscar . '%']])->orderBy('id', 'desc')->paginate($count);
+				$microprestamo = Microprestamo::where([['estado',1],[$criterio, 'like', $buscar]])->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if ($completo == 'true'){
@@ -29,7 +29,7 @@ class MicroprestamoController extends Controller
 				$microprestamo = Microprestamo::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$microprestamo = Microprestamo::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc');
+				$microprestamo = Microprestamo::where($criterio, 'like', $buscar)->orderBy('id', 'desc');
 			}
 		}
 		else if($completo == 'select')
@@ -43,7 +43,6 @@ class MicroprestamoController extends Controller
 
     public function store(Request $request)
     {
-		#if(!$request->ajax())return redirect('/');
         try {
 			$microprestamo = new Microprestamo();
 			$microprestamo->total = $request->total;

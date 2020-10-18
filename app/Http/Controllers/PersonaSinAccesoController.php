@@ -18,38 +18,26 @@ class PersonaSinAccesoController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		$count = PersonaSinAcceso::all()->count();
 		
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				/*
-				$persona_sin_acceso = PersonaSinAcceso::join('sectors', 'sectors.id', '=', 'persona_sin_accesos.id')
-				->select('persona_sin_accesos.*','sectors.nombre as nombre_sector','aldeas.nombre as nombre_aldea')
-				->orderBy('id', 'desc')->paginate(20);
-				*/
-				$persona_sin_acceso = PersonaSinAcceso::with('sector')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$persona_sin_acceso = PersonaSinAcceso::with('sector')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$persona_sin_acceso = PersonaSinAcceso::with('sector')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$persona_sin_acceso = PersonaSinAcceso::with('sector')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$persona_sin_acceso = PersonaSinAcceso::with('sector')->orderBy('id', 'desc')->paginate(20);
+				$persona_sin_acceso = PersonaSinAcceso::with('sector')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$persona_sin_acceso = PersonaSinAcceso::with('sector')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$persona_sin_acceso = PersonaSinAcceso::with('sector')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 
 		return [
-			'pagination' => [
-				'total'        => $persona_sin_acceso->total(),
-				'current_page' => $persona_sin_acceso->currentPage(),
-				'per_page'     => $persona_sin_acceso->perPage(),
-				'last_page'    => $persona_sin_acceso->lastPage(),
-				'from'         => $persona_sin_acceso->firstItem(),
-				'to'           => $persona_sin_acceso->lastItem(),
-			],
 			"personas"=>$persona_sin_acceso
 		];
     }

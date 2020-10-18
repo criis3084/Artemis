@@ -17,6 +17,7 @@ class PpiController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		$count = Ppi::all()->count();
 		
 		if ($completo == 'false')
 		{
@@ -26,17 +27,17 @@ class PpiController extends Controller
 				->select('persona_sin_accesos.*','sectors.nombre as nombre_sector','aldeas.nombre as nombre_aldea')
 				->orderBy('id', 'desc')->paginate(20);
 				*/
-				$ppi = Ppi::orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$ppi = Ppi::orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$ppi = Ppi::where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$ppi = Ppi::where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$ppi = Ppi::orderBy('id', 'desc')->paginate(20);
+				$ppi = Ppi::orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$ppi = Ppi::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$ppi = Ppi::where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 

@@ -24,14 +24,14 @@ class HistorialPpiController extends Controller
 				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->where($criterio, 'like',  $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
 				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->where([$criterio, 'like', '%'. $buscar . '%'],['estado',1])->orderBy('id', 'desc')->paginate($count);
+				$historialPpi = HistorialPpi::with('nino')->with('ppi')->with('datos_nino')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
@@ -73,11 +73,6 @@ class HistorialPpiController extends Controller
 			return Response::json(['message' => $e->getMessage()], 400);
 		}
 	}
-
-    public function show(HistorialPpi $historialPpi)
-    {
-        //
-    }
 
 	public function activar(Request $request)
     {

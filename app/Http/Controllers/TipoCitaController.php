@@ -11,26 +11,28 @@ class TipoCitaController extends Controller
 {
     public function index(Request $request)
     {
-		#if (!$request->ajax()) return redirect('/');
-        $buscar = $request->buscar;
-		if ($buscar==''){
-			$tipoCita = TipoCita::orderBy('id', 'desc')->paginate(20);
-			#$tipoCita = TipoCita::leftJoin('sectors', 'sectors.aldea_id', '=', 'aldeas.id')->select('aldeas.nombre as tipoCita', 'sectors.nombre as sector')->orderBy('aldeas.id', 'desc')->paginate(20);
+		$buscar = $request->buscar;
+		$criterio = $request->criterio;
+		$completo = (isset($request->completo)) ? $request->completo :'false';
+		$count = TipoCita::all()->count();
+		if ($completo == 'false')
+		{
+			if ($buscar==''){
+				$tipoCita = TipoCita::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+			}
+			else{
+				$tipoCita = TipoCita::where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+			}
+		} else if ($completo == 'true'){
+			if ($buscar==''){
+				$tipoCita = TipoCita::orderBy('id', 'desc')->paginate($count);
+			}
+			else{
+				$tipoCita = TipoCita::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+			}
 		}
-		else{
-			$tipoCita = TipoCita::where('nombre', 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
-		}
-		
-        return [
-            'pagination' => [
-                'total'        => $tipoCita->total(),
-                'current_page' => $tipoCita->currentPage(),
-                'per_page'     => $tipoCita->perPage(),
-                'last_page'    => $tipoCita->lastPage(),
-                'from'         => $tipoCita->firstItem(),
-                'to'           => $tipoCita->lastItem(),
-            ],
-            'aldeas' => $tipoCita
+		return [
+			"tipoCitas"=>$tipoCita
 		];
     }
     public function store(Request $request)

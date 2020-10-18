@@ -28,7 +28,7 @@ class PadrinoController extends Controller
 				$padrino = Padrino::with('datos')->with('apadrinamiento')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$padrino = Padrino::with('datos')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+				$padrino = Padrino::with('datos')->with('apadrinamiento')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			$count = Padrino::all()->count();
@@ -36,7 +36,7 @@ class PadrinoController extends Controller
 				$padrino = Padrino::with('datos')->with('apadrinamiento')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$padrino = Padrino::with('datos')->with('apadrinamiento')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate($count);
+				$padrino = Padrino::with('datos')->with('apadrinamiento')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [

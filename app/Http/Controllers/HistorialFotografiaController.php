@@ -18,21 +18,21 @@ class HistorialFotografiaController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
-		
+		$count = HistorialFotografia::all()->count();
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate(20);
+				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->where('estado',1)->orderBy('id', 'desc')->paginate(20);
+				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->where([[$criterio, 'like',$buscar ],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->orderBy('id', 'desc')->paginate(20);
+				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(20);
+				$historialFotografias = HistorialFotografia::with('nino')->with('fotografia')->with('datos_nino')->where($criterio, 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
@@ -60,11 +60,6 @@ class HistorialFotografiaController extends Controller
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}
-    }
-
-    public function show(HistorialFotografia $historialFotografia)
-    {
-        //
     }
 
 	public function activar(Request $request)

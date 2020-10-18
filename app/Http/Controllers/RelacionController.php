@@ -25,7 +25,7 @@ class RelacionController extends Controller
 				$relacion = Relacion::with('sector')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$relacion = Relacion::with('sector')->where($criterio, 'like', $buscar )->where('estado',1)->orderBy('id', 'desc')->paginate($count);
+				$relacion = Relacion::with('sector')->where([[$criterio, 'like', $buscar ],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
@@ -46,7 +46,6 @@ class RelacionController extends Controller
 
     public function store(Request $request)
     {
-		//if(!$request->ajax())return redirect('/');
 		try {
 			$relacion = new Relacion();
 			$relacion->relacion = $request->relacion;
@@ -89,7 +88,7 @@ class RelacionController extends Controller
 		$relacion->direccion = $request->direccion;
 		$relacion->codigo = $request->codigo;
 		// Actualizar direccion del ni;o del encargado
-		// Pendiente
+		// Pendiente //
 		$relacion->save();
 		
 		return Response::json(['message' => 'Relazion Acualizada'], 200);
