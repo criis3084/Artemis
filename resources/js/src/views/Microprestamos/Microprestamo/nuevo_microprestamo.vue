@@ -242,6 +242,7 @@ export default {
 		},
 		buscarIntegrantes () {
 			let lista = this.grupo_select.integrantes
+			
 			let lista_encargadosT = this.lista_encargados
 			let listaCantidadesT=[]
 			let listaInversionesT=[]
