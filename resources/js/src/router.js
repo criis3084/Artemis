@@ -571,6 +571,14 @@ const router = new Router({
           }
         },
         {
+          path: '/salida/medicamentos',
+          name: 'salida-medicamentos',
+          component: () => import('./views/Farmacia/Medicamentos/salidamedicamentos.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {
           path: '/farmacia/proveedores',
           name: 'farmacia-proveedores',
           component: () => import('./views/Farmacia/Proveedores/proveedores.vue'),
@@ -578,6 +586,9 @@ const router = new Router({
             rule: 'admin'
           }
         },
+                // PROVEEDOR
+        // =============================================================================
+
         {
           path: '/ver/proveedor/:id',
           name: 'ver-proveedor',
@@ -602,6 +613,9 @@ const router = new Router({
             rule: 'editor'
           }
         },
+                // CASAS
+        // =============================================================================
+
         {
           path: '/farmacia/casas',
           name: 'farmacia-casas',

@@ -233,6 +233,12 @@ export default [
             i18n: 'Medicamentos',
       },
       {
+        url: '/salida/medicamentos',
+        name: 'medicamentos',
+        slug: 'salida-medicamentos',
+        i18n: 'Salida Medicamentos',
+      },
+      {
             url: '/farmacia/proveedores',
             name: 'proveedores',
             slug: 'farmacia-proveedores',
