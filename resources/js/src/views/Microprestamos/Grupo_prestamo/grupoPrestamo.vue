@@ -121,7 +121,7 @@ export default {
       const response = await axios.get('/api/grupoPrestamo/get?completo=true')
         .then(function (response) {
           const respuesta = response.data
-          me.arrayData = respuesta.grupos.data
+          me.arrayData = respuesta.grupoPrestamos.data
           console.log(me.arrayData)
         })
         .catch(function (error) {

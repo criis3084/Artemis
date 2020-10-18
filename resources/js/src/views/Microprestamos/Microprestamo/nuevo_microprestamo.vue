@@ -208,7 +208,7 @@ export default {
 			const response = await axios.get(`/api/grupoPrestamo/get?completo=false`)
 			.then(function (response) {
 				var respuesta= response.data;
-				me.listado_grupos = respuesta.grupos.data;
+				me.listado_grupos = respuesta.grupoPrestamos.data;
 
 			})
 			.catch(function (error) {
@@ -234,7 +234,7 @@ export default {
 				`/api/destinoInversion/get?completo=false`)
 			.then(function (response) {
 				var respuesta= response.data;
-				me.destinos_inversion = respuesta.destinosInversiones.data;
+				me.destinos_inversion = respuesta.destinoInversions.data;
 			})
 			.catch(function (error) {
 				console.log(error);
