@@ -27,7 +27,7 @@
 					<span>Q</span>	
 				</div>
           <div class="vx-col w-full">
-           <vs-input class="w-full" v-model="cantidad_prestamo_actual" name="cantidad" v-validate="'required|numeric|max:4'"/>
+           <vs-input class="w-full" v-model="cantidad_prestamo_actual" name="cantidad" v-validate="'required|numeric|max:6'"/>
            <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
           </div>
           </template>
@@ -88,7 +88,7 @@ const dict = {
     cantidad:{
       required:'Porfavor ingrese una cantidad',
       numeric:'Solo se aceptan números',
-      max:'No se aceptan cantidades mayores a 4 digitos'
+      max:'No se aceptan cantidades mayores a 6 digitos'
     }
   }
 }
