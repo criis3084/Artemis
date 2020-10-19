@@ -16,12 +16,26 @@
             <span class="text-danger text-sm" v-show="errors.has('descripcion')">{{ errors.first('descripcion') }}</span>
           </div>
         </div>
+
+
         <div class="vx-row mb-6">
+          <div class="vx-col md:w-1/2 w-full mt-6">
+			<small class="date-label">Costos de la vivienda</small>
+				<vx-input-group class="mb-base">
+   				 <template slot="prepend">	
+				<div class="prepend-text bg-primary" >
+					<span>Q</span>	
+				</div>
           <div class="vx-col w-full">
-           <vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label="Cantidad de préstamo" v-model="cantidad_prestamo_actual" name="cantidad" v-validate="'required|numeric|max:4'"/>
+           <vs-input class="w-full" v-model="cantidad_prestamo_actual" name="cantidad" v-validate="'required|numeric|max:6'"/>
            <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
           </div>
+          </template>
+  				</vx-input-group>
+          </div>
         </div>
+
+
         <div class="vx-row">
           <vs-button color="warning" type="border" class="mb-2" @click="nombre = descripcion = cantidad_prestamo_actual = cantidad_ultimo_prestamo = interes_ultimo_prestamo= ''">Limpiar</vs-button>
         </div>
@@ -74,7 +88,7 @@ const dict = {
     cantidad:{
       required:'Porfavor ingrese una cantidad',
       numeric:'Solo se aceptan números',
-      max:'No se aceptan cantidades mayores a 4 digitos'
+      max:'No se aceptan cantidades mayores a 6 digitos'
     }
   }
 }

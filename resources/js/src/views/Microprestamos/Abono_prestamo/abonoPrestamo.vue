@@ -19,13 +19,13 @@
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
-            <span>Cantidad de abono</span>
+            <span>Cantidad de abono(Q)</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
             <vs-input class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|numeric|max:5'"/>
             <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
-            <span v-if ="dias > 0" >{{ 'Dias atrasados'+ ' ' + dias}}</span>
-            <span v-if="mes > 0" >{{'Meses atrasados'+' '+ mes}} </span>
+            <span v-if ="dias > 0" >{{ 'Dias atrasados:'+ ' ' + dias+ ' '}}</span>
+            <span v-if="mes > 0" >{{'Meses atrasados:'+' '+ mes}} </span>
           </div>
         </div>
         <div class="vx-row mb-6">
@@ -88,32 +88,32 @@
                             <p class="font-semibold mb-3">Detalles</p>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Total del prestamo</span>
-                                <span>{{totalPrestamo}}</span>
+                                <span>{{currency(totalPrestamo)}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Pendiente por pagar</span>
-                                <span v-if="deuda > 0">{{deuda}}</span>
-                                <span v-else>{{totalPrestamo}} </span>
+                                <span v-if="deuda > 0">{{currency(deuda)}}</span>
+                                <span v-else>{{currency(totalPrestamo)}} </span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Cantidad de abono</span>
-                                <span class="text-success">-{{cantidad_abono}}</span>
+                                <span class="text-success">-{{currency(cantidad_abono)}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Mora por atraso</span>
-                                <span class="text-success" v-if="pagarMora==true">{{mora}}</span>
-                                <span class="text-success" v-else>0</span>
+                                <span class="text-success" v-if="pagarMora==true">{{currency(mora)}}</span>
+                                <span class="text-success" v-else>{{currency(0)}}</span>
                             </div>
                              <div class="flex justify-between mb-2">
                                 <span class="text-grey">Deuda pendiente</span>
-                                <span>{{total}}</span>
+                                <span>{{currency(total)}}</span>
                             </div>
 
                             <vs-divider />
 
                             <div class="flex justify-between font-semibold mb-3">
                                 <span>Total a pagar </span>
-                                <span>{{this.AbonoTotal}}</span>
+                                <span>{{currency(this.AbonoTotal)}}</span>
                             </div>
 
                            
@@ -137,14 +137,14 @@ const dict = {
     cantidad: {
       required: 'Este campo no puede quedar vacío',
       numeric: 'Solo aceptan números',
-      max:'No se aceptan más de 4 números'
+      max:'No se aceptan más de 5 números'
     },
     descripcion: {
       required:'Información requerida',
       max:'No se aceptan más de 60 caracteres'
     },
     encargado:{
-      required:'Seleccióne un propietario porfavor'
+      required:'Seleccione un propietario porfavor'
     }
   }
 }
@@ -208,7 +208,7 @@ export default{
       })
 
     },
-    currency (numero) {
+    currency(numero) {
       const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'GTQ'
