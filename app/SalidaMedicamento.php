@@ -17,4 +17,15 @@ class SalidaMedicamento extends Model
 	public function detalleSalida(){
 		return $this->hasMany('App\DetalleSalida','salida_medicamento_id','id');
 	}
+
+	public function datos_persona(){
+		return $this->hasManyThrough(
+			'App\PersonaSinAcceso',
+			'App\Paciente',
+			'id',
+			'id',
+			'paciente_id',
+			'persona_sin_acceso_id'
+		);
+	}
 }

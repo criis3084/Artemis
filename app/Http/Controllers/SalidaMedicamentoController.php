@@ -18,17 +18,17 @@ class SalidaMedicamentoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('paciente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('datos_persona')->with('paciente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('paciente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('datos_persona')->with('paciente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('paciente')->orderBy('id', 'desc')->paginate($count);
+				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('datos_persona')->with('paciente')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('paciente')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('datos_persona')->with('paciente')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
