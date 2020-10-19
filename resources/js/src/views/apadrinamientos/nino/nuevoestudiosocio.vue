@@ -13,9 +13,7 @@
 				<vx-input-group class="mb-base">
    				 <template slot="prepend">	
 				<div class="prepend-text bg-primary" >
-					<span>Q</span>
-					
-					
+					<span>Q</span>	
 				</div>
 				<div class="vx-col w-full">
 					<vs-input class="w-full" icon-no-border name='total_ingresos' v-model="total_ingresos"/>
@@ -44,9 +42,17 @@
 			</vs-list>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
-				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border label-placeholder="Costos de la vivienda" name='descripcion_costo' v-model="descripcion_costo"/>
+			<small class="date-label">Costos de la vivienda</small>
+				<vx-input-group class="mb-base">
+   				 <template slot="prepend">	
+				<div class="prepend-text bg-primary" >
+					<span>Q</span>	
 				</div>
+				<div class="vx-col w-full">
+					<vs-input class="w-full" name='descripcion_costo' v-model="descripcion_costo"/>
+				</div>
+				</template>
+  				</vx-input-group>
 			</div>
 
 			<vs-list class="mt-6">

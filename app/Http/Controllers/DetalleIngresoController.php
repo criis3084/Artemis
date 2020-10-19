@@ -18,17 +18,17 @@ class DetalleIngresoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$detalleIngreso = DetalleIngreso::with('ingresoMedicamento')->with('lote')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$detalleIngreso = DetalleIngreso::with('ingresoMedicamento')->with('lote')->with('datos_medicamento')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$detalleIngreso = DetalleIngreso::with('ingresoMedicamento')->with('lote')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$detalleIngreso = DetalleIngreso::with('ingresoMedicamento')->with('lote')->with('datos_medicamento')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$detalleIngreso = DetalleIngreso::with('ingresoMedicamento')->with('lote')->orderBy('id', 'desc')->paginate($count);
+				$detalleIngreso = DetalleIngreso::with('ingresoMedicamento')->with('lote')->with('datos_medicamento')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$detalleIngreso = DetalleIngreso::with('ingresoMedicamento')->with('lote')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$detalleIngreso = DetalleIngreso::with('ingresoMedicamento')->with('lote')->with('datos_medicamento')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [

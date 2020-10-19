@@ -19,7 +19,7 @@
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
-            <span>Cantidad de abono</span>
+            <span>Cantidad de abono(Q)</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
             <vs-input class="w-full"  v-model="cantidad" name="cantidad" v-validate="'required|numeric|max:5'"/>

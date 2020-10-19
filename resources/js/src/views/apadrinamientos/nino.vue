@@ -259,12 +259,12 @@ export default {
       this.selectedFormat = 'xlsx'
 	},
 	traerNombre (tabla) {
-      tabla.forEach(function (valor, indice, array) {
-	  valor.nombres = valor.datos.nombres
-	  valor.apellidos = valor.datos.apellidos
-	  valor.fecha_nacimiento = valor.datos.fecha_nacimiento
-      }) 
-	  return tabla
+		tabla.forEach(function (valor, indice, array) {
+		valor.nombres = valor.datos.nombres
+		valor.apellidos = valor.datos.apellidos
+		valor.fecha_nacimiento = valor.datos.fecha_nacimiento
+		}) 
+		return tabla
     }
   },
   mounted(){

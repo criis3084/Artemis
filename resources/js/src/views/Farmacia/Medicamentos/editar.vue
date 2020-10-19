@@ -13,9 +13,9 @@
 		<div class="con-exemple-prompt">
 				<b></b>
 				
-		<vs-input placeholder="Nombre del Medicamento: " v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
-		<vs-input placeholder="Descripción del Medicamento: " v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
-		<vs-input placeholder="Cantidad del Medicamento: " v-model="valMultipe.value3" class="mt-4 mb-2 col-1 w-full" />
+		<vs-input placeholder="Nombre del Medicamento: " v-model="nombreTT" class="mt-4 mb-2 col-1 w-full" />
+		<vs-input placeholder="Descripción del Medicamento: " v-model="descripcionT" class="mt-4 mb-2 col-1 w-full" />
+		<vs-input placeholder="Cantidad del Medicamento: " v-model="stock_generalT" class="mt-4 mb-2 col-1 w-full" />
 		
 		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 			LLene todos los campos
@@ -24,10 +24,10 @@
       </div>
 		<template>
       <small class="date-label">Categoría:</small>
-		<v-select label="nombre" :options="categoriaMedicamento" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<v-select label="nombre" :options="categoriaMedicamento" v-model="categoria_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		<br>
     <small class="date-label">Casa Médica:</small>
-		<v-select label="nombre" :options="casaMedica" v-model="valMultipe.value5" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<v-select label="nombre" :options="casaMedica" v-model="casa_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		
 		</template> 
 	</vs-prompt>
@@ -70,7 +70,17 @@ export default {
 		value4: "",
 		value5: ""
       },
-      idT:0,
+	  idT:0,
+	  nombreT:'',
+	  nombreTT:'',
+	  nombreTTT:'',
+	  descripcionT:'',
+	  stock_generalT:'',
+	  casa_idE:0,
+	  casa_nombreE:'',
+	  casa_idT:{id:-1,nombre:''},
+	  categoria_nombreE:'',
+	  categoria_idT:{id:-1,nombre:''},
 	  categoriaMedicamento: [],
 	  datosNinos:[],
 	  casaMedica: [],
@@ -106,42 +116,56 @@ export default {
 		if(this.$props.identificador==true)
 		{
 			let me = this;
+			let encontrado=false;
+			let elementoE={}
 			const response = await axios.get(`/api/casaMedica/get?completo=false`)
-				.then(function(response) {
+			.then(function (response){
 				var respuesta = response.data;
 				me.casaMedica = respuesta.casaMedicas.data;
-				me.casaMedica = me.traerNombreCasa(me.casaMedica)
-				me.pagination = respuesta.pagination;
 				me.casaMedica.forEach(function(elemento, indice, array) {
 					if (elemento.id==me.$props.casa_medica_id)
 					{
-						me.valMultipe.value5=elemento
+						
+						elementoE=elemento
+						encontrado=true
 					}
 				})
-					
+					me.casa_idT = encontrado == true ? elementoE:{id:me.$props.casa_medica_id,nombre:'Casa desactivada'}
+					me.idT = me.$props.id;
+					me.nombreT = me.$props.nombre;
 				})
 				.catch(function(error) {
 				console.log(error);
 				});
+
+				me.nombreTT = this.$props.nombre
+				me.descripcionT = this.$props.descripcion
+				me.stock_generalT = this.$props.stock_general
+				
 		}
 	},
     async importar_categoria() {
 		if(this.$props.identificador==true)
 		{
 		let me = this;
-		const response = await axios
-			.get(`/api/categoriaMedicamento/get?completo=false`)
-			.then(function(response) {
+			let encontrado=false;
+			let elementoE={}
+			const response = await axios.get(`/api/categoriaMedicamento/get?completo=false`)
+			.then(function (response){
 				var respuesta = response.data;
 				me.categoriaMedicamento = respuesta.categoriaMedicamentos.data;
-				me.categoriaMedicamento = me.traerNombreCategoria(me.categoriaMedicamento)
-				me.pagination = respuesta.pagination;
 				me.categoriaMedicamento.forEach(function(elemento, indice, array) {
 					if (elemento.id==me.$props.categoria_medicamento_id)
 					{
-						me.valMultipe.value4=elemento
+						
+						elementoE=elemento
+						encontrado=true
 					}
 				})
+					me.categoria_idT = encontrado == true ? elementoE:{id:me.$props.categoria_medicamento_id,nombre:'Aldea desactivada'} 
+					me.idT =me.$props.id;
+					me.nombreTTT =me.$props.nombre;
+
 			})
 			.catch(function(error) {
 			console.log(error);
@@ -151,11 +175,11 @@ export default {
 	acceptAlert () {
 		axios.put("/api/medicamento/update/",{
 			id:this.idT,
-			nombre: this.valMultipe.value1,
-            descripcion: this.valMultipe.value2,
-            stock_general: this.valMultipe.value3,
-			categoria_medicamento_id: this.valMultipe.value4.id,
-			casa_medica_id: this.valMultipe.value5.id,
+			nombre: this.nombreT,
+            descripcion: this.descripcionT,
+            stock_general: this.stock_generalT,
+			categoria_medicamento_id: this.categoria_idT.id,
+			casa_medica_id: this.casa_idT.id,
 		}).then(function(response) {
 				console.log(response)
 			})

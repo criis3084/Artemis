@@ -16,6 +16,7 @@ class CreateBeneficiosTable extends Migration
         Schema::create('beneficios', function (Blueprint $table) {
 			$table->id();
 			$table->string('descripcion');
+			$table->date('fecha_entrega');
 			$table->foreignId('paciente_id')->constrained();
 			$table->boolean('estado')->default(1);
 			$table->timestamps();

@@ -54,7 +54,7 @@
       <vs-td>
         <div class="flex items-center">
 				<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/vivienda/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
-				<vx-tooltip text="Historial de abonos"> <vs-button radius color="dark" type="flat"  icon-pack="feather" icon="icon-dollar-sign" size="large" @click="$router.push('/vivienda/abono/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
+				<vx-tooltip text="Historial de abonos"> <vs-button radius color="dark" type="flat" icon="account_balance_wallet" alt="Q" size="large" @click="$router.push('/vivienda/abono/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
         </div>
     	</vs-td>
           </vs-tr>

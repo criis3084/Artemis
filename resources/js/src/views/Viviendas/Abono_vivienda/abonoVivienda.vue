@@ -3,7 +3,7 @@
                 <div class = "demo-alignment">
 						        <h2> Historial de Abonos</h2>
 						        <vx-tooltip text = "Agregar nuevo abono"> 
-                      <vs-button @click="$router.push('/abonar/vivienda/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-dollar-sign" color = "primary" size = "large"> </vs-button> 
+                      <!-- <vs-button @click="$router.push('/abonar/vivienda/'+id_recibido)" radius type="gradient" icon="account_balance_wallet" color = "primary" size = "large"> </vs-button>  -->
                     </vx-tooltip><vs-divider/>
 				        </div>
                 <div class = "demo-alignment">

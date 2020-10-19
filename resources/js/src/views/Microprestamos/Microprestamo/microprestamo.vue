@@ -38,12 +38,12 @@
             <vs-td>
 				<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/vivienda/'+data[indextr].id)"></vs-button></vx-tooltip>			
 			</vs-td>
-            <vs-td>{{ data[indextr].total }}</vs-td>
-            <vs-td>{{ data[indextr].interes }}</vs-td>
+            <vs-td>{{ currency(data[indextr].total) }}</vs-td>
+            <vs-td>% {{ data[indextr].interes }}</vs-td>
             <vs-td>{{ data[indextr].fecha_inicio}}</vs-td>
-            <vs-td>{{ data[indextr].duracion}}</vs-td>
+            <vs-td>{{ data[indextr].duracion}} meses</vs-td>
             <vs-td>{{ data[indextr].dia_pago}}</vs-td>
-            <vs-td>{{ data[indextr].mora_por_atraso}}</vs-td>
+            <vs-td>{{ currency(data[indextr].mora_por_atraso)}}</vs-td>
               <vs-td :data="data[indextr].estado">
                 <vs-switch
                   color="success"
@@ -55,8 +55,8 @@
               </vs-td>
       <vs-td>
         <div class="flex items-center">
-				<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/vivienda/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
-				<vx-tooltip text="Historial de abonos"> <vs-button radius color="dark" type="flat"  icon="account_balance_wallet" size="large" @click="$router.push('/vivienda/abono/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
+				<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/microprestamo/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
+				<vx-tooltip text="Historial de abonos"> <vs-button radius color="dark" type="flat"  icon="account_balance_wallet" size="large" @click="$router.push('/microprestamo/abono/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
         </div>
     	</vs-td>
           </vs-tr>
@@ -118,6 +118,14 @@ export default {
 
   },
   methods: {
+    currency (numero) {
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'GTQ'
+      })
+      const mil = formatter.format(numero)
+      return mil
+    },
       aNuevo () {
 		 this.$router.push('/microprestamo/ingresar')
 	},

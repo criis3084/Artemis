@@ -43,7 +43,7 @@ class BeneficioController extends Controller
 			$beneficio->descripcion = $request->descripcion;
 			$beneficio->paciente_id = $request->paciente_id;
 			$beneficio->save();
-			return Response::json(['message' => 'Beneficio Creada'], 200);
+			return ['id' => $beneficio->id];
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);

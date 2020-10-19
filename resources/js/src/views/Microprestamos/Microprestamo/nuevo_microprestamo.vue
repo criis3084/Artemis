@@ -190,7 +190,6 @@ export default {
 				total:this.sumarCantidades(),
 				interes:this.interes,
 				fecha_inicio:this.getDate(this.fecha_inicio),
-
 				duracion:this.duracion,
 				dia_pago:this.dia_pago.id,
 				mora_por_atraso:this.mora_por_atraso
@@ -202,6 +201,8 @@ export default {
 			.catch(function(error) {
 				console.log(error)
 			});
+			console.log('Grupo seleccionado')
+			console.log(this.grupo_select)
 		},
 		async importarGrupos(){ 
 			let me = this;
