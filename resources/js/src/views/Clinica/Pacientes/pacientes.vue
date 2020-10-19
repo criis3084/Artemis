@@ -21,11 +21,12 @@
         </template>
 				<template slot="thead">
                     <vs-th>Ver</vs-th>
-                    <vs-th>Día Apoyo</vs-th>
                     <vs-th>Nombres</vs-th>
                     <vs-th>Apellidos</vs-th>
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Tipo de Paciente</vs-th>
+                    <vs-th>Día Apoyo</vs-th>
+                    <vs-th>Estado de Apoyo</vs-th>
                     <vs-th>Estado</vs-th>
 					<vs-th>Acciones</vs-th>
 				</template>
@@ -35,11 +36,16 @@
                         <vs-td>
 						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/constructor/'+data[indextr].id)"></vs-button></vx-tooltip>			
 					    </vs-td>
-                        <vs-td>{{data[indextr].dia_apoyo}}</vs-td>
 						<vs-td>{{data[indextr].datos.nombres}}</vs-td>
 		            	<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
                         <vs-td>{{data[indextr].datos.numero_telefono}}</vs-td>
                         <vs-td>{{data[indextr].tipo_paciente.nombre}}</vs-td>
+                        <vs-td>{{data[indextr].dia_apoyo}}</vs-td>
+                        <vs-td>
+							<vs-chip class="ag-grid-cell-chip" :color="data[indextr].beneficio.estado == 0 ? 'warning' : data[indextr].beneficio.estado == 1 ? 'success': data[indextr].beneficio.estado == 2 ? 'danger' : 'dark'">
+							<span>{{data[indextr].beneficio.estado}}</span>
+							</vs-chip>
+						</vs-td>
 						<vs-td>
 							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 								<span slot="on" >Activo</span>
@@ -82,6 +88,8 @@ export default {
       offset : 3,
       search : '',
       arrayData: [],
+	  estadoBeneficios: [],
+	  listaBeneficiosxMes:[],
       nombre: '',
 	  switch2:false,
 	  id: 0,
@@ -107,6 +115,65 @@ export default {
   methods: {
     openAlert(color,constructor){
 		this.listado(constructor)
+	},
+	getDate(datetime){
+		const date = new Date(datetime)
+		const dateString = `${date.getFullYear()}-${date.getMonth() + 1}`
+		return dateString
+	},
+	aDate(fechaS){
+		const fechaDate = new Date(parseInt(fechaS.split('-',3)[0]),parseInt(fechaS.split('-',3)[1]),parseInt(fechaS.split('-',3)[2]))
+		fechaDate=fechaDate.setMonth(fechaDate.getMonth()+1)
+		return fechaDate
+	},
+	traerBeneficios(pacientes){
+		const today = new Date()
+		const todaySin = this.getDate(today)
+		let m2=this
+		axios.get(
+			`/api/beneficio/get?completo=fecha&buscar=${todaySin}`)
+			.then(function (response) {
+				const respuesta = response.data
+				m2.listaBeneficiosxMes=respuesta.beneficios.data
+				m2.mesActual(pacientes,m2.listaBeneficiosxMes)
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
+	},
+	mesActual(pacientes,beneficios){
+		console.log('buscando a los pacientes con su beneficio')
+		let encontrado=''
+		console.log(beneficios)
+		let diaEntrega=0
+		const today = new Date()
+		console.log('dia de hoy')
+		let diadeHoy =today.getDate()
+		console.log(diadeHoy)
+		beneficios.forEach(function (elemento, indice, array) {
+			encontrado = pacientes.find(element => element.id === elemento.paciente_id)
+			console.log(encontrado.id)
+			if (encontrado !== undefined) {
+				pacientes.map(function(paciente){
+					if(paciente.id == encontrado.id){
+						if (elemento.estado !=1){
+							if(paciente.dia_apoyo < diadeHoy){
+								elemento.estado = 2
+							}
+						}
+						paciente.beneficio = elemento;
+					}
+				})
+			}
+		})
+		encontrado = pacientes.find(element => element.id === 485)
+		console.log('encontrado al 485')
+		console.log(encontrado)
+		/*
+		const today = new Date()
+		const todaySin = this.getDate(today)
+		console.log(' a veeeeer?')
+*/
 	},
     abrirDialog (id, estado) {
 		let titulo = ''
@@ -182,9 +249,9 @@ export default {
 		.then(function (response) {
 			const respuesta = response.data
 			me.arrayData = respuesta.pacientes.data
-            me.paciente = me.traerNombre(me.arrayData)
-            // me.constructor = me.arrayData
-            console.log(me.paciente);
+			me.paciente = me.traerNombre(me.arrayData)
+    		me.traerBeneficios(me.paciente)
+
 		})
 		.catch(function (error) {
 			console.log(error)
@@ -192,23 +259,7 @@ export default {
     },
     aNuevo () {
 		 this.$router.push('/ingresar/paciente')
-    },
-    async index2 () { //async para que se llame cada vez que se necesite
-		const me = this
-		const response = await axios.get(
-		`/api/tipoPaciente/get?completo=true`)
-		.then(function (response) {
-			const respuesta = response.data
-			me.arrayData = respuesta.tipoPacientes.data
-            me.tipoPaciente = me.traerDatos(me.arrayData)
-            // me.constructor = me.arrayData
-            console.log(me.tipoPaciente);
-		})
-		.catch(function (error) {
-			console.log(error)
-		})
-    },
-    
+    },    
 	exportToExcel () {
 		import('@/vendor/Export2Excel').then(excel => {
 		const list = this.arrayData
@@ -242,22 +293,21 @@ export default {
 		this.selectedFormat = 'xlsx'
 	},
 	traerNombre (tabla) {
-		console.log(tabla);
 		tabla.forEach(function (valor, indice, array) {
 			valor.nombres = valor.datos.nombres
 			valor.apellidos = valor.datos.apellidos
 			valor.numero_telefono = valor.datos.numero_telefono
+			valor.beneficio={estado:3}
 		}) 
-		console.log(tabla);
 		return tabla
-},
-        traerDatos(tabla){
-			tabla.forEach(function(valor, indice, array){
-                valor.tipo_paciente=valor.tipo_paciente.nombre
-                
-			}); 
-			return tabla
-		},
+	},
+	traerDatos(tabla){
+		tabla.forEach(function(valor, indice, array){
+			valor.tipo_paciente=valor.tipo_paciente.nombre
+			
+		}); 
+		return tabla
+	},
 	
 	  
   },

@@ -156,8 +156,8 @@ export default {
 			tipo_paciente:1,
 			dia_del_mes:[],
 			dia_apoyo:0,
+			fecha_apoyo:'',
 			listado_medicamentos:[],
-
 		}
 	},
 	watch: {
@@ -170,13 +170,30 @@ export default {
 			const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
 			return dateString
 		},
+		getNow(){
+			let fecha_pago=''
+			const today = new Date()
+			const todaySin = new Date(today.getFullYear(),today.getMonth(),today.getDate())
+			const datePago = todaySin
+			datePago.setDate(this.dia_apoyo.id)
+			console.log(todaySin)
+			if (todaySin >= datePago) {
+				fecha_pago=todaySin.setMonth(todaySin.getMonth()+1)
+			}
+			else{
+				fecha_pago=datePago
+			}
+			return fecha_pago
+		},
 		guardarDetalleBeneficios(beneficios){
 			console.log('Intentando guardar el detalle de beneficios de')
 			console.log(beneficios)
 		},
 		guardarBeneficios(paciente){
 			let me2=this
+			let pagoT= me2.getDate(me2.getNow());
 			axios.post('/api/beneficio/post/', {
+				fecha_entrega:pagoT,
 				descripcion:me2.descripcion,
 				paciente_id:paciente,
 			}).then(function (response){

@@ -18,7 +18,7 @@ class CreateBeneficiosTable extends Migration
 			$table->string('descripcion');
 			$table->date('fecha_entrega');
 			$table->foreignId('paciente_id')->constrained();
-			$table->boolean('estado')->default(1);
+			$table->boolean('estado')->default(0);
 			$table->timestamps();
         });
     }

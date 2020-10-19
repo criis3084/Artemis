@@ -21,7 +21,7 @@ class DetalleSalidaController extends Controller
 				$detalleSalida = DetalleSalida::with('salidaMedicamento')->with('lote')->with('datos_medicamento')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$detalleSalida = DetalleSalida::with('salidaMedicamento')->with('lote'->with('datos_medicamento'))->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$detalleSalida = DetalleSalida::with('salidaMedicamento')->with('lote')->with('datos_medicamento')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){

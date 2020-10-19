@@ -15,6 +15,7 @@ class CorrespondenciaController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
+		$count = Correspondencia::all()->count();
 		
 		if ($completo == 'false')
 		{
@@ -26,7 +27,6 @@ class CorrespondenciaController extends Controller
 				$correspondencia = Correspondencia::where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
-			$count = Fotografia::all()->count();
 			if ($buscar==''){
 				$correspondencia = Correspondencia::orderBy('id', 'desc')->paginate($count);
 			}
