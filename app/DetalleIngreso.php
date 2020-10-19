@@ -14,4 +14,14 @@ class DetalleIngreso extends Model
 	public function lote(){
 		return $this->belongsTo('App\Lote','lote_id','id');
 	}
+	public function datos_medicamento(){
+		return $this->hasManyThrough(
+			'App\Medicamento',
+			'App\Lote',
+			'id',
+			'id',
+			'lote_id',
+			'medicamento_id'
+		);
+	}
 }
