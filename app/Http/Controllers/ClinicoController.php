@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Clinico;
+use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
@@ -71,7 +72,7 @@ class ClinicoController extends Controller
 	{
 		try {
 		$clinico = Clinico::findOrFail($request->id);
-		$usuario = Usuario::findOrFail($tutor->usuario_id);
+		$usuario = Usuario::findOrFail($clinico->usuario_id);
 		$usuario->nombres = $request->nombres;
 		$usuario->apellidos = $request->apellidos;
 		$usuario->CUI = $request->CUI;
@@ -102,7 +103,7 @@ class ClinicoController extends Controller
 	public function activar(Request $request)
 	{
 		$clinico = Clinico::findOrFail($request->id);
-		$usuario = Usuario::findOrFail($tutor->usuario_id);
+		$usuario = Usuario::findOrFail($clinico->usuario_id);
 		$usuario->estado = '1';
 		$clinico->estado = '1';
 		$clinico->save();
@@ -113,7 +114,7 @@ class ClinicoController extends Controller
 	public function desactivar(Request $request)
 	{
 		$clinico = Clinico::findOrFail($request->id);
-		$usuario = Usuario::findOrFail($tutor->usuario_id);
+		$usuario = Usuario::findOrFail($clinico->usuario_id);
 		$usuario->estado = '0';
 		$clinico->estado = '0';
 		$clinico->save();

@@ -170,14 +170,20 @@ export default {
 			const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
 			return dateString
 		},
-		getNow () {
+		getNow(){
+			let fecha_pago=''
 			const today = new Date()
-			const date = `${today.getFullYear()}-${today.getMonth() + 1}-${this.dia_apoyo}`
-			const time = `${today.getHours()  }:${  today.getMinutes()  }:${  today.getSeconds()}`
-			const dateTime = `${date } ${ time}`
-			// fecha del siguiente pago
-			console.log(dateTime)
-
+			const todaySin = new Date(today.getFullYear(),today.getMonth(),today.getDate())
+			const datePago = todaySin
+			datePago.setDate(this.dia_apoyo.id)
+			console.log(todaySin)
+			if (todaySin >= datePago) {
+				fecha_pago=todaySin.setMonth(todaySin.getMonth()+1)
+			}
+			else{
+				fecha_pago=datePago
+			}
+			return fecha_pago
 		},
 		guardarDetalleBeneficios(beneficios){
 			console.log('Intentando guardar el detalle de beneficios de')
@@ -185,8 +191,9 @@ export default {
 		},
 		guardarBeneficios(paciente){
 			let me2=this
-			me2.getNow();
+			let pagoT= me2.getDate(me2.getNow());
 			axios.post('/api/beneficio/post/', {
+				fecha_entrega:pagoT,
 				descripcion:me2.descripcion,
 				paciente_id:paciente,
 			}).then(function (response){

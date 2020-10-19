@@ -13,6 +13,7 @@ class BeneficioController extends Controller
 	{
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
+		$id = (isset($request->id)) ? $request->id :'false';
 		$completo = (isset($request->completo)) ? $request->completo :'false';
 		$count = Beneficio::all()->count();
 		if ($completo == 'false')
@@ -30,6 +31,8 @@ class BeneficioController extends Controller
 			else{
 				$beneficio = Beneficio::with('paciente')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
+		} else if ($completo == 'fecha'){
+				$beneficio = Beneficio::with('paciente')->where([['fecha_entrega','like',$buscar.'%']])->orderBy('id', 'desc')->paginate($count);
 		}
 		return [
 			"beneficios"=>$beneficio
