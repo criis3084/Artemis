@@ -82,8 +82,8 @@ class MicroprestamoController extends Controller
 		#if(!$request->ajax())return redirect('/');
 		try {
 		$microprestamo = Microprestamo::findOrFail($request->id);
-		$microprestamo->nombre = $request->nombre;
-		$microprestamo->aldea_id = $request->aldea_id;
+		//$microprestamo->nombre = $request->nombre;
+		$microprestamo->dia_pago = $request->dia_pago;
 		$microprestamo->save();
 		return Response::json(['message' => 'Microprestamo Actualizada'], 200);
 		} catch (Exception $e) {
