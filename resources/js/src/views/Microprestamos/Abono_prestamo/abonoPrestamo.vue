@@ -46,7 +46,7 @@
         <div class="vx-row">
           <div class="vx-col sm:w-2/3 w-full ml-auto">
             <vs-button class="mr-3 mb-2" @click="guardar">Aceptar</vs-button>
-            <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button>
+            <vs-button color="warning" type="border" class="mb-2" @click="ActualizarFechaPago">Limipiar</vs-button>
           </div>
         </div>
       </vx-card>
@@ -274,12 +274,14 @@ export default{
       this.dia_pago = this.detalle.microprestamo.dia_pago
       this.duracion = this.detalle.microprestamo.duracion
       this.mora = this.detalle.microprestamo.mora_por_atraso
+      this.cantidad_abono = this.detalle.microprestamo.pago_mes
       this.Ngrupo = this.detalle.grupos.nombre
       console.log(`Total Prestamo  ${this.totalPrestamo}`)
       console.log(`interes   ${this.interes}`)
       console.log(`Dia pago   ${this.dia_pago}`)
       console.log(`duracion  ${this.duracion}`)
       console.log(`mora   ${this.mora}`)
+      console.log(`Pago mes   ${this.cantidad_abono}`)
       console.log(`NombreG   ${this.Ngrupo}`)
       this.deuda = 0
       this.pagarMora = false
@@ -304,14 +306,36 @@ export default{
     },
     
     fechas () {
-      const FechaHoy = new Date(this.fecha_pago)
-      console.log(FechaHoy)
-      const fecha = FechaHoy.getDate()
-      console.log(fecha)
-      console.log(this.dia_pago)
-      //const FechaPago = `${fecha.getFullYear()}/${fecha.getMonth() + 1}/${this.dia_pago}`
+      const FechaHoy = new Date(this.fecha_pago)//fecha del dia que se esta pagando
+      /*const diaHoy = FechaHoy.getDay()
+      const mesHoy = FechaHoy.getMonth() */
+     // console.log(FechaHoy)
+      const fechaPago = new Date(this.dia_pago)//fecha de pago asignada en la base de datos
+     /* const diaPago = fechaPago.getDay()
+      const mesPago = fechaPago.getMonth() */
+      //console.log(fechaPago)
+
+      /*const diferencia = FechaHoy - FechaPago
+      const mes = Math.floor(diferencia / 2629750000)
+      console.log(mes)
       
-      if (fecha <= this.dia_pago) {
+      if (mes === 0) {
+        console.log('Fecha sin mora')
+        this.mora = 0
+        this.AbonoTotal = parseFloat(this.cantidad_abono) + 0
+      } else {
+        console.log('Fecha con mora')
+        this.pagarMora = true
+        this.mora = this.mora * mes
+        this.AbonoTotal = parseFloat(this.cantidad_abono) + parseFloat(this.mora)
+      }
+      return this.AbonoTotal  */
+      const fechaActual = `${FechaHoy.getFullYear()}/${FechaHoy.getMonth() + 1 }/${FechaHoy.getDay() + 1}`
+      const fechaPagar =  `${fechaPago.getFullYear()}/${fechaPago.getMonth() + 1 }/${fechaPago.getDay() + 1}`
+      console.log(fechaActual)
+      console.log(fechaPagar)
+      
+      if (fechaActual <= fechaPagar) {
         console.log('Fecha sin mora')
         this.mora = 0
         this.AbonoTotal = parseFloat(this.cantidad_abono) + 0
@@ -342,6 +366,12 @@ export default{
 
       return this.total
     },
+    ActualizarFechaPago () {
+      const NuevaFecha = new Date(this.dia_pago)
+      NuevaFecha.setMonth(NuevaFecha.getMonth() + 1)
+      console.log(NuevaFecha)
+    },
+
     limpiar () {
          
     },
