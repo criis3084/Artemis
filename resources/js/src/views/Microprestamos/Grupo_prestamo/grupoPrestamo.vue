@@ -50,12 +50,12 @@
           {{ data[indextr].descripcion }}
         </vs-td>
 
-        <vs-td :data="data[indextr].cantidad_ultimo_prestamo">
-         Q{{ data[indextr].cantidad_ultimo_prestamo }}
+        <vs-td>
+         {{ currency(data[indextr].cantidad_ultimo_prestamo) }}
         </vs-td>
 
-        <vs-td :data="data[indextr].cantidad_prestamo_actual">
-          Q{{ data[indextr].cantidad_prestamo_actual}}
+        <vs-td>
+          {{ currency(data[indextr].cantidad_prestamo_actual)}}
         </vs-td>
         <vs-td :data="data[indextr].created_at">
           {{getDate( data[indextr].created_at)}}
@@ -110,6 +110,14 @@ export default {
     vSelect
   },
   methods:{
+    currency (numero) {
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'GTQ'
+      })
+      const mil = formatter.format(numero)
+      return mil
+    },
     getDate (datetime) {
       const date = new Date(datetime)
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
