@@ -650,6 +650,14 @@ const router = new Router({
             rule: 'editor'
           }
         },
+        {			
+          path: '/ver/beneficios/:id',
+		  name: 'ver-beneficios',
+          component: () => import('./views/Clinica/Pacientes/ver_beneficios.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
         {
           path: '/clinica/citas',
           name: 'clinica-citas',

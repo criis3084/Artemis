@@ -56,7 +56,8 @@ class PersonaSinAccesoController extends Controller
 			$persona->numero_telefono = $request->numero_telefono;
 			$persona->sector_id = $request->sector_id;
 			$persona->save();
-			return Response::json(['message' => 'Persona Creada'], 200);
+			return ['id' => $persona->id];
+			#return Response::json(['message' => 'Persona Creada'], 200);
 		} catch (Exception $e) {
             return Response::json(['message' => $e->getMessage()], 400);
 		}

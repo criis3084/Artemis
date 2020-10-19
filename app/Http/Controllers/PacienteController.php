@@ -44,8 +44,7 @@ class PacienteController extends Controller
 			$paciente->persona_sin_acceso_id = $request->persona_sin_acceso_id;
 			$paciente->tipo_paciente_id = $request->tipo_paciente_id;
 			$paciente->save();
-			return Response::json(['message' => 'Paciente Creada'], 200);
-			#return ['id' => $nino->id];
+			return ['id' => $paciente->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}

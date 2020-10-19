@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Administrativo;
+use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
@@ -59,7 +60,7 @@ class AdministrativoController extends Controller
 
 			$administrativo = new Administrativo();
 			$administrativo->descripcion_puesto = $request->descripcion_puesto;
-			$administrativo->usuario_id = $usario->usuario_id;
+			$administrativo->usuario_id = $usuario->usuario_id;
 			$administrativo->save();
 			return Response::json(['message' => 'Usuario administrativo Creado'], 200);
 			#return ['id' => $nino->id];
