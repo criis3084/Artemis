@@ -41,6 +41,7 @@ class BeneficioController extends Controller
 		try {
 			$beneficio = new Beneficio();
 			$beneficio->descripcion = $request->descripcion;
+			$beneficio->fecha_entrega = $request->fecha_entrega;
 			$beneficio->paciente_id = $request->paciente_id;
 			$beneficio->save();
 			return ['id' => $beneficio->id];
