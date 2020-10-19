@@ -36,6 +36,24 @@ class GrupoPrestamoController extends Controller
 		return [
 			"grupoPrestamos"=>$grupoPrestamo
 		];
+	}
+	
+	public function store(Request $request)
+    {
+		#if(!$request->ajax())return redirect('/');
+        try {
+			$grupoPrestamo = new GrupoPrestamo();
+			$grupoPrestamo->nombre = $request->nombre;
+			$grupoPrestamo->descripcion = $request->descripcion;
+			$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
+			$grupoPrestamo->cantidad_prestamo_actual = $request->cantidad_prestamo_actual;
+			$grupoPrestamo->interes_ultimo_prestamo = $request->interes_ultimo_prestamo;
+			$grupoPrestamo->save();
+			
+			return ['id'=>$grupoPrestamo->id];
+		} catch (Exception $e) {
+            return Response::json(['message' => $e->getMessage()], 400);
+		}
     }
 
     public function update(Request $request)

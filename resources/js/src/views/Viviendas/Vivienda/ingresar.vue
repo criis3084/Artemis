@@ -12,14 +12,17 @@
               <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Destinatario</small>
 				<v-select label="encargado_nombreCompleto" :options="encargados" v-model="encargado_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
 			</div>
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Constructor</small>
 				<v-select label="constructor_nombreCompleto" :options="constructors" v-model="constructor_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
 			</div>
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Tipo de vivienda</small>
 				<v-select label="nombre" :options="tipoViviendas" v-model="tipo_vivienda_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
 			</div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
@@ -30,19 +33,28 @@
             <div class="vx-col md:w-1/2 w-full mt-5">
 			  <small class="date-label">Fecha de inicio</small>
 			  <datepicker :language="$vs.rtl ? langEn : langEn"  v-model="fecha_inicio"></datepicker>
+        <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
 			</div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input-number label="Meses de duración del pago"  v-model="duracion" class="w-full" icon-pack="feather" icon="icon-calendar" name="last_name" v-validate="'required'" />
+              <vs-input-number label="Meses de duración del pago:"  v-model="duracion" icon-inc="expand_less" icon-dec="expand_more" class="w-full" name="last_name" v-validate="'required'" />
               <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
             </div>
 
-			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Costo total"  v-model="costo_total" class="w-full" icon-pack="feather" icon="icon-dollar-sign" name="correo" v-validate="'required'" />
+			  <div class="vx-col md:w-1/2 w-full mt-5">
+        <small class="date-label">Costo total</small>
+          <vx-input-group class="mb-base">
+   				<template slot="prepend">	
+            <div class="prepend-text bg-primary" >
+            <span>Q</span>	
+            </div>
+			      <div class="vx-col w-full">
+              <vs-input  v-model="costo_total" class="w-full" name="correo" v-validate="'required'" />
               <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
             </div>
-
-
+          </template>
+  				</vx-input-group>
+			  </div>
       
 
           </div>
@@ -71,18 +83,18 @@ import { Validator } from 'vee-validate'
 const dict = {
   custom: {
     first_name: {
-      required: 'La direccion es requerida',
+      required: 'Este campo es requerido',
       alpha: 'Solo se permiten letras'
     },
     last_name: {
-      required: 'La duracion de pago en meses es requerida',
+      required: 'Este campo es requerido',
       alpha: 'Solo se permiten letras'
     },
     correo: {
-      required: 'El costo total es requerido',
+      required: 'Este campo es requerido',
     },
     campo: {
-      required: 'Información requerida'
+      required: 'Este campo es requerido'
     }
   }
 }

@@ -12,17 +12,17 @@
             <span>Seleccione el nombre</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <v-select label="encargado_nombreCompleto" :options="encargados" v-model="detalle" @input="buscar" :dir="$vs.rtl ? 'rtl' : 'ltr'" name="encargado" v-validate="'required'"/>
+            <v-select label="encargado_nombreCompleto" :options="encargados" v-model="detalle" @input="buscarDatos" :dir="$vs.rtl ? 'rtl' : 'ltr'" name="encargado" v-validate="'required'"/>
             <span class="text-danger text-sm" v-show="errors.has('encargado')">{{ errors.first('encargado') }}</span>
             <span></span>
           </div>
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
-            <span>Cantidad de abono</span>
+            <span>Cantidad de abono(Q)</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-input class="w-full"  v-model="cantidad" name="cantidad" v-validate="'required|numeric|max:5'"/>
+            <vs-input class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|numeric|max:5'"/>
             <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
           </div>
         </div>
@@ -40,12 +40,12 @@
             <span>Fecha</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <span class="text-2xl leading-none font-medium text-primary mr-4"> {{fecha}}</span>
+            <span class="text-2xl leading-none font-medium text-primary mr-4">{{this.fecha_pago}} </span>
           </div>
         </div>
         <div class="vx-row">
           <div class="vx-col sm:w-2/3 w-full ml-auto">
-            <vs-button class="mr-3 mb-2" @click="enviarForm">Aceptar</vs-button>
+            <vs-button class="mr-3 mb-2" @click="guardar">Aceptar</vs-button>
             <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button>
           </div>
         </div>
@@ -75,34 +75,43 @@
                             <span>Comprobante pago de microprestamo</span>
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold">Comprobante No.</span>
-                                <span class="font-medium text-primary cursor-pointer">{{nRecibo}}</span>
+                                <span class="font-medium text-primary cursor-pointer"></span>
                             </div>
                             <div class="flex justify-between mb-2">
-                                <span class="text-grey"> {{nombreSeleccionado }} </span>
-                                <span class="text-grey"> {{getDate(fecha)}}</span>
+                                <span class="text-grey">{{nombreSeleccionado}}</span>
+                                <span class="text-grey">{{getDate(fecha_pago)}}</span>
                             </div>
                             <vs-divider />
 
                             <p class="font-semibold mb-3">Detalles</p>
                             <div class="flex justify-between mb-2">
-                                <span class="text-grey">Costo total de vivienda</span>
-                                <span>{{currency(costoV)}}</span>
+                                <span class="text-grey">Total del prestamo</span>
+                                <span>{{currency(totalPrestamo)}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Pendiente por pagar</span>
-                                <span v-if="deuda > 0">{{currency(deuda)}}</span>
-                                <span v-else> {{currency(costoV)}}</span>
+                                <span v-if="deuda > 0">{{deuda}}</span>
+                                <span v-else>{{currency(totalPrestamo)}} </span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Cantidad de abono</span>
-                                <span class="text-success">-{{currency(cantidad)}}</span>
+                                <span class="text-success">-{{currency(cantidad_abono)}}</span>
+                            </div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-grey">Mora por atraso</span>
+                                <span class="text-success" v-if="pagarMora==true">{{currency(mora)}}</span>
+                                <span class="text-success" v-else>0</span>
+                            </div>
+                             <div class="flex justify-between mb-2">
+                                <span class="text-grey">Deuda pendiente</span>
+                                <span>{{currency(total)}}</span>
                             </div>
 
                             <vs-divider />
 
                             <div class="flex justify-between font-semibold mb-3">
-                                <span>Total de deuda </span>
-                                <span>{{currency(total)}}</span>
+                                <span>Total a pagar </span>
+                                <span>{{currency(this.AbonoTotal)}}</span>
                             </div>
 
                            
@@ -117,7 +126,6 @@
 import Datepicker from 'vuejs-datepicker'
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
-import { es } from 'vuejs-datepicker/src/locale'
 import vSelect from 'vue-select'
 import axios from 'axios'
 //validar
@@ -148,18 +156,25 @@ export default{
       cantidad_abono:'',
       descripcion:'',
       fecha_pago:'',
-      langEn: es,
+      dia_pago:'',
       mora:'',
-      date: null,
+      interes:'',
       detalle_id:'',
-      nombre_vivienda:'',
+      duracion:'',
       encargado_nombres:'',
-      total:'',
+      totalPrestamo:'',
       cantidad_restante:'',
       detalle_integrante_id:'',
+      detalle:'',
       nRecibo:'',
       usuario_id:'',
       alerta:false,
+      Ngrupo:'',
+      arrayA:'',
+      deuda:'',
+      total:'',
+      AbonoTotal:'',
+      pagarMora:false,
       configdateTimePicker: {
         date: null,
         inline: true
@@ -207,11 +222,13 @@ export default{
     },
     async importarEncargados () { //async para que se llame cada vez que se necesite
       const me = this
+      const hash2 = {}
       const response = await axios.get(
         '/api/detalleIntegrante/get?completo=false')
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.detalleIntegrantes.data
+          me.arrayData = me.arrayData.filter(o => hash2[o.encargado_id] ? false : hash2[o.encargado_id] = true)
           console.log('importacion de personas asignadas a grupo')
           console.log(me.arrayData)
           me.encargados = me.traerDatosEncargados(me.arrayData)
@@ -230,18 +247,17 @@ export default{
 
     guardar () {
       const me = this
-      axios.post('/api/historialAbonoVivienda/post/', {
-        cantidad_abono:this.cantidad,
+      axios.post('/api/abonoPrestamo/post/', {
+        cantidad_abono:this.AbonoTotal,
         cantidad_restante:this.total,
         descripcion:this.descripcion,
-        fecha_pago:this.getDate(this.fecha),
-        usuario_id:81,
-        vivienda_id:this.vivienda_id.id
-
+        fecha_pago:this.getDate(this.fecha_pago),
+        mora:this.mora,
+        detalle_integrante_id:this.detalle.id,
+        usuario_id:8
       }).then(function (response) {
         console.log(response.data.id)
         me.seterResponse(response.data.id)
-        me.desactivar()
         alert('Ingreso correctamente')
       })
         .catch(function (error) {
@@ -250,16 +266,62 @@ export default{
         })
       
     },
-    buscar () {
-      this.nombreSeleccionado = `${this.vivienda_id.encargado_nombres  } ${  this.vivienda_id.encargado_apellidos}`
+    buscarDatos () {
+      console.log(this.detalle.id)
+      this.nombreSeleccionado = `${this.detalle.encargado_nombres  } ${  this.detalle.encargado_apellidos}`
+      this.totalPrestamo = this.detalle.microprestamo.total
+      this.interes = this.detalle.microprestamo.interes
+      this.dia_pago = this.detalle.microprestamo.dia_pago
+      this.duracion = this.detalle.microprestamo.duracion
+      this.mora = this.detalle.microprestamo.mora_por_atraso
+      this.Ngrupo = this.detalle.grupos.nombre
+      console.log(`Total Prestamo  ${this.totalPrestamo}`)
+      console.log(`interes   ${this.interes}`)
+      console.log(`Dia pago   ${this.dia_pago}`)
+      console.log(`duracion  ${this.duracion}`)
+      console.log(`mora   ${this.mora}`)
+      console.log(`NombreG   ${this.Ngrupo}`)
+      this.deuda = 0
+      this.pagarMora = false
+    },
+    async buscarAbonos () {
+      const me = this
+      this.id_recibido = this.detalle.id
+      console.log(`BuscarAbono   ${this.id_recibido}`)
+      const response = await axios.get(
+        `/api/abonoPrestamo/get?&criterio=detalle_integrante_id&buscar=${this.id_recibido}&completo=true` 
+      ).then(function (response) {
+        const respuesta = response.data
+        me.arrayA = respuesta.abonos.data
+        me.deuda = me.arrayA[0].cantidad_restante
+        console.log(me.arrayA)
+        console.log(me.deuda)
+      })
+        .catch(function (error) {
+          console.log(error)
+        })
+        
     },
     
-    limpiar () {
-      this.deuda = 0
-      this.total = 0
-      this.cantidad = 0
-      this.descripcion = ''
-      this.alerta = false
+    fechas () {
+      const FechaHoy = new Date(this.fecha_pago)
+      console.log(FechaHoy)
+      const fecha = FechaHoy.getDate()
+      console.log(fecha)
+      console.log(this.dia_pago)
+      //const FechaPago = `${fecha.getFullYear()}/${fecha.getMonth() + 1}/${this.dia_pago}`
+      
+      if (fecha <= this.dia_pago) {
+        console.log('Fecha sin mora')
+        this.mora = 0
+        this.AbonoTotal = parseFloat(this.cantidad_abono) + 0
+      } else {
+        console.log('Fecha con mora')
+        this.pagarMora = true
+        this.AbonoTotal = parseFloat(this.cantidad_abono) + parseFloat(this.mora)
+      }
+      return this.AbonoTotal
+      
     },
     seterResponse (id) {
       this.nRecibo = id
@@ -269,7 +331,19 @@ export default{
       const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
       const time = `${today.getHours()  }:${  today.getMinutes()  }:${  today.getSeconds()}`
       const dateTime = `${date } ${ time}`
-      this.fecha = dateTime
+      this.fecha_pago = dateTime
+    },
+    Calcular () {
+      this.fechas()
+      console.log('Calcular')
+      if (this.deuda === 0) {
+        this.total = this.totalPrestamo - this.cantidad_abono 
+      } else this.total = this.deuda - this.cantidad_abono 
+
+      return this.total
+    },
+    limpiar () {
+         
     },
     printInvoice () {
       window.print()
@@ -281,7 +355,12 @@ export default{
     this.$emit('setAppClasses', 'invoice-page')
   },
   watch:{
-    
+    detalle () {
+      this.buscarAbonos()
+    },
+    cantidad_abono () {
+      this.Calcular()
+    }
   },
   computed:{
   },

@@ -209,7 +209,7 @@ export default {
 			`/api/destinoInversion/get?completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
-			me.arrayData = respuesta.destinosInversiones.data;
+			me.arrayData = respuesta.destinoInversions.data;
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {

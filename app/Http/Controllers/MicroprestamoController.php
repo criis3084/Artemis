@@ -50,6 +50,7 @@ class MicroprestamoController extends Controller
 			$microprestamo->fecha_inicio = $request->fecha_inicio;
 			$microprestamo->duracion = $request->duracion;
 			$microprestamo->dia_pago = $request->dia_pago;
+			$microprestamo->pago_mes = $request->pago_mes;
 			$microprestamo->mora_por_atraso = $request->mora_por_atraso;
 			//$microprestamo->destino_inversion_id = $request->destino_inversion_id;
 			$microprestamo->save();
@@ -69,6 +70,7 @@ class MicroprestamoController extends Controller
 			'fecha_inicio'=> $microprestamo->fecha_inicio,
 			'duracion'=> $microprestamo->duracion,
 			'dia_pago'=> $microprestamo->dia_pago,
+			'pago_mes'=>$microprestamo->pago_mes,
 			'mora_por_atraso'=> $microprestamo->mora_por_atraso,
 			//'destino_inversion_id'=> $microprestamo->destino_inversion_id,
 			'destino_inversion_nombre'=> $microprestamo->destino_inversion->nombre,
