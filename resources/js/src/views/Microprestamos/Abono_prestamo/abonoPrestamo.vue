@@ -19,11 +19,13 @@
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
-            <span>Cantidad de abono(Q)</span>
+            <span>Cantidad de abono</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
             <vs-input class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|numeric|max:5'"/>
             <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
+            <span v-if ="dias > 0" >{{ 'Dias atrasados'+ ' ' + dias}}</span>
+            <span v-if="mes > 0" >{{'Meses atrasados'+' '+ mes}} </span>
           </div>
         </div>
         <div class="vx-row mb-6">
@@ -46,7 +48,7 @@
         <div class="vx-row">
           <div class="vx-col sm:w-2/3 w-full ml-auto">
             <vs-button class="mr-3 mb-2" @click="guardar">Aceptar</vs-button>
-            <vs-button color="warning" type="border" class="mb-2" @click="ActualizarFechaPago">Limipiar</vs-button>
+            <vs-button color="warning" type="border" class="mb-2" @click="NuevaFecha">Limipiar</vs-button>
           </div>
         </div>
       </vx-card>
@@ -86,32 +88,32 @@
                             <p class="font-semibold mb-3">Detalles</p>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Total del prestamo</span>
-                                <span>{{currency(totalPrestamo)}}</span>
+                                <span>{{totalPrestamo}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Pendiente por pagar</span>
                                 <span v-if="deuda > 0">{{deuda}}</span>
-                                <span v-else>{{currency(totalPrestamo)}} </span>
+                                <span v-else>{{totalPrestamo}} </span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Cantidad de abono</span>
-                                <span class="text-success">-{{currency(cantidad_abono)}}</span>
+                                <span class="text-success">-{{cantidad_abono}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Mora por atraso</span>
-                                <span class="text-success" v-if="pagarMora==true">{{currency(mora)}}</span>
+                                <span class="text-success" v-if="pagarMora==true">{{mora}}</span>
                                 <span class="text-success" v-else>0</span>
                             </div>
                              <div class="flex justify-between mb-2">
                                 <span class="text-grey">Deuda pendiente</span>
-                                <span>{{currency(total)}}</span>
+                                <span>{{total}}</span>
                             </div>
 
                             <vs-divider />
 
                             <div class="flex justify-between font-semibold mb-3">
                                 <span>Total a pagar </span>
-                                <span>{{currency(this.AbonoTotal)}}</span>
+                                <span>{{this.AbonoTotal}}</span>
                             </div>
 
                            
@@ -173,8 +175,12 @@ export default{
       arrayA:'',
       deuda:'',
       total:'',
+      mes:'',
+      dias:'',
       AbonoTotal:'',
+      microprestamo_id:'',
       pagarMora:false,
+      NuevaFechaPago:'',
       configdateTimePicker: {
         date: null,
         inline: true
@@ -257,8 +263,10 @@ export default{
         usuario_id:8
       }).then(function (response) {
         console.log(response.data.id)
-        me.seterResponse(response.data.id)
+        //me.seterResponse(response.data.id)
+        me.ActualizarFechaPago()
         alert('Ingreso correctamente')
+  
       })
         .catch(function (error) {
           console.log(error)
@@ -270,6 +278,7 @@ export default{
       console.log(this.detalle.id)
       this.nombreSeleccionado = `${this.detalle.encargado_nombres  } ${  this.detalle.encargado_apellidos}`
       this.totalPrestamo = this.detalle.microprestamo.total
+      this.microprestamo_id = this.detalle.microprestamo.id
       this.interes = this.detalle.microprestamo.interes
       this.dia_pago = this.detalle.microprestamo.dia_pago
       this.duracion = this.detalle.microprestamo.duracion
@@ -277,6 +286,7 @@ export default{
       this.cantidad_abono = this.detalle.microprestamo.pago_mes
       this.Ngrupo = this.detalle.grupos.nombre
       console.log(`Total Prestamo  ${this.totalPrestamo}`)
+      console.log(`Id microprestamo   ${this.microprestamo_id}`)
       console.log(`interes   ${this.interes}`)
       console.log(`Dia pago   ${this.dia_pago}`)
       console.log(`duracion  ${this.duracion}`)
@@ -298,23 +308,21 @@ export default{
         me.deuda = me.arrayA[0].cantidad_restante
         console.log(me.arrayA)
         console.log(me.deuda)
+        me.Calcular()
       })
         .catch(function (error) {
           console.log(error)
+
         })
         
     },
     
-    fechas () {
-      const FechaHoy = new Date(this.fecha_pago)//fecha del dia que se esta pagando
-      /*const diaHoy = FechaHoy.getDay()
-      const mesHoy = FechaHoy.getMonth() */
-     // console.log(FechaHoy)
-      const fechaPago = new Date(this.dia_pago)//fecha de pago asignada en la base de datos
-     /* const diaPago = fechaPago.getDay()
-      const mesPago = fechaPago.getMonth() */
-      //console.log(fechaPago)
-
+    MoraPorfechas () {
+      const today = new Date()
+      const FechaHoy = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
+      console.log(today)
+      const FechaPago = new Date(this.dia_pago)
+      console.log(FechaPago)
       /*const diferencia = FechaHoy - FechaPago
       const mes = Math.floor(diferencia / 2629750000)
       console.log(mes)
@@ -330,25 +338,55 @@ export default{
         this.AbonoTotal = parseFloat(this.cantidad_abono) + parseFloat(this.mora)
       }
       return this.AbonoTotal  */
-      const fechaActual = `${FechaHoy.getFullYear()}/${FechaHoy.getMonth() + 1 }/${FechaHoy.getDay() + 1}`
-      const fechaPagar =  `${fechaPago.getFullYear()}/${fechaPago.getMonth() + 1 }/${fechaPago.getDay() + 1}`
+      /*const fechaActual = `${FechaHoy.getFullYear()}/${mesHoy}/${diaHoy}`
+      const fechaPagar =  `${fechaPago.getFullYear()}/${mesPago}/${diaPago}`
       console.log(fechaActual)
-      console.log(fechaPagar)
+      console.log(fechaPago)*/
       
-      if (fechaActual <= fechaPagar) {
+      if (today <= FechaPago) {
         console.log('Fecha sin mora')
         this.mora = 0
         this.AbonoTotal = parseFloat(this.cantidad_abono) + 0
       } else {
         console.log('Fecha con mora')
-        this.pagarMora = true
-        this.AbonoTotal = parseFloat(this.cantidad_abono) + parseFloat(this.mora)
+        const diferencia = new Date(FechaHoy) - new Date(FechaPago)
+        const mes = Math.floor(diferencia / 2629750000)
+        const dias = Math.floor(diferencia / 86400000)
+        this.mes = mes
+        this.dias = dias
+        console.log(mes)
+        console.log(dias)
+
+        if (dias > 0 && mes === 0) {
+          this.pagarMora = true
+          this.AbonoTotal = parseFloat(this.cantidad_abono) + parseFloat(this.mora) 
+          console.log('Mora por dia')
+        } else if (mes >= 1) {
+          this.pagarMora = true
+          this.mora = this.mora * mes
+          this.AbonoTotal = parseFloat(this.cantidad_abono) + parseFloat(this.mora) 
+          console.log('Mora por mes')
+        } 
+        
+        
       }
       return this.AbonoTotal
       
     },
     seterResponse (id) {
       this.nRecibo = id
+    },
+    ActualizarFechaPago () {
+      axios.put('/api/microprestamo/update/', {
+        id:this.microprestamo_id,
+        dia_pago:this.getDate(this.NuevaFechaPago)
+		   
+      }).then(function (response) {
+        console.log(response)
+      })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     getNow () {
       const today = new Date()
@@ -358,7 +396,8 @@ export default{
       this.fecha_pago = dateTime
     },
     Calcular () {
-      this.fechas()
+      this.MoraPorfechas()
+      this.NuevaFecha()
       console.log('Calcular')
       if (this.deuda === 0) {
         this.total = this.totalPrestamo - this.cantidad_abono 
@@ -366,10 +405,21 @@ export default{
 
       return this.total
     },
-    ActualizarFechaPago () {
-      const NuevaFecha = new Date(this.dia_pago)
-      NuevaFecha.setMonth(NuevaFecha.getMonth() + 1)
-      console.log(NuevaFecha)
+    NuevaFecha () {
+      const today = new Date()
+      const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
+      const FechaPago = new Date(this.dia_pago)
+      const diaPago = FechaPago.getDate()
+
+      const diferencia = date - FechaPago
+      const anio = diferencia / 31557000000
+      
+      if (anio === 0) {
+        this.NuevaFechaPago = FechaPago.setMonth(FechaPago.getMonth() + 1)
+      } else {
+        this.NuevaFechaPago = `${today.getFullYear()}-${FechaPago.getMonth() + 2}-${FechaPago.getDate() + 1}`
+      }
+      console.log(this.NuevaFechaPago)
     },
 
     limpiar () {
@@ -389,7 +439,7 @@ export default{
       this.buscarAbonos()
     },
     cantidad_abono () {
-      this.Calcular()
+     this.Calcular()
     }
   },
   computed:{
