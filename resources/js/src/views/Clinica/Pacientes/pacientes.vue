@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<vx-card>
-					<div class = "demo-alignment">
-						<h2>Pacientes</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
-					</div>
-					<br>
+			<div class = "demo-alignment">
+				<h2>Pacientes</h2>
+				<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
+			</div>
+			<br>
 		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -42,8 +42,8 @@
                         <vs-td>{{data[indextr].tipo_paciente.nombre}}</vs-td>
                         <vs-td>{{data[indextr].dia_apoyo}}</vs-td>
                         <vs-td>
-							<vs-chip class="ag-grid-cell-chip" :color="data[indextr].beneficio.estado == 0 ? 'warning' : data[indextr].beneficio.estado == 1 ? 'success': data[indextr].beneficio.estado == 2 ? 'danger' : 'dark'">
-							<span>{{data[indextr].beneficio.estado}}</span>
+							<vs-chip class="ag-grid-cell-chip" :color="data[indextr].beneficio.estado == 0 ? 'warning' : data[indextr].beneficio.estado == 1 ? 'success': data[indextr].beneficio.estado == 2 ? 'danger' : data[indextr].beneficio.estado == 3 ?'dark':'primary'">
+							<span>{{data[indextr].beneficio.estado == 0 ? 'Sin entregar' : data[indextr].beneficio.estado == 1 ? 'Entregado': data[indextr].beneficio.estado == 2 ? 'Atrasado' :data[indextr].beneficio.estado == 3 ? 'Sin beneficios':'No Recibe este mes'}}</span>
 							</vs-chip>
 						</vs-td>
 						<vs-td>
@@ -75,16 +75,7 @@ import axios from 'axios'
 
 export default {
   data () {
-    return {
-      //Aqui van a guardar todas su variables.
-      pagination : {
-        'total' : 0,
-        'current_page' : 0,
-        'per_page' : 0,
-        'last_page' : 0,
-        'from' : 0,
-        'to' : 0
-      },
+    return { 
       offset : 3,
       search : '',
       arrayData: [],
@@ -120,60 +111,6 @@ export default {
 		const date = new Date(datetime)
 		const dateString = `${date.getFullYear()}-${date.getMonth() + 1}`
 		return dateString
-	},
-	aDate(fechaS){
-		const fechaDate = new Date(parseInt(fechaS.split('-',3)[0]),parseInt(fechaS.split('-',3)[1]),parseInt(fechaS.split('-',3)[2]))
-		fechaDate=fechaDate.setMonth(fechaDate.getMonth()+1)
-		return fechaDate
-	},
-	traerBeneficios(pacientes){
-		const today = new Date()
-		const todaySin = this.getDate(today)
-		let m2=this
-		axios.get(
-			`/api/beneficio/get?completo=fecha&buscar=${todaySin}`)
-			.then(function (response) {
-				const respuesta = response.data
-				m2.listaBeneficiosxMes=respuesta.beneficios.data
-				m2.mesActual(pacientes,m2.listaBeneficiosxMes)
-			})
-			.catch(function (error) {
-				console.log(error)
-			})
-	},
-	mesActual(pacientes,beneficios){
-		console.log('buscando a los pacientes con su beneficio')
-		let encontrado=''
-		console.log(beneficios)
-		let diaEntrega=0
-		const today = new Date()
-		console.log('dia de hoy')
-		let diadeHoy =today.getDate()
-		console.log(diadeHoy)
-		beneficios.forEach(function (elemento, indice, array) {
-			encontrado = pacientes.find(element => element.id === elemento.paciente_id)
-			console.log(encontrado.id)
-			if (encontrado !== undefined) {
-				pacientes.map(function(paciente){
-					if(paciente.id == encontrado.id){
-						if (elemento.estado !=1){
-							if(paciente.dia_apoyo < diadeHoy){
-								elemento.estado = 2
-							}
-						}
-						paciente.beneficio = elemento;
-					}
-				})
-			}
-		})
-		encontrado = pacientes.find(element => element.id === 485)
-		console.log('encontrado al 485')
-		console.log(encontrado)
-		/*
-		const today = new Date()
-		const todaySin = this.getDate(today)
-		console.log(' a veeeeer?')
-*/
 	},
     abrirDialog (id, estado) {
 		let titulo = ''
@@ -242,16 +179,14 @@ export default {
 		})
 		this.index()
     },
-    async index () { //async para que se llame cada vez que se necesite
+    async index () {
 		const me = this
 		const response = await axios.get(
 		`/api/paciente/get?completo=true`)
 		.then(function (response) {
 			const respuesta = response.data
 			me.arrayData = respuesta.pacientes.data
-			me.paciente = me.traerNombre(me.arrayData)
-    		me.traerBeneficios(me.paciente)
-
+			me.arrayData = me.traerNombre(me.arrayData)
 		})
 		.catch(function (error) {
 			console.log(error)
@@ -277,13 +212,6 @@ export default {
     },
     formatJson (filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
-        // Add col name which needs to be translated
-        // if (j === 'timestamp') {
-        //   return parseTime(v[j])
-        // } else {
-        //   return v[j]
-        // }
-
         return v[j]
       }))
     },
@@ -293,23 +221,44 @@ export default {
 		this.selectedFormat = 'xlsx'
 	},
 	traerNombre (tabla) {
+		let encontrado =''
+		let diaEntrega =0
+
+		let today = new Date()
+		let mesActual = this.getDate(today)
+		let diadeHoy =today.getDate()
+		
+		let fechaString=''
 		tabla.forEach(function (valor, indice, array) {
 			valor.nombres = valor.datos.nombres
 			valor.apellidos = valor.datos.apellidos
 			valor.numero_telefono = valor.datos.numero_telefono
-			valor.beneficio={estado:3}
-		}) 
+			if (valor.beneficios.length == 0){
+				valor.beneficio={estado:3}
+			}else{
+				valor.beneficios.forEach(function (benefi, indice2, array2){
+					fechaString=benefi.fecha_entrega.slice(0,7)
+					if (fechaString==mesActual){
+						if (benefi.estado == 0){
+							if (valor.dia_apoyo > diadeHoy){
+								benefi.estado = 0
+							}
+							else if (valor.dia_apoyo<diadeHoy){
+								benefi.estado = 2
+							}
+						}
+						valor.beneficio=benefi
+					}
+					if (valor.beneficio == undefined)
+					{
+					 	valor.beneficio={estado:4}
+					}
+				}) 
+			}
+		})
+		console.log(tabla)
 		return tabla
 	},
-	traerDatos(tabla){
-		tabla.forEach(function(valor, indice, array){
-			valor.tipo_paciente=valor.tipo_paciente.nombre
-			
-		}); 
-		return tabla
-	},
-	
-	  
   },
   mounted () {
     this.index()
@@ -339,6 +288,33 @@ export default {
     .decore-left, .decore-right{
       width: 140px;
     }
+  }
+}
+.ag-grid-cell-chip {
+  &.vs-chip-success {
+    background: rgba(var(--vs-success),.15);
+    color: rgba(var(--vs-success),1) !important;
+    font-weight: 500;
+  }
+  &.vs-chip-warning {
+    background: rgba(var(--vs-warning),.15);
+    color: rgba(var(--vs-warning),1) !important;
+    font-weight: 500;
+  }
+  &.vs-chip-danger {
+    background: rgba(var(--vs-danger),.15);
+    color: rgba(var(--vs-danger),1) !important;
+    font-weight: 500;
+  }
+  &.vs-chip-dark {
+    background: rgba(var(--vs-dark),.15);
+    color: rgba(var(--vs-dark),1) !important;
+    font-weight: 500;
+  }
+  &.vs-chip-primary {
+    background: rgba(var(--vs-primary),.15);
+    color: rgba(var(--vs-primary),1) !important;
+    font-weight: 500;
   }
 }
 /*! rtl:end:ignore */

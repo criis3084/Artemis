@@ -2,7 +2,6 @@
 	<div>
 		<vx-card>
 			<div v-for="(beneficio,id) in listado_beneficios" :key="id">
-					<!-- <vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.luz ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"> <b> Luz </b></vs-checkbox> -->
 					<vs-checkbox class="mt-2" color="dark" icon-pack="feather" icon="icon-check" v-model="estados[id]"> Entrega del mes de <b>{{ nombreMes(beneficio.fecha_entrega.split('-',3)[1]) }} </b> </vs-checkbox>
 			</div>
 		</vx-card>
@@ -167,7 +166,7 @@ export default {
 				paciente_id:me2.id_recibido
 			}).then(function (response){
 				console.log(response)
-				me2.importarBeneficios()
+				location.reload();
 			})
 		},
 		getDate (datetime) {

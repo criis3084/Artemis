@@ -11,6 +11,6 @@ class BeneficioSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Beneficio::class, 1000)->create();
+        factory(App\Beneficio::class, 500)->create();
     }
 }

@@ -174,11 +174,12 @@ export default {
 			let fecha_pago=''
 			const today = new Date()
 			const todaySin = new Date(today.getFullYear(),today.getMonth(),today.getDate())
-			const datePago = todaySin
+			const datePago =  new Date(today.getFullYear(),today.getMonth(),today.getDate())
 			datePago.setDate(this.dia_apoyo.id)
+			console.log(datePago)
 			console.log(todaySin)
 			if (todaySin >= datePago) {
-				fecha_pago=todaySin.setMonth(todaySin.getMonth()+1)
+				fecha_pago=datePago.setMonth(datePago.getMonth()+1)
 			}
 			else{
 				fecha_pago=datePago
@@ -188,6 +189,7 @@ export default {
 		guardarDetalleBeneficios(beneficios){
 			console.log('Intentando guardar el detalle de beneficios de')
 			console.log(beneficios)
+			this.$router.push('/clinica/pacientes/');
 		},
 		guardarBeneficios(paciente){
 			let me2=this

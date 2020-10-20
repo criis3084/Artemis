@@ -14,4 +14,7 @@ class Paciente extends Model
 	public function tipoPaciente(){
 		return $this->belongsTo('App\TipoPaciente','tipo_paciente_id','id');
 	}
+	public function beneficios(){
+		return $this->hasMany(Beneficio::class);
+	}
 }
