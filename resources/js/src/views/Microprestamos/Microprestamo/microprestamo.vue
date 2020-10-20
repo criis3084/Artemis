@@ -129,13 +129,6 @@ export default {
       aNuevo () {
 		 this.$router.push('/microprestamo/ingresar')
 	},
-      traerNombre(tabla){
-			tabla.forEach(function(valor, indice, array){
-				valor.destino_inversion_nombre=valor.destino.nombre
-			}); 
-			return tabla
-		},
-
     getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -218,15 +211,12 @@ export default {
         .then(function(response) {
           var respuesta = response.data;
           me.arrayData = respuesta.microprestamos.data;
-          me.arrayData = me.traerNombre(me.arrayData)
-          console.log(me.arrayData);
         })
         .catch(function(error) {
           console.log(error);
         });
     },
-
-exportToExcel () {
+	exportToExcel () {
       import('@/vendor/Export2Excel').then(excel => {
 		const list = this.arrayData
         const data = this.formatJson(this.headerVal, list)
@@ -243,14 +233,7 @@ exportToExcel () {
     },
     formatJson (filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
-        // Add col name which needs to be translated
-        // if (j === 'timestamp') {
-        //   return parseTime(v[j])
-        // } else {
-        //   return v[j]
-        // }
-
-        return v[j]
+      return v[j]
       }))
     },
 	clearFields () {

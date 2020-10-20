@@ -28,7 +28,8 @@
 
 			<div class="vx-col w-full mt-3">
 					<small class="date-label mt-5">Día de pago</small>
-					<v-select style="width:30%" label="mostrar" :options="dia_del_mes" v-model="dia_pago" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<datepicker :language="$vs.rtl ? langEn : langEn" name="dia_pago" v-model="dia_pago"></datepicker>
+					<!-- <v-select style="width:30%" label="mostrar" :options="dia_del_mes" v-model="dia_pago" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> -->
 					<br>
 					<vs-input  style="width:30%" icon="local_atm" icon-no-border label-placeholder="Mora por atraso" v-model="mora_por_atraso"/>
 					<br>
@@ -104,6 +105,7 @@ export default {
     	grupo_select () {
 			if(this.grupo_select != null)
 			{
+				console.log('buscando integrantes...')
 				this.buscarIntegrantes()
 			}
     	},    
@@ -182,7 +184,7 @@ export default {
 					console.log(error)
 				});
 			})
-
+			this.$router.push('/microprestamo/microprestamo/');
 		},
 		guardarPrestamo(){
 			let me = this
@@ -191,8 +193,9 @@ export default {
 				interes:this.interes,
 				fecha_inicio:this.getDate(this.fecha_inicio),
 				duracion:this.duracion,
-				dia_pago:this.dia_pago.id,
-				mora_por_atraso:this.mora_por_atraso
+				dia_pago:this.getDate(this.dia_pago),
+				mora_por_atraso:this.mora_por_atraso,
+				pago_mes:0
 			}).then(function(response) {
 				console.log('id de microprestamo')
 				console.log(response.data.id)
@@ -201,8 +204,6 @@ export default {
 			.catch(function(error) {
 				console.log(error)
 			});
-			console.log('Grupo seleccionado')
-			console.log(this.grupo_select)
 		},
 		async importarGrupos(){ 
 			let me = this;
@@ -210,7 +211,7 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me.listado_grupos = respuesta.grupoPrestamos.data;
-
+				console.log(me.listado_grupos)
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -243,7 +244,7 @@ export default {
 		},
 		buscarIntegrantes () {
 			let lista = this.grupo_select.integrantes
-			
+			console.log(lista)
 			let lista_encargadosT = this.lista_encargados
 			let listaCantidadesT=[]
 			let listaInversionesT=[]

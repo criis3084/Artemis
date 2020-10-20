@@ -20,17 +20,18 @@ class GrupoPrestamoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$grupoPrestamo = GrupoPrestamo::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$grupoPrestamo = GrupoPrestamo::with('integrantes')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$grupoPrestamo = GrupoPrestamo::where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$grupoPrestamo = GrupoPrestamo::with('integrantes')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$grupoPrestamo = GrupoPrestamo::orderBy('id', 'desc')->paginate($count);
+				
+				$grupoPrestamo = GrupoPrestamo::with('integrantes')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$grupoPrestamo = GrupoPrestamo::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$grupoPrestamo = GrupoPrestamo::with('integrantes')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
