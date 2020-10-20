@@ -41,6 +41,7 @@ class TipoPacienteController extends Controller
         try {
 			$tipoPaciente = new TipoPaciente();
 			$tipoPaciente->nombre = $request->nombre;
+			$tipoPaciente->descripcion = $request->descripcion;
 			$tipoPaciente->save();
 			return Response::json(['message' => 'TipoPaciente Creado'], 200);
 		} catch (Exception $e) {
@@ -54,6 +55,7 @@ class TipoPacienteController extends Controller
         try {
 		$tipoPaciente = TipoPaciente::findOrFail($request->id);
 		$tipoPaciente->nombre = $request->nombre;
+		$tipoPaciente->descripcion = $request->descripcion;
 		$tipoPaciente->save();
 		return Response::json(['message' => 'TipoPaciente Actualizado'], 200);
 		} catch (Exception $e) {
