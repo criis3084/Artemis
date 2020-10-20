@@ -9,7 +9,7 @@
           <form data-vv-scope="step-1">
           <div class="vx-row">
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Nombre Empresa" v-model="nombre" class="w-full" icon-pack="feather" icon="icon-user" name="first_name" v-validate="'required|alpha'" />
+              <vs-input label="Nombre Empresa" v-model="nombre" class="w-full" icon-pack="feather" icon="icon-shopping-bag" name="first_name" v-validate="'required|alpha'" />
               <span class="text-danger">{{ errors.first('step-1.first_name') }}</span>
             </div>
             

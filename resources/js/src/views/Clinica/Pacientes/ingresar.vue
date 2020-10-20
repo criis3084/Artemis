@@ -8,9 +8,9 @@
 			<small class="date-label">Información</small>
 			<ul class="demo-alignment">
 					<li>
-						<vs-radio color="success" v-model="tipo_lectura" vs-value="1">Paciente comun</vs-radio>
+						<vs-radio color="success" v-model="tipo_lectura" vs-value="1">Paciente común</vs-radio>
 					</li>
-						<vs-radio color="success" v-model="tipo_lectura" vs-value="2">Paciente de Modulo de apadrinamiento</vs-radio>
+						<vs-radio color="success" v-model="tipo_lectura" vs-value="2">Paciente de Módulo de apadrinamiento</vs-radio>
 					<li>
 					</li>
 			</ul>
@@ -34,7 +34,7 @@
 				</div>
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="DPI" v-model="CUI" name="CUI" v-validate="'required'"/>
+						<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="DPI" v-model="CUI" name="CUI" v-validate="'required'"/>
 						<span class="text-danger">{{ errors.first('step-1.dpi') }}</span>
 					</div>
 				</div>
@@ -60,7 +60,7 @@
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Dirección" v-model="direccion"/>
+						<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" v-model="direccion"/>
 					</div>
 				</div>
 

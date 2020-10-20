@@ -3,7 +3,7 @@
 
 		<div class="vx-col md:w-1/2 w-full mt-3">
 			<div class="vx-col w-full">
-				<small class="date-label">Grupo para micropréstamo</small>
+				<h4 class="date-label">Grupo para micropréstamo:</h4>
 				<v-select label="nombre" :options="listado_grupos" v-model="grupo_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 			</div>
 		</div>
@@ -21,7 +21,7 @@
 			<br>
 			<div class="vx-col md:w-1/2 w-full">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-percent" icon-no-border label-placeholder="Porcentaje de interes" v-model="interes"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-percent" icon-no-border label-placeholder="Porcentaje de interés" v-model="interes"/>
 					<span class="text-danger">Porcentaje de interés</span>
 				</div>
 			</div>
