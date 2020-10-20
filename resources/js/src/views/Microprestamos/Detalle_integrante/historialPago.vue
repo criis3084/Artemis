@@ -1,6 +1,5 @@
 <template>
  <vx-card>
-   <formularioEscuela v-on:cerrado="index();"></formularioEscuela>
 	 <vs-prompt title="Exportar a Excel" class="export-options" @cancel="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -15,12 +14,12 @@
         </template>
             <template slot="thead">
                 <vs-th >No. Abono</vs-th>
-                <vs-th >Cantidad de Abono</vs-th>
                 <vs-th >Descripción</vs-th>
-				<vs-th >Mora</vs-th>
+                <vs-th >Cantidad de Abono</vs-th>
+				        <vs-th >Mora</vs-th>
                 <vs-th >Cantidad Restante</vs-th>
-				<vs-th >Fecha Pago</vs-th>
-            </template>
+				        <vs-th >Fecha Pago</vs-th>
+        </template>
 
             <template slot-scope="{data}">
                 <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
@@ -30,11 +29,11 @@
                     </vs-td>
 
                     <vs-td>
-                        {{data[indextr].cantidad_abono}}
+                        {{data[indextr].descripcion}}
                     </vs-td>
 
                     <vs-td >
-                        {{data[indextr].descripcion}}
+                        {{data[indextr].cantidad_abono}}
                     </vs-td>
                     <vs-td >
                         {{data[indextr].mora}}

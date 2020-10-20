@@ -51,8 +51,8 @@ class AbonoPrestamoController extends Controller
 			$abonoPrestamo->detalle_integrante_id = $request->detalle_integrante_id;
 			$abonoPrestamo->usuario_id = $request->usuario_id;
 			$abonoPrestamo->save();
-			return Response::json(['message' => 'Abono Prestamo Creada'], 200);
-			#return ['id' => $nino->id];
+			//return Response::json(['message' => 'Abono Prestamo Creada'], 200);
+			return ['id' => $abonoPrestamo->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}

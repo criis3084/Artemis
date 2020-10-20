@@ -22,10 +22,11 @@
             <span>Cantidad de abono(Q)</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-input class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|numeric|max:5'"/>
+            <vs-input type="number" class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|max:7'"/>
             <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
-            <span v-if ="dias > 0" >{{ 'Dias atrasados:'+ ' ' + dias+ ' '}}</span>
+            <span v-if ="dias > 0 && mes === 0" >{{ 'Dias atrasados:'+ ' ' + dias+ ' '}}</span>
             <span v-if="mes > 0" >{{'Meses atrasados:'+' '+ mes}} </span>
+            <span v-if="mes === 0 && dias === 0" > </span>
           </div>
         </div>
         <div class="vx-row mb-6">
@@ -48,7 +49,7 @@
         <div class="vx-row">
           <div class="vx-col sm:w-2/3 w-full ml-auto">
             <vs-button class="mr-3 mb-2" @click="guardar">Aceptar</vs-button>
-            <vs-button color="warning" type="border" class="mb-2" @click="NuevaFecha">Limipiar</vs-button>
+            <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button>
           </div>
         </div>
       </vx-card>
@@ -77,7 +78,7 @@
                             <span>Comprobante pago de microprestamo</span>
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold">Comprobante No.</span>
-                                <span class="font-medium text-primary cursor-pointer"></span>
+                                <span class="font-medium text-primary cursor-pointer">{{nRecibo}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">{{nombreSeleccionado}}</span>
@@ -208,7 +209,7 @@ export default{
       })
 
     },
-    currency(numero) {
+    currency (numero) {
       const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'GTQ'
@@ -263,7 +264,7 @@ export default{
         usuario_id:8
       }).then(function (response) {
         console.log(response.data.id)
-        //me.seterResponse(response.data.id)
+        me.seterResponse(response.data.id)
         me.ActualizarFechaPago()
         alert('Ingreso correctamente')
   
@@ -295,6 +296,8 @@ export default{
       console.log(`NombreG   ${this.Ngrupo}`)
       this.deuda = 0
       this.pagarMora = false
+      this.mes = 0
+      this.dias = 0
     },
     async buscarAbonos () {
       const me = this
@@ -423,7 +426,12 @@ export default{
     },
 
     limpiar () {
-         
+      this.AbonoTotal = 0
+      this.deuda = 0
+      this.mora = 0
+      this.cantidad_abono = 0
+      this.nombreSeleccionado = ''
+      this.nRecibo = 0
     },
     printInvoice () {
       window.print()
@@ -439,7 +447,7 @@ export default{
       this.buscarAbonos()
     },
     cantidad_abono () {
-     this.Calcular()
+      this.Calcular()
     }
   },
   computed:{
