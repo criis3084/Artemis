@@ -53,7 +53,7 @@
           </div>
           <!-- /Information - Col 2 -->
           <div class="vx-col w-full flex" id="account-manage-buttons">
-            <vs-button type="gradient"  color="success" icon="payments" @click="$router.push('/microprestamo/historial/'+detalles.datos_prestamista[0].id)">Ver pagos</vs-button>
+            <vs-button type="gradient"  color="success" icon="payments" @click="$router.push('/microprestamo/historial/'+detalles.id)">Ver pagos</vs-button>
           </div>
 
         </div>

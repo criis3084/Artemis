@@ -19,13 +19,14 @@
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
-            <span>Cantidad de abono</span>
+            <span>Cantidad de abono(Q)</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-input class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|numeric|max:5'"/>
+            <vs-input type="number" class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|max:7'"/>
             <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
-            <span v-if ="dias > 0" >{{ 'Dias atrasados'+ ' ' + dias}}</span>
-            <span v-if="mes > 0" >{{'Meses atrasados'+' '+ mes}} </span>
+            <span v-if ="dias > 0 && mes === 0" >{{ 'Dias atrasados:'+ ' ' + dias+ ' '}}</span>
+            <span v-if="mes > 0" >{{'Meses atrasados:'+' '+ mes}} </span>
+            <span v-if="mes === 0 && dias === 0" > </span>
           </div>
         </div>
         <div class="vx-row mb-6">
@@ -48,7 +49,7 @@
         <div class="vx-row">
           <div class="vx-col sm:w-2/3 w-full ml-auto">
             <vs-button class="mr-3 mb-2" @click="guardar">Aceptar</vs-button>
-            <vs-button color="warning" type="border" class="mb-2" @click="NuevaFecha">Limipiar</vs-button>
+            <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button>
           </div>
         </div>
       </vx-card>
@@ -77,7 +78,7 @@
                             <span>Comprobante pago de microprestamo</span>
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold">Comprobante No.</span>
-                                <span class="font-medium text-primary cursor-pointer"></span>
+                                <span class="font-medium text-primary cursor-pointer">{{nRecibo}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">{{nombreSeleccionado}}</span>
@@ -88,32 +89,32 @@
                             <p class="font-semibold mb-3">Detalles</p>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Total del prestamo</span>
-                                <span>{{totalPrestamo}}</span>
+                                <span>{{currency(totalPrestamo)}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Pendiente por pagar</span>
-                                <span v-if="deuda > 0">{{deuda}}</span>
-                                <span v-else>{{totalPrestamo}} </span>
+                                <span v-if="deuda > 0">{{currency(deuda)}}</span>
+                                <span v-else>{{currency(totalPrestamo)}} </span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Cantidad de abono</span>
-                                <span class="text-success">-{{cantidad_abono}}</span>
+                                <span class="text-success">-{{currency(cantidad_abono)}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Mora por atraso</span>
-                                <span class="text-success" v-if="pagarMora==true">{{mora}}</span>
-                                <span class="text-success" v-else>0</span>
+                                <span class="text-success" v-if="pagarMora==true">{{currency(mora)}}</span>
+                                <span class="text-success" v-else>{{currency(0)}}</span>
                             </div>
                              <div class="flex justify-between mb-2">
                                 <span class="text-grey">Deuda pendiente</span>
-                                <span>{{total}}</span>
+                                <span>{{currency(total)}}</span>
                             </div>
 
                             <vs-divider />
 
                             <div class="flex justify-between font-semibold mb-3">
                                 <span>Total a pagar </span>
-                                <span>{{this.AbonoTotal}}</span>
+                                <span>{{currency(this.AbonoTotal)}}</span>
                             </div>
 
                            
@@ -137,14 +138,14 @@ const dict = {
     cantidad: {
       required: 'Este campo no puede quedar vacío',
       numeric: 'Solo aceptan números',
-      max:'No se aceptan más de 4 números'
+      max:'No se aceptan más de 5 números'
     },
     descripcion: {
       required:'Información requerida',
       max:'No se aceptan más de 60 caracteres'
     },
     encargado:{
-      required:'Seleccióne un propietario porfavor'
+      required:'Seleccione un propietario porfavor'
     }
   }
 }
@@ -263,7 +264,7 @@ export default{
         usuario_id:8
       }).then(function (response) {
         console.log(response.data.id)
-        //me.seterResponse(response.data.id)
+        me.seterResponse(response.data.id)
         me.ActualizarFechaPago()
         alert('Ingreso correctamente')
   
@@ -295,6 +296,8 @@ export default{
       console.log(`NombreG   ${this.Ngrupo}`)
       this.deuda = 0
       this.pagarMora = false
+      this.mes = 0
+      this.dias = 0
     },
     async buscarAbonos () {
       const me = this
@@ -423,7 +426,12 @@ export default{
     },
 
     limpiar () {
-         
+      this.AbonoTotal = 0
+      this.deuda = 0
+      this.mora = 0
+      this.cantidad_abono = 0
+      this.nombreSeleccionado = ''
+      this.nRecibo = 0
     },
     printInvoice () {
       window.print()
@@ -439,7 +447,7 @@ export default{
       this.buscarAbonos()
     },
     cantidad_abono () {
-     this.Calcular()
+      this.Calcular()
     }
   },
   computed:{

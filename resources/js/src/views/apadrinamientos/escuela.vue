@@ -1,12 +1,3 @@
-<!-- =========================================================================================
-  File Name: DashboardAnalytics.vue
-  Description: Dashboard Analytics
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-<!-- Este es el componente inicial -->
 <template>
  <vx-card>
    <formularioEscuela v-on:cerrado="index();"></formularioEscuela>

@@ -384,7 +384,7 @@ const router = new Router({
           }
         },
         {
-          path: '/microprestamo/historial/id',
+          path: '/microprestamo/historial/:id',
           name: 'microprestamo-historial',
           component: () => import('./views/Microprestamos/Detalle_integrante/historialPago.vue'),
           meta: {
