@@ -256,7 +256,6 @@ export default {
 				}) 
 			}
 		})
-		console.log(tabla)
 		return tabla
 	},
   },

@@ -22,17 +22,17 @@ class RelacionController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$relacion = Relacion::with('sector')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$relacion = Relacion::with('sector')->with('datos_nino')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$relacion = Relacion::with('sector')->where([[$criterio, 'like', $buscar ],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$relacion = Relacion::with('sector')->with('datos_nino')->where([[$criterio, 'like', $buscar ],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$relacion = Relacion::with('sector')->orderBy('id', 'desc')->paginate($count);
+				$relacion = Relacion::with('sector')->with('datos_nino')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$relacion = Relacion::with('sector')->where($criterio, 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
+				$relacion = Relacion::with('sector')->with('datos_nino')->where($criterio, 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		else if ($completo=='informacion')

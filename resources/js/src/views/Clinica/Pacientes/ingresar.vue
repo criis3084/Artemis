@@ -147,6 +147,9 @@ export default {
 			listado_personas:[],
 			listado_tipos:[],
 			listado_pacientes:[],
+			listado_relaciones:[],
+			listadoNinos:[],
+			listadoFamilia:[],
 			sector_id:null,
 			persona_id:null,
 			medicamento_id:null,
@@ -176,8 +179,6 @@ export default {
 			const todaySin = new Date(today.getFullYear(),today.getMonth(),today.getDate())
 			const datePago =  new Date(today.getFullYear(),today.getMonth(),today.getDate())
 			datePago.setDate(this.dia_apoyo.id)
-			console.log(datePago)
-			console.log(todaySin)
 			if (todaySin >= datePago) {
 				fecha_pago=datePago.setMonth(datePago.getMonth()+1)
 			}
@@ -213,6 +214,7 @@ export default {
 				}).then(function (response){
 					console.log('paciente guardado')
 				})
+					this.$router.push('/clinica/pacientes/');
 			}
 			else if (tipoT !== 1){
 				let me=this
@@ -249,7 +251,7 @@ export default {
 				this.dia_del_mes.push({id:i,mostrar:i})
 			}
 		},
-		traerNombre (tabla) {
+		traerNombre(tabla) {
 			tabla.forEach(function (valor, indice, array){
 				valor.id_encargado = null
 				valor.nombres = valor.datos.nombres
@@ -259,7 +261,7 @@ export default {
 			})
 			return tabla
 		},
-		traerNombreE (tabla) {
+		traerNombreE(tabla) {
 			tabla.forEach(function (valor, indice, array) {
 				valor.id_encargado = valor.id
 				valor.id = valor.id+100000
@@ -281,19 +283,92 @@ export default {
 				console.log(error);
 			});
 		},
-		async importarNinos(){
+		async importarNinos(encargados){
+
 			let me = this;
 			const response = await axios.get(
-				`/api/nino/get?completo=false`)
+				`/api/nino/get?completo=true`)
 			.then(function (response) {
 				var respuesta= response.data;
 				me.listado_ninos = respuesta.ninos.data;
 				me.nino = me.traerNombre(me.listado_ninos)
-				me.importarEncargados(me.nino)
+				console.log('ninos activos y no')
+				console.log(me.nino)
+				me.importarRelaciones(encargados,me.nino)
 			})
 			.catch(function (error) {
 				console.log(error);
 			});
+		},
+
+		async importarRelaciones(encargados,ninos){
+			let hash = {};
+			let me = this;
+			let ninosActivos = ninos.slice();
+			let ninosPlus =[]
+			let encargadosPlus=[]
+			let listadoCompleto=[]
+			const response = await axios.get(`/api/relacion/get?completo=true`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.listado_relaciones = respuesta.relaciones.data;
+				ninosActivos = ninosActivos.filter(nino => nino.estado == 1);
+				me.listado_relaciones = me.codigosPlus(ninosActivos,me.listado_relaciones)
+				me.listadoFamilia = me.listado_relaciones.filter(o => hash[o.encargado_id] ? false : hash[o.encargado_id] = true);
+				me.listadoNinos	  = me.listado_relaciones.filter(o => hash[o.nino_id] ? false : hash[o.nino_id] = true);
+				ninosPlus = me.ninosFamilia(ninos,me.listadoNinos)
+				encargadosPlus = me.encargadosFamilia(encargados,me.listadoFamilia)
+				listadoCompleto = listadoCompleto.concat(ninosPlus,encargadosPlus);
+				me.importarPacientes(listadoCompleto)
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		},
+		ninosFamilia(ninos,codigos){
+			let listaNinosPlus=[]
+			codigos.forEach(function(elemento, indice, array) {
+				const resultado = ninos.find( nino => nino.id === elemento.nino_id );
+				if(resultado!==undefined)
+				{
+					listaNinosPlus.push(resultado)
+				}
+			})
+			return listaNinosPlus
+		},
+		encargadosFamilia(encargados,codigos){
+			let listaEncargadosPlus=[]
+			codigos.forEach(function(elemento, indice, array) {
+				const resultado = encargados.find( encargado => encargado.id_encargado === elemento.encargado_id );
+				if(resultado!==undefined)
+				{
+					listaEncargadosPlus.push(resultado)
+				}
+			})
+			return listaEncargadosPlus
+		},
+		codigosPlus(ninos,relaciones){
+			let listaRelaciones=[]
+			ninos.forEach(function(elemento, indice, array) {
+				const resultado = relaciones.find( relacion => relacion.nino_id === elemento.id );
+				if(resultado!==undefined)
+				{
+					listaRelaciones.push(resultado)
+				}
+			})
+			let hash = {};
+			listaRelaciones = listaRelaciones.filter(o => hash[o.codigo] ? false : hash[o.codigo] = true);
+			
+			let listaRelacionesPlus=[]
+			relaciones.forEach(function(elemento, indice, array) {
+				const resultado = listaRelaciones.find( relacionA => relacionA.codigo === elemento.codigo );
+				if(resultado!==undefined)
+				{
+					listaRelacionesPlus.push(elemento)
+				}
+			})
+			return listaRelacionesPlus
+
 		},
 		async importarTiposPaciente(){
 			let me = this;
@@ -308,17 +383,15 @@ export default {
 				console.log(error);
 			});
 		},
-		importarEncargados(ninos){
+		importarEncargados(){
 			let me = this;
 			let listadoCompleto=[]
 			axios.get(`/api/encargado/get?completo=false`)
 			.then(function (response) {
 				var respuesta= response.data;
 				me.listado_encargados = respuesta.encargados.data;
-				me.encargado = me.traerNombreE(me.listado_encargados)
-				listadoCompleto = listadoCompleto.concat(ninos,me.encargado);
-				me.importarPacientes(listadoCompleto)
-				me.listado_personas = listadoCompleto
+				me.listado_encargados = me.traerNombreE(me.listado_encargados)
+				me.importarNinos(me.listado_encargados)
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -365,7 +438,7 @@ export default {
 	mounted() {
 		this.diaMes();
 		this.importarSectores();
-		this.importarNinos();
+		this.importarEncargados();
 		this.importarMedicamentos();
 		this.importarTiposPaciente();
 	},

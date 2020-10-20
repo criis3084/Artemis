@@ -258,7 +258,6 @@ export default {
 					listaCantidadesT.push(0)
 					listaInversionesT.push(0)
 				}
-
 			})
 			this.listaCantidades=listaCantidadesT
 			this.listaInversiones=listaInversionesT
