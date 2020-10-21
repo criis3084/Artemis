@@ -10,22 +10,22 @@
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Código" v-model="codigoT" name="codigo" v-validate="'required'"/>
-									<span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="Código" v-model="codigoT" name="codigo" v-validate="'required|alpha_num'"/>
+									<span class="text-danger">{{ errors.first('step-1.codigo') }}</span>
 								</div>
 							</div>
 
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombresT" name="nombres" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombresT" name="nombres" v-validate="'required|alpha_spaces'"/>
 									<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidosT" name="apellidos" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidosT" name="apellidos" v-validate="'required|alpha_spaces'"/>
 									<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
 								</div>
 							</div>
@@ -117,9 +117,13 @@
 
  
   </form-wizard>
-  <div class="vx-col md:w-1/2 w-full mt-5">
-<vs-button @click="goBack" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
+
+
+  <div class="vx-col md:w-1/3 w-full mt-5">
+<vs-button @click="goBack"  type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
     </div>
+
+
 </vx-card>
 </div>
 </template>
@@ -134,26 +138,29 @@ import { Validator } from 'vee-validate';
 const dict = {
   custom: {
     nombres: {
-      required: 'Los Nombres son requeridos',
+	  required: 'Los nombres son requeridos',
+	  alpha_spaces: 'El campo solo debe de contener letras',
     },
     apellidos: {
 	  required: 'Los apellidos son requeridos',
-
+	  alpha_spaces: 'El campo solo debe de contener letras',
     },
     direccion: {
-      required: 'La direccion es requerida',
-      
+	  required: 'La dirección es requerida',
+	  alpha_dash: 'El campo solo debe de contener letras, números, guiones o barras',
     },
     fecha: {
       required: 'La fecha es requerida',
-      
     },
     sector: {
       required: 'El sector es requerido',
-      
 	},
 	campo:{
-		required: 'El campo es requerido'
+		required: 'El campo es requerido',
+	},
+	codigo:{
+		required: 'El código es requerido',
+		alpha_num: 'El campo solo debe de contener letras y números',
 	}
   }
 };

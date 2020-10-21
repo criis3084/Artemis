@@ -59,13 +59,11 @@
 				                  		<span slot="off">Desactivo</span>
 			                  		</vs-switch>
                    				 </vs-td>
-
-								<vs-td>
+									<vs-td>
+              						<div class="flex items-center">
 									<vx-tooltip text="Editar"> <vs-button @click="$router.push('/editar/padrino/'+data[indextr].id)" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-								</vs-td>
-
-								<vs-td>
 									<vx-tooltip text="Apadrinamientos"> <vs-button radius color="dark" type="flat" icon="list" size="large" @click="openAlert('success',data[indextr])"> </vs-button>  </vx-tooltip>
+								  </div>
 								</vs-td>
 
 							</vs-tr>

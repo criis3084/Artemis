@@ -1,5 +1,6 @@
  <template>
 	<div>
+		<form>
 		<vx-card>
 			<div>
 				<div class="vx-col md:w-1/2 w-full mt-5">
@@ -8,7 +9,8 @@
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="my-4">
 					<small class="date-label">Fecha de Estudio</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha"></datepicker>
+					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha" v-model="fecha" v-validate="'required'"></datepicker>
+					<span class="text-danger">{{ errors.first('fecha') }}</span>
 				</div>
 			</div>
 
@@ -19,14 +21,16 @@
 						<vs-list-header title="1. ¿Cuántos miembros del hogar tienen 13 años de edad o menos?"></vs-list-header>
 						</h4>
 						<ul class="centerx mt-3">
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="133">  0  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="123">  1  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="117">  2  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="112">  3  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="110">  4  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="100">  5  </vs-radio>
+								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="133" required>  0  </vs-radio>
+								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="123" required>  1  </vs-radio>
+								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="117" required>  2  </vs-radio>
+								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="112" required>  3  </vs-radio>
+								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="110" required>  4  </vs-radio>
+								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="100" required>  5  </vs-radio>
 						</ul>
 					</vs-list>
+					<span class="text-danger">{{ errors.first('respuesta1') }}</span>
+
 				</div>
 			</template>
 			
@@ -44,6 +48,8 @@
 							<vs-radio color="success" class="m-3" v-model="respuesta2" vs-value="202">  No hay niños de 7-13 años </vs-radio>
 						</ul>
 					</vs-list>
+					<span class="text-danger">{{ errors.first('respuesta2') }}</span>
+
 				</div>
 			</template>
 			<vs-divider></vs-divider>
@@ -58,6 +64,7 @@
 						<vs-radio color="success" class="m-3" v-model="respuesta3" vs-value="300">  No  </vs-radio>
 					</ul>
 				</vs-list>
+				<span class="text-danger">{{ errors.first('respuesta3') }}</span>
 			</div>
 			</template>
 			<vs-divider></vs-divider>
@@ -156,9 +163,10 @@
 			</vs-alert>
 			<vs-divider></vs-divider>
 
-			<vs-button @click="guardar">Registrar PPI</vs-button>
+			<vs-button @click.prevent="guardar">Registrar PPI</vs-button>
 			</div>
 		</vx-card>
+		</form>
 	</div>
 </template>
 
@@ -167,8 +175,16 @@
 import { es } from 'vuejs-datepicker/src/locale'
 import axios from 'axios'
 import Datepicker from 'vuejs-datepicker'
-
-
+// For custom error message
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+    fecha: {
+	  required: 'La fecha es requerida',
+    },
+  }
+};
+Validator.localize('en', dict);
 export default {
 	data() {
 		return {
@@ -207,6 +223,8 @@ export default {
 			this.ppi_id=id;
 		},
 		guardar(){	
+			 this.$validator.validateAll().then(result => {
+        if(result) {
 			let me = this;
 			this.id=parseInt(this.$route.params.id)
 			axios.post("/api/ppi/post/",{
@@ -228,6 +246,15 @@ export default {
 					console.log(error)
 				});
 				this.buscarCodigo()
+		}
+		 else {
+          this.$vs.notify({
+					color:'danger',
+					title:`Error en validación`,
+					text:'Ingrese correctamente todas las respuestas'
+				})
+        }
+		})
 		},
 		setearValor(unArreglo){
 			this.listadoNinos=unArreglo.slice();
@@ -248,6 +275,12 @@ export default {
 					});
 
 			})
+			let titulo = 'PPI agregado';
+			this.$vs.notify({
+			color:'success',
+			title:`${titulo}`,
+			text:'La acción se realizo exitósamente'
+			});
 			this.$router.push('/apadrinamiento/ppi/'+this.id);
 		},
 		buscarHermanos(codigoT){

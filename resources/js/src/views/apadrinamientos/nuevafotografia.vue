@@ -10,18 +10,21 @@
 			 <div class = "demo-alignment">
                     <h5>Nueva fotografía para el niño:</h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
             </div>
-			<form data-vv-scope="step-2">
+		<form>
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload automatic action="/api/historialFotografia/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Fotografía del niño" />
+						<vs-upload name="ruta" automatic action="/api/historialFotografia/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Fotografía del niño" />
+						<span class="text-danger">{{ this.valImagen }}</span>
 					</template>
 				</div>
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Título de fotografía" v-model="titulo"/>
+					<vs-input name="titulo" v-validate="'required'" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Título de fotografía" v-model="titulo"/>
+						<span class="text-danger">{{ errors.first('titulo') }}</span>
+
 				</div>
 			</div>
 
@@ -31,12 +34,13 @@
 				</div>
 			</div>
 
+			<br>
+			<vs-button @click.prevent="guardar">Registrar imagen</vs-button>
 			
 
 		</form>
 
-        <br>
-		<vs-button @click="guardar">Registrar imagen</vs-button>
+        
 			</div>
 		</vx-card>
 	</div>
@@ -49,6 +53,18 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
 import axios from 'axios'
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+    ruta: {
+	  required: 'La imagen es requerida',
+	},
+	 titulo: {
+	  required: 'El título es requerido',
+    },
+  }
+};
+Validator.localize('en', dict);
 export default {
   data() {
     return {
@@ -61,6 +77,7 @@ export default {
         nombre: '',
 		apellido: '',
 		id_recibido:'',
+		valImagen:'',
 		head:{
 			"imagenanterior":""	
 		},
@@ -72,6 +89,8 @@ export default {
 		this.$router.push('/apadrinamiento/fotografia/'+id_recibido);
 	},
 	guardar(){
+	this.$validator.validateAll().then(result => {
+	if(result && this.ruta!="") {
 		this.id=parseInt(this.$route.params.id)
 		console.log(this.getDate(this.fecha))
 		console.log(this.id,this.valorT,this.valor1)
@@ -82,16 +101,26 @@ export default {
 			titulo:this.titulo,
 		}).then(function(response) {
 				console.log(response)
-				this.$vs.notify({
-					color:'success',
-					title:'Exito',
-					text:'Registro Creado!'
-				});
 			})
 			.catch(function(error) {
 			console.log(error)
 		});
+		this.$vs.notify({
+					color:'success',
+					title:'Éxito',
+					text:'Registro Creado!'
+				});
 		this.$router.push('/apadrinamiento/fotografia/'+this.id);
+	}
+	else {
+		this.valImagen='La imagen es requerida',
+		this.$vs.notify({
+				color:'danger',
+				title:`Error en validación`,
+				text:'Ingrese correctamente todos los datos'
+			})
+	}
+	})
 	},
 	getDate(datetime) {
         let date = new Date(datetime);
@@ -121,6 +150,12 @@ export default {
 	respuesta(e){
 		this.ruta=e.currentTarget.response.replace(/['"]+/g, '')
 		this.head.imagenanterior=this.ruta
+		this.$vs.notify({
+					color:'success',
+					title:'Imagen subida',
+					text:'Acción realizada exitósamente!'
+				});
+		this.valImagen='';
 	},
   },
   mounted(){
