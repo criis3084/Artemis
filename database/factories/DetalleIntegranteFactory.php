@@ -18,5 +18,6 @@ $factory->define(DetalleIntegrante::class, function (Faker $faker) {
         'estado' => $faker->numberBetween($min = 0, $max = 1),
         'destino_inversion_id' => DestinoInversion::pluck('id')[$faker->numberBetween(1,DestinoInversion::count()-1)],
         'microprestamo_id' => Microprestamo::pluck('id')[$faker->numberBetween(1,Microprestamo::count()-1)],
+        'dia_pago' => $faker ->dateTimeBetween($startDate = '-30 years', $endDate = 'now', $timezone = null),
     ];
 });

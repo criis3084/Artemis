@@ -721,6 +721,9 @@ Route::group(['prefix' => 'detalleIntegrante'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.detalleIntegrante', 'uses' => 'DetalleIntegranteController@desactivar'
     ]);
+    Route::put('/updatefecha', [
+        'as' => 'admin.detalleIntegrante', 'uses' => 'DetalleIntegranteController@ActualizarFecha'
+    ]);
 });
 Route::group(['prefix' => 'examen'], function () {
     Route::get('/get', [

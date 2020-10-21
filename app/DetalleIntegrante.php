@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DetalleIntegrante extends Model
 {
-	protected $fillable = ['microprestamo_id','prestamo_individual','encargado_id','grupo_prestamo_id','estado','destino_inversion_id'];
+	protected $fillable = ['microprestamo_id','prestamo_individual','encargado_id','grupo_prestamo_id','estado','destino_inversion_id','dia_pago'];
 
 	public function prestamista(){
 		return $this->belongsTo('App\Encargado','encargado_id','id');

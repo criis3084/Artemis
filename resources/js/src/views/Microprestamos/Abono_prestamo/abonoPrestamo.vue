@@ -114,12 +114,12 @@
 
                             <div class="flex justify-between font-semibold mb-3">
                                 <span>Total a pagar </span>
-                                <span>{{currency(this.AbonoTotal)}}</span>
+                                <span>{{currency(this.cantidad_abono)}}</span>
                             </div>
 
                            
                         </vx-card>
-                         <vs-button class="w-full" @click="printInvoice" >Imprimir</vs-button>
+                         <vs-button class="w-full" v-if="Imprimir==true" @click="printInvoice" >Imprimir</vs-button>
                     </div>
                   </div>
   </div>
@@ -166,7 +166,7 @@ export default{
       duracion:'',
       encargado_nombres:'',
       totalPrestamo:'',
-      cantidad_restante:'',
+      mora_nueva:'',
       detalle_integrante_id:'',
       detalle:'',
       nRecibo:'',
@@ -180,6 +180,7 @@ export default{
       dias:'',
       AbonoTotal:'',
       microprestamo_id:'',
+      Imprimir:false,
       pagarMora:false,
       NuevaFechaPago:'',
       configdateTimePicker: {
@@ -227,7 +228,7 @@ export default{
 
       return tabla
     },
-    async importarEncargados () { //async para que se llame cada vez que se necesite
+    async importarEncargados () { //importa a todos las personas que tenga un grupo asignado
       const me = this
       const hash2 = {}
       const response = await axios.get(
@@ -246,16 +247,16 @@ export default{
     },
 	
     
-    getDate (datetime) {
+    getDate (datetime) { //funcion para dar formato a la fecha
       const date = new Date(datetime)
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
       return dateString
     },
 
-    guardar () {
+    guardar () { //funcion para guardar el abono
       const me = this
       axios.post('/api/abonoPrestamo/post/', {
-        cantidad_abono:this.AbonoTotal,
+        cantidad_abono:this.cantidad_abono,
         cantidad_restante:this.total,
         descripcion:this.descripcion,
         fecha_pago:this.getDate(this.fecha_pago),
@@ -266,6 +267,7 @@ export default{
         console.log(response.data.id)
         me.seterResponse(response.data.id)
         me.ActualizarFechaPago()
+        me.Imprimir = true
         alert('Ingreso correctamente')
   
       })
@@ -275,20 +277,18 @@ export default{
         })
       
     },
-    buscarDatos () {
+    buscarDatos () { //funcion para traer datos del prestamista, desde el la opcion que se selecciona en el select
       console.log(this.detalle.id)
       this.nombreSeleccionado = `${this.detalle.encargado_nombres  } ${  this.detalle.encargado_apellidos}`
-      this.totalPrestamo = this.detalle.microprestamo.total
+      this.totalPrestamo = this.detalle.prestamo_individual
       this.microprestamo_id = this.detalle.microprestamo.id
-      this.interes = this.detalle.microprestamo.interes
-      this.dia_pago = this.detalle.microprestamo.dia_pago
+      this.dia_pago = this.detalle.dia_pago
       this.duracion = this.detalle.microprestamo.duracion
       this.mora = this.detalle.microprestamo.mora_por_atraso
-      this.cantidad_abono = this.detalle.microprestamo.pago_mes
+      this.cantidad_abono = this.detalle.pago_mes
       this.Ngrupo = this.detalle.grupos.nombre
       console.log(`Total Prestamo  ${this.totalPrestamo}`)
       console.log(`Id microprestamo   ${this.microprestamo_id}`)
-      console.log(`interes   ${this.interes}`)
       console.log(`Dia pago   ${this.dia_pago}`)
       console.log(`duracion  ${this.duracion}`)
       console.log(`mora   ${this.mora}`)
@@ -298,8 +298,9 @@ export default{
       this.pagarMora = false
       this.mes = 0
       this.dias = 0
+      this.MoraPorfechas()
     },
-    async buscarAbonos () {
+    async buscarAbonos () { //funcion para verificar si se ya tiene abonos realizados
       const me = this
       this.id_recibido = this.detalle.id
       console.log(`BuscarAbono   ${this.id_recibido}`)
@@ -320,36 +321,17 @@ export default{
         
     },
     
-    MoraPorfechas () {
+    MoraPorfechas () { //funcion que evalua la fecha de pago, para asignar la mora
       const today = new Date()
       const FechaHoy = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
       console.log(today)
       const FechaPago = new Date(this.dia_pago)
       console.log(FechaPago)
-      /*const diferencia = FechaHoy - FechaPago
-      const mes = Math.floor(diferencia / 2629750000)
-      console.log(mes)
-      
-      if (mes === 0) {
-        console.log('Fecha sin mora')
-        this.mora = 0
-        this.AbonoTotal = parseFloat(this.cantidad_abono) + 0
-      } else {
-        console.log('Fecha con mora')
-        this.pagarMora = true
-        this.mora = this.mora * mes
-        this.AbonoTotal = parseFloat(this.cantidad_abono) + parseFloat(this.mora)
-      }
-      return this.AbonoTotal  */
-      /*const fechaActual = `${FechaHoy.getFullYear()}/${mesHoy}/${diaHoy}`
-      const fechaPagar =  `${fechaPago.getFullYear()}/${mesPago}/${diaPago}`
-      console.log(fechaActual)
-      console.log(fechaPago)*/
       
       if (today <= FechaPago) {
         console.log('Fecha sin mora')
         this.mora = 0
-        this.AbonoTotal = parseFloat(this.cantidad_abono) + 0
+        this.mora_nueva = parseFloat(this.deuda) + 0
       } else {
         console.log('Fecha con mora')
         const diferencia = new Date(FechaHoy) - new Date(FechaPago)
@@ -362,26 +344,27 @@ export default{
 
         if (dias > 0 && mes === 0) {
           this.pagarMora = true
-          this.AbonoTotal = parseFloat(this.cantidad_abono) + parseFloat(this.mora) 
+          this.mora_nueva = parseFloat(this.deuda) + parseFloat(this.mora) 
           console.log('Mora por dia')
         } else if (mes >= 1) {
           this.pagarMora = true
-          this.mora = this.mora * mes
-          this.AbonoTotal = parseFloat(this.cantidad_abono) + parseFloat(this.mora) 
+          this.mora = parseFloat(this.mora) * parseFloat(this.mes)
+          this.mora_nueva = parseFloat(this.deuda) + parseFloat(this.mora) 
           console.log('Mora por mes')
+          console.log(this.mora)
         } 
         
         
       }
-      return this.AbonoTotal
+      return this.mora_nueva
       
     },
-    seterResponse (id) {
+    seterResponse (id) { //funcion para resivir el numero de recibo
       this.nRecibo = id
     },
-    ActualizarFechaPago () {
-      axios.put('/api/microprestamo/update/', {
-        id:this.microprestamo_id,
+    ActualizarFechaPago () { //funcion para actualizar la fecha de pago cada que haga un abono
+      axios.put('/api/detalleIntegrante/updatefecha/', {
+        id:this.detalle.id,
         dia_pago:this.getDate(this.NuevaFechaPago)
 		   
       }).then(function (response) {
@@ -398,31 +381,38 @@ export default{
       const dateTime = `${date } ${ time}`
       this.fecha_pago = dateTime
     },
-    Calcular () {
-      this.MoraPorfechas()
+    Calcular () { //funcion para calcular la cantidad pendinte de la deuda
       this.NuevaFecha()
       console.log('Calcular')
       if (this.deuda === 0) {
-        this.total = this.totalPrestamo - this.cantidad_abono 
-      } else this.total = this.deuda - this.cantidad_abono 
+        this.total = this.totalPrestamo - this.cantidad_abono + this.mora_nueva
+      } else this.total = this.deuda - this.cantidad_abono + this.mora_nueva
 
       return this.total
     },
-    NuevaFecha () {
+    NuevaFecha () { //funcion para asignar la nueva fecha de pago al prestamista cada que haga un abono
       const today = new Date()
-      const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
-      const FechaPago = new Date(this.dia_pago)
-      const diaPago = FechaPago.getDate()
-
-      const diferencia = date - FechaPago
-      const anio = diferencia / 31557000000
       
-      if (anio === 0) {
-        this.NuevaFechaPago = FechaPago.setMonth(FechaPago.getMonth() + 1)
+      const FechaPago = this.dia_pago
+      const todaySin = new Date(parseInt(FechaPago.split('-',3)[0]),parseInt(FechaPago.split('-',3)[1]),parseInt(FechaPago.split('-',3)[2]))
+      console.log('Fecha pago')
+      //console.log(todaySin)
+      //const diaPago = FechaPago.getDate()
+
+      const diferencia = new Date(today) - new Date(this.dia_pago)
+      const anio = Math.floor(diferencia / 31557000000)
+      console.log('hay anio?')
+      console.log(anio)
+      if (anio <= 0) {
+        this.NuevaFechaPago = todaySin
+        //this.NuevaFechaPago = FechaPago.setMonth(FechaPago.getMonth() + 1)
+        //this.NuevaFechaPago = FechaPago.setDate(FechaPago.getDate() + 1)
       } else {
-        this.NuevaFechaPago = `${today.getFullYear()}-${FechaPago.getMonth() + 2}-${FechaPago.getDate() + 1}`
+        this.NuevaFechaPago = new Date(today)
+        this.NuevaFechaPago.setMonth(FechaPago.getMonth() + 1)
+        this.NuevaFechaPago.setDate(FechaPago.getDate() + 1)
       }
-      console.log(this.NuevaFechaPago)
+      console.log(this.getDate(this.NuevaFechaPago))
     },
 
     limpiar () {
@@ -433,6 +423,11 @@ export default{
       this.nombreSeleccionado = ''
       this.nRecibo = 0
     },
+
+    desactivar () {
+      
+    },
+
     printInvoice () {
       window.print()
     }
