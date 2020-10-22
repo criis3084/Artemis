@@ -1,10 +1,27 @@
 <template>
 	<div>
 		<vx-card>
+
+			<div class = "demo-alignment">
+				<div class="vx-col md:w-1/3 w-full mt-5">
+            		<vs-button @click="$router.push('/apadrinamiento/estudiosocio/'+id)" type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button>
+        		</div>
+				<div class="flex items-center">
+				<h2>Nuevo estudio socioeconómico</h2>
+				</div>
+				</div>
+				<vs-divider position="right">PID&#174;</vs-divider>
+			<div class = "demo-alignment">
+			<h5><b>Nombre del niño:</b></h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
+			</div><br>
+
+			<form>
 			<div class="vx-col md:w-1/2 w-full mt-1">
 				<div class="my-4">
 					<small class="date-label">Fecha de estudio</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_boleta" v-model="fecha_boleta"></datepicker>
+					<datepicker v-validate="'required'" :language="$vs.rtl ? langEn : langEn" name="fecha_boleta" v-model="fecha_boleta"></datepicker>
+					<span class="text-danger">{{ errors.first('fecha_boleta') }}</span>
+
 				</div>
 			</div>
 
@@ -16,7 +33,9 @@
 					<span>Q</span>	
 				</div>
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-no-border name='total_ingresos' v-model="total_ingresos"/>
+					<vs-input v-validate="'required|numeric|max:6'" class="w-full" icon-no-border name='total' v-model="total_ingresos"/>
+					<span class="text-danger">{{ errors.first('total') }}</span>
+
 				</div>
 				</template>
   				</vx-input-group>
@@ -26,7 +45,9 @@
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Alimentación</small>
-					<vs-textarea class="w-full" icon-pack="feather" icon="icon-user" icon-no-border name='alimentacion' v-model="alimentacion"/>
+					<vs-textarea v-validate="'required|max:254'" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border name='alimentacion' v-model="alimentacion"/>
+					<span class="text-danger">{{ errors.first('alimentacion') }}</span>
+
 				</div>
 			</div>
 
@@ -35,10 +56,12 @@
 					<vs-list-header title="Situación de la vivienda"></vs-list-header>
 					</h4>
 					<ul class="centerx mt-3">
-							<vs-radio color="success" class="m-3" v-model="situacion_vivienda" vs-value="101"> Propia </vs-radio>
-							<vs-radio color="success" class="m-3" v-model="situacion_vivienda" vs-value="102"> Alquilada  </vs-radio>
-							<vs-radio color="success" class="m-3" v-model="situacion_vivienda" vs-value="103"> Prestada </vs-radio>
+							<vs-radio v-validate="'required|included:101,102,103'" name="radio" color="success" class="m-3" v-model="situacion_vivienda" vs-value="101"> Propia </vs-radio>
+							<vs-radio name="radio" color="success" class="m-3" v-model="situacion_vivienda" vs-value="102"> Alquilada  </vs-radio>
+							<vs-radio name="radio" color="success" class="m-3" v-model="situacion_vivienda" vs-value="103"> Prestada </vs-radio>
 					</ul>
+					<span class="text-danger">{{ errors.first('radio') }}</span>
+
 			</vs-list>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
@@ -49,7 +72,9 @@
 					<span>Q</span>	
 				</div>
 				<div class="vx-col w-full">
-					<vs-input class="w-full" name='descripcion_costo' v-model="descripcion_costo"/>
+					<vs-input v-validate="'required|numeric|max:6'" class="w-full" name='costo' v-model="descripcion_costo"/>
+					<span class="text-danger">{{ errors.first('costo') }}</span>
+
 				</div>
 				</template>
   				</vx-input-group>
@@ -70,14 +95,17 @@
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Número de cuartos</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-box" icon-no-border name='cantidad_cuartos' v-model="cantidad_cuartos"/>
+					<vs-input  v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-box" icon-no-border name='cuartos' v-model="cantidad_cuartos"/>
+					<span class="text-danger">{{ errors.first('cuartos') }}</span>
+
 				</div>
 			</div>
 
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Baño</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-droplet" icon-no-border name='bano' v-model="bano"/>
+					<vs-input v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-droplet" icon-no-border name='bano' v-model="bano"/>
+					<span class="text-danger">{{ errors.first('bano') }}</span>
 				</div>
 			</div>
 
@@ -88,38 +116,44 @@
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">paredes</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-grid" icon-no-border name='paredes' v-model="paredes"/>
+					<vs-input v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-grid" icon-no-border name='paredes' v-model="paredes"/>
+					<span class="text-danger">{{ errors.first('paredes') }}</span>
+
 				</div>
 			</div>
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Techo</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-up" icon-no-border name='techo' v-model="techo"/>
+					<vs-input v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-arrow-up" icon-no-border name='techo' v-model="techo"/>
+					<span class="text-danger">{{ errors.first('techo') }}</span>
+
 				</div>
 			</div>
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Piso</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='piso' v-model="piso"/>
+					<vs-input v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='piso' v-model="piso"/>
+					<span class="text-danger">{{ errors.first('piso') }}</span>
+
 				</div>
 			</div>
 
 			<div class="vx-col w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Evaluación general de diagnóstico</small>
-					<vs-textarea class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border name='evaluacion_diagnostico' v-model="evaluacion_diagnostico"/>
+					<vs-textarea v-validate="'required|max:254'" class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border name='evaluacion' v-model="evaluacion_diagnostico"/>
+					<span class="text-danger">{{ errors.first('evaluacion') }}</span>
+
 				</div>
 			</div>
 
-				<div class="flex flex-wrap items-center justify-between mt-2">
-					<vx-input-group class="mb-base mr-3">
-						<vs-button type="gradient" icon-pack="feather" color="success" @click="$router.push('/apadrinamiento/estudiosocio/'+id)">Regesar</vs-button>  
-					</vx-input-group>
-	
-					<div class="flex items-center">
-						<vs-button  class="mb-base mr-3" @click="ingresarEstudio">Registrar Estudio socioeconómico</vs-button>
+				
+	<br>
+					<div class="vx-col md:w-1/3 w-full mt-5">
+						<vs-button  type="gradient" class="mb-base mr-3" icon-pack="feather" icon="icon-file-plus" @click.prevent="ingresarEstudio">Registrar Estudio socioeconómico</vs-button>
 					</div>
-				</div>
+				
+			</form>
 		</vx-card>
 
 
@@ -131,7 +165,57 @@
 import { es } from 'vuejs-datepicker/src/locale'
 import axios from 'axios'
 import Datepicker from 'vuejs-datepicker'
-
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+    fecha_boleta: {
+	  required: 'La fecha de estudio es requerida',
+    },
+    cuartos: {
+	  required: 'El campo número de cuartos es requerido',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	bano: {
+	  required: 'El campo baño es requerido',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	paredes: {
+	  required: 'El campo paredes es requerido',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	techo: {
+	  required: 'El campo techo es requerido',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	piso: {
+	  required: 'El campo piso es requerido',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	alimentacion: {
+	  required: 'El campo alimentación es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
+	},
+	evaluacion: {
+	  required: 'El campo evaluación es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
+    },
+    total: {
+	  required: 'El campo total de ingresos mensuales es requerido',
+	  numeric: 'El campo solo debe de contener números',
+	  max: 'Este campo solo acepta hasta 6 dígitos',
+	},
+	costo: {
+	  required: 'El campo costos de la vivienda es requerido',
+	  numeric: 'El campo solo debe de contener números',
+	  max: 'Este campo solo acepta hasta 6 dígitos',
+	},
+	radio: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+    },
+  }
+};
+Validator.localize('en', dict);
 export default {
 	data() {
 		return {
@@ -152,7 +236,9 @@ export default {
 			evaluacion_diagnostico:'',
 			langEn: es,
 			codigo_familiar:0,
-			id:0
+			id:0,
+			 nombre: '',
+		apellido: '',
 		}
 	},
 	methods: {
@@ -211,6 +297,8 @@ export default {
 			});
 		},
 		ingresarEstudio(){
+		this.$validator.validateAll().then(result => {
+        if(result) {
 			let me = this;
 			axios.post("/api/estudioSocioeconomico/post/",{
 				fecha_boleta:this.getDate(this.fecha_boleta),
@@ -236,13 +324,40 @@ export default {
 				console.log(error)
 			});
 			this.buscarCodigo()
+		}
+		else {
+          this.$vs.notify({
+					color:'danger',
+					title:`Error en validación`,
+					text:'Ingrese correctamente todos los campos'
+				})
+        }
+		})
 		},
+		async index(){ //async para que se llame cada vez que se necesite
+        let me = this;
+        me.id_recibido = this.$route.params.id;
+		const response = await axios.get(
+			`/api/historialFotografia/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
+		.then(function (response) {
+			var respuesta= response.data;
+            me.arrayData = respuesta.historialfotografias.data;
+            me.nombre = respuesta.historialfotografias.data[0].datos_nino[0].nombres;
+            me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
+            me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
+            me.id = respuesta.historialfotografias.data[0].nino.id;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	},
 	},
 	components:{
 		Datepicker,
 	},
 	mounted() {
-		this.id=parseInt(this.$route.params.id)
+		this.id=parseInt(this.$route.params.id);
+		this.index();
 	},
 }
 </script>
