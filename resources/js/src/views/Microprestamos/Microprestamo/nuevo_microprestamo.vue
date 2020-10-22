@@ -132,7 +132,6 @@ export default {
 			else{
 				duracionT = this.duracion
 			}
-
 			if(this.interes == '' || this.interes == null){
 				interesT=0
 			}
