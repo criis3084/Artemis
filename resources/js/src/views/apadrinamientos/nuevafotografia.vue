@@ -1,16 +1,24 @@
 <template>
 	<div>
 		<vx-card>
-			<div>
-				<div class="vx-col md:w-1/2 w-full mt-5">
-            		<vs-button @click="regresar" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
+		<div>
+			<div>	
+			<div class = "demo-alignment">
+				 <div class="vx-col md:w-1/3 w-full mt-5">
+            		<vs-button @click="regresar" type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button>
         		</div>
-			</div>
-			<div>
-			 <div class = "demo-alignment">
-                    <h5>Nueva fotografía para el niño:</h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
+				<div class="flex-1 ">
+				<h2>Nueva fotografía</h2>
+				</div>
             </div>
+			
+			</div>
+				<vs-divider position="right">PID&#174;</vs-divider>
+			
 		<form>
+			<div class = "demo-alignment">
+			<h5><b>Nombre del niño:</b></h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
+			</div>
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
@@ -22,7 +30,7 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input name="titulo" v-validate="'required'" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Título de fotografía" v-model="titulo"/>
+					<vs-input name="titulo" v-validate="'required'" class="w-full" icon-pack="feather" icon="icon-bold" icon-no-border label-placeholder="Título de fotografía" v-model="titulo"/>
 						<span class="text-danger">{{ errors.first('titulo') }}</span>
 
 				</div>
@@ -35,7 +43,7 @@
 			</div>
 
 			<br>
-			<vs-button @click.prevent="guardar">Registrar imagen</vs-button>
+			<vs-button icon-pack="feather" type="gradient" icon="icon-save" @click.prevent="guardar">Registrar imagen</vs-button>
 			
 
 		</form>
@@ -113,7 +121,7 @@ export default {
 		this.$router.push('/apadrinamiento/fotografia/'+this.id);
 	}
 	else {
-		this.valImagen='La imagen es requerida',
+		
 		this.$vs.notify({
 				color:'danger',
 				title:`Error en validación`,

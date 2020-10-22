@@ -1,10 +1,9 @@
 <template>
 <div id="item-detail-page">
     <vx-card title="Información del niño">
-
-
       <template slot="no-body">
-
+        <!-- <h2>Información del niño</h2> -->
+				<vs-divider position="right">PID&#174;</vs-divider>
         <div class="item-content">
 
           <!-- Item Main Info -->
@@ -25,9 +24,13 @@
 
               <!-- Item Content -->
               <div class="vx-col md:w-3/5 w-full">
+                    <vs-button @click="goBack" class="mr-4" type="border" radius icon-pack="feather" size="small" color="primary" icon="icon-corner-up-left"></vs-button>
+
                 <span>Nombres y apellidos</span>
                 <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.nombresT +" " + this.apellidosT }}</h1>
-                <p>{{"Código"+" "+ this.codigoT }}</p>
+                <br>
+                <span>Código</span>
+               <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{this.codigoT }}</h1>
 
                 <vs-divider />
                 <span>Datos Personales</span>
@@ -65,7 +68,7 @@
                 <div class="vx-row">
                   <div class="vx-col flex flex-wrap items-center">
                    <vs-button class="mr-4" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/editar/ninono/'+id_recibido)">Editar Información</vs-button>  
-                    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
+                    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>
                   </div>
                 </div>
 

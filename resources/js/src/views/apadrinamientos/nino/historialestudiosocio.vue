@@ -1,23 +1,22 @@
 	<template>
 			<div>
+				<vx-card  class="mb-base">
 				<div class = "demo-alignment">
+					<div class="vx-col md:w-1/5 w-full mt-5">
+						<router-link to="/apadrinamiento/nino"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+					</div>
 					<h2>Historial de Estudio Socioeconómico</h2>
 					<vx-tooltip text = "Agregar nuevo Estudio Socioeconómico"> 
                       <vs-button @click="$router.push('/ingresar/estudiosocio/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button>
                     </vx-tooltip>
 				</div>
+				<vs-divider position="right">PID&#174;</vs-divider>
 				<div class = "demo-alignment">
 			<h5> <b>Nombre del niño: </b> </h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
 		</div>
 		<div class = "demo-alignment">
 			<h5> <b>Código: </b> </h5><h5>{{codigo}}</h5>
 		</div>
-			<br>
-			<div class="vx-col md:w-1/3 w-full mt-5">
-  <router-link to="/apadrinamiento/nino"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
-    </div>
-	<br>
-				<vx-card  class="mb-base">
 					<vs-table pagination max-items="5" search :data="arrayData">
 
 						<template slot="thead">
@@ -41,6 +40,9 @@
 							</vs-tr>
 						</template>
 					</vs-table>
+					<div class="vx-col md:w-1/3 w-full mt-5">
+						<router-link to="/apadrinamiento/nino"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+					</div>
 				</vx-card>
 				
 </div>

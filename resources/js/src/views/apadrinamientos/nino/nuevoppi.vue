@@ -3,12 +3,22 @@
 		<form>
 		<vx-card>
 			<div>
-				<div class="vx-col md:w-1/2 w-full mt-5">
-            		<vs-button @click="regresar" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
+
+				<div class = "demo-alignment">
+				<div class="vx-col md:w-1/3 w-full mt-5">
+            		<vs-button @click="regresar" type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button>
         		</div>
+				<div class="flex items-center">
+				<h2>Nuevo PPI</h2>
+				</div>
+				</div>
+				<vs-divider position="right">PID&#174;</vs-divider>
+			<div class = "demo-alignment">
+			<h4><b>Nombre del niño:</b></h4><h4>{{nombre}}</h4><h4>{{apellido}}</h4>
+			</div><br>
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="my-4">
-					<small class="date-label">Fecha de Estudio</small>
+					<h5 class="text-primary"><b>Fecha de Estudio</b></h5>
 					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha" v-model="fecha" v-validate="'required'"></datepicker>
 					<span class="text-danger">{{ errors.first('fecha') }}</span>
 				</div>
@@ -17,16 +27,16 @@
 			<template>
 				<div class="vx-row mb-2">
 					<vs-list>
-						<h4> 
+						<h5> 
 						<vs-list-header title="1. ¿Cuántos miembros del hogar tienen 13 años de edad o menos?"></vs-list-header>
-						</h4>
+						</h5>
 						<ul class="centerx mt-3">
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="133" required>  0  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="123" required>  1  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="117" required>  2  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="112" required>  3  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="110" required>  4  </vs-radio>
-								<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="100" required>  5  </vs-radio>
+								<vs-radio v-validate="'required|included:133,123,117,112,110,100'" name="respuesta1" color="success" class="m-3" v-model="respuesta1" vs-value="133">  0  </vs-radio>
+								<vs-radio name="respuesta1" color="success" class="m-3" v-model="respuesta1" vs-value="123">  1  </vs-radio>
+								<vs-radio name="respuesta1" color="success" class="m-3" v-model="respuesta1" vs-value="117">  2  </vs-radio>
+								<vs-radio name="respuesta1" color="success" class="m-3" v-model="respuesta1" vs-value="112">  3  </vs-radio>
+								<vs-radio name="respuesta1" color="success" class="m-3" v-model="respuesta1" vs-value="110">  4  </vs-radio>
+								<vs-radio name="respuesta1" color="success" class="m-3" v-model="respuesta1" vs-value="100">  5  </vs-radio>
 						</ul>
 					</vs-list>
 					<span class="text-danger">{{ errors.first('respuesta1') }}</span>
@@ -39,13 +49,13 @@
 			<template>
 				<div class="vx-row mb-2">
 					<vs-list>
-						<h4> 
+						<h5> 
 						<vs-list-header title="2. De los niños de 7-13 años de edad, ¿están todos estudiando?"></vs-list-header>
-						</h4>
+						</h5>
 						<ul class="centerx mt-3">
-							<vs-radio color="success" class="m-3" v-model="respuesta2" vs-value="206">  Sí  </vs-radio>
-							<vs-radio color="success" class="m-3" v-model="respuesta2" vs-value="200">  No  </vs-radio>
-							<vs-radio color="success" class="m-3" v-model="respuesta2" vs-value="202">  No hay niños de 7-13 años </vs-radio>
+							<vs-radio v-validate="'required|included:206,200,202'" name="respuesta2" color="success" class="m-3" v-model="respuesta2" vs-value="206">  Sí  </vs-radio>
+							<vs-radio name="respuesta2" color="success" class="m-3" v-model="respuesta2" vs-value="200">  No  </vs-radio>
+							<vs-radio name="respuesta2" color="success" class="m-3" v-model="respuesta2" vs-value="202">  No hay niños de 7-13 años </vs-radio>
 						</ul>
 					</vs-list>
 					<span class="text-danger">{{ errors.first('respuesta2') }}</span>
@@ -56,12 +66,12 @@
 			<template>
 			<div class="vx-row mb-2">
 				<vs-list>
-					<h4> 
+					<h5> 
 					<vs-list-header title="3. ¿Sabe la madre leer y escribir?"></vs-list-header>
-					</h4>
+					</h5>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta3" vs-value="306">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta3" vs-value="300">  No  </vs-radio>
+						<vs-radio v-validate="'required|included:306,300'" name="respuesta3" color="success" class="m-3" v-model="respuesta3" vs-value="306">  Sí  </vs-radio>
+						<vs-radio name="respuesta3" color="success" class="m-3" v-model="respuesta3" vs-value="300">  No  </vs-radio>
 					</ul>
 				</vs-list>
 				<span class="text-danger">{{ errors.first('respuesta3') }}</span>
@@ -70,88 +80,102 @@
 			<vs-divider></vs-divider>
 			<div class="vx-row mb-2">
 				<vs-list>
-					<h4> 
+					<h5> 
 					<vs-list-header title="4. ¿Trabaja algún miembro de la familia como jornalero o empleado doméstcio?"></vs-list-header>
-					</h4>
+					</h5>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta4" vs-value="400">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta4" vs-value="405">  No  </vs-radio>
+						<vs-radio v-validate="'required|included:400,405'" name="respuesta4" color="success" class="m-3" v-model="respuesta4" vs-value="400">  Sí  </vs-radio>
+						<vs-radio name="respuesta4" color="success" class="m-3" v-model="respuesta4" vs-value="405">  No  </vs-radio>
 					</ul>
 				</vs-list>
+				<span class="text-danger">{{ errors.first('respuesta4') }}</span>
+
 			</div>
 			<vs-divider></vs-divider>
 			<div class="vx-row mb-2">
 				<vs-list>
-					<h4> 
+					<h5> 
 					<vs-list-header title="5. ¿Qué tipo de piso tiene la casa?"></vs-list-header>
-					</h4>
+					</h5>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta5" vs-value="500">  Tierra  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta5" vs-value="503">  Torta  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta5" vs-value="509">  Ladrillo de cemento</vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta5" vs-value="515">  Cerámico </vs-radio>
+						<vs-radio v-validate="'required|included:500,503,509,515'" name="respuesta5" color="success" class="m-3" v-model="respuesta5" vs-value="500">  Tierra  </vs-radio>
+						<vs-radio name="respuesta5" color="success" class="m-3" v-model="respuesta5" vs-value="503">  Torta  </vs-radio>
+						<vs-radio name="respuesta5" color="success" class="m-3" v-model="respuesta5" vs-value="509">  Ladrillo de cemento</vs-radio>
+						<vs-radio name="respuesta5" color="success" class="m-3" v-model="respuesta5" vs-value="515">  Cerámico </vs-radio>
 					</ul>
 				</vs-list>
+				<span class="text-danger">{{ errors.first('respuesta5') }}</span>
+
 			</div>
 			<vs-divider></vs-divider>
 			<div class="vx-row mb-2">
 				<vs-list>
-					<h4> 
+					<h5> 
 					<vs-list-header title="6. ¿En su casa hay refrigerador?"></vs-list-header>
-					</h4>
+					</h5>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta6" vs-value="609">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta6" vs-value="600">  No  </vs-radio>
+						<vs-radio v-validate="'required|included:609,600'" name="respuesta6" color="success" class="m-3" v-model="respuesta6" vs-value="609">  Sí  </vs-radio>
+						<vs-radio name="respuesta6" color="success" class="m-3" v-model="respuesta6" vs-value="600">  No  </vs-radio>
 					</ul>
 				</vs-list>
+				<span class="text-danger">{{ errors.first('respuesta6') }}</span>
+
 			</div>
 			<vs-divider></vs-divider>
 			<div class="vx-row mb-2">
 				<vs-list>
-					<h4> 
+					<h5> 
 					<vs-list-header title="7. ¿En su casa hay estufa eléctrica o de gas?"></vs-list-header>
-					</h4>
+					</h5>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta7" vs-value="708">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta7" vs-value="700">  No  </vs-radio>
+						<vs-radio v-validate="'required|included:708,700'" name="respuesta7" color="success" class="m-3" v-model="respuesta7" vs-value="708">  Sí  </vs-radio>
+						<vs-radio name="respuesta7" color="success" class="m-3" v-model="respuesta7" vs-value="700">  No  </vs-radio>
 					</ul>
 				</vs-list>
+				<span class="text-danger">{{ errors.first('respuesta7') }}</span>
+
 			</div>
 			<vs-divider></vs-divider>
 			<div class="vx-row mb-2">
 				<vs-list>
-					<h4> 
+					<h5> 
 					<vs-list-header title="8. ¿Muele maíz en su casa o lo lleva al molino?"></vs-list-header>
-					</h4>
+					</h5>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta8" vs-value="800">  En su casa  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta8" vs-value="803">  Al molino </vs-radio>
+						<vs-radio v-validate="'required|included:800,803'" name="respuesta8" color="success" class="m-3" v-model="respuesta8" vs-value="800">  En su casa  </vs-radio>
+						<vs-radio name="respuesta8" color="success" class="m-3" v-model="respuesta8" vs-value="803">  Al molino </vs-radio>
 					</ul>
 				</vs-list>
+				<span class="text-danger">{{ errors.first('respuesta8') }}</span>
+
 			</div>
 			<vs-divider></vs-divider>
 			<div class="vx-row mb-2 md:w-1/2">
 				<vs-list>
-					<h4> 
+					<h5> 
 					<vs-list-header title="9. ¿En su casa hay plancha eléctrica?"></vs-list-header>
-					</h4>
+					</h5>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta9" vs-value="908">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta9" vs-value="900">  No  </vs-radio>
+						<vs-radio v-validate="'required|included:908,900'" name="respuesta9" color="success" class="m-3" v-model="respuesta9" vs-value="908">  Sí  </vs-radio>
+						<vs-radio name="respuesta9" color="success" class="m-3" v-model="respuesta9" vs-value="900">  No  </vs-radio>
 					</ul>
 				</vs-list>
+				<span class="text-danger">{{ errors.first('respuesta9') }}</span>
+
 			</div>
 			<vs-divider></vs-divider>
 			<div class="vx-row mb-2 md:w-1/2">
 				<vs-list>
-					<h4> 
+					<h5> 
 					<vs-list-header title="10. ¿Alguien en el hogar tiene una empresa de agricultura?"></vs-list-header>
-					</h4>
+					</h5>
 					<ul class="centerx mt-3">
-						<vs-radio color="success" class="m-3" v-model="respuesta10" vs-value="1003">  Sí  </vs-radio>
-						<vs-radio color="success" class="m-3" v-model="respuesta10" vs-value="1000">  No  </vs-radio>
+						<vs-radio v-validate="'required|included:1003,1000'" name="respuesta10" color="success" class="m-3" v-model="respuesta10" vs-value="1003">  Sí  </vs-radio>
+						<vs-radio name="respuesta10" color="success" class="m-3" v-model="respuesta10" vs-value="1000">  No  </vs-radio>
 					</ul>
 				</vs-list>
+				<span class="text-danger">{{ errors.first('respuesta10') }}</span>
+
 			</div>
 			<vs-divider></vs-divider>
 
@@ -181,7 +205,47 @@ const dict = {
   custom: {
     fecha: {
 	  required: 'La fecha es requerida',
-    },
+	},
+	respuesta1: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
+	respuesta2: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
+	respuesta3: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
+	respuesta4: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
+	respuesta5: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
+	respuesta6: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
+	respuesta7: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
+	respuesta8: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
+	respuesta9: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
+	respuesta10: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
   }
 };
 Validator.localize('en', dict);
@@ -207,6 +271,8 @@ export default {
 			valor6:0,
 			valor7:0,
 			valor8:0,
+			 nombre: '',
+		apellido: '',
 			valor9:0,
 			valor10:0,
 			valorT:0,
@@ -223,7 +289,7 @@ export default {
 			this.ppi_id=id;
 		},
 		guardar(){	
-			 this.$validator.validateAll().then(result => {
+		this.$validator.validateAll().then(result => {
         if(result) {
 			let me = this;
 			this.id=parseInt(this.$route.params.id)
@@ -347,9 +413,29 @@ export default {
 			
 			return "Total: " + (this.valor1+this.valor2+this.valor3+this.valor4+this.valor5+this.valor6+this.valor7+this.valor8+this.valor9+this.valor10)
 		},
+		async index(){ //async para que se llame cada vez que se necesite
+        let me = this;
+        me.id_recibido = this.$route.params.id;
+		const response = await axios.get(
+			`/api/historialFotografia/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
+		.then(function (response) {
+			var respuesta= response.data;
+            me.arrayData = respuesta.historialfotografias.data;
+            me.nombre = respuesta.historialfotografias.data[0].datos_nino[0].nombres;
+            me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
+            me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
+            me.id = respuesta.historialfotografias.data[0].nino.id;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	},
 	  },
 	components: {
 		Datepicker,
 	},
+	mounted(){
+    this.index();
+  },
 }
 </script>
