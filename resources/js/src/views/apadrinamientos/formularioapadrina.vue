@@ -2,9 +2,8 @@
  <div>
 		<div class="demo-alignment">
 			<h2>Apadrinamientos</h2>
-			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
+			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon="group_add" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
-	<br>
   
     <vs-prompt
       @cancel="clearValMultiple"

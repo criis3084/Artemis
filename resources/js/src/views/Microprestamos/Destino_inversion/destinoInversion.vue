@@ -2,7 +2,7 @@
 	<div>
 		<vx-card>
 			<ingresardes v-on:cerrado="index();"></ingresardes>
-
+           									<vs-divider position="right">PID&#174;</vs-divider>
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         		<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         		<v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -17,7 +17,6 @@
           			<vs-button @click="activePrompt=true">Exportar</vs-button>
         		</template>
             	<template slot="thead">
-					<vs-th>Id</vs-th>
 					<vs-th>Nombre</vs-th>
 					<vs-th>Estado</vs-th>
 					<vs-th>Acciones</vs-th>
@@ -26,9 +25,7 @@
 				<template slot-scope="{data}">
                 <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
-                    <vs-td :data="data[indextr].id">
-                        {{data[indextr].id}}
-                    </vs-td>
+                
 
                     <vs-td :data="data[indextr].nombre">
                         {{data[indextr].nombre}}

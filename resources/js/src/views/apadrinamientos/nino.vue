@@ -23,8 +23,8 @@
 						<template slot="thead">
 							<vs-th>Ver</vs-th>
 							<vs-th>Código</vs-th>
-							<vs-th>Nombres</vs-th>
-							<vs-th>Apellidos</vs-th>
+							<vs-th>Nombre</vs-th>
+							<!-- <vs-th>Apellidos</vs-th> -->
 							<vs-th>Género</vs-th>
 							<vs-th>Fecha de Nacimiento</vs-th>
 							<vs-th>Fecha de Ingreso</vs-th>
@@ -42,11 +42,11 @@
 								<vs-td>
 									<div class="flex items-center">
 										<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
-										{{data[indextr].datos.nombres}}
+										{{data[indextr].datos.nombres + " " + data[indextr].datos.apellidos }}
 									</div>
 								</vs-td>
 								<!-- <vs-td>{{data[indextr].datos.nombres}}</vs-td> -->
-								<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
+								<!-- <vs-td>{{data[indextr].datos.apellidos}}</vs-td> -->
 								<vs-td>{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}</vs-td>
 								<vs-td>{{data[indextr].datos.fecha_nacimiento}}</vs-td>
 								<vs-td>{{data[indextr].fecha_ingreso}}</vs-td>

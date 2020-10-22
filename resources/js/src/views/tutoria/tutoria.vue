@@ -2,6 +2,8 @@
 	<div>
 		<vx-card>
 			<formulariotutoria v-on:cerrado="index();"></formulariotutoria>
+				<vs-divider position="right">PID&#174;</vs-divider>
+
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
 				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
 				<v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -16,11 +18,9 @@
 				</template>
 				<template slot="thead">
 					<vs-th>Razón tutoría</vs-th>
-					<vs-th>Nombres Niño</vs-th>
-					<vs-th>Apellidos Niño</vs-th>
+					<vs-th>Nombre Niño</vs-th>
 					<vs-th>Género Niño</vs-th>
-					<vs-th>Nombres Tutor</vs-th>
-					<vs-th>Apellidos Tutor</vs-th>
+					<vs-th>Nombre Tutor</vs-th>
 					<vs-th>Fecha</vs-th>
 					<vs-th>Estado</vs-th>
 					<vs-th>Acciones</vs-th>
@@ -29,8 +29,8 @@
 				<template slot-scope="{ data }">
 					<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 						<vs-td>{{ data[indextr].nombre }}</vs-td>
-						<vs-td>{{ data[indextr].nino_nombres }}</vs-td>
-						<vs-td>{{ data[indextr].nino_apellidos }}</vs-td>
+						<vs-td>{{ data[indextr].nino_nombres + " " + data[indextr].nino_apellidos}}</vs-td>
+						
 						<vs-td>
 						{{
 							data[indextr].datos_nino[0].genero == 1
@@ -38,8 +38,8 @@
 							: "Femenino"
 						}}</vs-td
 						>
-						<vs-td>{{ data[indextr].tutor_nombres }}</vs-td>
-						<vs-td>{{ data[indextr].tutor_apellidos }}</vs-td>
+						<vs-td>{{ data[indextr].tutor_nombres + " " + data[indextr].tutor_apellidos}}</vs-td>
+					
 						<vs-td>{{ data[indextr].fecha }}</vs-td>
 						<vs-td :data="data[indextr].estado">
 							<vs-switch

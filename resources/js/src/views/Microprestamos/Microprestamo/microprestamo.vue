@@ -3,10 +3,11 @@
     <vx-card>
 
         <div class = "demo-alignment">
-						<h2>Micro Préstamos</h2>
+						<h2>Micropréstamos</h2>
 						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
 					</div>
-					<br>
+					           									<vs-divider position="right">PID&#174;</vs-divider>
+
 		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
    
      
@@ -23,11 +24,13 @@
         </template>
         <template slot="thead">
             <vs-th>Ver</vs-th>
+            <vs-th>Id</vs-th>
+
 		  	<vs-th>Total</vs-th>
 		    <vs-th>Interés</vs-th>
             <vs-th>Fecha</vs-th>
             <vs-th>Duración</vs-th>
-            <vs-th>Dia de Pago</vs-th>
+            <vs-th>Día de Pago</vs-th>
             <vs-th>Mora</vs-th>
 			<vs-th>Estado</vs-th>
             <vs-th>Acciones</vs-th>
@@ -38,6 +41,8 @@
             <vs-td>
 				<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/vivienda/'+data[indextr].id)"></vs-button></vx-tooltip>			
 			</vs-td>
+            <vs-td>{{data[indextr].id}}</vs-td>
+
             <vs-td>{{ currency(data[indextr].total) }}</vs-td>
             <vs-td>% {{ data[indextr].interes }}</vs-td>
             <vs-td>{{ data[indextr].fecha_inicio}}</vs-td>

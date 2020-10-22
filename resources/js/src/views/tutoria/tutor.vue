@@ -3,9 +3,10 @@
 		<vx-card>
 					<div class = "demo-alignment">
 						<h2>Tutores</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
+						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon = "person_add" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
 					</div>
-					<br>
+									<vs-divider position="right">PID&#174;</vs-divider>
+
 		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -21,14 +22,12 @@
         </template>
 				<template slot="thead">
                     <vs-th>Ver</vs-th>
-					<vs-th>Id</vs-th>
-                    <vs-th>Nombres</vs-th>
-                    <vs-th>Apellidos</vs-th>
+					
+                    <vs-th>Nombre</vs-th>
 					<vs-th>Especialidad</vs-th>
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Estado</vs-th>
-					<vs-th></vs-th>
-                    <vs-th></vs-th>
+					<vs-th>Acciones</vs-th>
 				</template>
 
 				<template slot-scope="{data}">
@@ -36,15 +35,14 @@
                         <vs-td>
 						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/tutor/'+data[indextr].id)"></vs-button></vx-tooltip>			
 					    </vs-td>
-						<vs-td :data="data[indextr].datos.id">{{data[indextr].datos.id}}</vs-td>
+					
 
 						<vs-td>
 								<div class="flex items-center">
 								<vs-avatar :src="data[indextr].imagen_perfil" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
-								{{data[indextr].nombres}}
+								{{data[indextr].nombres + " " + data[indextr].apellidos}} 
 								</div>
 						</vs-td>
-		            	<vs-td :data="data[indextr].datos.apellidos" >{{data[indextr].apellidos}}</vs-td>
         			    <vs-td :data="data[indextr].especialidad">{{data[indextr].especialidad}}</vs-td>
                         <vs-td :data="data[indextr].datos.telefono">{{data[indextr].numero_telefono}}</vs-td>
 						<vs-td>
@@ -54,10 +52,11 @@
 							</vs-switch>
 						</vs-td>
 						<vs-td>
+							<div class="flex items-center">
 							<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/tutor/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
-						</vs-td>
-                        <vs-td>
+						
 							<vx-tooltip text="Listado de tutorias"> <vs-button radius color="dark" type="flat" icon="list" size="large" @click="openAlert('success',data[indextr])"> </vs-button>  </vx-tooltip>
+							</div>
 						</vs-td>
 					</vs-tr>
 				</template>
