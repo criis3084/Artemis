@@ -20,7 +20,8 @@ class CreateDetalleIntegrantesTable extends Migration
 			$table->foreignId('grupo_prestamo_id')->constrained();
             $table->foreignId('destino_inversion_id')->constrained();
             $table->foreignId('microprestamo_id')->constrained();
-			$table->boolean('estado')->default(1);
+            $table->boolean('estado')->default(1);
+            $table->date('dia_pago');
 			$table->timestamps();
         });
     }

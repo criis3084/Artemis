@@ -31,8 +31,7 @@
 					<!-- <vs-th>Fecha de Ingreso</vs-th> -->
 				
 					<vs-th></vs-th>
-					<vs-th></vs-th>
-					<vs-th></vs-th>
+					<!-- <vs-th></vs-th> -->
 				</template>
 
 				<template slot-scope="{data}">

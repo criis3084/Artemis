@@ -18,7 +18,7 @@
         </div>
 
 
-        <div class="vx-row mb-6">
+     <!--   <div class="vx-row mb-6">
           <div class="vx-col md:w-1/2 w-full mt-6">
 			<small class="date-label">Costos de la vivienda</small>
 				<vx-input-group class="mb-base">
@@ -33,7 +33,7 @@
           </template>
   				</vx-input-group>
           </div>
-        </div>
+        </div>  -->
 
 
         <div class="vx-row">
@@ -115,11 +115,17 @@ export default {
       nombresE:[],
       detalleIntegrante:[],
       encargadosDetalle:[],
-      NuevoEncargado:[]
+      NuevoEncargado:[],
+      dia_pago: new Date()
       
     }
   },
   methods:{
+    getDate (datetime) { //funcion para dar formato a la fecha
+      const date = new Date(datetime)
+      const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+      return dateString
+    },
     traerNombre (tabla) {
       tabla.forEach(function (valor, indice, array) { //Para tabla encargado
         valor.encargado_nombres = valor.datos.nombres
@@ -154,8 +160,8 @@ export default {
           prestamo_individual:elemento.prestamo_individual,
           grupo_prestamo_id:id,
           encargado_id:elemento.encargado_id,
-          destino_inversion_id:elemento.destino_inversion_id
-
+          destino_inversion_id:elemento.destino_inversion_id,
+          dia_pago: '2020/4/2'
         }).then(function (response) {
           console.log(response)
           alert('Integrantes agregados al grupo correctamente')
@@ -174,7 +180,7 @@ export default {
         nombre: this.nombre,
         descripcion:this.descripcion,
         cantidad_ultimo_prestamo:0,
-        cantidad_prestamo_actual:this.cantidad_prestamo_actual,
+        cantidad_prestamo_actual:0,
         interes_ultimo_prestamo:0
 
       }).then(function (response) {

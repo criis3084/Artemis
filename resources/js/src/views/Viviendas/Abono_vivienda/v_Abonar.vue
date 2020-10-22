@@ -111,7 +111,7 @@
 
                            
                         </vx-card>
-                         <vs-button class="w-full" @click="printInvoice" >Imprimir</vs-button>
+                         <vs-button class="w-full" @click="printInvoice" v-if="imprimir == true">Imprimir</vs-button>
                     </div>
                   </div>
   </div>
@@ -165,6 +165,7 @@ export default{
       deuda:'',
       costoV:'',
       nRecibo:'',
+      imprimir:false,
       alerta:false,
       configdateTimePicker: {
         date: null,
@@ -282,6 +283,7 @@ export default{
         console.log(response.data.id)
         me.seterResponse(response.data.id)
         me.desactivar()
+        me.imprimir = true
         alert('Ingreso correctamente')
       })
         .catch(function (error) {

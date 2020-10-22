@@ -14,7 +14,10 @@
 			<h5> <b>Código: </b> </h5><h5>{{codigo}}</h5>
 		</div>
 			<br>
-
+		<div class="vx-col md:w-1/3 w-full mt-5">
+			<router-link to="/apadrinamiento/nino"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+		</div>
+		<br>
 		<!-- <div class = "demo-alignment">
 		<div id="demo-basic-card"  v-for="historialfotografia in arrayData" :key="historialfotografia.id">
 			<div class="vx-row" >
@@ -32,7 +35,7 @@
 			</div>
 		</div>
 		</div> -->
-		<vx-card>
+		<vx-card class="mb-base">
 			<vs-table stripe max-items="5" :data="arrayData">
 				<template slot="thead">
 					<vs-th>Imagen</vs-th>
@@ -62,9 +65,7 @@
 			</vs-table>
 	
 		</vx-card>
-		<div class="vx-col md:w-1/2 w-full mt-5">
-			<router-link to="/apadrinamiento/nino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
-		</div>
+		
 	</div>
 </template>
 

@@ -39,7 +39,7 @@
             <table>
               <tr>
                 <td class="font-semibold">Total de prestamo</td>
-                <td>{{detalles.microprestamo.total}}</td>
+                <td>{{detalles.prestamo_individual}}</td>
               </tr>
               <tr>
                 <td class="font-semibold">Destino de inversión</td>

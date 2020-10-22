@@ -160,6 +160,7 @@ export default {
 			return dateString;
 		},
 		ingresarIntegrantes(idMicroprestamo){
+			const diaPago = this.getDate(this.dia_pago)
 			console.log('id desde funcion')
 			console.log(idMicroprestamo)
 			let contador=0
@@ -175,7 +176,8 @@ export default {
 					id:elemento.id,
 					prestamo_individual:listaCantidadesO[indice],
 					destino_inversion_id:listaInversionesO[indice].id,
-					microprestamo_id:idMicroprestamo
+					microprestamo_id:idMicroprestamo,
+					dia_pago:diaPago,
 				}).then(function(response) {
 					console.log(response)
 				})

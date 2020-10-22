@@ -209,7 +209,7 @@ export default {
 		},
 		estudia(value){
 			if(value==false){
-				this.grado='XXXX'
+				this.grado='No estudia'
 				this.escuela_id={id:1}
 			}
 			if(value==true){

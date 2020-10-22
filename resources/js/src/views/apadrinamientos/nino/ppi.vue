@@ -6,8 +6,17 @@
                       <vs-button @click="$router.push('/ingresar/ppi/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button>
                     </vx-tooltip>
 				</div>
+				<div class = "demo-alignment">
+					<h5> <b>Nombre del niño: </b> </h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
+				</div>
+				<div class = "demo-alignment">
+					<h5> <b>Código: </b> </h5><h5>{{codigo}}</h5>
+				</div>
 				<br>
-				<vx-card :title="titulo()" class="mb-base">
+				<vx-card  class="mb-base">
+					<div class="vx-col md:w-1/3 w-full mt-5">
+					<router-link to="/apadrinamiento/nino"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+					</div>
 					<chartjs-component-line-chart :height="125" v-if="ya" :data="datos" :options="opciones"></chartjs-component-line-chart>
 				<vs-divider></vs-divider>
 				<!--
@@ -39,9 +48,7 @@
 						</template>
 					</vs-table>
 				</vx-card>
-				<div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/apadrinamiento/nino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
-    </div>
+				
 </div>
 </template>
 
