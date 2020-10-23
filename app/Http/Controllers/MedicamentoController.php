@@ -19,17 +19,17 @@ class MedicamentoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$medicamento = Medicamento::with('categoria')->with('casaMedica')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$medicamento = Medicamento::with('categoria')->with('lotes')->with('casaMedica')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$medicamento = Medicamento::with('categoria')->with('casaMedica')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$medicamento = Medicamento::with('categoria')->with('lotes')->with('casaMedica')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$medicamento = Medicamento::with('categoria')->with('casaMedica')->orderBy('id', 'desc')->paginate($count);
+				$medicamento = Medicamento::with('categoria')->with('lotes')->with('casaMedica')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$medicamento = Medicamento::with('categoria')->with('casaMedica')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$medicamento = Medicamento::with('categoria')->with('lotes')->with('casaMedica')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [

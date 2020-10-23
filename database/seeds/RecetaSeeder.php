@@ -11,6 +11,6 @@ class RecetaSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Receta::class, 50)->create();
+        factory(App\Receta::class, 500)->create();
     }
 }

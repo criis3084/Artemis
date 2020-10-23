@@ -16,6 +16,7 @@ class CreateRecetasTable extends Migration
         Schema::create('recetas', function (Blueprint $table) {
 			$table->id();
 			$table->text('listado');
+			$table->boolean('estado')->default(1);
 			$table->foreignId('historial_clinico_id')->constrained();
 			$table->timestamps();
         });

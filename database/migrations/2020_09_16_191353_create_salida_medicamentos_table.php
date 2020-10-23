@@ -17,6 +17,7 @@ class CreateSalidaMedicamentosTable extends Migration
 			$table->id();
 			$table->date('fecha_salida');
 			$table->text('descripcion');
+			$table->boolean('tipo_salida')->default(0);
 			$table->boolean('estado')->default(1);
 			$table->foreignId('usuario_id')->constrained();
 			$table->foreignId('paciente_id')->constrained();

@@ -1,10 +1,23 @@
 <template>
 	<div>
 		<vx-card>
-
-			<div v-for="(beneficio,id) in listado_beneficios" :key="id">
-					<vs-checkbox class="mt-2" color="dark" icon-pack="feather" icon="icon-check" v-model="estados[id]"> Entrega del mes de <b>{{ nombreMes(beneficio.fecha_entrega.split('-',3)[1]) }} del {{beneficio.fecha_entrega.split('-',3)[0]}} </b> </vs-checkbox>
+			<div class="vx-row leading-loose p-base">
+                <div class="vx-col w-1/2">
+                    <h1><b>Paciente:</b> </h1>
+                    <h2>{{informacion.nombres + ' ' + informacion.apellidos}} </h2>
+                </div>
+				<div class="vx-col w-1/2 text-right">
+                    <h2> <b>Tipo de Paciente:</b>  </h2>
+                        <h3>{{informacion.tipo_paciente.nombre}} </h3>
+                </div>
+				<h2 class="mt-10"> Lista de entregas: </h2>
 			</div>
+			<ul class="vx-timeline">
+				<li v-for="(beneficio,id) in listado_beneficios" :key="id">
+					<vs-checkbox class="mt-3" color="success" icon-pack="feather" icon="icon-check" v-model="estados[id]"> Entrega del mes de <b>{{ nombreMes(beneficio.fecha_entrega.split('-',3)[1]) }} del {{beneficio.fecha_entrega.split('-',3)[0]}} </b> </vs-checkbox>
+					<small class="text-grey activity-e-time" v-if="estados[id]">&nbsp;  Entregado el :{{getDate(beneficio.updated_at) }}</small>
+				</li>
+			</ul>
 		</vx-card>
 	</div>
 </template>
@@ -60,8 +73,8 @@ export default {
 				const respuesta = response.data
 				me.listado_beneficios = respuesta.pacientes.data
 				me.listado_beneficios = me.traerNombre(me.listado_beneficios)
-				me.informacion = me.listado_beneficios
-				console.log(me.informacion[0])
+				me.informacion = me.listado_beneficios[0]
+				console.log(me.informacion.tipo_paciente)
 				me.listado_beneficios= me.listado_beneficios[0].beneficios
 				me.listado_beneficios.reverse();
 					me.listado_beneficios.forEach(function(elemento, indice, array){
@@ -235,3 +248,7 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss">
+@import "@sass/vuexy/components/vxTimeline.scss";
+</style>
