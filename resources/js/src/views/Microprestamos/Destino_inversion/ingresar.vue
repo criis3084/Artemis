@@ -1,10 +1,9 @@
 <template>
 	<div>
 		<div class="demo-alignment">
-			<h2>Destino de Inversion</h2>
+			<h2>Destino de Inversión</h2>
 			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
-		<br>
 		<vs-prompt
 			@cancel="close"
 			@close="close"

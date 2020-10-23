@@ -2,6 +2,8 @@
   <div>
     <vx-card>
 		<Formulario v-on:cerrado="index();"></Formulario>
+				<vs-divider position="right">PID&#174;</vs-divider>
+
 		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
    
      
@@ -17,11 +19,9 @@
           <vs-button @click="activePrompt=true">Exportar</vs-button>
         </template>
         <template slot="thead">
-		  	    <vs-th>Nombres Niño</vs-th>
-		      	<vs-th>Apellidos Niño</vs-th>
+		  	    <vs-th>Nombre Niño</vs-th>
             <vs-th>Género Niño</vs-th>
-            <vs-th>Nombres Padrino</vs-th>
-			      <vs-th>Apellidos Padrino</vs-th>
+            <vs-th>Nombre Padrino</vs-th>
 			      <vs-th>Estado</vs-th>
             <vs-th>Acciones</vs-th>
 			<vs-th></vs-th>
@@ -30,15 +30,13 @@
         <template slot-scope="{ data }">
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
             
-            <vs-td>{{ data[indextr].datos_nino[0].nombres }}</vs-td>
-            <vs-td>{{ data[indextr].datos_nino[0].apellidos }}</vs-td>
+            <vs-td>{{ data[indextr].datos_nino[0].nombres + " " +  data[indextr].datos_nino[0].apellidos}}</vs-td>
             <vs-td>
               {{
                 data[indextr].datos_nino[0].genero == 1 ? 'Maculino' : 'Femenino'
-              }}</vs-td
-            >
-            <vs-td>{{ data[indextr].datos_padrino[0].nombres }}</vs-td>
-            <vs-td>{{ data[indextr].datos_padrino[0].apellidos }}</vs-td>
+              }}
+              </vs-td>
+            <vs-td>{{ data[indextr].datos_padrino[0].nombres + " " + data[indextr].datos_padrino[0].apellidos}}</vs-td>
             <vs-td>
               <vs-td :data="data[indextr].estado">
                 <vs-switch

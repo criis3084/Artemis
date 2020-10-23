@@ -3,9 +3,10 @@
 		<vx-card>
 			<div class = "demo-alignment">
 					<h2>Niños no apadrinados</h2>
-					<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/familia"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = "large" ></vs-button> </router-link>   </vx-tooltip>
+					<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/familia"> <vs-button radius type = "gradient"  icon = "person_add" color = "primary" size = "large" ></vs-button> </router-link>   </vx-tooltip>
 			</div>
-			<br>
+							<vs-divider position="right">PID&#174;</vs-divider>
+
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
 				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
 				<v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -24,13 +25,13 @@
 				<template slot="thead">
 					<vs-th>Ver</vs-th>
 					<vs-th>Código</vs-th>
-					<vs-th>Nombres</vs-th>
-					<vs-th>Apellidos</vs-th>
+					<vs-th>Nombre</vs-th>
+				
 					<vs-th>Género</vs-th>
 					<vs-th>Fecha de Nacimiento</vs-th>
 					<!-- <vs-th>Fecha de Ingreso</vs-th> -->
 				
-					<vs-th></vs-th>
+					<vs-th>Acciones</vs-th>
 					<!-- <vs-th></vs-th> -->
 				</template>
 
@@ -44,11 +45,10 @@
 						<vs-td>
 							<div class="flex items-center">
 								<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
-								{{data[indextr].datos.nombres}}
+								{{data[indextr].datos.nombres + " " + data[indextr].datos.apellidos}}
 							</div>
 						</vs-td>
-						<!-- <vs-td>{{data[indextr].datos.nombres}}</vs-td> -->
-						<vs-td >{{data[indextr].datos.apellidos}}</vs-td>
+						
 						<vs-td >{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}</vs-td>
 						<vs-td >{{data[indextr].datos.fecha_nacimiento}}</vs-td>
 						<!-- <vs-td >{{data[indextr].fecha_ingreso}}</vs-td> -->

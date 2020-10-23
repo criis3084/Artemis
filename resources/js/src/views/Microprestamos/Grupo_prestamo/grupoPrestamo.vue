@@ -2,9 +2,10 @@
    <vx-card >
        <div class = "demo-alignment">
            <h2>Grupos</h2>
-         <router-link to="/microprestamo/Nuevogrupo">  <vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = "large" ></vs-button>  </vx-tooltip></router-link>
+         <router-link to="/microprestamo/Nuevogrupo">  <vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon = "group_add" color = "primary" size = "large" ></vs-button>  </vx-tooltip></router-link>
            </div>
-           <br>
+           									<vs-divider position="right">PID&#174;</vs-divider>
+
         <vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
           <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
            <v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -21,7 +22,7 @@
 
     <template slot="thead">
       <vs-th>Ver</vs-th>
-      <vs-th sort-key="nombre">ID</vs-th>
+      <vs-th sort-key="nombre">Id</vs-th>
       <vs-th sort-key="nombre">Nombre</vs-th>
       <vs-th sort-key="us">Descripción</vs-th>
       <vs-th sort-key="website">Último Préstamo</vs-th>

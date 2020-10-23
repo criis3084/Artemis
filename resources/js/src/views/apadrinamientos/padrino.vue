@@ -3,8 +3,9 @@
 				<vx-card>
 					<div class = "demo-alignment">
 						<h2>Padrinos</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/padrino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size="large" ></vs-button> </router-link>  </vx-tooltip>
-					</div><br>	
+						<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/padrino"> <vs-button radius type = "gradient" icon = "person_add" color = "primary" size="large" ></vs-button> </router-link>  </vx-tooltip>
+					</div>	
+				<vs-divider position="right">PID&#174;</vs-divider>
 
 					<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
@@ -21,8 +22,8 @@
         				</template>
 						<template slot="thead">
 							<!-- <vs-th>Ver</vs-th> -->
-							<vs-th>Nombres</vs-th>
-							<vs-th>Apellidos</vs-th>
+							<vs-th>Nombre</vs-th>
+							
               				<vs-th>Género</vs-th>
 							<vs-th>Correo Electrónico</vs-th>
 		
@@ -37,16 +38,11 @@
 								</vs-td> -->
 								<vs-td>
 									<div class="flex items-center">
-										<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
-										{{data[indextr].nombres}}
+										<vs-avatar :src="data[indextr].ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="30px"/>
+										{{data[indextr].nombres + " " + data[indextr].apellidos}}
 									</div>
 								</vs-td>
-								<!-- <vs-td :data="data[indextr].nombres">
-                        			{{data[indextr].nombres}}
-                    			</vs-td> -->
-								<vs-td :data="data[indextr].apellidos">
-                        			{{data[indextr].apellidos}}
-                    			</vs-td>
+								
 								<vs-td :data="data[indextr].datos.genero">
                         			{{data[indextr].datos.genero== 1 ? 'Masculino' : 'Femenino'}}
                     			</vs-td>
