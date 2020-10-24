@@ -31,6 +31,10 @@ class RolController extends Controller
 				$rol = Rol::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
+		else if($completo == 'select')
+		{
+			$rol = Rol::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+		}
 		return [
 			"roles"=>$rol
 		];

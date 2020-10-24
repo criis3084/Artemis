@@ -7,6 +7,8 @@ use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Image;
+use Illuminate\Support\Facades\File;
 
 class ClinicoController extends Controller
 {
@@ -19,17 +21,17 @@ class ClinicoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$clinico = Clinico::with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$clinico = Clinico::with('datos')->with('profesion')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$clinico = Clinico::with('detalle_integrante')->with('usuario')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$clinico = Clinico::with('datos')->with('profesion')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$clinico = Clinico::with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->paginate($count);
+				$clinico = Clinico::with('datos')->with('profesion')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$clinico = Clinico::with('detalle_integrante')->with('usuario')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$clinico = Clinico::with('datos')->with('profesion')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
@@ -120,5 +122,16 @@ class ClinicoController extends Controller
 		$clinico->save();
 		$usuario->save();
 		return Response::json(['message' => 'clinico Desactivado'], 200);
+	}
+
+	public function imagen(Request $request){
+		$imagen = $request->photos;
+		$nombreEliminar = public_path('storage\public\personalClinico\\') .  $request->header("imagenanterior");
+		if (File::exists($nombreEliminar)) {
+			File::delete($nombreEliminar);
+		}
+		$completo = time() . "." . $imagen->extension();
+		$imagen->move(public_path('storage/public/personalClinico/'), $completo);
+		return Response::json($completo, 200);
 	}
 }

@@ -614,6 +614,9 @@ Route::group(['prefix' => 'clinico'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.clinico', 'uses' => 'ClinicoController@desactivar'
     ]);
+    Route::post('/imagen', [
+        'as' => 'admin.clinico', 'uses' => 'ClinicoController@imagen'
+    ]);
 });
 Route::group(['prefix' => 'apadrinamiento'], function () {
     Route::get('/get', [

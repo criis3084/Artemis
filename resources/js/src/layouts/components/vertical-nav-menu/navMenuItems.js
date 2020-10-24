@@ -310,6 +310,12 @@ export default [
       },
     ]
   },
+  {
+    url: '/clinica/PersonalMedico',
+    name: 'PersonalMedico',
+    icon: 'UsersIcon',
+    i18n: 'Personal Médico',
+  }
 ]},
         // =============================================================================
         // ADMINISTRACION

@@ -8,7 +8,7 @@ class Clinico extends Model
 {
 	protected $fillable = ['profesion_id','usuario_id','estado'];
 
-	public function informacion(){
+	public function datos(){
 		return $this->belongsTo('App\Usuario','usuario_id','id');
 	}
 	public function profesion(){

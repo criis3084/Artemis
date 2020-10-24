@@ -66,120 +66,120 @@ const router = new Router({
             rule: 'editor'
           }
 	    	},
-		{			
-			path: '/ingresar/nino',
-			name: 'ingresar-nino',
-			component: () => import('./views/apadrinamientos/nino/form-ingresar.vue'),
-			meta: {
+        {			
+          path: '/ingresar/nino',
+          name: 'ingresar-nino',
+          component: () => import('./views/apadrinamientos/nino/form-ingresar.vue'),
+          meta: {
 			  rule: 'editor'
-			}
-    },
-    {
-      path: '/editar/nino/:id',
-      name: 'datos-nino',
-      component: () => import('./views/apadrinamientos/nino/editNino.vue'),
-      meta: {
-        rule: 'editor'
-      }
-    },
-    {
-      path: '/ver/nino/:id',
-      name: 'ver-nino',
-      component: () => import('./views/apadrinamientos/nino/verNino.vue'),
-      meta: {
-        rule: 'editor'
-      }
-    },
-    {
-      path: '/editar/ninono/:id',
-      name: 'datos-ninono',
-      component: () => import('./views/apadrinamientos/ninonoEdit.vue'),
-      meta: {
-        rule: 'editor'
-      }
-    },
-    {
-      path: '/ver/ninono/:id',
-      name: 'ver-ninono',
-      component: () => import('./views/apadrinamientos/DetallesNinono.vue'),
-      meta: {
-        rule: 'editor'
-      }
-    },
-		{			
-			path: '/ingresar/familia',
-			name: 'ingresar-familia',
-			component: () => import('./views/apadrinamientos/familia/ingresar.vue'),
-			meta: {
+          }
+        },
+        {
+          path: '/editar/nino/:id',
+          name: 'datos-nino',
+          component: () => import('./views/apadrinamientos/nino/editNino.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/ver/nino/:id',
+          name: 'ver-nino',
+          component: () => import('./views/apadrinamientos/nino/verNino.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/editar/ninono/:id',
+          name: 'datos-ninono',
+          component: () => import('./views/apadrinamientos/ninonoEdit.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/ver/ninono/:id',
+          name: 'ver-ninono',
+          component: () => import('./views/apadrinamientos/DetallesNinono.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {			
+          path: '/ingresar/familia',
+          name: 'ingresar-familia',
+          component: () => import('./views/apadrinamientos/familia/ingresar.vue'),
+          meta: {
 			  rule: 'editor'
-			}
-    },
-    {
-      path: '/apadrinamiento/ppi/:id',
-      name: 'apadrinamiento-ppi',
-      component: () => import('./views/apadrinamientos/nino/ppi.vue'),
-      meta: {
-        rule: 'editor'
-      }
-    },
-    //////////////////ESTUDIO SOCIO
-    {
-      path: '/apadrinamiento/estudiosocio/:id/:estudio',
-      name: 'apadrinamiento-estudiosocio',
-      component: () => import('./views/apadrinamientos/familia/estudiosocio.vue'),
-      meta: {
-        rule: 'editor'
-      }
-    },
-    {
-      path: '/apadrinamiento/estudiosocio/:id',
-      name: 'apadrinamiento-estudiosocio',
-      component: () => import('./views/apadrinamientos/nino/historialestudiosocio.vue'),
-      meta: {
-        rule: 'editor'
-      }
-    },
-    {
-      path: '/ver/estudiosocio/:id',
-      name: 'ver-estudiosocio',
-      component: () => import('./views/apadrinamientos/nino/verestudiosocio.vue'),
-      meta: {
-        rule: 'editor'
-      }
-    },
-    {
-      path: '/ingresar/estudiosocio/:id',
-      name: 'ingresar-estudiosocio',
-      component: () => import('./views/apadrinamientos/nino/nuevoestudiosocio.vue'),
-      meta: {
-        rule: 'admin'
-      }
-    },
-    /////////////////// PPI
-		{			
-			path: '/ingresar/ppi/:id',
-			name: 'ingresar-ppi',
-			component: () => import('./views/apadrinamientos/nino/nuevoppi.vue'),
-			meta: {
+          }
+        },
+        {
+          path: '/apadrinamiento/ppi/:id',
+          name: 'apadrinamiento-ppi',
+          component: () => import('./views/apadrinamientos/nino/ppi.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        //////////////////ESTUDIO SOCIO
+        {
+          path: '/apadrinamiento/estudiosocio/:id/:estudio',
+          name: 'apadrinamiento-estudiosocio',
+          component: () => import('./views/apadrinamientos/familia/estudiosocio.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/apadrinamiento/estudiosocio/:id',
+          name: 'apadrinamiento-estudiosocio',
+          component: () => import('./views/apadrinamientos/nino/historialestudiosocio.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/ver/estudiosocio/:id',
+          name: 'ver-estudiosocio',
+          component: () => import('./views/apadrinamientos/nino/verestudiosocio.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
+          path: '/ingresar/estudiosocio/:id',
+          name: 'ingresar-estudiosocio',
+          component: () => import('./views/apadrinamientos/nino/nuevoestudiosocio.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        /////////////////// PPI
+        {			
+          path: '/ingresar/ppi/:id',
+          name: 'ingresar-ppi',
+          component: () => import('./views/apadrinamientos/nino/nuevoppi.vue'),
+          meta: {
 			  rule: 'editor'
-			}
-    },		
-    {			
-		path: '/ver/ppi/:id',
-		name: 'ver-ppi',
-		component: () => import('./views/apadrinamientos/nino/verppi.vue'),
-		meta: {
+          }
+        },		
+        {			
+          path: '/ver/ppi/:id',
+          name: 'ver-ppi',
+          component: () => import('./views/apadrinamientos/nino/verppi.vue'),
+          meta: {
 		  rule: 'editor'
-		}
-    },		
-    {
-      path: '/ingresar/fotografia/:id',
-      name: 'ingresar-fotografia',
-      component: () => import('./views/apadrinamientos/nuevafotografia.vue'),
-      meta: {
-        rule: 'admin'
-      }
-    },
+          }
+        },		
+        {
+          path: '/ingresar/fotografia/:id',
+          name: 'ingresar-fotografia',
+          component: () => import('./views/apadrinamientos/nuevafotografia.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
         {
           path: '/apadrinamiento/ninono',
           name: 'apadrinamiento-ninono',
@@ -297,12 +297,12 @@ const router = new Router({
           }
         },		
         {			
-        path: '/ver/correspondencia/:id',
-        name: 'ver-correspondencia',
-        component: () => import('./views/apadrinamientos/nino/vercorrespondencia.vue'),
-        meta: {
-          rule: 'editor'
-        }
+          path: '/ver/correspondencia/:id',
+          name: 'ver-correspondencia',
+          component: () => import('./views/apadrinamientos/nino/vercorrespondencia.vue'),
+          meta: {
+            rule: 'editor'
+          }
         },
 
         // =============================================================================
@@ -594,7 +594,7 @@ const router = new Router({
             rule: 'admin'
           }
         },
-                // PROVEEDOR
+        // PROVEEDOR
         // =============================================================================
 
         {
@@ -621,7 +621,7 @@ const router = new Router({
             rule: 'editor'
           }
         },
-                // CASAS
+        // CASAS
         // =============================================================================
 
         {
@@ -690,6 +690,40 @@ const router = new Router({
             rule: 'admin'
           }
         }, 
+        // Personal Medico
+        // =============================================================================
+        {
+          path: '/clinica/PersonalMedico',
+          name: 'clinica-PersonalMedico',
+          component: () => import('./views/Clinica/PersonalMedico/PersonalMedico.vue'),
+          meta :{
+            rule : 'admin'
+          }
+        },
+        {
+          path: '/clinica/ingresarPersonal',
+          name: 'clinica-PersonalMedico',
+          component: () => import('./views/Clinica/PersonalMedico/ingresar.vue'),
+          meta :{
+            rule : 'admin'
+          }
+        },
+        {
+          path: '/clinica/editarPersonal/:id',
+          name: 'clinica-PersonalMedico',
+          component: () => import('./views/Clinica/PersonalMedico/editar.vue'),
+          meta :{
+            rule : 'admin'
+          }
+        },
+        {
+          path: '/clinica/verPersonal/:id',
+          name: 'clinica-verPersonal',
+          component: () => import('./views/Clinica/PersonalMedico/verPersonal.vue'),
+          meta :{
+            rule : 'admin'
+          }
+        },
         // LABORATORIO
         // =============================================================================
         {
@@ -708,20 +742,6 @@ const router = new Router({
             rule: 'admin'
           }
         }, 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         // =============================================================================

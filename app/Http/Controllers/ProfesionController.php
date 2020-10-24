@@ -31,6 +31,10 @@ class ProfesionController extends Controller
 				$profesion = Profesion::where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
+		else if($completo == 'select')
+		{
+			$profesion = Profesion::orderBy('id', 'desc')->where('estado',1)->paginate($count);
+		}
         return [
             'profesiones' => $profesion
 		];
