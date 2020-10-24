@@ -1,6 +1,7 @@
 <template>
   	<vx-card>
 		<div class="vx-col w-full">
+			<vs-divider position="center">Datos del paciente</vs-divider>			
 			<div class="md:w-1/3 w-full mt-3">
 				<div class="w-full">
 					<h4 class="date-label">Paciente:</h4>
@@ -89,6 +90,8 @@ export default {
 			detalleSalida:false,
 			stockId:0,
 			descripcion:'',
+			fechaSiguiente:'',
+			pacienteBeneficio:0,
 		}
 	},
 	components: {
@@ -109,8 +112,6 @@ export default {
 					{
 						this.detalleSalida=true
 						this.listado_pendientes =this.paciente_select.beneficios
-						console.log('cambiando la lista de pendientes')
-						console.log(this.listado_pendientes.slice())
 					}
 					this.opcion_selected=null
 				}
@@ -186,7 +187,8 @@ export default {
 				let elemento =  this.carrito[x]
 				let cantidadStock = parseInt(elemento.stock_general)
 				let cantidadIngreso = parseInt(cantidades[x])
-				if (cantidadStock > cantidadIngreso)
+				let estadoT=1
+				if (cantidadStock >= cantidadIngreso)
 				{
 					let cuentaSaldada = false
 					for (let i in elemento.lotes){
@@ -210,6 +212,16 @@ export default {
 								.catch(function(error) {
 									console.log(error)
 								});
+								axios.post("/api/detalleSalida/post/",{
+									cantidad:cantidadIngreso,
+									salida_medicamento_id:idSalida,
+									lote_id:lote.id
+								}).then(function(response) {
+									console.log(response)
+								})
+								.catch(function(error) {
+									console.log(error)
+								});
 							}
 							else if(lote.stock < cantidadIngreso){
 								cantidadIngreso = cantidadIngreso-lote.stock
@@ -218,6 +230,16 @@ export default {
 									id:lote.id,
 									stock:0,
 									estado:0
+								}).then(function(response) {
+									console.log(response)
+								})
+								.catch(function(error) {
+									console.log(error)
+								});
+								axios.post("/api/detalleSalida/post/",{
+									cantidad:lote.stock,
+									salida_medicamento_id:idSalida,
+									lote_id:lote.id
 								}).then(function(response) {
 									console.log(response)
 								})
@@ -239,22 +261,114 @@ export default {
 								.catch(function(error) {
 									console.log(error)
 								});
+								axios.post("/api/detalleSalida/post/",{
+									cantidad:lote.stock,
+									salida_medicamento_id:idSalida,
+									lote_id:lote.id
+								}).then(function(response) {
+									console.log(response)
+								})
+								.catch(function(error) {
+									console.log(error)
+								});
+							}
+
+							
+						}
+					}
+					if ( cuentaSaldada== true){
+						console.log('Se saldo la deuda')
+						console.log(this.tipo_salida_select)
+						console.log(cantidadStock)
+						console.log(cantidadIngreso)
+							if (cantidadStock == cantidadIngreso)
+							{
+								estadoT=0
+							}
+							axios.put("/api/medicamento/update/",{
+								id:elemento.id,
+								stock_general:elemento.stock_general - cantidades[x],
+								estado:estadoT
+							}).then(function(response) {
+								console.log(response)
+							})
+							.catch(function(error) {
+								console.log(error)
+							});
+
+						if(this.tipo_salida_select.id != 0){
+							console.log('Buscando el tipo de salida')
+							if(this.tipo_salida_select.id == 1){
+								console.log('Receta')
+								console.log(this.opcion_selected)
+								axios.put("/api/receta/activar/",{
+									id:this.opcion_selected.id,
+								}).then(function(response) {
+									console.log(response)
+								})
+								.catch(function(error) {
+									console.log(error)
+								});
+							}
+							if(this.tipo_salida_select.id == 2){
+								console.log('Apoyo Mensual')
+								console.log(this.opcion_selected)
+								axios.put("/api/beneficio/activar/",{
+									id:this.opcion_selected.id,
+								}).then(function(response) {
+									console.log(response)
+								})
+								.catch(function(error) {
+									console.log(error)
+								});
+								if (this.listado_pendientes.length == 1){
+									this.fechaSiguiente=this.opcion_selected.fecha_entrega
+									this.pacienteBeneficio=this.opcion_selected.paciente_id
+									this.$vs.dialog({
+										type:'confirm',
+										color: `success`,
+										title: `Nuevo Beneficio`,
+										text: '¿El paciente recibirá apoyo el mes siguiente al entregado?',
+										accept: this.nuevoApoyo,
+										cancel: this.close
+									})
+									console.log('ese era el ultimo')
+								}
 							}
 						}
-						/*
-						axios.put("/api/lote/update/",{
-							id:lote.id,
-							stock:lote.stock-,
-						}).then(function(response) {
-							console.log(response)
-						})
-						.catch(function(error) {
-							console.log(error)
-						});
-						*/
 					}
 				}
 			}
+		},
+		getNow(){
+			let fecha_pago=''
+			let ultima_fecha = this.fechaSiguiente
+			const todaySin = new Date(parseInt(ultima_fecha.split('-',3)[0]),parseInt(ultima_fecha.split('-',3)[1]),parseInt(ultima_fecha.split('-',3)[2]))
+			todaySin.setMonth(todaySin.getMonth())
+			return this.getDate(todaySin)
+		},
+		nuevoApoyo(){
+			let fechaT = this.getNow()
+			let me2=this
+			console.log('Creando un nuevo beneficio')
+			axios.post('/api/beneficio/post/', {
+				fecha_entrega:fechaT,
+				descripcion:'Beneficio del nuevo mes',
+				paciente_id:me2.paciente_select.id
+			}).then(function (response){
+				console.log(response)
+				//me2.importarBeneficios()
+				location.reload();
+			})
+		},
+		close(){
+			let titulo = "Cancelado"
+			let texto = "El paciente no recibira apoyo el siguiente mes del entergado"
+			this.$vs.notify({
+				color:'danger',
+				title:`${titulo}`,
+				text:`${texto}`
+			})
 		},
 		registrarSalida(){
 			let val = this.validarStock()
@@ -292,7 +406,7 @@ export default {
 			tabla.forEach(function(valor, indice, array){
 				let recetasAcivas=[]
 				valor.lista_recetas.forEach(function(elemento, indice2, array2){
-					if(elemento.estado == 1)
+					if(elemento.estado == 0)
 					{
 						const date = new Date(elemento.created_at)
 						const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
@@ -308,7 +422,7 @@ export default {
 			tabla.forEach(function(valor, indice, array){
 				let beneficiosActivos=[]
 				valor.beneficios.forEach(function(elemento, indice2, array2){
-					if(elemento.estado == 1)
+					if(elemento.estado == 0)
 					{
 						let numero = parseInt(elemento.fecha_entrega.split('-',3)[1])
 						let nombre=''
@@ -412,53 +526,6 @@ export default {
 			.catch(function(error) {
 				console.log(error);
 			});
-		},
-		nombreMes(numero){
-			numero = parseInt(numero)
-			let nombre=''
-			switch (numero) {
-				case 1:
-					nombre='enero' 
-					break;
-				case 2:
-					nombre='febrero'
-					break;
-				case 3:
-					nombre='marzo'
-					break;
-				case 4:
-					nombre='abril' 
-					break;
-				case 5:
-					nombre='mayo' 
-					break;
-				case 6:
-					nombre='junio' 
-					break;
-				case 7:
-					nombre='julio' 
-					break;
-				case 8:
-					nombre='agosto' 
-					break;
-				case 9:
-					nombre='septiembre' 
-					break;
-				case 10:
-					nombre='octubre'
-					break;
-				case 11:
-					nombre='noviembre'
-					break;
-				case 12:
-					nombre='diciembre'
-					break;
-			
-				default:
-					nombre ='Nulo'
-					break;
-			}
-			return nombre
 		},
 	},
 	mounted(){

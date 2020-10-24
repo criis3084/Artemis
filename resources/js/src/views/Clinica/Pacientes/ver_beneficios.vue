@@ -15,7 +15,7 @@
 			<ul class="vx-timeline">
 				<li v-for="(beneficio,id) in listado_beneficios" :key="id">
 					<vs-checkbox class="mt-3" color="success" icon-pack="feather" icon="icon-check" v-model="estados[id]"> Entrega del mes de <b>{{ nombreMes(beneficio.fecha_entrega.split('-',3)[1]) }} del {{beneficio.fecha_entrega.split('-',3)[0]}} </b> </vs-checkbox>
-					<small class="text-grey activity-e-time" v-if="estados[id]">&nbsp;  Entregado el :{{getDate(beneficio.updated_at) }}</small>
+					<small class="text-grey activity-e-time" v-if="estados[id]">&nbsp;  Entregado el: {{getDate(beneficio.updated_at) }}</small>
 				</li>
 			</ul>
 		</vx-card>

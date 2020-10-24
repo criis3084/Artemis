@@ -57,11 +57,24 @@ class MedicamentoController extends Controller
 	public function update(Request $request)
 	{
 		$medicamento = Medicamento::findOrFail($request->id);
-		$medicamento->nombre = $request->nombre;
-		$medicamento->descripcion = $request->descripcion;
-		$medicamento->stock_general = $request->stock_general;
-		$medicamento->categoria_medicamento_id = $request->categoria_medicamento_id;
-		$medicamento->casa_medica_id = $request->casa_medica_id;
+		if (isset($request->nombre)){
+			$medicamento->nombre = $request->nombre;
+		}
+		if (isset($request->descripcion)){
+			$medicamento->descripcion = $request->descripcion;
+		}
+		if (isset($request->stock_general)){
+			$medicamento->stock_general = $request->stock_general;
+		}
+		if (isset($request->categoria_medicamento_id)){
+			$medicamento->categoria_medicamento_id = $request->categoria_medicamento_id;
+		}
+		if (isset($request->casa_medica_id)){
+			$medicamento->casa_medica_id = $request->casa_medica_id;
+		}
+		if (isset($request->estado)){
+			$medicamento->estado = $request->estado;
+		}
 		$medicamento->save();
 		return Response::json(['message' => 'medicamento Actualizado'], 200);
 	}
