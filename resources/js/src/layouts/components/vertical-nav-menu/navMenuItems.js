@@ -134,12 +134,12 @@ export default [
         slug: 'microprestamo-grupo',
         i18n: 'Grupos'
       },
-      {
-        url: '/microprestamo/integrante',
-        name: 'integrante',
-        slug: 'microprestamo-integrante',
-        i18n: 'Integrantes'
-      },
+      // {
+      //   url: '/microprestamo/integrante',
+      //   name: 'integrante',
+      //   slug: 'microprestamo-integrante',
+      //   i18n: 'Integrantes'
+      // },
       {
         url: '/microprestamo/destino',
         name: 'destino',
@@ -231,6 +231,12 @@ export default [
             name: 'medicamentos',
             slug: 'farmacia-medicamentos',
             i18n: 'Medicamentos',
+      },
+      {
+        url: '/ingreso/medicamentos',
+        name: 'medicamentos',
+        slug: 'ingreso-medicamentos',
+        i18n: 'Ingreso Medicamentos',
       },
       {
         url: '/salida/medicamentos',

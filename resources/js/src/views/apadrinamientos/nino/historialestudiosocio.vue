@@ -117,12 +117,39 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayData = respuesta.historialEstudios.data;
-            me.nombre = respuesta.historialEstudios.data[0].datos_nino[0].nombres;
-            me.apellido = respuesta.historialEstudios.data[0].datos_nino[0].apellidos;
-			me.codigo = respuesta.historialEstudios.data[0].nino.codigo;
-			me.estadof = respuesta.historialEstudios.data[0].nino.estado;
+            // me.nombre = respuesta.historialEstudios.data[0].datos_nino[0].nombres;
+            // me.apellido = respuesta.historialEstudios.data[0].datos_nino[0].apellidos;
+			// me.codigo = respuesta.historialEstudios.data[0].nino.codigo;
+			// me.estadof = respuesta.historialEstudios.data[0].nino.estado;
 			
-			me.id = respuesta.historialEstudios.data[0].datos_nino[0].id;
+			// me.id = respuesta.historialEstudios.data[0].datos_nino[0].id;
+            // me.pagination= respuesta.pagination;
+            // console.log("array");
+			// console.log(me.arrayData);
+			// if (me.estadof==1) {
+			// 	me.ruta='/apadrinamiento/nino'
+			// } else {
+			// 	me.ruta='/apadrinamiento/ninono'
+			// }
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+		me.ya=true;
+	},
+	async index2(){ //async para que se llame cada vez que se necesite
+        let me = this;
+        me.id_recibido = this.$route.params.id;
+		const response = await axios.get(
+			`/api/nino/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=false`)
+		.then(function (response) {
+			var respuesta= response.data;
+            me.arrayData = respuesta.ninos.data;
+            me.nombre = respuesta.ninos.data[0].datos.nombres;
+            me.apellido = respuesta.ninos.data[0].datos.apellidos;
+			me.codigo = respuesta.ninos.data[0].codigo;
+			me.estadof = respuesta.ninos.data[0].estado;
+			me.id = respuesta.ninos.data[0].datos.id;
             me.pagination= respuesta.pagination;
             console.log("array");
 			console.log(me.arrayData);
