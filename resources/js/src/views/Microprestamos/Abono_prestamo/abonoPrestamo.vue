@@ -70,7 +70,7 @@
     <div id="invoice-page">
                         <vx-card id="invoice-container">
                           <div class="flex justify-between mb-2">
-                               <img src="@assets/images/logo/logo.png" alt="vuexy-logo">
+                               <img src="@assets/images/logo/logopid.png" alt="PID Guatemala">
                                <p class="text-primary">Partners in Development</p>
                                
                             </div>
