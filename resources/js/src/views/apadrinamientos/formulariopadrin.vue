@@ -1,38 +1,44 @@
 <template>
-	<vx-card title="Ingreso de padrinos" code-toggler>
-
+	<vx-card>
+			<div class="vx-col md:w-1/3 w-full mt-5">
+					<router-link  to="/apadrinamiento/padrino"><vs-button radius type="border" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+			</div>
 		<div class="mt-5">
-			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+			<form-wizard title="INGRESO DE PADRINO" color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+				<vs-divider position="right">PID&#174;</vs-divider>
+			
 			<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
 				<!-- tab 1 content -->
 				<form data-vv-scope="step-1">
 				<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
-					<vs-input label="Nombres" v-model="nombres" class="w-full" icon-pack="feather" icon="icon-user" name="first_name" v-validate="'required'" />
-					<span class="text-danger">{{ errors.first('step-1.first_name') }}</span>
+					<vs-input label="Nombres" v-model="nombres" class="w-full" icon-pack="feather" icon="icon-user" name="nombres" v-validate="'required|alpha_spaces|max:150'" />
+					<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
-					<vs-input label="Apellidos"  v-model="apellidos" class="w-full" icon-pack="feather" icon="icon-user" name="last_name" v-validate="'required'" />
-					<span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
+					<vs-input label="Apellidos"  v-model="apellidos" class="w-full" icon-pack="feather" icon="icon-user" name="apellidos" v-validate="'required|alpha_spaces|max:150'" />
+					<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
-					<vs-input label="CUI"  v-model="CUI" class="w-full" icon-pack="feather" icon="icon-hash" name="cui" v-validate="'required'" />
-					<span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+					<vs-input label="ID"  v-model="CUI" class="w-full" icon-pack="feather" icon="icon-hash" name="cui" v-validate="'required|max:150|alpha_num'" />
+					<span class="text-danger">{{ errors.first('step-1.cui') }}</span>
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<small class="date-label">Género</small>
 					<ul class="demo-alignment">
 						<li>
-							<vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1" selected>Masculino</vs-radio>
+							<vs-radio v-validate="'required|included:1,0'" name="radio" color="rgb(0, 170, 228)" v-model="genero" vs-value="1" selected>Masculino</vs-radio>
 						</li>
 						<li>
-							<vs-radio color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
+							<vs-radio name="radio" color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
 						</li>
 					</ul>
+					<span class="text-danger">{{ errors.first('step-1.radio') }}</span>
+
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
@@ -41,21 +47,21 @@
 				</div>
 				
 				<div class="vx-col md:w-1/2 w-full mt-5">
-					<vs-input label="Dirección"  v-model="direccion" class="w-full" icon-pack="feather" icon="icon-map-pin" name="campo" v-validate="'required'" />
-					<span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+					<vs-input label="Dirección"  v-model="direccion" class="w-full" icon-pack="feather" icon="icon-map-pin" name="direccion" v-validate="'required|max:254'" />
+					<span class="text-danger">{{ errors.first('step-1.direccion') }}</span>
 				</div>
 
-				<div class="vx-col md:w-1/2 w-full mt-5">
-				<ValidationProvider :rules="{ regex:/[a-zA-Z]/ }" v-slot="{ errors }"> 
-					<vs-input label="Número de teléfono"  v-model="numero_telefono" class="w-full" icon-pack="feather" icon="icon-phone" name="campo" />
-					 <span>{{ errors[0] }}</span>
-				</ValidationProvider>
-			
+				<div class="vx-col md:w-1/2 w-full mt-5"> 
+					<vs-input label="Número de teléfono"  v-model="numero_telefono" class="w-full" icon-pack="feather" icon="icon-phone" name="telefono" v-validate="'max:150'"/>
+					<span class="text-danger">{{ errors.first('step-1.telefono') }}</span>
+
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<small class="date-label">Sector</small>
-					<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'"></v-select>
+					<span class="text-danger">arreglar para que se agregue sector EXTRANJERO automáticamente, o no?</span>
+
 				</div>
 
 				</div>
@@ -73,7 +79,7 @@
 						</template> 
 				</div>
 					<div class="vx-col md:w-1/2 w-full mt-5">
-					<vs-input type="email" label="Correo"  v-model="correo" class="w-full"  icon-pack="feather" icon="icon-mail" name="correo" v-validate="'required|email'" />
+					<vs-input type="email" label="Correo"  v-model="correo" class="w-full"  icon-pack="feather" icon="icon-mail" name="correo" v-validate="'required|email|max:150'" />
 					<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
 				</div>
 
@@ -83,8 +89,8 @@
 
 			</form-wizard>
 		</div>
-		<div class="vx-col md:w-1/2 w-full mt-5">
-			<router-link to="/apadrinamiento/padrino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+		<div class="vx-col md:w-1/3 w-full mt-5">
+			<router-link  to="/apadrinamiento/padrino"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
 		</div>
 	</vx-card>
 </template>
@@ -108,28 +114,37 @@ import { Validator } from 'vee-validate';
 
 const dict = {
   custom: {
-    first_name: {
-      required: 'Los nombres son requeridos',
-	  alpha: 'Solo se permiten letras'
-	  
+    nombres: {
+      required: 'El campo nombres es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
-    last_name: {
-      required: 'Los apellidos son requeridos',
-      alpha: 'Solo se permiten letras'
+    apellidos: {
+      required: 'El campo apellidos es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
     correo: {
-      required: 'El correo es requerido',
-      email: 'Por favo ingrese un correo valido'
+      required: 'El campo correo es requerido',
+	  email: 'Ingrese un correo válido',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
-    campo: {
-	  required: 'Información requerida',
-	  
+    cui: {
+	  required: 'El campo cui es requerido',
+	  alpha_num: 'El campo solo debe de contener letras y números',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
 	},
-	  celular: {
-	  Validator: 'no existe',
-	  
+	direccion: {
+	  required: 'El campo dirección es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
 	},
-	
+	telefono: {
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	radio: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+    },
 	
 	
   }
@@ -189,7 +204,12 @@ export default {
           if (result) {
             resolve(true)
           } else {
-            reject('correct all values')
+			reject('correct all values')
+			this.$vs.notify({
+			color:'danger',
+			title:'Error en validación',
+			text:'Ingrese todos los campos correctamente'
+			});
           }
         })
       })
@@ -200,7 +220,12 @@ export default {
           if (result) {
             resolve(true)
           } else {
-            reject('correct all values')
+			reject('correct all values')
+			this.$vs.notify({
+			color:'danger',
+			title:'Error en validación',
+			text:'Ingrese todos los campos correctamente'
+			});
           }
         })
       })
@@ -219,6 +244,7 @@ export default {
 		genero:this.genero,
 		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
 		direccion:this.direccion,
+		//SECTOR EXTRANJERO
 		sector_id:this.sector_id.id
 	}).then(function(response) {
       console.log(response)
@@ -227,11 +253,11 @@ export default {
 		console.log(error)
         });
         this.$emit('cerrado','Se cerró el formulario');
-        // this.$vs.notify({
-        //   color:'success',
-        //   title:`${titulo}`,
-        //   text:'La acción se realizo exitósamente'
-        // });
+        this.$vs.notify({
+          color:'success',
+          title:'Padrino registrado',
+          text:'La acción se realizo exitósamente'
+        });
         this.$router.push('/apadrinamiento/padrino');
     },
     successUpload(){

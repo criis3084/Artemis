@@ -3,7 +3,7 @@
 				<vx-card  class="mb-base">
 				<div class = "demo-alignment">
 					<div class="vx-col md:w-1/5 w-full mt-5">
-						<router-link to="/apadrinamiento/nino"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+						<router-link :to="this.ruta"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
 					</div>
 					<h2>Historial de Estudio Socioeconómico</h2>
 					<vx-tooltip text = "Agregar nuevo Estudio Socioeconómico"> 
@@ -41,7 +41,7 @@
 						</template>
 					</vs-table>
 					<div class="vx-col md:w-1/3 w-full mt-5">
-						<router-link to="/apadrinamiento/nino"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+						<router-link :to="this.ruta"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
 					</div>
 				</vx-card>
 				
@@ -82,6 +82,8 @@ export default {
 		apellido: '',
 		switch2:false,
 		id: 0,
+		ruta:'',
+		estadof:null,
 		estado: null,
 		ya:false,
 		datos:{},
@@ -117,11 +119,18 @@ export default {
             me.arrayData = respuesta.historialEstudios.data;
             me.nombre = respuesta.historialEstudios.data[0].datos_nino[0].nombres;
             me.apellido = respuesta.historialEstudios.data[0].datos_nino[0].apellidos;
-            me.codigo = respuesta.historialEstudios.data[0].nino.codigo;
+			me.codigo = respuesta.historialEstudios.data[0].nino.codigo;
+			me.estadof = respuesta.historialEstudios.data[0].nino.estado;
+			
 			me.id = respuesta.historialEstudios.data[0].datos_nino[0].id;
             me.pagination= respuesta.pagination;
             console.log("array");
-            console.log(me.arrayData);
+			console.log(me.arrayData);
+			if (me.estadof==1) {
+				me.ruta='/apadrinamiento/nino'
+			} else {
+				me.ruta='/apadrinamiento/ninono'
+			}
 		})
 		.catch(function (error) {
 			console.log(error);

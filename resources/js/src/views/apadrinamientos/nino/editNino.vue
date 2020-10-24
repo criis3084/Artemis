@@ -147,13 +147,13 @@ const dict = {
 		max: 'Este campo solo acepta hasta 150 caracteres',
 	},
     nombres: {
-	  required: 'El campo nombres son requerido',
-	  alpha_spaces: 'El campo solo debe de contener letras',
+	  required: 'El campo nombres es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
 	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
     apellidos: {
-	  required: 'El campo apellidos son requerido',
-	  alpha_spaces: 'El campo solo debe de contener letras',
+	  required: 'El campo apellidos es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
 	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
     direccion: {
@@ -303,6 +303,11 @@ export default {
 				resolve(true)
 			} else {
 				reject("correct all values");
+				this.$vs.notify({
+					color:'danger',
+					title:'Error en validación',
+					text:'Ingrese todos los campos correctamente'
+					});
 			}
 			})
 		})
@@ -314,6 +319,11 @@ export default {
 				resolve(true)
 			} else {
 				reject("correct all values");
+				this.$vs.notify({
+					color:'danger',
+					title:'Error en validación',
+					text:'Ingrese todos los campos correctamente'
+					});
 			}
 			})
 		})

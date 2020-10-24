@@ -41,22 +41,43 @@
 		
 			<vs-table pagination stripe max-items="2" :data="arrayData">
 				<template slot="thead">
+					<div class="flex mb-4">
+						<div class="w-1/2">
 					<vs-th>Imagen</vs-th>
+						</div>
+						<div class="w-1/4">
 					<vs-th>Título</vs-th>
+						</div>
+						<div class="w-1/4">
 					<vs-th>Descripción</vs-th>
+						</div>
+						<div class="w-1/4">
 					<vs-th>Fecha</vs-th>
+						</div>
 					<!-- <vs-th>Estado</vs-th> -->
+					</div>
 				</template>
 
 				<template slot-scope="{data}">
 						<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
 						<!-- <vs-td v-text="historialfotografia.fotografia.ruta" ></vs-td> -->
+						<div class="flex mb-4">
+						<div class="w-1/2">
 						<vs-td>
 							<img :src="data[indextr].fotografia.ruta" alt="content-img" class="responsive card-img-top">
 						</vs-td>
+						</div>
+						<div class="w-1/4">
 						<vs-td v-text="data[indextr].fotografia.titulo" ></vs-td>
+						</div>
+						<div class="w-1/4">
 						<vs-td v-text="data[indextr].fotografia.descripcion" ></vs-td>
+						</div>
+						<div class="w-1/4">
 						<vs-td v-text="getDate(data[indextr].created_at)" ></vs-td>
+						</div>
+						</div>
+						
 						<!-- <vs-td>
 							<vs-switch color="success" v-model="historialfotografia.estado" @click="abrirDialog(historialfotografia.fotografia.id, historialfotografia.fotografia.estado)">
 							<span slot="on" >Activo</span>

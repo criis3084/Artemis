@@ -4,7 +4,7 @@
 			<h2>Tipo de Viviendas</h2>
 			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient"  icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
-	<br>
+
 
     <vs-prompt
       @cancel="clearValMultiple"

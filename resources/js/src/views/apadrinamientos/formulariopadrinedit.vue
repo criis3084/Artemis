@@ -1,26 +1,30 @@
 <template>
-  <vx-card title="Actualización de padrino" code-toggler>
-
+  <vx-card>
+<div class="vx-col md:w-1/2 w-full mt-5">
+  <router-link to="/apadrinamiento/padrino"><vs-button class="w-full" icon-pack="feather" type="border" radius icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+    </div>
     <div class="mt-5">
-      <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
-       <tab-content title="Paso 1" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
+      <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACUTALIZACIÓN DE PADRINO" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+				<vs-divider position="right">PID&#174;</vs-divider>
+      
+	   <tab-content title="Paso 1" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
 
           <!-- tab 1 content -->
           <form data-vv-scope="step-1">
           <div class="vx-row">
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Nombres" v-model="nombresT" class="w-full" name="first_name" v-validate="'required|alpha'" />
-              <span class="text-danger">{{ errors.first('step-1.first_name') }}</span>
+              <vs-input label="Nombres" v-model="nombresT" class="w-full" name="nombres" v-validate="'required|alpha_spaces|max:150'" />
+              <span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
             </div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Apellidos"  v-model="apellidosT" class="w-full" name="last_name" v-validate="'required|alpha'" />
-              <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
+              <vs-input label="Apellidos"  v-model="apellidosT" class="w-full" name="apellidos" v-validate="'required|alpha_spaces|max:150'" />
+              <span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="CUI"  v-model="CUIT" class="w-full" name="cui" v-validate="'required'" />
-              <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+              <vs-input label="ID"  v-model="CUIT" class="w-full" name="cui" v-validate="'required|alpha_num|max:150'" />
+              <span class="text-danger">{{ errors.first('step-1.cui') }}</span>
             </div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
@@ -41,13 +45,13 @@
 			</div>
 	        
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Dirección"  v-model="direccionT" class="w-full" name="campo" v-validate="'required'" />
-              <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+              <vs-input label="Dirección"  v-model="direccionT" class="w-full" name="direccion" v-validate="'required|max:254'" />
+              <span class="text-danger">{{ errors.first('step-1.direccion') }}</span>
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Número de teléfono"  v-model="numero_telefonoT" class="w-full" name="campo" v-validate="'required'" />
-              <span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+              <vs-input label="Número de teléfono"  v-model="numero_telefonoT" class="w-full" name="telefono" v-validate="'max:150'" />
+              <span class="text-danger">{{ errors.first('step-1.telefono') }}</span>
             </div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
@@ -74,7 +78,7 @@
 			</template> 
             </div>
 				<div class="vx-col md:w-1/2 w-full mt-5">
-				<vs-input type="email" label="Correo"  v-model="correoT" class="w-full" name="correo" v-validate="'required|email'" />
+				<vs-input type="email" label="Correo"  v-model="correoT" class="w-full" name="correo" v-validate="'required|email|max:150'" />
 				<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
             </div>
 
@@ -83,8 +87,8 @@
         </tab-content>
       </form-wizard>
     </div>
-    <div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/apadrinamiento/padrino"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+    <div class="vx-col md:w-1/3 w-full mt-5">
+  <router-link to="/apadrinamiento/padrino"><vs-button class="w-full" type="gradient" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
     </div>
 
   </vx-card>
@@ -104,21 +108,37 @@ import VueRouter from 'vue-router'
 import { Validator } from 'vee-validate'
 const dict = {
   custom: {
-    first_name: {
-      required: 'Los nombres son requeridos',
-      alpha: 'Solo se permiten letras'
+    nombres: {
+      required: 'El campo nombres es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
-    last_name: {
-      required: 'Los apellidos son requeridos',
-      alpha: 'Solo se permiten letras'
+    apellidos: {
+      required: 'El campo apellidos es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
     correo: {
-      required: 'El correo es requerido',
-      email: 'Por favo ingrese un correo valido'
+      required: 'El campo correo es requerido',
+	  email: 'Ingrese un correo válido',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
-    campo: {
-      required: 'Información requerida'
-    }
+    cui: {
+	  required: 'El campo cui es requerido',
+	  alpha_num: 'El campo solo debe de contener letras y números',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	direccion: {
+	  required: 'El campo dirección es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
+	},
+	telefono: {
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	radio: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+    },
   }
 }
 
@@ -213,6 +233,11 @@ export default {
 				resolve(true)
 				} else {
 				reject('correct all values')
+				this.$vs.notify({
+					color:'danger',
+					title:'Error en validación',
+					text:'Ingrese todos los campos correctamente'
+					});
 				}
 			})
 			})
@@ -224,6 +249,11 @@ export default {
 					resolve(true)
 					} else {
 					reject('correct all values')
+					this.$vs.notify({
+						color:'danger',
+						title:'Error en validación',
+						text:'Ingrese todos los campos correctamente'
+						});
 					}
 				})
 			})

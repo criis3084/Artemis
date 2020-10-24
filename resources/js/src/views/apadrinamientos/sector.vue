@@ -1,6 +1,8 @@
 <template>
 	<vx-card>
 		<formulariosector v-on:cerrado="index();"></formulariosector>
+				<vs-divider position="right">PID&#174;</vs-divider>
+
 		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
 			<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
 			<v-select v-model="selectedFormat" :options="formats" class="my-4" />

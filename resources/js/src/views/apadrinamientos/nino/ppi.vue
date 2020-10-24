@@ -4,7 +4,7 @@
 					
 				<div class = "demo-alignment">
 					<div class="vx-col md:w-1/3 w-full mt-5">
-					<router-link to="/apadrinamiento/nino"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+					<router-link :to="this.ruta"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
 					</div>
 					<h2>Historial de PPI</h2>
 					<vx-tooltip text = "Agregar nuevo PPI"> 
@@ -54,7 +54,7 @@
 						</template>
 					</vs-table>
 					<div class="vx-col md:w-1/3 w-full mt-5">
-					<router-link to="/apadrinamiento/nino"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+					<router-link :to="this.ruta"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
 					</div>
 				</vx-card>
 				
@@ -94,9 +94,11 @@ export default {
 		id_ppi: 0,
 		nombre: '',
 		apellido: '',
+		ruta:'',
 		switch2:false,
 		id: 0,
 		estado: null,
+		estadof: null,
 		ya:false,
 		datos:{},
 		opciones:{}
@@ -172,9 +174,17 @@ export default {
             me.arrayData = respuesta.historialPpis.data;
             me.nombre = respuesta.historialPpis.data[0].datos_nino[0].nombres;
             me.apellido = respuesta.historialPpis.data[0].datos_nino[0].apellidos;
-            me.codigo = respuesta.historialPpis.data[0].nino.codigo;
+			me.codigo = respuesta.historialPpis.data[0].nino.codigo;
+			me.estadof = respuesta.historialPpis.data[0].nino.estado;
 			me.id = respuesta.historialPpis.data[0].datos_nino[0].id;
+			console.log("Quiero ver estado");
+			console.log(me.arrayData);
 			me.pagination= respuesta.pagination;
+			if (me.estadof==1) {
+				me.ruta='/apadrinamiento/nino'
+			} else {
+				me.ruta='/apadrinamiento/ninono'
+			}
 		})
 		.catch(function (error) {
 			console.log(error);

@@ -187,7 +187,7 @@
 			</vs-alert>
 			<vs-divider></vs-divider>
 
-			<vs-button @click.prevent="guardar">Registrar PPI</vs-button>
+			<vs-button type="gradient" icon-pack="feather" icon="icon-save" @click.prevent="guardar">Registrar PPI</vs-button>
 			</div>
 		</vx-card>
 		</form>

@@ -1,7 +1,12 @@
 <template>
 	<div>
 		<vx-card>
+			<div class="vx-col md:w-1/3 w-full mt-5">
+				<vs-button @click="goBack" type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button>
+    		</div>
 			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZACIÓN DE NIÑO" subtitle="" finishButtonText="Enviar" back-button-text="Atras" next-button-text="Siguiente" @on-complete="formSubmitted">
+				<vs-divider position="right">PID&#174;</vs-divider>
+				
 				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
 				<!-- tab 1 content -->
@@ -10,22 +15,22 @@
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Código" v-model="codigoT" v-validate="'required'"/>
-										<span class="text-danger">{{ errors.first('step-1.campo') }}</span>
+									<vs-input name="codigo" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Código" v-model="codigoT" v-validate="'required|alpha_num|max:150'"/>
+										<span class="text-danger">{{ errors.first('step-1.codigo') }}</span>
 								</div>
 							</div>
 
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombresT" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombresT" v-validate="'required|alpha_spaces|max:150'"/>
 										<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" name="apellidos" v-model="apellidosT" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" name="apellidos" v-model="apellidosT" v-validate="'required|alpha_spaces|max:150'"/>
 									<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
 								</div>
 							</div>
@@ -60,22 +65,22 @@
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" v-model="direccionT" name="direccion" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" v-model="direccionT" name="direccion" v-validate="'required|max:254'"/>
 									<span class="text-danger">{{errors.first('step-1.direccion') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Ocupación" v-model="ocupacionT" name="ocupacion" v-validate="'required'"/>
-									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Ocupación" v-model="ocupacionT" name="ocupacion" v-validate="'max:150'"/>
+									<span class="text-danger">{{errors.first('step-1.ocupacion') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-coffee" icon-no-border label-placeholder="Actividades" v-model="actividadesT" name="actividades" v-validate="'required'"/>
-									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-coffee" icon-no-border label-placeholder="Actividades" v-model="actividadesT" name="actividades" v-validate="'max:150'"/>
+									<span class="text-danger">{{errors.first('step-1.actividades') }}</span>
 								</div>
 							</div>
 
@@ -90,8 +95,8 @@
 							</div>
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-file-text" icon-no-border label-placeholder="Grado" v-model="gradoT" name="grado" v-validate="'required'"/>
-									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-file-text" icon-no-border label-placeholder="Grado" v-model="gradoT" name="grado" v-validate="'max:150'"/>
+									<span class="text-danger">{{errors.first('step-1.grado') }}</span>
 								</div>
 							</div>
 						</div>
@@ -117,8 +122,8 @@
 
  
   </form-wizard>
-  <div class="vx-col md:w-1/2 w-full mt-5">
-<vs-button @click="goBack" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
+  <div class="vx-col md:w-1/3 w-full mt-5">
+<vs-button @click="goBack" type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
     </div>
 </vx-card>
 </div>
@@ -130,31 +135,43 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import vSelect from 'vue-select'
 
 // For custom error message
-import { Validator } from 'vee-validate'
+import { Validator } from 'vee-validate';
 const dict = {
   custom: {
+	  codigo:{
+		required: 'El campo código es requerido',
+		alpha_num: 'El campo solo debe de contener letras y números',
+		max: 'Este campo solo acepta hasta 150 caracteres',
+	},
     nombres: {
-      required: 'Los Nombres son requeridos'
-      
+	  required: 'El campo nombres son requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
     apellidos: {
-	  required: 'Los apellidos son requeridos'
-      
+	  required: 'El campo apellidos son requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
     direccion: {
-      required: 'La direccion es requerida'
+	  required: 'El campo dirección es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
     fecha: {
-      required: 'La fecha es requerida'
-    },
-    sector: {
-      required: 'El sector es requerido',
-    },
-    campo:{
-      required:'El campo es requerido '
-    }
+      required: 'El campo fecha es requerido',
+	},
+	ocupacion: {
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+    actividades: {
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	grado: {
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	
   }
-}
+};
 
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'

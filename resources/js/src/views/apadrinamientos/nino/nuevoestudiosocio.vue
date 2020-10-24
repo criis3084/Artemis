@@ -72,7 +72,7 @@
 					<span>Q</span>	
 				</div>
 				<div class="vx-col w-full">
-					<vs-input v-validate="'required|numeric|max:6'" class="w-full" name='costo' v-model="descripcion_costo"/>
+					<vs-input v-validate="'required'" class="w-full" name='costo' v-model="descripcion_costo"/>
 					<span class="text-danger">{{ errors.first('costo') }}</span>
 
 				</div>
@@ -206,8 +206,6 @@ const dict = {
 	},
 	costo: {
 	  required: 'El campo costos de la vivienda es requerido',
-	  numeric: 'El campo solo debe de contener números',
-	  max: 'Este campo solo acepta hasta 6 dígitos',
 	},
 	radio: {
 	  required: 'Seleccione una opción',
