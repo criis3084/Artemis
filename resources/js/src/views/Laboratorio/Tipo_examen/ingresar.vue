@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="demo-alignment">
-			<h2>Destino de Inversión</h2>
+			<h2>Tipos de Exámenes</h2>
 			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
 		<vs-prompt
@@ -15,7 +15,7 @@
 			<div class="con-exemple-prompt">
 				<b></b>
 
-				<vs-input placeholder="Nombre del destino" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+				<vs-input placeholder="Nombre del exámen" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 
 				<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 					LLene todos los campos
@@ -44,7 +44,7 @@ export default {
 	  valMultipe:{
 		value1:''
 	  },
-	 titulo:'Nueva Destino'
+	 titulo:'Nuevo Tipo'
 	}
   },
   computed:{
@@ -54,7 +54,7 @@ export default {
   },
   methods:{
 	acceptAlert () {
-		axios.post("/api/destinoInversion/post/",{
+		axios.post("/api/tipoExamen/post/",{
 			nombre:this.valMultipe.value1,
 		}).then(function(response) {
 			console.log(response)
