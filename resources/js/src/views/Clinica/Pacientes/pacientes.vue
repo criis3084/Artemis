@@ -55,7 +55,9 @@
 						<vs-td>
 							<div class="flex items-center">
 							<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/paciente/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
-							<vx-tooltip text="Listado de pacientes"> <vs-button radius color="dark" type="flat" icon="list" size="large" @click="$router.push('/ver/beneficios/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
+							<div v-if="data[indextr].beneficio.estado !== 3">
+							<vx-tooltip text="Beneficios"> <vs-button radius color="dark" type="flat" icon="list" size="large" @click="$router.push('/ver/beneficios/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
+							</div>
 							</div>
 						</vs-td>
 					</vs-tr>

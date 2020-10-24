@@ -45,7 +45,7 @@ class LoteController extends Controller
 			$lote->numero_referencia = $request->numero_referencia;
 			$lote->medicamento_id = $request->medicamento_id;
 			$lote->save();
-			return Response::json(['message' => 'Abono Prestamo Creada'], 200);
+			return Response::json(['message' => 'Lote Creado'], 200);
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
@@ -55,13 +55,21 @@ class LoteController extends Controller
 	public function update(Request $request)
 	{
 		$lote = Lote::findOrFail($request->id);
-		$lote->stock = $request->stock;
-		$lote->fecha_expiracion = $request->fecha_expiracion;
-		$lote->numero_referencia = $request->numero_referencia;
-		$lote->medicamento_id = $request->medicamento_id;
+		if (isset($request->stock)){
+			$lote->stock = $request->stock;
+		}
+		if (isset($request->fecha_expiracion)){
+			$lote->fecha_expiracion = $request->fecha_expiracion;
+		}
+		if (isset($request->numero_referencia)){
+			$lote->numero_referencia = $request->numero_referencia;
+		}
+		if (isset($request->estado)){
+			$lote->estado = $request->estado;
+		}
+		
 		$lote->save();
-		return Response::json(['message' => 'Abono Prestamo Actualizado'], 200);
-
+		return Response::json(['message' => 'Lote Actualizado'], 200);
 	}
 
 	public function activar(Request $request)

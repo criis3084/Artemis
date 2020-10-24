@@ -1,9 +1,23 @@
 <template>
 	<div>
 		<vx-card>
-			<div v-for="(beneficio,id) in listado_beneficios" :key="id">
-					<vs-checkbox class="mt-2" color="dark" icon-pack="feather" icon="icon-check" v-model="estados[id]"> Entrega del mes de <b>{{ nombreMes(beneficio.fecha_entrega.split('-',3)[1]) }} </b> </vs-checkbox>
+			<div class="vx-row leading-loose p-base">
+                <div class="vx-col w-1/2">
+                    <h1><b>Paciente:</b> </h1>
+                    <h2>{{informacion.nombres + ' ' + informacion.apellidos}} </h2>
+                </div>
+				<div class="vx-col w-1/2 text-right">
+                    <h2> <b>Tipo de Paciente:</b>  </h2>
+                        <h3>{{informacion.tipo_paciente.nombre}} </h3>
+                </div>
+				<h2 class="mt-10"> Lista de entregas: </h2>
 			</div>
+			<ul class="vx-timeline">
+				<li v-for="(beneficio,id) in listado_beneficios" :key="id">
+					<vs-checkbox class="mt-3" color="success" icon-pack="feather" icon="icon-check" v-model="estados[id]"> Entrega del mes de <b>{{ nombreMes(beneficio.fecha_entrega.split('-',3)[1]) }} del {{beneficio.fecha_entrega.split('-',3)[0]}} </b> </vs-checkbox>
+					<small class="text-grey activity-e-time" v-if="estados[id]">&nbsp;  Entregado el: {{getDate(beneficio.updated_at) }}</small>
+				</li>
+			</ul>
 		</vx-card>
 	</div>
 </template>
@@ -19,6 +33,7 @@ export default {
 			listado_beneficios:[],
 			estados:[],
 			copia:[],
+			informacion:[],
 			fecha_beneficio:0,
 			id:0,
 			estado:false
@@ -38,27 +53,39 @@ export default {
 			if (seCambio==true){
 				this.abrirDialog(indiceCambiado,!this.estados[indiceCambiado])
 			}
-
     	},    
 	},
 	methods: {
+		traerNombre(tabla){
+			tabla.forEach(function(valor, indice, array){
+				valor.nombres = valor.datos.nombres
+				valor.apellidos = valor.datos.apellidos
+				valor.numero_telefono = valor.datos.numero_telefono
+			}); 
+			return tabla
+		},
 		async importarBeneficios() {
 			let me = this;
 	        me.id_recibido = this.$route.params.id;
-			const response = await axios
-			.get(`/api/beneficio/get?&criterio=paciente_id&buscar=${me.id_recibido}&completo=true`)
-			.then(function(response) {
-				var respuesta = response.data;
-				me.listado_beneficios = respuesta.beneficios.data;
-				me.listado_beneficios.forEach(function(elemento, indice, array){
-					me.estados.push(elemento.estado==1?true:false)
-				})
+			const response = await axios.get(
+				`/api/paciente/get?criterio=id&buscar=${me.id_recibido}&completo=true`)
+			.then(function (response) {
+				const respuesta = response.data
+				me.listado_beneficios = respuesta.pacientes.data
+				me.listado_beneficios = me.traerNombre(me.listado_beneficios)
+				me.informacion = me.listado_beneficios[0]
+				console.log(me.informacion.tipo_paciente)
+				me.listado_beneficios= me.listado_beneficios[0].beneficios
+				me.listado_beneficios.reverse();
+					me.listado_beneficios.forEach(function(elemento, indice, array){
+						me.estados.push(elemento.estado==1?true:false)
+					})
 				me.copia=me.estados.slice()
 				me.dia_apoyo=me.listado_beneficios[0].fecha_entrega.split('-',3)[2]
 			})
-			.catch(function(error) {
-				console.log(error);
-			});
+			.catch(function (error) {
+				console.log(error)
+			})
 		},
 		getNow(){
 			let fecha_pago=''
@@ -68,11 +95,6 @@ export default {
 			return this.getDate(todaySin)
 		},
 		abrirDialog(id, estado){
-			console.log('id')
-			console.log(id)
-			console.log('estado')
-			console.log(estado)
-
 			let titulo = '';
 			let color = '';
 			if(estado === 0 || estado === false){
@@ -94,11 +116,9 @@ export default {
 				accept: this.cambiarEstado,
 				cancel: this.close
 			})
-
 		},
 		cambiarEstado(color){
 			let titulo = ''
-			console.log('entra?')
 			let me =this
 			if(me.estado === 0 || me.estado === false){
 				titulo = 'Activado exitósamente'
@@ -166,6 +186,7 @@ export default {
 				paciente_id:me2.id_recibido
 			}).then(function (response){
 				console.log(response)
+				//me2.importarBeneficios()
 				location.reload();
 			})
 		},
@@ -227,3 +248,7 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss">
+@import "@sass/vuexy/components/vxTimeline.scss";
+</style>

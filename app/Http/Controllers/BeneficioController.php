@@ -13,7 +13,6 @@ class BeneficioController extends Controller
 	{
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
-		$id = (isset($request->id)) ? $request->id :'false';
 		$completo = (isset($request->completo)) ? $request->completo :'false';
 		$count = Beneficio::all()->count();
 		if ($completo == 'false')

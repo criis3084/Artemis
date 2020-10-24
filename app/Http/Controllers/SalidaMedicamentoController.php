@@ -43,10 +43,10 @@ class SalidaMedicamentoController extends Controller
 			$salidaMedicamento->fecha_salida = $request->fecha_salida;
 			$salidaMedicamento->descripcion = $request->descripcion;
 			$salidaMedicamento->usuario_id = $request->usuario_id;
+			$salidaMedicamento->tipo_salida = $request->tipo_salida;
 			$salidaMedicamento->paciente_id = $request->paciente_id;
 			$salidaMedicamento->save();
-			return Response::json(['message' => 'Salida Medicamento Creada'], 200);
-			#return ['id' => $nino->id];
+			return ['id' => $salidaMedicamento->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}
@@ -59,6 +59,9 @@ class SalidaMedicamentoController extends Controller
 		$salidaMedicamento->descripcion = $request->descripcion;
 		$salidaMedicamento->usuario_id = $request->usuario_id;
 		$salidaMedicamento->paciente_id = $request->paciente_id;
+		if (isset($request->tipo_salida)){
+			$salidaMedicamento->tipo_salida = $request->tipo_salida;
+		}
 		$salidaMedicamento->save();
 		return Response::json(['message' => 'Salida Medicamento Actualizado'], 200);
 

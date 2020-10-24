@@ -108,8 +108,8 @@ export default {
 				console.log('buscando integrantes...')
 				this.buscarIntegrantes()
 			}
-    	},    
-  },
+    	},
+	},
 	methods: {
 		currency(numero) {
 		const formatter = new Intl.NumberFormat('en-US', {
@@ -132,7 +132,6 @@ export default {
 			else{
 				duracionT = this.duracion
 			}
-
 			if(this.interes == '' || this.interes == null){
 				interesT=0
 			}
@@ -162,17 +161,11 @@ export default {
 		},
 		ingresarIntegrantes(idMicroprestamo){
 			const diaPago = this.getDate(this.dia_pago)
-			console.log('id desde funcion')
-			console.log(idMicroprestamo)
 			let contador=0
 			let listaCantidadesO=this.listaCantidades
 			let listaInversionesO=this.listaInversiones
-			console.log(listaCantidadesO)
-			console.log(listaInversionesO)
 			this.lista_encargados_plus.forEach(function(elemento, indice, array){
 				contador = contador+1
-				console.log('inversiones')
-				console.log(listaInversionesO[contador])
 				axios.put("/api/detalleIntegrante/update/",{
 					id:elemento.id,
 					prestamo_individual:listaCantidadesO[indice],
@@ -199,8 +192,6 @@ export default {
 				mora_por_atraso:this.mora_por_atraso,
 				pago_mes:0
 			}).then(function(response) {
-				console.log('id de microprestamo')
-				console.log(response.data.id)
 				me.ingresarIntegrantes(response.data.id)
 			})
 			.catch(function(error) {
@@ -213,7 +204,6 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me.listado_grupos = respuesta.grupoPrestamos.data;
-				console.log(me.listado_grupos)
 			})
 			.catch(function (error) {
 				console.log(error);

@@ -17,4 +17,15 @@ class Paciente extends Model
 	public function beneficios(){
 		return $this->hasMany(Beneficio::class);
 	}
+	public function lista_recetas()
+	{
+		return $this->hasManyThrough(
+		  'App\Receta',
+		  'App\HistorialClinico',
+		  'paciente_id',
+		  'historial_clinico_id',
+		  'id',
+		  'id'
+		);
+	}
 }

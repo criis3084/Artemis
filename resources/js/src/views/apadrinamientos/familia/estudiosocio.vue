@@ -27,7 +27,7 @@
 									<div class="flex items-center">
 										<vs-avatar :src="nino.nino.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="60px"/>
 										<h2>&nbsp; <b> Codigo:</b> {{nino.nino.codigo}}</h2> 
-										<div class="vx-col w-1/2 text-right">
+										<div class="vx-col w-full text-right">
 										 <h3><b>Fecha de apadrinamiento: </b> {{nino.nino.fecha_ingreso}}  </h3>
 										</div>
 									</div>
