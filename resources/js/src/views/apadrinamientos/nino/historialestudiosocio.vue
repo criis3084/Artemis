@@ -17,7 +17,7 @@
 		<div class = "demo-alignment">
 			<h5> <b>Código: </b> </h5><h5>{{codigo}}</h5>
 		</div>
-					<vs-table pagination max-items="5" search :data="arrayData">
+					<vs-table pagination stripe max-items="5" search :data="arrayData" noDataText="No hay datos disponibles">
 
 						<template slot="thead">
 							<vs-th>Ver</vs-th>
@@ -117,20 +117,6 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayData = respuesta.historialEstudios.data;
-            // me.nombre = respuesta.historialEstudios.data[0].datos_nino[0].nombres;
-            // me.apellido = respuesta.historialEstudios.data[0].datos_nino[0].apellidos;
-			// me.codigo = respuesta.historialEstudios.data[0].nino.codigo;
-			// me.estadof = respuesta.historialEstudios.data[0].nino.estado;
-			
-			// me.id = respuesta.historialEstudios.data[0].datos_nino[0].id;
-            // me.pagination= respuesta.pagination;
-            // console.log("array");
-			// console.log(me.arrayData);
-			// if (me.estadof==1) {
-			// 	me.ruta='/apadrinamiento/nino'
-			// } else {
-			// 	me.ruta='/apadrinamiento/ninono'
-			// }
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -141,7 +127,7 @@ export default {
         let me = this;
         me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
-			`/api/nino/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=false`)
+			`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=false`)
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayData = respuesta.ninos.data;
@@ -239,6 +225,7 @@ export default {
 	},
 	mounted(){
 		this.index(1, this.search);
+		this.index2();
 	}
 }
 </script>

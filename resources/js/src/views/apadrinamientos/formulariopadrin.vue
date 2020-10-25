@@ -130,7 +130,7 @@ const dict = {
 	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
     cui: {
-	  required: 'El campo cui es requerido',
+	  required: 'El campo ID es requerido',
 	  alpha_num: 'El campo solo debe de contener letras y números',
 	  max: 'Este campo solo acepta hasta 150 caracteres',
 	},

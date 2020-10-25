@@ -30,7 +30,7 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input name="titulo" v-validate="'required'" class="w-full" icon-pack="feather" icon="icon-bold" icon-no-border label-placeholder="Título de fotografía" v-model="titulo"/>
+					<vs-input name="titulo" v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-bold" icon-no-border label-placeholder="Título de fotografía" v-model="titulo"/>
 						<span class="text-danger">{{ errors.first('titulo') }}</span>
 
 				</div>
@@ -38,7 +38,9 @@
 
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-image" icon-no-border label-placeholder="Descripción de fotografía" v-model="descripcion"/>
+					<vs-input name="descripcion" v-validate="'max:254'" class="w-full" icon-pack="feather" icon="icon-image" icon-no-border label-placeholder="Descripción de fotografía" v-model="descripcion"/>
+						<span class="text-danger">{{ errors.first('descripcion') }}</span>
+
 				</div>
 			</div>
 
@@ -69,6 +71,10 @@ const dict = {
 	},
 	 titulo: {
 	  required: 'El título es requerido',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	 descripcion: {
+	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
   }
 };
@@ -86,6 +92,7 @@ export default {
 		apellido: '',
 		id_recibido:'',
 		valImagen:'',
+		boolVal:null,
 		head:{
 			"imagenanterior":""	
 		},
@@ -98,7 +105,7 @@ export default {
 	},
 	guardar(){
 	this.$validator.validateAll().then(result => {
-	if(result && this.ruta!="") {
+	if(result && this.boolVal==true) {
 		this.id=parseInt(this.$route.params.id)
 		console.log(this.getDate(this.fecha))
 		console.log(this.id,this.valorT,this.valor1)
@@ -120,13 +127,17 @@ export default {
 				});
 		this.$router.push('/apadrinamiento/fotografia/'+this.id);
 	}
-	else {
-		
+	else if(!result && this.boolVal==true){
+		this.boolVal=true;
+	}
+	else{
+		this.boolVal=false;
 		this.$vs.notify({
 				color:'danger',
 				title:`Error en validación`,
 				text:'Ingrese correctamente todos los datos'
 			})
+		this.valImagen='La imagen es requerida';
 	}
 	})
 	},
@@ -163,6 +174,7 @@ export default {
 					title:'Imagen subida',
 					text:'Acción realizada exitósamente!'
 				});
+		this.boolVal=true;
 		this.valImagen='';
 	},
   },

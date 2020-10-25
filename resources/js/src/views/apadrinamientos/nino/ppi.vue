@@ -28,7 +28,7 @@
 				<!--
 				<chartjs-line-chart :height="250" :data="datos" :options="optiones" ></chartjs-line-chart>
 				-->
-					<vs-table pagination max-items="5" search :data="arrayData">
+					<vs-table stripe pagination max-items="5" search :data="arrayData" noDataText="No hay datos disponibles">
 
 						<template slot="thead">
 							<vs-th>Ver</vs-th>
@@ -42,8 +42,8 @@
 								<vs-td>
 									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/ppi/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
 								</vs-td > 							
-								<vs-td >{{data[indextr].fecha_estudio}}</vs-td>
-								<vs-td>{{data[indextr].ppi.total}}</vs-td>
+								<vs-td v-text="data[indextr].fecha_estudio"></vs-td>
+								<vs-td v-text="data[indextr].ppi.total"></vs-td>
 								<vs-td>
 									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 										<span slot="on" >Activo</span>
@@ -78,14 +78,6 @@ export default {
   data () {
     return {
 		rols: [],
-		pagination : {
-			'total' : 0,
-			'current_page' : 0,
-			'per_page' : 0,
-			'last_page' : 0,
-			'from' : 0,
-			'to' : 0
-		},
 		offset : 3,
 		search : '',
 		arrayData: [],
@@ -164,7 +156,7 @@ export default {
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
 	},
-	async index(page, search){ //async para que se llame cada vez que se necesite
+	async index(){ //async para que se llame cada vez que se necesite
         let me = this;
         me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
@@ -172,14 +164,29 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayData = respuesta.historialPpis.data;
-            me.nombre = respuesta.historialPpis.data[0].datos_nino[0].nombres;
-            me.apellido = respuesta.historialPpis.data[0].datos_nino[0].apellidos;
-			me.codigo = respuesta.historialPpis.data[0].nino.codigo;
-			me.estadof = respuesta.historialPpis.data[0].nino.estado;
-			me.id = respuesta.historialPpis.data[0].datos_nino[0].id;
-			console.log("Quiero ver estado");
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+		me.datos = me.traerData(me.arrayData);
+		me.opciones = me.traerOptions(me.arrayData)
+		me.ya=true;
+	},
+	async index2(){ //async para que se llame cada vez que se necesite
+        let me = this;
+        me.id_recibido = this.$route.params.id;
+		const response = await axios.get(
+			`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=false`)
+		.then(function (response) {
+			var respuesta= response.data;
+            me.arrayData = respuesta.ninos.data;
+            me.nombre = respuesta.ninos.data[0].datos.nombres;
+            me.apellido = respuesta.ninos.data[0].datos.apellidos;
+			me.codigo = respuesta.ninos.data[0].codigo;
+			me.estadof = respuesta.ninos.data[0].estado;
+			me.id = respuesta.ninos.data[0].datos.id;
+            console.log("array nino");
 			console.log(me.arrayData);
-			me.pagination= respuesta.pagination;
 			if (me.estadof==1) {
 				me.ruta='/apadrinamiento/nino'
 			} else {
@@ -189,8 +196,6 @@ export default {
 		.catch(function (error) {
 			console.log(error);
 		});
-		me.datos = me.traerData(me.arrayData);
-		me.opciones = me.traerOptions(me.arrayData)
 		me.ya=true;
     },
 	abrirDialog(id, estado){
@@ -263,11 +268,12 @@ export default {
 			title:`${titulo}`,
 			text:`${titulo}`
 		})
-		this.index(this.pagination.current_page, this.search);
+		this.index();
 	}
 	},
 	mounted(){
-		this.index(1, this.search);
+		this.index();
+		this.index2();
 	}
 }
 </script>
