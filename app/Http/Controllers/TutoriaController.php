@@ -63,7 +63,7 @@ class TutoriaController extends Controller
 		$tutoria->nino_id = $request->nino_id;
 		$tutoria->tutor_id = $request->tutor_id;
 		$tutoria->save();
-		return Response::json(['message' => 'Relazion Acualizada'], 200);
+		return Response::json(['message' => 'tutoría  Acualizada'], 200);
 		//
 	}
 

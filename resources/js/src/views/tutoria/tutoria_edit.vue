@@ -12,12 +12,12 @@
 
 		<div class="con-exemple-prompt">
 				<b></b>
-				
-				<vs-input placeholder="Razón de la tutoría" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+				<small class="date-label">Razón de la tutoría</small>		
+				<vs-input v-model="nombreTT" class="mt-4 mb-2 col-1 w-full" />
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<div class="my-4">
 							<small class="date-label">Fecha de nacimiento</small>
-							<datepicker :format="dateFormat" name="end-date" v-model="valMultipe.fecha"></datepicker>
+							<datepicker :format="dateFormat" name="end-date" v-model="fechaT"></datepicker>
 						</div>
 					</div>
 				<vs-alert  color="danger" vs-icon="new_releases" class="mt-4" >
@@ -26,9 +26,11 @@
 				<br>
 		</div>
 			<template>
-				<v-select label="nino_nombres" :options="nino" v-model="valMultipe.value3" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<small class="date-label">Nombre del niño</small>
+				<v-select label="nombrecompleto" :options="nino" v-model="nino_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 				<br>
-				<v-select label="tutor_nombres" :options="tutor" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<small class="date-label">Nombre del tutor</small>
+				<v-select label="nombrecompleto" :options="tutor" v-model="tutor_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 			</template> 
 		</vs-prompt>
 	</div>
@@ -50,8 +52,7 @@ export default {
         nombre:String,
         fecha:String,
         nino_id:{default: 0},
-        tutor_id:{default: 0},
-        
+        tutor_id:{default:0}
 	},
   components: {
     Dropdown,
@@ -63,15 +64,23 @@ export default {
       valMultipe: {
         value1: "",
 		value2: "",
-		 fecha: "",
 		value3: "",
-		value4: ""
+		value4: "",
+		value5: ""
       },
-      idT:0,
-	  nino: [],
-	  datosNinos:[],
+	  idT:0,
+	  nombreT:'',
+	  nombreTT:'',
+	  nombreTTT:'',
+	  fechaT:this.getDate(this.fecha),
+	  nino_id:0,
+	  nino_nombreE:'',
+	  nino_idT:{id:-1,nombres:''},
+	  tutor_nombreE:'',
+	  tutor_idT:{id:-1,nombres:''},
 	  tutor: [],
-	  titulo: "Nueva tutoría",
+	  nino: [],
+	  titulo: "Editar Tutoría",
 	  dateFormat : 'yyyy-MM-dd',
     };
   },
@@ -86,16 +95,20 @@ export default {
 	}
   },
   methods: {
-	traerNombreNino(tabla){
+		traerNombreNino(tabla){
 		console.log(typeof(tabla));
 		tabla.forEach(function(valor, indice, array){
-			valor.nino_nombres=valor.datos.nombres
+			valor.nombres=valor.datos.nombres
+			valor.apellidos=valor.datos.apellidos
+			valor.nombrecompleto=valor.nombres + " " +  valor.apellidos
 		}); 
 		return tabla
 	},
 	traerNombreTutor(tabla){
 		tabla.forEach(function(valor, indice, array){
-			valor.tutor_nombres=valor.datos.nombres
+			valor.nombres=valor.datos.nombres
+			valor.apellidos=valor.datos.apellidos
+			valor.nombrecompleto=valor.nombres + " " +  valor.apellidos
 		}); 
 		return tabla
 	},
@@ -103,44 +116,51 @@ export default {
 		if(this.$props.identificador==true)
 		{
 			let me = this;
-			const response = await axios.get(`/api/nino/get?completo=false`)
-				.then(function(response) {
+			let encontrado=false;
+			let elementoE={}
+			const response = await axios.get(`/api/nino/get?completo=true`)
+			.then(function (response){
 				var respuesta = response.data;
 				me.nino = respuesta.ninos.data;
-				me.nino = me.traerNombreNino(me.nino)
-				me.pagination = respuesta.pagination;
+			    me.nino = me.traerNombreNino(me.nino);
 				me.nino.forEach(function(elemento, indice, array) {
 					if (elemento.id==me.$props.nino_id)
 					{
-						me.valMultipe.value3=elemento
+						elementoE=elemento
+						encontrado=true
 					}
 				})
-					me.idT =me.$props.id;
-					me.valMultipe.value1 =me.$props.nombre;
-					me.valMultipe.fecha =me.$props.fecha;
+					me.nino_idT = elementoE;
+					me.idT = me.$props.id;
+					me.nombreT = me.$props.nombrecompleto;
 				})
 				.catch(function(error) {
 				console.log(error);
 				});
+				me.nombreTT = this.$props.nombre
+				me.fechaT = this.$props.fecha	
 		}
 	},
     async importar_tutor() {
 		if(this.$props.identificador==true)
 		{
 		let me = this;
-		const response = await axios
-			.get(`/api/tutor/get?completo=false`)
-			.then(function(response) {
+			let encontrado=false;
+			let elementoE={}
+			const response = await axios.get(`/api/tutor/get?completo=false`)
+			.then(function (response){
 				var respuesta = response.data;
 				me.tutor = respuesta.tutors.data;
-				me.tutor = me.traerNombreTutor(me.tutor)
-				me.pagination = respuesta.pagination;
+				me.tutor = me.traerNombreTutor(me.tutor);
 				me.tutor.forEach(function(elemento, indice, array) {
 					if (elemento.id==me.$props.tutor_id)
-					{
-						me.valMultipe.value4=elemento
+					{	
+						elementoE=elemento
+						encontrado=true
 					}
 				})
+				
+					me.tutor_idT = encontrado == true ? elementoE:{id:me.$props.tutor_id,nombres:'Tutor desactivado'} 
 			})
 			.catch(function(error) {
 			console.log(error);
@@ -150,10 +170,10 @@ export default {
 	acceptAlert () {
 		axios.put("/api/tutoria/update/",{
 			id:this.idT,
-			nombre: this.valMultipe.value1,
-			fecha: this.getDate(this.valMultipe.fecha),
-			nino_id: this.valMultipe.value3.id,
-			tutor_id: this.valMultipe.value4.id,
+			nombre: this.nombreTT,
+			fecha: this.getDate(this.fechaT),
+			nino_id: this.nino_idT.id,
+			tutor_id: this.tutor_idT.id,
 		}).then(function(response) {
 				console.log(response)
 			})
@@ -171,8 +191,8 @@ export default {
 	this.$emit("cerrado", "Se cerro el formulario");
 		this.$vs.notify({
 			color: "danger",
-			title: "Closed",
-			text: "You close a dialog!",
+			title: "Cerrado",
+			text: "Diálogo cerrado!",
 		});
     },
     clearValMultiple() {
