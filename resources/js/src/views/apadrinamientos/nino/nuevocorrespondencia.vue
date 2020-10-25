@@ -1,11 +1,16 @@
 <template>
 	<div>
 		<vx-card>
-			<div>
-				<div class="vx-col md:w-1/2 w-full mt-5">
-            		<vs-button @click="regresar" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
+
+			<div class = "demo-alignment">
+				<div class="vx-col md:w-1/3 w-full mt-5">
+            		<vs-button @click="regresar" class="w-full" type="border" radius icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button>
         		</div>
-			</div>
+				<div class="flex-1 ">
+				<h2>Nueva correspondencia</h2>
+				</div>
+            </div>
+				<vs-divider position="right">PID&#174;</vs-divider>
 			<div>
 			  <div class = "demo-alignment">
 			        <h5> <b>Nueva correspondencia del niño: </b> </h5><h5>{{nombres_nino}}</h5><h5>{{apellidos_nino}}</h5>
@@ -17,8 +22,10 @@
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload automatic action="/api/historialCorrespondencia/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Fotografía de la correspondencia" />
+						<vs-upload v-validate="'required'" name="foto" automatic action="/api/historialCorrespondencia/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Fotografía de la correspondencia" />
 					</template>
+					<span class="text-danger">{{ this.valImagen }}</span>
+
 				</div>
 			</div>
 
@@ -33,7 +40,7 @@
 		</form>
 
         <br>
-		<vs-button @click="guardar">Registrar imagen</vs-button>
+		<vs-button icon-pack="feather" type="gradient" icon="icon-save" @click.prevent="guardar">Registrar imagen</vs-button>
 			</div>
 		</vx-card>
 	</div>
@@ -46,6 +53,15 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
 import axios from 'axios'
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+    foto: {
+	  required: 'La imagen es requerida',
+	},
+  }
+};
+Validator.localize('en', dict);
 export default {
   data() {
     return {
@@ -65,7 +81,9 @@ export default {
         apellidos_nino:'',
 		nombres_padrino:'',
 		correspondencia_id:0,
-        apellidos_padrino:'',
+		valImagen:'',
+		apellidos_padrino:'',
+		boolVal:null,
 		head:{
 			"imagenanterior":""	
 		},
@@ -80,6 +98,8 @@ export default {
 		this.correspondencia_id=id;
 	},
 	guardar(){
+	this.$validator.validateAll().then(result => {
+	if(result && this.boolVal==true) {
 		this.id=this.$route.params.id;
 		axios.post("/api/historialCorrespondencia/post/",{
             apadrinamiento_id:this.id,
@@ -88,16 +108,31 @@ export default {
 		}).then(function(response) {
 			me.enviando(response.data.id)
 				console.log(response)
-				this.$vs.notify({
-					color:'success',
-					title:'Exito',
-					text:'Registro Creado!'
-				});
+				
 			})
 			.catch(function(error) {
 			console.log(error)
 		});
+		this.$vs.notify({
+					color:'success',
+					title:'Exito',
+					text:'Registro Creado!'
+				});
 		this.$router.push('/apadrinamiento/correspondencia/'+this.id);
+	}
+	else if(!result && this.boolVal==true){
+		this.boolVal=true;
+	}
+	else{
+		this.boolVal=false;
+		this.$vs.notify({
+				color:'danger',
+				title:`Error en validación`,
+				text:'Ingrese correctamente todos los datos'
+			})
+		this.valImagen='La imagen es requerida';
+	}
+	})
 	},
 	getDate(datetime) {
         let date = new Date(datetime);
@@ -138,6 +173,13 @@ export default {
 	respuesta(e){
 		this.ruta_imagen=e.currentTarget.response.replace(/['"]+/g, '')
 		this.head.imagenanterior=this.ruta_imagen
+		this.$vs.notify({
+					color:'success',
+					title:'Imagen subida',
+					text:'Acción realizada exitósamente!'
+				});
+		this.boolVal=true;
+		this.valImagen='';
 	},
   },
   mounted(){

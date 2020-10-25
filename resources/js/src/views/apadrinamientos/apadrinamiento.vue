@@ -24,7 +24,6 @@
             <vs-th>Nombre Padrino</vs-th>
 			      <vs-th>Estado</vs-th>
             <vs-th>Acciones</vs-th>
-			<vs-th></vs-th>
         </template>
 
         <template slot-scope="{ data }">
@@ -37,7 +36,6 @@
               }}
               </vs-td>
             <vs-td>{{ data[indextr].datos_padrino[0].nombres + " " + data[indextr].datos_padrino[0].apellidos}}</vs-td>
-            <vs-td>
               <vs-td :data="data[indextr].estado">
                 <vs-switch
                   color="success"
@@ -48,8 +46,6 @@
                   <span slot="off">Desactivo</span>
                 </vs-switch>
               </vs-td>
-              
-            </vs-td>
             <vs-td>
               <div class="flex items-center">
                 <vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>

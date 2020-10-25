@@ -1,11 +1,17 @@
 	<template>
 			<div>
+				<vx-card class="mb-base">
 				<div class = "demo-alignment">
+					<div class="vx-col md:w-1/4 w-full mt-5">
+					<router-link to="/apadrinamiento/apadrinamiento/"><vs-button class="w-full" type="border" radius icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+					</div>
 					<h2>Historial de Correspondencia</h2>
 					<vx-tooltip text = "Agregar nueva "> 
                       <vs-button @click="$router.push('/ingresar/correspondencia/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button>
                     </vx-tooltip>
 				</div>
+				<vs-divider position="right">PID&#174;</vs-divider>
+
                 <div class = "demo-alignment">
 			        <h5> <b>Nombre del niño: </b> </h5><h5>{{nombres_nino}}</h5><h5>{{apellidos_nino}}</h5>
 		        </div>
@@ -13,38 +19,56 @@
                     <h5> <b>Nombre del padrino: </b> </h5><h5>{{nombres_padrino}}</h5><h5>{{apellidos_padrino}}</h5>
                 </div>
 				<br>
-				<vx-card class="mb-base">
-					<vs-table pagination max-items="5" search :data="arrayData">
+				
+					<vs-table stripe pagination max-items="2" search :data="arrayData" noDataText="No hay datos disponibles">
 
 						<template slot="thead">
+						<div class="flex mb-4">
+						<div class="w-1/2">
 							<vs-th>Imagen</vs-th>
+						</div>
+						<div class="w-1/4">
 							<vs-th>Descripción</vs-th>
+						</div>
+						<div class="w-1/4">
 							<vs-th>Fecha</vs-th>
+						</div>
+						<!-- <div class="w-1/4">
 							<vs-th>Estado</vs-th>
+						</div> -->
+						</div>
 						</template>
 
-						<template>
-							<vs-tr v-for="historialCorrespondencia in arrayData" :key="historialCorrespondencia.id">
+						<template slot-scope="{data}">
+						<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
+						<div class="flex mb-4">
+						<div class="w-1/2">
 								<vs-td>
-									<img :src="historialCorrespondencia.correspondencia.ruta_imagen" :alt="historialCorrespondencia.correspondencia.ruta_imagen" class="responsive card-img-top">
-								</vs-td>	
-								<vs-td v-text="historialCorrespondencia.correspondencia.descripcion" ></vs-td>
-								<vs-td v-text="getDate(historialCorrespondencia.correspondencia.created_at)" ></vs-td>
-								<!-- <vs-td>{{getDate(data[indextr].correspondencia.descripcion)}}</vs-td>					 -->
-								<!-- <vs-td >{{getDate(data[indextr].created_at)}}</vs-td> -->
+									<img :src="data[indextr].correspondencia.ruta_imagen" :alt="data[indextr].correspondencia.ruta_imagen" class="responsive card-img-top">
+								</vs-td>
+						</div>
+						<div class="w-1/4">	
+								<vs-td v-text="data[indextr].correspondencia.descripcion" ></vs-td>
+						</div>
+						<div class="w-1/4">
+								<vs-td v-text="getDate(data[indextr].correspondencia.created_at)" ></vs-td>
+						</div>
+						<!-- <div class="w-1/4">
 								<vs-td>
-									<vs-switch color="success" v-model="historialCorrespondencia.estado" @click="abrirDialog(historialCorrespondencia.id, historialCorrespondencia.estado)">
+									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
 										<span slot="on" >Activo</span>
 										<span slot="off">Desactivo</span>
 									</vs-switch>
 								</vs-td>
+						</div> -->
+						</div>
 							</vs-tr>
 						</template>
 						
 					</vs-table>
 				</vx-card>
-				<div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/apadrinamiento/apadrinamiento/"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+				<div class="vx-col md:w-1/3 w-full mt-5">
+  <router-link to="/apadrinamiento/apadrinamiento/"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
     </div>
 </div>
 </template>
@@ -106,27 +130,13 @@ export default {
 	titulo(){
 		return 'Nombre: '+this.nombre +' '+ this.apellido + "     "+ ' Codigo: ' +this.codigo
 	},
-	// traerNombres(tabla){
-	// 	tabla.forEach(function(valor, indice, array){
-    //   valor.nombress=valor.datos_nino[0].nombres
-    //   valor.apellidoss=valor.datos_nino[0].apellidos
-    //   valor.nombres = valor.datos_padrino[0].nombres
-    //   valor.apellidos = valor.datos_padrino[0].apellidos
-    //   this.nombres_nino = valor.nombress
-    // this.apellidos_nino = valor.apellidoss
-    // this.nombres_padrino = valor.nombres
-    // this.apellidos_padrino = valor.apellidos           
-    // }); 
-    // console.log(tabla);
-	// 	return tabla
-    // },
 
 	getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
 	},
-	async index(page, search){ //async para que se llame cada vez que se necesite
+	async index(){ //async para que se llame cada vez que se necesite
         let me = this;
         me.id_recibido = this.$route.params.id;
         console.log("criterio");
@@ -137,7 +147,7 @@ export default {
 			var respuesta= response.data;
             me.arrayData = respuesta.historialCorrespondencias.data;
             me.apadrinamiento_idT = me.arrayData[0].apadrinamiento_id;
-            me.importarApadrinamiento(me.apadrinamiento_idT);
+            // me.importarApadrinamiento(me.apadrinamiento_idT);
             me.correspondencia_idT = me.arrayData.correspondencia_id;
             console.log("historial");
             console.log(me.arrayData);
@@ -147,13 +157,11 @@ export default {
 		});
 		me.ya=true;
     },
-    importarApadrinamiento(apadrinamiento){ //async para que se llame cada vez que se necesite
+    importarApadrinamiento(){ //async para que se llame cada vez que se necesite
         let me = this;
-        console.log("id apa");
-        console.log(apadrinamiento);
         me.id_recibido = this.$route.params.id;
 		axios.get(
-			`/api/apadrinamiento/get?&criterio=id&buscar=${apadrinamiento}&completo=true`)
+			`/api/apadrinamiento/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayDataT = respuesta.apadrinamientos.data;
@@ -237,7 +245,7 @@ export default {
           title:`${titulo}`,
           text:'La acción se realizo exitósamente'
 		})
-		this.index(this.pagination.current_page, this.search);
+		this.index();
 	},
 	close(){
 		let titulo = "Cancelado"
@@ -247,12 +255,12 @@ export default {
 			title:`${titulo}`,
 			text:`${titulo}`
 		})
-		this.index(this.pagination.current_page, this.search);
+		this.index();
 	}
 	},
 	mounted(){
-        this.index(1, this.search);
-        // this.importarApadrinamiento();
+        this.index();
+        this.importarApadrinamiento();
 	}
 }
 </script>
