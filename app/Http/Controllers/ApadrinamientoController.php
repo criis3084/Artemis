@@ -61,14 +61,14 @@ class ApadrinamientoController extends Controller
     public function update(Request $request, Apadrinamiento $apadrinamiento)
     {
 		//if(!$request->ajax())return redirect('/');
-		$relacion = Apadrinamiento::findOrFail($request->id);
+		$apadrinamiento = Apadrinamiento::findOrFail($request->id);
 		$apadrinamiento->nino_id = $request->nino_id;
 		$apadrinamiento->padrino_id = $request->padrino_id;
 		// Actualizar direccion del ni;o del encargado
 		// Pendiente
-		$relacion->save();
+		$apadrinamiento->save();
 		
-		return Response::json(['message' => 'Relazion Acualizada'], 200);
+		return Response::json(['message' => 'Apadrinamiento Acualizada'], 200);
 	}
 	
 	public function activar(Request $request)

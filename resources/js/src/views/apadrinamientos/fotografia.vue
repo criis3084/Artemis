@@ -39,19 +39,19 @@
 		</div>
 		</div> -->
 		
-			<vs-table pagination stripe max-items="2" :data="arrayData">
+			<vs-table stripe pagination max-items="2" search :data="arrayData" noDataText="No hay datos disponibles">
 				<template slot="thead">
 					<div class="flex mb-4">
 						<div class="w-1/2">
 					<vs-th>Imagen</vs-th>
 						</div>
-						<div class="w-1/4">
+						<div class="w-1/6">
 					<vs-th>Título</vs-th>
 						</div>
-						<div class="w-1/4">
+						<div class="w-1/6">
 					<vs-th>Descripción</vs-th>
 						</div>
-						<div class="w-1/4">
+						<div class="w-1/6">
 					<vs-th>Fecha</vs-th>
 						</div>
 					<!-- <vs-th>Estado</vs-th> -->
@@ -67,13 +67,13 @@
 							<img :src="data[indextr].fotografia.ruta" alt="content-img" class="responsive card-img-top">
 						</vs-td>
 						</div>
-						<div class="w-1/4">
+						<div class="w-1/6">
 						<vs-td v-text="data[indextr].fotografia.titulo" ></vs-td>
 						</div>
-						<div class="w-1/4">
+						<div class="w-1/6">
 						<vs-td v-text="data[indextr].fotografia.descripcion" ></vs-td>
 						</div>
-						<div class="w-1/4">
+						<div class="w-1/6">
 						<vs-td v-text="getDate(data[indextr].created_at)" ></vs-td>
 						</div>
 						</div>
@@ -151,10 +151,23 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayData = respuesta.historialfotografias.data;
-            me.nombre = respuesta.historialfotografias.data[0].datos_nino[0].nombres;
-            me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
-            me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
-            me.id = respuesta.historialfotografias.data[0].datos_nino[0].id;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	},
+	async index2(){ //async para que se llame cada vez que se necesite
+        let me = this;
+		me.id_recibido = this.$route.params.id
+		const response = await axios.get(
+			`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
+		.then(function (response) {
+			var respuesta= response.data;
+            me.arrayData = respuesta.ninos.data;
+            me.nombre = respuesta.ninos.data[0].datos.nombres;
+            me.apellido = respuesta.ninos.data[0].datos.apellidos;
+			me.codigo = respuesta.ninos.data[0].codigo;
+			me.id = respuesta.ninos.data[0].datos.id;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -225,7 +238,8 @@ export default {
 	},
   },
   mounted(){
-    this.index();
+	this.index();
+	this.index2();
   },
   computed:{
 
