@@ -17,4 +17,14 @@ class IngresoMedicamento extends Model
 	public function detalleIngresos(){
 		return $this->belongsTo('App\DetalleIngreso','detalle_ingreso_id','id');
 	}
+	public function datos_proveedor(){
+		return $this->hasManyThrough(
+			'App\PersonaSinAcceso',
+			'App\Proveedor',
+			'id',
+			'id',
+			'proveedor_id',
+			'persona_sin_acceso_id'
+		);
+	}
 }

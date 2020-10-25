@@ -59,13 +59,13 @@
           </vs-tr>
         </template>
       </vs-table>
-     		<!-- <tutoriaEdit
+     <editar
 			v-bind:identificador="abrir_editar"
 			v-bind:id="id"
-			v-bind:nombre="nombre"
-      v-bind:fecha="fecha"
-			v-on:cerrado="index(1,'');"
-		></tutoriaEdit> -->
+	  	v-bind:nino_id="nino_id"
+			v-bind:padrino_id="padrino_id"
+			v-on:cerrado="index();"
+		></editar> -->
     </vx-card>
   </div>
 </template>
@@ -78,6 +78,7 @@ import StatisticsCardLine from "@/components/statistics-cards/StatisticsCardLine
 import ChangeTimeDurationDropdown from "@/components/ChangeTimeDurationDropdown.vue";
 import VxTimeline from "@/components/timeline/VxTimeline";
 import Formulario from './formularioapadrina.vue';
+import editar from './apadrinamientoedit.vue';
 import axios from "axios";
 import vSelect from 'vue-select'
 export default {
@@ -113,7 +114,8 @@ export default {
     ChangeTimeDurationDropdown,
     VxTimeline,
     Formulario,
-    vSelect
+    vSelect,
+    editar
   },
   methods: {
     traerNombres(tabla){
@@ -127,12 +129,10 @@ export default {
 		return tabla
     },
 
-    cambiar(tutoria){
-		this.id = tutoria.id;
-		this.nombre = tutoria.nombre;
-		this.fecha = tutoria.fecha;
-		this.nino_id = tutoria.nino_id;
-		this.tutor_id = tutoria.tutor_id;
+    cambiar(apadrinamiento){
+		this.id = apadrinamiento.id;
+		this.nino_id = apadrinamiento.nino_id;
+		this.padrino_id = apadrinamiento.padrino_id;
 		this.abrir_editar = true;
 	},
     getDate(datetime) {
@@ -258,40 +258,6 @@ exportToExcel () {
       this.selectedFormat = 'xlsx'
     },
 
-
-    guardar() {
-      axios
-        .post("/api/tutoria/post", {
-          //Esto sirve para enviar parametros al controlador
-          nombre: this.nombre
-        })
-        .then(function(response) {
-          toastr.success(response.data.message, "Listo");
-          l.stop();
-          me.closeModal();
-        })
-        .catch(function(error) {
-          l.stop();
-          toastr.error(error.response.data.message, "Error");
-        });
-    },
-    actualizar(id) {
-      axios
-        .put("/api/tutoria/update", {
-          //Esto sirve para enviar parametros al controlador
-          nombre: this.nombre,
-          id: id //Este id es el que le entra a la funcion para buscar el registro en BD
-        })
-        .then(function(response) {
-          toastr.success(response.data.message, "Listo");
-          l.stop();
-          me.closeModal();
-        })
-        .catch(function(error) {
-          l.stop();
-          toastr.error(error.response.data.message, "Error");
-        });
-    }
   },
   mounted() {
     this.index();

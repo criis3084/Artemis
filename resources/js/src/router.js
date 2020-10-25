@@ -578,6 +578,22 @@ const router = new Router({
             rule: 'admin'
           }
         },
+        {
+          path: '/ingreso/medicamentos',
+          name: 'ingreso-medicamentos',
+          component: () => import('./views/Farmacia/Medicamentos/ingresomedicamentos.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {			
+          path: '/ingresar/ingresomedi',
+          name: 'ingresar-ingresomedi',
+          component: () => import('./views/Farmacia/Medicamentos/formularioingresomedi.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
         {			
           path: '/ingresar/salidamedi',
           name: 'ingresar-salidamedi',
