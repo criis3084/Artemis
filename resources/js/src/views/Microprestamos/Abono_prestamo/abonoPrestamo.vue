@@ -4,7 +4,7 @@
     <!-- HORIZONTAL LAYOUT -->
     <div class="vx-col md:w-1/2 w-full mb-base">
        <vs-alert v-if="alerta==true" color="success" title="Información" active="true">
-           El pago de la vivienda se ha completado 
+           El pago del microprestamo se ha competado
         </vs-alert>
       <vx-card title="Ingresar Abono">
         <div class="vx-row mb-6">
@@ -48,7 +48,7 @@
         </div>
         <div class="vx-row">
           <div class="vx-col sm:w-2/3 w-full ml-auto">
-            <vs-button class="mr-3 mb-2" @click="guardar">Aceptar</vs-button>
+            <vs-button class="mr-3 mb-2" @click="enviarForm">Aceptar</vs-button>
             <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button>
           </div>
         </div>
@@ -145,7 +145,7 @@ const dict = {
       max:'No se aceptan más de 60 caracteres'
     },
     encargado:{
-      required:'Seleccione un propietario porfavor'
+      required:'Seleccione una persona'
     }
   }
 }
@@ -427,6 +427,7 @@ export default{
     desactivar () {
       
     },
+    
 
     printInvoice () {
       window.print()

@@ -22,8 +22,7 @@
         </template>
 				<template slot="thead">
                     <vs-th>Ver</vs-th>
-                    <vs-th>Nombres</vs-th>
-                    <vs-th>Apellidos</vs-th>
+                    <vs-th>Nombre completo</vs-th>
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Estado</vs-th>
 					 <vs-th>Acciones</vs-th>
@@ -35,8 +34,7 @@
 						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/constructor/'+data[indextr].id)"></vs-button></vx-tooltip>			
 					    </vs-td>
 
-						<vs-td>{{data[indextr].datos.nombres}}</vs-td>
-		            	<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
+						<vs-td>{{data[indextr].datos.nombres +' '+ data[indextr].datos.apellidos}}</vs-td>
                         <vs-td>{{data[indextr].datos.numero_telefono}}</vs-td>
 						<vs-td>
 							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">

@@ -39,7 +39,7 @@
         <template slot-scope="{ data }">
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
             <vs-td>
-				<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/vivienda/'+data[indextr].id)"></vs-button></vx-tooltip>			
+				<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/microprestamo/Vermicroprestamo/'+data[indextr].id)"></vs-button></vx-tooltip>			
 			</vs-td>
             <vs-td>{{data[indextr].id}}</vs-td>
 
@@ -61,7 +61,6 @@
       <vs-td>
         <div class="flex items-center">
 				<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/microprestamo/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
-				<vx-tooltip text="Historial de abonos"> <vs-button radius color="dark" type="flat"  icon="account_balance_wallet" size="large" @click="$router.push('/microprestamo/abono/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
         </div>
     	</vs-td>
           </vs-tr>

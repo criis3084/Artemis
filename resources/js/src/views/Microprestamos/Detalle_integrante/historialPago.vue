@@ -8,7 +8,10 @@
           <vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
         </div>
     </vs-prompt>
-     <vs-table title="Sectores" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles" >
+    <div class = "demo-alignment">
+      <h4></h4>
+    </div>
+     <vs-table title="Sectores" pagination max-items="7" search :data="arrayData" noDataText="No se han realizado abonos">
         <template slot="header">
           <vs-button @click="activePrompt=true">Exportar</vs-button>
         </template>
@@ -19,6 +22,7 @@
 				        <vs-th >Mora</vs-th>
                 <vs-th >Cantidad Restante</vs-th>
 				        <vs-th >Fecha Pago</vs-th>
+                <vs-th >Estado</vs-th>
         </template>
 
             <template slot-scope="{data}">
@@ -55,7 +59,7 @@
                 </vs-tr>
             </template>
         </vs-table>
-    
+    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
 
 </vx-card>
 </template>
@@ -67,6 +71,8 @@ export default {
   data () {
     return {
       arrayData:[],
+      nombre:'',
+      apellido:'',
       activePrompt: false,
 	  fileName: '',
       formats:['xlsx', 'csv', 'txt'],
@@ -77,6 +83,9 @@ export default {
     }
   },
   methods:{
+    goBack () {
+      this.$router.go(-1)
+    },
     async index () {
       const me = this
       me.id_recibido = this.$route.params.id

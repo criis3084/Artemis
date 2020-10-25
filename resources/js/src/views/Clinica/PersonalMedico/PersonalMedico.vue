@@ -27,8 +27,8 @@
 				<template slot="thead">
                     <vs-th>Ver</vs-th>
 					<vs-th>Id</vs-th>
-                    <vs-th>Nombres</vs-th>
-                    <vs-th>Apellidos</vs-th>
+                    <vs-th>Nombre completo</vs-th>
+                    
 					<vs-th>Especialidad</vs-th>
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Estado</vs-th>
@@ -46,10 +46,9 @@
 						<vs-td>
 								<div class="flex items-center">
 								<vs-avatar :src="data[indextr].imagen_perfil" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>
-								{{data[indextr].nombres}}
+								{{data[indextr].nombres + ' '+ data[indextr].apellidos}}
 								</div>
 						</vs-td>
-		            	<vs-td :data="data[indextr].datos.apellidos" >{{data[indextr].apellidos}}</vs-td>
         			    <vs-td :data="data[indextr].especialidad">{{data[indextr].profesion.nombre}}</vs-td>
                         <vs-td :data="data[indextr].datos.telefono">{{data[indextr].numero_telefono}}</vs-td>
 						<vs-td>
@@ -172,7 +171,7 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.arrayPersonal = respuesta.clinicos.data
-          me.clinico = me.traerNombre(me.arrayPersonal)
+          me.arrayPersonal = me.traerNombre(me.arrayPersonal)
           me.pagination = respuesta.pagination
         })
         .catch(function (error) {
@@ -243,7 +242,7 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.arrayPersonal = respuesta.clinicos.data
-          me.personal = me.traerNombre(me.arrayPersonal)
+          me.arrayPersonal = me.traerNombre(me.arrayPersonal)
           console.log(me.arrayPersonal)
         })
         .catch(function (error) {

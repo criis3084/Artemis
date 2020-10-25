@@ -18,7 +18,7 @@
 			<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
         </div>
     </vs-prompt>
-      <vs-table pagination max-items="7" search :data="arrayData">
+      <vs-table pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
          <template slot="header">
           <vs-button @click="activePrompt=true">Exportar</vs-button>
         </template>
@@ -44,13 +44,16 @@
             <vs-td>{{ data[indextr].datos_constructor[0].nombres + ' ' + data[indextr].datos_constructor[0].apellidos}}</vs-td>
             <vs-td>{{ currency(data[indextr].costo_total)}}</vs-td>
               <vs-td :data="data[indextr].estado">
-                <vs-switch
+               <!--- <vs-switch
                   color="success"
                   v-model="data[indextr].estado"
                   @click="abrirDialog(data[indextr].id, data[indextr].estado)">
                   <span slot="on">Activo</span>
                   <span slot="off">Desactivo</span>
-                </vs-switch>
+                </vs-switch>--->
+                <vs-chip class="ag-grid-cell-chip" :color="data[indextr].estado == 0 ? 'success' : data[indextr].estado == 1 ? 'primary':'primary'">
+                  <span>{{data[indextr].estado == 0 ? 'Terminado' : data[indextr].estado == 1 ? 'En curso ':'No Recibe este mes'}}</span>
+              </vs-chip>
               </vs-td>
       <vs-td>
         <div class="flex items-center">

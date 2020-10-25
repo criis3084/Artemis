@@ -4,7 +4,8 @@
 						        <h2> Historial de Abonos</h2>
 						        <vx-tooltip text = "Agregar nuevo abono"> 
                       <!-- <vs-button @click="$router.push('/abonar/vivienda/'+id_recibido)" radius type="gradient" icon="account_balance_wallet" color = "primary" size = "large"> </vs-button>  -->
-                    </vx-tooltip><vs-divider/>
+                    </vx-tooltip>
+                    <vs-divider  color="primary"></vs-divider>
 				        </div>
                 <div class = "demo-alignment">
                     <h5> <b>Nombre del propietario: </b> </h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
@@ -16,10 +17,10 @@
                 <div class = "demo-alignment">
                     <h5> <b>Costo total: </b> </h5><h5>{{currency(costo_total)}}</h5>
                 </div>
-                    <br>
+          	<vs-divider position="right">PID&#174;</vs-divider>
 				<vx-card>
-
-          <vs-table pagination max-items="7" search :data="arrayHistorial">
+        
+          <vs-table pagination max-items="7" search :data="arrayHistorial" noDataText="No se han realizado abonos">
 						<template slot="thead">
               <vs-th>Ver</vs-th>
 							<vs-th>Fecha</vs-th>

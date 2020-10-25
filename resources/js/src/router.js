@@ -423,6 +423,14 @@ const router = new Router({
             rule: 'admin'
           }
         },
+        {
+          path: '/microprestamo/Vermicroprestamo/:id',
+          name: 'microprestamo-Vermicroprestamo',
+          component: () => import('./views/Microprestamos/Microprestamo/verMicroprestamo.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
         // =============================================================================
         // VIVIENDA
         // =============================================================================

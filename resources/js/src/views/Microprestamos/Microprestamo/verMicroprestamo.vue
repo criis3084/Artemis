@@ -1,9 +1,10 @@
 <template>
   <div id="page-user-view">
-    <small>Nombre del grupo</small>
+   <small>Nombre del grupo</small>
    <h2>{{nombreG}}</h2>
-  <span class="text-primary"> Fecha de inicio {{fecha}} </span>
+   <span class="text-primary"> Fecha de inicio {{fecha}} </span>
    <vs-divider position="right">PID&#174;</vs-divider>
+
     <div id="user-data" v-for="(detalles,index) in arrayData" :key="index">
       
       <vx-card title="Información de integrante" class="mb-base">
@@ -87,14 +88,13 @@ export default {
       const me = this
       this.id_recibido = this.$route.params.id
       console.log(this.id_recibido)
-      const response = await Axios.get(`/api/detalleIntegrante/get?&criterio=grupo_prestamo_id&buscar=${this.id_recibido}&completo=true`) 
+      const response = await Axios.get(`/api/detalleIntegrante/get?&criterio=microprestamo_id&buscar=${this.id_recibido}&completo=true`) 
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.detalleIntegrantes.data
           console.log(me.arrayData)
           me.nombreG = respuesta.detalleIntegrantes.data[0].grupos.nombre
           me.fecha = respuesta.detalleIntegrantes.data[0].microprestamo.fecha_inicio
-          //console.log(me.nombreG)
         })
     }
   },

@@ -5,7 +5,12 @@
 				<h2>Pacientes</h2>
 				<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
 			</div>
-			<br>
+		<vs-divider position="right">PID&#174;</vs-divider>
+		<div class = "demo-alignment">
+                        <small class="font-bold text-primary">Ver por tipo de paciente</small>
+                         <v-select class="vx-col md:w-1/4 w-full mt-5" label="nombre" :options="TipoPacientes" @input="buscarPorTipo" v-model="tipoP" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                         <vs-button color="primary" type="border" @click="index"> Ver todos</vs-button>
+        </div>
 		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -15,7 +20,7 @@
         </div>
 			</vs-prompt>
 
-			<vs-table title="Pacientes" pagination max-items="7" search :data="arrayData">
+			<vs-table title="Pacientes" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
 	   <template slot="header">
           <vs-button @click="activePrompt=true">Exportar</vs-button>
         </template>
@@ -83,6 +88,8 @@ export default {
       arrayData: [],
 	  estadoBeneficios: [],
 	  listaBeneficiosxMes:[],
+	  TipoPacientes:[],
+	  tipoP:'',
       nombre: '',
 	  switch2:false,
 	  id: 0,
@@ -94,8 +101,8 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id','dia_apoyo', 'nombres', 'apellidos', 'numero_telefono','nombre'],
-	  headerTitle: ['Id','Día Apoyo', 'Nombre', 'Apellidos', 'Telefono','Tipo Paciente']
+	  headerVal: ['id', 'dia_apoyo', 'nombres', 'apellidos', 'numero_telefono', 'nombre'],
+	  headerTitle: ['Id', 'Día Apoyo', 'Nombre', 'Apellidos', 'Telefono', 'Tipo Paciente']
     }
   },
   components: {
@@ -106,111 +113,141 @@ export default {
     vSelect
   },
   methods: {
-    openAlert(color,constructor){
-		this.listado(constructor)
-	},
-	getDate(datetime){
-		const date = new Date(datetime)
-		const dateString = `${date.getFullYear()}-${date.getMonth() + 1}`
-		return dateString
-	},
+    openAlert (color, constructor) {
+      this.listado(constructor)
+    },
+    getDate (datetime) {
+      const date = new Date(datetime)
+      const dateString = `${date.getFullYear()}-${date.getMonth() + 1}`
+      return dateString
+    },
     abrirDialog (id, estado) {
-		let titulo = ''
-		let color = ''
+      let titulo = ''
+      let color = ''
 
-		if (estado === 0 || estado === false) {
-			// cambiar de color al boton
-			color = 'success'
-			titulo = 'Confirmar activación'
-		} else if (estado === 1 || estado === true) {
-			color = 'danger'
-			titulo = 'Confirmar desactivación'
-		}
+      if (estado === 0 || estado === false) {
+        // cambiar de color al boton
+        color = 'success'
+        titulo = 'Confirmar activación'
+      } else if (estado === 1 || estado === true) {
+        color = 'danger'
+        titulo = 'Confirmar desactivación'
+      }
 		
-		this.id = id
-		this.estado = estado
+      this.id = id
+      this.estado = estado
 
-		this.$vs.dialog({
-			type:'confirm',
-			color: `${color}`,
-			title: `${titulo}`,
-			text: '¿Está seguro de llevar a cabo esta acción?',
-			accept: this.cambiarEstado,
-			cancel: this.close
-		})
+      this.$vs.dialog({
+        type:'confirm',
+        color: `${color}`,
+        title: `${titulo}`,
+        text: '¿Está seguro de llevar a cabo esta acción?',
+        accept: this.cambiarEstado,
+        cancel: this.close
+      })
     },
     cambiarEstado (color) {
-		let titulo = ''
+      let titulo = ''
 		
-		if (this.estado === 0 || this.estado === false) {
-		titulo = 'Activado exitósamente'
-		axios.put('/api/paciente/activar', {
-			id: this.id
-		})
-			.then(function (response) {
-			console.log(response.data.message)
-			})
-			.catch(function (error) {
-			console.log(error.response.data.message)
-			})
-		} else if (this.estado === 1 || this.estado === true) {
-			titulo = 'Desactivado exitósamente'
-			axios.put('/api/paciente/desactivar', {
-			id: this.id
-		})
-		.then(function (response) {
-			console.log(response.data.message)
-			})
-		.catch(function (error) {
-			console.log(error.response.data.message)
-			})
-		}
-		this.$vs.notify({
-			color:'success',
-			title:`${titulo}`,
-			text:'La acción se realizó exitósamente'
-		})
+      if (this.estado === 0 || this.estado === false) {
+        titulo = 'Activado exitósamente'
+        axios.put('/api/paciente/activar', {
+          id: this.id
+        })
+          .then(function (response) {
+            console.log(response.data.message)
+          })
+          .catch(function (error) {
+            console.log(error.response.data.message)
+          })
+      } else if (this.estado === 1 || this.estado === true) {
+        titulo = 'Desactivado exitósamente'
+        axios.put('/api/paciente/desactivar', {
+          id: this.id
+        })
+          .then(function (response) {
+            console.log(response.data.message)
+          })
+          .catch(function (error) {
+            console.log(error.response.data.message)
+          })
+      }
+      this.$vs.notify({
+        color:'success',
+        title:`${titulo}`,
+        text:'La acción se realizó exitósamente'
+      })
     },
     close () {
       	const titulo = 'Cancelado'
       	const texto = 'Cambio de estado cancelado'
-		this.$vs.notify({
-			color:'danger',
-			title:`${titulo}`,
-			text:`${titulo}`
-		})
-		this.index()
+      this.$vs.notify({
+        color:'danger',
+        title:`${titulo}`,
+        text:`${titulo}`
+      })
+      this.index()
     },
     async index () {
-		const me = this
-		const response = await axios.get(
-		`/api/paciente/get?completo=true`)
-		.then(function (response) {
-			const respuesta = response.data
-			me.arrayData = respuesta.pacientes.data
-			me.arrayData = me.traerNombre(me.arrayData)
-		})
-		.catch(function (error) {
-			console.log(error)
-		})
+      const me = this
+      const response = await axios.get(
+        '/api/paciente/get?completo=true')
+        .then(function (response) {
+          const respuesta = response.data
+          me.arrayData = respuesta.pacientes.data
+          me.arrayData = me.traerNombre(me.arrayData)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
+    async buscarPorTipo () {
+      const id_recibido = this.tipoP.id
+      console.log(id_recibido)
+      const me = this
+      const response = await axios.get(
+        `/api/paciente/get?&criterio=tipo_paciente_id&buscar=${id_recibido}&completo=true`)
+        .then(function (response) {
+          const respuesta = response.data
+          me.arrayData = respuesta.pacientes.data
+          me.arrayData = me.traerNombre(me.arrayData)
+          console.log(me.arrayPersonal)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    async importarTipoPaciente () {
+      const me = this
+      const response = await axios.get(
+        '/api/tipoPaciente/get?completo=true')
+        .then(function (response) {
+          const respuesta = response.data
+		  me.TipoPacientes = respuesta.tipoPacientes.data
+		  console.log(me.TipoPacientes)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+	
     aNuevo () {
 		 this.$router.push('/ingresar/paciente')
     },    
-	exportToExcel () {
+    exportToExcel () {
 		import('@/vendor/Export2Excel').then(excel => {
-		const list = this.arrayData
-        const data = this.formatJson(this.headerVal, list)
-        excel.export_json_to_excel({
-			header: this.headerTitle,
-			data,
-			filename: this.fileName,
-			autoWidth: this.cellAutoWidth,
-			bookType: this.selectedFormat
-        })
+		  const list = this.arrayData
+		  const data = this.formatJson(this.headerVal, list)
+		  excel.export_json_to_excel({
+		    header: this.headerTitle,
+		    data,
+		    filename: this.fileName,
+		    autoWidth: this.cellAutoWidth,
+		    bookType: this.selectedFormat
+		  })
 
-        this.clearFields()
-      })
+		  this.clearFields()
+		})
     },
     formatJson (filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
@@ -218,51 +255,50 @@ export default {
       }))
     },
     clearFields () {
-		this.filename = ''
-		this.cellAutoWidth = true
-		this.selectedFormat = 'xlsx'
-	},
-	traerNombre (tabla) {
-		let encontrado =''
-		let diaEntrega =0
+      this.filename = ''
+      this.cellAutoWidth = true
+      this.selectedFormat = 'xlsx'
+    },
+    traerNombre (tabla) {
+      const encontrado = ''
+      const diaEntrega = 0
 
-		let today = new Date()
-		let mesActual = this.getDate(today)
-		let diadeHoy =today.getDate()
+      const today = new Date()
+      const mesActual = this.getDate(today)
+      const diadeHoy = today.getDate()
 		
-		let fechaString=''
-		tabla.forEach(function (valor, indice, array) {
-			valor.nombres = valor.datos.nombres
-			valor.apellidos = valor.datos.apellidos
-			valor.numero_telefono = valor.datos.numero_telefono
-			if (valor.beneficios.length == 0){
-				valor.beneficio={estado:3}
-			}else{
-				valor.beneficios.forEach(function (benefi, indice2, array2){
-					fechaString=benefi.fecha_entrega.slice(0,7)
-					if (fechaString==mesActual){
-						if (benefi.estado == 0){
-							if (valor.dia_apoyo > diadeHoy){
-								benefi.estado = 0
-							}
-							else if (valor.dia_apoyo<diadeHoy){
-								benefi.estado = 2
-							}
-						}
-						valor.beneficio=benefi
-					}
-					if (valor.beneficio == undefined)
-					{
-					 	valor.beneficio={estado:4}
-					}
-				}) 
-			}
-		})
-		return tabla
-	},
+      let fechaString = ''
+      tabla.forEach(function (valor, indice, array) {
+        valor.nombres = valor.datos.nombres
+        valor.apellidos = valor.datos.apellidos
+        valor.numero_telefono = valor.datos.numero_telefono
+        if (valor.beneficios.length == 0) {
+          valor.beneficio = {estado:3}
+        } else {
+          valor.beneficios.forEach(function (benefi, indice2, array2) {
+            fechaString = benefi.fecha_entrega.slice(0, 7)
+            if (fechaString == mesActual) {
+              if (benefi.estado == 0) {
+                if (valor.dia_apoyo > diadeHoy) {
+                  benefi.estado = 0
+                } else if (valor.dia_apoyo < diadeHoy) {
+                  benefi.estado = 2
+                }
+              }
+              valor.beneficio = benefi
+            }
+            if (valor.beneficio == undefined) {
+					 	valor.beneficio = {estado:4}
+            }
+          }) 
+        }
+      })
+      return tabla
+    }
   },
   mounted () {
     this.index()
+    this.importarTipoPaciente()
   }
 }
 </script>
