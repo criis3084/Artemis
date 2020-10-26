@@ -45,8 +45,7 @@ class IngresoMedicamentoController extends Controller
 			$ingresoMedicamento->usuario_id = $request->usuario_id;
 			$ingresoMedicamento->proveedor_id = $request->proveedor_id;
 			$ingresoMedicamento->save();
-			return Response::json(['message' => 'Ingreso Medicamento Creada'], 200);
-			#return ['id' => $nino->id];
+			return ['id' => $ingresoMedicamento->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}

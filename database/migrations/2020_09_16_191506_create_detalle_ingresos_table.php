@@ -15,7 +15,6 @@ class CreateDetalleIngresosTable extends Migration
     {
         Schema::create('detalle_ingresos', function (Blueprint $table) {
 			$table->id();
-			$table->integer('cantidad');
 			$table->foreignId('ingreso_medicamento_id')->constrained();
 			$table->foreignId('lote_id')->constrained();
 			$table->boolean('estado')->default(1);

@@ -45,8 +45,7 @@ class LoteController extends Controller
 			$lote->numero_referencia = $request->numero_referencia;
 			$lote->medicamento_id = $request->medicamento_id;
 			$lote->save();
-			return Response::json(['message' => 'Lote Creado'], 200);
-			#return ['id' => $nino->id];
+			return ['id' => $lote->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}

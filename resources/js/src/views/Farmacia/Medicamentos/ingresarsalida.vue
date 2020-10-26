@@ -272,8 +272,6 @@ export default {
 									console.log(error)
 								});
 							}
-
-							
 						}
 					}
 					if ( cuentaSaldada== true){
@@ -337,6 +335,7 @@ export default {
 							}
 						}
 					}
+					this.$router.push('/salida/medicamentos')
 				}
 			}
 		},

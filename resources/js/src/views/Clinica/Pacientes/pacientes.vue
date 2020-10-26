@@ -112,6 +112,13 @@ export default {
     VxTimeline,
     vSelect
   },
+  watch: {
+	  tipoP(){
+		  if (this.tipoP==null){
+			  this.index();
+		  }
+	  }
+  },
   methods: {
     openAlert (color, constructor) {
       this.listado(constructor)
@@ -189,7 +196,8 @@ export default {
       this.index()
     },
     async index () {
-      const me = this
+	  const me = this
+	  me.tipoP = null
       const response = await axios.get(
         '/api/paciente/get?completo=true')
         .then(function (response) {
@@ -202,20 +210,21 @@ export default {
         })
     },
     async buscarPorTipo () {
-      const id_recibido = this.tipoP.id
-      console.log(id_recibido)
+	  if (this.tipoP != null)
+	  {
+	  const id_recibido = this.tipoP.id
       const me = this
       const response = await axios.get(
-        `/api/paciente/get?&criterio=tipo_paciente_id&buscar=${id_recibido}&completo=true`)
+		  `/api/paciente/get?&criterio=tipo_paciente_id&buscar=${id_recibido}&completo=true`)
         .then(function (response) {
-          const respuesta = response.data
+			const respuesta = response.data
           me.arrayData = respuesta.pacientes.data
           me.arrayData = me.traerNombre(me.arrayData)
-          console.log(me.arrayPersonal)
         })
         .catch(function (error) {
-          console.log(error)
+			console.log(error)
         })
+	  }
     },
     async importarTipoPaciente () {
       const me = this
@@ -224,7 +233,6 @@ export default {
         .then(function (response) {
           const respuesta = response.data
 		  me.TipoPacientes = respuesta.tipoPacientes.data
-		  console.log(me.TipoPacientes)
         })
         .catch(function (error) {
           console.log(error)

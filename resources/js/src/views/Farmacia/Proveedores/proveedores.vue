@@ -184,9 +184,9 @@ export default {
 		.then(function (response) {
 			const respuesta = response.data
 			me.arrayData = respuesta.proveedores.data
-            me.proveedor = me.traerNombre(me.arrayData)
-            // me.constructor = me.arrayData
-            console.log(me.proveedor);
+			me.proveedor = me.traerNombre(me.arrayData)
+			// me.constructor = me.arrayData
+			console.log(me.proveedor);
 		})
 		.catch(function (error) {
 			console.log(error)

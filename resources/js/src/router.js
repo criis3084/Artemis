@@ -602,6 +602,14 @@ const router = new Router({
             rule: 'editor'
           }
         },
+        {
+          path: '/ver/salida/:id',
+          name: 'ver-detalleSalida',
+          component: () => import('./views/Farmacia/Medicamentos/detallesalida.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
         {			
           path: '/ingresar/salidamedi',
           name: 'ingresar-salidamedi',
@@ -609,7 +617,15 @@ const router = new Router({
           meta: {
             rule: 'editor'
           }
-        },
+		},
+		{
+			path: '/ver/entrada/:id',
+			name: 'ver-detalleEntrada',
+			component: () => import('./views/Farmacia/Medicamentos/detalleentrada.vue'),
+			meta: {
+			  rule: 'editor'
+			}
+		},
         {
           path: '/farmacia/proveedores',
           name: 'farmacia-proveedores',

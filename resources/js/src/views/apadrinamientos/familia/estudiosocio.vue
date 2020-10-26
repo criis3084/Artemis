@@ -1,19 +1,19 @@
 <template>
 	<div>
-		<vx-card>            
+		<vx-card>
 			<div class="vx-row leading-loose p-base">
-                <div class="vx-col w-1/2 mt-base">
-                    <h1><b>Estudio Socioeconomico</b> </h1>
+				<div class="vx-col w-1/2 mt-base">
+					<h1><b>Estudio Socioeconomico</b> </h1>
 					<br/>
-                    <h2><b>Familia: </b> {{codigo_familiar}} </h2>
-                </div>
+					<h2><b>Familia: </b> {{codigo_familiar}} </h2>
+				</div>
 				<div class="vx-col w-1/2 text-right">
-                    <h3> <b>PPI Familiar</b>  </h3>
-                        <br/>
-                        <h6><b>Valor de ultimo PPI:</b> {{total_ppi}} </h6>
+					<h3> <b>PPI Familiar</b>  </h3>
 						<br/>
-                        <h6><b>Fecha de ultimo PPI:</b> {{fecha_ppi}} </h6>
-                </div>
+						<h6><b>Valor de ultimo PPI:</b> {{total_ppi}} </h6>
+						<br/>
+						<h6><b>Fecha de ultimo PPI:</b> {{fecha_ppi}} </h6>
+				</div>
 			</div>
 			<vx-card
     		title="Información de los niños"

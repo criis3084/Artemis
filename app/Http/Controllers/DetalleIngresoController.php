@@ -40,12 +40,10 @@ class DetalleIngresoController extends Controller
 	{
 		try {
 			$detalleIngreso = new DetalleIngreso();
-			$detalleIngreso->cantidad = $request->cantidad;
 			$detalleIngreso->ingreso_medicamento_id = $request->ingreso_medicamento_id;
 			$detalleIngreso->lote_id = $request->lote_id;
 			$detalleIngreso->save();
-			return Response::json(['message' => 'Detalle Ingreso Creada'], 200);
-			#return ['id' => $nino->id];
+			return ['id' => $detalleIngreso->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}
@@ -54,7 +52,6 @@ class DetalleIngresoController extends Controller
 	public function update(Request $request)
 	{
 		$detalleIngreso = DetalleIngreso::findOrFail($request->id);
-		$detalleIngreso->cantidad = $request->cantidad;
 		$detalleIngreso->ingreso_medicamento_id = $request->ingreso_medicamento_id;
 		$detalleIngreso->lote_id = $request->lote_id;
 		$detalleIngreso->save();

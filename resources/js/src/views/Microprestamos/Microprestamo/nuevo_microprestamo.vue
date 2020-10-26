@@ -94,7 +94,7 @@ export default {
 			fecha_inicio:'',
 			mora_por_atraso:0,
 			duracion:0,
-			langEn: es,			
+			langEn: es,
 		};
 	},
 	components: {

@@ -9,7 +9,6 @@ use Faker\Generator as Faker;
 
 $factory->define(DetalleIngreso::class, function (Faker $faker) {
     return [
-        'cantidad'=>$faker->numberBetween($min = 100, $max = 200),
         'ingreso_medicamento_id' => IngresoMedicamento::pluck('id')[$faker->numberBetween(1,IngresoMedicamento::count()-1)],
         'lote_id' => Lote::pluck('id')[$faker->numberBetween(1,Lote::count()-1)],
         'estado' => $faker->numberBetween($min = 0, $max = 1),
