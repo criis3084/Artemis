@@ -175,11 +175,11 @@ const dict = {
 	
   }
 };
+Validator.localize('en', dict);
 
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
 // register custom messages
-Validator.localize('en', dict);
 import { es } from 'vuejs-datepicker/src/locale'
 
 export default {

@@ -16,7 +16,7 @@
 				</div>
 			</vs-prompt>
 
-			<vs-table title="Niños no apadrinados" stripe pagination max-items="7" search :data="arrayData">
+			<vs-table title="Niños no apadrinados" stripe pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
 
 				<template slot="header">
 				<vs-button @click="activePrompt=true">Exportar</vs-button>

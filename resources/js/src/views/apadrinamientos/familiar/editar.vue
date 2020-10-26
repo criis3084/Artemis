@@ -1,24 +1,34 @@
 <template>
 	<div>
 		<vx-card>
-			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZACIÓN DE ENCARGADO" subtitle="" finishButtonText="Enviar" back-button-text="Atras" next-button-text="Siguiente" @on-complete="formSubmitted">
+			<div class="vx-col md:w-1/2 w-full mt-5">
+				<router-link to="/apadrinamiento/encargado"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+			</div>
+			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZACIÓN DE ENCARGADO" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+				<vs-divider position="right">PID&#174;</vs-divider>
+				
 				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 
 				<!-- tab 1 content -->
 					<form data-vv-scope="step-1">
 						<div class="vx-row">
-							
+							<div class="vx-col md:w-1/2 w-full mt-5">
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" v-model="cuiT" name="cui" v-validate="'numeric|max:13'"/>
+									<span class="text-danger">{{ errors.first('step-1.cui') }}</span>
+								</div>
+							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombresT" name="nombres" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombresT" name="nombres" v-validate="'required|alpha_spaces|max:150'"/>
 									<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidosT" name="apellidos" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidosT" name="apellidos" v-validate="'required|alpha_spaces|max:150'"/>
 									<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
 								</div>
 							</div>
@@ -33,7 +43,7 @@
 
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
-								<small class="date-label">Genero</small>
+								<small class="date-label">Género</small>
 								<ul class="demo-alignment">
 										<li>
 											<vs-radio color="rgb(0, 170, 228)" v-model="generoT" vs-value="1" selected>Masculino</vs-radio>
@@ -46,30 +56,46 @@
 							
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" v-model="direccionT" name="direccion" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" v-model="direccionT" name="direccion" v-validate="'required|max:254'"/>
 									<span class="text-danger">{{errors.first('step-1.direccion') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Ocupación" v-model="ocupacionT" name="ocupacion" v-validate="'required'"/>
-									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Teléfono" v-model="numero_telefonoT" name="numero_telefono" v-validate="'numeric|max:15'"/>
+									<span class="text-danger">{{errors.first('step-1.numero_telefono') }}</span>
+								</div>
+							</div>
+
+
+							<div class="vx-col md:w-1/2 w-full mt-5">
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Ocupación" v-model="ocupacionT" name="ocupacion" v-validate="'max:150'"/>
+									<span class="text-danger">{{errors.first('step-1.ocupacion') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-coffee" icon-no-border label-placeholder="Escolaridad" v-model="escolaridadT" name="escolaridad" v-validate="'required'"/>
-									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
+									<vs-input class="w-full" icon="school" icon-no-border label-placeholder="Escolaridad" v-model="escolaridadT" name="escolaridad" v-validate="'max:150'"/>
+									<span class="text-danger">{{errors.first('step-1.escolaridad') }}</span>
 								</div>
 							</div>
 
                             <div class="vx-col md:w-1/2 w-full mt-5">
-								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-coffee" icon-no-border label-placeholder="Ingresos" v-model="ingresosT" name="ingresos" v-validate="'required'"/>
-									<span class="text-danger">{{errors.first('step-1.telefono') }}</span>
+								<small class="date-label">Ingresos</small>
+								<vx-input-group class="mb-base">
+								<template slot="prepend">	
+								<div class="prepend-text bg-primary" >
+									<span>Q</span>	
 								</div>
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-no-border v-model="ingresosT" name="ingresos" v-validate="'numeric|max:9'"/>
+									<span class="text-danger">{{errors.first('step-1.ingresos') }}</span>
+								</div>
+								</template>
+								</vx-input-group>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
@@ -101,8 +127,8 @@
 
  
   </form-wizard>
-  <div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/apadrinamiento/encargado"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+  <div class="vx-col md:w-1/3 w-full mt-5">
+  <router-link to="/apadrinamiento/encargado"><vs-button class="w-full" type="gradient" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
     </div>
 </vx-card>
 </div>
@@ -117,28 +143,41 @@ import vSelect from 'vue-select'
 import { Validator } from 'vee-validate';
 const dict = {
   custom: {
+	cui: {
+	  numeric: 'El campo solo debe de contener números',
+	  max: 'Este campo solo acepta hasta 13 dígitos',
+    },
     nombres: {
-      required: 'Los Nombres son requeridos',
+	  required: 'El campo nombres es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
     apellidos: {
-	  required: 'Los apellidos son requeridos',
-
+	  required: 'El campo apellidos es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
+	  max: 'Este campo solo acepta hasta 150 caracteres',
     },
     direccion: {
-      required: 'La direccion es requerida',
-      
+	  required: 'El campo dirección es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
     fecha: {
-      required: 'La fecha es requerida',
-      
-    },
-    sector: {
-      required: 'El sector es requerido',
-      
+      required: 'El campo fecha es requerido',
 	},
-	campo:{
-		required: 'El campo es requerido'
-	}
+	ocupacion: {
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+    escolaridad: {
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	ingresos: {
+	  numeric: 'El campo solo debe de contener números',
+	  max: 'Este campo solo acepta hasta 9 caracteres',
+	},
+	numero_telefono: {
+	  numeric: 'El campo solo debe de contener números',
+	  max: 'Este campo solo acepta hasta 15 caracteres',
+    },
   }
 };
 
@@ -159,6 +198,8 @@ export default {
 		generoT:"",
 		codigoT:"",
 		ocupacionT:"",
+		cuiT:"",
+		numero_telefonoT:"",
         escolaridadT:"",
         ingresosT:"",
 		sector_idT:0,
@@ -194,13 +235,13 @@ export default {
 				me.nombresT = me.arrayData.datos.nombres;
 				me.apellidosT = me.arrayData.datos.apellidos;
 				me.direccionT = me.arrayData.datos.direccion;
-				me.numero_telefono = me.arrayData.datos.numero_telefono;
+				me.numero_telefonoT = me.arrayData.datos.numero_telefono;
 				me.idT = me.arrayData.datos.id;
-			
+				me.cuiT = me.arrayData.datos.CUI;
 				me.generoT = me.arrayData.datos.genero;
 				me.imagen_perfil_antigua = me.arrayData.ruta_imagen;
 				me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento;
-			
+				
 				me.ocupacionT = me.arrayData.ocupacion;
                 me.escolaridadT = me.arrayData.escolaridad;
                 me.ingresosT = me.arrayData.ingresos;
@@ -260,7 +301,11 @@ export default {
 		})
 		},
 		formSubmitted () {
-			if (this.ruta_imagen === ''){
+			console.log("ruta");
+			console.log(this.ruta_imagen);
+			console.log("ruta antigua");
+			console.log(this.imagen_perfil_antigua);
+			if (this.ruta_imagen === '' || this.ruta_imagen == undefined ){
 				this.ruta_imagen= this.imagen_perfil_antigua;
 			}
 			else{
@@ -269,9 +314,10 @@ export default {
 			// alert('Form submitted!');
 			axios.put("/api/encargado/update/",{
 				id:this.id_recibido,
-				
+				CUI:this.cuiT,
 				nombres:this.nombresT,
 				apellidos:this.apellidosT,
+				numero_telefono:this.numero_telefonoT,
 				genero:this.generoT,
 				ruta_imagen:this.ruta_imagen,
 				ocupacion:this.ocupacionT,
@@ -304,6 +350,11 @@ export default {
 		respuesta(e){
 			this.ruta_imagen=e.currentTarget.response.replace(/['"]+/g, '')
 			this.head.imagenanterior=this.ruta_imagen
+			this.$vs.notify({
+					color:'success',
+					title:'Imagen subida',
+					text:'Acción realizada exitósamente!'
+				});
 		},
   },
   components: {

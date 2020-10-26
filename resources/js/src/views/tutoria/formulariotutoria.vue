@@ -1,7 +1,7 @@
 <template>
  <div>
 		<div class="demo-alignment">
-			<h2>Tutoría</h2>
+			<h2>Tutorías</h2>
 			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
   
@@ -16,18 +16,14 @@
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
         <b></b>
-			
-		<vs-input placeholder="Razón de la tutoría" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+				<small class="date-label">Razón de la tutoría</small>
+		<vs-input v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 		<div class="vx-col md:w-1/2 w-full mt-5">
 			<div class="my-4">
 				<small class="date-label">Fecha de Tutoría</small>
 				<datepicker :format="dateFormat" :disabledDates="disabledDates" name="end-date" v-model="valMultipe.fecha" ></datepicker>
 			</div>
 		</div>
-		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
-			LLene todos los campos
-		</vs-alert>
-		<br>
       </div>
 		<template>
       <small class="date-label">Niño:</small>
@@ -37,6 +33,9 @@
 		<v-select label="nombre_completo" :options="tutor" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 		
 		</template> 
+    <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
+			LLene todos los campos
+		</vs-alert>
 	</vs-prompt>
 
 

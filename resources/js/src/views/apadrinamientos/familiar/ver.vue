@@ -25,9 +25,13 @@
 
               <!-- Item Content -->
               <div class="vx-col md:w-3/5 w-full">
+                    <vs-button @click="goBack" class="mr-4" type="border" radius icon-pack="feather" color="primary" icon="icon-corner-up-left"></vs-button>
+
                 <span>Nombres y apellidos</span>
                 <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.nombresT +" " + this.apellidosT }}</h1>
-               
+                 <br>
+                <span>CUI</span>
+               <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{this.cuiT }}</h1>
 
                 <vs-divider />
                 <span>Datos Personales</span>
@@ -68,7 +72,7 @@
                 <div class="vx-row">
                   <div class="vx-col flex flex-wrap items-center">
                    <vs-button class="mr-4" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/editar/familiar/'+id_recibido)">Editar Información</vs-button>  
-                    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
+                    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>
                   </div>
                 </div>
 
@@ -94,7 +98,7 @@ export default {
       apellidosT: '',
       direccionT: '',
       fecha_nacimientoT: '',
-    
+      cuiT: '',
 	  generoT:'',
       ingresosT:'',
       ocupacionT:'',
@@ -130,7 +134,8 @@ export default {
             me.direccionT = me.arrayData.datos.direccion;
             me.numero_telefono = me.arrayData.datos.numero_telefono;
             me.idT = me.arrayData.datos.id;
-         
+            me.cuiT = me.arrayData.datos.CUI;
+
             me.generoT = me.arrayData.datos.genero;
             me.ruta_imagenT = me.arrayData.ruta_imagen;
             me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento;

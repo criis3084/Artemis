@@ -13,24 +13,22 @@
 		<div class="con-exemple-prompt">
 				<b></b>
 				<small class="date-label">Razón de la tutoría</small>		
-				<vs-input v-model="nombreTT" class="mt-4 mb-2 col-1 w-full" />
+				<vs-input v-model="nombreTT" name="razon" class="mt-4 mb-2 col-1 w-full" v-validate="'required|max:150'"/>
+				<span class="text-danger">{{ errors.first('razon') }}</span>
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<div class="my-4">
 							<small class="date-label">Fecha de nacimiento</small>
-							<datepicker :format="dateFormat" name="end-date" v-model="fechaT"></datepicker>
+							<datepicker :format="dateFormat" name="fecha" v-model="fechaT" v-validate="'required'"></datepicker>
 						</div>
 					</div>
-				<vs-alert  color="danger" vs-icon="new_releases" class="mt-4" >
-					LLene todos los campos
-				</vs-alert>
-				<br>
+
 		</div>
 			<template>
 				<small class="date-label">Nombre del niño</small>
-				<v-select label="nombrecompleto" :options="nino" v-model="nino_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<v-select label="nombrecompleto" name="nino" :options="nino" v-model="nino_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-validate="'required'"/>
 				<br>
 				<small class="date-label">Nombre del tutor</small>
-				<v-select label="nombrecompleto" :options="tutor" v-model="tutor_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<v-select label="nombrecompleto" name="tutor" :options="tutor" v-model="tutor_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-validate="'required'"/>
 			</template> 
 		</vs-prompt>
 	</div>
@@ -42,7 +40,17 @@ import axios from "axios";
 //C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from "@/views/components/vuesax/dropdown/Dropdown.vue";
 import vSelect from "vue-select";
-
+// For custom error message
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+	razon:{
+		required: 'El campo código es requerido',
+		max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+  }
+};
+Validator.localize('en', dict);
 export default {
     props:{
 		identificador:{
