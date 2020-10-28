@@ -42,8 +42,13 @@
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
+				<div class="my-4">
 					<small class="date-label">Fecha de nacimiento</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn"  v-model="fecha_nacimiento"></datepicker>
+					<datepicker :format="dateFormat" :language="$vs.rtl ? langEn : langEn" name="fecha" v-validate="'required'" v-model="fecha_nacimiento"></datepicker>
+					<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
+					<span class="text-danger">!!!arreglar validacion fecha, no se por que no funciona, en tutor si funciona</span>
+
+				</div>
 				</div>
 				
 				<div class="vx-col md:w-1/2 w-full mt-5">
@@ -59,8 +64,10 @@
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<small class="date-label">Sector</small>
-					<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'"></v-select>
-					<span class="text-danger">arreglar para que se agregue sector EXTRANJERO automáticamente, o no?</span>
+					<v-select name="sector" v-validate="'required'" label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'"></v-select>
+					<span class="text-danger">{{ errors.first('step-1.sector') }}</span>
+					
+					<span class="text-danger">!!!arreglar para que se agregue sector EXTRANJERO automáticamente, o no?</span>
 
 				</div>
 
@@ -103,12 +110,8 @@ import vSelect from 'vue-select'
 // import VueSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
-import { es } from 'vuejs-datepicker/src/locale'
 
 // For custom error message
-
-import { extend } from 'vee-validate';
-import { messages } from 'vee-validate';
 import { Validator } from 'vee-validate';
 
 
@@ -134,6 +137,9 @@ const dict = {
 	  alpha_num: 'El campo solo debe de contener letras y números',
 	  max: 'Este campo solo acepta hasta 150 caracteres',
 	},
+	fecha: {
+      required: 'El campo fecha es requerido',
+	},
 	direccion: {
 	  required: 'El campo dirección es requerido',
 	  max: 'Este campo solo acepta hasta 254 caracteres',
@@ -145,14 +151,16 @@ const dict = {
 	  required: 'Seleccione una opción',
 	  included: 'Seleccione una opción',
     },
-	
+	sector:{
+	  required: 'El campo sector es requerido',
+	},
 	
   }
 }
 
 // register custom messages
 Validator.localize('es', dict)
-
+import { es } from 'vuejs-datepicker/src/locale'
 export default {
   data () {
     return {
@@ -207,7 +215,7 @@ export default {
 			reject('correct all values')
 			this.$vs.notify({
 			color:'danger',
-			title:'Error en validación',
+			title:'Error en validación!',
 			text:'Ingrese todos los campos correctamente'
 			});
           }
@@ -223,7 +231,7 @@ export default {
 			reject('correct all values')
 			this.$vs.notify({
 			color:'danger',
-			title:'Error en validación',
+			title:'Error en validación!',
 			text:'Ingrese todos los campos correctamente'
 			});
           }

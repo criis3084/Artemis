@@ -122,8 +122,8 @@ export default {
 		});
 		this.$vs.notify({
 					color:'success',
-					title:'Éxito',
-					text:'Registro Creado!'
+					title:'Fotografía registrada!',
+					text:'La acción se realizo exitósamente'
 				});
 		this.$router.push('/apadrinamiento/fotografia/'+this.id);
 	}
@@ -134,7 +134,7 @@ export default {
 		this.boolVal=false;
 		this.$vs.notify({
 				color:'danger',
-				title:`Error en validación`,
+				title:`Error en validación!`,
 				text:'Ingrese correctamente todos los datos'
 			})
 		this.valImagen='La imagen es requerida';

@@ -190,8 +190,8 @@ export default {
 			});
 		this.$vs.notify({
 				color:'success',
-				title:'Actualizado',
-				text:'El registro ha sido actualizado'
+				title:'Actualización registrada!',
+				text:'La acción se realizo exitósamente'
 		})
 		this.$emit("cerrado", "Se cerro el formulario");
 	},

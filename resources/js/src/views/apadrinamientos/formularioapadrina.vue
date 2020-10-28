@@ -67,7 +67,7 @@ export default {
 	  switch2: true,
 	 
 	  dateVal : new Date(),
-	  titulo: "Nuevo apadrinamiento",
+	  titulo: "Apadrinamiento registrado",
 	  dateFormat : 'yyyy-MM-dd',
     };
   },
@@ -143,7 +143,13 @@ export default {
 		});
 	  this.$emit("cerrado", "Se cerro el formulario");
 	  this.valMultipe.value3 = "";
-	  this.valMultipe.value4 = "";
+    this.valMultipe.value4 = "";
+    let titulo = 'Apadrinamiento registrado';
+			this.$vs.notify({
+			color:'success',
+			title:`${titulo}`,
+			text:'La acción se realizo exitósamente'
+			});
     },
     close() {
       this.$vs.notify({

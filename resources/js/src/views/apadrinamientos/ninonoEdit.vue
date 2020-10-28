@@ -299,6 +299,11 @@ export default {
 					resolve(true)
 				} else {
 					reject('correct all values')
+					this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
 				}
 				})
 			})
@@ -310,6 +315,11 @@ export default {
 					resolve(true)
 				} else {
 					reject('correct all values')
+					this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
 				}
 				})
 			})

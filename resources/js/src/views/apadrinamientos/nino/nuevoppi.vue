@@ -316,7 +316,7 @@ export default {
 		 else {
           this.$vs.notify({
 					color:'danger',
-					title:`Error en validación`,
+					title:`Error en validación!`,
 					text:'Ingrese correctamente todas las respuestas'
 				})
         }
@@ -341,7 +341,7 @@ export default {
 					});
 
 			})
-			let titulo = 'PPI agregado';
+			let titulo = 'PPI registrado!';
 			this.$vs.notify({
 			color:'success',
 			title:`${titulo}`,

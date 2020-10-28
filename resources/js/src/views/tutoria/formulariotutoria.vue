@@ -21,8 +21,9 @@
 		<div class="vx-col md:w-1/2 w-full mt-5">
 			<div class="my-4">
 				<small class="date-label">Fecha de Tutoría</small>
-				<datepicker :format="dateFormat" :disabledDates="disabledDates" name="end-date" v-model="valMultipe.fecha" ></datepicker>
+				<datepicker :format="dateFormat" name="end-date" v-model="valMultipe.fecha" ></datepicker>
 			</div>
+      <span class="text-danger"> falta validacion de fechas </span>
 		</div>
       </div>
 		<template>
@@ -149,6 +150,12 @@ export default {
 	  this.valMultipe.fecha = "";
       this.fechaN = "";
       this.$emit("cerrado", "Se cerro el formulario");
+      let titulo = 'Tutoría registrada!';
+			this.$vs.notify({
+			color:'success',
+			title:`${titulo}`,
+			text:'La acción se realizo exitósamente'
+			});
     },
     close() {
       this.$vs.notify({

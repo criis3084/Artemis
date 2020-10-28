@@ -305,7 +305,7 @@ export default {
 				reject("correct all values");
 				this.$vs.notify({
 					color:'danger',
-					title:'Error en validación',
+					title:'Error en validación!',
 					text:'Ingrese todos los campos correctamente'
 					});
 			}
@@ -321,7 +321,7 @@ export default {
 				reject("correct all values");
 				this.$vs.notify({
 					color:'danger',
-					title:'Error en validación',
+					title:'Error en validación!',
 					text:'Ingrese todos los campos correctamente'
 					});
 			}

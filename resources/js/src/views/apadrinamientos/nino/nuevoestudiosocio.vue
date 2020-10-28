@@ -278,6 +278,12 @@ export default {
 						console.log(error)
 					});
 			})
+			let titulo = 'Estudio socioeconómico registrado!';
+			this.$vs.notify({
+			color:'success',
+			title:`${titulo}`,
+			text:'La acción se realizo exitósamente'
+			});
 			this.$router.push('/apadrinamiento/estudiosocio/'+this.id);
 		},
 		buscarCodigo(){
@@ -326,7 +332,7 @@ export default {
 		else {
           this.$vs.notify({
 					color:'danger',
-					title:`Error en validación`,
+					title:`Error en validación!`,
 					text:'Ingrese correctamente todos los campos'
 				})
         }

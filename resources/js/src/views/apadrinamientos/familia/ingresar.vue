@@ -226,7 +226,7 @@ export default {
 			if(this.estudio_validado==false){
 				this.$vs.notify({
 					color:'danger',
-					title:`Error en validación`,
+					title:`Error en validación!`,
 					text:'Ingrese correctamente los campos para continuar'
 				})
 			}
@@ -336,7 +336,7 @@ export default {
 			if (retornar == false){
 				this.$vs.notify({
 				color:'danger',
-				title:`Error en validación`,
+				title:`Error en validación!`,
 				text:'Ingrese correctamente los campos para continuar'
 			})
 			}
@@ -357,7 +357,7 @@ export default {
 				this.validacionD=false
 				this.$vs.notify({
 					color:'danger',
-					title:`Error en validación`,
+					title:`Error en validación!`,
 					text:'Ingrese correctamente los campos para continuar'
 				})
 			}
@@ -367,7 +367,7 @@ export default {
 			if(this.ppi_validado==false){
 				this.$vs.notify({
 					color:'danger',
-					title:`Error en validación`,
+					title:`Error en validación!`,
 					text:'Ingrese correctamente los campos para continuar'
 				})
 			}

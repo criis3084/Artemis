@@ -165,7 +165,7 @@ export default {
 			id_recibido:'',
 			mostrarEditar:false,
 			imagen_perfil_antigua:'',
-			titulo:'Actualización registrada',
+			titulo:'Actualización registrada!',
 			head:{
 				"imagenanterior":""	
 			},
@@ -235,7 +235,7 @@ export default {
 				reject('correct all values')
 				this.$vs.notify({
 					color:'danger',
-					title:'Error en validación',
+					title:'Error en validación!',
 					text:'Ingrese todos los campos correctamente'
 					});
 				}
@@ -251,7 +251,7 @@ export default {
 					reject('correct all values')
 					this.$vs.notify({
 						color:'danger',
-						title:'Error en validación',
+						title:'Error en validación!',
 						text:'Ingrese todos los campos correctamente'
 						});
 					}
