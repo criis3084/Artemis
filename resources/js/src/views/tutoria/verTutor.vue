@@ -4,6 +4,7 @@
 
 
       <template slot="no-body">
+				<vs-divider position="right">PID&#174;</vs-divider>
 
         <div class="item-content">
 
@@ -12,11 +13,13 @@
             <div class="vx-row mt-6">
               <div class="vx-col md:w-2/5 w-full flex items-center justify-center">
                 <div class="product-img-container w-3/5 mx-auto mb-10 md:mb-0">
-				  <vs-avatar size="310px" :src="this.imagen_perfil"/>
+				  <img :src="this.imagen_perfil" class="responsive"/>
                 </div>
               </div>
 
               <div class="vx-col md:w-3/5 w-full">
+                <vs-button size="small" @click="goBack" class="mr-4" type="border" radius icon-pack="feather" color="primary" icon="icon-corner-up-left" ></vs-button>
+
                 <span>Nombres y apellidos</span>
                 <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.nombresTutor +" " + this.apellidosTutor }}</h1>
                 <p>{{"Número de CUI"+" "+ this.CUI }}</p>
@@ -50,8 +53,8 @@
                 
                 <div class="vx-row">
                   <div class="vx-col flex flex-wrap items-center">
-                   <vx-tooltip text="Editar Información"> <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-edit" radius  @click="$router.push('/editar/tutor/'+id_recibido)"></vs-button> </vx-tooltip>
-                    <vx-tooltip text="Regresar"><vs-button @click="goBack" class="mr-4" type="border" icon-pack="feather" color="#00aaff" icon="icon-corner-down-left" radius></vs-button></vx-tooltip>
+                   <vx-tooltip text="Editar Información"> <vs-button class="mr-4" type="gradient" icon-pack="feather" color="success" icon="icon-edit"   @click="$router.push('/editar/tutor/'+id_recibido)">Editar Información</vs-button> </vx-tooltip>
+                    <vx-tooltip text="Regresar"><vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left" >Regresar</vs-button></vx-tooltip>
                   </div>
                 </div>
 

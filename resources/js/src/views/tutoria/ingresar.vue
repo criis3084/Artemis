@@ -2,7 +2,7 @@
 	<div>
 		<vx-card>
 			<div class="vx-col md:w-1/3 w-full mt-5">
-			<router-link to="/tutoria/tutor"><vs-button type="gradient" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+			<router-link to="/tutoria/tutor"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
 			</div>
 			<form-wizard @click="acceptAlert()" color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" enctype="multipart/form-data">
 				<vs-divider position="right">PID&#174;</vs-divider>
@@ -14,14 +14,14 @@
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombres" v-validate="'required|alpha_spaces|max:150'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombres" v-validate="'required|alpha_spaces|max:30'"/>
 									<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name="apellidos" v-validate="'required|alpha_spaces|max:150'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name="apellidos" v-validate="'required|alpha_spaces|max:30'"/>
 									<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
 								</div>
 							</div>
@@ -82,7 +82,7 @@
     <!-- tab 2 content -->
     <tab-content title="Paso 2" class="mb-5" icon="feather icon-file-plus" :before-change="validateStep2">
 		<form data-vv-scope="step-2">
-			<div class="vx-row">c
+			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
 						<vs-upload automatic action="/api/tutor/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil"/>
@@ -92,7 +92,7 @@
 			
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Correo" v-model="correo" name="correo" v-validate="'email|max:150'"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Correo" v-model="correo" name="correo" v-validate="'email|max:50'"/>
 					<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
 				</div>
 			</div>
@@ -161,12 +161,12 @@ const dict = {
     nombres: {
 	  required: 'El campo nombres es requerido',
 	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 30 caracteres',
     },
     apellidos: {
 	  required: 'El campo apellidos es requerido',
 	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 30 caracteres',
     },
     direccion: {
 	  required: 'El campo dirección es requerido',
@@ -188,7 +188,7 @@ const dict = {
 	},
 	correo:{
 	  email:'Ingrese un correo válido ',
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 50 caracteres',
 	  
 	},
 	descripcion: {

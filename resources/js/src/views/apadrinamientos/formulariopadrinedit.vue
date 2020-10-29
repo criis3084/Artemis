@@ -13,17 +13,17 @@
           <form data-vv-scope="step-1">
           <div class="vx-row">
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Nombres" v-model="nombresT" class="w-full" name="nombres" v-validate="'required|alpha_spaces|max:150'" />
+              <vs-input label="Nombres" v-model="nombresT" class="w-full" name="nombres" v-validate="'required|alpha_spaces|max:30'" />
               <span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
             </div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Apellidos"  v-model="apellidosT" class="w-full" name="apellidos" v-validate="'required|alpha_spaces|max:150'" />
+              <vs-input label="Apellidos"  v-model="apellidosT" class="w-full" name="apellidos" v-validate="'required|alpha_spaces|max:30'" />
               <span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="ID"  v-model="CUIT" class="w-full" name="cui" v-validate="'required|alpha_num|max:150'" />
+              <vs-input label="ID"  v-model="CUIT" class="w-full" name="cui" v-validate="'required|alpha_num|max:15'" />
               <span class="text-danger">{{ errors.first('step-1.cui') }}</span>
             </div>
 
@@ -50,7 +50,7 @@
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Número de teléfono"  v-model="numero_telefonoT" class="w-full" name="telefono" v-validate="'max:150'" />
+              <vs-input label="Número de teléfono"  v-model="numero_telefonoT" class="w-full" name="telefono" v-validate="'max:15'" />
               <span class="text-danger">{{ errors.first('step-1.telefono') }}</span>
             </div>
 
@@ -78,7 +78,7 @@
 			</template> 
             </div>
 				<div class="vx-col md:w-1/2 w-full mt-5">
-				<vs-input type="email" label="Correo"  v-model="correoT" class="w-full" name="correo" v-validate="'required|email|max:150'" />
+				<vs-input type="email" label="Correo"  v-model="correoT" class="w-full" name="correo" v-validate="'required|email|max:s50'" />
 				<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
             </div>
 
@@ -111,34 +111,40 @@ const dict = {
     nombres: {
       required: 'El campo nombres es requerido',
 	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 30 caracteres',
     },
     apellidos: {
       required: 'El campo apellidos es requerido',
 	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 30 caracteres',
     },
     correo: {
       required: 'El campo correo es requerido',
 	  email: 'Ingrese un correo válido',
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 50 caracteres',
     },
     cui: {
 	  required: 'El campo ID es requerido',
 	  alpha_num: 'El campo solo debe de contener letras y números',
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 15 caracteres',
+	},
+	fecha: {
+      required: 'El campo fecha es requerido',
 	},
 	direccion: {
 	  required: 'El campo dirección es requerido',
 	  max: 'Este campo solo acepta hasta 254 caracteres',
 	},
 	telefono: {
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 15 caracteres',
 	},
 	radio: {
 	  required: 'Seleccione una opción',
 	  included: 'Seleccione una opción',
     },
+	sector:{
+	  required: 'El campo sector es requerido',
+	},
   }
 }
 

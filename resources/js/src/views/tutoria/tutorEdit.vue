@@ -1,7 +1,11 @@
 <template>
 	<div>
 		<vx-card>
-			<form-wizard  color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZAR DATOS DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+			<div class="vx-col md:w-1/3 w-full mt-5">
+				<vs-button @click="goBack" type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border ></vs-button>
+			</div>
+			<form-wizard  color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZACIÓN DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+				<vs-divider position="right">PID&#174;</vs-divider>
 				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
 					<!-- tab 1 content -->
 					<form data-vv-scope="step-1" >
@@ -9,27 +13,29 @@
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombresTutor" v-validate="'required|alpha'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombresTutor" v-validate="'required|alpha_spaces|max:30'"/>
 									<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" name="apellidos" v-model="apellidosTutor" v-validate="'required|alpha'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" name="apellidos" v-model="apellidosTutor" v-validate="'required|alpha_spaces|max:30'"/>
 									<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-file-text" icon-no-border label-placeholder="Especialidad" v-model="especialidadTutor"/>
-								</div>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-file-text" icon-no-border label-placeholder="Especialidad" v-model="especialidadTutor" name="especialidad" v-validate="'max:150'"/>
+									<span class="text-danger">{{ errors.first('step-1.especialidad') }}</span>
+
+							</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" name="cui" v-model="CUI" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" name="cui" v-model="CUI" v-validate="'numeric|max:13'"/>
 									<span class="text-danger">{{ errors.first('step-1.cui') }}</span>
 								</div>
 							</div>
@@ -37,7 +43,9 @@
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="my-4">
 									<small class="date-label">Fecha de nacimiento</small>
-									<datepicker :format="dateFormat" :language="$vs.rtl ? langEn : langEn" name="end-date" v-model="fecha_nacimiento"></datepicker>
+									<datepicker :format="dateFormat" :language="$vs.rtl ? langEn : langEn" name="fecha" v-validate="'required'" v-model="fecha_nacimiento"></datepicker>
+									<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
+
 								</div>
 							</div>
 
@@ -45,23 +53,25 @@
 								<small class="date-label">Género</small>
 								<ul class="demo-alignment">
 									<li>
-										<vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1" selected>Masculino</vs-radio>
+										<vs-radio name="radio" v-validate="'required|included:1,0'" color="rgb(0, 170, 228)" v-model="genero" vs-value="1" selected>Masculino</vs-radio>
 									</li>
 									<li>
-										<vs-radio color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
+										<vs-radio name="radio" color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
 									</li>
 								</ul>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono" name="numero_telefono" v-validate="'numeric|max:15'"/>
+									<span class="text-danger">{{errors.first('step-1.numero_telefono') }}</span>
+
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" name="direccion" v-model="direccionTutor" v-validate="'required'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-home" icon-no-border label-placeholder="Dirección" name="direccion" v-model="direccionTutor" v-validate="'required|max:254'"/>
 									<span class="text-danger">{{errors.first('step-1.direccion') }}</span>
 								</div>
 							</div>
@@ -82,14 +92,15 @@
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Correo" v-model="correo" name="correo" v-validate="'email'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Correo" v-model="correo" name="correo" v-validate="'email|max:50'"/>
 									<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Descripción" v-model="descripcion"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Descripción" v-model="descripcion" name="descripcion" v-validate="'max:254'"/>
+									<span class="text-danger">{{ errors.first('descripcion') }}</span>
 								</div>
 							</div>
 
@@ -101,25 +112,26 @@
 						<form data-vv-scope="step-3">
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Usuario" v-model="usuario" v-validate="'required'" name="campo"/>
-									<span class="text-danger">{{ errors.first('step-3.campo') }}</span>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Usuario" v-model="usuario" v-validate="'required|min:5|max:15'" name="usuario"/>
+									<span class="text-danger">{{ errors.first('step-3.usuario') }}</span>
 								</div>
 							</div>
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-lock" icon-no-border label-placeholder="Contraseña" name="campo" v-model="password" v-validate="'required'"/>
-									<span class="text-danger">{{ errors.first('step-3.campo') }}</span>
+									<vs-input class="w-full" type="password" icon-pack="feather" icon="icon-lock" icon-no-border label-placeholder="Contraseña" v-model="password" name="password" v-validate="'required|min:6|max:15'"/>
+									<span class="text-danger">{{ errors.first('step-3.password') }}</span>
 								</div>
 							</div>
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<small class="date-label">Rol</small>
-								<v-select label="nombre" :options="roles"  v-model="rol_id"  :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+								<v-select label="nombre" :options="roles"  v-model="rol_id"  :dir="$vs.rtl ? 'rtl' : 'ltr'" v-validate="'required'" name="rol"/>
+								<span class="text-danger">{{ errors.first('step-3.rol') }}</span>
 							</div>
 						</form>
 					</tab-content>
 			</form-wizard>
-			<div class="vx-col md:w-1/2 w-full mt-5">
-				<vs-button @click="goBack" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border >Regresar</vs-button>
+			<div class="vx-col md:w-1/3 w-full mt-5">
+				<vs-button @click="goBack" type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border >Regresar</vs-button>
 			</div>
 		</vx-card>
 	</div>
@@ -135,31 +147,59 @@ import axios from 'axios'
 import { Validator } from 'vee-validate'
 const dict = {
   custom: {
+    cui: {
+	  numeric: 'El campo solo debe de contener números',
+	  max: 'Este campo solo acepta hasta 13 dígitos',
+    },
     nombres: {
-      required: 'Los Nombres son requeridos',
-      alpha: 'El nombre solo debe incluir letras'
+	  required: 'El campo nombres es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
+	  max: 'Este campo solo acepta hasta 30 caracteres',
     },
     apellidos: {
-	  required: 'Los apellidos son requeridos',
-      alpha: 'El nombre solo debe incluir letras'
+	  required: 'El campo apellidos es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
+	  max: 'Este campo solo acepta hasta 30 caracteres',
     },
     direccion: {
-      required: 'La direccion es requerida',
+	  required: 'El campo dirección es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
-    fecha_nacimiento: {
-      required: 'La fecha de nacimiento es requerida',
-      alpha: 'Job title may only contain alphabetic characters'
+    fecha: {
+      required: 'El campo fecha es requerido',
+	},
+    numero_telefono: {
+	  numeric: 'El campo solo debe de contener números',
+	  max: 'Este campo solo acepta hasta 15 caracteres',
+	},
+	radio: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+	},
+	especialidad: {
+	  max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+	correo:{
+	  email:'Ingrese un correo válido ',
+	  max: 'Este campo solo acepta hasta 50 caracteres',
+	  
+	},
+	descripcion: {
+	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
-    cui: {
-      required: 'El cui es requerido'
-    },
-    correo:{
-      email:'Ingrese un correo valido '
-    },
-    campo: {
-      required:'Dato requerido'
-    }
-    
+	usuario:{
+	  required: 'El campo usuario es requerido',
+	  min: 'Su usuario no puede tener menos de 5 caracteres',
+	  max: 'Su usuario no puede tener más de 15 caracteres',
+	},
+	password:{
+	  required: 'El campo contraseña es requerido',
+	  min: 'Su contraseña no puede tener menos de 6 caracteres',
+	  max: 'Su contraseña no puede tener más de 15 caracteres',
+	},
+	rol:{
+	  required: 'El campo rol es requerido',
+	},
   }
 }
 
@@ -195,7 +235,7 @@ export default {
 			},
 			mostrarEditar:false,
 			id_recibido:'',
-			titulo:'Registrado exitosamente!',
+			titulo:'Actualización registrada!',
 			waterMark : 'Select a date',
 			dateVal : new Date(),
 			dateFormat : 'yyyy-MM-dd'
@@ -252,6 +292,11 @@ export default {
 			})
 			this.$emit('cerrado', 'Se cerró el formulario')
 			this.$router.push('/tutoria/tutor')
+			this.$vs.notify({
+			color:'success',
+			title:`${this.titulo}`,
+			text:'La acción se realizo exitósamente'
+			});
 		},
 		async index (page, search) { //async para que se llame cada vez que se necesite
 			const me = this
@@ -315,6 +360,11 @@ export default {
 				resolve(true)
 				} else {
 				reject('correct all values')
+				this.$vs.notify({
+					color:'danger',
+					title:'Error en validación!',
+					text:'Ingrese todos los campos correctamente'
+					});
 				}
 			})
 			})
@@ -326,6 +376,11 @@ export default {
 				resolve(true)
 				} else {
 				reject('correct all values')
+				this.$vs.notify({
+					color:'danger',
+					title:'Error en validación!',
+					text:'Ingrese todos los campos correctamente'
+					});
 				}
 			})
 			})
@@ -338,6 +393,11 @@ export default {
 				resolve(true)
 				} else {
 				reject('correct all values')
+				this.$vs.notify({
+					color:'danger',
+					title:'Error en validación!',
+					text:'Ingrese todos los campos correctamente'
+					});
 				}
 			})
 			})

@@ -150,7 +150,7 @@
 				
 	<br>
 					<div class="vx-col md:w-1/3 w-full mt-5">
-						<vs-button  type="gradient" class="mb-base mr-3" icon-pack="feather" icon="icon-file-plus" @click.prevent="ingresarEstudio">Registrar Estudio socioeconómico</vs-button>
+						<vs-button  type="gradient" class="mb-base mr-3" icon-pack="feather" icon="icon-save" @click.prevent="ingresarEstudio">Registrar Estudio socioeconómico</vs-button>
 					</div>
 				
 			</form>

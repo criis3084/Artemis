@@ -21,14 +21,14 @@
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombresT" name="nombres" v-validate="'required|alpha_spaces|max:150'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombresT" name="nombres" v-validate="'required|alpha_spaces|max:30'"/>
 									<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 								</div>
 							</div>
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidosT" name="apellidos" v-validate="'required|alpha_spaces|max:150'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidosT" name="apellidos" v-validate="'required|alpha_spaces|max:30'"/>
 									<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
 								</div>
 							</div>
@@ -150,12 +150,12 @@ const dict = {
     nombres: {
 	  required: 'El campo nombres es requerido',
 	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 30 caracteres',
     },
     apellidos: {
 	  required: 'El campo apellidos es requerido',
 	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 30 caracteres',
     },
     direccion: {
 	  required: 'El campo dirección es requerido',

@@ -45,7 +45,7 @@
 			</div>
 
 			<br>
-			<vs-button icon-pack="feather" type="gradient" icon="icon-save" @click.prevent="guardar">Registrar imagen</vs-button>
+			<vs-button type="gradient" icon-pack="feather" icon="icon-save" @click.prevent="guardar">Registrar imagen</vs-button>
 			
 
 		</form>

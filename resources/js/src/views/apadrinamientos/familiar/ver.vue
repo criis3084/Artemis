@@ -4,6 +4,7 @@
 
 
       <template slot="no-body">
+				<vs-divider position="right">PID&#174;</vs-divider>
 
         <div class="item-content">
 
@@ -25,7 +26,7 @@
 
               <!-- Item Content -->
               <div class="vx-col md:w-3/5 w-full">
-                    <vs-button @click="goBack" class="mr-4" type="border" radius icon-pack="feather" color="primary" icon="icon-corner-up-left"></vs-button>
+                    <vs-button @click="goBack" size="small" class="mr-4" type="border" radius icon-pack="feather" color="primary" icon="icon-corner-up-left"></vs-button>
 
                 <span>Nombres y apellidos</span>
                 <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.nombresT +" " + this.apellidosT }}</h1>
