@@ -46,7 +46,6 @@
 					<small class="date-label">Fecha de nacimiento</small>
 					<datepicker :format="dateFormat" :language="$vs.rtl ? langEn : langEn" name="fecha" v-validate="'required'" v-model="fecha_nacimiento"></datepicker>
 					<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
-					<span class="text-danger">!!!arreglar validacion fecha, no se por que no funciona, en tutor si funciona</span>
 
 				</div>
 				</div>
@@ -138,7 +137,7 @@ const dict = {
 	  max: 'Este campo solo acepta hasta 15 caracteres',
 	},
 	fecha: {
-      required: 'El campo fecha es requerido',
+      required: 'El campo fecha de nacimiento es requerido',
 	},
 	direccion: {
 	  required: 'El campo dirección es requerido',
@@ -168,7 +167,7 @@ export default {
 		apellidos: "",
 		direccion: "",
 		genero:'',
-		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+		fecha_nacimiento:"",
 		CUI:'',
 		numero_telefono:'',
 		correo:'',
