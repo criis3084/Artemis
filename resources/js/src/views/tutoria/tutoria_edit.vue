@@ -176,6 +176,8 @@ export default {
 		}
     },
 	acceptAlert () {
+	this.$validator.validateAll().then(result => {
+	if(result) {
 		axios.put("/api/tutoria/update/",{
 			id:this.idT,
 			nombre: this.nombreTT,
@@ -194,6 +196,15 @@ export default {
 				text:'La acción se realizo exitósamente'
 		})
 		this.$emit("cerrado", "Se cerro el formulario");
+	}
+	else{
+          this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
+		}
+	})
 	},
     close() {
 	this.$emit("cerrado", "Se cerro el formulario");

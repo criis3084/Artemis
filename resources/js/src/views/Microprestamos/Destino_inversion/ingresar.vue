@@ -44,7 +44,7 @@ export default {
 	  valMultipe:{
 		value1:''
 	  },
-	 titulo:'Nueva Destino'
+	 titulo:'Nuevo destino de inversión'
 	}
   },
   computed:{
@@ -63,10 +63,10 @@ export default {
 			console.log(error)
 		});
 		this.$vs.notify({
-			color:'success',
-			title:'Creado',
-			text:'El registro ha sido creado!'
-		})
+					color:'success',
+					title:'Destino registrado',
+					text:'Acción realizada exitósamente'
+				});
 		this.valMultipe.value1 = '';
 		this.$emit('cerrado','Se cerro el formulario');
 	},

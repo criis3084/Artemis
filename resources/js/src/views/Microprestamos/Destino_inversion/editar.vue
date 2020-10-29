@@ -12,11 +12,12 @@
       <div class="con-exemple-prompt">
         <b></b>
 			
-		<vs-input placeholder="Nombre del destino" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
+		<vs-input name="nombre" v-validate="'required|max:35'" placeholder="Nombre del destino" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
+				<span class="text-danger">{{ errors.first('nombre') }}</span>
 
-		<vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
+		<!-- <vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
 			LLene todos los campos
-		</vs-alert>
+		</vs-alert> -->
       </div>
 	</vs-prompt>
 
@@ -30,7 +31,16 @@ import axios from 'axios'
 //C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
 import vSelect from 'vue-select'
-
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+	nombre:{
+		required: 'El campo nombre es requerido',
+		max: 'Este campo solo acepta hasta 35 caracteres',
+	},
+  }
+};
+Validator.localize('en', dict);
 export default {
 	props:{
 		identificador:{
@@ -48,7 +58,7 @@ export default {
 		return {
 			idT:0,
 			nombreT:'',
-			titulo:'Actualizar Destino'
+			titulo:'Actualizar destino de inversión'
 		}
 	},
 	computed:{
@@ -63,6 +73,8 @@ export default {
 	},
 	methods:{
 		actualizarAldea () {
+	this.$validator.validateAll().then(result => {
+	if(result) {
 			axios.put("/api/destinoInversion/update/",{
 				id:this.idT,
 				nombre:this.nombreT,
@@ -78,6 +90,15 @@ export default {
 				text:'El registro ha sido actualizado'
 			})
 			this.$emit('cerrado','Se cerró el formulario');
+		}
+		else{
+          this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
+		}
+	})
 		},
 		close () {
 			this.$emit('cerrado','Se cerró el formulario');

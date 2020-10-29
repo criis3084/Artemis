@@ -48,10 +48,10 @@
             <span class="text-2xl leading-none font-medium text-primary mr-4">{{this.fecha_pago}} </span>
           </div>
         </div>
-        <div class="vx-row">
+        <div class="vx-row mb-6">
           <div class="vx-col sm:w-2/3 w-full ml-auto">
-            <vs-button class="mr-3 mb-2" @click="enviarForm">Aceptar</vs-button>
-            <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limpiar</vs-button>
+            <vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="enviarForm">Guardar</vs-button>
+            <vs-button color="warning" icon="format_clear" type="border" class="mb-2" @click="limpiar">Limpiar</vs-button>
           </div>
         </div>
       </vx-card>
@@ -258,7 +258,7 @@ export default{
         me.seterResponse(response.data.id)
         me.ActualizarFechaPago()
         me.Imprimir = true
-        alert('Ingreso de abono correctamente')
+        // alert('Ingreso de abono correctamente')
         this.$vs.notify({
 					color:'success',
 					title:'Abono registrado!',
@@ -267,7 +267,11 @@ export default{
       })
         .catch(function (error) {
           console.log(error)
-          alert('Error al ingresar abono')
+           this.$vs.notify({
+          color:'danger',
+          title:`Error en ingreso!`,
+          text:'Ingrese correctamente todos los datos'
+        })
         })
       
     },
@@ -413,8 +417,9 @@ export default{
       this.AbonoTotal = 0
       this.deuda = 0
       this.mora = 0
-      this.cantidad_abono = 0
+      this.cantidad_abono = ''
       this.nombreSeleccionado = ''
+      this.descripcion = ''
       this.nRecibo = 0
     },
 

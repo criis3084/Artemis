@@ -5,49 +5,30 @@
       <vx-card title="Nuevo Grupo" >
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
-            <vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label="Nombre de grupo" v-model="nombre" name="nombre" v-validate="'required|max:35'" />
+            <vs-input class="w-full" icon-no-border label="Nombre de grupo" v-model="nombre" name="nombre" v-validate="'required|max:30'" />
             <span class="text-danger text-sm" v-show="errors.has('nombre')">{{ errors.first('nombre') }}</span>
           </div>
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <small>Descripción</small>
-            <vs-textarea class="w-full" icon-pack="feather" icon="icon-user" icon-no-border v-model="descripcion" name="descripcion" v-validate="'required|max:60'"/>
+            <vs-textarea class="w-full" icon-pack="feather" icon="icon-user" icon-no-border v-model="descripcion" name="descripcion" v-validate="'required|max:150'"/>
             <span class="text-danger text-sm" v-show="errors.has('descripcion')">{{ errors.first('descripcion') }}</span>
           </div>
         </div>
 
-
-     <!--   <div class="vx-row mb-6">
-          <div class="vx-col md:w-1/2 w-full mt-6">
-			<small class="date-label">Costos de la vivienda</small>
-				<vx-input-group class="mb-base">
-   				 <template slot="prepend">	
-				<div class="prepend-text bg-primary" >
-					<span>Q</span>	
-				</div>
-          <div class="vx-col w-full">
-           <vs-input class="w-full" v-model="cantidad_prestamo_actual" name="cantidad" v-validate="'required|numeric|max:6'"/>
-           <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
-          </div>
-          </template>
-  				</vx-input-group>
-          </div>
-        </div>  -->
-
-
         <div class="vx-row">
-          <vs-button color="warning" type="border" class="mb-2" @click="nombre = descripcion = cantidad_prestamo_actual = cantidad_ultimo_prestamo = interes_ultimo_prestamo= ''">Limpiar</vs-button>
+          <vs-button icon="format_clear" color="warning" type="border" class="mb-2" @click="nombre = descripcion = cantidad_prestamo_actual = cantidad_ultimo_prestamo = interes_ultimo_prestamo= ''">Limpiar</vs-button>
         </div>
       </vx-card>
       </div>
 
     <!-- Ver integrantes de grupo-->
     <div class="vx-col md:w-1/2 w-full mb-base">
-      <vx-card title="Seleccione integrantes del grupo">
+      <vx-card title="Integrantes del grupo">
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
-            <small>Seleccióne una persona</small>
+            <small>Seleccione una persona</small>
             <v-select label="nombre_completo" :options="NuevoEncargado" v-model="encargado"  @input="agregar" :dir="$vs.rtl ? 'rtl' : 'ltr'" name="encargado" v-validate="'required'" />
             <span class="text-danger text-sm" v-show="errors.has('encargado')">{{ errors.first('encargado') }}</span>
           </div>
@@ -62,8 +43,10 @@
           </div>
          </vs-list>
       </vx-card>
+      <br>
+
       <div class="vx-col w-full">
-            <vs-button class="mr-3 mb-2" @click="enviarForm">Guardar grupo</vs-button>
+            <vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="enviarForm">Guardar grupo</vs-button>
             
       </div>
     </div>
@@ -75,21 +58,16 @@ import { Validator } from 'vee-validate'
 const dict = {
   custom: {
     nombre: {
-      required: 'Este campo no puede quedar vacío',
-      max:'No se aceptan más de 35 caracteres'
+  	  required: 'El campo nombre de grupo es requerido',
+      max: 'Este campo solo acepta hasta 30 caracteres',
     },
     descripcion: {
-      required:'Información requerida',
-      max:'No se aceptan más de 60 caracteres'
+      required:'El campo descripción es requerido',
+      max:'Este campo solo acepta hasta 150 caracteres'
     },
     encargado:{
-      required:'Seleccióne miembros para el grupo porfavor'
+      required:'Seleccione miembros para el grupo'
     },
-    cantidad:{
-      required:'Porfavor ingrese una cantidad',
-      numeric:'Solo se aceptan números',
-      max:'No se aceptan cantidades mayores a 6 digitos'
-    }
   }
 }
 Validator.localize('es', dict)
@@ -164,11 +142,19 @@ export default {
           dia_pago: '2020/4/2'
         }).then(function (response) {
           console.log(response)
-          alert('Integrantes agregados al grupo correctamente')
+          this.$vs.notify({
+					color:'success',
+					title:'Integrantes del grupo registrados',
+					text:'Acción realizada exitósamente'
+				});
         })
           .catch(function (error) {
             console.log(error)
-            alert('Error al ingresar')
+            this.$vs.notify({
+          color:'danger',
+          title:'Error en ingreso de integrantes!',
+          text:'Ingrese todos los campos correctamente'
+          });
           })
       })
 
@@ -185,14 +171,21 @@ export default {
 
       }).then(function (response) {
         console.log(response.data.id)
-        alert('Grupo creado correctamente')
+        this.$vs.notify({
+					color:'success',
+					title:'Grupo registrado',
+					text:'Acción realizada exitósamente'
+				});
         me.guardarDetalle(response.data.id)
       })
         .catch(function (error) {
           console.log(error)
-          alert('Error al crear al grupo')
-        })
-      
+          this.$vs.notify({
+          color:'danger',
+          title:'Error en ingreso de grupo!',
+          text:'Ingrese todos los campos correctamente'
+          });
+          })
     },
     async traerPersona () { //tabla encargados
     
@@ -272,12 +265,10 @@ export default {
         } else {
           // form have errors
           this.$vs.notify({
-            title:'Error',
-            text:'Porfavor ingrese correctamente los datos',
-            color:'warning',
-            position:'bottom-center',
-            icon:'priority_high'
-          })
+          color:'danger',
+          title:'Error en validación!',
+          text:'Ingrese todos los campos correctamente'
+          });
         }
       })
     }
