@@ -4,9 +4,11 @@
     <!-- HORIZONTAL LAYOUT -->
     <div class="vx-col md:w-1/2 w-full mb-base">
        <vs-alert v-if="alerta==true" color="success" title="Información" active="true">
-           El pago del microprestamo se ha competado
+           El abono al micropréstamo se ha competado
         </vs-alert>
       <vx-card title="Ingresar Abono">
+				<vs-divider position="right">PID&#174;</vs-divider>
+
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
             <span>Seleccione el nombre</span>
@@ -22,7 +24,7 @@
             <span>Cantidad de abono(Q)</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-input type="number" class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|max:7'"/>
+            <vs-input type="number" class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|max:7|numeric'"/>
             <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
             <span v-if ="dias > 0 && mes === 0" >{{ 'Dias atrasados:'+ ' ' + dias+ ' '}}</span>
             <span v-if="mes > 0" >{{'Meses atrasados:'+' '+ mes}} </span>
@@ -34,7 +36,7 @@
             <span>Descripción</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-textarea class="w-full" name="descripcion" v-model="descripcion" v-validate="'required|max:60'" />
+            <vs-textarea class="w-full" name="descripcion" v-model="descripcion" v-validate="'required|max:150'" />
             <span class="text-danger text-sm" v-show="errors.has('descripcion')">{{ errors.first('descripcion') }}</span>
           </div>
         </div>
@@ -49,22 +51,11 @@
         <div class="vx-row">
           <div class="vx-col sm:w-2/3 w-full ml-auto">
             <vs-button class="mr-3 mb-2" @click="enviarForm">Aceptar</vs-button>
-            <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button>
+            <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limpiar</vs-button>
           </div>
         </div>
       </vx-card>
     </div>
-
-    <!-- HORIZONTAL LAYOUT WITH ICON
-    <div class="vx-col md:w-1/2 w-full mb-base">
-      
-        <div class="vx-row mb-6">
-          <div class="vx-col sm:w-1/2 w-full">
-             
-          </div>
-        </div>
-      
-    </div>-->
     
     <div class="vx-col lg:w-1/3 w-full">
     <div id="invoice-page">
@@ -75,7 +66,7 @@
                                
                             </div>
 
-                            <span>Comprobante pago de microprestamo</span>
+                            <span>Comprobante pago de micropréstamo</span>
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold">Comprobante No.</span>
                                 <span class="font-medium text-primary cursor-pointer">{{nRecibo}}</span>
@@ -84,11 +75,12 @@
                                 <span class="text-grey">{{nombreSeleccionado}}</span>
                                 <span class="text-grey">{{getDate(fecha_pago)}}</span>
                             </div>
-                            <vs-divider />
+                            				<vs-divider position="right">PID&#174;</vs-divider>
+
 
                             <p class="font-semibold mb-3">Detalles</p>
                             <div class="flex justify-between mb-2">
-                                <span class="text-grey">Total del prestamo</span>
+                                <span class="text-grey">Total del préstamo</span>
                                 <span>{{currency(totalPrestamo)}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
@@ -119,7 +111,7 @@
 
                            
                         </vx-card>
-                         <vs-button class="w-full" v-if="Imprimir==true" @click="printInvoice" >Imprimir</vs-button>
+                         <vs-button type="gradient" icon-pack="feather" icon="icon-printer" class="w-full" v-if="Imprimir==true" @click="printInvoice" >Imprimir</vs-button>
                     </div>
                   </div>
   </div>
@@ -136,13 +128,13 @@ import { Validator } from 'vee-validate'
 const dict = {
   custom: {
     cantidad: {
-      required: 'Este campo no puede quedar vacío',
-      numeric: 'Solo aceptan números',
-      max:'No se aceptan más de 5 números'
+      	  required: 'El campo cantidad de abono es requerido',
+      	  numeric: 'El campo solo debe de contener números',
+          max: 'Este campo solo acepta hasta 7 dígitos',
     },
     descripcion: {
-      required:'Información requerida',
-      max:'No se aceptan más de 60 caracteres'
+      required:'El campo descripción es requerido',
+      max:'No se aceptan más de 150 caracteres'
     },
     encargado:{
       required:'Seleccione una persona'
@@ -200,12 +192,10 @@ export default{
           this.guardar()
         } else {
           this.$vs.notify({
-            title:'Error',
-            text:'Porfavor ingrese correctamente los datos',
-            color:'warning',
-            position:'bottom-center',
-            icon:'priority_high'
-          })
+				color:'danger',
+				title:`Error en validación!`,
+				text:'Ingrese correctamente todos los datos'
+			})
         }
       })
 
@@ -268,12 +258,16 @@ export default{
         me.seterResponse(response.data.id)
         me.ActualizarFechaPago()
         me.Imprimir = true
-        alert('Ingreso correctamente')
-  
+        alert('Ingreso de abono correctamente')
+        this.$vs.notify({
+					color:'success',
+					title:'Abono registrado!',
+					text:'La acción se realizo exitósamente'
+				});
       })
         .catch(function (error) {
           console.log(error)
-          alert('Erro al ingresar')
+          alert('Error al ingresar abono')
         })
       
     },

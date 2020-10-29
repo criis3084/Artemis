@@ -1,5 +1,15 @@
 <template>
  <vx-card>
+    <div class = "demo-alignment">
+      <div class="vx-col md:w-1/3 w-full mt-5">
+          <vs-button @click="goBack" class="mr-4" type="border" radius icon-pack="feather" color="primary" icon="icon-corner-up-left"></vs-button>
+      </div>
+      <div class="flex-1 ">
+          <h2> Historial de abonos</h2>
+      </div>
+    </div>
+			<vs-divider position="right">PID&#174;</vs-divider>
+
 	 <vs-prompt title="Exportar a Excel" class="export-options" @cancel="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -11,17 +21,17 @@
     <div class = "demo-alignment">
       <h4></h4>
     </div>
-     <vs-table title="Sectores" pagination max-items="7" search :data="arrayData" noDataText="No se han realizado abonos">
+     <vs-table stripe title="Sectores" pagination max-items="7" search :data="arrayData" noDataText="No se han realizado abonos">
         <template slot="header">
           <vs-button @click="activePrompt=true">Exportar</vs-button>
         </template>
             <template slot="thead">
                 <vs-th >No. Abono</vs-th>
                 <vs-th >Descripción</vs-th>
-                <vs-th >Cantidad de Abono</vs-th>
+                <vs-th >Cantidad de abono</vs-th>
 				        <vs-th >Mora</vs-th>
-                <vs-th >Cantidad Restante</vs-th>
-				        <vs-th >Fecha Pago</vs-th>
+                <vs-th >Cantidad eestante</vs-th>
+				        <vs-th >Fecha de pago</vs-th>
                 <vs-th >Estado</vs-th>
         </template>
 
@@ -37,13 +47,13 @@
                     </vs-td>
 
                     <vs-td >
-                        {{data[indextr].cantidad_abono}}
+                        {{currency(data[indextr].cantidad_abono)}}
                     </vs-td>
                     <vs-td >
-                        {{data[indextr].mora}}
+                        {{currency(data[indextr].mora)}}
                     </vs-td>
                     <vs-td>
-                        {{data[indextr].cantidad_restante}}
+                        {{currency(data[indextr].cantidad_restante)}}
                     </vs-td>
                     <vs-td>
                         {{data[indextr].fecha_pago}}
@@ -59,7 +69,7 @@
                 </vs-tr>
             </template>
         </vs-table>
-    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
+    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>
 
 </vx-card>
 </template>
@@ -83,6 +93,14 @@ export default {
     }
   },
   methods:{
+    currency(numero) {
+		const formatter = new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'GTQ'
+		})
+		const mil = formatter.format(numero)
+		return mil
+		},
     goBack () {
       this.$router.go(-1)
     },
@@ -117,12 +135,6 @@ export default {
     },
     formatJson (filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
-        // Add col name which needs to be translated
-        // if (j === 'timestamp') {
-        //   return parseTime(v[j])
-        // } else {
-        //   return v[j]
-        // }
 
         return v[j]
       }))

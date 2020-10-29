@@ -1,39 +1,55 @@
 <template>
 	<vx-card>
-
-		<div class="vx-col md:w-1/2 w-full mt-3">
-			<div class="vx-col w-full">
-				<h4 class="date-label">Grupo para micropréstamo:</h4>
-				<v-select label="nombre" :options="listado_grupos" v-model="grupo_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<div class = "demo-alignment">
+			<div class="vx-col md:w-1/3 w-full mt-5">
+				<router-link to="/microprestamo/microprestamo"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+			</div>
+			<div class="flex-1 ">
+				<h2>Nuevo micropréstamo</h2>
 			</div>
 		</div>
+				<vs-divider position="right">PID&#174;</vs-divider>
+		
+		<div class="vx-col md:w-1/2 w-full mt-3">
+			<div class="vx-col w-full">
+				<h5 class="date-label">Grupo para micropréstamo:</h5>
+				<v-select label="nombre" :options="listado_grupos" v-model="grupo_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+			</div>
+			<span v-if="lista_encargados_plus.length <1" class="text-succes">Seleccione un grupo </span>
+		</div>
 		<div v-if="lista_encargados_plus.length >0" class="mt-8">
-		<h4> <b> Cantidad del préstamo anterior: </b> {{this.currency(grupo_select.cantidad_ultimo_prestamo)}} &nbsp; &nbsp; <b>Interés del préstamo anterior: </b> {{currency(grupo_select.interes_ultimo_prestamo)}} </h4>
+	<form>
+
+		<h5> <b> Cantidad del préstamo anterior: </b> {{this.currency(grupo_select.cantidad_ultimo_prestamo)}} &nbsp; &nbsp; <b>Interés del préstamo anterior: </b> {{currency(grupo_select.interes_ultimo_prestamo)}} </h5>
 		<br>
-		<h4> <b> Límite sugerido del préstamo actual: </b> {{limiteActual()}}</h4>
+		<h5> <b> Límite sugerido del préstamo actual: </b> {{limiteActual()}}</h5>
 		<br>
 			<div class="vx-col md:w-1/2 w-full">
 				<div class="my-4">
 					<small class="date-label">Fecha de inicio</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_nacimiento" v-model="fecha_inicio"></datepicker>
+					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha" v-validate="'required'" v-model="fecha_inicio"></datepicker>
+					<span class="text-danger">{{ errors.first('fecha') }}</span>
 				</div>
 			</div>
 			<br>
 			<div class="vx-col md:w-1/2 w-full">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-percent" icon-no-border label-placeholder="Porcentaje de interés" v-model="interes"/>
-					<span class="text-danger">Porcentaje de interés</span>
+					<vs-input name="interes" v-validate="'required|max:2|numeric'" class="w-full" icon-pack="feather" icon="icon-percent" icon-no-border label-placeholder="Porcentaje de interés" v-model="interes"/>
+					<span class="text-danger">{{ errors.first('interes') }}</span>
 				</div>
 			</div>
 
 			<div class="vx-col w-full mt-3">
 					<small class="date-label mt-5">Día de pago</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="dia_pago" v-model="dia_pago"></datepicker>
+					<datepicker :language="$vs.rtl ? langEn : langEn" name="dia_pago" v-validate="'required'" v-model="dia_pago"></datepicker>
+					<span class="text-danger">{{ errors.first('dia_pago') }}</span>
 					<!-- <v-select style="width:30%" label="mostrar" :options="dia_del_mes" v-model="dia_pago" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> -->
 					<br>
-					<vs-input  style="width:30%" icon="local_atm" icon-no-border label-placeholder="Mora por atraso" v-model="mora_por_atraso"/>
+					<vs-input  name="mora" v-validate="'required|numeric|max:5'" style="width:30%" icon="local_atm" icon-no-border label-placeholder="Mora por atraso" v-model="mora_por_atraso"/>
+					<span class="text-danger">{{ errors.first('mora') }}</span>
 					<br>
-					<vs-input  style="width:30%" icon="date_range" icon-no-border label-placeholder="Cantidad de meses para pagar" v-model="duracion"/>
+					<vs-input  name="meses" v-validate="'required|numeric|max:2'" style="width:30%" icon="date_range" icon-no-border label-placeholder="Cantidad de meses para pagar" v-model="duracion"/>
+					<span class="text-danger">{{ errors.first('meses') }}</span>
 					<br>
 			</div>
 
@@ -46,28 +62,30 @@
 					</tr>
 					<tr v-for="(integrante,id) in lista_encargados_plus" :key="id" class="mt-4">
 						<td style="text-align:left"> {{integrante.datos_encargado.datos.nombres}} </td>
-						<td style="text-align:center"> <v-select style="width:95%" label="nombre" :options="destinos_inversion" v-model="listaInversiones[id]" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> </td>
-						<td style="text-align:right"> <vs-input style="text-align:right" v-model="listaCantidades[id]" name="cantidad" v-validate="'required|numeric|max:4'"/> </td>
+						<td style="text-align:center"> <v-select name="destino" v-validate="'required'" style="width:95%" label="nombre" :options="destinos_inversion" v-model="listaInversiones[id]" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> </td>
+						<td style="text-align:right"> <vs-input style="text-align:right" v-model="listaCantidades[id]" name="cantidad" v-validate="'required|numeric|max:5'"/> </td>
 						<td style="text-align:center"> Q {{pagoEstimado(listaCantidades[id])}}.00 </td>
 					</tr>
 			</table>
+					<span class="text-danger">{{ errors.first('destino') }}</span><br>
+					<span class="text-danger">{{ errors.first('cantidad') }}</span>
 			<vs-divider/>
 			<div class="vx-row leading-loose p-base">
 				<div class="vx-col w-1/2">
-                    <h4><b>Total de préstamo:</b> </h4>
+                    <h5><b>Total de préstamo:</b> </h5>
                 </div>
 				<div class="vx-col w-1/2 text-right">
-                    <h3> <b> Q {{sumarCantidades()}}.00 </b>  </h3>
+                    <h4> <b> Q {{sumarCantidades()}}.00 </b>  </h4>
                 </div>
 			</div>
 
 			<div class="vx-row">
           		<div class="vx-col sm:w-2/3 w-full ml-auto">
-            		<vs-button class="mr-3 mb-2" @click="guardarPrestamo">Guardar</vs-button>
+            		<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="guardarPrestamo">Guardar</vs-button>
             		<!-- <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button> -->
           		</div>
 	        </div>
-
+	</form>
 		</div>
 	</vx-card>
 </template>
@@ -76,6 +94,42 @@ import axios from "axios";
 import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
 import { es } from 'vuejs-datepicker/src/locale'
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+	  fecha: {
+      required: 'El campo fecha de inicio es requerido',
+	},
+	interes: {
+	  required: 'El campo interés es requerido',
+	  max: 'Este campo solo acepta hasta 2 dígitos',
+	  numeric: 'El campo solo debe de contener números',
+    },
+	dia_pago: {
+      required: 'El campo día de pago es requerido',
+	},
+	mora: {
+	  required: 'El campo mora por atraso es requerido',
+	  max: 'Este campo solo acepta hasta 5 dígitos',
+	  numeric: 'El campo solo debe de contener números',
+    },
+	meses: {
+	  required: 'El campo cantidad de meses para pagar es requerido',
+	  max: 'Este campo solo acepta hasta 2 dígitos',
+	  numeric: 'El campo solo debe de contener números',
+    },
+	destino: {
+      required: 'Todos los campos de destino de inversión son requeridos',
+	},
+	cantidad: {
+	  required: 'Todos los campos de cantidad de préstamo son requeridos',
+	  max: 'Este campo solo acepta hasta 5 dígitos',
+	  numeric: 'El campo solo debe de contener números',
+	},
+  }
+}
+
+Validator.localize('en', dict);
 export default {
 	data() {
 		return {
@@ -89,11 +143,11 @@ export default {
 			destinos_inversion:[],
 			prestamoTotal:0,
 			dia_del_mes:[],
-			dia_pago:0,
-			interes:0,
+			dia_pago:null,
+			interes:null,
 			fecha_inicio:'',
-			mora_por_atraso:0,
-			duracion:0,
+			mora_por_atraso:null,
+			duracion:null,
 			langEn: es,
 		};
 	},
@@ -180,8 +234,15 @@ export default {
 				});
 			})
 			this.$router.push('/microprestamo/microprestamo/');
+			this.$vs.notify({
+					color:'success',
+					title:'Micropréstamo registrado',
+					text:'Acción realizada exitósamente'
+				});
 		},
 		guardarPrestamo(){
+		this.$validator.validateAll().then(result => {
+        if(result) {
 			let me = this
 			axios.post("/api/microprestamo/post/",{
 				total:this.sumarCantidades(),
@@ -197,6 +258,15 @@ export default {
 			.catch(function(error) {
 				console.log(error)
 			});
+		}
+		else{
+          this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
+        }
+      	})
 		},
 		async importarGrupos(){ 
 			let me = this;
@@ -247,8 +317,10 @@ export default {
 				{
 					elemento.datos_encargado=resultado
 					listaPlusT.push(elemento)
-					listaCantidadesT.push(0)
-					listaInversionesT.push(0)
+					///////////////////////////////////////////
+					//Se modificaron las siguientes lineas de codigo para que aparezcan validaciones
+					// listaCantidadesT.push(0)
+					// listaInversionesT.push(0)
 				}
 			})
 			this.listaCantidades=listaCantidadesT

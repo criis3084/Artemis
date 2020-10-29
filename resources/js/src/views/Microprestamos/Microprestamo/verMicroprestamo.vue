@@ -1,7 +1,14 @@
 <template>
   <div id="page-user-view">
-   <small>Nombre del grupo</small>
-   <h2>{{nombreG}}</h2>
+    <div class = "demo-alignment">
+			<div class="vx-col md:w-1/3 w-full mt-5">
+				<vs-button @click="goBack" type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button>
+			</div>
+    </div>
+    <div class = "demo-alignment">
+   <small>Nombre del grupo:</small>
+   <h4>{{nombreG}}</h4>
+    </div>
    <span class="text-primary"> Fecha de inicio {{fecha}} </span>
    <vs-divider position="right">PID&#174;</vs-divider>
 
@@ -23,15 +30,15 @@
           <div class="vx-col flex-1" id="account-info-col-1">
             <table>
               <tr>
-                <td class="font-semibold">Nombre Completo</td>
+                <td class="font-semibold">Nombre:</td>
                 <td>{{ detalles.datos_prestamista[0].nombres +" "+ detalles.datos_prestamista[0].apellidos}}</td>
               </tr>
               <tr>
-                <td class="font-semibold">Dirección</td>
+                <td class="font-semibold">Dirección:</td>
                 <td>{{detalles.datos_prestamista[0].direccion}}</td>
               </tr>
               <tr>
-                <td class="font-semibold">Telefono</td>
+                <td class="font-semibold">Teléfono:</td>
                 <td>{{detalles.datos_prestamista[0].numero_telefono}}</td>
               </tr>
             </table>
@@ -42,16 +49,16 @@
           <div class="vx-col flex-1" id="account-info-col-2">
             <table>
               <tr>
-                <td class="font-semibold">Total de prestamo</td>
-                <td>{{detalles.prestamo_individual}}</td>
+                <td class="font-semibold">Cantidad de préstamo:</td>
+                <td>{{currency(detalles.prestamo_individual)}}</td>
               </tr>
               <tr>
-                <td class="font-semibold">Destino de inversión</td>
+                <td class="font-semibold">Destino de inversión:</td>
                 <td>{{detalles.destino.nombre }}</td>
               </tr>
               <tr>
-                <td class="font-semibold">Duración del pago</td>
-                <td>{{ detalles.microprestamo.duracion }} Meses</td>
+                <td class="font-semibold">Duración del pago:</td>
+                <td>{{ detalles.microprestamo.duracion }} meses</td>
               </tr>
             </table>
           </div>
@@ -64,7 +71,7 @@
 
       </vx-card>
     </div>
-    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
+    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>
   </div>
 </template>
 
@@ -81,6 +88,14 @@ export default {
   },
 
   methods:{
+    currency(numero) {
+		const formatter = new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'GTQ'
+		})
+		const mil = formatter.format(numero)
+		return mil
+		},
     goBack () {
       this.$router.go(-1)
     },

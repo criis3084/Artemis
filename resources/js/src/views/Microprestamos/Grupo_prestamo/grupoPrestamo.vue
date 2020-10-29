@@ -15,14 +15,14 @@
            </div>
         </vs-prompt>
 
-  <vs-table title="Grupos" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
+  <vs-table stripe title="Grupos" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
       <template slot="header">
         <vs-button @click="activePrompt=true">Exportar</vs-button>
       </template>
 
     <template slot="thead">
       <vs-th>Ver</vs-th>
-      <vs-th sort-key="nombre">Id</vs-th>
+      <vs-th sort-key="nombre">No.</vs-th>
       <vs-th sort-key="nombre">Nombre</vs-th>
       <vs-th sort-key="us">Descripción</vs-th>
       <vs-th sort-key="website">Último Préstamo</vs-th>
