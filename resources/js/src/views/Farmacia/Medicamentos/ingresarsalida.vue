@@ -97,7 +97,7 @@ export default {
 	components: {
 		vSelect,
 	},
-	watch:{
+	watch:{ 
 		tipo_salida_select(){
 			if(this.tipo_salida_select !=null)
 			{
@@ -112,6 +112,7 @@ export default {
 					{
 						this.detalleSalida=true
 						this.listado_pendientes =this.paciente_select.beneficios
+						this.buscarDetalleBeneficios(this.paciente_select)
 					}
 					this.opcion_selected=null
 				}
@@ -157,6 +158,19 @@ export default {
 		}
 	},
 	methods: {
+		buscarDetalleBeneficios(paciente){
+			let me = this;
+			axios.get(
+				`/api/detalleBeneficio/get?criterio=beneficio_id&buscar=${paciente.primerBeneficio}&completo=false`)
+			.then(function (response) {
+				const respuesta = response.data
+				console.log(respuesta)
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
+
+		},
 		borrarIntegrante (index) {
 			this.carrito.splice(index, 1)
 			this.listaCantidades.splice(index, 1)
@@ -357,7 +371,7 @@ export default {
 			}).then(function (response){
 				console.log(response)
 				//me2.importarBeneficios()
-				location.reload();
+				//location.reload();
 			})
 		},
 		close(){
@@ -418,9 +432,16 @@ export default {
 			return tabla
 		},
 		limpiarBeneficios(tabla){
+			let idPrimerBeneficio =null
 			tabla.forEach(function(valor, indice, array){
+				let contador=0
 				let beneficiosActivos=[]
 				valor.beneficios.forEach(function(elemento, indice2, array2){
+					contador +=1
+					if (contador == 1)
+					{
+						valor.primerBeneficio = elemento.id
+					}
 					if(elemento.estado == 0)
 					{
 						let numero = parseInt(elemento.fecha_entrega.split('-',3)[1])
@@ -476,19 +497,33 @@ export default {
 			return tabla
 		},
 		traerNombreMedicamento(tabla){
-			tabla.forEach(function(valor, indice, array){
-				valor.nombre_completo = valor.nombre + ' - ' + valor.casa_medica.nombre
+			for (let i in tabla) {
+				let valor = tabla[i]
+				tabla[i].nombre_completo = valor.nombre + ' - ' + valor.casa_medica.nombre
 				if (valor.lotes.length >0){
 					let lotesActivos=[]
-					valor.lotes.forEach(function(elemento, indice2, array2){
+					for (let j in valor.lotes) {
+						let elemento = valor.lotes[j]
 						if(elemento.estado == 1)
 						{
+							elemento.fecha_expiracion = new Date(parseInt(elemento.fecha_expiracion.split('-',3)[0]),parseInt(elemento.fecha_expiracion.split('-',3)[1]),parseInt(elemento.fecha_expiracion.split('-',3)[2]))
 							lotesActivos.push(elemento)
 						}
-					});
-					valor.lotes=lotesActivos
+					}
+					let n = lotesActivos.length
+					let aux=0
+					    for (let k = 1; k < n; k++) {
+							for (let i = 0; i < (n - k); i++) {
+								if (lotesActivos[i].fecha_expiracion > lotesActivos[i + 1].fecha_expiracion) {
+									aux = lotesActivos[i];
+									lotesActivos[i] = lotesActivos[i + 1];
+									lotesActivos[i + 1] = aux;
+								}
+							}
+						}
+					tabla[i].lotes =lotesActivos
 				}
-			});
+			}
 			return tabla
 		},
 		traerNombre(tabla){

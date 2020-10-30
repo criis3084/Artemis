@@ -107,6 +107,29 @@
 							</div>
 						</div>
 
+						<vs-divider position="center">Lista de entrega mensual</vs-divider> 
+
+						<vs-list>
+								<div class="vx-col w-full mb-base">
+										<table style="width:100%" class="border-collapse">
+												<tr>
+													<th class="p-2 border border-solid d-theme-border-grey-light text-center">Eliminar</th>
+													<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre Medicamento</th>
+													<th class="p-2 border border-solid d-theme-border-grey-light text-center">Cantidad de entrega</th>
+												</tr>
+												<tr v-for="(producto,index) in carrito" :key="index">
+													<td class="border border-solid d-theme-border-grey-light flex items-center">
+														<vs-button color="danger" type="border" icon-pack="feather" class="center" icon="icon-x-circle" @click="borrarIntegrante(index)"></vs-button>
+													</td>
+													<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}</td>
+													<td class="border border-solid d-theme-border-grey-light flex items-center">
+														<vs-input style="text-align:right" v-model="listaCantidades[index]" name="cantidad" v-validate="'required|numeric|max:4'"/>
+													</td>
+												</tr>
+										</table>
+								</div>
+						</vs-list>
+
 						<div class="vx-col w-full mt-6">
 							<div class="vx-col w-full">
 								<small class="date-label">Descripción de los beneficios</small>
@@ -161,11 +184,21 @@ export default {
 			dia_apoyo:0,
 			fecha_apoyo:'',
 			listado_medicamentos:[],
+			carrito:[],
+			listaCantidades:[]
 		}
 	},
 	watch: {
 		persona_id(){
-    	},  
+		},  
+		medicamento_id(){
+			if (this.medicamento_id != null)
+			{
+				console.log
+				this.carrito.push(this.medicamento_id)
+				this.listaCantidades.push(0)
+			}
+		}
 	},
 	methods: {
 		getDate (datetime) {
@@ -188,9 +221,23 @@ export default {
 			return fecha_pago
 		},
 		guardarDetalleBeneficios(beneficios){
-			console.log('Intentando guardar el detalle de beneficios de')
-			console.log(beneficios)
-			this.$router.push('/clinica/pacientes/');
+			let me=this
+			for (let x in me.carrito) {
+				let v1 = parseInt(me.listaCantidades[x])
+				let idMedicamento = me.carrito[x].id
+				console.log('datos carrito')
+				console.log(v1)
+				console.log(idMedicamento)
+				axios.post('/api/detalleBeneficio/post/', {
+					cantidad:v1,
+					beneficio_id:beneficios,
+					medicamento_id:idMedicamento,
+				}).then(function (response){
+					//console.log('response')
+					me.$router.push('/clinica/pacientes/');
+				})
+
+			}
 		},
 		guardarBeneficios(paciente){
 			let me2=this
@@ -292,8 +339,6 @@ export default {
 				var respuesta= response.data;
 				me.listado_ninos = respuesta.ninos.data;
 				me.nino = me.traerNombre(me.listado_ninos)
-				console.log('ninos activos y no')
-				console.log(me.nino)
 				me.importarRelaciones(encargados,me.nino)
 			})
 			.catch(function (error) {
@@ -417,7 +462,7 @@ export default {
 			.get(`/api/medicamento/get?completo=true`)
 			.then(function(response) {
 				var respuesta = response.data;
-				me.listado_medicamentos = respuesta.medicamentos.data;
+				me.listado_medicamentos = me.traerNombreMedicamento(respuesta.medicamentos.data);
 			})
 			.catch(function(error) {
 				console.log(error);
@@ -433,6 +478,12 @@ export default {
 				}
 			})
 			this.listado_personas=nuevasPersonas
+		},
+		traerNombreMedicamento(tabla){
+			tabla.forEach(function(valor, indice, array){
+				valor.nombre_completo = valor.nombre + ' - ' + valor.casa_medica.nombre
+			});
+			return tabla
 		},
 	},
 	mounted() {
