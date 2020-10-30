@@ -44,7 +44,7 @@ export default {
 	  valMultipe:{
 		value1:''
 	  },
-	 titulo:'Nueva Aldea'
+	 titulo:'Nueva aldea'
 	}
   },
   computed:{
@@ -62,10 +62,11 @@ export default {
 		.catch(function(error) {
 			console.log(error)
 		});
-		this.$vs.notify({
+		let titulo = 'Aldea registrada';
+			this.$vs.notify({
 			color:'success',
-			title:'Creado',
-			text:'El registro ha sido creado!'
+			title:`${titulo}`,
+			text:'La acción se realizo exitósamente'
 		})
 		this.valMultipe.value1 = '';
 		this.$emit('cerrado','Se cerro el formulario');
@@ -73,6 +74,11 @@ export default {
 	close(){
 		this.valMultipe.value1 = ''
 		this.$emit('cerrado','Se cerro el formulario');
+		this.$vs.notify({
+        color: "danger",
+        title: "Cerrado",
+        text: "Diálogo cerrado!",
+      })
 	},
   }
 }

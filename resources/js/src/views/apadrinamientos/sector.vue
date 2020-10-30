@@ -11,12 +11,11 @@
 			<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
 			</div>
 		</vs-prompt>
-		<vs-table title="Sectores" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
+		<vs-table stripe title="Sectores" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
 			<template slot="header">
 			<vs-button @click="activePrompt=true">Exportar</vs-button>
 			</template>
 				<template slot="thead">
-					<vs-th >Id</vs-th>
 					<vs-th >Nombre</vs-th>
 					<vs-th >Aldea</vs-th>
 					<vs-th >Estado</vs-th>
@@ -25,10 +24,6 @@
 
 				<template slot-scope="{data}">
 					<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-
-						<vs-td :data="data[indextr].id">
-							{{data[indextr].id}}
-						</vs-td>
 
 						<vs-td :data="data[indextr].nombre">
 							{{data[indextr].nombre}}

@@ -16,11 +16,15 @@
 			:active.sync="abrirPrompt"
 		>
 			<div class="con-exemple-prompt">
-				<b></b>				
+				<b></b>	
+				<small>Nombre</small>
+
 				<vs-input type="text" placeholder="Nombre del sector" v-model="sector" class="mt-4 mb-2 col-1 w-full" />
 			</div>
 
 			<template>
+				<small>Aldea</small>
+
 				<v-select label="nombre" :options="listado_aldeas" v-model="aldea_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 			</template>
 			 
@@ -53,7 +57,7 @@ export default {
 			aldea_id:0,
 			listado_aldeas: [],
 			selected: '',
-			titulo:'Nuevo Sector'
+			titulo:'Nuevo sector'
 		}
 	},
 	computed:{
@@ -87,10 +91,11 @@ export default {
 				.catch(function(error) {
 					console.log(error)
 				});
+			let titulo = 'Sector registrado';
 			this.$vs.notify({
-				color:'success',
-				title:'Creado',
-				text:'El registro ha sido creado!'
+			color:'success',
+			title:`${titulo}`,
+			text:'La acción se realizo exitósamente'
 			})
 			 this.sector = '';
 			  this.aldea_id = '';

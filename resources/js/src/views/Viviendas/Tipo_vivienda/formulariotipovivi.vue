@@ -50,7 +50,7 @@ export default {
 	 aldeasT: [],
 	 selected: '',
 	  switch2:true,
-	  titulo:'Nuevo Tipo de Vivienda'
+	  titulo:'Nuevo tipo de vivienda'
 	}
   },
   computed:{
@@ -83,10 +83,11 @@ export default {
 		console.log(error)
 		})
 		
-		this.$vs.notify({
-		color:'success',
-		title:'Exito',
-        text:'Registro Creado!'
+		let titulo = 'Tipo de vivienda registrado';
+			this.$vs.notify({
+			color:'success',
+			title:`${titulo}`,
+			text:'La acción se realizo exitósamente'
        
       })
        this.valMultipe.value1 = '';
@@ -94,10 +95,10 @@ export default {
 	  this.$emit('cerrado','Se cerro el formulario');
 	},
 	close () {
-	  this.$vs.notify({
-		color:'danger',
-		title:'Cerrado',
-		text:'Cerró el formulario!'
+	   this.$vs.notify({
+        color: "danger",
+        title: "Cerrado",
+        text: "Diálogo cerrado!",
       })
       
 	  this.$emit('cerrado','Se cerro el formulario');

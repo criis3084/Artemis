@@ -1,12 +1,16 @@
 <template>
 			  <div>
+          <vx-card>
                 <div class = "demo-alignment">
-						        <h2> Historial de Abonos</h2>
+                  <div class="vx-col md:w-1/3 w-full mt-5">
+                    <router-link to="/vivienda/vivienda"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" type="border" radius icon-no-border></vs-button></router-link>
+                  </div>
+						        <h2> Historial de abonos</h2>
 						        <vx-tooltip text = "Agregar nuevo abono"> 
                       <!-- <vs-button @click="$router.push('/abonar/vivienda/'+id_recibido)" radius type="gradient" icon="account_balance_wallet" color = "primary" size = "large"> </vs-button>  -->
                     </vx-tooltip>
-                    <vs-divider  color="primary"></vs-divider>
 				        </div>
+			<vs-divider position="right">PID&#174;</vs-divider>
                 <div class = "demo-alignment">
                     <h5> <b>Nombre del propietario: </b> </h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
                     <span>{{id}}</span>
@@ -16,17 +20,33 @@
                 </div>
                 <div class = "demo-alignment">
                     <h5> <b>Costo total: </b> </h5><h5>{{currency(costo_total)}}</h5>
-                </div>
-          	<vs-divider position="right">PID&#174;</vs-divider>
-				<vx-card>
+                </div><br>
+				
         
-          <vs-table pagination max-items="7" search :data="arrayHistorial" noDataText="No se han realizado abonos">
-						<template slot="thead">
+
+        	<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+   
+     
+        <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
+        <v-select v-model="selectedFormat" :options="formats" class="my-4" />
+        <div class="flex">
+			<span class="mr-4">Ancho automático de celda:</span>
+			<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
+        </div>
+    </vs-prompt>
+
+          <vs-table stripe pagination max-items="7" search :data="arrayHistorial" noDataText="No se han realizado abonos">
+					
+          
+          	<template slot="header">
+          <vs-button @click="activePrompt=true">Exportar</vs-button>
+            </template>
+            <template slot="thead">
               <vs-th>Ver</vs-th>
 							<vs-th>Fecha</vs-th>
-							<vs-th>Monto Abono</vs-th>
+							<vs-th>Monto abono</vs-th>
 							<vs-th>Resto de deuda</vs-th>
-              <vs-th>Descripcion</vs-th>
+              <vs-th>Descripción</vs-th>
 							<vs-th>Estado</vs-th>
 						</template>
 
@@ -50,10 +70,11 @@
 					</vs-table>
 
 
-        </vx-card>
-                <div class="vx-col md:w-1/2 w-full mt-5">
-  <router-link to="/vivienda/vivienda"><vs-button class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+        
+                <div class="vx-col md:w-1/3 w-full mt-5">
+  <router-link to="/vivienda/vivienda"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
     </div>
+    </vx-card>
             </div>
 </template>
 
@@ -90,8 +111,15 @@ export default {
 	  id: 0,
 	  id_recibido:0,
       estado: null,
-      url:'https://pbs.twimg.com/profile_images/1305883698471018496/_4BfrCaP.jpg'
+      url:'https://pbs.twimg.com/profile_images/1305883698471018496/_4BfrCaP.jpg',
 
+    fileName: '',
+      formats:['xlsx', 'csv', 'txt'],
+      cellAutoWidth: true,
+	    selectedFormat: 'xlsx',
+	    headerVal: ['id', 'nombre','apellido','direccion', 'fecha_pago','cantidad_abono','cantidad_restante','descripcion', 'estado' ],
+	    headerTitle: ['Id', 'Nombre','Apellido','Dirección','Fecha','Monto abono', 'Resto de deuda', 'descripción','Estado'],
+      activePrompt: false,
     }
   },
   components: {
@@ -209,7 +237,32 @@ export default {
         text:'La acción se realizo exitósamente'
       })
       this.index(this.pagination.current_page, this.search)
-    }
+    },
+    exportToExcel () {
+      import('@/vendor/Export2Excel').then(excel => {
+		const list = this.arrayData
+        const data = this.formatJson(this.headerVal, list)
+        excel.export_json_to_excel({
+          header: this.headerTitle,
+          data,
+          filename: this.fileName,
+          autoWidth: this.cellAutoWidth,
+          bookType: this.selectedFormat
+		})
+
+        this.clearFields()
+      })
+    },
+    formatJson (filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
+    },
+	clearFields () {
+      this.filename = ''
+      this.cellAutoWidth = true
+      this.selectedFormat = 'xlsx'
+    },
   },
   mounted () {
     this.index(1, this.search)
@@ -220,3 +273,31 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+/*! rtl:begin:ignore */
+#dashboard-analytics {
+  .greet-user {
+    position: relative;
+
+    .decore-left {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    .decore-right {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .decore-left,
+    .decore-right {
+      width: 140px;
+    }
+  }
+}
+/*! rtl:end:ignore */
+</style>

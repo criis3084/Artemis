@@ -107,7 +107,7 @@ const dict = {
 	  max: 'Este campo solo acepta hasta 2 dígitos',
     },
     costo: {
-      required: 'El campo meses de duración es requerido',
+      required: 'El campo costo total es requerido',
       max: 'Este campo solo acepta hasta 6 dígitos',
       numeric: 'El campo solo debe de contener números',
     }

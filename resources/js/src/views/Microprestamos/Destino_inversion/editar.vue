@@ -11,7 +11,7 @@
       :active.sync="identificador">
       <div class="con-exemple-prompt">
         <b></b>
-			
+		<small>Nombre</small>
 		<vs-input name="nombre" v-validate="'required|max:35'" placeholder="Nombre del destino" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
 				<span class="text-danger">{{ errors.first('nombre') }}</span>
 
