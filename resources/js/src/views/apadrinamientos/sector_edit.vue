@@ -12,14 +12,20 @@
 		>
 			<div class="con-exemple-prompt">
 				<b></b>
-				<vs-input placeholder="Nombre del sector" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
+				<small>Nombre</small>
+				<vs-input name="nombre" v-validate="'required|max:35'" placeholder="Nombre del sector" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
+				<span class="text-danger">{{ errors.first('nombre') }}</span><br>
+			
 			</div>
 				<template>
-					<v-select label="nombre" :options="listado_aldea" v-model="aldea_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<small>Aldea</small>
+					<v-select name="aldea" v-validate="'required'" label="nombre" :options="listado_aldea" v-model="aldea_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<span class="text-danger">{{ errors.first('aldea') }}</span>
+				
 				</template> 
-				<vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
+				<!-- <vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
 					LLene todos los campos
-				</vs-alert>
+				</vs-alert> -->
 		</vs-prompt>
 	</div>
 </template>
@@ -29,7 +35,19 @@ import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
 import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
 import vSelect from 'vue-select'
-
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+	nombre:{
+		required: 'El campo nombre es requerido',
+		max: 'Este campo solo acepta hasta 35 caracteres',
+	},
+	aldea:{
+		required: 'El campo aldea es requerido',
+	},
+  }
+};
+Validator.localize('en', dict);
 export default {
 	props:{
 		identificador:{
@@ -91,6 +109,8 @@ export default {
 			}
 		},
 		editarAldea () {
+	this.$validator.validateAll().then(result => {
+if(result) {
 			axios.put("/api/sector/update/",{
 				id:this.idT,
 				nombre:this.nombreT,
@@ -107,6 +127,20 @@ export default {
 				text:'El registro ha sido actualizado'
 			})
 			this.$emit('cerrado','Se cerró el formulario');
+	this.$vs.notify({
+				color:'success',
+				title:'Actualización registrada!',
+				text:'La acción se realizo exitósamente'
+		})
+}
+	else{
+		this.$vs.notify({
+		color:'danger',
+		title:'Error en validación!',
+		text:'Ingrese todos los campos correctamente'
+		});
+	}
+})
 		},
 		close () {
 			this.$emit('cerrado','Se cerró el formulario');

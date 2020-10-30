@@ -12,11 +12,16 @@
 		>
 			<div class="con-exemple-prompt">
 				<b></b>
-				<vs-input placeholder="Nombre del tipo de vivienda" v-model="nombre" class="mt-4 mb-2 col-1 w-full" />
-				<vs-input placeholder="Descripción" v-model="descripcion" class="mt-4 mb-2 col-1 w-full" />
-				<vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
+				<small>Nombre</small>
+				<vs-input name="nombre" v-validate="'required|max:35'" placeholder="Nombre del tipo de vivienda" v-model="nombre" class="mt-4 mb-2 col-1 w-full" />
+				<span class="text-danger">{{ errors.first('nombre') }}</span><br>
+				<small>Descripción</small>
+				<vs-input name="descripcion" v-validate="'required|max:150'" placeholder="Descripción" v-model="descripcion" class="mt-4 mb-2 col-1 w-full" />
+				<span class="text-danger">{{ errors.first('descripcion') }}</span>
+				
+				<!-- <vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
 					LLene todos los campos
-				</vs-alert>
+				</vs-alert> -->
 			</div>
 		</vs-prompt>
 	</div>
@@ -28,7 +33,21 @@ import axios from 'axios'
 //C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
 import vSelect from 'vue-select'
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+	nombre:{
+		required: 'El campo nombre es requerido',
+		max: 'Este campo solo acepta hasta 35 caracteres',
+	},
+	descripcion:{
+		required: 'El campo descripción es requerido',
 
+		max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+  }
+};
+Validator.localize('en', dict);
 export default {
 	props:{
 		identificador:{
@@ -55,7 +74,7 @@ export default {
       descripcion:'',
 	  selected: '',
 	  switch2:true,
-	  titulo:'Actualizar Escuela'
+	  titulo:'Actualizar tipo de vivienda'
 	}
   },
   computed:{
@@ -68,6 +87,8 @@ export default {
   },
   methods:{
 	actualizarEscuela () {
+this.$validator.validateAll().then(result => {
+if(result) {
 	axios.put("/api/tipoVivienda/update/",{
 		id:this.idT,
         nombre:this.nombre,
@@ -79,6 +100,20 @@ export default {
 			console.log(error)
 		});
 		this.$emit('cerrado','Se cerró el formulario');
+		this.$vs.notify({
+				color:'success',
+				title:'Actualización registrada!',
+				text:'La acción se realizo exitósamente'
+		})
+}
+	else{
+		this.$vs.notify({
+		color:'danger',
+		title:'Error en validación!',
+		text:'Ingrese todos los campos correctamente'
+		});
+	}
+})
 	},
 	close () {
 		this.$emit('cerrado','Se cerró el formulario');

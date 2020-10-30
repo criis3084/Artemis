@@ -24,7 +24,7 @@
             <span>Cantidad de abono(Q)</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-input type="number" class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|max:7|numeric'"/>
+            <vs-input type="number" class="w-full" v-model="cantidad_abono"  name="cantidad" v-validate="'required|max:5|numeric'"/>
             <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
             <span v-if ="dias > 0 && mes === 0" >{{ 'Dias atrasados:'+ ' ' + dias+ ' '}}</span>
             <span v-if="mes > 0" >{{'Meses atrasados:'+' '+ mes}} </span>
@@ -110,7 +110,7 @@
                             </div>
 
                            
-                        </vx-card>
+                        </vx-card><br>
                          <vs-button type="gradient" icon-pack="feather" icon="icon-printer" class="w-full" v-if="Imprimir==true" @click="printInvoice" >Imprimir</vs-button>
                     </div>
                   </div>
@@ -130,7 +130,7 @@ const dict = {
     cantidad: {
       	  required: 'El campo cantidad de abono es requerido',
       	  numeric: 'El campo solo debe de contener números',
-          max: 'Este campo solo acepta hasta 7 dígitos',
+          max: 'Este campo solo acepta hasta 5 dígitos',
     },
     descripcion: {
       required:'El campo descripción es requerido',
@@ -273,7 +273,11 @@ export default{
           text:'Ingrese correctamente todos los datos'
         })
         })
-      
+      this.$vs.notify({
+					color:'success',
+					title:'Abono registrado!',
+					text:'La acción se realizo exitósamente'
+				});
     },
     buscarDatos () { //funcion para traer datos del prestamista, desde el la opcion que se selecciona en el select
       console.log(this.detalle.id)

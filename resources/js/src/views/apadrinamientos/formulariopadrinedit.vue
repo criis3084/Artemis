@@ -23,7 +23,7 @@
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="ID"  v-model="CUIT" class="w-full" name="cui" v-validate="'required|alpha_num|max:15'" />
+              <vs-input label="ID"  v-model="CUIT" class="w-full" name="cui" v-validate="'alpha_num|max:15'" />
               <span class="text-danger">{{ errors.first('step-1.cui') }}</span>
             </div>
 
@@ -50,7 +50,7 @@
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Número de teléfono"  v-model="numero_telefonoT" class="w-full" name="telefono" v-validate="'max:15'" />
+              <vs-input label="Número de teléfono"  v-model="numero_telefonoT" class="w-full" name="telefono" v-validate="'max:15|numeric'" />
               <span class="text-danger">{{ errors.first('step-1.telefono') }}</span>
             </div>
 
@@ -124,7 +124,6 @@ const dict = {
 	  max: 'Este campo solo acepta hasta 50 caracteres',
     },
     cui: {
-	  required: 'El campo ID es requerido',
 	  alpha_num: 'El campo solo debe de contener letras y números',
 	  max: 'Este campo solo acepta hasta 15 caracteres',
 	},
@@ -136,6 +135,7 @@ const dict = {
 	  max: 'Este campo solo acepta hasta 254 caracteres',
 	},
 	telefono: {
+	  numeric: 'El campo solo debe de contener números',
 	  max: 'Este campo solo acepta hasta 15 caracteres',
 	},
 	radio: {

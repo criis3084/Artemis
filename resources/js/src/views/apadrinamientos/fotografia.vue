@@ -6,7 +6,7 @@
 			<div class="vx-col md:w-1/3 w-full mt-5">
 			<router-link to="/apadrinamiento/nino"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
 			</div>
-			<h2> Historial de Fotografías</h2>
+			<h2> Historial de fotografías</h2>
 			<vx-tooltip text = "Agregar nueva fotografía"> 
 				<vs-button @click="$router.push('/ingresar/fotografia/'+id_recibido)" radius type="gradient" icon-pack="feather" icon="icon-file-plus" color = "primary" size = "large"> </vs-button> 
 			</vx-tooltip>
@@ -19,26 +19,7 @@
 			<h5> <b>Código: </b> </h5><h5>{{codigo}}</h5>
 		</div>
 			<br>
-		
 		<br>
-		<!-- <div class = "demo-alignment">
-		<div id="demo-basic-card"  v-for="historialfotografia in arrayData" :key="historialfotografia.id">
-			<div class="vx-row" >
-				<div class="vx-col w-full sm:w-1/2 lg:w-1/3 mb-base" >
-				<vx-card >
-					<div slot="no-body">
-						<img :src="url" alt="content-img" class="responsive card-img-top">
-					</div>
-					<h5 v-text="historialfotografia.fotografia.titulo"></h5>
-					<p class="text-grey" v-text="historialfotografia.nino_id"></p>
-					<p class="text-grey" v-text="historialfotografia.fotografia.descripcion"></p>
-					<p class="text-grey" v-text="getDate(historialfotografia.created_at)"></p>
-				</vx-card>
-				</div>
-			</div>
-		</div>
-		</div> -->
-		
 			<vs-table stripe pagination max-items="2" search :data="arrayData" noDataText="No hay datos disponibles">
 				<template slot="thead">
 					<div class="flex mb-4">

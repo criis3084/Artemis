@@ -1,57 +1,68 @@
 <template>
-  <vx-card title="Actualización de vivienda" code-toggler>
-
+  <vx-card>
+    <div class="vx-col md:w-1/3 w-full mt-5">
+        <vs-button @click="goBack" type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button>
+    </div>
     <div class="mt-5">
-      <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :title="null" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+      <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZACIÓN DE VIVIENDA" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+				<vs-divider position="right">PID&#174;</vs-divider>
+        
       <tab-content title="Registro" class="mb-5" icon="feather icon-home" :before-change="validateStep1">
 
           <!-- tab 1 content -->
           <form data-vv-scope="step-1">
-          <div class="vx-row">
-
-              <div class="vx-col md:w-1/2 w-full mt-5">
-				<small class="date-label">Destinatario</small>
-				<v-select label="conjuntoEncargado" :options="encargadosT" v-model="encargado_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</div>
-            <div class="vx-col md:w-1/2 w-full mt-5">
+      <div class="vx-row">
+        <div class="vx-col md:w-1/2 w-full mt-5">
+          <small class="date-label">Destinatario</small>
+          <v-select name="encargado" v-validate="'required'" label="conjuntoEncargado" :options="encargadosT" v-model="encargado_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <span class="text-danger">{{ errors.first('step-1.encargado') }}</span>
+      </div>
+      <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Constructor</small>
-				<v-select label="conjuntoConstructor" :options="constructorsT" v-model="constructor_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</div>
-            <div class="vx-col md:w-1/2 w-full mt-5">
+				<v-select name="constructor" v-validate="'required'" label="conjuntoConstructor" :options="constructorsT" v-model="constructor_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        <span class="text-danger">{{ errors.first('step-1.constructor') }}</span>
+    	</div>
+      <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Tipo de vivienda</small>
-				<v-select label="nombre" :options="tipoViviendasT" v-model="tipo_vivienda_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</div>
+				<v-select name="tipo" v-validate="'required'" label="nombre" :options="tipoViviendasT" v-model="tipo_vivienda_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        <span class="text-danger">{{ errors.first('step-1.tipo') }}</span>
+      </div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="dirección" v-model="direccionT" class="w-full" icon-pack="feather" icon="icon-map-pin" name="first_name" v-validate="'required'" />
-              <span class="text-danger">{{ errors.first('step-1.first_name') }}</span>
+              <vs-input name="direccion" v-validate="'required|max:254'" label="dirección" v-model="direccionT" class="w-full" icon-pack="feather" icon="icon-map-pin" />
+              <span class="text-danger">{{ errors.first('step-1.direccion') }}</span>
             </div>
 
-            <div class="vx-col md:w-1/2 w-full mt-5">
+      <div class="vx-col md:w-1/2 w-full mt-5">
 			  <small class="date-label">Fecha de inicio</small>
-			  <datepicker :language="$vs.rtl ? langEn : langEn"  v-model="fecha_inicioT"></datepicker>
-			</div>
-
+			  <datepicker name="fecha" v-validate="'required'" :language="$vs.rtl ? langEn : langEn"  v-model="fecha_inicioT"></datepicker>
+        <span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
+      </div>
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input-number label="Meses de duración del pago"  v-model="duracionT" class="w-full" icon-pack="feather" icon="icon-calendar" name="last_name" v-validate="'required'" />
-              <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
+            <vs-input-number name="meses" v-validate="'required|numeric|max:2'" label="Meses de duración del pago:"  v-model="duracionT" icon-inc="expand_less" icon-dec="expand_more" class="w-full"/>
+              <span class="text-danger">{{ errors.first('step-1.meses') }}</span>
             </div>
-
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Costo total"  v-model="costo_totalT" class="w-full" icon-pack="feather" icon="icon-dollar-sign" name="correo" v-validate="'required'" />
-              <span class="text-danger">{{ errors.first('step-1.last_name') }}</span>
+      <small class="date-label">Costo total</small>
+          <vx-input-group class="mb-base">
+   				<template slot="prepend">	
+            <div class="prepend-text bg-primary" >
+            <span>Q</span>	
             </div>
-
-
-      
-
+			      <div class="vx-col w-full">
+              <vs-input name="costo" v-validate="'required|numeric|max:6'" v-model="costo_totalT" class="w-full"/>
+              <span class="text-danger">{{ errors.first('step-1.costo') }}</span>
+            </div>
+        </template>
+        </vx-input-group>
+      </div>
           </div>
           </form>
         </tab-content>
       </form-wizard>
     </div>
-    <div class="vx-col md:w-1/2 w-full mt-5">
- <vs-button @click="goBack" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
+    <div class="vx-col md:w-1/3 w-full mt-5">
+ <vs-button @click="goBack" type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button>
     </div>
 
   </vx-card>
@@ -61,7 +72,6 @@
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import vSelect from 'vue-select'
-// import VueSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
 import { es } from 'vuejs-datepicker/src/locale'
@@ -71,20 +81,30 @@ import VueRouter from 'vue-router'
 import { Validator } from 'vee-validate'
 const dict = {
   custom: {
-    first_name: {
-      required: 'Los nombres son requeridos',
-      alpha: 'Solo se permiten letras'
+    encargado: {
+      required: 'El campo destinatario es requerido',
     },
-    last_name: {
-      required: 'Los apellidos son requeridos',
-      alpha: 'Solo se permiten letras'
+    constructor: {
+      required: 'El campo constructor es requerido',
     },
-    correo: {
-      required: 'El correo es requerido',
-      email: 'Por favo ingrese un correo valido'
+    tipo: {
+      required: 'El campo tipo de vivienda es requerido',
     },
-    campo: {
-      required: 'Información requerida'
+    direccion: {
+	  required: 'El campo dirección es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
+    },
+    fecha: {
+      required: 'El campo fecha de inicio es requerido',
+    },
+    meses: {
+	  required: 'El campo meses de duración es requerido',
+	  max: 'Este campo solo acepta hasta 2 dígitos',
+    },
+    costo: {
+      required: 'El campo costo total es requerido',
+      max: 'Este campo solo acepta hasta 6 dígitos',
+      numeric: 'El campo solo debe de contener números',
     }
   }
 }
@@ -252,12 +272,19 @@ export default {
             resolve(true)
           } else {
             reject('correct all values')
+            this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
           }
         })
       })
     },
 
     formSubmitted () {
+   this.$validator.validateAll().then(result => {
+  if(result) {
       // alert('Form submitted!');
       axios.put("/api/vivienda/update/",{
         id:this.id_recibido,
@@ -277,12 +304,21 @@ export default {
 		console.log(error)
         });
         this.$emit('cerrado','Se cerró el formulario');
-        this.$vs.notify({
-          color:'success',
-          title:`${this.titulo}`,
-          text:'La acción se realizo exitósamente'
-        });
+       this.$vs.notify({
+			color:'success',
+			title:'Actualización registrada!',
+			text:'La acción se realizo exitósamente'
+			});
         this.$router.push('/vivienda/vivienda');
+        }
+  else{
+        this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
+      }
+    })
     },
   },
   components: {

@@ -7,6 +7,7 @@
            El pago de la vivienda se ha completado 
         </vs-alert>
       <vx-card title="Ingresar Abono">
+				<vs-divider position="right">PID&#174;</vs-divider>
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
             <span>Nombre del propietario</span>
@@ -31,7 +32,7 @@
             <span>Descripción</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-textarea class="w-full" name="descripcion" v-model="descripcion" v-validate="'required|max:60'" />
+            <vs-textarea class="w-full" name="descripcion" v-model="descripcion" v-validate="'required|max:150'" />
             <span class="text-danger text-sm" v-show="errors.has('descripcion')">{{ errors.first('descripcion') }}</span>
           </div>
         </div>
@@ -45,23 +46,12 @@
         </div>
         <div class="vx-row">
           <div class="vx-col sm:w-2/3 w-full ml-auto">
-            <vs-button class="mr-3 mb-2" @click="enviarForm">Aceptar</vs-button>
-            <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button>
+            <vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="enviarForm">Aceptar</vs-button>
+            <vs-button color="warning" icon="format_clear" type="border" class="mb-2" @click="limpiar">Limpiar</vs-button>
           </div>
         </div>
       </vx-card>
     </div>
-
-    <!-- HORIZONTAL LAYOUT WITH ICON
-    <div class="vx-col md:w-1/2 w-full mb-base">
-      
-        <div class="vx-row mb-6">
-          <div class="vx-col sm:w-1/2 w-full">
-             
-          </div>
-        </div>
-      
-    </div>-->
     
     <div class="vx-col lg:w-1/3 w-full">
     <div id="invoice-page">
@@ -81,8 +71,7 @@
                                 <span class="text-grey"> {{nombreSeleccionado }} </span>
                                 <span class="text-grey"> {{getDate(fecha)}}</span>
                             </div>
-                            <vs-divider />
-
+                            <vs-divider position="right">PID&#174;</vs-divider>
                             <p class="font-semibold mb-3">Detalles</p>
                             <div class="flex justify-between mb-2">
                                 <span class="text-grey">Número de vivienda</span>
@@ -110,8 +99,8 @@
                             </div>
 
                            
-                        </vx-card>
-                         <vs-button class="w-full" @click="printInvoice" v-if="imprimir == true">Imprimir</vs-button>
+                        </vx-card><br>
+                         <vs-button type="gradient" icon-pack="feather" icon="icon-printer" class="w-full" @click="printInvoice" v-if="imprimir == true">Imprimir</vs-button>
                     </div>
                   </div>
   </div>
@@ -129,16 +118,16 @@ import { Validator } from 'vee-validate'
 const dict = {
   custom: {
     cantidad: {
-      required: 'Este campo no puede quedar vacío',
-      numeric: 'Solo aceptan números',
-      max:'No se aceptan más de 4 números'
+      	  required: 'El campo cantidad de abono es requerido',
+      	  numeric: 'El campo solo debe de contener números',
+          max: 'Este campo solo acepta hasta 5 dígitos',
     },
     descripcion: {
-      required:'Información requerida',
-      max:'No se aceptan más de 60 caracteres'
+      required:'El campo descripción es requerido',
+      max:'No se aceptan más de 150 caracteres'
     },
     encargado:{
-      required:'Seleccióne un propietario porfavor'
+      required:'Seleccione una persona'
     }
   }
 }
@@ -183,13 +172,11 @@ export default{
         if (result) {
           this.guardar()
         } else {
-          this.$vs.notify({
-            title:'Error',
-            text:'Porfavor ingrese correctamente los datos',
-            color:'warning',
-            position:'bottom-center',
-            icon:'priority_high'
-          })
+           this.$vs.notify({
+				color:'danger',
+				title:`Error en validación!`,
+				text:'Ingrese correctamente todos los datos'
+			})
         }
       })
 
@@ -284,13 +271,25 @@ export default{
         me.seterResponse(response.data.id)
         me.desactivar()
         me.imprimir = true
-        alert('Ingreso correctamente')
+         this.$vs.notify({
+					color:'success',
+					title:'Abono registrado!',
+					text:'La acción se realizo exitósamente'
+				});
       })
         .catch(function (error) {
           console.log(error)
-          alert('Erro al ingresar')
+          this.$vs.notify({
+          color:'danger',
+          title:`Error en ingreso!`,
+          text:'Ingrese correctamente todos los datos'
         })
-      
+    })
+    this.$vs.notify({
+					color:'success',
+					title:'Abono registrado!',
+					text:'La acción se realizo exitósamente'
+				});
     },
     desactivar () {
       this.id_recibido = this.vivienda_id.id

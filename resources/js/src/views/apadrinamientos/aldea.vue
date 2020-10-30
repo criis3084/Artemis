@@ -13,12 +13,11 @@
         		</div>
     		</vs-prompt>
 
-			<vs-table title="Sectores" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
+			<vs-table stripe title="Sectores" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
      			<template slot="header">
           			<vs-button @click="activePrompt=true">Exportar</vs-button>
         		</template>
             	<template slot="thead">
-					<vs-th>Id</vs-th>
 					<vs-th>Nombre</vs-th>
 					<vs-th>Estado</vs-th>
 					<!-- <vs-th>Fecha de creación</vs-th>
@@ -26,32 +25,8 @@
 					<vs-th>Acciones</vs-th>
 
 				</template>
-
-				<!-- <template>
-					<vs-tr v-for="aldea in arrayData" :key="aldea.id">
-						<vs-td v-text="aldea.id" ></vs-td>
-						<vs-td v-text="aldea.nombre" ></vs-td>
-						<vs-td>
-							<vs-switch color="success" v-model="aldea.estado" @click="abrirDialog(aldea.id, aldea.estado)">
-								<span slot="on" >Activo</span>
-								<span slot="off">Desactivo</span>
-							</vs-switch>
-						</vs-td>
-						<vs-td v-text="getDate(aldea.created_at)" ></vs-td>
-						<vs-td v-text="getDate(aldea.updated_at)" ></vs-td>
-						
-						<vs-td>
-							<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[aldea])" radius  color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
-						</vs-td>
-
-					</vs-tr>
-				</template> -->
 				<template slot-scope="{data}">
                 <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-
-                    <vs-td :data="data[indextr].id">
-                        {{data[indextr].id}}
-                    </vs-td>
 
                     <vs-td :data="data[indextr].nombre">
                         {{data[indextr].nombre}}
@@ -256,12 +231,6 @@ export default {
     },
     formatJson (filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
-        // Add col name which needs to be translated
-        // if (j === 'timestamp') {
-        //   return parseTime(v[j])
-        // } else {
-        //   return v[j]
-        // }
 
         return v[j]
       }))
