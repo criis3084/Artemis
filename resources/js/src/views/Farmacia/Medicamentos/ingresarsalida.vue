@@ -31,6 +31,23 @@
 				</div>
 			</div>
 
+			<vs-alert v-if="verCarritSin"
+			 color="danger" title="Medicamento insuficiente o inexistente" active="true" class="mt-8" style="width: 75%"
+			 >
+				<table style="width: 80%" class="border-collapse">
+						<tr>
+							<th class="pointer-events-none text-center text-warning">Nombre Medicamento</th>
+							<th class="pointer-events-none text-center text-warning">Cantidad</th>
+							<th class="pointer-events-none text-center text-warning">Motivo</th>
+						</tr>
+						<tr v-for="(producto,index) in carritoSin" :key="index">
+							<td class="pointer-events-none text-center text-dark"> {{producto.nombre}}</td>
+							<td class="pointer-events-none text-center text-dark"> {{producto.cantidad}}</td>
+							<td class="pointer-events-none text-center text-dark"> {{producto.motivo == 1 ? 'Stock insuficiente': 'No hay en existencia'}}</td>
+						</tr>
+				</table>
+
+			</vs-alert>
 			<vs-divider position="center">Lista de entrega</vs-divider>
 			<vs-list>
 					<div class="vx-col w-full mb-base">
@@ -44,7 +61,7 @@
 										<td class="border border-solid d-theme-border-grey-light flex items-center">
 											<vs-button color="danger" type="border" icon-pack="feather" class="center" icon="icon-x-circle" @click="borrarIntegrante(index)"></vs-button>
 										</td>
-										<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}</td>
+										<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}<small class="date-label"><p class="text-warning">(Stock: {{producto.stock_general}})</p></small></td>
 										<td class="border border-solid d-theme-border-grey-light flex items-center">
 											<vs-input style="text-align:right" v-model="listaCantidades[index]" name="cantidad" v-validate="'required|numeric|max:4'"/>
 										</td>
@@ -82,12 +99,14 @@ export default {
 			tipo_salida:[],
 			carrito:[],
 			listaCantidades:[],
+			carritoSin:[],
 			tipo_salida_select:null,
 			paciente_select:null,
 			opcion_selected:null,
 			medicamento_id:null,
 			opcionesSalidas:false,
 			detalleSalida:false,
+			verCarritSin:false,
 			stockId:0,
 			descripcion:'',
 			fechaSiguiente:'',
@@ -119,10 +138,14 @@ export default {
 			}
 			if(this.tipo_salida_select==null){
 				this.detalleSalida=false
+				this.verCarritSin=false
+				this.carritoSin=[]
 			}
 			else if(this.tipo_salida_select.id==0)
 			{
 				this.detalleSalida=false
+				this.verCarritSin=false
+				this.carritoSin=[]
 			}
 		},
 
@@ -145,6 +168,8 @@ export default {
 			}
 			if(this.paciente_select ==null)
 			{
+				this.carrito=[]
+				this.listaCantidades=[]
 				this.opcionesSalidas=false
 			}
 		},
@@ -164,12 +189,33 @@ export default {
 				`/api/detalleBeneficio/get?criterio=beneficio_id&buscar=${paciente.primerBeneficio}&completo=false`)
 			.then(function (response) {
 				const respuesta = response.data
-				console.log(respuesta)
+				me.llenadoCarrito(respuesta.detalleBeneficios.data)
 			})
 			.catch(function (error) {
 				console.log(error)
 			})
+		},
+		llenadoCarrito(lista){
+			for (let i in lista){
+				let elemento = lista[i] 
+				console.log(elemento)
+				const resultado = this.listado_medicamentos.find( medicamento => medicamento.id === elemento.medicamento_id );
+				if(resultado != undefined){
+					if(resultado.stock_general>elemento.cantidad)
+					{
+						this.carrito.push(resultado)
+						this.listaCantidades.push(elemento.cantidad)
 
+					}else{
+						this.verCarritSin=true
+						this.carritoSin.push({nombre: elemento.medicamento.nombre,cantidad:elemento.cantidad,motivo:1})
+					}
+				}
+				else{
+					this.verCarritSin=true
+					this.carritoSin.push({nombre: elemento.medicamento.nombre,cantidad:elemento.cantidad,motivo:0})
+				}
+			}
 		},
 		borrarIntegrante (index) {
 			this.carrito.splice(index, 1)
@@ -180,7 +226,6 @@ export default {
 		validarStock(){
 			let validado=true
 			let cantidades = this.listaCantidades
-
 			for (let x in this.carrito) {
 				let v1 = parseInt(this.carrito[x].stock_general)
 				let v2 = parseInt(cantidades[x])
@@ -206,9 +251,7 @@ export default {
 				{
 					let cuentaSaldada = false
 					for (let i in elemento.lotes){
-						let lote = elemento.lotes[i] 
-						console.log('lotes activos')
-						console.log(lote)
+						let lote = elemento.lotes[i]
 						if (cuentaSaldada ==false)
 						{
 							if(lote.stock > cantidadIngreso)

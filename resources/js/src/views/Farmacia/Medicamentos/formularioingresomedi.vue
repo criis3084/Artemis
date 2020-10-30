@@ -187,6 +187,7 @@ export default {
 					medicamento_id:elemento.id ,
 				}).then(function(response) {
 					me.guardarDetalle(idIngreso,response.data.id)
+					me.$router.push('/ingreso/medicamentos')
 				})
 				.catch(function(error) {
 					console.log(error)
@@ -209,7 +210,6 @@ export default {
 				lote_id:lote ,
 			}).then(function(response) {
 				console.log('se ha ingresado un detalle de ingreso')
-				this.$router.push('/ingreso/medicamentos')
 			})
 			.catch(function(error) {
 				console.log(error)
