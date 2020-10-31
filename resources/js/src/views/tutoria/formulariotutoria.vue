@@ -6,7 +6,7 @@
 		</div>
   
     <vs-prompt
-      @cancel="clearValMultiple"
+      @cancel="close"
       @accept="acceptAlert"
       @close="close"
 	  accept-text="Aceptar"

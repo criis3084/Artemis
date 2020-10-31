@@ -12,11 +12,13 @@
 			:is-valid="validName"
 			:title= "titulo"
 			:active.sync="activePrompt2"
+			accept-text="Aceptar"
+			cancel-text="Cancelar"
 		>
 			<div class="con-exemple-prompt">
 				<b></b>
-
-				<vs-input placeholder="Nombre de Casa Médica" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+				<small>Casa médica</small>
+				<vs-input placeholder="Nombre de casa médica" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 
 				<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 					LLene todos los campos
@@ -64,16 +66,21 @@ export default {
 			console.log(error)
 		});
 		this.$vs.notify({
-			color:'success',
-			title:'Creado',
-			text:'El registro ha sido creado!'
-		})
+          color:'success',
+          title:'Casa médica registrada',
+          text:'La acción se realizo exitósamente'
+        });
 		this.valMultipe.value1 = '';
 		this.$emit('cerrado','Se cerro el formulario');
 	},
 	close(){
 		this.valMultipe.value1 = ''
 		this.$emit('cerrado','Se cerro el formulario');
+		this.$vs.notify({
+        color: "danger",
+        title: "Cerrado",
+		text: "Diálogo cerrado!",
+		})
 	},
   }
 }

@@ -13,12 +13,15 @@
 			:is-valid="validName"
 			:title= "titulo"
 			:active.sync="activePrompt2"
+			accept-text="Aceptar"
+			cancel-text="Cancelar"
 		>
 			<div class="con-exemple-prompt">
 				<b></b>
-
+<small>Nombre</small>
 				<vs-input placeholder="Nombre de la Categoría" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
-                <vs-input placeholder="Descripción" v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
+<small>Descripción</small>
+			    <vs-input placeholder="Descripción" v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
 
 				<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 					LLene todos los campos
@@ -48,7 +51,7 @@ export default {
         value1:'',
         value2:''
 	  },
-	 titulo:'Nueva Categoría'
+	 titulo:'Nueva categoría'
 	}
   },
   computed:{
@@ -68,10 +71,10 @@ export default {
 			console.log(error)
 		});
 		this.$vs.notify({
-			color:'success',
-			title:'Creado',
-			text:'El registro ha sido creado!'
-		})
+          color:'success',
+          title:'Categoría registrada',
+          text:'La acción se realizo exitósamente'
+        });
         this.valMultipe.value1 = '';
         this.valMultipe.value2 = ''
 		this.$emit('cerrado','Se cerro el formulario');
@@ -80,6 +83,11 @@ export default {
         this.valMultipe.value1 = ''
         this.valMultipe.value2 = ''
 		this.$emit('cerrado','Se cerro el formulario');
+		this.$vs.notify({
+        color: "danger",
+        title: "Cerrado",
+		text: "Diálogo cerrado!",
+		})
 	},
   }
 }

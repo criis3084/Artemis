@@ -18,7 +18,7 @@
           			<vs-button @click="activePrompt=true">Exportar</vs-button>
         		</template>
             	<template slot="thead">
-					<vs-th>Id</vs-th>
+					<!-- <vs-th>Id</vs-th> -->
 					<vs-th>Nombre</vs-th>
                     <vs-th>Descripción</vs-th>
 					<vs-th>Estado</vs-th>
@@ -29,9 +29,9 @@
 				<template slot-scope="{data}">
                 <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
-                    <vs-td :data="data[indextr].id">
+                    <!-- <vs-td :data="data[indextr].id">
                         {{data[indextr].id}}
-                    </vs-td>
+                    </vs-td> -->
 
                     <vs-td :data="data[indextr].nombre">
                         {{data[indextr].nombre}}

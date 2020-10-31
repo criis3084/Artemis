@@ -7,7 +7,7 @@
 	<br>
 
     <vs-prompt
-      @cancel="clearValMultiple"
+      @cancel="close"
       @accept="acceptAlert"
       @close="close"
       :is-valid="validName"

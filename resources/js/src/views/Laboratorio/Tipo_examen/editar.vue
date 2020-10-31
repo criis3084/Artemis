@@ -1,7 +1,7 @@
 <template>
  <div>
     <vs-prompt
-      @cancel="clearValMultiple"
+      @cancel="close"
       @accept="actualizarAldea"
       @close="close"
 	  accept-text="Aceptar"
