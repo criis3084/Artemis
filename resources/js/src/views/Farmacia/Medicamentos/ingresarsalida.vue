@@ -36,9 +36,9 @@
 			 >
 				<table style="width: 80%" class="border-collapse">
 						<tr>
-							<th class="pointer-events-none text-center text-warning">Nombre Medicamento</th>
-							<th class="pointer-events-none text-center text-warning">Cantidad</th>
-							<th class="pointer-events-none text-center text-warning">Motivo</th>
+							<th class="pointer-events-none text-center text-warning">Nombre del medicamento</th>
+							<th class="pointer-events-none text-center text-warning">Cantidad de beneficio</th>
+							<th class="pointer-events-none text-center text-warning">Motivo de error</th>
 						</tr>
 						<tr v-for="(producto,index) in carritoSin" :key="index">
 							<td class="pointer-events-none text-center text-dark"> {{producto.nombre}}</td>
@@ -148,7 +148,6 @@ export default {
 				this.carritoSin=[]
 			}
 		},
-
     	paciente_select(){
 			this.tipo_salida=[];
 			if(this.paciente_select != null)
@@ -171,6 +170,7 @@ export default {
 				this.carrito=[]
 				this.listaCantidades=[]
 				this.opcionesSalidas=false
+				this.detalleSalida=false
 			}
 		},
 		medicamento_id(){

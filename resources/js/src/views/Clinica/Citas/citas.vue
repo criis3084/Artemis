@@ -5,7 +5,7 @@
         ref="calendar"
         :displayPeriodUom="calendarView"
         :show-date="showDate"
-        :events="arrayCitas"
+        :events="simpleCalendarEvents"
         enableDragDrop
         :eventTop="windowWidth <= 400 ? '2rem' : '3rem'"
         eventBorderHeight="0px"
@@ -169,16 +169,19 @@
 
         </div>
 
-        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Event Title" v-model="title"></vs-input>
-        <div class="my-4">
+        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Descripción" v-model="descripcion"></vs-input>
+        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Tipo de Paciente" v-model="tipoPaciente"></vs-input>
+        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Paciente" v-model="paciente_id"></vs-input>
+        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Medico" v-model="medico_id"></vs-input>
+        <!-- <div class="my-4">
             <small class="date-label">Start Date</small>
             <datepicker :language="$vs.rtl ? langHe : langEn" :disabledDates="disabledDatesFrom" name="start-date" v-model="startDate"></datepicker>
         </div>
         <div class="my-4">
             <small class="date-label">End Date</small>
             <datepicker :language="$vs.rtl ? langHe : langEn" :disabledDates="disabledDatesTo" name="end-date" v-model="endDate"></datepicker>
-        </div>
-        <vs-input name="event-url" v-validate="'url'" class="w-full mt-6" label-placeholder="Event URL" v-model="url" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
+        </div> -->
+        <!-- <vs-input name="event-url" v-validate="'url'" class="w-full mt-6" label-placeholder="Event URL" v-model="url" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input> -->
 
     </vs-prompt>
   </div>
@@ -210,6 +213,7 @@ export default {
       arrayPaciente:[],
       arrayTipoCitas:[],
       arrayCitas:[],
+      arrayCitasNuevo:[],
       Medico:'',
       TipoCita:'',
       Paciente:'',
@@ -241,7 +245,11 @@ export default {
           label: 'Año',
           val: 'year'
         }
-      ]
+	  ],
+	  descripcion:null,
+	  medico_id:null,
+	  paciente_id:null,
+	  tipoPaciente:null
     }
   },
   computed: {
@@ -258,6 +266,8 @@ export default {
       return { from: new Date(this.endDate) }
     },
     calendarLabels () {
+		console.log('imprimiendo el store state')
+		console.log(this.$store.state.calendar)
       return this.$store.state.calendar.eventLabels
     },
     labelColor () {
@@ -283,7 +293,7 @@ export default {
       this.showDate = this.$refs.calendar.getIncrementedPeriod(val)
     },
     clearFields () {
-      this.title = this.endDate = this.url = ''
+      this.descripcion = this.paciente_id = this.medico_id = this.tipoPaciente = ''
       this.id = 0
       this.labelLocal = 'none'
     },
@@ -302,14 +312,18 @@ export default {
       this.addNewEventDialog(date)
     },
     openEditEvent (event) {
-      const e = this.$store.getters['calendar/getEvent'](event.id)
-      this.id = e.id
-      this.title = e.title
-      this.startDate = e.startDate
-      this.endDate = e.endDate
-      this.url = e.url
-      this.labelLocal = e.label
-      this.activePromptEditEvent = true
+	  const e = this.$store.getters['calendar/getEvent'](event.id)
+	  let idT = parseInt(e.url)
+		const resultado = this.arrayCitasNuevo.find( cita => cita.id === idT);
+		console.log(resultado)
+		if(resultado != undefined){
+			this.descripcion = resultado.descripcion			
+			this.paciente_id = resultado.paciente.id
+			this.medico_id = resultado.clinico.id			
+			this.tipoPaciente = resultado.paciente.tipo_paciente_id			
+			this.activePromptEditEvent = true
+		}
+	
     },
     editEvent () {
       const obj = { id: this.id, title: this.title, startDate: this.startDate, endDate: this.endDate, label: this.labelLocal, url: this.url }
@@ -396,18 +410,39 @@ export default {
         '/api/cita/get?completo=true')
         .then(function (response) {
           const respuesta = response.data
-          me.arrayCitas = respuesta.citas.data
+		  me.arrayCitasNuevo = respuesta.citas.data
+		  console.log('todas las citas')
+		  console.log(me.arrayCitasNuevo)
+		  me.exportarCitas(me.arrayCitasNuevo)
+		  
         })
         .catch(function (error) {
           console.log(error)
         })
-    }
+	},
+	exportarCitas(tabla){
+		let citas=[]
+		let objTemporal=[]
+		for (let x in tabla) {
+			let fechaT=tabla[x].fecha
+			let diaT= parseInt(fechaT.split('-',3)[2])+1
+			diaT = diaT < 11 ? '0' + String(diaT) : String(diaT)
+			//let fechaInicio = fechaT.split('-',3)[0] + fechaT.split('-',3)[1] + '-' + fechaT.split('-',3)[2] + 'T00:00:01.410Z'
+			let fechaInicio = '2020-' + fechaT.split('-',3)[1] + '-' + fechaT.split('-',3)[2] + 'T00:00:01.410Z'
+			let fechaFinal = '2020-' + fechaT.split('-',3)[1] + '-' + fechaT.split('-',3)[2] + 'T23:59:00.410Z'
+			citas.push({ title: tabla[x].descripcion, startDate:fechaInicio , endDate: fechaFinal, label: "business", url: String(tabla[x].id)})
+		}
+		for (let x in citas) {
+			citas[x].classes = `event-${'success'}`
+			this.$store.dispatch('calendar/addEvent', citas[x])
+		}	  
+	}
   },
   created () {
-    this.$store.registerModule('calendar', moduleCalendar)
-    this.Citas()
+	  this.$store.registerModule('calendar', moduleCalendar)
     this.$store.dispatch('calendar/fetchItems')
     this.$store.dispatch('calendar/fetchEventLabels')
+	this.Citas()
   },
   beforeDestroy () {
     this.$store.unregisterModule('calendar')
@@ -416,7 +451,7 @@ export default {
     this.PersonalMedico()
     this.indexPacientes()
     this.TipoCitas()
-    this.Citas()
+    //this.Citas()
   }
 }
 </script>

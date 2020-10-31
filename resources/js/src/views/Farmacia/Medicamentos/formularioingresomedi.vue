@@ -252,7 +252,7 @@ export default {
 			console.log('guardando lote...')
 			console.log(idIngreso)
 			let me = this
-			for (let x in me.listado_entrada) {				
+			for (let x in me.listado_entrada) {
 				let elemento =  me.listado_entrada[x]
 				axios.post("/api/lote/post/",{
 					stock:me.listaCantidades[x],

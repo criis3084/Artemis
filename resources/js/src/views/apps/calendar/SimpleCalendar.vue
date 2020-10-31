@@ -178,6 +178,7 @@
         <vs-input name="event-url" v-validate="'url'" class="w-full mt-6" label-placeholder="Event URL" v-model="url" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
 
     </vs-prompt>
+
   </div>
 </template>
 
@@ -213,7 +214,6 @@ export default {
 
       activePromptAddEvent: false,
       activePromptEditEvent: false,
-
       calendarViewTypes: [
         {
           label: 'Month',
@@ -244,7 +244,9 @@ export default {
       return { from: new Date(this.endDate) }
     },
     calendarLabels () {
-      return this.$store.state.calendar.eventLabels
+		console.log('imprimiendo el store state')
+		console.log(this.$store.state)
+		return this.$store.state.calendar.eventLabels
     },
     labelColor () {
       return (label) => {
@@ -259,6 +261,15 @@ export default {
     }
   },
   methods: {
+	cargarUno(){
+		let citas=[]
+		citas.push({ title: "este es un titulo", startDate:"2020-10-21T06:58:55.410Z" , endDate: "2020-10-21T06:58:55.410Z", label: "business", url: "5"})
+		citas.push({ title: "titulo2", startDate:"2020-10-15T06:58:55.410Z" , endDate: "2020-10-18T06:58:55.410Z", label: "business", url:"10" })
+		for (let x in citas) {
+			citas[x].classes = `event-${'danger'}`
+			this.$store.dispatch('calendar/addEvent', citas[x])
+		}	  
+	},
     addEvent () {
       const obj = { title: this.title, startDate: this.startDate, endDate: this.endDate, label: this.labelLocal, url: this.url }
       obj.classes = `event-${  this.labelColor(this.labelLocal)}`
@@ -288,7 +299,9 @@ export default {
     },
     openEditEvent (event) {
       const e = this.$store.getters['calendar/getEvent'](event.id)
-      this.id = e.id
+		console.log(parseInt(e.url))
+		this.id = e.id
+	  
       this.title = e.title
       this.startDate = e.startDate
       this.endDate = e.endDate
@@ -309,9 +322,10 @@ export default {
     }
   },
   created () {
-    this.$store.registerModule('calendar', moduleCalendar)
+	  this.$store.registerModule('calendar', moduleCalendar)
     this.$store.dispatch('calendar/fetchEvents')
-    this.$store.dispatch('calendar/fetchEventLabels')
+	this.$store.dispatch('calendar/fetchEventLabels')
+	this.cargarUno()
   },
   beforeDestroy () {
     this.$store.unregisterModule('calendar')
