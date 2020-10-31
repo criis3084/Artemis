@@ -69,7 +69,7 @@
 
           <div class="vx-row sm:flex hidden mt-4">
             <div class="vx-col w-full flex">
-              <!-- Labels -->
+              <!-- Labels 
               <div class="flex flex-wrap sm:justify-start justify-center">
                   <div v-for="(label, index) in arrayTipoCitas" :key="index" class="flex items-center mr-4 mb-2">
                       <div class="h-3 w-3 inline-block rounded-full mr-2" :class="'bg-' + label.color"></div>
@@ -79,7 +79,7 @@
                       <div class="h-3 w-3 inline-block rounded-full mr-2 bg-primary"></div>
                       <span>None</span>
                   </div>
-              </div>
+              </div  >-->
             </div>
           </div>
         </div>
@@ -92,9 +92,11 @@
         title="Nueva cita"
         accept-text= "Aceptar"
         cancel-text= "Cancelar"
-        @accept="addEvent"
+        @accept="guardar"
         :is-valid="validForm"
         :active.sync="activePromptAddEvent">
+
+            <!-- ADD EVENT 
 
         <div class="calendar__label-container flex">
 
@@ -117,6 +119,10 @@
                 </vs-dropdown-menu>
             </vs-dropdown>
 
+        </div  >-->
+        <div class="my-4">
+            <small class="date-label">Tipo de cita</small>
+            <v-select  label="nombre" :options="arrayTipoCitas"  v-model="TipoCita" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
          <div class="my-4">
             <small class="date-label">Fecha</small>
@@ -170,7 +176,7 @@
         </div>
 
         <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Descripción" v-model="descripcion"></vs-input>
-        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Tipo de Paciente" v-model="tipoPaciente"></vs-input>
+        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Tipo de cita" v-model="tipoPaciente"></vs-input>
         <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Paciente" v-model="paciente_id"></vs-input>
         <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Medico" v-model="medico_id"></vs-input>
         <!-- <div class="my-4">
@@ -266,8 +272,8 @@ export default {
       return { from: new Date(this.endDate) }
     },
     calendarLabels () {
-		console.log('imprimiendo el store state')
-		console.log(this.$store.state.calendar)
+      console.log('imprimiendo el store state')
+      console.log(this.$store.state.calendar)
       return this.$store.state.calendar.eventLabels
     },
     labelColor () {
@@ -313,16 +319,16 @@ export default {
     },
     openEditEvent (event) {
 	  const e = this.$store.getters['calendar/getEvent'](event.id)
-	  let idT = parseInt(e.url)
-		const resultado = this.arrayCitasNuevo.find( cita => cita.id === idT);
-		console.log(resultado)
-		if(resultado != undefined){
-			this.descripcion = resultado.descripcion			
-			this.paciente_id = resultado.paciente.id
-			this.medico_id = resultado.clinico.id			
-			this.tipoPaciente = resultado.paciente.tipo_paciente_id			
-			this.activePromptEditEvent = true
-		}
+	  const idT = parseInt(e.url)
+      const resultado = this.arrayCitasNuevo.find(cita => cita.id === idT)
+      console.log(resultado)
+      if (resultado != undefined) {
+        this.descripcion = resultado.descripcion			
+        this.paciente_id = resultado.paciente.id
+        this.medico_id = resultado.clinico.id			
+        this.tipoPaciente = resultado.tipo_cita.nombre
+        this.activePromptEditEvent = true
+      }
 	
     },
     editEvent () {
@@ -335,6 +341,11 @@ export default {
     },
     eventDragged (event, date) {
       this.$store.dispatch('calendar/eventDragged', {event, date})
+    }, 
+    formatoFecha (datetime) {
+      const date = new Date(datetime)
+      const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+      return dateString
     },
     getDate (datetime) {
       const MESES = [
@@ -379,7 +390,7 @@ export default {
           console.log(error)
         })
     },
-     async indexPacientes () {
+    async indexPacientes () {
 	  const me = this
       const response = await axios.get(
         '/api/paciente/get?completo=true')
@@ -392,7 +403,7 @@ export default {
           console.log(error)
         })
     },
-     async TipoCitas () {
+    async TipoCitas () {
 	  const me = this
       const response = await axios.get(
         '/api/tipoCita/get?completo=true')
@@ -419,30 +430,55 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
-	},
-	exportarCitas(tabla){
-		let citas=[]
-		let objTemporal=[]
-		for (let x in tabla) {
-			let fechaT=tabla[x].fecha
-			let diaT= parseInt(fechaT.split('-',3)[2])+1
-			diaT = diaT < 11 ? '0' + String(diaT) : String(diaT)
-			//let fechaInicio = fechaT.split('-',3)[0] + fechaT.split('-',3)[1] + '-' + fechaT.split('-',3)[2] + 'T00:00:01.410Z'
-			let fechaInicio = '2020-' + fechaT.split('-',3)[1] + '-' + fechaT.split('-',3)[2] + 'T00:00:01.410Z'
-			let fechaFinal = '2020-' + fechaT.split('-',3)[1] + '-' + fechaT.split('-',3)[2] + 'T23:59:00.410Z'
-			citas.push({ title: tabla[x].descripcion, startDate:fechaInicio , endDate: fechaFinal, label: "business", url: String(tabla[x].id)})
-		}
-		for (let x in citas) {
-			citas[x].classes = `event-${'success'}`
-			this.$store.dispatch('calendar/addEvent', citas[x])
-		}	  
-	}
+    },
+    exportarCitas (tabla) {
+      const citas = []
+      const objTemporal = []
+      for (const x in tabla) {
+        const fechaT = tabla[x].fecha
+        let diaT = parseInt(fechaT.split('-', 3)[2]) + 1
+        diaT = diaT < 11 ? `0${  String(diaT)}` : String(diaT)
+        //let fechaInicio = fechaT.split('-',3)[0] + fechaT.split('-',3)[1] + '-' + fechaT.split('-',3)[2] + 'T00:00:01.410Z'
+        //let fechaFinal = fechaT.split('-',3)[0] + fechaT.split('-',3)[1] + '-' + fechaT.split('-',3)[2] + 'T00:00:01.410Z'
+        const fechaInicio = `${fechaT.split('-', 3)[0]}-${  fechaT.split('-', 3)[1]  }-${  fechaT.split('-', 3)[2]  }T00:00:01.410Z`
+        const fechaFinal = `${fechaT.split('-', 3)[0]}-${  fechaT.split('-', 3)[1]  }-${  fechaT.split('-', 3)[2]  }T23:59:00.410Z`
+        citas.push({ title: tabla[x].descripcion, startDate:fechaInicio, endDate: fechaFinal, label: 'business', url: String(tabla[x].id)})
+      }
+      for (const x in citas) {
+        citas[x].classes = `event-${'success'}`
+        this.$store.dispatch('calendar/addEvent', citas[x])
+      }	  
+    },
+    guardar () {
+      axios.post('/api/cita/post/', {
+        descripcion:this.title,
+        fecha: this.formatoFecha(this.endDate),
+        clinico_id: this.Medico.id,
+        paciente_id: this.Paciente.id,
+        tipo_cita_id: this.TipoCita.id
+      }).then(function (response) {
+        console.log(response)
+        
+      })
+        .catch(function (error) {
+          console.log(error)
+          alert('Error al ingresar')
+        })
+      this.Citas()
+      const titulo = 'Aldea registrada'
+      this.$vs.notify({
+        color:'success',
+        title:`${titulo}`,
+        text:'La acción se realizo exitósamente'
+      })
+      this.$emit('cerrado', 'Se cerro el formulario')
+    }
   },
   created () {
 	  this.$store.registerModule('calendar', moduleCalendar)
     this.$store.dispatch('calendar/fetchItems')
     this.$store.dispatch('calendar/fetchEventLabels')
-	this.Citas()
+    this.Citas()
   },
   beforeDestroy () {
     this.$store.unregisterModule('calendar')
