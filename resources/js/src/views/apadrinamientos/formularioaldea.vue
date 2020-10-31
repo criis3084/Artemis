@@ -14,7 +14,7 @@
 		>
 			<div class="con-exemple-prompt">
 				<b></b>
-
+<small>Nombre</small>
 				<vs-input placeholder="Nombre de la aldea" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 
 				<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >

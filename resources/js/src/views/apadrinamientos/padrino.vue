@@ -28,7 +28,7 @@
 							<vs-th>Correo Electrónico</vs-th>
 		
 							<vs-th>Estado</vs-th>
-							<vs-th></vs-th>
+							<vs-th>Acciones</vs-th>
 						</template>
 
 						<template slot-scope="{data}">

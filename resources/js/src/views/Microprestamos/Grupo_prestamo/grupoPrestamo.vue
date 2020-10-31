@@ -22,7 +22,7 @@
 
     <template slot="thead">
       <vs-th>Ver</vs-th>
-      <vs-th sort-key="nombre">No.</vs-th>
+      <vs-th sort-key="nombre">Id</vs-th>
       <vs-th sort-key="nombre">Nombre</vs-th>
       <vs-th sort-key="us">Descripción</vs-th>
       <vs-th sort-key="website">Último Préstamo</vs-th>

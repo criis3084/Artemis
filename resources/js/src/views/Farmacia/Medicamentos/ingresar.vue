@@ -17,23 +17,35 @@
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
         <b></b>
-			
-		<vs-input placeholder="Nombre del Medicamento: " v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
-		<vs-input placeholder="Descripción del Medicamento: " v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
-		<vs-input placeholder="Cantidad del Medicamento: " v-model="valMultipe.value3" class="mt-4 mb-2 col-1 w-full" />
+
+		<small>Nombre</small>
+		<vs-input name="nombre" v-validate="'required|max:50'" placeholder="Nombre del Medicamento: " v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+		<span class="text-danger">{{ errors.first('nombre') }}</span>
+		<small>Descripción</small>
+    <vs-input name="descripcion" v-validate="'required|max:150'" placeholder="Descripción del Medicamento: " v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
+		<span class="text-danger">{{ errors.first('descripcion') }}</span>
+		<small>Cantidad</small>
+    <vs-input name="cantidad" v-validate="'required|numeric|max:5'" placeholder="Cantidad del Medicamento: " v-model="valMultipe.value3" class="mt-4 mb-2 col-1 w-full" />
+		<span class="text-danger">{{ errors.first('cantidad') }}</span>
 		
-		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
-			LLene todos los campos
-		</vs-alert>
+		
 		<br>
       </div>
 		<template>
-      <small class="date-label">Categoría:</small>
-		<v-select label="nombre" :options="categoria" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-		<br>
-    <small class="date-label">Casa Médica:</small>
-		<v-select label="nombre" :options="casa_medica" v-model="valMultipe.value5" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+      <small class="date-label">Categoría</small>
+		<v-select name="categoria" v-validate="'required'" label="nombre" :options="categoria" v-model="valMultipe.value4" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<span class="text-danger">{{ errors.first('categoria') }}</span>
 		
+    <br>
+    <small class="date-label">Casa Médica</small>
+		<v-select name="casa" v-validate="'required'" label="nombre" :options="casa_medica" v-model="valMultipe.value5" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<span class="text-danger">{{ errors.first('casa') }}</span>
+		
+    
+    <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
+			LLene todos los campos
+		</vs-alert>
+
 		</template> 
 	</vs-prompt>
 
@@ -47,7 +59,36 @@ import axios from "axios";
 //C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from "@/views/components/vuesax/dropdown/Dropdown.vue";
 import vSelect from "vue-select";
+import { Validator } from 'vee-validate';
 
+
+const dict = {
+  custom: {
+    nombre: {
+      required: 'El campo nombre de medicamento es requerido',
+	    max: 'Este campo solo acepta hasta 50 caracteres',
+    },
+    descripcion: {
+      required: 'El campo descripción es requerido',
+	    max: 'Este campo solo acepta hasta 150 caracteres',
+    },
+    cantidad: {
+      required: 'El campo cantidad de medicamento es requerido',
+	    numeric: 'El campo solo debe de contener números',
+	    max: 'Este campo solo acepta hasta 5 caracteres',
+    },
+	categoria: {
+      required: 'El campo categoria es requerido',
+	},
+	casa:{
+	  required: 'El campo casa médica es requerido',
+	},
+	
+  }
+}
+
+// register custom messages
+Validator.localize('es', dict)
 export default {
   components: {
     Dropdown,
@@ -76,7 +117,7 @@ export default {
         to: new Date(Date.now() - 8640000)
       },
 
-	  titulo: "Nuevo Medicamento",
+	  titulo: "Nuevo medicamento",
 	  dateFormat : 'yyyy-MM-dd',
     };
   },
@@ -125,8 +166,9 @@ export default {
         });
     },
     acceptAlert() {
-      axios
-        .post("/api/medicamento/post/", {
+this.$validator.validateAll().then(result => {
+  if(result) {
+      axios.post("/api/medicamento/post/", {
           nombre: this.valMultipe.value1,
           descripcion: this.valMultipe.value2,
           stock_general: this.valMultipe.value3,
@@ -146,6 +188,19 @@ export default {
       this.valMultipe.value4 = "";
 	  this.valMultipe.value5 = "";
       this.$emit("cerrado", "Se cerro el formulario");
+      this.$vs.notify({
+					color:'success',
+					title:'Medicamento registrado!',
+					text:'La acción se realizo exitósamente'
+				});
+  }else{
+        this.$vs.notify({
+				color:'danger',
+				title:`Error en validación!`,
+				text:'Ingrese correctamente todos los datos'
+			})
+        }
+      })  
     },
     close() {
       this.$vs.notify({

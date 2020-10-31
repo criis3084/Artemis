@@ -24,6 +24,7 @@
         </template>
         <template slot="thead">
             <vs-th>Ver</vs-th>
+            <vs-th>Id</vs-th>
 		  	    <vs-th>Fecha</vs-th>
 		        <vs-th>Dirección</vs-th>
             <vs-th>Destinatario</vs-th>
@@ -38,6 +39,7 @@
             <vs-td>
 				<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/vivienda/'+data[indextr].id)"></vs-button></vx-tooltip>			
 			</vs-td>
+            <vs-td>{{ data[indextr].id }}</vs-td>
             <vs-td>{{ data[indextr].fecha_inicio }}</vs-td>
             <vs-td>{{ data[indextr].direccion }}</vs-td>
             <vs-td>{{ data[indextr].datos_residente[0].nombres + ' ' +  data[indextr].datos_residente[0].apellidos}}</vs-td>

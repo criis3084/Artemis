@@ -13,7 +13,6 @@
 			<vs-divider position="right">PID&#174;</vs-divider>
                 <div class = "demo-alignment">
                     <h5> <b>Nombre del propietario: </b> </h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
-                    <span>{{id}}</span>
                 </div>
                 <div class = "demo-alignment">
                     <h5> <b>Dirección: </b> </h5><h5>{{direccion}}</h5>

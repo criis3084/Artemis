@@ -70,7 +70,7 @@ export default {
 			aldea_nombreE:'',
 			aldea_idT:{id:-1,nombre:''},
 			listado_aldea: [],
-			titulo:'Actualizar Sector',
+			titulo:'Actualizar sector',
 		}
 	},
   	computed:{

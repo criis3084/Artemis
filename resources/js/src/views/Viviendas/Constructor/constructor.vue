@@ -22,7 +22,7 @@
         </template>
 				<template slot="thead">
                     <vs-th>Ver</vs-th>
-                    <vs-th>Nombre completo</vs-th>
+                    <vs-th>Nombre</vs-th>
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Estado</vs-th>
 					 <vs-th>Acciones</vs-th>
