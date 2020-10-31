@@ -2,6 +2,7 @@
 	<div>
 		<vx-card>
 			<formularioaldea v-on:cerrado="index();"></formularioaldea>
+				<vs-divider position="right">PID&#174;</vs-divider>
 
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         		<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
@@ -12,12 +13,12 @@
         		</div>
     		</vs-prompt>
 
-			<vs-table title="Casas Médicas" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
+			<vs-table stripe title="Casas Médicas" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
      			<template slot="header">
           			<vs-button @click="activePrompt=true">Exportar</vs-button>
         		</template>
             	<template slot="thead">
-					<vs-th>Id</vs-th>
+					<!-- <vs-th>Id</vs-th> -->
 					<vs-th>Nombre</vs-th>
 					<vs-th>Estado</vs-th>
 					<vs-th>Acciones</vs-th>
@@ -26,10 +27,10 @@
 
 				<template slot-scope="{data}">
                 <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-
+<!-- 
                     <vs-td :data="data[indextr].id">
                         {{data[indextr].id}}
-                    </vs-td>
+                    </vs-td> -->
 
                     <vs-td :data="data[indextr].nombre">
                         {{data[indextr].nombre}}
