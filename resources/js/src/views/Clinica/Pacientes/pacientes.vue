@@ -9,7 +9,7 @@
 		<div class = "demo-alignment">
                         <small class="font-bold text-primary">Ver por tipo de paciente</small>
                          <v-select class="vx-col md:w-1/4 w-full mt-5" label="nombre" :options="TipoPacientes" @input="buscarPorTipo" v-model="tipoP" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                         <vs-button color="primary" type="border" @click="index"> Ver todos</vs-button>
+                         <vs-button icon-pack = "feather" icon = "icon-refresh-cw" color="primary" type="border" @click="index"> Ver todos</vs-button>
         </div>
 		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
@@ -20,14 +20,14 @@
         </div>
 			</vs-prompt>
 
-			<vs-table title="Pacientes" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
+			<vs-table stripe title="Pacientes" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
 	   <template slot="header">
           <vs-button @click="activePrompt=true">Exportar</vs-button>
         </template>
 				<template slot="thead">
                     <vs-th>Ver</vs-th>
-                    <vs-th>Nombres</vs-th>
-                    <vs-th>Apellidos</vs-th>
+                    <vs-th>Nombre</vs-th>
+                    <!-- <vs-th>Apellidos</vs-th> -->
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Tipo de Paciente</vs-th>
                     <vs-th>Día Apoyo</vs-th>
@@ -41,8 +41,8 @@
                         <vs-td>
 						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/constructor/'+data[indextr].id)"></vs-button></vx-tooltip>			
 					    </vs-td>
-						<vs-td>{{data[indextr].datos.nombres}}</vs-td>
-		            	<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
+						<vs-td>{{data[indextr].datos.nombres + " " + data[indextr].datos.apellidos}}</vs-td>
+		            	<!-- <vs-td>{{data[indextr].datos.apellidos}}</vs-td> -->
                         <vs-td>{{data[indextr].datos.numero_telefono}}</vs-td>
                         <vs-td>{{data[indextr].tipo_paciente.nombre}}</vs-td>
                         <vs-td>{{data[indextr].dia_apoyo}}</vs-td>

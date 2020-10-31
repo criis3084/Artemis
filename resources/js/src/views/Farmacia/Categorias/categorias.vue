@@ -2,6 +2,7 @@
 	<div>
 		<vx-card>
 			<formularioaldea v-on:cerrado="index();"></formularioaldea>
+				<vs-divider position="right">PID&#174;</vs-divider>
 
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         		<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
@@ -12,7 +13,7 @@
         		</div>
     		</vs-prompt>
 
-			<vs-table title="Categorías" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
+			<vs-table stripe title="Categorías" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
      			<template slot="header">
           			<vs-button @click="activePrompt=true">Exportar</vs-button>
         		</template>

@@ -1,22 +1,36 @@
 <template>
   	<vx-card>
+
+		<div class = "demo-alignment">
+		<div class="vx-col md:w-1/3 w-full mt-5">
+			<router-link  to="/salida/medicamentos"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+		</div>
+		<div class="flex-1 ">
+				<h2>Salida de medicamentos</h2>
+		</div>
+		</div>
+
+		<form>
+
 		<div class="vx-col w-full">
 			<vs-divider position="center">Datos del paciente</vs-divider>			
 			<div class="md:w-1/3 w-full mt-3">
 				<div class="w-full">
-					<h4 class="date-label">Paciente:</h4>
-					<v-select label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<small class="date-label">Paciente:</small>
+					<v-select name="paciente" v-validate="'required'" label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<span class="text-danger">{{ errors.first('paciente') }}</span>
 				</div>
 			</div>
 			<div class="md:w-1/3 w-full mt-3" v-if="opcionesSalidas">
 				<div class="w-full">
-					<h4 class="date-label">Destino:</h4>
-					<v-select label="nombre" :options="tipo_salida" v-model="tipo_salida_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<small class="date-label">Destino:</small>
+					<v-select name="destino" v-validate="'required'" label="nombre" :options="tipo_salida" v-model="tipo_salida_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<span class="text-danger">{{ errors.first('destino') }}</span>
 				</div>
 			</div>
 			<div class="md:w-1/3 w-full mt-3" v-if="detalleSalida">
 				<div class="w-full">
-					<h4 class="date-label">Opciones:</h4>
+					<small class="date-label">Opciones:</small>
 					<v-select label="mostrar" :options="listado_pendientes" v-model="opcion_selected" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 				</div>
 			</div>
@@ -25,8 +39,9 @@
 		<vs-divider position="center">Medicamentos</vs-divider>
 			<div class="vx-col md:w-1/2 w-full mt-3">
 				<div class="vx-col w-full">
-					<h4 class="date-label">Lista de medicamentos:</h4>
-					<v-select label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<small class="date-label">Lista de medicamentos:</small>
+					<v-select name="medicamento" v-validate="'required'" label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<span class="text-danger">{{ errors.first('medicamento') }}</span>
 					<small class="date-label" v-if="medicamento_id != null"><p class="text-danger">Existencia: {{stockId}}</p></small>
 				</div>
 			</div>
@@ -63,33 +78,63 @@
 										</td>
 										<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}<small class="date-label"><p class="text-warning">(Stock: {{producto.stock_general}})</p></small></td>
 										<td class="border border-solid d-theme-border-grey-light flex items-center">
-											<vs-input style="text-align:right" v-model="listaCantidades[index]" name="cantidad" v-validate="'required|numeric|max:4'"/>
+											<vs-input name="cantidad" v-validate="'required|max:5|numeric'" style="text-align:right" v-model="listaCantidades[index]" />
 										</td>
 									</tr>
 							</table>
+						<span class="text-danger">{{ errors.first('cantidad') }}</span>
 					</div>
 			</vs-list>
 
 			<div class="vx-row mb-6">
 				<div class="vx-col w-full">
 					<small>Descripción</small>
-					<vs-textarea class="w-full" icon-pack="feather" icon="icon-user" icon-no-border v-model="descripcion" name="descripcion" v-validate="'required|max:60'"/>
+					<vs-textarea name="descripcion" v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border v-model="descripcion"/>
 					<span class="text-danger text-sm" v-show="errors.has('descripcion')">{{ errors.first('descripcion') }}</span>
 				</div>
 			</div>
 
 			<div class="vx-row">
           		<div class="vx-col sm:w-2/3 w-full ml-auto vs-align-right">
-            		<vs-button class="mr-3 mb-2" @click="registrarSalida">Registrar Salida</vs-button>
+            		<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="registrarSalida">Registrar Salida</vs-button>
             		<!-- <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button> -->
           		</div>
 	        </div>
 		</div>
+		</form>
 	</vx-card>
 </template>
 <script>
 import axios from 'axios'
 import vSelect from 'vue-select'
+import { Validator } from 'vee-validate';
+
+
+const dict = {
+  custom: {
+	paciente: {
+	  required: 'El campo paciente es requerido',
+	},
+	destino: {
+	  required: 'El campo destino es requerido',
+	},
+	medicamento: {
+	  required: 'El campo medicamento es requerido',
+	},
+	descripcion: {
+      required: 'El campo descripción es requerido',
+	    max: 'Este campo solo acepta hasta 150 caracteres',
+    },
+	cantidad: {
+	  required: 'Todos los campos de cantidad son requeridos',
+	  numeric: 'Los campos de cantidad solo deben de contener números',
+	    max: 'Los campos de cantidad solo aceptan hasta 5 caracteres',
+    },	
+  }
+}
+
+// register custom messages
+Validator.localize('es', dict)
 export default {
 	data() {
 		return {
@@ -178,7 +223,7 @@ export default {
 			if (this.medicamento_id != null)
 			{
 				this.carrito.push(this.medicamento_id)
-				this.listaCantidades.push(0)
+				// this.listaCantidades.push(0)
 			}
 		}
 	},
@@ -393,6 +438,11 @@ export default {
 						}
 					}
 					this.$router.push('/salida/medicamentos')
+					this.$vs.notify({
+					color:'success',
+					title:'Salida de medicamento registrada!',
+					text:'La acción se realizo exitósamente'
+				});
 				}
 			}
 		},
@@ -427,6 +477,9 @@ export default {
 			})
 		},
 		registrarSalida(){
+	this.$validator.validateAll().then(result => {
+	if(result) {
+
 			let val = this.validarStock()
 			if(val == true)
 			{
@@ -447,11 +500,21 @@ export default {
 				.catch(function (error) {
 					console.log(error)
 					alert('Error al ingresar')
+					
 				})
 			}
 			else{
 				console.log('stock invalido')
 			}
+	 }else{
+		  // form have errors
+		  this.$vs.notify({
+				color:'danger',
+				title:`Error en validación!`,
+				text:'Ingrese correctamente todos los datos'
+			})
+        }
+      })
 		},
 		getDate (datetime) {
 			const date = new Date(datetime)

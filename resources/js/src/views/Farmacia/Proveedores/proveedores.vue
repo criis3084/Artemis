@@ -5,7 +5,8 @@
 						<h2>Proveedores</h2>
 						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
 					</div>
-					<br>
+									<vs-divider position="right">PID&#174;</vs-divider>
+
 		<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
         <vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
         <v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -15,15 +16,15 @@
         </div>
 			</vs-prompt>
 
-			<vs-table title="Constructores" pagination max-items="7" search :data="arrayData">
+			<vs-table title="Proveedores" stripe pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
 	   <template slot="header">
           <vs-button @click="activePrompt=true">Exportar</vs-button>
         </template>
 				<template slot="thead">
                     <vs-th>Ver</vs-th>
                     <vs-th>Nombre Empresa</vs-th>
-                    <vs-th>Nombres</vs-th>
-                    <vs-th>Apellidos</vs-th>
+                    <vs-th>Nombre Proveedor</vs-th>
+                    <!-- <vs-th>Apellidos</vs-th> -->
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Estado</vs-th>
 					 <vs-th>Acciones</vs-th>
@@ -35,8 +36,8 @@
 						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/proveedor/'+data[indextr].id)"></vs-button></vx-tooltip>			
 					    </vs-td>
                         <vs-td>{{data[indextr].nombre}}</vs-td>
-						<vs-td>{{data[indextr].datos.nombres}}</vs-td>
-		            	<vs-td>{{data[indextr].datos.apellidos}}</vs-td>
+						<vs-td>{{data[indextr].datos.nombres + " " + data[indextr].datos.apellidos}}</vs-td>
+		            	<!-- <vs-td>{{data[indextr].datos.apellidos}}</vs-td> -->
                         <vs-td>{{data[indextr].datos.numero_telefono}}</vs-td>
 						<vs-td>
 							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
