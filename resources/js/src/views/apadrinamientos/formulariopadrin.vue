@@ -66,7 +66,7 @@
 					<v-select name="sector" v-validate="'required'" label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'"></v-select>
 					<span class="text-danger">{{ errors.first('step-1.sector') }}</span>
 					
-					<span class="text-danger">!!!arreglar para que se agregue sector EXTRANJERO automáticamente, o no?</span>
+					<!-- <span class="text-danger">!!!arreglar para que se agregue sector EXTRANJERO automáticamente, o no?</span> -->
 
 				</div>
 
