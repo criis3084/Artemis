@@ -12,7 +12,7 @@
 					<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
 				</div>
 			</vs-prompt>
-			<vs-table stripe pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
+			<vs-table stripe title="Tutorías" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
 				<template slot="header">
 					<vs-button @click="activePrompt=true">Exportar</vs-button>
 				</template>
@@ -47,8 +47,8 @@
 							v-model="data[indextr].estado"
 							@click="abrirDialog(data[indextr].id, data[indextr].estado)"
 							>
-							<span slot="on">Activo</span>
-							<span slot="off">Desactivo</span>
+							<span slot="on">Asistido</span>
+							<span slot="off">No asistido</span>
 							</vs-switch>
 						</vs-td>
 						<vs-td>

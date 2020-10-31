@@ -10,6 +10,8 @@
 			@accept="acceptAlert"
 			:is-valid="validName"
 			:title= "titulo"
+			accept-text="Aceptar"
+			cancel-text="Cancelar"
 			:active.sync="activePrompt2"
 		>
 			<div class="con-exemple-prompt">

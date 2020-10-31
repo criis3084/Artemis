@@ -12,23 +12,33 @@
 
 		<div class="con-exemple-prompt">
 				<b></b>
-				
-		<vs-input placeholder="Nombre del Medicamento: " v-model="nombreTT" class="mt-4 mb-2 col-1 w-full" />
-		<vs-input placeholder="Descripción del Medicamento: " v-model="descripcionT" class="mt-4 mb-2 col-1 w-full" />
-		<vs-input placeholder="Cantidad del Medicamento: " v-model="stock_generalT" class="mt-4 mb-2 col-1 w-full" />
+		<small>Nombre</small>
+		<vs-input name="nombre" v-validate="'required|max:50'" placeholder="Nombre del Medicamento: " v-model="nombreTT" class="mt-4 mb-2 col-1 w-full" />
+		<span class="text-danger">{{ errors.first('nombre') }}</span>
 		
-		<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
+		<small>Descripción</small>
+		<vs-input name="descripcion" v-validate="'required|max:150'" placeholder="Descripción del Medicamento: " v-model="descripcionT" class="mt-4 mb-2 col-1 w-full" />
+		<span class="text-danger">{{ errors.first('descripcion') }}</span>
+		
+		<small>Cantidad</small>
+		<vs-input name="cantidad" v-validate="'required|numeric|max:5'" placeholder="Cantidad del Medicamento: " v-model="stock_generalT" class="mt-4 mb-2 col-1 w-full" />
+		<span class="text-danger">{{ errors.first('cantidad') }}</span>
+		
+		<!-- <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 			LLene todos los campos
-		</vs-alert>
+		</vs-alert> -->
 		<br>
       </div>
 		<template>
       <small class="date-label">Categoría:</small>
-		<v-select label="nombre" :options="categoriaMedicamento" v-model="categoria_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<v-select name="categoria" v-validate="'required'" label="nombre" :options="categoriaMedicamento" v-model="categoria_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+		<span class="text-danger">{{ errors.first('categoria') }}</span>
+		
 		<br>
     <small class="date-label">Casa Médica:</small>
-		<v-select label="nombre" :options="casaMedica" v-model="casa_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-		
+		<v-select name="casa" v-validate="'required'" label="nombre" :options="casaMedica" v-model="casa_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<span class="text-danger">{{ errors.first('casa') }}</span>
+
 		</template> 
 	</vs-prompt>
 
@@ -42,7 +52,36 @@ import axios from "axios";
 //C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from "@/views/components/vuesax/dropdown/Dropdown.vue";
 import vSelect from "vue-select";
+import { Validator } from 'vee-validate';
 
+
+const dict = {
+  custom: {
+    nombre: {
+      required: 'El campo nombre de medicamento es requerido',
+	    max: 'Este campo solo acepta hasta 50 caracteres',
+    },
+    descripcion: {
+      required: 'El campo descripción es requerido',
+	    max: 'Este campo solo acepta hasta 150 caracteres',
+    },
+    cantidad: {
+      required: 'El campo cantidad de medicamento es requerido',
+	    numeric: 'El campo solo debe de contener números',
+	    max: 'Este campo solo acepta hasta 5 caracteres',
+    },
+	categoria: {
+      required: 'El campo categoria es requerido',
+	},
+	casa:{
+	  required: 'El campo casa médica es requerido',
+	},
+	
+  }
+}
+
+// register custom messages
+Validator.localize('es', dict)
 export default {
     props:{
 		identificador:{
@@ -84,7 +123,7 @@ export default {
 	  categoriaMedicamento: [],
 	  datosNinos:[],
 	  casaMedica: [],
-	  titulo: "Editar Medicamento",
+	  titulo: "Actualizar medicamento",
 	  dateFormat : 'yyyy-MM-dd',
     };
   },
@@ -173,6 +212,8 @@ export default {
 		}
     },
 	acceptAlert () {
+this.$validator.validateAll().then(result => {
+  if(result) {
 		axios.put("/api/medicamento/update/",{
 			id:this.idT,
 			nombre: this.nombreT,
@@ -186,12 +227,20 @@ export default {
 			.catch(function(error) {
 			console.log(error)
 			});
-		this.$vs.notify({
-				color:'success',
-				title:'Actualizado',
-				text:'El registro ha sido actualizado'
-		})
-		this.$emit("cerrado", "Se cerro el formulario");
+	this.$emit("cerrado", "Se cerro el formulario");
+      this.$vs.notify({
+					color:'success',
+					title:'Medicamento registrado!',
+					text:'La acción se realizo exitósamente'
+				});
+  }else{
+        this.$vs.notify({
+				color:'danger',
+				title:`Error en validación!`,
+				text:'Ingrese correctamente todos los datos'
+			})
+        }
+      })  
 	},
     close() {
 	this.$emit("cerrado", "Se cerro el formulario");

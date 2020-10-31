@@ -13,7 +13,7 @@
         		</div>
     		</vs-prompt>
 
-			<vs-table stripe title="Sectores" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
+			<vs-table stripe title="Aldeas" pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
      			<template slot="header">
           			<vs-button @click="activePrompt=true">Exportar</vs-button>
         		</template>

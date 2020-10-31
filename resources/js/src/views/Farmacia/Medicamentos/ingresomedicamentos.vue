@@ -2,10 +2,12 @@
 	<div>
 		<vx-card>
 			<div class = "demo-alignment">
-						<h2>Ingreso de Medicamentos</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
+						<h2>Ingreso de medicamentos</h2>
+						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
 					</div>
-					<br><vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
+				<vs-divider position="right">PID&#174;</vs-divider>
+					
+					<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
 				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
 				<v-select v-model="selectedFormat" :options="formats" class="my-4" />
 				<div class="flex">
@@ -13,16 +15,14 @@
 					<vs-switch v-model="cellAutoWidth">Cell Auto Width</vs-switch>
 				</div>
 			</vs-prompt>
-			<vs-table pagination max-items="7" search :data="arrayData">
+			<vs-table stripe pagination max-items="7" search :data="arrayData" noDataText="No hay datos disponibles">
 				<template slot="header">
 					<vs-button @click="activePrompt=true">Exportar</vs-button>
 				</template>
 				<template slot="thead">
 					<vs-th>Ver</vs-th>
-					<vs-th>Nombres Usuario</vs-th>
-					<vs-th>Apellidos Usuario</vs-th>
-					<vs-th>Nombres Proveedor</vs-th>
-					<vs-th>Apellidos Proveedor</vs-th>
+					<vs-th>Nombre Usuario</vs-th>
+					<vs-th>Nombre Proveedor</vs-th>
 					<vs-th>Fecha</vs-th>
 					<vs-th>Descripción</vs-th>
 					<vs-th>Estado</vs-th>
@@ -34,10 +34,8 @@
 						<vs-td>
 							<vx-tooltip text="Detalle de entrada"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"  @click="$router.push('/ver/entrada/'+data[indextr].id)" ></vs-button></vx-tooltip>
 						</vs-td>
-						<vs-td>{{ data[indextr].usuario_nombres }}</vs-td>
-						<vs-td>{{ data[indextr].usuario_apellidos }}</vs-td>
-						<vs-td>{{ data[indextr].proveedor_nombres }}</vs-td>
-						<vs-td>{{ data[indextr].proveedor_apellidos }}</vs-td>
+						<vs-td>{{ data[indextr].usuario_nombres + " " +  data[indextr].usuario_apellidos}}</vs-td>
+						<vs-td>{{ data[indextr].proveedor_nombres + " " + data[indextr].proveedor_apellidos}}</vs-td>
 						<vs-td>{{ data[indextr].fecha_ingreso }}</vs-td>
 						<vs-td>{{ data[indextr].descripcion }}</vs-td>
 						<vs-td :data="data[indextr].estado">

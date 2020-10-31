@@ -11,6 +11,8 @@
 			:is-valid="validName"
 			:title= "titulo"
 			:active.sync="activePrompt2"
+			accept-text="Aceptar"
+			cancel-text="Cancelar"
 		>
 			<div class="con-exemple-prompt">
 				<b></b>

@@ -33,9 +33,9 @@
 						<div class="w-1/4">
 							<vs-th>Fecha</vs-th>
 						</div>
-						<!-- <div class="w-1/4">
+						<div class="w-1/4">
 							<vs-th>Estado</vs-th>
-						</div> -->
+						</div>
 						</div>
 						</template>
 
@@ -53,14 +53,14 @@
 						<div class="w-1/4">
 								<vs-td v-text="getDate(data[indextr].correspondencia.created_at)" ></vs-td>
 						</div>
-						<!-- <div class="w-1/4">
+						<div class="w-1/4">
 								<vs-td>
 									<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
-										<span slot="on" >Activo</span>
-										<span slot="off">Desactivo</span>
+										<span slot="on" >Enviado</span>
+										<span slot="off">No enviado</span>
 									</vs-switch>
 								</vs-td>
-						</div> -->
+						</div>
 						</div>
 							</vs-tr>
 						</template>

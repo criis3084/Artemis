@@ -1,26 +1,46 @@
 <template>
 	<vx-card>
+		<div class = "demo-alignment">
+		<div class="vx-col md:w-1/3 w-full mt-5">
+			<router-link  to="/ingreso/medicamentos"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+		</div>
+		<div class="flex-1 ">
+				<h2>Ingreso de medicamentos</h2>
+		</div>
+		</div>
+
+		<form>
 		<vs-divider position="center">Datos de Ingreso</vs-divider>
+
 		<div class="vx-col md:w-1/2 w-full mt-3">
 			<div class="vx-col w-full">
-				<h4 class="date-label">Proveedor:</h4>
-				<v-select label="nombre_completo" :options="lista_proveedores" v-model="proveedor_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<small>Proveedor:</small>
+				<v-select name="proveedor" v-validate="'required'" label="nombre_completo" :options="lista_proveedores" v-model="proveedor_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<span class="text-danger">{{ errors.first('proveedor') }}</span>
 			</div>
 		</div>
+
 		<div class="vx-col md:w-1/2 w-full">
 			<div class="my-4">
 				<small class="date-label">Fecha de ingreso</small>
-				<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_ingreso" v-model="fecha_ingreso"></datepicker>
+				<datepicker name="fecha" v-validate="'required'" :language="$vs.rtl ? langEn : langEn" v-model="fecha_ingreso"></datepicker>
+				<span class="text-danger">{{ errors.first('fecha') }}</span>
 			</div>
 		</div>
+
+		<br>
+
 		<vs-divider position="center">Listado de Medicamentos</vs-divider>
 
 			<div class="vx-col md:w-1/2 w-full mt-3">
 				<div class="vx-col w-full">
-					<h4 class="date-label">Lista de medicamentos:</h4>
-					<v-select label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<small>Lista de medicamentos:</small>
+					<v-select name="medicamento" v-validate="'required'" label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<span class="text-danger">{{ errors.first('medicamento') }}</span>
 				</div>
 			</div>
+
+			<br>
 
 			<vs-list>
 				<div class="vx-col w-full mb-base">
@@ -39,34 +59,43 @@
 									<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}</td>
 									
 									<td class="border border-solid d-theme-border-grey-light">
-										<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_ingreso" v-model="listaFechas[index]"></datepicker>
+										<datepicker name="fecha_expiracion" v-validate="'required'" :language="$vs.rtl ? langEn : langEn" v-model="listaFechas[index]"></datepicker>
 									</td>
+
 									<td class="border border-solid d-theme-border-grey-light">
-										<vs-input style="text-align:right" v-model="listaReferencias[index]" name="referencia" v-validate="'required|numeric|max:4'"/>
+										<vs-input name="lote" v-validate="'required|max:20'" style="text-align:right" v-model="listaReferencias[index]"/>
 									</td>
+
 									<td class="border border-solid d-theme-border-grey-light">
-										<vs-input style="text-align:right" v-model="listaCantidades[index]" name="cantidad" v-validate="'required|numeric|max:4'"/>
+										<vs-input name="cantidad" v-validate="'required|max:5|numeric'" style="text-align:right" v-model="listaCantidades[index]" />
 									</td>
+
 								</tr>
 						</table>
+						<span class="text-danger">{{ errors.first('fecha_expiracion') }}</span>
+						<br>
+						<span class="text-danger">{{ errors.first('lote') }}</span>
+						<br>
+						<span class="text-danger">{{ errors.first('cantidad') }}</span>
+
 				</div>
 		</vs-list>
 
 		<div class="vx-row mb-6">
 			<div class="vx-col w-full">
 				<small>Descripción</small>
-				<vs-textarea class="w-full" icon-pack="feather" icon="icon-user" icon-no-border v-model="descripcion" name="descripcion"/>
+				<vs-textarea name="descripcion" v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-user" icon-no-border v-model="descripcion"/>
 				<span class="text-danger text-sm" v-show="errors.has('descripcion')">{{ errors.first('descripcion') }}</span>
 			</div>
 		</div>
 
 		<div class="vx-row">
 			<div class="vx-col sm:w-2/3 w-full ml-auto">
-				<vs-button class="mr-3 mb-2" @click="guardarIngreso">Guardar</vs-button>
-				<!-- <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button> -->
+				<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="guardarIngreso">Guardar</vs-button>
+				<!-- <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limpiar</vs-button> -->
 			</div>
 		</div>
-
+		</form>
 	</vx-card>
 </template>
 
@@ -76,6 +105,41 @@ import Datepicker from 'vuejs-datepicker'
 import vSelect from 'vue-select'
 import axios from "axios";
 import { es } from 'vuejs-datepicker/src/locale'
+import { Validator } from 'vee-validate';
+
+
+const dict = {
+  custom: {
+	proveedor: {
+	  required: 'El campo proveedor es requerido',
+	},
+	fecha: {
+	  required: 'El campo fecha de ingreso es requerido',
+	},
+	medicamento: {
+	  required: 'El campo medicamento es requerido',
+	},
+	descripcion: {
+      required: 'El campo descripción es requerido',
+	    max: 'Este campo solo acepta hasta 150 caracteres',
+    },
+	fecha_expiracion: {
+      required: 'Todos los campos de fecha de Expiración son requeridos',
+    },
+	lote: {
+      required: 'Todos los campos de lote son requeridos',
+	    max: 'Los campos de lote solo aceptan hasta 20 caracteres',
+    },
+	cantidad: {
+	  required: 'Todos los campos de cantidad son requeridos',
+	  numeric: 'Los campos de cantidad solo deben de contener números',
+	    max: 'Los campos de cantidad solo aceptan hasta 5 caracteres',
+    },	
+  }
+}
+
+// register custom messages
+Validator.localize('es', dict)
 export default {
 	data() {
 		return {
@@ -104,7 +168,7 @@ export default {
 			if (this.medicamento_id != null)
 			{
 				this.listado_entrada.push(this.medicamento_id)
-				this.listaCantidades.push(0)
+				// this.listaCantidades.push(0)
 				this.listaFechas.push('')
 				this.listaReferencias.push('')
 			}
@@ -161,6 +225,8 @@ export default {
 			return tabla
 		},
 		guardarIngreso(){
+		this.$validator.validateAll().then(result => {
+        if(result) {
 			let me = this
 			axios.post("/api/ingresoMedicamento/post/",{
 				proveedor_id:me.proveedor_id.id,
@@ -173,6 +239,14 @@ export default {
 			.catch(function(error) {
 				console.log(error)
 			});
+		}else{
+        this.$vs.notify({
+				color:'danger',
+				title:`Error en validación!`,
+				text:'Ingrese correctamente todos los datos'
+			})
+        }
+		})  
 		},
 		guardarLote(idIngreso){
 			console.log('guardando lote...')
@@ -203,6 +277,7 @@ export default {
 				});
 
 			}
+			
 		},
 		guardarDetalle(idIngreso,lote){
 			axios.post("/api/detalleIngreso/post/",{
@@ -214,6 +289,11 @@ export default {
 			.catch(function(error) {
 				console.log(error)
 			});
+			this.$vs.notify({
+					color:'success',
+					title:'Medicamento registrado!',
+					text:'La acción se realizo exitósamente'
+				});
 		}
 	},
 	mounted(){
