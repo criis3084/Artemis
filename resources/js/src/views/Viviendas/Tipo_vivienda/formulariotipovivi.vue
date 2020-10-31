@@ -17,9 +17,13 @@
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
         <b></b>	
+				<small>Nombre</small>
+
 		<vs-input placeholder="Nombre del tipo de Vivienda" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
       </div>
 		<template>
+				<small>Descripción</small>
+
 		<vs-input placeholder="Descripción" v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
 		</template> 
         <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
