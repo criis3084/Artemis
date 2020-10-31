@@ -271,6 +271,12 @@ export default [
     i18n: 'Clínica',
     submenu: [
       {
+        url: '/clinica/consultorio',
+        name: 'consultorio',
+        slug: 'clinica-consultorio',
+        i18n: 'Consultorio'
+      },
+      {
         url: '/clinica/pacientes',
         name: 'pacientes',
         slug: 'clinica-pacientes',
