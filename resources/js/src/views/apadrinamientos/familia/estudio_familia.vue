@@ -15,7 +15,7 @@
 					<span>Q</span>	
 				</div>
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-dollar-sign" icon-no-border name='total_ingresos' v-model="total_ingresos"/>
+					<vs-input class="w-full" icon-no-border name='total_ingresos' v-model="total_ingresos"/>
 				</div>
 				</template>
   				</vx-input-group>

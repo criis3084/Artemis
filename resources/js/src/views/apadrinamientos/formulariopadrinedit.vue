@@ -4,7 +4,7 @@
   <router-link to="/apadrinamiento/padrino"><vs-button class="w-full" icon-pack="feather" type="border" radius icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
     </div>
     <div class="mt-5">
-      <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACUTALIZACIÓN DE PADRINO" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
+      <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZACIÓN DE PADRINO" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
 				<vs-divider position="right">PID&#174;</vs-divider>
       
 	   <tab-content title="Paso 1" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
@@ -78,7 +78,7 @@
 			</template> 
             </div>
 				<div class="vx-col md:w-1/2 w-full mt-5">
-				<vs-input type="email" label="Correo"  v-model="correoT" class="w-full" name="correo" v-validate="'required|email|max:s50'" />
+				<vs-input type="email" label="Correo"  v-model="correoT" class="w-full" name="correo" v-validate="'required|email|max:100'" />
 				<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
             </div>
 
@@ -121,7 +121,7 @@ const dict = {
     correo: {
       required: 'El campo correo es requerido',
 	  email: 'Ingrese un correo válido',
-	  max: 'Este campo solo acepta hasta 50 caracteres',
+	  max: 'Este campo solo acepta hasta 100 caracteres',
     },
     cui: {
 	  alpha_num: 'El campo solo debe de contener letras y números',
