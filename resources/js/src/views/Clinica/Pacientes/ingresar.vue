@@ -1,11 +1,14 @@
 <template>
 	<vx-card>
-
-		<h1>Ingreso de nuevo paciente</h1>
-
-
+		<div class = "demo-alignment">
+		<div class="vx-col md:w-1/3 w-full mt-5">
+			<router-link  to="/clinica/pacientes"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+		</div>
+		<h3>INGRESO DE PACIENTE</h3>
+		</div>
+				<vs-divider position="right">PID&#174;</vs-divider>
 		<div class="vx-col md:w-1/2 w-full mt-5">
-			<small class="date-label">Información</small>
+			<!-- <small class="date-label">Información</small> -->
 			<ul class="demo-alignment">
 					<li>
 						<vs-radio color="success" v-model="tipo_lectura" vs-value="1">Paciente común</vs-radio>
@@ -17,6 +20,7 @@
 		</div>
 
 		<div v-if="tipo_lectura==1">
+		<form data-vv-scope="step-1">
 			<div class="vx-row">
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
@@ -78,9 +82,10 @@
 					</div>
 				</div>
 			</div>
+		</form>
 		</div>
 		<div v-else>
-
+		<form data-vv-scope="step-2">
 				<div class="vx-col md:w-1/2 w-full mt-3">
 					<div class="vx-col w-full">
 						<small class="date-label">Personas en el programa</small>
@@ -138,6 +143,7 @@
 						</div>
 					</div>
 				</div>
+		</form>
 		</div>
 			<div class="vx-row">
           		<div class="vx-col sm:w-2/3 w-full ml-auto">

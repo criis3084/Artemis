@@ -7,7 +7,7 @@
 			</div>
 		<vs-divider position="right">PID&#174;</vs-divider>
 		<div class = "demo-alignment">
-                        <small class="font-bold text-primary">Ver por tipo de paciente</small>
+                        <small class="font-bold text-primary">Filtrar por tipo de paciente</small>
                          <v-select class="vx-col md:w-1/4 w-full mt-5" label="nombre" :options="TipoPacientes" @input="buscarPorTipo" v-model="tipoP" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
                          <vs-button icon-pack = "feather" icon = "icon-refresh-cw" color="primary" type="border" @click="index"> Ver todos</vs-button>
         </div>

@@ -85,7 +85,7 @@
 						</template> 
 				</div>
 					<div class="vx-col md:w-1/2 w-full mt-5">
-					<vs-input type="email" label="Correo"  v-model="correo" class="w-full"  icon-pack="feather" icon="icon-mail" name="correo" v-validate="'required|email|max:50'" />
+					<vs-input type="email" label="Correo"  v-model="correo" class="w-full"  icon-pack="feather" icon="icon-mail" name="correo" v-validate="'required|email|max:100'" />
 					<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
 				</div>
 
@@ -129,7 +129,7 @@ const dict = {
     correo: {
       required: 'El campo correo es requerido',
 	  email: 'Ingrese un correo válido',
-	  max: 'Este campo solo acepta hasta 50 caracteres',
+	  max: 'Este campo solo acepta hasta 100 caracteres',
     },
     cui: {
 	  alpha_num: 'El campo solo debe de contener letras y números',
