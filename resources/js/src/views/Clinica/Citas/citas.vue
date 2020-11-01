@@ -143,15 +143,15 @@
     <!-- EDIT EVENT -->
     <vs-prompt
         class="calendar-event-dialog"
-        title="Edit Event"
-        accept-text= "Submit"
-        cancel-text = "Remove"
+        title="Detalles"
+        accept-text= "Editar"
+        cancel-text = "Cerrar"
         button-cancel = "border"
         @cancel="removeEvent"
         @accept="editEvent"
-        :is-valid="validForm"
         :active.sync="activePromptEditEvent">
 
+        <!-- EDIT EVENT
         <div class="calendar__label-container flex">
 
             <vs-chip v-if="labelLocal != 'none'" class="text-white" :class="'bg-' + labelColor(labelLocal)">{{ labelLocal }}</vs-chip>
@@ -174,11 +174,16 @@
             </vs-dropdown>
 
         </div>
-
+         -->
+        <small class="date-label">Fecha</small>
+        <datepicker :language="$vs.rtl ? langHe : langEn" :disabledDates="disabledDatesTo" name="end-date" v-model="endDate"></datepicker>
         <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Descripción" v-model="descripcion"></vs-input>
-        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Tipo de cita" v-model="tipoPaciente"></vs-input>
-        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Paciente" v-model="paciente_id"></vs-input>
-        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Medico" v-model="medico_id"></vs-input>
+        <small class="date-label">Tipo de cita</small>
+        <v-select  label="nombre" :options="arrayTipoCitas"  v-model="TipoCita" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        <small class="date-label">Paciente</small>
+        <v-select  label="nombre_completo" :options="arrayPaciente"  v-model="Paciente" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        <small class="date-label">Medico</small>
+        <v-select  label="nombre_completo" :options="arrayPersonal"  v-model="Medico" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         <!-- <div class="my-4">
             <small class="date-label">Start Date</small>
             <datepicker :language="$vs.rtl ? langHe : langEn" :disabledDates="disabledDatesFrom" name="start-date" v-model="startDate"></datepicker>
@@ -218,6 +223,7 @@ export default {
       arrayPersonal:[],
       arrayPaciente:[],
       arrayTipoCitas:[],
+      fecha2:'',
       arrayCitas:[],
       arrayCitasNuevo:[],
       Medico:'',
@@ -255,7 +261,8 @@ export default {
 	  descripcion:null,
 	  medico_id:null,
 	  paciente_id:null,
-	  tipoPaciente:null
+      tipoPaciente:null,
+      idT:''
     }
   },
   computed: {
@@ -273,7 +280,7 @@ export default {
     },
     calendarLabels () {
       console.log('imprimiendo el store state')
-      console.log(this.$store.state.calendar)
+      console.log(this.$store.state.calendar.events)
       return this.$store.state.calendar.eventLabels
     },
     labelColor () {
@@ -318,23 +325,61 @@ export default {
       this.addNewEventDialog(date)
     },
     openEditEvent (event) {
+     
 	  const e = this.$store.getters['calendar/getEvent'](event.id)
-	  const idT = parseInt(e.url)
-      const resultado = this.arrayCitasNuevo.find(cita => cita.id === idT)
+	  this.idT = parseInt(e.url)
+      const resultado = this.arrayCitasNuevo.find(cita => cita.id === this.idT)
       console.log(resultado)
       if (resultado != undefined) {
+        this.fecha2 = new Date(resultado.fecha)
+        this.fecha2.setDate(this.fecha2.getDate() + 1)
+        this.endDate = this.fecha2
         this.descripcion = resultado.descripcion			
-        this.paciente_id = resultado.paciente.id
-        this.medico_id = resultado.clinico.id			
-        this.tipoPaciente = resultado.tipo_cita.nombre
+        this.Paciente = resultado.paciente.id
+        this.Medico = resultado.clinico.id
+        this.TipoCita = resultado.tipo_cita.id
+        
+        const resultadoPacientes = this.arrayPaciente.find(paciente => paciente.id === this.Paciente)
+        if (resultadoPacientes != undefined) {
+          this.Paciente = resultadoPacientes     
+        }
+
+         const resultadoClinico = this.arrayPersonal.find(clinico => clinico.id === this.Medico)
+        if (resultadoClinico != undefined) {
+          this.Medico = resultadoClinico     
+        }
+
+        const resultadoTipoC = this.arrayTipoCitas.find(tcitas => tcitas.id === this.TipoCita)
+        if (resultadoTipoC != undefined) {
+          this.TipoCita = resultadoTipoC     
+        }
         this.activePromptEditEvent = true
       }
-	
+	     return this.idT
     },
     editEvent () {
-      const obj = { id: this.id, title: this.title, startDate: this.startDate, endDate: this.endDate, label: this.labelLocal, url: this.url }
+      /*const obj = { id: this.id, title: this.title, startDate: this.startDate, endDate: this.endDate, label: this.labelLocal, url: this.url }
       obj.classes = `event-${  this.labelColor(this.labelLocal)}`
-      this.$store.dispatch('calendar/editEvent', obj)
+      this.$store.dispatch('calendar/editEvent', obj)*/
+      axios.put('/api/cita/update/', {
+        id:this.idT,
+        fecha: this.formatoFecha(this.endDate),
+        descripcion: this.descripcion,
+        clinico_id: this.Medico.id,
+        paciente_id: this.Paciente.id,
+        tipo_cita_id: this.TipoCita.id
+		   
+      }).then(function (response) {
+        console.log(response)
+        alert('Actualizado')
+      })
+        .catch(function (error) {
+          console.log(error)
+          alert('Error')
+        })
+         this.$store.state.calendar.events = []
+         this.Citas()
+
     },
     removeEvent () {
       this.$store.dispatch('calendar/removeEvent', this.id)
@@ -458,20 +503,15 @@ export default {
         tipo_cita_id: this.TipoCita.id
       }).then(function (response) {
         console.log(response)
+        alert('Guardado')
         
       })
         .catch(function (error) {
           console.log(error)
           alert('Error al ingresar')
         })
+      this.$store.state.calendar.events = []
       this.Citas()
-      const titulo = 'Aldea registrada'
-      this.$vs.notify({
-        color:'success',
-        title:`${titulo}`,
-        text:'La acción se realizo exitósamente'
-      })
-      this.$emit('cerrado', 'Se cerro el formulario')
     }
   },
   created () {

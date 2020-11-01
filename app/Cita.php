@@ -17,4 +17,24 @@ class Cita extends Model
 	public function tipoCita(){
 		return $this->belongsTo('App\TipoCita','tipo_cita_id','id');
 	}
+	public function datos_paciente(){
+		return $this->hasManyThrough(
+			'App\PersonaSinAcceso',
+			'App\Paciente',
+			'id',
+			'id',
+			'paciente_id',
+			'persona_sin_acceso_id'
+		);
+	}
+	public function datos_clinico(){
+		return $this->hasManyThrough(
+			'App\Usuario',
+			'App\Clinico',
+			'id',
+			'id',
+			'clinico_id',
+			'usuario_id'
+		);
+	}
 }
