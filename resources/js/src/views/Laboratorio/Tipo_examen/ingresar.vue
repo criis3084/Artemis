@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="demo-alignment">
-			<h2>Tipos de Exámenes</h2>
+			<h2>Tipos de exámenes</h2>
 			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
 		<vs-prompt
@@ -14,6 +14,7 @@
 		>
 			<div class="con-exemple-prompt">
 				<b></b>
+				<small>Tipo de exámen</small>
 
 				<vs-input placeholder="Nombre del exámen" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 
@@ -44,7 +45,7 @@ export default {
 	  valMultipe:{
 		value1:''
 	  },
-	 titulo:'Nuevo Tipo'
+	 titulo:'Nuevo tipo de exámen'
 	}
   },
   computed:{
@@ -54,6 +55,8 @@ export default {
   },
   methods:{
 	acceptAlert () {
+this.$validator.validateAll().then(result => {
+if(result) {
 		axios.post("/api/tipoExamen/post/",{
 			nombre:this.valMultipe.value1,
 		}).then(function(response) {
@@ -62,17 +65,31 @@ export default {
 		.catch(function(error) {
 			console.log(error)
 		});
-		this.$vs.notify({
-			color:'success',
-			title:'Creado',
-			text:'El registro ha sido creado!'
-		})
 		this.valMultipe.value1 = '';
-		this.$emit('cerrado','Se cerro el formulario');
+		this.$emit('cerrado','Se cerró el formulario');
+		this.$vs.notify({
+				color:'success',
+				title:'Actualización registrada!',
+				text:'La acción se realizo exitósamente'
+		})
+}
+	else{
+		this.$vs.notify({
+		color:'danger',
+		title:'Error en validación!',
+		text:'Ingrese todos los campos correctamente'
+		});
+	}
+})
 	},
 	close(){
 		this.valMultipe.value1 = ''
 		this.$emit('cerrado','Se cerro el formulario');
+		this.$vs.notify({
+			color:'danger',
+			title:'Cerrado',
+			text:'Diálogo cerrado!'
+	  	})
 	},
   }
 }

@@ -325,7 +325,7 @@ export default [
   {
     url: '/clinica/PersonalMedico',
     name: 'PersonalMedico',
-    icon: 'UsersIcon',
+    icon: 'UserPlusIcon',
     i18n: 'Personal Médico',
   }
 ]},

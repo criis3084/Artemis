@@ -176,7 +176,7 @@ export default {
         let me = this;
         me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
-			`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=false`)
+			`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayData = respuesta.ninos.data;
@@ -187,6 +187,7 @@ export default {
 			me.id = respuesta.ninos.data[0].datos.id;
             console.log("array nino");
 			console.log(me.arrayData);
+			console.log("lol");
 			if (me.estadof==1) {
 				me.ruta='/apadrinamiento/nino'
 			} else {

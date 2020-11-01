@@ -1,7 +1,7 @@
 <template>
  <div>
 		<div class="demo-alignment">
-			<h2>Tipos de Citas</h2>
+			<h2>Tipos de citas</h2>
 			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient"  icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
 
@@ -16,13 +16,15 @@
       :active.sync="activePrompt2">
       <div class="con-exemple-prompt">
         <b></b>
-			
-		<vs-input placeholder="Tipo de Paciente: " v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+			<small>Tipo de cita</small>
+		<vs-input placeholder="Nombre del tipo de cita" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 
 		
       </div>
 
 		<template>
+			<small>Descripción</small>
+
 		<vs-input placeholder="Descripción" v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
 		</template> 
         <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
@@ -52,7 +54,7 @@ export default {
 	 aldeasT: [],
 	 selected: '',
 	  switch2:true,
-	  titulo:'Nuevo Tipo de Cita'
+	  titulo:'Nuevo tipo de cita'
 	}
   },
   computed:{
@@ -85,11 +87,12 @@ export default {
 		console.log(error)
 		})
 		
-		this.$vs.notify({
-		color:'success',
-		title:'Exito',
-		text:'Registro Creado!'
-	  })
+		let titulo = 'Tipo de cita registrado!';
+			this.$vs.notify({
+			color:'success',
+			title:`${titulo}`,
+			text:'La acción se realizo exitósamente'
+			});
 	   this.valMultipe.value1 = '';
 	    this.valMultipe.value2 = '';
 	  this.$emit('cerrado','Se cerro el formulario');

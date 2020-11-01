@@ -2,12 +2,12 @@
  <vx-card>
      
 					<div class = "demo-alignment">
-						<h2>Personal Medico</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus"  color = "primary" size = "large" @click="agregar"></vs-button>  </vx-tooltip>
+						<h2>Personal médico</h2>
+						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon = "person_add"  color = "primary" size = "large" @click="agregar"></vs-button>  </vx-tooltip>
 					</div>
 					<vs-divider position="right">PID&#174;</vs-divider>
                     <div class = "demo-alignment">
-                        <small class="date-label">Ver por profesión</small>
+                        <small class="date-label">Filtrar por profesión</small>
                          <v-select class="vx-col md:w-1/4 w-full mt-5" label="nombre" :options="Profesiones" @input="buscarPorProfesion" v-model="profesion" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
                          <vs-button icon-pack = "feather" icon = "icon-refresh-cw" color="primary" type="border" @click="VerTodos"> Ver todos</vs-button>
                     </div>
@@ -27,13 +27,11 @@
 				<template slot="thead">
                     <vs-th>Ver</vs-th>
 					<!-- <vs-th>Id</vs-th> -->
-                    <vs-th>Nombre completo</vs-th>
-                    
+                    <vs-th>Nombre</vs-th>
 					<vs-th>Especialidad</vs-th>
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Estado</vs-th>
 					<vs-th>Acciones</vs-th>
-                    <vs-th></vs-th>
 				</template>
 
 				<template slot-scope="{data}">

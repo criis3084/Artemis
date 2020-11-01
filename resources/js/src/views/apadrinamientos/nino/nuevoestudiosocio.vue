@@ -338,30 +338,51 @@ export default {
         }
 		})
 		},
-		async index(){ //async para que se llame cada vez que se necesite
+	// 	async index(){ //async para que se llame cada vez que se necesite
+    //     let me = this;
+    //     me.id_recibido = this.$route.params.id;
+	// 	const response = await axios.get(
+	// 		`/api/historialFotografia/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
+	// 	.then(function (response) {
+	// 		var respuesta= response.data;
+    //         me.arrayData = respuesta.historialfotografias.data;
+    //         me.nombre = respuesta.historialfotografias.data[0].datos_nino[0].nombres;
+    //         me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
+    //         me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
+    //         me.id = respuesta.historialfotografias.data[0].nino.id;
+	// 	})
+	// 	.catch(function (error) {
+	// 		console.log(error);
+	// 	});
+	// },
+	async index2(){ //async para que se llame cada vez que se necesite
         let me = this;
         me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
-			`/api/historialFotografia/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
+			`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.arrayData = respuesta.historialfotografias.data;
-            me.nombre = respuesta.historialfotografias.data[0].datos_nino[0].nombres;
-            me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
-            me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
-            me.id = respuesta.historialfotografias.data[0].nino.id;
+            me.arrayData = respuesta.ninos.data;
+            me.nombre = respuesta.ninos.data[0].datos.nombres;
+            me.apellido = respuesta.ninos.data[0].datos.apellidos;
+			me.codigo = respuesta.ninos.data[0].codigo;
+			me.id = respuesta.ninos.data[0].datos.id;
+            console.log("array nino");
+			console.log(me.arrayData);
+			console.log("lol");
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
-	},
+		me.ya=true;
+    },
 	},
 	components:{
 		Datepicker,
 	},
 	mounted() {
 		this.id=parseInt(this.$route.params.id);
-		this.index();
+		this.index2();
 	},
 }
 </script>

@@ -2,7 +2,7 @@
 			<div>
 				<vx-card>
 					<div class = "demo-alignment">
-						<h2>Niños Apadrinados</h2>
+						<h2>Niños apadrinados</h2>
 					<!--	<vx-tooltip text = "Agregar nuevo registro"> <router-link to="/ingresar/nino"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-user-plus" color = "primary" size = 'large' ></vs-button> </router-link>  </vx-tooltip>
 					-->
 					</div>

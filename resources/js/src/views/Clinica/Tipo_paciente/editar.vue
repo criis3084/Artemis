@@ -12,11 +12,17 @@
 		>
 			<div class="con-exemple-prompt">
 				<b></b>
-				<vs-input placeholder="Nombre del Tipo de Paciente: " v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
-				<vs-input placeholder="Descripción" v-model="descripcionT" class="mt-4 mb-2 col-1 w-full" />
-				<vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
+				<small>Tipo de paciente</small>
+				<vs-input name="nombre" v-validate="'required|max:35'" placeholder="Nombre del tipo de paciente" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
+				<span class="text-danger">{{ errors.first('nombre') }}</span><br>
+				
+				<small>Descripción</small>
+				<vs-input name="descripcion" v-validate="'required|max:150'" placeholder="Descripción" v-model="descripcionT" class="mt-4 mb-2 col-1 w-full" />
+				<span class="text-danger">{{ errors.first('descripcion') }}</span>
+				
+				<!-- <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 					LLene todos los campos
-				</vs-alert>
+				</vs-alert> -->
 			</div>
 		</vs-prompt>
 	</div>
@@ -28,7 +34,20 @@ import axios from 'axios'
 //C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
 import vSelect from 'vue-select'
-
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+	nombre:{
+		required: 'El campo nombre del tipo de paciente es requerido',
+		max: 'Este campo solo acepta hasta 35 caracteres',
+	},
+	descripcion:{
+		required: 'El campo descripción es requerido',
+		max: 'Este campo solo acepta hasta 150 caracteres',
+	},
+  }
+};
+Validator.localize('en', dict);
 export default {
 	props:{
 		identificador:{
@@ -43,6 +62,7 @@ export default {
 	Datepicker,
 	vSelect,
   },
+  
   data () {
 	return {
 	  val:'',
@@ -55,7 +75,12 @@ export default {
       descripcionT:'',
 	  selected: '',
 	  switch2:true,
-	  titulo:'Actualizar Tipo de Paciente'
+	  titulo:'Actualizar tipo de paciente'
+	}
+  },
+   computed:{
+	validName () {
+	  return this.valMultipe.value1.length < 0 && this.valMultipe.value2.length < 0 
 	}
   },
   computed:{
@@ -68,6 +93,8 @@ export default {
   },
   methods:{
 	actualizarEscuela () {
+this.$validator.validateAll().then(result => {
+if(result) {
 	axios.put("/api/tipoPaciente/update/",{
 		id:this.idT,
         nombre:this.nombreT,
@@ -79,6 +106,20 @@ export default {
 			console.log(error)
 		});
 		this.$emit('cerrado','Se cerró el formulario');
+		this.$vs.notify({
+				color:'success',
+				title:'Actualización registrada!',
+				text:'La acción se realizo exitósamente'
+		})
+}
+	else{
+		this.$vs.notify({
+		color:'danger',
+		title:'Error en validación!',
+		text:'Ingrese todos los campos correctamente'
+		});
+	}
+})
 	},
 	close () {
 		this.$emit('cerrado','Se cerró el formulario');

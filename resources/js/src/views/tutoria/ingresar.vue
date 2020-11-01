@@ -14,7 +14,7 @@
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombres" v-validate="'required|alpha_spaces|max:30'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" v-model="nombres" name="nombres" v-validate="'required|alpha_spaces|max:30'"/>
 									<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
 								</div>
 							</div>
