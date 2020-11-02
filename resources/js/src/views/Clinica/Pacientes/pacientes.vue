@@ -39,7 +39,7 @@
 				<template slot-scope="{data}">
 					<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                         <vs-td>
-						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/constructor/'+data[indextr].id)"></vs-button></vx-tooltip>			
+						    <vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/paciente/'+data[indextr].id)"></vs-button></vx-tooltip>			
 					    </vs-td>
 						<vs-td>{{data[indextr].datos.nombres + " " + data[indextr].datos.apellidos}}</vs-td>
 		            	<!-- <vs-td>{{data[indextr].datos.apellidos}}</vs-td> -->

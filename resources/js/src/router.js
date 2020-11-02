@@ -706,7 +706,15 @@ const router = new Router({
             rule: 'editor'
           }
         },
-        {			
+        {
+          path: '/ver/paciente/:id',
+		  name: 'ver-paciente',
+          component: () => import('./views/Clinica/Pacientes/ver_paciente.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
           path: '/ver/beneficios/:id',
 		  name: 'ver-beneficios',
           component: () => import('./views/Clinica/Pacientes/ver_beneficios.vue'),
