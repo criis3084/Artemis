@@ -1,22 +1,29 @@
 <template>
 	<vx-card>
+		<div class = "demo-alignment">
+	<div class="vx-col md:w-1/3 w-full mt-5">
+	<router-link to="/salida/medicamentos"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+    </div>
+	<h2> Salida de medicamento {{numero_id}}</h2>
+	</div>
+					<vs-divider position="right">PID&#174;</vs-divider>
 			<div class="vx-row leading-loose p-base">
 			<div class="vx-col w-1/2">
-				<h1><b>Datos del Paciente:</b></h1>
-				<h2><b>Nombre:   </b> {{nombrePaciente}} </h2>
-				<h2><b>Dirección: </b> 	{{direccion}} </h2>
-				<h2><b>Tipo de salida: </b> {{tipo_salida}} </h2>
+				<h3><b>Datos del Paciente:</b></h3>
+				<h4><b>Nombre:   </b> {{nombrePaciente}} </h4>
+				<h4><b>Dirección: </b> 	{{direccion}} </h4>
+				<h4><b>Tipo de salida: </b> {{tipo_salida}} </h4>
 			</div>
 			<div class="vx-col w-1/2 text-right">
-				<h1><b>Numero de salida:</b></h1>
-					<h2> {{numero_id}} </h2>
-				<h3> <b>Fecha de salida:</b> </h3>
-					<h3> {{fecha_salida}} </h3>
+				<h3><b>Número de salida:</b></h3>
+					<h4> {{numero_id}} </h4>
+				<h4> <b>Fecha de salida:</b> </h4>
+					<h4> {{fecha_salida}} </h4>
 			</div>
 			<br>
 			<table style="width:100%" class="border-collapse mt-8">
 				<tr>
-					<th class="p-2 border border-solid d-theme-border-grey-light text-center"> <h4><b>Descripción de la salida: </b> </h4></th>
+					<th class="p-2 border border-solid d-theme-border-grey-light text-center"> <h5><b>Descripción de la salida: </b> </h5></th>
 				</tr>
 				<tr>
 					<th class="p-2 border border-solid d-theme-border-grey-light text-center"> {{descripcion_salida}} </th>
@@ -40,6 +47,9 @@
 				</div>
 		</vs-list>
 		</div>
+		<div class="vx-col md:w-1/3 w-full mt-5">
+	<router-link to="/salida/medicamentos"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+    </div>
 	</vx-card>
 </template>
 <script>

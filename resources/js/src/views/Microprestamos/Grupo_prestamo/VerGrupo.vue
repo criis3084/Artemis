@@ -1,7 +1,14 @@
 <template>
   <div id="page-user-view">
-    <small>Nombre del grupo</small>
+    
+    
+    <div class = "demo-alignment">
+      <div class="vx-col md:w-1/4 w-full mt-5">
+	<router-link to="/microprestamo/grupo"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+    </div>
+    <h2><b>Nombre del grupo:</b></h2>
    <h2>{{nombreG}}</h2>
+    </div><br>
   <span class="text-primary"> Fecha de inicio {{fecha}} </span>
    <vs-divider position="right">PID&#174;</vs-divider>
     <div id="user-data" v-for="(detalles,index) in arrayData" :key="index">
@@ -30,7 +37,7 @@
                 <td>{{detalles.datos_prestamista[0].direccion}}</td>
               </tr>
               <tr>
-                <td class="font-semibold">Telefono</td>
+                <td class="font-semibold">Teléfono</td>
                 <td>{{detalles.datos_prestamista[0].numero_telefono}}</td>
               </tr>
             </table>
@@ -41,7 +48,7 @@
           <div class="vx-col flex-1" id="account-info-col-2">
             <table>
               <tr>
-                <td class="font-semibold">Total de prestamo</td>
+                <td class="font-semibold">Total de préstamo</td>
                 <td>{{detalles.prestamo_individual}}</td>
               </tr>
               <tr>
@@ -63,7 +70,9 @@
 
       </vx-card>
     </div>
-    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
+    <div class="vx-col md:w-1/3 w-full mt-5">
+    <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>
+    </div>
   </div>
 </template>
 
