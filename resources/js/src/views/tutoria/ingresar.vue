@@ -358,11 +358,7 @@ export default {
           }
         })
 	  })
-	//   this.$vs.notify({
-    //       color:'success',
-    //       title:`${titulo}`,
-    //       text:'La acción se realizo exitósamente'
-    //     });
+
     }
   },
   components: {

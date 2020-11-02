@@ -20,26 +20,26 @@
 		</div>
 
 		<div v-if="tipo_lectura==1">
-		<form data-vv-scope="step-1">
+		<form>
 			<div class="vx-row">
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombres" v-validate="'required'"/>
-						<span class="text-danger">{{ errors.first('step-1.nombres') }}</span>
+						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombres" v-validate="'required|alpha_spaces|max:30'"/>
+						<span class="text-danger">{{ errors.first('nombres') }}</span>
 					</div>
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name="apellidos" v-validate="'required'"/>
-						<span class="text-danger">{{ errors.first('step-1.apellidos') }}</span>
+						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name="apellidos" v-validate="'required|alpha_spaces|max:30'"/>
+						<span class="text-danger">{{ errors.first('apellidos') }}</span>
 					</div>
 				</div>
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="DPI" v-model="CUI" name="CUI" v-validate="'required'"/>
-						<span class="text-danger">{{ errors.first('step-1.dpi') }}</span>
+						<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" v-model="CUI" name="cui" v-validate="'max:15|numeric'"/>
+						<span class="text-danger">{{ errors.first('cui') }}</span>
 					</div>
 				</div>
 
@@ -47,30 +47,36 @@
 					<small class="date-label">Género</small>
 					<ul class="demo-alignment">
 							<li>
-								<vs-radio color="rgb(0, 170, 228)" v-model="genero" vs-value="1">Masculino</vs-radio>
+								<vs-radio name="radio" v-validate="'required|included:1,0'" color="rgb(0, 170, 228)" v-model="genero" vs-value="1">Masculino</vs-radio>
 							</li>
 							<li>
-								<vs-radio color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
+								<vs-radio name="radio" color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
 							</li>
 					</ul>
+					<span class="text-danger">{{ errors.first('radio') }}</span>
+
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-1">
 					<div class="my-4">
 						<small class="date-label">Fecha Nacimiento</small>
-						<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha_nacimiento" v-model="fecha_nacimiento"></datepicker>
+						<datepicker name="fecha" v-validate="'required'" :language="$vs.rtl ? langEn : langEn" v-model="fecha_nacimiento"></datepicker>
+						<span class="text-danger">{{ errors.first('fecha') }}</span>
+
 					</div>
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" v-model="direccion"/>
+						<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" v-model="direccion" name="direccion" v-validate="'required|max:254'"  />
 					</div>
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono"/>
+						<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono" name="telefono" v-validate="'max:15|numeric'"/>
+             			 <span class="text-danger">{{ errors.first('telefono') }}</span>
+					
 					</div>
 				</div>
 
@@ -78,37 +84,44 @@
 				<div class="vx-col md:w-1/2 w-full mt-3">
 					<div class="vx-col w-full">
 						<small class="date-label">Sector de Vivienda</small>
-						<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<v-select name="sector" v-validate="'required'" label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<span class="text-danger">{{ errors.first('sector') }}</span>
 					</div>
 				</div>
 			</div>
 		</form>
 		</div>
 		<div v-else>
-		<form data-vv-scope="step-2">
+		<form>
 				<div class="vx-col md:w-1/2 w-full mt-3">
 					<div class="vx-col w-full">
 						<small class="date-label">Personas en el programa</small>
-						<v-select label="nombreCompleto" :options="listado_personas" class="mt-1"  v-model="persona_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<v-select name="persona" v-validate="'required'" label="nombreCompleto" :options="listado_personas" class="mt-1"  v-model="persona_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<span class="text-danger">{{ errors.first('persona') }}</span>
 					</div>
 				</div>
 
 				<div v-if="persona_id!==null">
 					<div class="vx-col md:w-1/2 w-full mt-5">
 						<small class="date-label">Tipo de paciente</small>
-						<v-select label="nombre" :options="listado_tipos" class="mt-1"  v-model="tipo_paciente_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<v-select name="tipo" v-validate="'required'" label="nombre" :options="listado_tipos" class="mt-1"  v-model="tipo_paciente_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<span class="text-danger">{{ errors.first('tipo') }}</span>
 					</div>
 
 					<div v-if="tipo_paciente_id.id!=1" class="mt-8">
 						<div class="vx-col md:w-1/2 w-full mt-3">
 							<small class="date-label mt-6">Día de entrega de beneficios</small>
-								<v-select style="width:30%" label="mostrar" :options="dia_del_mes" v-model="dia_apoyo" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+								<v-select name="dia" v-validate="'required'" style="width:30%" label="mostrar" :options="dia_del_mes" v-model="dia_apoyo" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+								<span class="text-danger">{{ errors.first('dia') }}</span>
+
 							<br>
 						</div>
 						<div class="vx-col md:w-1/2 w-full mt-3">
 							<div class="vx-col w-full">
 								<small class="date-label">Listado de medicamento de entrega</small>
-								<v-select label="nombre" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+								<v-select name="medicamento" v-validate="'required'" label="nombre" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+								<span class="text-danger">{{ errors.first('medicamento') }}</span>
+							
 							</div>
 						</div>
 
@@ -128,17 +141,20 @@
 													</td>
 													<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}</td>
 													<td class="border border-solid d-theme-border-grey-light flex items-center">
-														<vs-input style="text-align:right" v-model="listaCantidades[index]" name="cantidad" v-validate="'required|numeric|max:4'"/>
+														<vs-input style="text-align:right" v-model="listaCantidades[index]" name="cantidad" v-validate="'required|max:5|numeric'"/>
 													</td>
 												</tr>
 										</table>
+						<span class="text-danger">{{ errors.first('cantidad') }}</span>
+
 								</div>
 						</vs-list>
 
 						<div class="vx-col w-full mt-6">
 							<div class="vx-col w-full">
 								<small class="date-label">Descripción de los beneficios</small>
-								<vs-textarea class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border name='descripcion' v-model="descripcion"/>
+								<vs-textarea name="descripcion" v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border v-model="descripcion"/>
+								<span class="text-danger text-sm" v-show="errors.has('descripcion')">{{ errors.first('descripcion') }}</span>
 							</div>
 						</div>
 					</div>
@@ -148,7 +164,7 @@
 		<br>
 			<div class="vx-row">
           		<div class="vx-col sm:w-2/3 w-full ml-auto">
-            		<vs-button class="mr-3 mb-2" @click="guardarPersona">Guardar</vs-button>
+            		<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="guardarPersona">Guardar</vs-button>
           		</div>
 	        </div>
 	</vx-card>
@@ -159,6 +175,73 @@ import axios from 'axios'
 import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
 import { es } from 'vuejs-datepicker/src/locale'
+// For custom error message
+import { Validator } from 'vee-validate'
+const dict = {
+ custom: {
+    nombres: {
+      required: 'El campo nombres es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
+	  max: 'Este campo solo acepta hasta 30 caracteres',
+    },
+    apellidos: {
+      required: 'El campo apellidos es requerido',
+	  alpha_spaces: 'El campo solo debe de contener letras y espacios',
+	  max: 'Este campo solo acepta hasta 30 caracteres',
+    },
+    correo: {
+      required: 'El campo correo es requerido',
+	  email: 'Ingrese un correo válido',
+	  max: 'Este campo solo acepta hasta 50 caracteres',
+    },
+    cui: {
+	  numeric: 'El campo solo debe de contener números',
+	  max: 'Este campo solo acepta hasta 15 caracteres',
+	},
+	fecha: {
+      required: 'El campo fecha de nacimiento es requerido',
+	},
+	direccion: {
+	  required: 'El campo dirección es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
+	},
+	telefono: {
+	  max: 'Este campo solo acepta hasta 15 caracteres',
+	  numeric: 'El campo solo debe de contener números',
+	},
+	radio: {
+	  required: 'Seleccione una opción',
+	  included: 'Seleccione una opción',
+    },
+	sector:{
+	  required: 'El campo sector es requerido',
+	},
+	persona:{
+	  required: 'El campo persona en el programa es requerido',
+	},
+	tipo:{
+	  required: 'El campo tipo de paciente es requerido',
+	},
+	dia:{
+	  required: 'El campo día de entrega es requerido',
+	},
+	medicamento:{
+	  required: 'El campo medicamento es requerido',
+	},
+	cantidad: {
+	  required: 'Todos los campos de cantidad son requeridos',
+	  numeric: 'Los campos de cantidad solo deben de contener números',
+	    max: 'Los campos de cantidad solo aceptan hasta 5 caracteres',
+	},	
+	descripcion: {
+      required: 'El campo descripción es requerido',
+	    max: 'Este campo solo acepta hasta 150 caracteres',
+    },
+  }
+}
+
+// register custom messages
+Validator.localize('en', dict)
 
 export default {
 	data() {
@@ -188,7 +271,7 @@ export default {
 			tipo_lectura:1,
 			tipo_paciente:1,
 			dia_del_mes:[],
-			dia_apoyo:0,
+			dia_apoyo:null,
 			fecha_apoyo:'',
 			listado_medicamentos:[],
 			carrito:[],
@@ -203,7 +286,7 @@ export default {
 			{
 				console.log
 				this.carrito.push(this.medicamento_id)
-				this.listaCantidades.push(0)
+				// this.listaCantidades.push(0)
 			}
 		}
 	},
@@ -242,6 +325,11 @@ export default {
 				}).then(function (response){
 					//console.log('response')
 					me.$router.push('/clinica/pacientes/');
+					me.$vs.notify({
+					color:'success',
+					title:'Paciente registrado',
+					text:'Acción realizada exitósamente'
+				});
 				})
 
 			}
@@ -269,6 +357,11 @@ export default {
 					console.log('paciente guardado')
 				})
 					this.$router.push('/clinica/pacientes/');
+					this.$vs.notify({
+					color:'success',
+					title:'Paciente registrado',
+					text:'Acción realizada exitósamente'
+					});
 			}
 			else if (tipoT !== 1){
 				let me=this
@@ -282,6 +375,8 @@ export default {
 			}
 		},
 		guardarPersona(){
+	this.$validator.validateAll().then(result => {
+        if(result) {
 			let me = this
 			if(this.tipo_lectura==1){
 				axios.post('/api/personaSinAcceso/post/', {
@@ -299,6 +394,14 @@ export default {
 			}else{
 					me.guardarPaciente(this.persona_id.persona_sin_acceso_id)
 			}
+	}else{
+          this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
+        }
+      })
 		},
 		diaMes(){
 			for (let i = 1; i <= 28; i++) {
