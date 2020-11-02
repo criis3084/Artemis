@@ -128,7 +128,8 @@
             <small class="date-label">Fecha</small>
             <datepicker :language="$vs.rtl ? langHe : langEn" :disabledDates="disabledDatesTo" name="end-date" v-model="endDate"></datepicker>
         </div>
-        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Descripción" v-model="title"></vs-input>
+        <small class="date-label">Descripción</small>
+        <vs-input name="event-name" v-validate="'required'" class="w-full"  v-model="title"></vs-input>
         <div class="my-4">
             <small class="date-label">Medico</small>
             <v-select  label="nombre_completo" :options="arrayPersonal"  v-model="Medico" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
@@ -177,7 +178,8 @@
          -->
         <small class="date-label">Fecha</small>
         <datepicker :language="$vs.rtl ? langHe : langEn" :disabledDates="disabledDatesTo" name="end-date" v-model="endDate"></datepicker>
-        <vs-input name="event-name" v-validate="'required'" class="w-full" label-placeholder="Descripción" v-model="descripcion"></vs-input>
+        <small class="date-label">Descripción</small>
+        <vs-input name="event-name" v-validate="'required'" class="w-full" v-model="descripcion"></vs-input>
         <small class="date-label">Tipo de cita</small>
         <v-select  label="nombre" :options="arrayTipoCitas"  v-model="TipoCita" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         <small class="date-label">Paciente</small>
@@ -309,6 +311,7 @@ export default {
       this.descripcion = this.paciente_id = this.medico_id = this.tipoPaciente = ''
       this.id = 0
       this.labelLocal = 'none'
+      this.TipoCita = this.Medico = this.Paciente = this.title = ''
     },
     promptAddNewEvent (date) {
       this.disabledFrom = false
@@ -344,7 +347,7 @@ export default {
           this.Paciente = resultadoPacientes     
         }
 
-         const resultadoClinico = this.arrayPersonal.find(clinico => clinico.id === this.Medico)
+        const resultadoClinico = this.arrayPersonal.find(clinico => clinico.id === this.Medico)
         if (resultadoClinico != undefined) {
           this.Medico = resultadoClinico     
         }
@@ -377,8 +380,8 @@ export default {
           console.log(error)
           alert('Error')
         })
-         this.$store.state.calendar.events = []
-         this.Citas()
+      this.$store.state.calendar.events = []
+      this.Citas()
 
     },
     removeEvent () {
@@ -487,7 +490,7 @@ export default {
         //let fechaFinal = fechaT.split('-',3)[0] + fechaT.split('-',3)[1] + '-' + fechaT.split('-',3)[2] + 'T00:00:01.410Z'
         const fechaInicio = `${fechaT.split('-', 3)[0]}-${  fechaT.split('-', 3)[1]  }-${  fechaT.split('-', 3)[2]  }T00:00:01.410Z`
         const fechaFinal = `${fechaT.split('-', 3)[0]}-${  fechaT.split('-', 3)[1]  }-${  fechaT.split('-', 3)[2]  }T23:59:00.410Z`
-        citas.push({ title: tabla[x].descripcion, startDate:fechaInicio, endDate: fechaFinal, label: 'business', url: String(tabla[x].id)})
+        citas.push({ title: `${tabla[x].datos_paciente[0].nombres  } ${  tabla[x].datos_paciente[0].apellidos}`, startDate:fechaInicio, endDate: fechaFinal, label: 'business', url: String(tabla[x].id)})
       }
       for (const x in citas) {
         citas[x].classes = `event-${'success'}`

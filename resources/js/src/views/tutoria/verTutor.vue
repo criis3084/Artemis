@@ -22,7 +22,9 @@
 
                 <span>Nombres y apellidos</span>
                 <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.nombresTutor +" " + this.apellidosTutor }}</h1>
-                <p>{{"Número de CUI"+" "+ this.CUI }}</p>
+                <!-- <p>{{"Número de CUI"+" "+ this.CUI }}</p> -->
+                <span>Número de CUI</span>
+                <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.CUI }}</h1>
 
                 <vs-divider />
                 <span>Contacto</span>

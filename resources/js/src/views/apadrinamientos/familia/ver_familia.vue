@@ -14,8 +14,16 @@
 			</vs-list> -->
 
 			<div id="demo-basic-card">
+				<div class = "demo-alignment">
+			<div class="vx-col md:w-1/3 w-full mt-5">
+			<vs-button @click="goBack" type="border" radius class="mr-4 mt-3" icon-pack="feather" color="primary" icon="icon-corner-up-left"></vs-button>
+			</div>
+				<h2> Familia {{this.codigo}}</h2>
+				</div>
+			<vs-divider position="right">PID&#174;</vs-divider>
+
 			<!-- USER PRODFILE CARD -->
-			<h1>Familiares</h1>
+			<h3>Familiares</h3>
 			<div class="vx-row">
             <div  class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
                 <vx-card v-for="(encargado,index2) in listadoFamilia" :key="index2" class="p-2">
@@ -29,7 +37,7 @@
 			</div>
 			<vs-divider/>
 			<!-- USER PRODFILE CARD -->
-			<h1>Niños</h1>
+			<h3>Niños</h3>
             <div v-for="(nino,idn) in listadoNinos" :key="idn" class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
                 <vx-card class="p-2">
                     <div class="text-center">
@@ -51,9 +59,9 @@
 				</div>
 			</vs-list> -->
 
-			<vs-button class="mr-4" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/apadrinamiento/ppi/'+ninoP)">Registros del PPI</vs-button>
-			<vs-button class="mr-4 mt-3" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/apadrinamiento/estudiosocio/'+ninoP)">Registros de Estudios Socioeconomicos</vs-button>  
-			<vs-button @click="goBack" class="mr-4 mt-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-down-left"> Regesar</vs-button>
+			<vs-button class="mr-4" type="gradient" color="success" icon="poll" @click="$router.push('/apadrinamiento/ppi/'+ninoP)">Registros del PPI</vs-button>
+			<vs-button class="mr-4 mt-3" type="gradient"  color="success" icon="assignment" @click="$router.push('/apadrinamiento/estudiosocio/'+ninoP)">Registros de Estudios Socioeconomicos</vs-button>  
+			<vs-button @click="goBack" class="mr-4 mt-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>
 		</div>
 	</vx-card>
 </template>
@@ -66,7 +74,9 @@ export default {
 			arrayData:[],
 			listadoFamilia:[],
 			listadoNinos:[],
-			ninoP:0
+			ninoP:0,
+      codigo: '',
+
 		}
 	},
 	computed:{
@@ -97,6 +107,8 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me.arrayData = respuesta.relaciones.data;
+				me.codigo = respuesta.relaciones.data[0].codigo;
+
 				me.setearValor(me.arrayData)
 			})
 			.catch(function (error) {

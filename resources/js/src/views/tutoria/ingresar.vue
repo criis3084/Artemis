@@ -92,7 +92,7 @@
 			
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Correo" v-model="correo" name="correo" v-validate="'email|max:50'"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-mail" icon-no-border label-placeholder="Correo" v-model="correo" name="correo" v-validate="'email|max:100'"/>
 					<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
 				</div>
 			</div>
@@ -173,7 +173,7 @@ const dict = {
 	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
     fecha: {
-      required: 'El campo fecha es requerido',
+      required: 'El campo fecha de nacimiento es requerido',
 	},
     numero_telefono: {
 	  numeric: 'El campo solo debe de contener números',
@@ -188,7 +188,7 @@ const dict = {
 	},
 	correo:{
 	  email:'Ingrese un correo válido ',
-	  max: 'Este campo solo acepta hasta 50 caracteres',
+	  max: 'Este campo solo acepta hasta 100 caracteres',
 	  
 	},
 	descripcion: {
@@ -358,11 +358,7 @@ export default {
           }
         })
 	  })
-	//   this.$vs.notify({
-    //       color:'success',
-    //       title:`${titulo}`,
-    //       text:'La acción se realizo exitósamente'
-    //     });
+
     }
   },
   components: {

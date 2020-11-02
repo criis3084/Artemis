@@ -1,28 +1,38 @@
 <template>
 	<vx-card>
+
+	<div class = "demo-alignment">
+	<div class="vx-col md:w-1/3 w-full mt-5">
+	<router-link to="/ingreso/medicamentos"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+    </div>
+	<h2> Ingreso de medicamento {{numero_id}}</h2>
+	</div>
+					<vs-divider position="right">PID&#174;</vs-divider>
+
 		<div class="vx-row leading-loose p-base">
 			<div class="vx-col w-1/2">
-				<h1><b>Datos del proveedor:</b></h1>
-				<h2><b>Nombre:   </b> {{nombre_proveedor}} </h2>
-				<h2><b>Telefono: </b> 	{{telefono_proveedor}} </h2>
+				<h3><b>Datos del proveedor:</b></h3>
+				<h4><b>Nombre:   </b> {{nombre_proveedor}} </h4>
+				<h4><b>Teléfono: </b> 	{{telefono_proveedor}} </h4>
 			</div>
 			<div class="vx-col w-1/2 text-right">
-				<h1><b>Numero de Entrada:</b></h1>
-					<h2> {{numero_id}} </h2>
-				<h3> <b>Fecha de Ingreso:</b> </h3>
-					<h3> {{fecha_ingreso}} </h3>
+				<h3><b>Número de Entrada:   </b> {{numero_id}}</h3>
+					<!-- <h4>  </h4> -->
+				<h4> <b>Fecha de Ingreso:</b> </h4>
+					<h4> {{fecha_ingreso}} </h4>
 			</div>
 
 			<br>
 			<table style="width:100%" class="border-collapse mt-8">
 				<tr>
-					<th class="p-2 border border-solid d-theme-border-grey-light text-center"> <h4><b>Descripción del ingreso: </b> </h4></th>
+					<th class="p-2 border border-solid d-theme-border-grey-light text-center"> <h5><b>Descripción del ingreso: </b> </h5></th>
 				</tr>
 				<tr>
 					<th class="p-2 border border-solid d-theme-border-grey-light text-center"> {{descripcion_ingreso}} </th>
 				</tr>
 			</table>
-
+<br>
+<br>
 			<vs-divider position="center">Listado de Medicamentos</vs-divider>
 
 			<vs-list>
@@ -45,6 +55,9 @@
 		</vs-list>
 
 		</div>
+		<div class="vx-col md:w-1/3 w-full mt-5">
+	<router-link to="/ingreso/medicamentos"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+    </div>
 	</vx-card>
 </template>
 <script>

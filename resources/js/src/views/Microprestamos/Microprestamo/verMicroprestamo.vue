@@ -6,7 +6,7 @@
 			</div>
     </div>
     <div class = "demo-alignment">
-   <small>Nombre del grupo:</small>
+   <h4><b>Nombre del grupo:</b></h4>
    <h4>{{nombreG}}</h4>
     </div>
    <span class="text-primary"> Fecha de inicio {{fecha}} </span>
