@@ -15,12 +15,6 @@
                 <div class="product-img-container w-3/5 mx-auto mb-10 md:mb-0">
                   <img :src="this.ruta_imagenT" :alt="this.ruta_imagenT" class="responsive">
 
-                  <!--
-                    UnComment Below line for true flow
-                    <img :src="item_data.image" :alt="item_data.name" class="responsive">
-
-                    Remove above img tag which is for demo purpose in actual flow
-                  -->
                 </div>
               </div>
 
@@ -30,7 +24,7 @@
 
                 <span>Nombres y apellidos</span>
                 <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.nombresT +" " + this.apellidosT }}</h1>
-                 <br>
+                 <!-- <br> -->
                 <span>CUI</span>
                <h1 class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{this.cuiT }}</h1>
 
@@ -66,7 +60,7 @@
                 </p>
                  <p class="flex items-center flex-wrap">
                     <vx-tooltip text="Ingresos"> <span><vs-icon icon="money" size="medium" color="dark"></vs-icon></span> </vx-tooltip>
-                <span class="text-2xl leading-none font-medium text-primary mr-4"> {{this.ingresosT}}</span>
+                <span class="text-2xl leading-none font-medium text-primary mr-4"> {{currency (this.ingresosT)}}</span>
                 </p>
                 <vs-divider/>
                 
@@ -112,6 +106,14 @@ export default {
     }
   },
   methods: {
+    currency (numero) {
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'GTQ'
+      })
+      const mil = formatter.format(numero)
+      return mil
+    },
     goBack(){
       this.$router.go(-1)
     },

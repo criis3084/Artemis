@@ -4,6 +4,7 @@
 
 
       <template slot="no-body">
+				<vs-divider position="right">PID&#174;</vs-divider>
 
         <div class="item-content">
 
@@ -30,6 +31,8 @@
 
 
               <div class="vx-col md:w-3/5 w-full">
+                    <vx-tooltip text="Regresar"><vs-button size="small" @click="goBack" class="mr-4" type="border" icon-pack="feather" icon="icon-corner-up-left" radius></vs-button></vx-tooltip>
+
                 <span>Destinatario</span>
                 <p class="flex items-center flex-wrap">
                 <vx-tooltip text="Nombre de encargado"><span class="material-icons ">person</span></vx-tooltip>
@@ -62,15 +65,15 @@
                 </p>
 
                 <p class="flex items-center flex-wrap">
-                      <vx-tooltip text="Costo total"> <span class="material-icons ">attach_money</span> </vx-tooltip>
+                      <vx-tooltip text="Costo total"> <span class="material-icons ">money</span> </vx-tooltip>
                 <span class="text-2xl leading-none font-medium text-primary mr-4"> {{currency(this.costo_totalT) }}</span>
                 </p>
                 <vs-divider/>
                 
                 <div class="vx-row">
                   <div class="vx-col flex flex-wrap items-center">
-                   <vx-tooltip text="Editar Información"> <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-edit" radius  @click="$router.push('/editar/vivienda/'+id_recibido)"></vs-button> </vx-tooltip>
-                    <vx-tooltip text="Regresar"><vs-button @click="goBack" class="mr-4" type="border" icon-pack="feather" color="#00aaff" icon="icon-corner-down-left" radius></vs-button></vx-tooltip>
+                   <vx-tooltip text="Editar Información"> <vs-button class="mr-4" type="gradient" icon-pack="feather" color="success" icon="icon-edit"  @click="$router.push('/editar/vivienda/'+id_recibido)">Editar Información</vs-button> </vx-tooltip>
+                    <vx-tooltip text="Regresar"><vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" icon="icon-corner-up-left">Regresar</vs-button></vx-tooltip>
                   </div>
                 </div>
 
