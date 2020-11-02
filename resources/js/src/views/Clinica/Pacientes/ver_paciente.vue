@@ -2,18 +2,18 @@
 		<div class="vx-row">
 				<div class="vx-col w-full sm:w-1/2 lg:w-1/5 mb-base" v-if="amplio">
 					<vx-card>
-						<vs-button radius type="border" color="primary" icon-pack="feather" icon="icon-search" @click="abrir(amplio)"></vs-button>
+						<template slot="actions">
+								<vx-tooltip text = "Expandir"> <vs-button radius type="gradient" icon="chevron_right" color = "primary" size="small" @click="abrir(amplio)"></vs-button>  </vx-tooltip>
+						</template>
 						<div class="text-center">
 							<h4> <b> {{nombreCompleto}} </b></h4>
-							<div v-if ="!paciente_normal">
-								<vs-avatar class="mx-auto my-6 block" size="80px" src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80"/>
+							<div v-if ="fotoPerfil != null">
+								<vs-avatar class="mx-auto my-6 block" size="80px" :src="fotoPerfil"/>
 							</div>
-							<div v-if ="!paciente_normal">
-								<p>Codigo: ASDFSDD</p>
+							<div v-if ="codigoPersona != null">
+								<p>Codigo: {{codigoPersona}} </p>
 							</div>
-							<div v-else>
 								<br>
-							</div>
 						</div>
 
 						<span>
@@ -80,18 +80,18 @@
 				</div>
 				<div class="vx-col w-full sm:w-1/2 lg:w-1/4 mb-base" v-else>
 					<vx-card>
-						<vs-button radius type="border" color="primary" icon-pack="feather" icon="icon-search" @click="abrir(amplio)"></vs-button>
+						<template slot="actions">
+								<vx-tooltip text="Contraer"> <vs-button radius type="gradient" icon="chevron_left" color = "primary" size="small" @click="abrir(amplio)"></vs-button>  </vx-tooltip>
+						</template>
 						<div class="text-center">
 							<h4> <b> {{nombreCompleto}} </b></h4>
-							<div v-if ="!paciente_normal">
-								<p>Codigo: ASDFSDD</p>
+							<div v-if ="fotoPerfil != null">
+								<vs-avatar class="mx-auto my-6 block" size="80px" :src="fotoPerfil"/>
 							</div>
-							<div v-else>
+							<div v-if ="codigoPersona != null">
+								<p>Codigo: {{codigoPersona}} </p>
+							</div>
 								<br>
-							</div>
-						</div>
-						<div v-if ="!paciente_normal">
-							<vs-avatar class="mx-auto my-6 block" size="80px" src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80"/>
 						</div>
 						<div class="flex justify-between text-center">
 							<span>
@@ -188,25 +188,24 @@
 						title="Historial Medico"
 						title-color="primary"
 						>
+							<template slot="actions">
+								<vx-tooltip text = "Agregar registro"> <router-link to="/clinica/consultorio"> <vs-button radius type="gradient" icon="add" color = "primary" size="large" ></vs-button> </router-link>  </vx-tooltip>
+							</template>
 							<div v-if="primerHistorial">
 									  <ul class="vx-timeline">
 											<li v-for="historial in historialCompleto" :key="historial.id">
 												<div v-if="historial.tipoH==1">
 													<div class="timeline-icon bg-warning">
-														<feather-icon icon="FileTextIcon" svgClasses="text-white stroke-current w-5 h-5" />
+														<feather-icon icon="FilterIcon" svgClasses="text-white stroke-current w-5 h-5" />
 													</div>
 													<div class="timeline-info">
 														<h5 class="text-dark"> <b class="text-warning">Descripción: </b> {{ historial.examen.descripcion }}</h5>
 														<span class="activity-desc"><b>Resultado </b>{{ historial.examen.resultado }}</span>
 													</div>
 													<span class="text-grey activity-e-time">Fecha: {{ historial.examen.created_at }}</span>
-													<div class="flex items-center mt-0">
-														<router-link :to="url" @click.stop.prevent class="vx-col w-full text-inherit text-left hover:text-primary">Ver Detalle</router-link>
-													</div>
 													<vs-divider class="mt-5"/>
 												</div>
 												<div v-else>
-													<!-- <div class="timeline-icon" :class="`bg-${item.color}`"> -->
 													<div class="timeline-icon bg-primary">
 														<feather-icon icon="FileTextIcon" svgClasses="text-white stroke-current w-5 h-5" />
 													</div>
@@ -220,15 +219,72 @@
 													</div>
 													<span class="text-grey activity-e-time">Fecha: {{ historial.created_at }}</span>
 													<div class="flex items-center mt-0">
-														<router-link :to="url" @click.stop.prevent class="vx-col w-full text-inherit text-left hover:text-primary">Ver Detalle</router-link>
-														<router-link :to="url" @click.stop.prevent class="vx-col w-full text-inherit text-right hover:text-primary">Ver Receta</router-link>
-														<!-- <div class="vx-col w-full text-left text-success mt-0"><h6>Ver Detalle</h6></div>
-														<div class="vx-col w-full text-right text-success mt-0"><h6>Ver Receta</h6></div> -->
+														<vs-button color="primary" type="border" icon="visibility" size="small" @click="openDetalle(historial)">Ver consulta</vs-button>
+														<vs-button color="primary" type="border" icon="visibility" class="vs-align-right" size="small" @click="openDetalle(historial)">Ver receta</vs-button>
 													</div>
 													<vs-divider class="mt-5"/>
 												</div>
 											</li>
 										</ul>
+
+								<vs-prompt
+									:buttons-hidden="true"
+									title="Detalle de la consulta"
+									:active.sync="abrirDetalle">
+										<div v-if="detalleConsulta!= null">
+											<h5> <b> Doctor: </b> {{detalleConsulta.doctor[0].nombres + ' ' + detalleConsulta.doctor[0].apellidos}}</h5>
+											<h5> <b> Descripción: </b> {{detalleConsulta.descripcion}}</h5>
+											<h5> <b> Objetivo: </b> {{detalleConsulta.objetivo}}</h5>
+											<h5> <b> Subjetivo: </b> {{detalleConsulta.objetivo}}</h5>
+											<br>
+											<h4 class="text-center text-primary"> <b> Signos Vitales Medidos: </b></h4>
+											<br>
+											<div class="flex items-center mt-0">
+												<vs-button color="success" icon="filter_center_focus" radius type="flat" size="large" class="mt-0" disabled></vs-button><h6 class="text-success">Peso:</h6>
+												<div class="vx-col w-full text-right text-success mt-0"><h6> {{detalleConsulta.peso_actual}} <small> Lbs.</small></h6></div>
+											</div>
+											<vs-divider class="mt-0"/>
+											<div class="flex items-center mt-0">
+												<vs-button color="success" icon="vertical_align_top" radius type="flat" size="large" class="mt-0" disabled></vs-button><h6 class="text-success">Talla:</h6>
+												<div class="vx-col w-full text-right text-success mt-0"><h6> {{detalleConsulta.talla}} <small> Mts. </small></h6></div>
+											</div>
+											<vs-divider class="mt-0"/>
+											<div class="flex items-center mt-0">
+												<vs-button color="success" icon="favorite" radius type="flat" size="large" class="mt-0" disabled></vs-button><h6 class="text-success">Pulso:</h6>
+												<div class="vx-col w-full text-right text-success mt-0"><h6>{{detalleConsulta.pulso}} <small> Lbs.</small></h6></div>
+											</div>
+											<vs-divider class="mt-0"/>
+											<div class="flex items-center mt-0">
+												<vs-button type="flat" radius color="success" icon-pack="feather" icon="icon-thermometer" size="large" class="mt-0" disabled ></vs-button><h6 class="text-success">Temperatura:</h6>
+												<div class="vx-col w-full text-right text-success mt-0"><h6>{{detalleConsulta.temperatura}} <small> °C</small></h6></div>
+											</div>
+											<vs-divider class="mt-0"/>
+											<div class="flex items-center mt-0">
+												<vs-button color="success" icon="directions_run" radius type="flat" size="large" class="mt-0" disabled></vs-button><h6 class="text-success">Respiración:</h6>
+												<div class="vx-col w-full text-right text-success mt-0"><h6>{{detalleConsulta.respiracion}} <small> r/m</small></h6></div>
+											</div>
+											<vs-divider class="mt-0"/>
+											<div class="flex items-center mt-0">
+												<vs-button color="success" icon="timer" radius type="flat" size="large" class="mt-0" disabled></vs-button><h6 class="text-success">Presión arterial:</h6>
+												<div v-if="detalleConsulta.presion_arterial != null" class="vx-col w-full text-right text-success mt-0"><h6>{{detalleConsulta.presion_arterial}} <small> NC</small></h6></div>
+												<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
+											</div>
+											<vs-divider class="mt-0"/>
+											<div class="flex items-center mt-0" v-if="detalleConsulta.semanas_embarazo != null">
+												<vs-button color="danger" icon="pregnant_woman" radius type="flat" size="large" class="mt-0" disabled></vs-button><h6 class="text-danger">Semanas de embarazo:</h6>
+												<div class="vx-col w-full text-right text-danger mt-0"><h6>{{detalleConsulta.semanas_embarazo}}<small> Semanas</small></h6> </div>
+											</div>
+
+											<vs-divider class="mt-0" v-if="detalleConsulta.glicemia != null"/>
+											<div class="flex items-center mt-0" v-if="detalleConsulta.glicemia != null">
+												<vs-button color="danger" icon="local_pharmacy" radius type="flat" size="large" class="mt-0" disabled></vs-button><h6 class="text-danger">Glicemia:</h6>
+												<div class="vx-col w-full text-right text-danger mt-0"><h6>{{detalleConsulta.glicemia}} <small> mg/dl</small></h6></div>
+											</div>
+											<vs-divider class="mt-0" v-if="detalleConsulta.glicemia != null"/>
+
+										</div>
+								</vs-prompt>
+
 								</div>
 								<div v-else>
 									<h3>El paciente no tiene registros en su historial medico</h3>
@@ -240,6 +296,9 @@
 						title="Citas Programadas"
 						title-color="primary"
 					>
+						<template slot="actions">
+								<vx-tooltip text = "Agregar registro"> <router-link to="/clinica/citas"> <vs-button radius type="gradient" icon="add" color = "primary" size="large" ></vs-button> </router-link>  </vx-tooltip>
+						</template>
 					<table style="width:100%" class="border-collapse" v-if="!conCitas">
 						<tr v-for="(cita) in citas" :key="cita.id">
 							<td class="pointer-events-none text-center">
@@ -292,85 +351,6 @@ export default {
 	data() {
 		return {
 			active:true,
-			timelineData: [
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'New Task Added',
-					desc  : 'Bonbon macaroon jelly beans gummi bears jelly lollipop apple',
-					time  : '25 Days Ago'
-				},
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'Task Update Found',
-					desc  : 'Cupcake gummi bears soufflé caramels candy',
-					time  : '15 Days Ago'
-				},
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'Task Finished',
-					desc  : 'Candy ice cream cake. Halvah gummi bears',
-					time  : '20 mins ago'
-				},
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'Task Finished',
-					desc  : 'Candy ice cream cake. Halvah gummi bears',
-					time  : '20 mins ago'
-				},
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'Task Finished',
-					desc  : 'Candy ice cream cake. Halvah gummi bears',
-					time  : '20 mins ago'
-				},
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'Task Finished',
-					desc  : 'Candy ice cream cake. Halvah gummi bears',
-					time  : '20 mins ago'
-				},
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'Task Finished',
-					desc  : 'Candy ice cream cake. Halvah gummi bears',
-					time  : '20 mins ago'
-				},
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'Task Finished',
-					desc  : 'Candy ice cream cake. Halvah gummi bears',
-					time  : '20 mins ago'
-				},
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'Task Finished',
-					desc  : 'Candy ice cream cake. Halvah gummi bears',
-					time  : '20 mins ago'
-				},
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'Task Finished',
-					desc  : 'Candy ice cream cake. Halvah gummi bears',
-					time  : '20 mins ago'
-				},
-				{
-					color : 'primary',
-					icon  : 'FileTextIcon',
-					title : 'Task Finished',
-					desc  : 'Candy ice cream cake. Halvah gummi bears',
-					time  : '20 mins ago'
-				},
-			],
 			url:'/clinica/consultorio',
 			id_recibido:null,
 			informacion:null,
@@ -389,6 +369,10 @@ export default {
 			nombreCompleto:'',
 			tipoPaciente:'',
 			genero:0,
+			fotoPerfil:null,
+			codigoPersona:null,
+			detalleConsulta:null,
+			abrirDetalle:false,
 		}
 	},
 	components:{
@@ -397,6 +381,12 @@ export default {
 	methods: {
 		abrir(){
 			this.amplio=!this.amplio	
+		},
+		openDetalle(detalleC){
+			console.log
+			// this.listado(tutor)
+			this.abrirDetalle=true;
+			this.detalleConsulta=detalleC
 		},
 		async traerPaciente(){
 			const me = this
@@ -407,9 +397,11 @@ export default {
 				const respuesta = response.data
 				me.informacion_completa = respuesta.pacientes.data[0]
 				me.informacion = me.informacion_completa.datos
-				if (me.informacion_completa.tipo_paciente_id!=1){
+
+				if (me.informacion_completa.tipo_paciente_id==1){
 					me.paciente_normal=true
 				}
+				me.buscarNino(me.informacion.id)
 				me.nombreCompleto = me.informacion.nombres + ' ' + me.informacion.apellidos
 				me.genero = me.informacion.genero
 				me.tipoPaciente = me.informacion_completa.tipo_paciente.nombre
@@ -418,6 +410,63 @@ export default {
 			console.log(error)
 			})
 		},
+		buscarNino(idPersona){
+			let me = this
+			axios.get(
+			`/api/nino/get?criterio=persona_sin_acceso_id&buscar=${idPersona}&completo=true`)
+			.then(function (response) {
+				const respuesta = response.data
+				let buscador = respuesta.ninos.data
+				if (buscador.length==0){
+					me.buscarEncargado(idPersona)
+				}
+				else{
+					me.fotoPerfil=buscador[0].ruta_imagen
+					me.codigoPersona=buscador[0].codigo
+				}
+			})
+			.catch(function (error) {
+			console.log(error)
+			})
+		},
+		buscarEncargado(idPersona){
+			let me = this
+			axios.get(
+			`/api/encargado/get?criterio=persona_sin_acceso_id&buscar=${idPersona}&completo=true`)
+			.then(function (response) {
+				const respuesta = response.data
+				let buscador = respuesta.encargados.data
+				if (buscador.length==0){
+					me.fotoPerfil=null
+				}
+				else{
+					me.fotoPerfil=buscador[0].ruta_imagen
+					me.buscarRelacion(buscador[0].id)
+				}
+			})
+			.catch(function (error) {
+			console.log(error)
+			})
+		},
+		buscarRelacion(idPersona){
+			let me = this
+			axios.get(
+			`/api/relacion/get?criterio=encargado_id&buscar=${idPersona}&completo=true`)
+			.then(function (response) {
+				const respuesta = response.data
+				let buscador = respuesta.relaciones.data
+				if (buscador.length==0){
+					me.codigoPersona=null
+				}
+				else{
+					me.codigoPersona=buscador[0].codigo
+				}
+			})
+			.catch(function (error) {
+			console.log(error)
+			})
+		},
+
 		calculateAge(fechaN) {
 			let currentDate = new Date();
 			let fecha_nacimientoTt = new Date(fechaN); 
@@ -437,7 +486,6 @@ export default {
 				console.log(me.historiales)
 				if (me.historiales.length>0){
 					me.primero=false
-					me.ultimo_historial = me.historiales[me.historiales.length-1]
 				}
 				for (let i in me.historiales) {
 					me.historiales[i].tipoH = 0
@@ -507,6 +555,13 @@ export default {
 								tabla[i + 1] = aux;
 							}
 						}
+					}
+				}
+				let masReciente=false
+				for (let i in tabla) {
+					if (tabla[i].tipoH == 0 && masReciente ==false){
+						this.ultimo_historial = tabla[i]
+						masReciente = true
 					}
 				}
 				this.primerHistorial=true
