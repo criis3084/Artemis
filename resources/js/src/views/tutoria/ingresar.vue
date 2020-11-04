@@ -100,7 +100,7 @@
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
 					<vs-input class="w-full" name="descripcion" v-validate="'max:254'" icon-pack="feather" icon="icon-image" icon-no-border label-placeholder="Descripción" v-model="descripcion"/>
-						<span class="text-danger">{{ errors.first('descripcion') }}</span>
+						<span class="text-danger">{{ errors.first('step-2.descripcion') }}</span>
 				</div>
 			</div>
 

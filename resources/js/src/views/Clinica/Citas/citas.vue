@@ -66,22 +66,6 @@
 
             </div>
           </div>
-
-          <div class="vx-row sm:flex hidden mt-4">
-            <div class="vx-col w-full flex">
-              <!-- Labels 
-              <div class="flex flex-wrap sm:justify-start justify-center">
-                  <div v-for="(label, index) in arrayTipoCitas" :key="index" class="flex items-center mr-4 mb-2">
-                      <div class="h-3 w-3 inline-block rounded-full mr-2" :class="'bg-' + label.color"></div>
-                      <span>{{ label.text }}</span>
-                  </div>
-                  <div class="flex items-center mr-4 mb-2">
-                      <div class="h-3 w-3 inline-block rounded-full mr-2 bg-primary"></div>
-                      <span>None</span>
-                  </div>
-              </div  >-->
-            </div>
-          </div>
         </div>
       </calendar-view>
     </div>
@@ -93,43 +77,25 @@
         accept-text= "Aceptar"
         cancel-text= "Cancelar"
         @accept="guardar"
+        @cancel="close"
         :is-valid="validForm"
         :active.sync="activePromptAddEvent">
 
-            <!-- ADD EVENT 
+           <!-- ADD EVENT  -->
 
-        <div class="calendar__label-container flex">
-
-            <vs-chip v-if="labelLocal != 'none'" class="text-primary" :class="'bg-' + labelColor(labelLocal)">{{ labelLocal }}</vs-chip>
-
-            <vs-dropdown vs-custom-content vs-trigger-click class="ml-auto my-2 cursor-pointer">
-
-                <feather-icon icon="TagIcon" svgClasses="h-5 w-5" class="cursor-pointer" @click.prevent></feather-icon>
-
-                <vs-dropdown-menu style="z-index: 200001">
-                        <vs-dropdown-item v-for="(TipoCitas, index) in arrayTipoCitas" :key="index" v-model="TipoCita" @click="labelLocal = TipoCitas.nombre">
-                            <div class="h-3 w-3 inline-block rounded-full mr-2"></div>
-                            <span class="">{{ TipoCitas.nombre }}</span>
-                        </vs-dropdown-item>
-
-                        <vs-dropdown-item @click="labelLocal = 'none'">
-                            <div class="h-3 w-3 mr-1 inline-block rounded-full mr-2 bg-primary text-success"></div>
-                            <span>None</span>
-                        </vs-dropdown-item>
-                </vs-dropdown-menu>
-            </vs-dropdown>
-
-        </div  >-->
-        <div class="my-4">
-            <small class="date-label">Tipo de cita</small>
-            <v-select  label="nombre" :options="arrayTipoCitas"  v-model="TipoCita" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-        </div>
+        
          <div class="my-4">
             <small class="date-label">Fecha</small>
             <datepicker :language="$vs.rtl ? langHe : langEn" :disabledDates="disabledDatesTo" name="end-date" v-model="endDate"></datepicker>
         </div>
+        <div class="my-4">
         <small class="date-label">Descripción</small>
         <vs-input name="event-name" v-validate="'required'" class="w-full"  v-model="title"></vs-input>
+        </div>
+        <div class="my-4">
+            <small class="date-label">Tipo de cita</small>
+            <v-select  label="nombre" :options="arrayTipoCitas"  v-model="TipoCita" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+        </div>
         <div class="my-4">
             <small class="date-label">Medico</small>
             <v-select  label="nombre_completo" :options="arrayPersonal"  v-model="Medico" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
@@ -138,6 +104,9 @@
             <small class="date-label">Paciente</small>
             <v-select  label="nombre_completo" :options="arrayPaciente"  v-model="Paciente" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div> 
+        <vs-alert :active="!validForm" color="danger" vs-icon="new_releases" class="mt-4" >
+          LLene todos los campos
+        </vs-alert>
 
     </vs-prompt>
 
@@ -152,50 +121,18 @@
         @accept="editEvent"
         :active.sync="activePromptEditEvent">
 
-        <!-- EDIT EVENT
-        <div class="calendar__label-container flex">
-
-            <vs-chip v-if="labelLocal != 'none'" class="text-white" :class="'bg-' + labelColor(labelLocal)">{{ labelLocal }}</vs-chip>
-
-            <vs-dropdown vs-custom-content class="ml-auto my-2 cursor-pointer">
-
-                <feather-icon icon="TagIcon" svgClasses="h-5 w-5" @click.prevent></feather-icon>
-
-                <vs-dropdown-menu style="z-index: 200001">
-                        <vs-dropdown-item v-for="(label, index) in calendarLabels" :key="index" @click="labelLocal = label.value">
-                            <div class="h-3 w-3 inline-block rounded-full mr-2" :class="'bg-' + label.color"></div>
-                            <span>{{ label.text }}</span>
-                        </vs-dropdown-item>
-
-                        <vs-dropdown-item @click="labelLocal = 'none'">
-                            <div class="h-3 w-3 mr-1 inline-block rounded-full mr-2 bg-primary"></div>
-                            <span>None</span>
-                        </vs-dropdown-item>
-                </vs-dropdown-menu>
-            </vs-dropdown>
-
-        </div>
-         -->
+        <!-- EDIT EVENT -->
         <small class="date-label">Fecha</small>
         <datepicker :language="$vs.rtl ? langHe : langEn" :disabledDates="disabledDatesTo" name="end-date" v-model="endDate"></datepicker>
         <small class="date-label">Descripción</small>
-        <vs-input name="event-name" v-validate="'required'" class="w-full" v-model="descripcion"></vs-input>
+        <vs-input name="descripcion" v-validate="'required'" class="w-full" v-model="descripcion"></vs-input>
+						<span class="text-danger">{{ errors.first('descripcion') }}</span><br>
         <small class="date-label">Tipo de cita</small>
         <v-select  label="nombre" :options="arrayTipoCitas"  v-model="TipoCita" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         <small class="date-label">Paciente</small>
         <v-select  label="nombre_completo" :options="arrayPaciente"  v-model="Paciente" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         <small class="date-label">Medico</small>
         <v-select  label="nombre_completo" :options="arrayPersonal"  v-model="Medico" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-        <!-- <div class="my-4">
-            <small class="date-label">Start Date</small>
-            <datepicker :language="$vs.rtl ? langHe : langEn" :disabledDates="disabledDatesFrom" name="start-date" v-model="startDate"></datepicker>
-        </div>
-        <div class="my-4">
-            <small class="date-label">End Date</small>
-            <datepicker :language="$vs.rtl ? langHe : langEn" :disabledDates="disabledDatesTo" name="end-date" v-model="endDate"></datepicker>
-        </div> -->
-        <!-- <vs-input name="event-url" v-validate="'url'" class="w-full mt-6" label-placeholder="Event URL" v-model="url" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input> -->
-
     </vs-prompt>
   </div>
 </template>
@@ -209,7 +146,17 @@ import Datepicker from 'vuejs-datepicker'
 import { es } from 'vuejs-datepicker/src/locale'
 import vSelect from 'vue-select'
 import axios from 'axios'
+import { Validator } from 'vee-validate';
+const dict = {
+  custom: {
+	descripcion: {
+	  required: 'El campo usuario es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
+    },
+  }
+}
 
+Validator.localize('en', dict);
 export default {
   components: {
     CalendarView,
@@ -272,7 +219,10 @@ export default {
       return this.$store.state.calendar.events
     },
     validForm () {
-      return this.title !== '' && this.startDate !== '' && this.endDate !== '' && Date.parse(this.endDate) - Date.parse(this.startDate) >= 0 && !this.errors.has('event-url')
+      return this.Medico !== '' && this.TipoCita !== '' && this.Paciente !== '' && this.title !== '' && this.startDate !== '' && this.endDate !== '' && Date.parse(this.endDate) - Date.parse(this.startDate) >= 0 && !this.errors.has('event-url')
+    },
+    validName() {
+      return this.valMultipe.value1.length > 0 && this.valMultipe.value3 != 0 && this.valMultipe.value4 != 0 && this.valMultipe.fecha != "";
     },
     disabledDatesTo () {
       return { to: new Date(this.startDate) }
@@ -298,6 +248,15 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.$vs.notify({
+        color: "danger",
+        title: "Cerrado",
+        text: "Diálogo cerrado!",
+      });
+    
+      this.$emit("cerrado", "Se cerro el formulario");
+    },
     addEvent () {
       const obj = { descripcion: this.title, fecha: this.endDate, label: this.labelLocal}
       obj.classes = `event-${  this.labelColor(this.labelLocal)}`
@@ -361,6 +320,8 @@ export default {
 	     return this.idT
     },
     editEvent () {
+this.$validator.validateAll().then(result => {
+	if(result) {
       /*const obj = { id: this.id, title: this.title, startDate: this.startDate, endDate: this.endDate, label: this.labelLocal, url: this.url }
       obj.classes = `event-${  this.labelColor(this.labelLocal)}`
       this.$store.dispatch('calendar/editEvent', obj)*/
@@ -375,6 +336,7 @@ export default {
       }).then(function (response) {
         console.log(response)
         alert('Actualizado')
+        
       })
         .catch(function (error) {
           console.log(error)
@@ -382,10 +344,28 @@ export default {
         })
       this.$store.state.calendar.events = []
       this.Citas()
-
+      this.$vs.notify({
+				color:'success',
+				title:'Actualización registrada!',
+				text:'La acción se realizo exitósamente'
+		})
+}
+	else{
+          this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
+		}
+	})
     },
     removeEvent () {
       this.$store.dispatch('calendar/removeEvent', this.id)
+      this.$vs.notify({
+        color: "danger",
+        title: "Cerrado",
+        text: "Diálogo cerrado!",
+      });
     },
     eventDragged (event, date) {
       this.$store.dispatch('calendar/eventDragged', {event, date})
@@ -507,7 +487,12 @@ export default {
       }).then(function (response) {
         console.log(response)
         alert('Guardado')
-        
+         let titulo = 'Cita registrada!';
+			this.$vs.notify({
+			color:'success',
+			title:`${titulo}`,
+			text:'La acción se realizo exitósamente'
+			});
       })
         .catch(function (error) {
           console.log(error)
@@ -516,6 +501,7 @@ export default {
       this.$store.state.calendar.events = []
       this.Citas()
     }
+    
   },
   created () {
 	  this.$store.registerModule('calendar', moduleCalendar)
