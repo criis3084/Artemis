@@ -296,7 +296,7 @@ export default {
               valor.beneficio = benefi
             }
             if (valor.beneficio == undefined) {
-					 	valor.beneficio = {estado:4}
+				valor.beneficio = {estado:4}
             }
           }) 
         }

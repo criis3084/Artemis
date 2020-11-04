@@ -15,7 +15,6 @@ class CreateHistorialExamensTable extends Migration
     {
         Schema::create('historial_examens', function (Blueprint $table) {
 			$table->id();
-			$table->text('notas');
 			$table->foreignId('examen_id')->constrained();
 			$table->foreignId('paciente_id')->constrained();
 			$table->boolean('estado')->default(1);

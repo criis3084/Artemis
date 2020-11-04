@@ -478,38 +478,38 @@ export default {
 			})
 		},
 		registrarSalida(){
-	this.$validator.validateAll().then(result => {
-	if(result) {
+			this.$validator.validateAll().then(result => {
+			if(result) {
 
-			let val = this.validarStock()
-			if(val == true)
-			{
-				let me = this
-				const today = new Date()
-				const fecha_salida = me.getDate(today)
-				axios.post('/api/salidaMedicamento/post/', {
-					fecha_salida: fecha_salida,
-					tipo_salida: me.tipo_salida_select.id,
-					descripcion: me.descripcion,
-					usuario_id: 1,
-					paciente_id: me.paciente_select.id,
+				let val = this.validarStock()
+				if(val == true)
+				{
+					let me = this
+					const today = new Date()
+					const fecha_salida = me.getDate(today)
+					axios.post('/api/salidaMedicamento/post/', {
+						fecha_salida: fecha_salida,
+						tipo_salida: me.tipo_salida_select.id,
+						descripcion: me.descripcion,
+						usuario_id: 1,
+						paciente_id: me.paciente_select.id,
 
-				}).then(function (response) {
-					console.log(response)
-					me.registroDetalle(response.data.id)
-				})
-				.catch(function (error) {
-					console.log(error)
-					alert('Error al ingresar')
-					
-				})
-			}
-			else{
-				console.log('stock invalido')
-			}
-	 }else{
-		  // form have errors
-		  this.$vs.notify({
+					}).then(function (response) {
+						console.log(response)
+						me.registroDetalle(response.data.id)
+					})
+					.catch(function (error) {
+						console.log(error)
+						alert('Error al ingresar')
+						
+					})
+				}
+				else{
+					console.log('stock invalido')
+				}	
+			}else{
+			// form have errors
+			this.$vs.notify({
 				color:'danger',
 				title:`Error en validación!`,
 				text:'Ingrese correctamente todos los datos'

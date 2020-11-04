@@ -684,6 +684,7 @@ const router = new Router({
         // =============================================================================
         {
           path: '/clinica/consultorio',
+          //path: ['/clinica/consultorio/:id','/clinica/consultorio'],
           name: 'clinica-consultorio',
           component: () => import('./views/Clinica/Consultorio/consultorio.vue'),
           meta: {

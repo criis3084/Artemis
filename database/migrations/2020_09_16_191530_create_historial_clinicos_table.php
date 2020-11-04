@@ -15,6 +15,7 @@ class CreateHistorialClinicosTable extends Migration
     {
         Schema::create('historial_clinicos', function (Blueprint $table) {
 			$table->id();
+			$table->date('fecha_consulta');
 			$table->string('descripcion');
 			$table->float('peso_actual',5,2)->nullable();
 			$table->float('glicemia',5,2)->nullable();

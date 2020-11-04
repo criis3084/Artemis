@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateTipoPacientesTable extends Migration
@@ -20,6 +21,10 @@ class CreateTipoPacientesTable extends Migration
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });
+		DB::table('tipo_pacientes')->insert(array('nombre'=>'Normal','descripcion'=>'Paciente Normal'));
+		DB::table('tipo_pacientes')->insert(array('nombre'=>'Normal','descripcion'=>'Paciente Normal'));
+		DB::table('tipo_pacientes')->insert(array('nombre'=>'Embarazadas','descripcion'=>'Mujeres pertenecientes al programa de embarazadas'));
+		DB::table('tipo_pacientes')->insert(array('nombre'=>'Diabeticos','descripcion'=>'Pacientes con diabetis'));
     }
 
     /**

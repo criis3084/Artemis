@@ -48,7 +48,6 @@ class HistorialExamenController extends Controller
 			$examen->clinico_id = $request->clinico_id;
 			
 			$historialExamen = new HistorialExamen();
-			$historialExamen->notas = $request->notas;
 			$historialExamen->examen_id = $request->examen_id;
 			$historialExamen->paciente_id = $request->paciente_id;
 

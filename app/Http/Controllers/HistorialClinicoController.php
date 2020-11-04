@@ -40,6 +40,7 @@ class HistorialClinicoController extends Controller
 	{
 		try {
 			$historialClinico = new HistorialClinico();
+			$historialClinico->fecha_consulta = $request->fecha_consulta;
 			$historialClinico->descripcion = $request->descripcion;
 			$historialClinico->peso_actual = $request->peso_actual;
 			$historialClinico->glicemia = $request->glicemia;
@@ -65,6 +66,7 @@ class HistorialClinicoController extends Controller
 	public function update(Request $request)
 	{
 		$historialClinico = HistorialClinico::findOrFail($request->id);
+		$historialClinico->fecha_consulta = $request->fecha_consulta;
 		$historialClinico->descripcion = $request->descripcion;
 		$historialClinico->peso_actual = $request->peso_actual;
 		$historialClinico->glicemia = $request->glicemia;

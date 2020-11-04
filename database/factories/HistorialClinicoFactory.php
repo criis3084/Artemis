@@ -9,6 +9,7 @@ use Faker\Generator as Faker;
 
 $factory->define(HistorialClinico::class, function (Faker $faker) {
     return [
+		'fecha_consulta' => $faker->dateTimeBetween($startDate = '-9 months', $endDate = 'now', $timezone = null),
         'descripcion' => $faker->text($maxNbChars = 100), 
         'peso_actual'=> $faker->randomFloat($nbMaxDecimals = NULL, $min = 20, $max = 300),
         'glicemia'=> $faker->randomFloat($nbMaxDecimals = NULL, $min = 10, $max = 150),
