@@ -13,12 +13,6 @@
                 <div class="product-img-container w-3/5 mx-auto mb-10 md:mb-0">
                   <img :src="this.ruta_imagenT" :alt="this.ruta_imagenT" class="responsive">
 
-                  <!--
-                    UnComment Below line for true flow
-                    <img :src="item_data.image" :alt="item_data.name" class="responsive">
-
-                    Remove above img tag which is for demo purpose in actual flow
-                  -->
                 </div>
               </div>
 
