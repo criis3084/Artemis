@@ -82,11 +82,57 @@
 			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='objetivo' v-model="subjetivo" :disabled="deshabilitado"/>
 		</div>
 
-		<div class="vx-row">
-			<div class="vx-col sm:w-2/3 w-full ml-auto vs-align-center">
-				<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="registrar" :disabled="deshabilitado">Registrar</vs-button>
+		<div v-if="verReceta">
+			<vs-divider position="center" class="mt-6" > Medicamentos Recetados </vs-divider>
+			<div class="vx-col md:w-1/2 w-full mt-3">
+				<div class="vx-col w-full">
+					<small class="date-label">Lista de medicamentos:</small>
+					<v-select v-if="this.carrito.length==0" name="medicamento" v-validate="'required'" label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<v-select v-if="this.carrito.length>0" name="medicamento" label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<span class="text-danger">{{ errors.first('medicamento') }}</span>
+					<small class="date-label" v-if="medicamento_id != null"><p class="text-danger">Existencia: {{stockId}}</p></small>
+				</div>
+			</div>
+			<br>
+			<vs-list>
+				<div class="vx-col w-full mb-base">
+						<table style="width:100%" class="border-collapse">
+								<tr>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Eliminar</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre Medicamento</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Cantidad</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Frecuencia</th>
+								</tr>
+								<tr v-for="(producto,index) in carrito" :key="index">
+									<td class="border border-solid d-theme-border-grey-light flex items-center">
+										<vs-button color="danger" type="border" icon-pack="feather" class="center" icon="icon-x-circle" @click="borrarIntegrante(index)"></vs-button>
+									</td>
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}<small class="date-label"><p class="text-warning">(Stock actual: {{producto.stock_general}})</p></small></td>
+									<td class="border border-solid d-theme-border-grey-light">
+										<vs-input name="cantidad" v-validate="'required|max:5|numeric'" style="text-align:right" v-model="listaCantidades[index]" />
+									</td>
+									<td class="border border-solid d-theme-border-grey-light">
+										<vs-input name="frecuencia" v-validate="'required|max:5|numeric'" style="text-align:right" v-model="listaFrecuencias[index]" />
+									</td>
+								</tr>
+						</table>
+					<span class="text-danger">{{ errors.first('cantidad') }}</span>
+				</div>
+			</vs-list>
+			<div class="vx-row">
+				<small class="date-label ml-4">Anotaciones de la receta</small>
+				<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='listado' v-model="listado"/>
 			</div>
 		</div>
+
+        <div class="flex flex-wrap items-center justify-between mt-5">
+			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirReceta" v-if="!verReceta" :disabled="deshabilitado">Añadir receta</vs-button>
+			<vs-button type="gradient" color="danger" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirReceta" v-if="verReceta" :disabled="deshabilitado">Eliminar Receta</vs-button>
+          <div class="flex items-center">
+			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirReceta" v-if="imprimir" :disabled="deshabilitado">Imprimir</vs-button>
+			<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar" v-if="!imprimir" :disabled="deshabilitado">Registrar</vs-button>
+          </div>
+        </div>
 
 	</vx-card>
 </template>
@@ -100,6 +146,14 @@ const dict = {
 	paciente: {
 	  required: 'El campo paciente es requerido',
 	},
+	medicamento: {
+	  required: 'El campo medicamento es requerido',
+	},
+	cantidad: {
+	  required: 'Todos los campos de cantidad son requeridos',
+	  numeric: 'Los campos de cantidad solo deben de contener números',
+	    max: 'Los campos de cantidad solo aceptan hasta 5 caracteres',
+    },	
   }
 }
 Validator.localize('es', dict)
@@ -125,6 +179,15 @@ export default {
 			diabetico:false,
 			fecha_consulta:'',
 			langEn: es,
+			listado_medicamentos:null,
+			verReceta:false,
+			// ---- Receta ----//
+			listaCantidades:[],
+			listaFrecuencias:[],
+			medicamento_id:null,
+			carrito:[],
+			listado:'',
+			imprimir:false,
 		}
 	},
 	components:{
@@ -153,11 +216,33 @@ export default {
 				}
 			}
 			else{
+				this.verReceta=false
 				this.deshabilitado = true
+			}
+		},
+		medicamento_id(){
+			this.stockId = this.medicamento_id.stock_general
+			if (this.medicamento_id != null)
+			{
+				this.carrito.push(this.medicamento_id)
+				console.log('carrito y cantidades')
+				console.log(this.listaCantidades)
+				console.log(this.listaFrecuencias)
+				// this.listaCantidades.push(0)
 			}
 		}
 	},
 	methods: {
+		anadirReceta(){
+			this.verReceta=!this.verReceta
+		},
+		borrarIntegrante (index) {
+			this.carrito.splice(index, 1)
+			this.listaCantidades.splice(index, 1)
+			this.listaFrecuencias.splice(index, 1)
+			console.log(this.carrito)
+			console.log(this.listaCantidades)
+		},
 		async importarPacientes() {
 			let me = this;
 			const response = await axios.get(
@@ -209,9 +294,30 @@ export default {
 			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 			return dateString;
 		},
+		async importarMedicamentos() {
+			let me = this;
+			const response = await axios
+			.get(`/api/medicamento/get?completo=true`)
+			.then(function(response) {
+				var respuesta = response.data;
+				me.listado_medicamentos = respuesta.medicamentos.data;
+				me.listado_medicamentos = me.traerNombreMedicamento(me.listado_medicamentos)
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+		},
+		traerNombreMedicamento(tabla){
+			for (let i in tabla) {
+				let valor = tabla[i]
+				tabla[i].nombre_completo = valor.nombre + ' - ' + valor.casa_medica.nombre
+			}
+			return tabla
+		},
 	},
 	mounted() {
 		this.importarPacientes()
+		this.importarMedicamentos()
 	},
 }
 </script>
