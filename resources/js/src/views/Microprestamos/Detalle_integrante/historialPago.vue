@@ -30,7 +30,7 @@
                 <vs-th >Descripción</vs-th>
                 <vs-th >Cantidad de abono</vs-th>
 				        <vs-th >Mora</vs-th>
-                <vs-th >Cantidad eestante</vs-th>
+                <vs-th >Cantidad restante</vs-th>
 				        <vs-th >Fecha de pago</vs-th>
                 <vs-th >Estado</vs-th>
         </template>

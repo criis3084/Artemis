@@ -120,7 +120,7 @@ const dict = {
     cantidad: {
       	  required: 'El campo cantidad de abono es requerido',
       	  numeric: 'El campo solo debe de contener números',
-          max: 'Este campo solo acepta hasta 5 dígitos',
+      max: 'Este campo solo acepta hasta 5 dígitos'
     },
     descripcion: {
       required:'El campo descripción es requerido',
@@ -172,11 +172,11 @@ export default{
         if (result) {
           this.guardar()
         } else {
-           this.$vs.notify({
-				color:'danger',
-				title:`Error en validación!`,
-				text:'Ingrese correctamente todos los datos'
-			})
+          this.$vs.notify({
+            color:'danger',
+            title:'Error en validación!',
+            text:'Ingrese correctamente todos los datos'
+          })
         }
       })
 
@@ -230,8 +230,14 @@ export default{
         })
         .catch(function (error) {
           console.log(error)
+          me.$vs.notify({
+            color:'danger',
+            title:'Error!',
+            text:'Error al buscar datos de la persona'
+          })
         })
       this.deuda = 0
+      this.imprimir = false
     },
     async buscarAbono () {
       const me = this
@@ -271,52 +277,54 @@ export default{
         me.seterResponse(response.data.id)
         me.desactivar()
         me.imprimir = true
-         this.$vs.notify({
-					color:'success',
-					title:'Abono registrado!',
-					text:'La acción se realizo exitósamente'
-				});
+        me.$vs.notify({
+          color:'success',
+          title:'Abono registrado!',
+          text:'La acción se realizo exitósamente'
+        })
       })
         .catch(function (error) {
           console.log(error)
-          this.$vs.notify({
-          color:'danger',
-          title:`Error en ingreso!`,
-          text:'Ingrese correctamente todos los datos'
+          me.$vs.notify({
+            color:'danger',
+            title:'Error en ingreso!',
+            text:'Erro al registrar el abono'
+          })
         })
-    })
-    this.$vs.notify({
-					color:'success',
-					title:'Abono registrado!',
-					text:'La acción se realizo exitósamente'
-				});
     },
     desactivar () {
+      const me = this
       this.id_recibido = this.vivienda_id.id
       if (this.total === 0) {
         console.log(`Desactivar  ${this.id_recibido}`)
-        this.alerta = true
+        
         axios.put('/api/vivienda/desactivar', {
           id: this.id_recibido
         })
           .then(function (response) {
             console.log(response.data.message)
-            
+            me.alerta = true        
           })
           .catch(function (error) {
             console.log(error.response.data.message)
+            me.$vs.notify({
+              color:'danger',
+              title:'Error!',
+              text:'Erro al actualizar la finalización del pago completo de vivienda'
+            })
           })
       }
 
     },
     limpiar () {
-      this.deuda = 0
-      this.total = 0
+      this.deuda = ''
+      this.total = ''
       this.vivienda_id = ''
-      this.cantidad = 0
-      this.costoV = 0
+      this.cantidad = ''
+      this.costoV = ''
       this.descripcion = ''
       this.alerta = false
+      this.imprimir = false
     },
     seterResponse (id) {
       this.nRecibo = id

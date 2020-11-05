@@ -110,8 +110,8 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'nombres', 'apellidos', 'fecha_nacimiento', 'fecha_ingreso', 'estado'],
-	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Fecha de nacimiento', 'Fecha de ingreso', 'Estado'],
+	  headerVal: ['id','codigo', 'nombres', 'apellidos', 'fecha_nacimiento', 'fecha_ingreso', 'estado'],
+	  headerTitle: ['Id','Codigo de familia', 'Nombre', 'Apellidos', 'Fecha de nacimiento', 'Fecha de ingreso', 'Estado'],
       activePrompt: false
 
     }

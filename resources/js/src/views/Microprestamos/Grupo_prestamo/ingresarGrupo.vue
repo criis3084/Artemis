@@ -129,9 +129,10 @@ export default {
       let cantidad_ultimo_prestamoG = this.cantidad_ultimo_prestamo
       let cantidad_prestamo_actualG = this.cantidad_prestamo_actual
       let interes_ultimo_prestamoG = this.interes_ultimo_prestamo*/
-
+      const me = this
 
       this.integrantes.forEach(function (elemento, indice, array) {
+        
         axios.post('/api/detalleIntegrante/post/', {
           //tablaDetalleIntegrante
           microprestamo_id: elemento.microprestamo_id,
@@ -142,7 +143,7 @@ export default {
           dia_pago: '2020/4/2'
         }).then(function (response) {
           console.log(response)
-          this.$vs.notify({
+          me.$vs.notify({
 					color:'success',
 					title:'Integrantes del grupo registrados',
 					text:'Acción realizada exitósamente'
@@ -150,10 +151,10 @@ export default {
         })
           .catch(function (error) {
             console.log(error)
-            this.$vs.notify({
+            me.$vs.notify({
           color:'danger',
           title:'Error en ingreso de integrantes!',
-          text:'Ingrese todos los campos correctamente'
+          text:'Error al registrar integrante'
           });
           })
       })
@@ -171,7 +172,7 @@ export default {
 
       }).then(function (response) {
         console.log(response.data.id)
-        this.$vs.notify({
+        me.$vs.notify({
 					color:'success',
 					title:'Grupo registrado',
 					text:'Acción realizada exitósamente'
@@ -180,10 +181,10 @@ export default {
       })
         .catch(function (error) {
           console.log(error)
-          this.$vs.notify({
+          me.$vs.notify({
           color:'danger',
           title:'Error en ingreso de grupo!',
-          text:'Ingrese todos los campos correctamente'
+          text:'Erro al registrar el grupo'
           });
           })
     },

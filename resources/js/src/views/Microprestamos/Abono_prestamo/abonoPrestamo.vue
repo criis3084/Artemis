@@ -259,7 +259,7 @@ export default{
         me.ActualizarFechaPago()
         me.Imprimir = true
         // alert('Ingreso de abono correctamente')
-        this.$vs.notify({
+        me.$vs.notify({
 					color:'success',
 					title:'Abono registrado!',
 					text:'La acción se realizo exitósamente'
@@ -267,17 +267,12 @@ export default{
       })
         .catch(function (error) {
           console.log(error)
-           this.$vs.notify({
+           me.$vs.notify({
           color:'danger',
           title:`Error en ingreso!`,
-          text:'Ingrese correctamente todos los datos'
+          text:'Ocurrio un error al guardar el abono'
         })
         })
-      this.$vs.notify({
-					color:'success',
-					title:'Abono registrado!',
-					text:'La acción se realizo exitósamente'
-				});
     },
     buscarDatos () { //funcion para traer datos del prestamista, desde el la opcion que se selecciona en el select
       console.log(this.detalle.id)
@@ -300,6 +295,7 @@ export default{
       this.pagarMora = false
       this.mes = 0
       this.dias = 0
+      this.Imprimir = false
       this.MoraPorfechas()
     },
     async buscarAbonos () { //funcion para verificar si se ya tiene abonos realizados
@@ -418,13 +414,15 @@ export default{
     },
 
     limpiar () {
-      this.AbonoTotal = 0
-      this.deuda = 0
-      this.mora = 0
+      this.AbonoTotal = ''
+      this.deuda = ''
+      this.mora = ''
+      this.mes = ''
+      this.dia = ''
       this.cantidad_abono = ''
       this.nombreSeleccionado = ''
       this.descripcion = ''
-      this.nRecibo = 0
+      this.nRecibo = ''
     },
 
     desactivar () {
