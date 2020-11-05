@@ -98,11 +98,11 @@ export default {
         'header: Slot'
       ],
       'fileName': '',
-      'formats':['xlsx', 'csv', 'txt'],
+      'formats':['xlsx'],
       'cellAutoWidth': true,
 	  'selectedFormat': 'xlsx',
-	  'headerVal': ['id', 'nombre', 'direccion', 'estado'],
-	  'headerTitle': ['Id', 'Nombre', 'Direccion', 'Estado'],
+	  'headerVal': ['id', 'nombre', 'descripcion', 'cantidad_ultimo_prestamo', 'cantidad_prestamo_actual', 'interes_ultimo_prestamo', 'created_at'],
+	  'headerTitle': ['Id', 'Nombre', 'Descripción', 'Último préstamo', 'Préstamo actual', 'Interes del préstamo', 'Fecha de creación'],
       'activePrompt': false
     }
   },
