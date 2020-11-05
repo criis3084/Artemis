@@ -11,7 +11,7 @@ class Receta extends Model
 	public function historial(){
 		return $this->belongsTo('App\HistorialClinico','historial_clinico_id','id');
 	}
-	public function detalleReceta(){
+	public function detalle_receta(){
 		return $this->hasMany('App\AsignacionMedicamento','receta_id','id');
 	}
 }

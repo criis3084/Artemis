@@ -14,6 +14,9 @@ class HistorialClinico extends Model
 	public function paciente(){
 		return $this->belongsTo('App\Paciente','paciente_id','id');
 	}
+	public function receta(){
+		return $this->hasMany('App\Receta','historial_clinico_id','id');
+	}
 	public function doctor(){
 		return $this->hasManyThrough(
 			'App\Usuario',

@@ -209,7 +209,9 @@
 													</div>
 													<div class="timeline-info">
 														<h5 class="text-dark"> <b class="text-warning">Descripción: </b> {{ historial.examen.descripcion }}</h5>
-														<span class="activity-desc"><b>Resultado </b>{{ historial.examen.resultado }}</span>
+														<span class="activity-desc"><b>Tipo: </b>{{ historial.tipo_examen[0].nombre }}</span>
+														<br>
+														<span class="activity-desc"><b>Resultado: </b>{{ historial.examen.resultado }}</span>
 													</div>
 													<span class="text-grey activity-e-time">Fecha: {{ historial.examen.created_at }}</span>
 													<vs-divider class="mt-5"/>
@@ -227,17 +229,41 @@
 														<span class="activity-desc"><b>Subjetivo: </b>{{ historial.subjetivo }}</span>
 													</div>
 													<span class="text-grey activity-e-time">Fecha: {{ historial.created_at }}</span>
-													<div class="flex items-center mt-0">
-														<vs-button color="primary" type="border" icon="visibility" size="small" @click="openDetalle(historial)">Ver consulta</vs-button>
-														<vs-button color="primary" type="border" icon="visibility" class="vs-align-right" size="small" @click="openDetalle(historial)">Ver receta</vs-button>
+													<div class="flex flex-wrap items-center justify-between mt-3">
+															<vs-button color="primary" type="border" icon="visibility" size="small" class="mr-base mb-2" @click="openDetalle(historial)">Ver consulta</vs-button>
+														<div class="flex items-center">
+															<vs-button color="primary" type="border" icon="visibility" class="mr-base mb-2" size="small" v-if="historial.receta.length>0" @click="openCita(historial.receta[0],historial.doctor[0])">Ver receta</vs-button>
+														</div>
 													</div>
-													<vs-divider class="mt-5"/>
+													<vs-divider class="mt-4"/>
 												</div>
 											</li>
 										</ul>
+								<vs-prompt
+									:buttons-hidden="true"
+									title="Detalle de la receta"
+									:active.sync="abrirReceta">
+									<vs-list>
+										<h5> <b> Doctor: </b> {{doctorReceta.nombres + ' ' + doctorReceta.apellidos}}</h5>
+										<div class="vx-col w-full mb-base mt-4">
+											<table style="width:100%" class="border-collapse">
+												<tr>
+													<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre Medicamento</th>
+													<th class="p-2 border border-solid d-theme-border-grey-light text-center">Cantidad</th>
+													<th class="p-2 border border-solid d-theme-border-grey-light text-center">Frecuencia</th>
+												</tr>
+												<tr v-for="(producto,index) in carritoReceta" :key="index">
+													<td class="border border-solid d-theme-border-grey-light text-center">{{producto.medicamento.nombre}}</td>
+													<td class="border border-solid d-theme-border-grey-light text-center">{{producto.cantidad}}</td>
+													<td class="border border-solid d-theme-border-grey-light text-center">{{producto.frecuencia}}</td>
+												</tr>
+											</table>
+										</div>
+										<h5> <b> Anotaciones: </b> {{listadoReceta}}</h5>
+									</vs-list>
+								</vs-prompt>
 
 								<vs-prompt
-
 									:buttons-hidden="true"
 									title="Detalle de la consulta"
 									:active.sync="abrirDetalle">
@@ -316,7 +342,7 @@
 						</template>
 					<table style="width:100%" class="border-collapse" v-if="!conCitas">
 						<tr v-for="(cita) in citas" :key="cita.id" class="mr-0 ml-0">
-							<td class="pointer-events-none text-center">
+							<td class="pointer-events-none text-center"  style="width:100px">
 								<vx-card
 									card-background="cornflowerblue"
 									class="mt-2"
@@ -339,7 +365,7 @@
 										<p><small class="text-white">{{cita.fecha.split('-',3)[0]}}</small></p>
 								</vx-card>
 							</td>
-							<td class="pointer-events-none text-left">
+							<td class="pointer-events-none text-left" style="width:550px">
 								<vx-card class="mt-2">
 								<b> Descripcion: </b> {{cita.descripcion}}
 								<p>
@@ -388,6 +414,7 @@ export default {
 			codigoPersona:null,
 			detalleConsulta:null,
 			abrirDetalle:false,
+			abrirReceta:false,
 			//--------- Ultimos -------/
 			ultimo_peso:null,
 			ultima_talla:null,
@@ -397,6 +424,9 @@ export default {
 			ultima_glicemia:null,
 			ultima_semanas:null,
 			ultima_respiracion:null,
+			carritoReceta:[],
+			doctorReceta:{},
+			listadoReceta:''
 		}
 	},
 	components:{
@@ -407,10 +437,25 @@ export default {
 			this.amplio=!this.amplio	
 		},
 		openDetalle(detalleC){
-			console.log
-			// this.listado(tutor)
 			this.abrirDetalle=true;
 			this.detalleConsulta=detalleC
+		},
+		openCita(detalleC,medico){
+			this.listadoReceta = detalleC.listado
+			this.doctorReceta=medico
+			const me = this
+			axios.get(
+			`/api/asignacionMedicamento/get?criterio=receta_id&buscar=${detalleC.id}&completo=true`)
+			.then(function (response) {
+				const respuesta = response.data
+				me.detalleReceta = respuesta.asignacionMedicamentos.data
+				me.carritoReceta = me.detalleReceta
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
+			this.abrirReceta=true;
+
 		},
 		async traerPaciente(){
 			const me = this
@@ -630,37 +675,6 @@ export default {
 			}
 			*/
 		},
-		traerNombreMedicamento(tabla){
-			for (let i in tabla) {
-				let valor = tabla[i]
-				tabla[i].nombre_completo = valor.nombre + ' - ' + valor.casa_medica.nombre
-				if (valor.lotes.length >0){
-					let lotesActivos=[]
-					for (let j in valor.lotes) {
-						let elemento = valor.lotes[j]
-						if(elemento.estado == 1)
-						{
-							elemento.fecha_expiracion = new Date(parseInt(elemento.fecha_expiracion.split('-',3)[0]),parseInt(elemento.fecha_expiracion.split('-',3)[1]),parseInt(elemento.fecha_expiracion.split('-',3)[2]))
-							lotesActivos.push(elemento)
-						}
-					}
-					let n = lotesActivos.length
-					let aux=0
-					    for (let k = 1; k < n; k++) {
-							for (let i = 0; i < (n - k); i++) {
-								if (lotesActivos[i].fecha_expiracion > lotesActivos[i + 1].fecha_expiracion) {
-									aux = lotesActivos[i];
-									lotesActivos[i] = lotesActivos[i + 1];
-									lotesActivos[i + 1] = aux;
-								}
-							}
-						}
-					tabla[i].lotes =lotesActivos
-				}
-			}
-			return tabla
-			},
-		
 		nombreMes(numero){
 			numero = parseInt(numero)+1
 			let nombre=''
@@ -750,8 +764,8 @@ export default {
 		}
 	},
 	mounted(){
-		this.traerPaciente()
 		this.traerHistorial()
+		this.traerPaciente()
 		this.traerCitas()
 	},
 	

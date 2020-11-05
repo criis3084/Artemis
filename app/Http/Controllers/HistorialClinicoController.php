@@ -18,17 +18,17 @@ class HistorialClinicoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$historialClinico = HistorialClinico::with('clinico')->with('doctor')->with('paciente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$historialClinico = HistorialClinico::with('clinico')->with('receta')->with('doctor')->with('paciente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$historialClinico = HistorialClinico::with('clinico')->with('doctor')->with('paciente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$historialClinico = HistorialClinico::with('clinico')->with('receta')->with('doctor')->with('paciente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$historialClinico = HistorialClinico::with('clinico')->with('doctor')->with('paciente')->orderBy('id', 'desc')->paginate($count);
+				$historialClinico = HistorialClinico::with('clinico')->with('receta')->with('doctor')->with('paciente')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$historialClinico = HistorialClinico::with('clinico')->with('doctor')->with('paciente')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$historialClinico = HistorialClinico::with('clinico')->with('receta')->with('doctor')->with('paciente')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [

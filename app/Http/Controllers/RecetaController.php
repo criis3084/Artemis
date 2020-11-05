@@ -18,17 +18,17 @@ class RecetaController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$receta = Receta::with('historial')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$receta = Receta::with('detalle_receta')->with('historial')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$receta = Receta::with('historial')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$receta = Receta::with('detalle_receta')->with('historial')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$receta = Receta::with('historial')->orderBy('id', 'desc')->paginate($count);
+				$receta = Receta::with('detalle_receta')->with('historial')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$receta = Receta::with('historial')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$receta = Receta::with('detalle_receta')->with('historial')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
