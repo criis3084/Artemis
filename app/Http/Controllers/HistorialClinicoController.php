@@ -56,8 +56,8 @@ class HistorialClinicoController extends Controller
 			$historialClinico->clinico_id = $request->clinico_id;
 			$historialClinico->save();
 			
-			return Response::json(['message' => 'Historial clinico Creada'], 200);
-			#return ['id' => $nino->id];
+			#return Response::json(['message' => 'Historial clinico Creada'], 200);
+			return ['id' => $historialClinico->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}

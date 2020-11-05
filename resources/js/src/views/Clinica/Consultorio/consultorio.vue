@@ -1,5 +1,68 @@
 <template>
-	<vx-card>
+	<div>
+
+	  <div class="vx-row" v-if="!verForm">
+		<div class="vx-col w-full">
+			<div id="invoice-page">
+				<vx-card id="invoice-container">
+					<div class="vx-row leading-loose p-base">
+		                <div class="vx-col w-1/2">
+							<img src="@assets/images/logo/logopid.png" alt="pid-logo">
+						</div>
+						<div class="vx-col w-1/2 text-right">
+							<p class="text-primary">Partners In Development</p>
+							<p class="text-dark">Aldea Concepción Ixtacapa, San Antonio</p>
+							<p class="text-dark">Suchitepéquez, Guatemala</p>
+							<p><span class="text-grey"> {{getDate(fecha_consulta)}}</span></p>
+						</div>
+					</div>
+					<div class="flex-1 text-center">
+						<h3><span class="font-semibold">Receta Medica</span></h3>
+					</div>
+					<div class="mt-4">
+						<span class="font-semibold">Receta No.</span>{{ id_receta }}
+						<br>
+						<span class="font-semibold">Doctor/a: </span>Juan paco pedro de la mar
+						<br>
+						<span class="font-semibold">Paciente: </span>{{paciente_select.nombre_completo}}
+					</div>
+					<vs-list>
+						<div class="vx-col w-full mb-base mt-4">
+							<table style="width:100%" class="border-collapse">
+								<tr>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre Medicamento</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Cantidad</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Frecuencia</th>
+								</tr>
+								<tr v-for="(producto,index) in carrito" :key="index">
+									<td class="border border-solid d-theme-border-grey-light text-center">{{producto.nombre_completo}}</td>
+									<td class="border border-solid d-theme-border-grey-light text-center">{{listaCantidades[index]}}</td>
+									<td class="border border-solid d-theme-border-grey-light text-center">{{listaFrecuencias[index]}}</td>
+								</tr>
+							</table>
+						</div>
+					</vs-list>
+					<p><b>Anotaciones: </b> </p>
+					<p>{{ listado }} </p>
+					
+					<div class="flex justify-between font-semibold mb-3 mt-10">
+						<span>Firma del doctor/a: _________________________________________________ </span>
+					</div>
+				</vx-card>
+					</div>
+
+			</div>
+			<div class="flex flex-wrap items-center justify-between mt-2">
+				<vx-input-group class="mb-base mr-3">
+				</vx-input-group>
+
+				<div class="flex vs-align-right">
+					<vs-button class="mb-base mr-3" type="gradient" icon-pack="feather" color="success" @click="recargar">Regresar</vs-button>  
+				</div>
+			</div>
+		</div>
+
+	<vx-card v-if="verForm" >
 		<div class="vx-row">
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="w-full">
@@ -129,12 +192,16 @@
 			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirReceta" v-if="!verReceta" :disabled="deshabilitado">Añadir receta</vs-button>
 			<vs-button type="gradient" color="danger" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirReceta" v-if="verReceta" :disabled="deshabilitado">Eliminar Receta</vs-button>
           <div class="flex items-center">
-			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirReceta" v-if="imprimir" :disabled="deshabilitado">Imprimir</vs-button>
-			<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar" v-if="!imprimir" :disabled="deshabilitado">Registrar</vs-button>
+			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="printInvoice" v-if="verReceta == true && verForm == true" :disabled="deshabilitado">Registrar e imprimir receta</vs-button>
+			<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar" :disabled="deshabilitado">Registrar</vs-button>
           </div>
-        </div>
+		</div>
+    			<!-- Diseño de la impresion de la receta  -->
+		<!-- <div class="vx-col w-full"> -->
 
 	</vx-card>
+	</div>
+
 </template>
 <script>
 import axios from 'axios'
@@ -188,6 +255,9 @@ export default {
 			carrito:[],
 			listado:'',
 			imprimir:false,
+			// ---- Impresion de receta ----//
+			verForm:true,
+			id_receta:null,
 		}
 	},
 	components:{
@@ -216,6 +286,8 @@ export default {
 				}
 			}
 			else{
+				this.diabetico=false
+				this.embarazada=false
 				this.verReceta=false
 				this.deshabilitado = true
 			}
@@ -233,9 +305,22 @@ export default {
 		}
 	},
 	methods: {
+		recargar(){
+			location.reload();
+		},
 		anadirReceta(){
 			this.verReceta=!this.verReceta
 		},
+		aImprimir(){
+			this.verForm = !this.verForm
+			setTimeout(function () {
+				window.print()
+			}, 100);
+	    },
+		printInvoice(){
+			this.imprimir=true,
+			this.registrar();
+	    },
 		borrarIntegrante (index) {
 			this.carrito.splice(index, 1)
 			this.listaCantidades.splice(index, 1)
@@ -264,9 +349,9 @@ export default {
 			});
 			return tabla
 		},
-		registrar(){
+		async registrar(){
 			let me = this
-			axios.post("/api/historialClinico/post/",{
+			await axios.post("/api/historialClinico/post/",{
 				fecha_consulta: me.getDate(me.fecha_consulta),
 				descripcion:me.descripcion,
 				peso_actual:me.peso_actual,
@@ -283,11 +368,57 @@ export default {
 				paciente_id:me.paciente_select.id,
 			}).then(function(response){
 				console.log(response)
-				location.reload();
+				if (me.verReceta==true) {
+					me.registrarReceta(response.data.id)
+				}
+				else{
+					location.reload();
+				}
+
 			})
 			.catch(function(error) {
 				console.log(error)
 			});
+		},
+		async registrarReceta(id_historial){
+			let me = this
+			await axios.post("/api/receta/post/",{
+				listado:me.listado,
+				historial_clinico_id:id_historial,
+			}).then(function(response){
+				console.log(response)
+				me.id_receta=response.data.id
+				me.detalleReceta(response.data.id)
+			})
+			.catch(function(error) {
+				console.log(error)
+			});
+		},
+		async detalleReceta(idReceta){
+			let me = this
+			let carritoT = me.carrito
+			let todos=true
+			for (let i in carritoT) {
+				let elemento = carritoT[i]
+				await axios.post("/api/asignacionMedicamento/post/",{
+					cantidad:parseInt(me.listaCantidades[i]),
+					frecuencia:me.listaFrecuencias[i],
+					medicamento_id:carritoT[i].id,
+					receta_id:idReceta
+				}).then(function(response){
+					console.log(response)
+					if (i==carritoT.length-1 && me.imprimir == true){
+						me.aImprimir();
+					}
+					else if (i==carritoT.length-1 && me.imprimir == false){
+						location.reload();
+					}
+				})
+				.catch(function(error) {
+					false
+					console.log(error)
+				});
+			}
 		},
 		getDate(datetime) {
 			let date = new Date(datetime);
@@ -318,6 +449,43 @@ export default {
 	mounted() {
 		this.importarPacientes()
 		this.importarMedicamentos()
+		this.$emit('setAppClasses', 'invoice-page')
 	},
 }
 </script>
+
+
+<style lang="scss">
+@media print {
+  .invoice-page {
+    * {
+      visibility: hidden;
+    }
+
+    #content-area {
+      margin: 0 !important;
+    }
+
+    .vs-con-table {
+      .vs-con-tbody {
+        overflow: hidden !important;
+      }
+    }
+
+    #invoice-container,
+    #invoice-container * {
+      visibility: visible;
+    }
+    #invoice-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+@page {
+  size: auto;
+}
+</style>

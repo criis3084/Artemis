@@ -7,7 +7,7 @@
            El pago de la vivienda se ha completado 
         </vs-alert>
       <vx-card title="Ingresar Abono">
-				<vs-divider position="right">PID&#174;</vs-divider>
+		<vs-divider position="right">PID&#174;</vs-divider>
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/3 w-full">
             <span>Nombre del propietario</span>
