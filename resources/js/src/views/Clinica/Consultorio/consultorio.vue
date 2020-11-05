@@ -1,6 +1,5 @@
 <template>
 	<div>
-
 	  <div class="vx-row" v-if="!verForm">
 		<div class="vx-col w-full">
 			<div id="invoice-page">
@@ -49,9 +48,8 @@
 						<span>Firma del doctor/a: _________________________________________________ </span>
 					</div>
 				</vx-card>
-					</div>
-
 			</div>
+		</div>
 			<div class="flex flex-wrap items-center justify-between mt-2">
 				<vx-input-group class="mb-base mr-3">
 				</vx-input-group>
@@ -61,7 +59,6 @@
 				</div>
 			</div>
 		</div>
-
 	<vx-card v-if="verForm" >
 		<div class="vx-row">
 			<div class="vx-col md:w-1/2 w-full mt-6">
@@ -269,7 +266,6 @@ export default {
 			if(this.paciente_select !=null)
 			{
 				this.deshabilitado = false
-				console.log(this.paciente_select)
 				if(this.paciente_select.tipo_paciente_id==3)
 				{
 					this.embarazada=true
@@ -297,10 +293,6 @@ export default {
 			if (this.medicamento_id != null)
 			{
 				this.carrito.push(this.medicamento_id)
-				console.log('carrito y cantidades')
-				console.log(this.listaCantidades)
-				console.log(this.listaFrecuencias)
-				// this.listaCantidades.push(0)
 			}
 		}
 	},
@@ -325,8 +317,6 @@ export default {
 			this.carrito.splice(index, 1)
 			this.listaCantidades.splice(index, 1)
 			this.listaFrecuencias.splice(index, 1)
-			console.log(this.carrito)
-			console.log(this.listaCantidades)
 		},
 		async importarPacientes() {
 			let me = this;

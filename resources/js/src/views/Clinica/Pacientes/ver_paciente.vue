@@ -315,7 +315,7 @@
 								<vx-tooltip text = "Agregar registro"> <router-link to="/clinica/citas"> <vs-button radius type="gradient" icon="add" color = "primary" size="large" ></vs-button> </router-link>  </vx-tooltip>
 						</template>
 					<table style="width:100%" class="border-collapse" v-if="!conCitas">
-						<tr v-for="(cita) in citas" :key="cita.id">
+						<tr v-for="(cita) in citas" :key="cita.id" class="mr-0 ml-0">
 							<td class="pointer-events-none text-center">
 								<vx-card
 									card-background="cornflowerblue"

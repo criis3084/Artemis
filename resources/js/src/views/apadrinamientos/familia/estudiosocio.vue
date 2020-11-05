@@ -105,31 +105,30 @@
     		title="Datos de los familiares"
     		title-color="warning"
 			>
-
 				<vs-list>
 						<div class="vx-col w-full mb-base">
-								<table style="width:100%" class="border-collapse">
-										<tr>
-											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fotografia</th>
-											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre completo</th>
-											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Edad</th>
-											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Parentesco</th>
-											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Escolaridad</th>
-											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ocupación</th>
-											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Telefono</th>
-											<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ingresos</th>
-										</tr>
-										<tr v-for="(encargado,index2) in listadoFamilia" :key="index2">
-											<td class="border border-solid d-theme-border-grey-light text-center">	<vs-avatar :src="encargado.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="30px"/> </td>
-											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.datos_encargado[0].nombres}} {{encargado.datos_encargado[0].apellidos}} </td>
-											<td class="border border-solid d-theme-border-grey-light text-center"> {{calculateAge(encargado.datos_encargado[0].fecha_nacimiento)}}</td>
-											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.relacion}}</td>
-											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.escolaridad}}</td>
-											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.ocupacion}}</td>
-											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.datos_encargado[0].numero_telefono}}</td>
-											<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.ingresos}}</td>
-										</tr>
-								</table>
+							<table style="width:100%" class="border-collapse">
+									<tr>
+										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fotografia</th>
+										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre completo</th>
+										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Edad</th>
+										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Parentesco</th>
+										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Escolaridad</th>
+										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ocupación</th>
+										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Telefono</th>
+										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ingresos</th>
+									</tr>
+									<tr v-for="(encargado,index2) in listadoFamilia" :key="index2">
+										<td class="border border-solid d-theme-border-grey-light text-center">	<vs-avatar :src="encargado.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="30px"/> </td>
+										<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.datos_encargado[0].nombres}} {{encargado.datos_encargado[0].apellidos}} </td>
+										<td class="border border-solid d-theme-border-grey-light text-center"> {{calculateAge(encargado.datos_encargado[0].fecha_nacimiento)}}</td>
+										<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.relacion}}</td>
+										<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.escolaridad}}</td>
+										<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.ocupacion}}</td>
+										<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.datos_encargado[0].numero_telefono}}</td>
+										<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.ingresos}}</td>
+									</tr>
+							</table>
 						</div>
 				</vs-list>
 			</vx-card>
@@ -191,7 +190,6 @@
 		<div class="flex flex-wrap items-center justify-between mt-2">
 			<vx-input-group class="mb-base mr-3">
 			</vx-input-group>
-
 			<div class="flex items-center">
 				<vs-button class="mb-base mr-3" type="gradient" icon-pack="feather" color="success" @click="goBack">Regesar</vs-button>  
 			</div>

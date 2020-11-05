@@ -40,18 +40,9 @@ class HistorialExamenController extends Controller
 	public function store(Request $request)
 	{
 		try {
-			$examen = new Examen();
-			$examen->descripcion = $request->descripcion;
-			$examen->resultado = $request->resultado;
-			$examen->fecha_examen = $request->fecha_examen;
-			$examen->tipo_examen_id = $request->tipo_examen_id;
-			$examen->clinico_id = $request->clinico_id;
-			
 			$historialExamen = new HistorialExamen();
 			$historialExamen->examen_id = $request->examen_id;
 			$historialExamen->paciente_id = $request->paciente_id;
-
-			$examen->save();
 			$historialExamen->save();
 			
 			return Response::json(['message' => 'Historial examen Creada'], 200);

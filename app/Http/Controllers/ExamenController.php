@@ -46,8 +46,8 @@ class ExamenController extends Controller
 			$examen->tipo_examen_id = $request->tipo_examen_id;
 			$examen->clinico_id = $request->clinico_id;
 			$examen->save();
-			return Response::json(['message' => 'Examen Creada'], 200);
-			#return ['id' => $nino->id];
+			#return Response::json(['message' => 'Examen Creada'], 200);
+			return ['id' => $examen->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
 		}

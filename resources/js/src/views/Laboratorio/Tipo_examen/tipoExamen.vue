@@ -193,13 +193,13 @@ export default {
 		let titulo = "Cancelado"
 		let texto = "Cambio de estado cancelado"
 		this.$vs.notify({
-        color:'danger',
-        title:`${titulo}`,
-        text:`${titulo}`
-	  })
-	this.index();
+			color:'danger',
+			title:`${titulo}`,
+			text:`${titulo}`
+		})
+		this.index();
     },
-	async index(page, search){ //async para que se llame cada vez que se necesite
+	async index(){
 		let me = this;
 		this.abrir_editar=false
 		const response = await axios.get(
@@ -207,7 +207,6 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
 			me.arrayData = respuesta.tipoExamenes.data;
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
