@@ -29,7 +29,7 @@
 				</div>
 				<vs-row	vs-align="center" vs-type="flex"  class="m-10" vs-justify="space-around" vs-w="12">
 					<div class="vx-col md:w-1/4 w-full mt-5">
-							<vs-button @click="sumar_nino">Agregar nuevo niño</vs-button>
+							<vs-button type="gradient" icon-pack="feather" icon="icon-plus" @click="sumar_nino">Agregar nuevo niño</vs-button>
 					</div>
 				</vs-row>
 			
@@ -63,21 +63,27 @@
 						<div class="vx-col md:w-1/2 w-full mt-3">
 							<div class="vx-col w-full">
 								<small class="date-label">Sector de Vivienda</small>
-								<v-select label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+								<v-select name="sector" v-validate="'required'" label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+							<div v-if="VALsector"><span class="text-danger">{{ VALsector }}</span><br></div>
+							
 							</div>
 						</div>
 
 						<div class="vx-col md:w-1/2 w-full mt-5">
 							<div class="vx-col w-full">
-								<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección Familiar" v-model="direccion"/>
-								<span class="text-danger">La dirección es requerida</span>
+								<vs-input name="direccion" v-validate="'required|max:254'" class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección Familiar" v-model="direccion"/>
+							<div v-if="VALdireccion"><span class="text-danger">{{ VALdireccion }}</span><br></div>
+
 							</div>
 						</div>
 
 						<div class="vx-col md:w-1/2 w-full">
 							<div class="vx-col w-full">
-								<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="Código de la Familia" v-model="codigo_familia"/>
-								<span class="text-danger">El código de la familia es requerida</span>
+								<vs-input v-validate="'required|alpha_num|max:20'" class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="Código de la Familia" v-model="codigo_familia"/>
+							<div v-if="VALcodigo"><span class="text-danger">{{ VALcodigo }}</span><br></div>
+							<div v-if="VALcodigo2"><span class="text-danger">{{ VALcodigo2 }}</span><br></div>
+							<div v-if="VALcodigo3"><span class="text-danger">{{ VALcodigo3 }}</span></div>
+							
 							</div>
 						</div>
 
@@ -85,7 +91,7 @@
 
 					<vs-row	vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12" >
 						<div class="vx-col md:w-1/4 w-full mt-5">
-								<vs-button @click="sumar_familia">Agregar nuevo familiar del niño</vs-button>
+								<vs-button type="gradient" icon-pack="feather" icon="icon-plus" @click="sumar_familia">Agregar nuevo familiar del niño</vs-button>
 						</div>
 					</vs-row>
 
@@ -130,9 +136,13 @@ export default {
   data() {
 		return {
 			sectores:[],
-			sector_id:0,
-			direccion:'',
-			codigo_familia:'',
+			sector_id:null,
+			direccion:null,
+			codigo_familia:null,
+
+			VALsector:'',
+			VALdireccion:'',
+			VALcodigo:'',
 			
 			ingresar:false,
 			
@@ -172,9 +182,77 @@ export default {
 		estudio_id: function(newVal, oldVal) {
 			console.log('Se ingreso estudio')
 			console.log('Nuevo valor: ', newVal, ' | valor cambiado: ', oldVal)
-		}
+		},
+		sector_id(value) {
+			// this.validator.validate('sector_id', value);
+			// this.validateForm();
+			this.sector_id = value;
+			this.validateSector(value);
+		},
+		direccion(value){	
+			// this.validator.validate('direccion', value);
+			// this.validateForm();
+			this.direccion = value;
+			this.validateDireccion(value);
+		},
+		codigo_familia(value){	
+			// this.validator.validate('codigo_familia', value);
+			// this.validateForm();
+			this.codigo_familia = value;
+			this.validateCodigo(value);
+		},
 	},
   	methods: {
+		  camposCambioEstado(){
+				this.direccion="a"
+
+				this.codigo_familia="1"
+
+				this.sector_id="1"
+		},
+		camposCambioEstado2(){
+				this.direccion=""
+
+				this.codigo_familia=""
+
+				this.sector_id=""
+		},
+		  validateDireccion(value){
+	if (value=="")
+		{
+			this.VALdireccion = 'El campo dirección es requerido';
+		} else{
+			this.VALdireccion = '';
+		} 
+	},
+	validateSector(value){
+	if (value=="")
+		{
+			this.VALsector = 'El campo sector es requerido';
+		} else{
+			this.VALsector = '';
+		} 
+	},
+	validateCodigo(value){
+    if (/^[a-zA-Z0-9]*$/.test(value))
+		{
+			this.VALcodigo = '';
+		} else{
+			this.VALcodigo = 'El campo solo debe de contener letras y números';
+		} 
+	if (value.length<21)
+		{
+			this.VALcodigo2 = '';
+		} else{
+			this.VALcodigo2 = 'Este campo solo acepta hasta 20 caracteres';
+		} 
+	if (value=="")
+		{
+			this.VALcodigo3 = 'El campo código es requerido';
+		} else{
+			this.VALcodigo3 = '';
+		} 
+	},
 		recibirNinos(e){
 			this.ninosIngresados.push(e.id_nino)
 			this.ingresoRelaciones()
@@ -340,6 +418,8 @@ export default {
 				text:'Ingrese correctamente los campos para continuar'
 			})
 			}
+					this.camposCambioEstado();
+					this.camposCambioEstado2();
 			return retornar
 		},
 		validateStep2() {
@@ -371,6 +451,11 @@ export default {
 					text:'Ingrese correctamente los campos para continuar'
 				})
 			}
+			// this.$vs.notify({
+			// 		color:'success',
+			// 		title:`Siguiente paso`,
+			// 		text:'La acción se realizo exitósamente'
+			// 	});
 			return this.ppi_validado
 		},
 		async importarSectores(){ //async para que se llame cada vez que se necesite
@@ -400,7 +485,18 @@ export default {
 		this.importarSectores();
 		this.cantidad_ninos.push({id:1,visible:true,validado:false})
 		this.cantidad_familia.push({id:1,visible:true,validado:false})
+		this.camposCambioEstado();
+		this.camposCambioEstado2();
 	},
+	created() {
+		this.validator = new Validator({
+			direccion: 'required',
+			sector_id: 'required',
+			codigo_familia: 'required|alpha_num|max:20',
+		});
+		//this.$set(this, 'errores', this.validator.errors);
+
+	}
 }
 </script>
         
