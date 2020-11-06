@@ -146,17 +146,17 @@ import Datepicker from 'vuejs-datepicker'
 import { es } from 'vuejs-datepicker/src/locale'
 import vSelect from 'vue-select'
 import axios from 'axios'
-import { Validator } from 'vee-validate';
+import { Validator } from 'vee-validate'
 const dict = {
   custom: {
-	descripcion: {
+    descripcion: {
 	  required: 'El campo usuario es requerido',
-	  max: 'Este campo solo acepta hasta 254 caracteres',
-    },
+	  max: 'Este campo solo acepta hasta 254 caracteres'
+    }
   }
 }
 
-Validator.localize('en', dict);
+Validator.localize('en', dict)
 export default {
   components: {
     CalendarView,
@@ -221,8 +221,8 @@ export default {
     validForm () {
       return this.Medico !== '' && this.TipoCita !== '' && this.Paciente !== '' && this.title !== '' && this.startDate !== '' && this.endDate !== '' && Date.parse(this.endDate) - Date.parse(this.startDate) >= 0 && !this.errors.has('event-url')
     },
-    validName() {
-      return this.valMultipe.value1.length > 0 && this.valMultipe.value3 != 0 && this.valMultipe.value4 != 0 && this.valMultipe.fecha != "";
+    validName () {
+      return this.valMultipe.value1.length > 0 && this.valMultipe.value3 != 0 && this.valMultipe.value4 != 0 && this.valMultipe.fecha != ''
     },
     disabledDatesTo () {
       return { to: new Date(this.startDate) }
@@ -248,14 +248,14 @@ export default {
     }
   },
   methods: {
-    close() {
+    close () {
       this.$vs.notify({
-        color: "danger",
-        title: "Cerrado",
-        text: "Diálogo cerrado!",
-      });
+        color: 'danger',
+        title: 'Cerrado',
+        text: 'Diálogo cerrado!'
+      })
     
-      this.$emit("cerrado", "Se cerro el formulario");
+      this.$emit('cerrado', 'Se cerro el formulario')
     },
     addEvent () {
       const obj = { descripcion: this.title, fecha: this.endDate, label: this.labelLocal}
@@ -320,52 +320,57 @@ export default {
 	     return this.idT
     },
     editEvent () {
-this.$validator.validateAll().then(result => {
-	if(result) {
-      /*const obj = { id: this.id, title: this.title, startDate: this.startDate, endDate: this.endDate, label: this.labelLocal, url: this.url }
+      const me = this
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          /*const obj = { id: this.id, title: this.title, startDate: this.startDate, endDate: this.endDate, label: this.labelLocal, url: this.url }
       obj.classes = `event-${  this.labelColor(this.labelLocal)}`
       this.$store.dispatch('calendar/editEvent', obj)*/
-      axios.put('/api/cita/update/', {
-        id:this.idT,
-        fecha: this.formatoFecha(this.endDate),
-        descripcion: this.descripcion,
-        clinico_id: this.Medico.id,
-        paciente_id: this.Paciente.id,
-        tipo_cita_id: this.TipoCita.id
+          axios.put('/api/cita/update/', {
+            id:this.idT,
+            fecha: this.formatoFecha(this.endDate),
+            descripcion: this.descripcion,
+            clinico_id: this.Medico.id,
+            paciente_id: this.Paciente.id,
+            tipo_cita_id: this.TipoCita.id
 		   
-      }).then(function (response) {
-        console.log(response)
-        alert('Actualizado')
+          }).then(function (response) {
+            console.log(response)
+            me.$store.state.calendar.events = []
+            me.Citas()
+            me.$vs.notify({
+              color:'success',
+              title:'Cita registrado!',
+              text:'La cita se actualizo exitósamente'
+            })
         
-      })
-        .catch(function (error) {
-          console.log(error)
-          alert('Error')
-        })
-      this.$store.state.calendar.events = []
-      this.Citas()
-      this.$vs.notify({
-				color:'success',
-				title:'Actualización registrada!',
-				text:'La acción se realizo exitósamente'
-		})
-}
-	else{
+          })
+            .catch(function (error) {
+              console.log(error)
+              me.$vs.notify({
+                color:'Danger',
+                title:'Error!',
+                text:'Error al actualizar la cita'
+              })
+            })
+          /**/
+          
+        } else {
           this.$vs.notify({
-			color:'danger',
-			title:'Error en validación!',
-			text:'Ingrese todos los campos correctamente'
-			});
-		}
-	})
+            color:'danger',
+            title:'Error en validación!',
+            text:'Ingrese todos los campos correctamente'
+          })
+        }
+      })
     },
     removeEvent () {
       this.$store.dispatch('calendar/removeEvent', this.id)
       this.$vs.notify({
-        color: "danger",
-        title: "Cerrado",
-        text: "Diálogo cerrado!",
-      });
+        color: 'danger',
+        title: 'Cerrado',
+        text: 'Diálogo cerrado!'
+      })
     },
     eventDragged (event, date) {
       this.$store.dispatch('calendar/eventDragged', {event, date})
@@ -478,6 +483,7 @@ this.$validator.validateAll().then(result => {
       }	  
     },
     guardar () {
+      const me = this
       axios.post('/api/cita/post/', {
         descripcion:this.title,
         fecha: this.formatoFecha(this.endDate),
@@ -486,20 +492,25 @@ this.$validator.validateAll().then(result => {
         tipo_cita_id: this.TipoCita.id
       }).then(function (response) {
         console.log(response)
-        alert('Guardado')
-         let titulo = 'Cita registrada!';
-			this.$vs.notify({
-			color:'success',
-			title:`${titulo}`,
-			text:'La acción se realizo exitósamente'
-			});
+         me.$store.state.calendar.events = []
+         me.Citas()
+        me.$vs.notify({
+          color:'success',
+          title:'Cita',
+          text:'Cita registrada correctamente'
+        })
+        location.reload()
       })
         .catch(function (error) {
           console.log(error)
           alert('Error al ingresar')
+          me.$vs.notify({
+            color:'danger',
+            title:'Error',
+            text:'Error al registrar cita'
+          })
         })
-      this.$store.state.calendar.events = []
-      this.Citas()
+      
     }
     
   },

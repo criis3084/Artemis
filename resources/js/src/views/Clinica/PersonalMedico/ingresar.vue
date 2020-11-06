@@ -282,7 +282,7 @@ export default {
         })
     },
     acceptAlert () {
-		
+		 const me = this
       if (this.imagen_perfil === '') {
         this.imagen_perfil = 'default.png'
       }
@@ -305,19 +305,22 @@ export default {
         rol_id:this.rol_id.id
       }).then(function (response) {
         console.log(response)
-        alert('Guardado correctamente')
+        me.$vs.notify({
+					color:'success',
+					title:'Persona registrada',
+					text:'Acción realizada exitósamente'
+				})
       })
         .catch(function (error) {
           console.log(error)
-          alert('Error al gurdar')
+          me.$vs.notify({
+					color:'danger',
+					title:'Error',
+					text:'Error al guardar datos'
+				})
         })
       this.$router.push('/clinica/PersonalMedico')
       this.$emit('cerrado', 'Se cerró el formulario')
-      this.$vs.notify({
-					color:'success',
-					title:'Presonal médico registrado',
-					text:'Acción realizada exitósamente'
-				});
     },
     vaciar () {
       this.imagen_perfil = ''

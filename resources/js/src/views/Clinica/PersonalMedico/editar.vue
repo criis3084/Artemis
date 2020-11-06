@@ -279,6 +279,7 @@ export default {
       return dateString
     },
     formSubmitted () {
+      const me = this
       if (this.imagen_perfil === '') {
         this.imagen_perfil = this.imagen_perfil_antigua
       } else {
@@ -302,19 +303,23 @@ export default {
         direccion:this.direccion,
         rol_id:this.rol_id.id
       }).then(function (response) {
-        console.log(response)	
+        console.log(response)
         // alert('Cambios guardados')
+        me.$vs.notify({
+					color:'success',
+					title:'Éxito',
+					text:'Datos actualizados correctamente'
+				})
       })
         .catch(function (error) {
           console.log(error)
-          alert('Error al gurdar')
+          me.$vs.notify({
+					color:'danger',
+					title:'Error',
+					text:'No se pudieron actualizar los datos'
+				})
         })
       this.$emit('cerrado', 'Se cerró el formulario')
-      this.$vs.notify({
-					color:'success',
-					title:'Actualización registrada!',
-					text:'Acción realizada exitósamente'
-				});
       this.$router.push('/clinica/PersonalMedico')
     },
     async index () { //async para que se llame cada vez que se necesite

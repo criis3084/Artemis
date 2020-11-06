@@ -81,6 +81,7 @@ export default {
 		offset : 3,
 		search : '',
 		arrayData: [],
+		arrayDatos:[],
 		codigo: '',
 		id_recibido: 0,
 		id_ppi: 0,
@@ -179,7 +180,7 @@ export default {
 			`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.arrayData = respuesta.ninos.data;
+            me.arrayDatos = respuesta.ninos.data;
             me.nombre = respuesta.ninos.data[0].datos.nombres;
             me.apellido = respuesta.ninos.data[0].datos.apellidos;
 			me.codigo = respuesta.ninos.data[0].codigo;
