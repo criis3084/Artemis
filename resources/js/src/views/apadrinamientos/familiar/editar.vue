@@ -35,7 +35,7 @@
 
 							<div class="vx-col md:w-1/2 w-full mt-5">
 								<div class="my-4">
-									<small class="date-label">Fecha Nacimiento</small>
+									<small class="date-label">Fecha de nacimiento</small>
 									<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha" v-model="fecha_nacimientoT" v-validate="'required'"></datepicker>
 									<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
 								</div>
@@ -162,7 +162,7 @@ const dict = {
 	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
     fecha: {
-      required: 'El campo fecha es requerido',
+      required: 'El campo fecha de nacimiento es requerido',
 	},
 	ocupacion: {
 	  max: 'Este campo solo acepta hasta 150 caracteres',
