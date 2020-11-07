@@ -83,7 +83,7 @@ class MicroprestamoController extends Controller
 		try {
 		$microprestamo = Microprestamo::findOrFail($request->id);
 		//$microprestamo->nombre = $request->nombre;
-		$microprestamo->dia_pago = $request->dia_pago;
+		//$microprestamo->dia_pago = $request->dia_pago;
 		$microprestamo->save();
 		return Response::json(['message' => 'Microprestamo Actualizada'], 200);
 		} catch (Exception $e) {
