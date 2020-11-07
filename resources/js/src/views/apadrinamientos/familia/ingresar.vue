@@ -371,8 +371,8 @@ export default {
 				});
 				this.$vs.notify({
 					color:'success',
-					title:`Correcto`,
-					text:'Los datos familiares se han ingresado correctamente'
+					title:`Familia registrada!`,
+					text:'La acción se realizo exitósamente'
 				});
 					this.$router.push('/apadrinamiento/familia');
 			}
