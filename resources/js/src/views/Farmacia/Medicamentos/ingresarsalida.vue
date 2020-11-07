@@ -1,47 +1,48 @@
 <template>
   	<vx-card>
-
 		<div class = "demo-alignment">
-		<div class="vx-col md:w-1/3 w-full mt-5">
-			<router-link  to="/salida/medicamentos"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
-		</div>
-		<div class="flex-1 ">
+			<div class="vx-col md:w-1/3 w-full mt-5">
+				<router-link  to="/salida/medicamentos"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+			</div>
+			<div class="flex-1 ">
 				<h2>Salida de medicamentos</h2>
+			</div>
 		</div>
-		</div>
-
 		<form>
 
 		<div class="vx-col w-full">
-			<vs-divider position="center">Datos del paciente</vs-divider>			
-			<div class="md:w-1/3 w-full mt-3">
-				<div class="w-full">
-					<small class="date-label">Paciente:</small>
-					<v-select name="paciente" v-validate="'required'" label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-					<span class="text-danger">{{ errors.first('paciente') }}</span>
+			<vs-divider position="center">Datos del paciente</vs-divider>
+
+			<div class="vx-row">
+				<div class="vx-col md:w-1/2 w-full mt-6">
+					<div class="w-full">
+						<small class="date-label">Paciente:</small>
+						<v-select v-validate="'required'" label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<span class="text-danger">{{ errors.first('paciente') }}</span>
+					</div>
+				</div>
+				<div class="vx-col md:w-1/2 w-full mt-6">
+					<div class="vx-col w-full">
+						<small class="date-label">Destino:</small>
+						<v-select :disabled="paciente_select == null" name="destino" v-validate="'required'" label="nombre" :options="tipo_salida" v-model="tipo_salida_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<span class="text-danger">{{ errors.first('destino') }}</span>
+					</div>
 				</div>
 			</div>
-			<div class="md:w-1/3 w-full mt-3" v-if="opcionesSalidas">
-				<div class="w-full">
-					<small class="date-label">Destino:</small>
-					<v-select name="destino" v-validate="'required'" label="nombre" :options="tipo_salida" v-model="tipo_salida_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-					<span class="text-danger">{{ errors.first('destino') }}</span>
-				</div>
-			</div>
-			<div class="md:w-1/3 w-full mt-3" v-if="detalleSalida">
+			<div class="vx-col md:w-1/2 w-full mt-6" v-if="detalleSalida">
 				<div class="w-full">
 					<small class="date-label">Opciones:</small>
 					<v-select label="mostrar" :options="listado_pendientes" v-model="opcion_selected" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 				</div>
 			</div>
 		</div>
-		<div v-if="paciente_select != null">
+		<div>
 		<vs-divider position="center">Medicamentos</vs-divider>
 			<div class="vx-col md:w-1/2 w-full mt-3">
 				<div class="vx-col w-full">
 					<small class="date-label">Lista de medicamentos:</small>
-					<v-select v-if="this.carrito.length==0" name="medicamento" v-validate="'required'" label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-					<v-select v-if="this.carrito.length>0" name="medicamento" label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<v-select :disabled="paciente_select == null" v-if="this.carrito.length==0" name="medicamento" v-validate="'required'" label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<v-select :disabled="paciente_select == null" v-if="this.carrito.length>0" name="medicamento" label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 					<span class="text-danger">{{ errors.first('medicamento') }}</span>
 					<small class="date-label" v-if="medicamento_id != null"><p class="text-danger">Existencia: {{stockId}}</p></small>
 				</div>
@@ -62,29 +63,29 @@
 							<td class="pointer-events-none text-center text-dark"> {{producto.motivo == 1 ? 'Stock insuficiente': 'No hay en existencia'}}</td>
 						</tr>
 				</table>
-
 			</vs-alert>
+
 			<vs-divider position="center">Lista de entrega</vs-divider>
 			<vs-list>
-					<div class="vx-col w-full mb-base">
-							<table style="width:100%" class="border-collapse">
-									<tr>
-										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Eliminar</th>
-										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre Medicamento</th>
-										<th class="p-2 border border-solid d-theme-border-grey-light text-center">Cantidad</th>
-									</tr>
-									<tr v-for="(producto,index) in carrito" :key="index">
-										<td class="border border-solid d-theme-border-grey-light flex items-center">
-											<vs-button color="danger" type="border" icon-pack="feather" class="center" icon="icon-x-circle" @click="borrarIntegrante(index)"></vs-button>
-										</td>
-										<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}<small class="date-label"><p class="text-warning">(Stock: {{producto.stock_general}})</p></small></td>
-										<td class="border border-solid d-theme-border-grey-light flex items-center">
-											<vs-input name="cantidad" v-validate="'required|max:5|numeric'" style="text-align:right" v-model="listaCantidades[index]" />
-										</td>
-									</tr>
-							</table>
-						<span class="text-danger">{{ errors.first('cantidad') }}</span>
-					</div>
+				<div class="vx-col w-full mb-base">
+					<table style="width:100%" class="border-collapse">
+						<tr>
+							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Eliminar</th>
+							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre Medicamento</th>
+							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Cantidad</th>
+						</tr>
+						<tr v-for="(producto,index) in carrito" :key="index">
+							<td class="border border-solid d-theme-border-grey-light flex items-center">
+								<vs-button color="danger" type="border" icon-pack="feather" class="center" icon="icon-x-circle" @click="borrarIntegrante(index)"></vs-button>
+							</td>
+							<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}<small class="date-label"><p class="text-warning">(Stock: {{producto.stock_general}})</p></small></td>
+							<td class="border border-solid d-theme-border-grey-light flex items-center">
+								<vs-input name="cantidad" v-validate="'required|max:5|numeric'" style="text-align:right" v-model="listaCantidades[index]" />
+							</td>
+						</tr>
+					</table>
+					<span class="text-danger">{{ errors.first('cantidad') }}</span>
+				</div>
 			</vs-list>
 
 			<div class="vx-row mb-6">
@@ -97,7 +98,7 @@
 
 			<div class="vx-row">
           		<div class="vx-col sm:w-2/3 w-full ml-auto vs-align-right">
-            		<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="registrarSalida">Registrar Salida</vs-button>
+            		<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" :disabled="paciente_select == null" @click="registrarSalida">Registrar Salida</vs-button>
             		<!-- <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button> -->
           		</div>
 	        </div>
@@ -146,6 +147,7 @@ export default {
 			carrito:[],
 			listaCantidades:[],
 			carritoSin:[],
+			detalleReceta:[],
 			tipo_salida_select:null,
 			paciente_select:null,
 			opcion_selected:null,
@@ -226,9 +228,33 @@ export default {
 				this.carrito.push(this.medicamento_id)
 				// this.listaCantidades.push(0)
 			}
+		},
+		opcion_selected(){
+			if (this.opcion_selected!= null)
+			{
+				if (this.tipo_salida_select.id == 1){
+					this.traerDetalle(this.opcion_selected.id)
+				}
+			}
+			else{
+				this.limpiarLlenado()
+			}
 		}
 	},
 	methods: {
+		traerDetalle(idReceta){
+			const me = this
+			axios.get(
+			`/api/asignacionMedicamento/get?criterio=receta_id&buscar=${idReceta}&completo=true`)
+			.then(function (response) {
+				const respuesta = response.data
+				me.detalleReceta = respuesta.asignacionMedicamentos.data
+				me.llenadoCarrito(me.detalleReceta);
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
+		},
 		buscarDetalleBeneficios(paciente){
 			let me = this;
 			axios.get(
@@ -241,10 +267,16 @@ export default {
 				console.log(error)
 			})
 		},
+		limpiarLlenado(){
+			this.carrito=[]
+			this.carritoSin=[]
+			this.listaCantidades =[]
+			this.verCarritSin=false
+		},
 		llenadoCarrito(lista){
+			this.limpiarLlenado()
 			for (let i in lista){
-				let elemento = lista[i] 
-				console.log(elemento)
+				let elemento = lista[i]
 				const resultado = this.listado_medicamentos.find( medicamento => medicamento.id === elemento.medicamento_id );
 				if(resultado != undefined){
 					if(resultado.stock_general>elemento.cantidad)
@@ -266,8 +298,6 @@ export default {
 		borrarIntegrante (index) {
 			this.carrito.splice(index, 1)
 			this.listaCantidades.splice(index, 1)
-			console.log(this.carrito)
-			console.log(this.listaCantidades)
 		},
 		validarStock(){
 			let validado=true
@@ -275,18 +305,14 @@ export default {
 			for (let x in this.carrito) {
 				let v1 = parseInt(this.carrito[x].stock_general)
 				let v2 = parseInt(cantidades[x])
-				console.log(v1+ ' - ' + v2)
 				if (v1 < v2)
 				{
 					validado=false
 				}
 			}
-			console.log(validado)
 			return validado
 		},
 		registroDetalle(idSalida){
-			console.log('en salida')
-			console.log(idSalida)
 			let cantidades = this.listaCantidades
 			for (let x in this.carrito) {
 				let elemento =  this.carrito[x]
@@ -302,7 +328,6 @@ export default {
 						{
 							if(lote.stock > cantidadIngreso)
 							{
-								console.log('de ese lote')
 								cuentaSaldada = true
 								let ingresar  = lote.stock - cantidadIngreso
 								lote.stock  = lote.stock - cantidadIngreso
@@ -328,7 +353,6 @@ export default {
 							}
 							else if(lote.stock < cantidadIngreso){
 								cantidadIngreso = cantidadIngreso-lote.stock
-								console.log('hay que hacer un for')
 								axios.put("/api/lote/update/",{
 									id:lote.id,
 									stock:0,
@@ -351,7 +375,6 @@ export default {
 								});
 							}
 							else{
-								console.log('salida de un lote y a cero')
 								cuentaSaldada = true
 								lote.stock  = lote.stock - cantidadIngreso
 								axios.put("/api/lote/update/",{
@@ -378,10 +401,6 @@ export default {
 						}
 					}
 					if ( cuentaSaldada== true){
-						console.log('Se saldo la deuda')
-						console.log(this.tipo_salida_select)
-						console.log(cantidadStock)
-						console.log(cantidadIngreso)
 							if (cantidadStock == cantidadIngreso)
 							{
 								estadoT=0
@@ -398,10 +417,7 @@ export default {
 							});
 
 						if(this.tipo_salida_select.id != 0){
-							console.log('Buscando el tipo de salida')
 							if(this.tipo_salida_select.id == 1){
-								console.log('Receta')
-								console.log(this.opcion_selected)
 								axios.put("/api/receta/activar/",{
 									id:this.opcion_selected.id,
 								}).then(function(response) {
@@ -412,8 +428,6 @@ export default {
 								});
 							}
 							if(this.tipo_salida_select.id == 2){
-								console.log('Apoyo Mensual')
-								console.log(this.opcion_selected)
 								axios.put("/api/beneficio/activar/",{
 									id:this.opcion_selected.id,
 								}).then(function(response) {
@@ -433,8 +447,17 @@ export default {
 										accept: this.nuevoApoyo,
 										cancel: this.close
 									})
-									console.log('ese era el ultimo')
 								}
+							}
+							if(this.tipo_salida_select.id == 1){
+								axios.put("/api/receta/desactivar/",{
+									id:this.opcion_selected.id,
+								}).then(function(response) {
+									console.log(response)
+								})
+								.catch(function(error) {
+									console.log(error)
+								});
 							}
 						}
 					}
@@ -457,15 +480,12 @@ export default {
 		nuevoApoyo(){
 			let fechaT = this.getNow()
 			let me2=this
-			console.log('Creando un nuevo beneficio')
 			axios.post('/api/beneficio/post/', {
 				fecha_entrega:fechaT,
 				descripcion:'Beneficio del nuevo mes',
 				paciente_id:me2.paciente_select.id
 			}).then(function (response){
 				console.log(response)
-				//me2.importarBeneficios()
-				//location.reload();
 			})
 		},
 		close(){
@@ -505,7 +525,7 @@ export default {
 					})
 				}
 				else{
-					console.log('stock invalido')
+					alert('Error al ingresar')
 				}	
 			}else{
 			// form have errors
@@ -526,7 +546,7 @@ export default {
 			tabla.forEach(function(valor, indice, array){
 				let recetasAcivas=[]
 				valor.lista_recetas.forEach(function(elemento, indice2, array2){
-					if(elemento.estado == 0)
+					if(elemento.estado == 1)
 					{
 						const date = new Date(elemento.created_at)
 						const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`

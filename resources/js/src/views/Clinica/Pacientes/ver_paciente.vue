@@ -551,8 +551,6 @@ export default {
 			.then(function (response) {
 				const respuesta = response.data
 				me.historiales = respuesta.historialClinicos.data
-				console.log('Datos de historial clinico')
-				console.log(me.historiales)
 				if (me.historiales.length>0){
 					me.primero=false
 				}
@@ -573,8 +571,6 @@ export default {
 			.then(function (response) {
 				const respuesta = response.data
 				me.examenes = respuesta.historialExamenes.data
-				console.log('Datos de historial de examenes')
-				console.log(me.examenes)
 				if (me.examenes.length > 0){
 					me.primerExamen=true
 				}
@@ -605,7 +601,6 @@ export default {
 		},
 		unionExamenes(clinico,examenes){
 			const tabla = clinico.concat(examenes);
-			console.log('arrayjuntos');
 			if (tabla.length !=0){
 				for (let i in tabla) {
 					let elemento = tabla[i]
