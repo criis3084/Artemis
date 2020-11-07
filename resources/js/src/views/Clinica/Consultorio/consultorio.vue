@@ -193,9 +193,6 @@
 			<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar" :disabled="deshabilitado">Registrar</vs-button>
           </div>
 		</div>
-    			<!-- Diseño de la impresion de la receta  -->
-		<!-- <div class="vx-col w-full"> -->
-
 	</vx-card>
 	</div>
 
@@ -474,7 +471,6 @@ export default {
     }
   }
 }
-
 @page {
   size: auto;
 }

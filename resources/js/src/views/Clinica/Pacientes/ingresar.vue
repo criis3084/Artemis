@@ -6,90 +6,90 @@
 		</div>
 		<h3>INGRESO DE PACIENTE</h3>
 		</div>
-				<vs-divider position="right">PID&#174;</vs-divider>
+			<vs-divider position="right">PID&#174;</vs-divider>
 		<div class="vx-col md:w-1/2 w-full mt-5">
 			<!-- <small class="date-label">Información</small> -->
 			<ul class="demo-alignment">
-					<li>
-						<vs-radio color="success" v-model="tipo_lectura" vs-value="1">Paciente común</vs-radio>
-					</li>
-						<vs-radio color="success" v-model="tipo_lectura" vs-value="2">Paciente de Módulo de apadrinamiento</vs-radio>
-					<li>
-					</li>
+				<li>
+					<vs-radio color="success" v-model="tipo_lectura" vs-value="1">Paciente común</vs-radio>
+				</li>
+					<vs-radio color="success" v-model="tipo_lectura" vs-value="2">Paciente de Módulo de apadrinamiento</vs-radio>
+				<li>
+				</li>
 			</ul>
 		</div>
 
 		<div v-if="tipo_lectura==1">
-		<form>
-			<div class="vx-row">
+			<form>
+				<div class="vx-row">
 
-				<div class="vx-col md:w-1/2 w-full mt-5">
-					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombres" v-validate="'required|alpha_spaces|max:30'"/>
-						<span class="text-danger">{{ errors.first('nombres') }}</span>
+					<div class="vx-col md:w-1/2 w-full mt-5">
+						<div class="vx-col w-full">
+							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Nombres" name="nombres" v-model="nombres" v-validate="'required|alpha_spaces|max:30'"/>
+							<span class="text-danger">{{ errors.first('nombres') }}</span>
+						</div>
 					</div>
-				</div>
 
-				<div class="vx-col md:w-1/2 w-full mt-5">
-					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name="apellidos" v-validate="'required|alpha_spaces|max:30'"/>
-						<span class="text-danger">{{ errors.first('apellidos') }}</span>
+					<div class="vx-col md:w-1/2 w-full mt-5">
+						<div class="vx-col w-full">
+							<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Apellidos" v-model="apellidos" name="apellidos" v-validate="'required|alpha_spaces|max:30'"/>
+							<span class="text-danger">{{ errors.first('apellidos') }}</span>
+						</div>
 					</div>
-				</div>
-				<div class="vx-col md:w-1/2 w-full mt-5">
-					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" v-model="CUI" name="cui" v-validate="'max:15|numeric'"/>
-						<span class="text-danger">{{ errors.first('cui') }}</span>
+					<div class="vx-col md:w-1/2 w-full mt-5">
+						<div class="vx-col w-full">
+							<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" v-model="CUI" name="cui" v-validate="'max:15|numeric'"/>
+							<span class="text-danger">{{ errors.first('cui') }}</span>
+						</div>
 					</div>
-				</div>
 
-				<div class="vx-col md:w-1/2 w-full mt-5">
-					<small class="date-label">Género</small>
-					<ul class="demo-alignment">
-							<li>
-								<vs-radio name="radio" v-validate="'required|included:1,0'" color="rgb(0, 170, 228)" v-model="genero" vs-value="1">Masculino</vs-radio>
-							</li>
-							<li>
-								<vs-radio name="radio" color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
-							</li>
-					</ul>
-					<span class="text-danger">{{ errors.first('radio') }}</span>
-
-				</div>
-
-				<div class="vx-col md:w-1/2 w-full mt-1">
-					<div class="my-4">
-						<small class="date-label">Fecha Nacimiento</small>
-						<datepicker name="fecha" v-validate="'required'" :language="$vs.rtl ? langEn : langEn" v-model="fecha_nacimiento"></datepicker>
-						<span class="text-danger">{{ errors.first('fecha') }}</span>
+					<div class="vx-col md:w-1/2 w-full mt-5">
+						<small class="date-label">Género</small>
+						<ul class="demo-alignment">
+								<li>
+									<vs-radio name="radio" v-validate="'required|included:1,0'" color="rgb(0, 170, 228)" v-model="genero" vs-value="1">Masculino</vs-radio>
+								</li>
+								<li>
+									<vs-radio name="radio" color="rgb(255, 0, 128)" v-model="genero" vs-value="0">Femenino</vs-radio>
+								</li>
+						</ul>
+						<span class="text-danger">{{ errors.first('radio') }}</span>
 
 					</div>
-				</div>
 
-				<div class="vx-col md:w-1/2 w-full mt-5">
-					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" v-model="direccion" name="direccion" v-validate="'required|max:254'"  />
+					<div class="vx-col md:w-1/2 w-full mt-1">
+						<div class="my-4">
+							<small class="date-label">Fecha Nacimiento</small>
+							<datepicker name="fecha" v-validate="'required'" :language="$vs.rtl ? langEn : langEn" v-model="fecha_nacimiento"></datepicker>
+							<span class="text-danger">{{ errors.first('fecha') }}</span>
+
+						</div>
 					</div>
-				</div>
 
-				<div class="vx-col md:w-1/2 w-full mt-5">
-					<div class="vx-col w-full">
-						<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono" name="telefono" v-validate="'max:15|numeric'"/>
-             			 <span class="text-danger">{{ errors.first('telefono') }}</span>
+					<div class="vx-col md:w-1/2 w-full mt-5">
+						<div class="vx-col w-full">
+							<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" v-model="direccion" name="direccion" v-validate="'required|max:254'"  />
+						</div>
+					</div>
+
+					<div class="vx-col md:w-1/2 w-full mt-5">
+						<div class="vx-col w-full">
+							<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono" name="telefono" v-validate="'max:15|numeric'"/>
+							<span class="text-danger">{{ errors.first('telefono') }}</span>
+						
+						</div>
+					</div>
+
 					
+					<div class="vx-col md:w-1/2 w-full mt-3">
+						<div class="vx-col w-full">
+							<small class="date-label">Sector de Vivienda</small>
+							<v-select name="sector" v-validate="'required'" label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<span class="text-danger">{{ errors.first('sector') }}</span>
+						</div>
 					</div>
 				</div>
-
-				
-				<div class="vx-col md:w-1/2 w-full mt-3">
-					<div class="vx-col w-full">
-						<small class="date-label">Sector de Vivienda</small>
-						<v-select name="sector" v-validate="'required'" label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-					<span class="text-danger">{{ errors.first('sector') }}</span>
-					</div>
-				</div>
-			</div>
-		</form>
+			</form>
 		</div>
 		<div v-else>
 		<form>

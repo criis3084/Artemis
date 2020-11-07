@@ -21,10 +21,11 @@ class CreateTipoPacientesTable extends Migration
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });
+		DB::table('tipo_pacientes')->insert(array('nombre'=>'Externo','descripcion'=>'Paciente que no se encuentra en ningún programa de PID'));
 		DB::table('tipo_pacientes')->insert(array('nombre'=>'Normal','descripcion'=>'Paciente Normal'));
-		DB::table('tipo_pacientes')->insert(array('nombre'=>'Normal','descripcion'=>'Paciente Normal'));
-		DB::table('tipo_pacientes')->insert(array('nombre'=>'Embarazadas','descripcion'=>'Mujeres pertenecientes al programa de embarazadas'));
-		DB::table('tipo_pacientes')->insert(array('nombre'=>'Diabeticos','descripcion'=>'Pacientes con diabetis'));
+		DB::table('tipo_pacientes')->insert(array('nombre'=>'Paciente en estado de desnutrición','descripcion'=>'Paciente que pertenece al programa de desnutrición'));
+		DB::table('tipo_pacientes')->insert(array('nombre'=>'Por embarazo','descripcion'=>'Pertenecen al programa de control prenatal'));
+		DB::table('tipo_pacientes')->insert(array('nombre'=>'Por diabetes','descripcion'=>'Pertenecen al programa de diabetes'));
     }
 
     /**
