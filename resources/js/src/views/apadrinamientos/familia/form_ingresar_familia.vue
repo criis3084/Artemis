@@ -38,7 +38,7 @@
 								<vs-radio color="rgb(255, 0, 128)" v-model="genero" vs-value="0" name="genero">Femenino</vs-radio>
 							</li>
 						</ul>
-            <div v-if="VALgenero"><span class="text-danger">{{ VALgenero }}</span><br></div>
+						<div v-if="VALgenero"><span class="text-danger">{{ VALgenero }}</span><br></div>
 				</div>
 			</div>
 
@@ -70,7 +70,7 @@
 			<div class="vx-col md:w-1/2 w-full mt-2	">
 				<div class="vx-col w-full">
 					<vs-input class="w-full"  icon="school" icon-no-border label-placeholder="Escolaridad" name="escolaridad" v-model="escolaridad"/>
-							<div v-if="VALgrado"><span class="text-danger">{{ VALgrado }}</span><br></div>
+							<div v-if="VALescolaridad"><span class="text-danger">{{ VALescolaridad }}</span><br></div>
 				</div>
 			</div>
 
@@ -351,6 +351,14 @@ export default {
 			this.VALocupacion = '';
 		} else{
 			this.VALocupacion = 'Este campo solo acepta hasta 150 caracteres';
+		} 
+  },
+  validateEscolaridad(value){
+	if (value.length<151)
+		{
+			this.VALescolaridad = '';
+		} else{
+			this.VALescolaridad = 'Este campo solo acepta hasta 150 caracteres';
 		} 
   },
   validateTelefono(value){

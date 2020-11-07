@@ -14,6 +14,7 @@
 							<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="110">  4  </vs-radio>
 							<vs-radio color="success" class="m-3" v-model="respuesta1" vs-value="100">  5  </vs-radio>
 					</ul>
+					<div v-if="VALrespuesta1"><span class="text-danger">{{ VALrespuesta1 }}</span><br></div>
 				</vs-list>
 			</div>
 		</template>
@@ -31,6 +32,7 @@
 						<vs-radio color="success" class="m-3" v-model="respuesta2" vs-value="200">  No  </vs-radio>
 						<vs-radio color="success" class="m-3" v-model="respuesta2" vs-value="202">  No hay niños de 7-13 años </vs-radio>
 					</ul>
+					<div v-if="VALrespuesta2"><span class="text-danger">{{ VALrespuesta2 }}</span><br></div>
 				</vs-list>
 			</div>
 		</template>
@@ -45,6 +47,7 @@
 					<vs-radio color="success" class="m-3" v-model="respuesta3" vs-value="306">  Sí  </vs-radio>
 					<vs-radio color="success" class="m-3" v-model="respuesta3" vs-value="300">  No  </vs-radio>
 				</ul>
+					<div v-if="VALrespuesta3"><span class="text-danger">{{ VALrespuesta3 }}</span><br></div>
 			</vs-list>
 		</div>
 		</template>
@@ -58,6 +61,7 @@
 					<vs-radio color="success" class="m-3" v-model="respuesta4" vs-value="400">  Sí  </vs-radio>
 					<vs-radio color="success" class="m-3" v-model="respuesta4" vs-value="405">  No  </vs-radio>
 				</ul>
+					<div v-if="VALrespuesta4"><span class="text-danger">{{ VALrespuesta4 }}</span><br></div>
 			</vs-list>
 		</div>
 		<vs-divider></vs-divider>
@@ -72,6 +76,8 @@
 					<vs-radio color="success" class="m-3" v-model="respuesta5" vs-value="509">  Ladrillo de cemento</vs-radio>
 					<vs-radio color="success" class="m-3" v-model="respuesta5" vs-value="515">  Cerámico </vs-radio>
 				</ul>
+					<div v-if="VALrespuesta5"><span class="text-danger">{{ VALrespuesta5 }}</span><br></div>
+
 			</vs-list>
 		</div>
 		<vs-divider></vs-divider>
@@ -84,6 +90,8 @@
 					<vs-radio color="success" class="m-3" v-model="respuesta6" vs-value="609">  Sí  </vs-radio>
 					<vs-radio color="success" class="m-3" v-model="respuesta6" vs-value="600">  No  </vs-radio>
 				</ul>
+					<div v-if="VALrespuesta6"><span class="text-danger">{{ VALrespuesta6 }}</span><br></div>
+
 			</vs-list>
 		</div>
 		<vs-divider></vs-divider>
@@ -96,6 +104,8 @@
 					<vs-radio color="success" class="m-3" v-model="respuesta7" vs-value="708">  Sí  </vs-radio>
 					<vs-radio color="success" class="m-3" v-model="respuesta7" vs-value="700">  No  </vs-radio>
 				</ul>
+					<div v-if="VALrespuesta7"><span class="text-danger">{{ VALrespuesta7 }}</span><br></div>
+
 			</vs-list>
 		</div>
 		<vs-divider></vs-divider>
@@ -108,6 +118,8 @@
 					<vs-radio color="success" class="m-3" v-model="respuesta8" vs-value="800">  En su casa  </vs-radio>
 					<vs-radio color="success" class="m-3" v-model="respuesta8" vs-value="803">  Al molino </vs-radio>
 				</ul>
+					<div v-if="VALrespuesta8"><span class="text-danger">{{ VALrespuesta8 }}</span><br></div>
+
 			</vs-list>
 		</div>
 		<vs-divider></vs-divider>
@@ -120,6 +132,8 @@
 					<vs-radio color="success" class="m-3" v-model="respuesta9" vs-value="908">  Sí  </vs-radio>
 					<vs-radio color="success" class="m-3" v-model="respuesta9" vs-value="900">  No  </vs-radio>
 				</ul>
+					<div v-if="VALrespuesta9"><span class="text-danger">{{ VALrespuesta9 }}</span><br></div>
+
 			</vs-list>
 		</div>
 		<vs-divider></vs-divider>
@@ -132,6 +146,8 @@
 					<vs-radio color="success" class="m-3" v-model="respuesta10" vs-value="1003">  Sí  </vs-radio>
 					<vs-radio color="success" class="m-3" v-model="respuesta10" vs-value="1000">  No  </vs-radio>
 				</ul>
+					<div v-if="VALrespuesta10"><span class="text-danger">{{ VALrespuesta10 }}</span><br></div>
+
 			</vs-list>
 		</div>
 		<vs-divider></vs-divider>
@@ -164,6 +180,18 @@ export default {
 	},
   	data() {
 		return {
+			VALrespuesta1:null,
+			VALrespuesta2:null,
+			VALrespuesta3:null,
+			VALrespuesta4:null,
+			VALrespuesta5:null,
+			VALrespuesta6:null,
+			VALrespuesta7:null,
+			VALrespuesta8:null,
+			VALrespuesta9:null,
+			VALrespuesta10:null,
+
+
 			respuesta1:null,
 			respuesta2:null,
 			respuesta3:null,
@@ -201,54 +229,178 @@ export default {
 			this.validator.validate('respuesta1', value);
 			this.calcularTotal
 			this.validateForm();
+			this.respuesta1 = value;
+			this.validateRespuesta1(value);
 		},
 		respuesta2(value) {
 			this.validator.validate('respuesta2', value);
 			this.calcularTotal
 			this.validateForm();
+			this.respuesta2 = value;
+			this.validateRespuesta2(value);
 		},
 		respuesta3(value) {
 			this.validator.validate('respuesta3', value);
 			this.calcularTotal
 			this.validateForm();
+			this.respuesta3 = value;
+			this.validateRespuesta3(value);
 		},
 		respuesta4(value) {
 			this.validator.validate('respuesta4', value);
 			this.calcularTotal
 			this.validateForm();
+			this.respuesta4 = value;
+			this.validateRespuesta4(value);
 		},
 		respuesta5(value) {
 			this.validator.validate('respuesta5', value);
 			this.calcularTotal
 			this.validateForm();
+			this.respuesta5 = value;
+			this.validateRespuesta5(value);
 		},
 		respuesta6(value) {
 			this.validator.validate('respuesta6', value);
 			this.calcularTotal
 			this.validateForm();
+			this.respuesta6 = value;
+			this.validateRespuesta6(value);
 		},
 		respuesta7(value) {
 			this.validator.validate('respuesta7', value);
 			this.calcularTotal
 			this.validateForm();
+			this.respuesta7 = value;
+			this.validateRespuesta7(value);
 		},
 		respuesta8(value) {
 			this.validator.validate('respuesta8', value);
 			this.calcularTotal
 			this.validateForm();
+			this.respuesta8 = value;
+			this.validateRespuesta8(value);
 		},
 		respuesta9(value) {
 			this.validator.validate('respuesta9', value);
 			this.calcularTotal
 			this.validateForm();
+			this.respuesta9 = value;
+			this.validateRespuesta9(value);
 		},
 		respuesta10(value) {
 			this.validator.validate('respuesta10', value);
 			this.calcularTotal
 			this.validateForm();
+			this.respuesta10 = value;
+			this.validateRespuesta10(value);
 		},
 	}, 
 	methods:{
+		camposCambioEstado(){
+				this.respuesta1="1"
+				this.respuesta2="1"
+				this.respuesta3="1"
+				this.respuesta4="1"
+				this.respuesta5="1"
+				this.respuesta6="1"
+				this.respuesta7="1"
+				this.respuesta8="1"
+				this.respuesta9="1"
+				this.respuesta10="1"
+		},
+		camposCambioEstado2(){
+				this.respuesta1=""
+				this.respuesta2=""
+				this.respuesta3=""
+				this.respuesta4=""
+				this.respuesta5=""
+				this.respuesta6=""
+				this.respuesta7=""
+				this.respuesta8=""
+				this.respuesta9=""
+				this.respuesta10=""
+		},
+	validateRespuesta1(value){
+	if (value=="")
+		{
+			this.VALrespuesta1 = 'Seleccione una opción';
+		} else{
+			this.VALrespuesta1 = '';
+		} 
+	},
+	validateRespuesta2(value){
+	if (value=="")
+		{
+			this.VALrespuesta2 = 'Seleccione una opción';
+		} else{
+			this.VALrespuesta2 = '';
+		} 
+	},
+	validateRespuesta3(value){
+	if (value=="")
+		{
+			this.VALrespuesta3 = 'Seleccione una opción';
+		} else{
+			this.VALrespuesta3 = '';
+		} 
+	},
+	validateRespuesta4(value){
+	if (value=="")
+		{
+			this.VALrespuesta4 = 'Seleccione una opción';
+		} else{
+			this.VALrespuesta4 = '';
+		} 
+	},
+	validateRespuesta5(value){
+	if (value=="")
+		{
+			this.VALrespuesta5 = 'Seleccione una opción';
+		} else{
+			this.VALrespuesta5 = '';
+		} 
+	},
+	validateRespuesta6(value){
+	if (value=="")
+		{
+			this.VALrespuesta6 = 'Seleccione una opción';
+		} else{
+			this.VALrespuesta6 = '';
+		} 
+	},
+	validateRespuesta7(value){
+	if (value=="")
+		{
+			this.VALrespuesta7 = 'Seleccione una opción';
+		} else{
+			this.VALrespuesta7 = '';
+		} 
+	},
+	validateRespuesta8(value){
+	if (value=="")
+		{
+			this.VALrespuesta8 = 'Seleccione una opción';
+		} else{
+			this.VALrespuesta8 = '';
+		} 
+	},
+	validateRespuesta9(value){
+	if (value=="")
+		{
+			this.VALrespuesta9 = 'Seleccione una opción';
+		} else{
+			this.VALrespuesta9 = '';
+		} 
+	},
+	validateRespuesta10(value){
+	if (value=="")
+		{
+			this.VALrespuesta10 = 'Seleccione una opción';
+		} else{
+			this.VALrespuesta10 = '';
+		} 
+	},
 		enviando(id){
 			this.$emit('recibirPpi',{ppi_id:id});
 		},
@@ -329,6 +481,10 @@ export default {
 	},
 	components: {
 		Datepicker,
+	},
+	mounted(){
+		this.camposCambioEstado();
+		this.camposCambioEstado2();
 	},
 	created() {
 		this.validator = new Validator({

@@ -95,7 +95,7 @@
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Número de cuartos</small>
-					<vs-input  v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-box" icon-no-border name='cuartos' v-model="cantidad_cuartos"/>
+					<vs-input  v-validate="'required|max:2|numeric'" class="w-full" icon-pack="feather" icon="icon-box" icon-no-border name='cuartos' v-model="cantidad_cuartos"/>
 					<span class="text-danger">{{ errors.first('cuartos') }}</span>
 
 				</div>
@@ -173,7 +173,9 @@ const dict = {
     },
     cuartos: {
 	  required: 'El campo número de cuartos es requerido',
-	  max: 'Este campo solo acepta hasta 150 caracteres',
+	  max: 'Este campo solo acepta hasta 2 dígitos',
+	  numeric: 'El campo solo debe de contener números',
+
 	},
 	bano: {
 	  required: 'El campo baño es requerido',
@@ -218,20 +220,20 @@ export default {
 	data() {
 		return {
 			estudio_id:0,
-			fecha_boleta:'',
-			total_ingresos:0,
-			alimentacion:'',
-			situacion_vivienda:0,
-			descripcion_costo:'',
-			luz:0,
-			agua:0,
-			drenaje:0,
-			cantidad_cuartos:0,
-			bano:'',
-			paredes:'',
-			techo:'',
-			piso:'',
-			evaluacion_diagnostico:'',
+			fecha_boleta:null,
+			total_ingresos:null,
+			alimentacion:null,
+			situacion_vivienda:null,
+			descripcion_costo:null,
+			luz:null,
+			agua:null,
+			drenaje:null,
+			cantidad_cuartos:null,
+			bano:null,
+			paredes:null,
+			techo:null,
+			piso:null,
+			evaluacion_diagnostico:null,
 			langEn: es,
 			codigo_familiar:0,
 			id:0,

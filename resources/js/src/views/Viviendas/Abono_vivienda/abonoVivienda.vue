@@ -41,7 +41,6 @@
           <vs-button @click="activePrompt=true">Exportar</vs-button>
             </template>
             <template slot="thead">
-              <vs-th>Ver</vs-th>
 							<vs-th>Fecha</vs-th>
 							<vs-th>Monto abono</vs-th>
 							<vs-th>Resto de deuda</vs-th>
@@ -50,10 +49,7 @@
 						</template>
 
 						<template slot-scope="{data}">
-							<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
-								<vs-td>
-									<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/ver/vivienda/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
-								</vs-td > 							
+							<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >							
 								<vs-td >{{getDate(data[indextr].abono.fecha_pago)}}</vs-td>
 								<vs-td>{{currency(data[indextr].abono.cantidad_abono)}}</vs-td>
                 <vs-td>{{currency(data[indextr].abono.cantidad_restante)}}</vs-td>
