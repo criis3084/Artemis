@@ -108,7 +108,7 @@
 						<span class="text-danger">{{ errors.first('tipo') }}</span>
 					</div>
 
-					<div v-if="tipo_paciente_id.id!=1" class="mt-8">
+					<div v-if="tipo_paciente_id.id!=2" class="mt-8">
 						<div class="vx-col md:w-1/2 w-full mt-3">
 							<small class="date-label mt-6">Día de entrega de beneficios</small>
 								<v-select name="dia" v-validate="'required'" style="width:30%" label="mostrar" :options="dia_del_mes" v-model="dia_apoyo" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
@@ -279,8 +279,6 @@ export default {
 		}
 	},
 	watch: {
-		persona_id(){
-		},  
 		medicamento_id(){
 			if (this.medicamento_id != null)
 			{
@@ -315,9 +313,6 @@ export default {
 			for (let x in me.carrito) {
 				let v1 = parseInt(me.listaCantidades[x])
 				let idMedicamento = me.carrito[x].id
-				console.log('datos carrito')
-				console.log(v1)
-				console.log(idMedicamento)
 				axios.post('/api/detalleBeneficio/post/', {
 					cantidad:v1,
 					beneficio_id:beneficios,
@@ -346,8 +341,15 @@ export default {
 			})
 		},
 		guardarPaciente(persona){
-			let tipoT= this.tipo_paciente_id.id
-			if (tipoT ==1)
+			let tipoT=0
+			console.log(this.tipo_lectura)
+			if (this.tipo_lectura == 1){
+				tipoT = 1
+			}
+			else if (this.tipo_lectura == 2){
+				tipoT = this.tipo_paciente_id.id
+			}
+			if (tipoT==1 || tipoT ==2)
 			{
 				axios.post('/api/paciente/post/', {
 					dia_apoyo:0,
@@ -363,7 +365,7 @@ export default {
 					text:'Acción realizada exitósamente'
 					});
 			}
-			else if (tipoT !== 1){
+			else if (tipoT !== 2 && tipoT !=1 ){
 				let me=this
 				axios.post('/api/paciente/post/', {
 					dia_apoyo:me.dia_apoyo.id,
@@ -375,33 +377,33 @@ export default {
 			}
 		},
 		guardarPersona(){
-	this.$validator.validateAll().then(result => {
-        if(result) {
-			let me = this
-			if(this.tipo_lectura==1){
-				axios.post('/api/personaSinAcceso/post/', {
-					nombres:me.nombres,
-					apellidos:me.apellidos,
-					CUI:me.CUI,
-					genero:me.genero,
-					direccion:me.direccion,
-					numero_telefono:me.numero_telefono,
-					sector_id:me.sector_id.id,
-					fecha_nacimiento:me.getDate(me.fecha_nacimiento),
-				}).then(function (response){
-					me.guardarPaciente(response.data.id)
-				})
-			}else{
+			this.$validator.validateAll().then(result => {
+        	if(result) {
+				let me = this
+				if(this.tipo_lectura==1){
+					axios.post('/api/personaSinAcceso/post/', {
+						nombres:me.nombres,
+						apellidos:me.apellidos,
+						CUI:me.CUI,
+						genero:me.genero,
+						direccion:me.direccion,
+						numero_telefono:me.numero_telefono,
+						sector_id:me.sector_id.id,
+						fecha_nacimiento:me.getDate(me.fecha_nacimiento),
+					}).then(function (response){
+						me.guardarPaciente(response.data.id)
+					})
+				}else{
 					me.guardarPaciente(this.persona_id.persona_sin_acceso_id)
-			}
-	}else{
-          this.$vs.notify({
-			color:'danger',
-			title:'Error en validación!',
-			text:'Ingrese todos los campos correctamente'
-			});
-        }
-      })
+				}
+			}else{
+				this.$vs.notify({
+					color:'danger',
+					title:'Error en validación!',
+					text:'Ingrese todos los campos correctamente'
+					});
+				}
+			})
 		},
 		diaMes(){
 			for (let i = 1; i <= 28; i++) {
@@ -440,8 +442,8 @@ export default {
 				console.log(error);
 			});
 		},
-		async importarNinos(encargados){
-
+		async importarNinos(encargados)
+		{
 			let me = this;
 			const response = await axios.get(
 				`/api/nino/get?completo=true`)
@@ -532,6 +534,7 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me.listado_tipos = respuesta.tipoPacientes.data;
+				me.listado_tipos.splice(me.listado_tipos.length-1, 1);
 				me.tipo_paciente_id=me.listado_tipos[me.listado_tipos.length-1]
 			})
 			.catch(function (error) {
@@ -598,9 +601,9 @@ export default {
 	},
 	mounted() {
 		this.diaMes();
-		this.importarSectores();
 		this.importarEncargados();
 		this.importarMedicamentos();
+		this.importarSectores();
 		this.importarTiposPaciente();
 	},
 	components:{

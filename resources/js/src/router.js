@@ -716,6 +716,14 @@ const router = new Router({
           }
         },
         {
+          path: '/editar/paciente/:id',
+		  name: 'editar-paciente',
+          component: () => import('./views/Clinica/Pacientes/editar_paciente.vue'),
+          meta: {
+            rule: 'editor'
+          }
+        },
+        {
           path: '/ver/beneficios/:id',
 		  name: 'ver-beneficios',
           component: () => import('./views/Clinica/Pacientes/ver_beneficios.vue'),

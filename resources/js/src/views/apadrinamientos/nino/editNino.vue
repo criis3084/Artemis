@@ -213,9 +213,9 @@ export default {
     }
   },
   methods: {
-	  goBack(){
-      this.$router.go(-1)
-    },
+	  	goBack(){
+			this.$router.go(-1)
+	    },
 		getDate(datetime) {
         	let date = new Date(datetime);
         	let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -267,7 +267,6 @@ export default {
 					}
 				})
 				me.sector_idT = encontrado == true ? elementoE : {id:me.sector_idT,nombre:'Sector desactivado'} 
-				me.pagination= respuesta.pagination;
 			})
 			.catch(function (error) {
 				console.log(error);
