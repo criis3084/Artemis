@@ -60,35 +60,43 @@
 			</div>
 		</div>
 	<vx-card v-if="verForm" >
+		<form>
 		<div class="vx-row">
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="w-full">
 					<small class="date-label">Paciente:</small>
-					<v-select v-validate="'required'" label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<v-select name="paciente" v-validate="'required'" label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 					<span class="text-danger">{{ errors.first('paciente') }}</span>
 				</div>
 			</div>
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<small class="date-label">Fecha</small>
-				<datepicker :language="$vs.rtl ? langHe : langEn" name="end-date" v-model="fecha_consulta" :disabled="deshabilitado"></datepicker>
+				<datepicker :language="$vs.rtl ? langHe : langEn" name="fecha" v-validate="'required'" v-model="fecha_consulta" :disabled="deshabilitado"></datepicker>
+					<span class="text-danger">{{ errors.first('fecha') }}</span>
+		
 			</div>
 		</div>
 		<div class="vx-col md:w-1/2 w-full mt-8">
 			<div class="vx-col w-full">
-				<vs-input v-model="descripcion" name="descripcion" class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Descripcion" :disabled="deshabilitado" />
+				<vs-input v-model="descripcion" name="descripcion" v-validate="'required|max:254'" class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Descripcion" :disabled="deshabilitado" />
+					<span class="text-danger">{{ errors.first('descripcion') }}</span>
 			</div>
 		</div>
 		<div class="vx-row">
 			<div class="vx-col md:w-1/3 w-full mt-6" v-if="embarazada">
 				<div class="vx-col w-full">
 					<small class="date-label">Semanas de embarazo</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='semanas_embarazo' v-model="semanas_embarazo" :disabled="deshabilitado"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='semanas_embarazo' v-validate="'numeric|max:2'" v-model="semanas_embarazo" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('semanas_embarazo') }}</span>
+				
 				</div>
 			</div>
 			<div class="vx-col md:w-1/3 w-full mt-6" v-if="diabetico">
 				<div class="vx-col w-full">
 					<small class="date-label">Glicemia</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='glicemia' v-model="glicemia" :disabled="deshabilitado"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='glicemia' v-validate="'decimal:2|max:6|max_value:500'" v-model="glicemia" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('glicemia') }}</span>
+				
 				</div>
 			</div>
 		</div>
@@ -96,19 +104,25 @@
 			<div class="vx-col md:w-1/3 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Peso</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='peso_actual' v-model="peso_actual" :disabled="deshabilitado"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='peso_actual' v-validate="'decimal:2|max:6|max_value:500'" v-model="peso_actual" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('peso_actual') }}</span>
+				
 				</div>
 			</div>
 			<div class="vx-col md:w-1/3 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Talla</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='talla' v-model="talla" :disabled="deshabilitado"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='talla' v-validate="'decimal:2|max:6|max_value:500'" v-model="talla" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('talla') }}</span>
+				
 				</div>
 			</div>
 			<div class="vx-col md:w-1/3 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Temperatura</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='temperatura' v-model="temperatura" :disabled="deshabilitado"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='temperatura' v-validate="'decimal:2|max:6|max_value:500'" v-model="temperatura" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('temperatura') }}</span>
+				
 				</div>
 			</div>
 		</div>
@@ -116,33 +130,44 @@
 			<div class="vx-col md:w-1/3 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Respiración</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='respiracion' v-model="respiracion" :disabled="deshabilitado"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='respiracion' v-validate="'numeric|max:6'" v-model="respiracion" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('respiracion') }}</span>
+				
 				</div>
 			</div>
 			<div class="vx-col md:w-1/3 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Pulso</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='pulso' v-model="pulso" :disabled="deshabilitado"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='pulso' v-validate="'numeric|max:6'" v-model="pulso" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('pulso') }}</span>
+				
 				</div>
 			</div>
 			<div class="vx-col md:w-1/3 w-full mt-6">
 				<div class="vx-col w-full">
 					<small class="date-label">Presion Arterial</small>
-					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='presion_arterial' v-model="presion_arterial" :disabled="deshabilitado"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='presion_arterial' v-validate="'numeric|max:6'" v-model="presion_arterial" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('presion_arterial') }}</span>
+				
 				</div>
 			</div>
 		</div>
 
 		<div class="vx-row mt-5">
 			<small class="date-label ml-4">Objetivo de la consulta</small>
-			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='objetivo' v-model="objetivo" :disabled="deshabilitado"/>
+			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='objetivo' v-validate="'required|max:254'" v-model="objetivo" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('objetivo') }}</span>
+		
 		</div>
 		<div class="vx-row">
 			<small class="date-label ml-4">Subjetivo de la consulta</small>
-			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='objetivo' v-model="subjetivo" :disabled="deshabilitado"/>
+			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='subjetivo' v-validate="'required|max:254'" v-model="subjetivo" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('subjetivo') }}</span>
+		
 		</div>
 
 		<div v-if="verReceta">
+			
 			<vs-divider position="center" class="mt-6" > Medicamentos Recetados </vs-divider>
 			<div class="vx-col md:w-1/2 w-full mt-3">
 				<div class="vx-col w-full">
@@ -176,12 +201,16 @@
 									</td>
 								</tr>
 						</table>
-					<span class="text-danger">{{ errors.first('cantidad') }}</span>
+					<span class="text-danger">{{ errors.first('cantidad') }}</span><br>
+					<span class="text-danger">{{ errors.first('frecuencia') }}</span>
+
 				</div>
 			</vs-list>
 			<div class="vx-row">
 				<small class="date-label ml-4">Anotaciones de la receta</small>
-				<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='listado' v-model="listado"/>
+				<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='listado' v-validate="'required|max:254'" v-model="listado"/>
+				<span class="text-danger">{{ errors.first('listado') }}</span>
+			
 			</div>
 		</div>
 
@@ -193,6 +222,7 @@
 			<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar" :disabled="deshabilitado">Registrar</vs-button>
           </div>
 		</div>
+		</form>
 	</vx-card>
 	</div>
 
@@ -200,25 +230,85 @@
 <script>
 import axios from 'axios'
 import vSelect from 'vue-select'
-import { Validator } from 'vee-validate';
 import Datepicker from 'vuejs-datepicker'
+import { es } from 'vuejs-datepicker/src/locale'
+import { Validator } from 'vee-validate';
 const dict = {
   custom: {
 	paciente: {
 	  required: 'El campo paciente es requerido',
+    },
+	fecha: {
+	  required: 'El campo fecha es requerido',
+    },
+	descripcion: {
+	  required: 'El campo descripción es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
+    },
+	peso_actual: {
+	  max: 'Este campo solo acepta hasta 6 dígitos',
+	  decimal: 'El campo solo debe de contener números y hasta 2 decimales',
+	  max_value:'Este campo solo acepta hasta el valor de 500',
+    },
+	talla: {
+	  max: 'Este campo solo acepta hasta 6 dígitos',
+	  decimal: 'El campo solo debe de contener números y hasta 2 decimales',
+	  max_value:'Este campo solo acepta hasta el valor de 500',
+    },
+	temperatura: {
+	  max: 'Este campo solo acepta hasta 6 dígitos',
+	  decimal: 'El campo solo debe de contener números y hasta 2 decimales',
+	  max_value:'Este campo solo acepta hasta el valor de 500',
 	},
+	glicemia: {
+	  max: 'Este campo solo acepta hasta 6 dígitos',
+	  decimal: 'El campo solo debe de contener números y hasta 2 decimales',
+	  max_value:'Este campo solo acepta hasta el valor de 500',
+    },
+	respiracion: {
+	  max: 'Este campo solo acepta hasta 6 dígitos',
+	  numeric: 'El campo solo debe de contener números'
+    },
+	pulso: {
+	  max: 'Este campo solo acepta hasta 6 dígitos',
+	  numeric: 'El campo solo debe de contener números'
+    },
+	presion_arterial: {
+	  max: 'Este campo solo acepta hasta 6 dígitos',
+	  numeric: 'El campo solo debe de contener números'
+    },
+	objetivo: {
+	  required: 'El campo objetivo es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
+    },
+	subjetivo: {
+	  required: 'El campo subjetivo es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
+    },
+	semanas_embarazo: {
+	  max: 'Este campo solo acepta hasta 2 dígitos',
+	  numeric: 'El campo solo debe de contener números'
+    },
 	medicamento: {
 	  required: 'El campo medicamento es requerido',
-	},
+    },
 	cantidad: {
 	  required: 'Todos los campos de cantidad son requeridos',
-	  numeric: 'Los campos de cantidad solo deben de contener números',
-	    max: 'Los campos de cantidad solo aceptan hasta 5 caracteres',
-    },	
+	  max: 'Este campo solo acepta hasta 5 dígitos',
+	  numeric: 'El campo solo debe de contener números'
+    },
+	frecuencia: {
+	  required: 'Todos los campos de frecuencia son requeridos',
+	  max: 'Este campo solo acepta hasta 5 dígitos',
+	  numeric: 'El campo solo debe de contener números'
+    },
+	listado: {
+	  required: 'El campo anotaciones de la receta es requerido',
+	  max: 'Este campo solo acepta hasta 254 caracteres',
+    },
   }
-}
-Validator.localize('es', dict)
-import { es } from 'vuejs-datepicker/src/locale'
+};
+Validator.localize('en', dict);
 export default {
 	data() {
 		return {
@@ -337,8 +427,11 @@ export default {
 			return tabla
 		},
 		async registrar(){
+		 this.$validator.validateAll().then(result => {
+        if(result) {
 			let me = this
-			await axios.post("/api/historialClinico/post/",{
+			// await 
+			axios.post("/api/historialClinico/post/",{
 				fecha_consulta: me.getDate(me.fecha_consulta),
 				descripcion:me.descripcion,
 				peso_actual:me.peso_actual,
@@ -361,11 +454,25 @@ export default {
 				else{
 					location.reload();
 				}
+				me.$vs.notify({
+			color:'success',
+			title:'Consulta registrada!',
+			text:'La acción se realizo exitósamente'
+			});
 
 			})
 			.catch(function(error) {
 				console.log(error)
 			});
+			}else{
+		  // form have errors
+		   this.$vs.notify({
+					color:'danger',
+					title:`Error en validación!`,
+					text:'Ingrese correctamente todos los campos'
+				})
+        }
+      })
 		},
 		async registrarReceta(id_historial){
 			let me = this
