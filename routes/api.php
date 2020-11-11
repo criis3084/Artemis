@@ -399,6 +399,23 @@ Route::group(['prefix' => 'usuario'], function () {
         'as' => 'admin.usuario', 'uses' => 'UsuarioController@desactivar'
     ]);
 });
+Route::group(['prefix' => 'permisos'], function () {
+    Route::get('/get', [
+        'as' => 'admin.permisos', 'uses' => 'PermisosController@index'
+    ]);
+    Route::post('/post', [
+        'as' => 'admin.permisos', 'uses' => 'PermisosController@store'
+    ]);
+    Route::put('/update', [
+        'as' => 'admin.permisos', 'uses' => 'PermisosController@update'
+	]);
+    Route::put('/activar', [
+        'as' => 'admin.permisos', 'uses' => 'PermisosController@activar'
+	]);
+    Route::put('/desactivar', [
+        'as' => 'admin.permisos', 'uses' => 'PermisosController@desactivar'
+    ]);
+});
 Route::group(['prefix' => 'nino'], function () {
     Route::get('/get', [
         'as' => 'admin.nino', 'uses' => 'NinoController@index'
