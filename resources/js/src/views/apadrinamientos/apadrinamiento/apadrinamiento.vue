@@ -61,7 +61,7 @@
 	  	v-bind:nino_id="nino_id"
 			v-bind:padrino_id="padrino_id"
 			v-on:cerrado="index();"
-		></editar> -->
+		></editar>
     </vx-card>
   </div>
 </template>

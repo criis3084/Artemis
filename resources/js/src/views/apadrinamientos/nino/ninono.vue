@@ -41,7 +41,7 @@
 							<vx-tooltip text="Información Completa"> <vs-button color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/ver/ninono/'+data[indextr].id)"></vs-button></vx-tooltip>
 							
 						</vs-td>
-						<vs-td>{{data[indextr].id}}</vs-td>
+						<vs-td>{{data[indextr].codigo}}</vs-td>
 						<vs-td>
 							<div class="flex items-center">
 								<vs-avatar :src="data[indextr].ruta_imagen" color="primary" :text="data[indextr].nombres" class="flex-shrink-0 mr-2" size="30px"/>

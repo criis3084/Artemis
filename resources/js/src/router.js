@@ -53,7 +53,7 @@ const router = new Router({
         {
           path: '/apadrinamiento/nino',
           name: 'apadrinamiento-nino',
-          component: () => import('./views/apadrinamientos/nino.vue'),
+          component: () => import('./views/apadrinamientos/nino/nino.vue'),
           meta: {
             rule: 'editor'
           }
@@ -61,7 +61,7 @@ const router = new Router({
         {
           path: '/apadrinamiento/fotografia/:id',
           name: 'apadrinamiento-fotografia',
-          component: () => import('./views/apadrinamientos/fotografia.vue'),
+          component: () => import('./views/apadrinamientos/fotografia/fotografia.vue'),
           meta: {
             rule: 'editor'
           }
@@ -93,7 +93,7 @@ const router = new Router({
         {
           path: '/editar/ninono/:id',
           name: 'datos-ninono',
-          component: () => import('./views/apadrinamientos/ninonoEdit.vue'),
+          component: () => import('./views/apadrinamientos/nino/ninonoEdit.vue'),
           meta: {
             rule: 'editor'
           }
@@ -101,7 +101,7 @@ const router = new Router({
         {
           path: '/ver/ninono/:id',
           name: 'ver-ninono',
-          component: () => import('./views/apadrinamientos/DetallesNinono.vue'),
+          component: () => import('./views/apadrinamientos/nino/DetallesNinono.vue'),
           meta: {
             rule: 'editor'
           }
@@ -175,7 +175,7 @@ const router = new Router({
         {
           path: '/ingresar/fotografia/:id',
           name: 'ingresar-fotografia',
-          component: () => import('./views/apadrinamientos/nuevafotografia.vue'),
+          component: () => import('./views/apadrinamientos/fotografia/nuevafotografia.vue'),
           meta: {
             rule: 'admin'
           }
@@ -183,7 +183,7 @@ const router = new Router({
         {
           path: '/apadrinamiento/ninono',
           name: 'apadrinamiento-ninono',
-          component: () => import('./views/apadrinamientos/ninono.vue'),
+          component: () => import('./views/apadrinamientos/nino/ninono.vue'),
           meta: {
             rule: 'editor'
           }
@@ -191,7 +191,7 @@ const router = new Router({
         {
           path: '/apadrinamiento/padrino',
           name: 'apadrinamiento-padrino',
-          component: () => import('./views/apadrinamientos/padrino.vue'),
+          component: () => import('./views/apadrinamientos/padrino/padrino.vue'),
           meta: {
             rule: 'editor'
           }
@@ -199,7 +199,7 @@ const router = new Router({
         {
           path: '/ingresar/padrino',
           name: 'datos-padrino',
-          component: () => import('./views/apadrinamientos/formulariopadrin.vue'),
+          component: () => import('./views/apadrinamientos/padrino/formulariopadrin.vue'),
           meta: {
             rule: 'editor'
           }
@@ -207,7 +207,7 @@ const router = new Router({
         {
           path: '/editar/padrino/:id',
           name: 'datos-padrino',
-          component: () => import('./views/apadrinamientos/formulariopadrinedit.vue'),
+          component: () => import('./views/apadrinamientos/padrino/formulariopadrinedit.vue'),
           meta: {
             rule: 'editor'
           }
@@ -215,7 +215,7 @@ const router = new Router({
         {
           path: '/apadrinamiento/apadrinamiento',
           name: 'apadrinamiento-apadrinamiento',
-          component: () => import('./views/apadrinamientos/apadrinamiento.vue'),
+          component: () => import('./views/apadrinamientos/apadrinamiento/apadrinamiento.vue'),
           meta: {
             rule: 'editor'
           }
@@ -257,7 +257,7 @@ const router = new Router({
         {
           path: '/apadrinamiento/familia',
           name: 'apadrinamiento-familia',
-          component: () => import('./views/apadrinamientos/relacion.vue'),
+          component: () => import('./views/apadrinamientos/familia/relacion.vue'),
           meta: {
             rule: 'editor'
           }
@@ -283,7 +283,7 @@ const router = new Router({
         {
           path: '/apadrinamiento/correspondencia/:id',
           name: 'apadrinamiento-correspondencia',
-          component: () => import('./views/apadrinamientos/nino/correspondencia.vue'),
+          component: () => import('./views/apadrinamientos/correspondencia/correspondencia.vue'),
           meta: {
             rule: 'editor'
           }
@@ -291,7 +291,7 @@ const router = new Router({
         {			
           path: '/ingresar/correspondencia/:id',
           name: 'ingresar-correspondencia',
-          component: () => import('./views/apadrinamientos/nino/nuevocorrespondencia.vue'),
+          component: () => import('./views/apadrinamientos/correspondencia/nuevocorrespondencia.vue'),
           meta: {
             rule: 'editor'
           }
@@ -299,7 +299,7 @@ const router = new Router({
         {			
           path: '/ver/correspondencia/:id',
           name: 'ver-correspondencia',
-          component: () => import('./views/apadrinamientos/nino/vercorrespondencia.vue'),
+          component: () => import('./views/apadrinamientos/correspondencia/vercorrespondencia.vue'),
           meta: {
             rule: 'editor'
           }
@@ -541,7 +541,7 @@ const router = new Router({
         {
           path: '/general/escuela',
           name: 'general-escuela',
-          component: () => import('./views/apadrinamientos/escuela.vue'),
+          component: () => import('./views/apadrinamientos/escuela/escuela.vue'),
           meta: {
             rule: 'admin'
           }
@@ -549,7 +549,7 @@ const router = new Router({
         {
           path: '/general/sector',
           name: 'general-sector',
-          component: () => import('./views/apadrinamientos/sector.vue'),
+          component: () => import('./views/apadrinamientos/sector/sector.vue'),
           meta: {
             rule: 'admin'
           }
@@ -557,7 +557,7 @@ const router = new Router({
         {
           path: '/general/aldea',
           name: 'general-aldea',
-          component: () => import('./views/apadrinamientos/aldea.vue'),
+          component: () => import('./views/apadrinamientos/aldea/aldea.vue'),
           meta: {
             rule: 'admin'
           }

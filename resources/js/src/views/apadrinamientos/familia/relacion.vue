@@ -59,13 +59,13 @@
 			</template>
 		</vs-table>
 
-			<sectorEdit
+			<!-- <sectorEdit
 				v-bind:identificador="abrir_editar"
 				v-bind:id="id"
 				v-bind:nombre="nombre"
 				v-bind:aldea_id="aldea_id"
 				v-on:cerrado="index();"
-			></sectorEdit>
+			></sectorEdit> -->
 	</vx-card>
 </template>
 
@@ -73,12 +73,12 @@
 
 <script>
 import VueApexCharts from 'vue-apexcharts'
-import sectorEdit from './sector_edit.vue'
+// import sectorEdit from './sector_edit.vue'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
-import Formulariosector from './formulariorelacion.vue'
+// import Formulariosector from './formulariorelacion.vue'
 import vSelect from 'vue-select'
 import axios from 'axios'
 
@@ -117,9 +117,9 @@ export default {
 		StatisticsCardLine,
 		ChangeTimeDurationDropdown,
 		VxTimeline,
-		Formulariosector,
+		// Formulariosector,
 		vSelect,
-		sectorEdit    
+		// sectorEdit    
 	},
 	methods: {
 		traerNombre(tabla){
