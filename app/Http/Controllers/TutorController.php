@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Hash;
 use App\Tutor;
 use App\Usuario;
 use Illuminate\Http\Request;
@@ -60,7 +60,8 @@ class TutorController extends Controller
 			$usuario->descripcion = $request->descripcion;
 			// Comprobacion de unico
 			$usuario->usuario = $request->usuario;
-			$usuario->password = $request->password;
+			$usuario->password = Hash::make($request->password);
+			//$usuario->password = $request->password;
 			$usuario->rol_id = $request->rol_id;
 			$usuario->save();
 			

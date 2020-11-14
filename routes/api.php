@@ -21,6 +21,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'AuthController@authenticate');
+    Route::post('register', 'AuthController@authenticate');
+    Route::get('logout', 'AuthController@logout');
+    Route::get('check', 'AuthController@check');
+
+});
+
 /* Ruta con middleware
 Route::group(['prefix' => 'admin', 'middleware' => 'api.auth'], function () {
     //Aqui pueden meter las rutas que necesitan que alguien este autenticado
