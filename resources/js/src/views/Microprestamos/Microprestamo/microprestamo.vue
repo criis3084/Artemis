@@ -25,7 +25,7 @@
         <template slot="thead">
             <vs-th>Ver</vs-th>
             <vs-th>Id</vs-th>
-
+            <vs-th>Nombre del grupo</vs-th>
 		  	<vs-th>Total</vs-th>
 		    <vs-th>Interés</vs-th>
             <vs-th>Fecha</vs-th>
@@ -42,7 +42,7 @@
 				<vx-tooltip text="Información Completa"> <vs-button radius color="dark" type="flat" icon="visibility" size="large" @click="$router.push('/microprestamo/Vermicroprestamo/'+data[indextr].id)"></vs-button></vx-tooltip>			
 			</vs-td>
             <vs-td>{{data[indextr].id}}</vs-td>
-
+            <vs-td>{{data[indextr].nombreMicroprestamo}}</vs-td>
             <vs-td>{{ currency(data[indextr].total) }}</vs-td>
             <vs-td>% {{ data[indextr].interes }}</vs-td>
             <vs-td>{{ data[indextr].fecha_inicio}}</vs-td>
@@ -99,8 +99,8 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	    selectedFormat: 'xlsx',
-	    headerVal: ['id', 'destino_inversion_nombre','total', 'interes','fecha_inicio','duracion', 'dia_pago', 'mora_por_atraso', 'estado' ],
-	    headerTitle: ['Id', 'Destino Inversion','Total', 'Interés', 'Fecha','Duración', 'Día de pago', 'Mora', 'Estado'],
+	    headerVal: ['id', 'nombreMicroprestamo','total', 'interes','fecha_inicio','duracion', 'dia_pago', 'mora_por_atraso', 'estado' ],
+	    headerTitle: ['Id', 'nombreMicroprestamo','Total', 'Interés', 'Fecha','Duración', 'Día de pago', 'Mora', 'Estado'],
       activePrompt: false,
       nombre: "",
       fecha: "",

@@ -49,6 +49,7 @@ class DetalleIntegranteController extends Controller
 			$detalleIntegrante->destino_inversion_id = $request->destino_inversion_id;
 			$detalleIntegrante->microprestamo_id = $request->microprestamo_id;
 			$detalleIntegrante->dia_pago = $request->dia_pago;
+			$detalleIntegrante->estado = $request->estado;
 			$detalleIntegrante->save();
 			
 			return ['id' => $detalleIntegrante->id];
@@ -70,6 +71,7 @@ class DetalleIntegranteController extends Controller
 		$detalleIntegrante->destino_inversion_id = $request->destino_inversion_id;
 		$detalleIntegrante->microprestamo_id = $request->microprestamo_id;
 		$detalleIntegrante->dia_pago = $request->dia_pago;
+		$detalleIntegrante->estado = $request->estado;
 		$detalleIntegrante->save();
 		
 		return Response::json(['message' => 'detalleIntegrante Actualizada'], 200);
@@ -97,6 +99,17 @@ class DetalleIntegranteController extends Controller
 			$detalleIntegrante->dia_pago = $request->dia_pago;
 			$detalleIntegrante->save();
 			return Response::json(['message' => 'Fecha Actualizada'], 200);
+			} catch (Exception $e) {
+				return Response::json(['message' => $e->getMessage()], 400);
+			}
+	}
+	public function ActualizarGrupo (Request $request)
+	{
+		try {
+			$detalleIntegrante = DetalleIntegrante::findOrFail($request->id);
+			$detalleIntegrante->grupo_prestamo_id  = $request->grupo_prestamo_id;
+			$detalleIntegrante->save();
+			return Response::json(['message' => 'Grupo Actualizada'], 200);
 			} catch (Exception $e) {
 				return Response::json(['message' => $e->getMessage()], 400);
 			}

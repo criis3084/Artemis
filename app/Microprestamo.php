@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Microprestamo extends Model
 {
-	protected $fillable = ['total','interes','fecha_inicio','duracion','dia_pago','mora_por_atraso','pago_mes','estado'];
+	protected $fillable = ['nombreMicroprestamo','total','interes','fecha_inicio','duracion','dia_pago','mora_por_atraso','pago_mes','estado'];
 
 	/*public function destino(){
 		return $this->belongsTo('App\DestinoInversion','destino_inversion_id','id');
