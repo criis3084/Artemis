@@ -218,7 +218,7 @@ export default{
 
       return tabla
     },
-    async importarEncargados () { //importa a todos las personas que tenga un grupo asignado
+    async importarEncargados () { //importa a todos las personas que tenga un microprestamo asignado
       const me = this
       const hash2 = {}
       const response = await axios.get(
@@ -252,7 +252,7 @@ export default{
         fecha_pago:this.getDate(this.fecha_pago),
         mora:this.mora,
         detalle_integrante_id:this.detalle.id,
-        usuario_id:8
+        usuario_id:1
       }).then(function (response) {
         console.log(response.data.id)
         me.seterResponse(response.data.id)

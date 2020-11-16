@@ -9,6 +9,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Microprestamo::class, function (Faker $faker) {
     return [
+        'nombreMicroprestamo' => $faker->text($maxNbChars = 20),
         'total' => $faker-> randomFloat($nbMaxDecimals = 2, $min = 1, $max = 10000),
         'interes' => $faker-> randomFloat($nbMaxDecimals = 2, $min = 1, $max = 100),
         'fecha_inicio' => $faker -> dateTimeBetween($startDate = '-30 years', $endDate = 'now', $timezone = null), // DateTime('2003-03-15 02:00:49', 'Africa/Lagos')

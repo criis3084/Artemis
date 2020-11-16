@@ -408,6 +408,14 @@ const router = new Router({
           }
         },
         {
+          path:'/microprestamo/editarGrupo/:id',
+          name: 'microprestamo-editarGrupo',
+          component: () => import('./views/Microprestamos/Grupo_prestamo/editarGrupo.vue'),
+          meta: {
+            rule:'editor'
+          }
+        },
+        {
           path:'/microprestamo/Nuevogrupo',
           name: 'microprestamo-grupo',
           component: () => import('./views/Microprestamos/Grupo_prestamo/ingresarGrupo.vue'),

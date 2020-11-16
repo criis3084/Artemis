@@ -499,7 +499,6 @@ export default {
           title:'Cita',
           text:'Cita registrada correctamente'
         })
-        location.reload()
       })
         .catch(function (error) {
           console.log(error)

@@ -70,7 +70,7 @@
         </vs-td>
 
         <vs-td>
-           <vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+           <vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/microprestamo/editarGrupo/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
         </vs-td>
 
       </vs-tr>
@@ -127,7 +127,7 @@ export default {
     async index () {
       const me = this
       this.abrir_editar = false
-      const response = await axios.get('/api/grupoPrestamo/get?completo=true')
+      const response = await axios.get('/api/grupoPrestamo/get?completo=false')
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.grupoPrestamos.data
