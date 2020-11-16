@@ -16,7 +16,7 @@ class CreateAdministrativosTable extends Migration
         Schema::create('administrativos', function (Blueprint $table) {
 			$table->id();
 			$table->string('descripcion_puesto');
-			$table->foreignId('usuario_id')->constrained();
+			$table->foreignId('user_id')->constrained();
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });

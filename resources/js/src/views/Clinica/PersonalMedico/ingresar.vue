@@ -116,8 +116,8 @@
 
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Usuario" v-model="usuario" v-validate="'required|min:5|max:15'" name="usuario"/>
-					<span class="text-danger">{{ errors.first('step-3.usuario') }}</span>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="User" v-model="user" v-validate="'required|min:5|max:15'" name="user"/>
+					<span class="text-danger">{{ errors.first('step-3.user') }}</span>
 		
     		</div>
 			</div>
@@ -198,10 +198,10 @@ const dict = {
 	descripcion: {
 	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
-	usuario:{
-	  required: 'El campo usuario es requerido',
-	  min: 'Su usuario no puede tener menos de 5 caracteres',
-	  max: 'Su usuario no puede tener más de 15 caracteres',
+	user:{
+	  required: 'El campo user es requerido',
+	  min: 'Su user no puede tener menos de 5 caracteres',
+	  max: 'Su user no puede tener más de 15 caracteres',
 	},
 	password:{
 	  required: 'El campo contraseña es requerido',
@@ -233,7 +233,7 @@ export default {
       imagen_perfil:'',
       fecha_nacimiento: '',
       descripcion:'',
-      usuario:'',
+      user:'',
       password:'',
       roles: [],
       rol_id:'',
@@ -295,7 +295,7 @@ export default {
         numero_telefono:this.numero_telefono,
         correo:this.correo,
         imagen_perfil: `/storage/public/personalClinico/${  this.imagen_perfil}`,
-        usuario:this.usuario,
+        user:this.user,
         password:this.password,
         descripcion:this.descripcion,
         genero:this.genero,

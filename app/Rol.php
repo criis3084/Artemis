@@ -8,8 +8,8 @@ class Rol extends Model
 {
 	protected $fillable = ['nombre','estado'];
 
-	public function usuarios(){
-		return $this->hasMany('App\Usuario','rol_id','id');
+	public function users(){
+		return $this->hasMany('App\User','rol_id','id');
 	}
 	public function permisos(){
 		return $this->hasMany('App\Permisos','rol_id','id');

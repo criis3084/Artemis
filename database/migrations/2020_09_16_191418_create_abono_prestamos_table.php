@@ -22,7 +22,7 @@ class CreateAbonoPrestamosTable extends Migration
 			$table->integer('mora')->default(0);
 			$table->boolean('estado')->default(1);
 			$table->foreignId('detalle_integrante_id')->constrained();
-			$table->foreignId('usuario_id')->constrained();
+			$table->foreignId('user_id')->constrained();
 			$table->timestamps();
         });
     }

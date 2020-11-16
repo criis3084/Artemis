@@ -16,7 +16,7 @@ class CreateTutorsTable extends Migration
         Schema::create('tutors', function (Blueprint $table) {
 			$table->id();
 			$table->string('especialidad')->nullable();
-			$table->foreignId('usuario_id')->constrained();
+			$table->foreignId('user_id')->constrained();
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });

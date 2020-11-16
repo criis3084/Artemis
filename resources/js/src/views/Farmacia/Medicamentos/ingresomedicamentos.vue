@@ -21,7 +21,7 @@
 				</template>
 				<template slot="thead">
 					<vs-th>Ver</vs-th>
-					<vs-th>Nombre Usuario</vs-th>
+					<vs-th>Nombre User</vs-th>
 					<vs-th>Nombre Proveedor</vs-th>
 					<vs-th>Fecha</vs-th>
 					<vs-th>Descripción</vs-th>
@@ -34,7 +34,7 @@
 						<vs-td>
 							<vx-tooltip text="Detalle de entrada"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"  @click="$router.push('/ver/entrada/'+data[indextr].id)" ></vs-button></vx-tooltip>
 						</vs-td>
-						<vs-td>{{ data[indextr].usuario_nombres + " " +  data[indextr].usuario_apellidos}}</vs-td>
+						<vs-td>{{ data[indextr].user_nombres + " " +  data[indextr].user_apellidos}}</vs-td>
 						<vs-td>{{ data[indextr].proveedor_nombres + " " + data[indextr].proveedor_apellidos}}</vs-td>
 						<vs-td>{{ data[indextr].fecha_ingreso }}</vs-td>
 						<vs-td>{{ data[indextr].descripcion }}</vs-td>
@@ -76,8 +76,8 @@ export default {
 			formats:['xlsx', 'csv', 'txt'],
 			cellAutoWidth: true,
 			selectedFormat: 'xlsx',
-			headerVal: ['id', 'usuario_nombres', 'usuario_apellidos', 'proveedor_nombres','proveedor_apellidos','fecha_ingreso','descripcion', 'estado' ],
-			headerTitle: ['Id', 'Nombre del Usuario', 'Apellido del Usuario', 'Nombres del Paciente', 'Apellidos del paciente', 'Fecha de salida','Descripcion','Estado'],
+			headerVal: ['id', 'user_nombres', 'user_apellidos', 'proveedor_nombres','proveedor_apellidos','fecha_ingreso','descripcion', 'estado' ],
+			headerTitle: ['Id', 'Nombre del User', 'Apellido del User', 'Nombres del Paciente', 'Apellidos del paciente', 'Fecha de salida','Descripcion','Estado'],
 			activePrompt: false,
 			nombre: "",
 			fecha: "",
@@ -101,8 +101,8 @@ export default {
 	methods: {
 		traerDatos(tabla){
 			tabla.forEach(function(valor, indice, array){
-				valor.usuario_nombres=valor.usuario.nombres
-				valor.usuario_apellidos=valor.usuario.apellidos
+				valor.user_nombres=valor.user.nombres
+				valor.user_apellidos=valor.user.apellidos
 				valor.proveedor_nombres=valor.datos_proveedor[0].nombres
 				valor.proveedor_apellidos=valor.datos_proveedor[0].apellidos
 			}); 

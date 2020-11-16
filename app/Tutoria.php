@@ -18,12 +18,12 @@ class Tutoria extends Model
 
 	public function datos_tutor(){
 		return $this->hasManyThrough(
-			'App\Usuario',
+			'App\User',
 			'App\Tutor',
 			'id',
 			'id',
 			'tutor_id',
-			'usuario_id'
+			'user_id'
 		);
 	}
 	public function datos_nino(){

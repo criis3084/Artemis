@@ -48,7 +48,7 @@ class HistorialAbonoViviendaController extends Controller
 			$abonoVivienda->cantidad_restante = $request->cantidad_restante;
 			$abonoVivienda->descripcion = $request->descripcion;
 			$abonoVivienda->fecha_pago = $request->fecha_pago;
-			$abonoVivienda->usuario_id = $request->usuario_id;
+			$abonoVivienda->user_id = $request->user_id;
 			$abonoVivienda->save();
 
 

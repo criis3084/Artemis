@@ -232,7 +232,7 @@ export default {
 				proveedor_id:me.proveedor_id.id,
 				fecha_ingreso:me.getDate(me.fecha_ingreso),
 				descripcion:me.descripcion,
-				usuario_id:1,
+				user_id:1,
 			}).then(function(response) {
 				me.guardarLote(response.data.id)
 			})

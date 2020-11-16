@@ -6,11 +6,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Usuario extends Authenticatable  implements JWTSubject
+class User extends Authenticatable  implements JWTSubject
 {
     use Notifiable;
 	protected $table = 'users';
-	protected $fillable = ['nombres','apellidos','CUI','genero','numero_telefono','correo','direccion','fecha_nacimiento','imagen_perfil','descripcion','estado','usuario','password','rol_id'];
+	protected $fillable = ['nombres','apellidos','CUI','genero','numero_telefono','correo','direccion','fecha_nacimiento','imagen_perfil','descripcion','estado','user','password','rol_id'];
 
 	public function rol(){
 		return $this->belongsTo('App\Rol','rol_id','id');

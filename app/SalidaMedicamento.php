@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class SalidaMedicamento extends Model
 {
-	protected $fillable = ['fecha_salida','tipo_salida','descripcion','usuario_id','paciente_id','estado'];
+	protected $fillable = ['fecha_salida','tipo_salida','descripcion','user_id','paciente_id','estado'];
 
-	public function usuario(){
-		return $this->belongsTo('App\Usuario','usuario_id','id');
+	public function user(){
+		return $this->belongsTo('App\User','user_id','id');
 	}
 	public function paciente(){
 		return $this->belongsTo('App\Paciente','paciente_id','id');

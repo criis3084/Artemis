@@ -8,7 +8,7 @@
         icon="icon icon-user"
         icon-pack="feather"
         label-placeholder="Email"
-        v-model="loginData.usuario"
+        v-model="loginData.user"
         class="w-full"/>
     <span class="text-danger text-sm">{{ errors.first('email') }}</span>
 
@@ -46,14 +46,14 @@ export default {
     return {      
       checkbox_remember_me: false,
       loginData: {
-        usuario: 'ser@gmail.com',
+        user: 'ser@gmail.com',
         password: '123456',
       }
     }
   },
   computed: {
     validateForm () {
-      return !this.errors.any() && this.loginData.usuario !== '' && this.loginData.password !== ''
+      return !this.errors.any() && this.loginData.user !== '' && this.loginData.password !== ''
     }
   },
   methods: {
@@ -86,7 +86,7 @@ export default {
       const payload = {
         checkbox_remember_me: this.checkbox_remember_me,
         userDetails: {
-          usuario: this.usuario,
+          user: this.user,
           password: this.password
         }
       }

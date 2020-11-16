@@ -4,7 +4,7 @@
 
 use App\AbonoVivienda;
 use App\Vivienda;
-use App\Usuario;
+use App\User;
 use Faker\Generator as Faker;
 
 $factory->define(AbonoVivienda::class, function (Faker $faker) {
@@ -15,8 +15,8 @@ $factory->define(AbonoVivienda::class, function (Faker $faker) {
         'cantidad_restante' => $faker->numberBetween($min = 10000, $max = 100000),
         'estado' => $faker->numberBetween($min = 0, $max = 1),
         // 'vivienda_id' => Vivienda::pluck('id')[$faker->numberBetween(1,Vivienda::count()-1)],
-        'usuario_id' => factory(App\Usuario::class),
-        // 'usuario_id' => Usuario::pluck('id')[$faker->numberBetween(1,Usuario::count()-1)],
+        'user_id' => factory(App\User::class),
+        // 'user_id' => User::pluck('id')[$faker->numberBetween(1,User::count()-1)],
         'created_at' => $faker->dateTime($max = 'now', $timezone = null),
         'updated_at' => $faker->dateTime($max = 'now', $timezone = null),
     ];

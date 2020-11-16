@@ -76,7 +76,7 @@ Route::apiResources([
 	'profesion'             => 'ProfesionController',
 	'casaMedica'            => 'CasaMedicaController',
 	'categoriaMedicamento'  => 'CategoriaMedicamentoController',
-	'usuario'               => 'UsuarioController',
+	'user'               => 'UserController',
 	'nino'                  => 'NinoController',
 	'encargado'             => 'EncargadoController',
 	'padrino'               => 'PadrinoController',
@@ -390,21 +390,21 @@ Route::group(['prefix' => 'categoriaMedicamento'], function () {
         'as' => 'admin.categoriaMedicamento', 'uses' => 'CategoriaMedicamentoController@desactivar'
     ]);
 });
-Route::group(['prefix' => 'usuario'], function () {
+Route::group(['prefix' => 'user'], function () {
     Route::get('/get', [
-        'as' => 'admin.usuario', 'uses' => 'UsuarioController@index'
+        'as' => 'admin.user', 'uses' => 'UserController@index'
     ]);
     Route::post('/post', [
-        'as' => 'admin.usuario', 'uses' => 'UsuarioController@store'
+        'as' => 'admin.user', 'uses' => 'UserController@store'
     ]);
     Route::put('/update', [
-        'as' => 'admin.usuario', 'uses' => 'UsuarioController@update'
+        'as' => 'admin.user', 'uses' => 'UserController@update'
 	]);
     Route::put('/activar', [
-        'as' => 'admin.usuario', 'uses' => 'UsuarioController@activar'
+        'as' => 'admin.user', 'uses' => 'UserController@activar'
 	]);
     Route::put('/desactivar', [
-        'as' => 'admin.usuario', 'uses' => 'UsuarioController@desactivar'
+        'as' => 'admin.user', 'uses' => 'UserController@desactivar'
     ]);
 });
 Route::group(['prefix' => 'permisos'], function () {

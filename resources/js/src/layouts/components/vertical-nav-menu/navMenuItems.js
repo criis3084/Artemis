@@ -343,10 +343,10 @@ export default [
     i18n: 'Admin',
     submenu: [
       {
-            url: '/admin/usuario',
-            name: 'usuario',
-            slug: 'admin-usuario',
-            i18n: 'Usuarios',
+            url: '/admin/user',
+            name: 'user',
+            slug: 'admin-user',
+            i18n: 'Users',
       },
       {
             url: '/admin/rol',

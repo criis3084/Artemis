@@ -20,18 +20,18 @@ class AbonoViviendaController extends Controller
 		{
 			$count = AbonoVivienda::where('estado',1)->count();
 			if ($buscar==''){
-				$abonoVivienda = AbonoVivienda::with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$abonoVivienda = AbonoVivienda::with('user')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$abonoVivienda = AbonoVivienda::with('usuario')->where([[$criterio, 'like', $buscar ],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$abonoVivienda = AbonoVivienda::with('user')->where([[$criterio, 'like', $buscar ],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			$count = AbonoVivienda::all()->count();
 			if ($buscar==''){
-				$abonoVivienda = AbonoVivienda::with('usuario')->orderBy('id', 'desc')->paginate($count);
+				$abonoVivienda = AbonoVivienda::with('user')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$abonoVivienda = AbonoVivienda::with('usuario')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
+				$abonoVivienda = AbonoVivienda::with('user')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
@@ -48,7 +48,7 @@ class AbonoViviendaController extends Controller
 			$abonoVivienda->cantidad_restante = $request->cantidad_restante;
 			$abonoVivienda->descripcion = $request->descripcion;
 			$abonoVivienda->fecha_pago = $request->fecha_pago;
-			$abonoVivienda->usuario_id = $request->usuario_id;
+			$abonoVivienda->user_id = $request->user_id;
 			$abonoVivienda->save();
 			return Response::json(['message' => 'Abono Vivienda Creada'], 200);
 			#return ['id' => $nino->id];
@@ -66,7 +66,7 @@ class AbonoViviendaController extends Controller
 		$abonoVivienda->cantidad_restante = $request->cantidad_restante;
 		$abonoVivienda->descripcion = $request->descripcion;
 		$abonoVivienda->fecha_pago = $request->fecha_pago;
-		$abonoVivienda->usuario_id = $request->usuario_id;
+		$abonoVivienda->user_id = $request->user_id;
 		$abonoVivienda->save();
 		return Response::json(['message' => 'Abono Vivienda Actualizado'], 200);
 

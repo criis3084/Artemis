@@ -100,7 +100,7 @@ export default{
       imagen_perfil:'',
       fecha_nacimiento:this.getDate(this.fecha_nacimiento),
       descripcion:'',
-      usuario:'',
+      user:'',
       password:'',
       roles: [],
       selected: '1',

@@ -107,7 +107,7 @@ export default {
 				console.log(error)
 			})
 		},
-		async importarUsuario(idUsuario){
+		async importarUser(idUser){
 			let me2 = this
 			const response = await axios.get(
 			`/api/proveedor/get?criterio=id&buscar=${idProveedor}&completo=true`)

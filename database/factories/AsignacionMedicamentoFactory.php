@@ -13,7 +13,7 @@ $factory->define(AsignacionMedicamento::class, function (Faker $faker) {
         'receta_id' => factory(App\Receta::class),
        
         'medicamento_id' => factory(App\Medicamento::class),
-        // 'usuario_id' => Usuario::pluck('id')[$faker->numberBetween(1,Usuario::count()-1)],
+        // 'user_id' => User::pluck('id')[$faker->numberBetween(1,User::count()-1)],
         'created_at' => $faker->dateTime($max = 'now', $timezone = null),
         'updated_at' => $faker->dateTime($max = 'now', $timezone = null),
 

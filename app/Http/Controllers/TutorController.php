@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use App\Tutor;
-use App\Usuario;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
@@ -47,30 +47,30 @@ class TutorController extends Controller
 	{
 		//if(!$request->ajax())return redirect('/');
 		try {
-			$usuario= new Usuario();
-			$usuario->nombres = $request->nombres;
-			$usuario->apellidos = $request->apellidos;
-			$usuario->CUI = $request->CUI;
-			$usuario->genero = $request->genero;
-			$usuario->numero_telefono = $request->numero_telefono;
-			$usuario->correo = $request->correo;
-			$usuario->direccion = $request->direccion;
-			$usuario->fecha_nacimiento = $request->fecha_nacimiento;
-			$usuario->imagen_perfil = $request->imagen_perfil;
-			$usuario->descripcion = $request->descripcion;
+			$user= new User();
+			$user->nombres = $request->nombres;
+			$user->apellidos = $request->apellidos;
+			$user->CUI = $request->CUI;
+			$user->genero = $request->genero;
+			$user->numero_telefono = $request->numero_telefono;
+			$user->correo = $request->correo;
+			$user->direccion = $request->direccion;
+			$user->fecha_nacimiento = $request->fecha_nacimiento;
+			$user->imagen_perfil = $request->imagen_perfil;
+			$user->descripcion = $request->descripcion;
 			// Comprobacion de unico
-			$usuario->usuario = $request->usuario;
-			$usuario->password = Hash::make($request->password);
-			//$usuario->password = $request->password;
-			$usuario->rol_id = $request->rol_id;
-			$usuario->save();
+			$user->user = $request->user;
+			$user->password = Hash::make($request->password);
+			//$user->password = $request->password;
+			$user->rol_id = $request->rol_id;
+			$user->save();
 			
 			$tutor = new Tutor();
 			$tutor->especialidad = $request->especialidad;
-			// $tutor->usuario_id = $usario->usuario_id;
-			$tutor->usuario_id = $usuario->id;
+			// $tutor->user_id = $usario->user_id;
+			$tutor->user_id = $user->id;
 			$tutor->save();
-			return Response::json(['message' => 'Usuario tutor Creado'], 200);
+			return Response::json(['message' => 'User tutor Creado'], 200);
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
@@ -81,29 +81,29 @@ class TutorController extends Controller
 	{
 		try {
 		$tutor = Tutor::findOrFail($request->id);
-		$usuario = Usuario::findOrFail($tutor->usuario_id);
-		$usuario->nombres = $request->nombres;
-			$usuario->apellidos = $request->apellidos;
-			$usuario->CUI = $request->CUI;
-			$usuario->genero = $request->genero;
-			$usuario->numero_telefono = $request->numero_telefono;
-			$usuario->correo = $request->correo;
-			$usuario->direccion = $request->direccion;
-			$usuario->fecha_nacimiento = $request->fecha_nacimiento;
-			$usuario->imagen_perfil = $request->imagen_perfil;
-			$usuario->descripcion = $request->descripcion;
+		$user = User::findOrFail($tutor->user_id);
+		$user->nombres = $request->nombres;
+			$user->apellidos = $request->apellidos;
+			$user->CUI = $request->CUI;
+			$user->genero = $request->genero;
+			$user->numero_telefono = $request->numero_telefono;
+			$user->correo = $request->correo;
+			$user->direccion = $request->direccion;
+			$user->fecha_nacimiento = $request->fecha_nacimiento;
+			$user->imagen_perfil = $request->imagen_perfil;
+			$user->descripcion = $request->descripcion;
 			// Comprobacion de unico
-			$usuario->usuario = $request->usuario;
-			$usuario->password = $request->password;
-			$usuario->rol_id = $request->rol_id;
+			$user->user = $request->user;
+			$user->password = $request->password;
+			$user->rol_id = $request->rol_id;
 			
 			$tutor->especialidad = $request->especialidad;
-			// $tutor->usuario_id = $usario->usuario_id;
-			//$tutor->usuario_id = $usuario->id;
+			// $tutor->user_id = $usario->user_id;
+			//$tutor->user_id = $user->id;
 		
-			$usuario->save();
+			$user->save();
 		    $tutor->save();
-		    return Response::json(['message' => 'Usuario tutor actualizado'], 200);
+		    return Response::json(['message' => 'User tutor actualizado'], 200);
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
@@ -115,11 +115,11 @@ class TutorController extends Controller
 	{
 		 #if(!$request->ajax())return redirect('/');
 		 $tutor = Tutor::findOrFail($request->id);
-		 $usuario = Usuario::findOrFail($tutor->usuario_id);
-		 $usuario->estado = '1';
+		 $user = User::findOrFail($tutor->user_id);
+		 $user->estado = '1';
 		 $tutor->estado = '1';
 		 $tutor->save();
-		 $usuario->save();
+		 $user->save();
 		 return Response::json(['message' => 'Tutor Activado'], 200);
 	}
 
@@ -127,11 +127,11 @@ class TutorController extends Controller
 	{
 		#if(!$request->ajax())return redirect('/');
 		$tutor = Tutor::findOrFail($request->id);
-        $usuario = Usuario::findOrFail($tutor->usuario_id);
-		$usuario->estado = '0';
+        $user = User::findOrFail($tutor->user_id);
+		$user->estado = '0';
 		$tutor->estado = '0';
 		$tutor->save();
-		$usuario->save();
+		$user->save();
 		return Response::json(['message' => 'Tutor Desactivado'], 200);
 	}
 	public function imagen(Request $request){

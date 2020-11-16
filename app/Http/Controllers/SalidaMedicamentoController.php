@@ -18,17 +18,17 @@ class SalidaMedicamentoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('datos_persona')->with('paciente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$salidaMedicamento = SalidaMedicamento::with('user')->with('datos_persona')->with('paciente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('datos_persona')->with('paciente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$salidaMedicamento = SalidaMedicamento::with('user')->with('datos_persona')->with('paciente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('datos_persona')->with('paciente')->orderBy('id', 'desc')->paginate($count);
+				$salidaMedicamento = SalidaMedicamento::with('user')->with('datos_persona')->with('paciente')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$salidaMedicamento = SalidaMedicamento::with('usuario')->with('datos_persona')->with('paciente')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$salidaMedicamento = SalidaMedicamento::with('user')->with('datos_persona')->with('paciente')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
@@ -42,7 +42,7 @@ class SalidaMedicamentoController extends Controller
 			$salidaMedicamento = new SalidaMedicamento();
 			$salidaMedicamento->fecha_salida = $request->fecha_salida;
 			$salidaMedicamento->descripcion = $request->descripcion;
-			$salidaMedicamento->usuario_id = $request->usuario_id;
+			$salidaMedicamento->user_id = $request->user_id;
 			$salidaMedicamento->tipo_salida = $request->tipo_salida;
 			$salidaMedicamento->paciente_id = $request->paciente_id;
 			$salidaMedicamento->save();
@@ -57,7 +57,7 @@ class SalidaMedicamentoController extends Controller
 		$salidaMedicamento = SalidaMedicamento::findOrFail($request->id);
 		$salidaMedicamento->fecha_salida = $request->fecha_salida;
 		$salidaMedicamento->descripcion = $request->descripcion;
-		$salidaMedicamento->usuario_id = $request->usuario_id;
+		$salidaMedicamento->user_id = $request->user_id;
 		$salidaMedicamento->paciente_id = $request->paciente_id;
 		if (isset($request->tipo_salida)){
 			$salidaMedicamento->tipo_salida = $request->tipo_salida;

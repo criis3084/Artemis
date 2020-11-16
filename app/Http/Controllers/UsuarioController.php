@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
-use App\Usuario;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
 
-class UsuarioController extends Controller
+class UserController extends Controller
 {
 	public function index(Request $request)
 	{
@@ -15,47 +15,47 @@ class UsuarioController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo :'false';
-		$count = Usuario::all()->count();
+		$count = User::all()->count();
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$usuario = Usuario::with('rol')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$user = User::with('rol')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$usuario = Usuario::with('rol')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$user = User::with('rol')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$usuario = Usuario::with('rol')->orderBy('id', 'desc')->paginate($count);
+				$user = User::with('rol')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$usuario = Usuario::with('rol')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$user = User::with('rol')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
-			"usuarios"=>$usuario
+			"users"=>$user
 		];
 	}
 
 	public function store(Request $request)
 	{
 		try {
-			$usuario = new Usuario();
-			$usuario->nombres = $request->nombres;
-			$usuario->apellidos = $request->apellidos;
-			$usuario->CUI = $request->CUI;
-			$usuario->genero = $request->genero;
-			$usuario->numero_telefono = $request->numero_telefono;
-			$usuario->correo = $request->correo;
-			$usuario->direccion = $request->direccion;
-			$usuario->fecha_nacimiento = $request->fecha_nacimiento;
-			$usuario->imagen_perfil = $request->correo;
-			$usuario->descripcion = $request->descripcion;
-			$usuario->usuario = $request->usuario;
-			$usuario->password = Hash::make($request->password);
-			$usuario->rol_id = $request->rol_id;
-			$usuario->save();
-			return Response::json(['message' => 'Usuario Creada'], 200);
+			$user = new User();
+			$user->nombres = $request->nombres;
+			$user->apellidos = $request->apellidos;
+			$user->CUI = $request->CUI;
+			$user->genero = $request->genero;
+			$user->numero_telefono = $request->numero_telefono;
+			$user->correo = $request->correo;
+			$user->direccion = $request->direccion;
+			$user->fecha_nacimiento = $request->fecha_nacimiento;
+			$user->imagen_perfil = $request->correo;
+			$user->descripcion = $request->descripcion;
+			$user->user = $request->user;
+			$user->password = Hash::make($request->password);
+			$user->rol_id = $request->rol_id;
+			$user->save();
+			return Response::json(['message' => 'User Creada'], 200);
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
@@ -64,38 +64,38 @@ class UsuarioController extends Controller
 
 	public function update(Request $request)
 	{
-		$usuario = Usuario::findOrFail($request->id);
-		$usuario->nombres = $request->nombres;
-		$usuario->apellidos = $request->apellidos;
-		$usuario->CUI = $request->CUI;
-		$usuario->genero = $request->genero;
-		$usuario->numero_telefono = $request->numero_telefono;
-		$usuario->correo = $request->correo;
-		$usuario->direccion = $request->direccion;
-		$usuario->fecha_nacimiento = $request->fecha_nacimiento;
-		$usuario->imagen_perfil = $request->correo;
-		$usuario->descripcion = $request->descripcion;
-		$usuario->usuario = $request->usuario;
-		$usuario->password = $request->password;
-		$usuario->rol_id = $request->rol_id;
-		$usuario->save();
-		return Response::json(['message' => 'Usuario Actualizado'], 200);
+		$user = User::findOrFail($request->id);
+		$user->nombres = $request->nombres;
+		$user->apellidos = $request->apellidos;
+		$user->CUI = $request->CUI;
+		$user->genero = $request->genero;
+		$user->numero_telefono = $request->numero_telefono;
+		$user->correo = $request->correo;
+		$user->direccion = $request->direccion;
+		$user->fecha_nacimiento = $request->fecha_nacimiento;
+		$user->imagen_perfil = $request->correo;
+		$user->descripcion = $request->descripcion;
+		$user->user = $request->user;
+		$user->password = $request->password;
+		$user->rol_id = $request->rol_id;
+		$user->save();
+		return Response::json(['message' => 'User Actualizado'], 200);
 
 	}
 
 	public function activar(Request $request)
 	{
-		$usuario = Usuario::findOrFail($request->id);
-        $usuario->estado = '1';
-        $usuario->save();
-		return Response::json(['message' => 'usuario Activado'], 200);
+		$user = User::findOrFail($request->id);
+        $user->estado = '1';
+        $user->save();
+		return Response::json(['message' => 'user Activado'], 200);
 	}
 
 	public function desactivar(Request $request)
 	{
-		$usuario = Usuario::findOrFail($request->id);
-        $usuario->estado = '0';
-        $usuario->save();
-		return Response::json(['message' => 'usuario Desactivado'], 200);
+		$user = User::findOrFail($request->id);
+        $user->estado = '0';
+        $user->save();
+		return Response::json(['message' => 'user Desactivado'], 200);
 	}
 }

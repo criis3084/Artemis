@@ -19,12 +19,12 @@ class HistorialClinico extends Model
 	}
 	public function doctor(){
 		return $this->hasManyThrough(
-			'App\Usuario',
+			'App\User',
 			'App\clinico',
 			'id',
 			'id',
 			'clinico_id',
-			'usuario_id'
+			'user_id'
 		);
 	}
 }
