@@ -79,7 +79,13 @@
 					</div>
 				</div>
 				<div v-if="editarBeneficio">
-					<vs-divider position="center">Listado de beneficios</vs-divider>
+					<vs-divider position="center">Detalle de beneficios</vs-divider>
+					<div class="vx-col md:w-1/2 w-full mt-3">
+						<small class="date-label mt-6">Día de entrega de beneficios</small>
+							<v-select name="dia" v-validate="'required'" style="width:30%" label="mostrar" :options="dia_del_mes" v-model="dia_apoyo" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+							<span class="text-danger">{{ errors.first('dia') }}</span>
+						<br>
+					</div>
 					<div class="vx-col md:w-1/2 w-full mt-3">
 						<div class="vx-col w-full">
 							<small class="date-label">Agregar medicamento de entrega</small>
@@ -197,9 +203,11 @@ export default {
 			id_persona:null,
 			pacienteExterno:false,
 			tipo_paciente_id:null,
+			tipo_paciente_id_original:null,
 			listado_tipos:[],
 			listado_sectores:[],
 			listaCantidades:[],
+			listaCantidadesOriginal:[],
 			nombres:'',
 			apellidos:'',
 			CUI:'',
@@ -210,9 +218,12 @@ export default {
 			langEn: es,
 			primerBeneficio:null,
 			carrito:[],
+			carrito_original:[],
 			medicamento_id:null,
 			listado_medicamentos:[],
 			editarBeneficio:false,
+			dia_del_mes:[],
+			dia_apoyo:null
 		}
 	},
 	watch: {
@@ -224,7 +235,7 @@ export default {
 			}
 		},
 		tipo_paciente_id(){
-			if (this.tipo_paciente_id != null)
+			if (this.tipo_paciente_id != null && this.tipo_paciente_id.id != null && this.tipo_paciente_id.id != 1)
 			{
 				if(this.tipo_paciente_id.id ==2){
 					this.editarBeneficio=false
@@ -240,6 +251,22 @@ export default {
 	    vSelect
 	},
 	methods:{
+		diaMes(dia){
+			let elementoE=null
+			let encontrado=false
+			for (let i = 1; i <= 28; i++) {
+				this.dia_del_mes.push({id:i,mostrar:i})
+			}
+			//me.dia_apoyo.id = me.paciente.dia_apoyo
+			this.dia_del_mes.forEach(function(elemento, indice, array) {
+				if (elemento.id==dia)
+				{
+					elementoE=elemento
+					encontrado=true
+				}
+			})
+			this.dia_apoyo = encontrado == true ? elementoE : {id:dia,mostrar:'No es aceptable el dia de apoyo'} 
+		},
 		traerNombre(tabla){
 			tabla.forEach(function(valor, indice, array){
 				valor.nombre_completo = valor.datos.nombres + ' ' + valor.datos.apellidos
@@ -274,17 +301,18 @@ export default {
 					me.sector_id = me.paciente.datos.sector_id
 					me.importarSectores()
 				}
+				else if (me.tipoPaciente ==2){
+					me.editarBeneficio=false
+				}
 				else{
-					if (me.tipoPaciente ==2){
-						me.editarBeneficio=false
-					}
-					else{
-						me.primerBeneficio=me.paciente.beneficios[0]
-						me.buscarDetalleBeneficios(me.primerBeneficio)
-						me.tipo_paciente_id=me.paciente.tipo_paciente_id
-						me.editarBeneficio=true
-					}
-
+					me.diaMes(me.paciente.dia_apoyo)
+					me.primerBeneficio=me.paciente.beneficios[0]
+					me.idBeneficio = me.paciente.beneficios[0].id
+					console.log('pacientes')
+					console.log(me.idBeneficio)
+					me.buscarDetalleBeneficios(me.primerBeneficio)
+					me.tipo_paciente_id=me.paciente.tipo_paciente_id
+					me.editarBeneficio=true
 				}
 			})
 			.catch(function (error) {
@@ -314,6 +342,8 @@ export default {
 				if(resultado != undefined){
 					this.carrito.push(resultado)
 					this.listaCantidades.push(elemento.cantidad)
+					this.carrito_original.push(resultado)
+					this.listaCantidadesOriginal.push(elemento.cantidad)
 				}
 			}
 		},
@@ -334,6 +364,7 @@ export default {
 						encontrado=true
 					}
 				})
+				me.tipo_paciente_id_original = encontrado == true ? elementoE : {id:me.tipo_paciente_id,nombre:'Tipo de paciente desactivado'} 
 				me.tipo_paciente_id = encontrado == true ? elementoE : {id:me.tipo_paciente_id,nombre:'Tipo de paciente desactivado'} 
 			})
 			.catch(function (error) {
@@ -341,26 +372,59 @@ export default {
 			});
 		},
 		guardarPersona(){
-			this.$validator.validateAll().then(result => {
-				if(result){
-					let me = this
-					axios.put("/api/personaSinAcceso/update/",{
-						id:me.id_persona,
-						nombres:me.nombres,
-						apellidos:me.apellidos,
-						CUI:me.CUI,
-						genero:me.genero,
-						fecha_nacimiento:me.getDate(me.fecha_nacimiento),
-						direccion:me.direccion,
-						numero_telefono:me.numero_telefono,
-						sector_id:me.sector_id.id
+			let me = this
+			if(me.pacienteExterno){
+				axios.put("/api/personaSinAcceso/update/",{
+					id:me.id_persona,
+					nombres:me.nombres,
+					apellidos:me.apellidos,
+					CUI:me.CUI,
+					genero:me.genero,
+					fecha_nacimiento:me.getDate(me.fecha_nacimiento),
+					direccion:me.direccion,
+					numero_telefono:me.numero_telefono,
+					sector_id:me.sector_id.id
+				}).then(function (response){
+					console.log(response)
+				}).catch(function(error) {
+					console.log(error)
+				});
+			}
+			else{
+				let boolCarrito = me.arraysEqual(me.carrito_original,me.carrito)
+				let boolCantidades = me.arraysEqual(me.listaCantidades,me.listaCantidadesOriginal)
+				let boolTipo = me.tipo_paciente_id == me.tipo_paciente_id_original
+					console.log('Entrando a verificar')
+					console.log(boolCarrito)
+					console.log(boolCantidades)
+					console.log(boolTipo)
+				if (!boolTipo)
+				{
+					axios.put("/api/paciente/update/",{
+						id:me.id_recibido,
+						dia_apoyo:me.dia_apoyo.id,
+						tipo_paciente_id:me.tipo_paciente_id.id,
+						detalle:true,
+						id_beneficio:me.idBeneficio
 					}).then(function (response){
 						console.log(response)
 					}).catch(function(error) {
 						console.log(error)
 					});
 				}
-			})
+			}
+		},
+		arraysEqual(a,b) {
+			if (a instanceof Array && b instanceof Array) {
+				if (a.length!=b.length)
+					return false;
+				for(var i=0; i<a.length; i++)
+					if (!this.arraysEqual(a[i],b[i]))
+						return false;
+				return true;
+			} else {
+				return a==b;
+			}
 		},
 		async importarSectores(){
 			let me = this;
