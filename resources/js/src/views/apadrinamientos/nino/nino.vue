@@ -73,8 +73,8 @@ import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine
 //import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
-import Formulario from './formulario.vue'
-import EditNino from './nino/editNino.vue'
+// import Formulario from './formulario.vue'
+import EditNino from './editNino.vue'
 import axios from 'axios'
 
 export default {
@@ -130,7 +130,7 @@ export default {
     StatisticsCardLine,
     ChangeTimeDurationDropdown,
     VxTimeline,
-    Formulario,
+    // Formulario,
     EditNino
   },
   methods: {

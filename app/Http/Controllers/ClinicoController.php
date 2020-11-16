@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Clinico;
-use App\Usuario;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
@@ -42,28 +42,28 @@ class ClinicoController extends Controller
 	public function store(Request $request)
 	{
 		try {
-			$usuario= new Usuario();
-			$usuario->nombres = $request->nombres;
-			$usuario->apellidos = $request->apellidos;
-			$usuario->CUI = $request->CUI;
-			$usuario->genero = $request->genero;
-			$usuario->numero_telefono = $request->numero_telefono;
-			$usuario->correo = $request->correo;
-			$usuario->direccion = $request->direccion;
-			$usuario->fecha_nacimiento = $request->fecha_nacimiento;
-			$usuario->imagen_perfil = $request->imagen_perfil;
-			$usuario->descripcion = $request->descripcion;
+			$user= new User();
+			$user->nombres = $request->nombres;
+			$user->apellidos = $request->apellidos;
+			$user->CUI = $request->CUI;
+			$user->genero = $request->genero;
+			$user->numero_telefono = $request->numero_telefono;
+			$user->correo = $request->correo;
+			$user->direccion = $request->direccion;
+			$user->fecha_nacimiento = $request->fecha_nacimiento;
+			$user->imagen_perfil = $request->imagen_perfil;
+			$user->descripcion = $request->descripcion;
 			// Comprobacion de unico
-			$usuario->usuario = $request->usuario;
-			$usuario->password = $request->password;
-			$usuario->rol_id = $request->rol_id;
-			$usuario->save();
+			$user->user = $request->user;
+			$user->password = $request->password;
+			$user->rol_id = $request->rol_id;
+			$user->save();
 			
 			$clinico = new Clinico();
 			$clinico->profesion_id = $request->profesion_id;
-			$clinico->usuario_id = $usuario->id;
+			$clinico->user_id = $user->id;
 			$clinico->save();
-			return Response::json(['message' => 'Usuario clinico Creado'], 200);
+			return Response::json(['message' => 'User clinico Creado'], 200);
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
@@ -74,28 +74,28 @@ class ClinicoController extends Controller
 	{
 		try {
 		$clinico = Clinico::findOrFail($request->id);
-		$usuario = Usuario::findOrFail($clinico->usuario_id);
-		$usuario->nombres = $request->nombres;
-		$usuario->apellidos = $request->apellidos;
-		$usuario->CUI = $request->CUI;
-		$usuario->genero = $request->genero;
-		$usuario->numero_telefono = $request->numero_telefono;
-		$usuario->correo = $request->correo;
-		$usuario->direccion = $request->direccion;
-		$usuario->fecha_nacimiento = $request->fecha_nacimiento;
-		$usuario->imagen_perfil = $request->imagen_perfil;
-		$usuario->descripcion = $request->descripcion;
+		$user = User::findOrFail($clinico->user_id);
+		$user->nombres = $request->nombres;
+		$user->apellidos = $request->apellidos;
+		$user->CUI = $request->CUI;
+		$user->genero = $request->genero;
+		$user->numero_telefono = $request->numero_telefono;
+		$user->correo = $request->correo;
+		$user->direccion = $request->direccion;
+		$user->fecha_nacimiento = $request->fecha_nacimiento;
+		$user->imagen_perfil = $request->imagen_perfil;
+		$user->descripcion = $request->descripcion;
 		// Comprobacion de unico
-		$usuario->usuario = $request->usuario;
-		$usuario->password = $request->password;
-		$usuario->rol_id = $request->rol_id;
+		$user->user = $request->user;
+		$user->password = $request->password;
+		$user->rol_id = $request->rol_id;
 		
 
 		$clinico->profesion_id = $request->profesion_id;
-		$clinico->usuario_id = $usuario->id;
+		$clinico->user_id = $user->id;
 		$clinico->save();
-		$usuario->save();
-		return Response::json(['message' => 'Usuario clinico actualizado'], 200);
+		$user->save();
+		return Response::json(['message' => 'User clinico actualizado'], 200);
 		#return ['id' => $nino->id];
 	} catch (Exception $e) {
 		return Response::json(['message' => $e->getMessage()], 400);
@@ -105,22 +105,22 @@ class ClinicoController extends Controller
 	public function activar(Request $request)
 	{
 		$clinico = Clinico::findOrFail($request->id);
-		$usuario = Usuario::findOrFail($clinico->usuario_id);
-		$usuario->estado = '1';
+		$user = User::findOrFail($clinico->user_id);
+		$user->estado = '1';
 		$clinico->estado = '1';
 		$clinico->save();
-		$usuario->save();
+		$user->save();
 		return Response::json(['message' => 'clinico Activado'], 200);
 	}
 
 	public function desactivar(Request $request)
 	{
 		$clinico = Clinico::findOrFail($request->id);
-		$usuario = Usuario::findOrFail($clinico->usuario_id);
-		$usuario->estado = '0';
+		$user = User::findOrFail($clinico->user_id);
+		$user->estado = '0';
 		$clinico->estado = '0';
 		$clinico->save();
-		$usuario->save();
+		$user->save();
 		return Response::json(['message' => 'clinico Desactivado'], 200);
 	}
 

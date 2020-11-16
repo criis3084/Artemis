@@ -162,7 +162,7 @@ export default{
       detalle_integrante_id:'',
       detalle:'',
       nRecibo:'',
-      usuario_id:'',
+      user_id:'',
       alerta:false,
       Ngrupo:'',
       arrayA:'',
@@ -252,7 +252,7 @@ export default{
         fecha_pago:this.getDate(this.fecha_pago),
         mora:this.mora,
         detalle_integrante_id:this.detalle.id,
-        usuario_id:1
+        user_id:8
       }).then(function (response) {
         console.log(response.data.id)
         me.seterResponse(response.data.id)

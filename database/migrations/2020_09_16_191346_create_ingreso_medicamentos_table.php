@@ -18,7 +18,7 @@ class CreateIngresoMedicamentosTable extends Migration
 			$table->date('fecha_ingreso');
 			$table->text('descripcion');
 			$table->boolean('estado')->default(1);
-			$table->foreignId('usuario_id')->constrained();
+			$table->foreignId('user_id')->constrained();
 			$table->foreignId('proveedor_id')->constrained();
 			$table->timestamps();
         });

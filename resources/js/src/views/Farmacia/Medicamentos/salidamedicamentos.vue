@@ -21,7 +21,7 @@
 				</template>
 				<template slot="thead">
 					<vs-th>Ver</vs-th>
-					<vs-th>Nombre Usuario</vs-th>
+					<vs-th>Nombre User</vs-th>
 					<vs-th>Nombre Paciente</vs-th>
 					<vs-th>Fecha</vs-th>
 					<vs-th>Descripción</vs-th>
@@ -34,7 +34,7 @@
 						<vs-td>
 							<vx-tooltip text="Detalle de salida"> <vs-button radius color="dark" type="flat" icon="visibility" size="large"  @click="$router.push('/ver/salida/'+data[indextr].id)" ></vs-button></vx-tooltip>
 						</vs-td>
-						<vs-td>{{ data[indextr].usuario_nombres + " " +  data[indextr].usuario_apellidos}}</vs-td>
+						<vs-td>{{ data[indextr].user_nombres + " " +  data[indextr].user_apellidos}}</vs-td>
 						<vs-td>{{ data[indextr].paciente_nombres + " " + data[indextr].paciente_apellidos}}</vs-td>
 						<vs-td>{{ data[indextr].fecha_salida }}</vs-td>
 						<vs-td>{{ data[indextr].descripcion }}</vs-td>
@@ -76,8 +76,8 @@ export default {
 			formats:['xlsx', 'csv', 'txt'],
 			cellAutoWidth: true,
 			selectedFormat: 'xlsx',
-			headerVal: ['id', 'usuario_nombres', 'usuario_apellidos', 'paciente_nombres','paciente_apellidos','fecha_salida','descripcion', 'estado' ],
-			headerTitle: ['Id', 'Nombre del Usuario', 'Apellido del Usuario', 'Nombres del Paciente', 'Apellidos del paciente', 'Fecha de salida','Descripcion','Estado'],
+			headerVal: ['id', 'user_nombres', 'user_apellidos', 'paciente_nombres','paciente_apellidos','fecha_salida','descripcion', 'estado' ],
+			headerTitle: ['Id', 'Nombre del User', 'Apellido del User', 'Nombres del Paciente', 'Apellidos del paciente', 'Fecha de salida','Descripcion','Estado'],
 			activePrompt: false,
 			nombre: "",
 			fecha: "",
@@ -101,8 +101,8 @@ export default {
 	methods: {
 		traerDatos(tabla){
 			tabla.forEach(function(valor, indice, array){
-				valor.usuario_nombres=valor.usuario.nombres
-				valor.usuario_apellidos=valor.usuario.apellidos
+				valor.user_nombres=valor.user.nombres
+				valor.user_apellidos=valor.user.apellidos
 				valor.paciente_nombres=valor.datos_persona[0].nombres
 				valor.paciente_apellidos=valor.datos_persona[0].apellidos
 			}); 

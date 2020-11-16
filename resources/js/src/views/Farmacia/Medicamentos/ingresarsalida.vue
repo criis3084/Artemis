@@ -511,7 +511,7 @@ export default {
 						fecha_salida: fecha_salida,
 						tipo_salida: me.tipo_salida_select.id,
 						descripcion: me.descripcion,
-						usuario_id: 1,
+						user_id: 1,
 						paciente_id: me.paciente_select.id,
 
 					}).then(function (response) {

@@ -15,7 +15,7 @@ class CreateClinicosTable extends Migration
     {
         Schema::create('clinicos', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('usuario_id')->constrained();
+			$table->foreignId('user_id')->constrained();
 			$table->foreignId('profesion_id')->constrained();
 			$table->boolean('estado')->default(1);
 			$table->timestamps();

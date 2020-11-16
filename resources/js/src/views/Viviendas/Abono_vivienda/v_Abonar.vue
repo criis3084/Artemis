@@ -269,7 +269,7 @@ export default{
         cantidad_restante:this.total,
         descripcion:this.descripcion,
         fecha_pago:this.getDate(this.fecha),
-        usuario_id:81,
+        user_id:81,
         vivienda_id:this.vivienda_id.id
 
       }).then(function (response) {

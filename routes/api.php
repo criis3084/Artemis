@@ -21,6 +21,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'AuthController@authenticate');
+    Route::post('register', 'AuthController@authenticate');
+    Route::get('logout', 'AuthController@logout');
+    Route::get('check', 'AuthController@check');
+
+});
+
 /* Ruta con middleware
 Route::group(['prefix' => 'admin', 'middleware' => 'api.auth'], function () {
     //Aqui pueden meter las rutas que necesitan que alguien este autenticado
@@ -68,7 +76,7 @@ Route::apiResources([
 	'profesion'             => 'ProfesionController',
 	'casaMedica'            => 'CasaMedicaController',
 	'categoriaMedicamento'  => 'CategoriaMedicamentoController',
-	'usuario'               => 'UsuarioController',
+	'user'               => 'UserController',
 	'nino'                  => 'NinoController',
 	'encargado'             => 'EncargadoController',
 	'padrino'               => 'PadrinoController',
@@ -385,21 +393,38 @@ Route::group(['prefix' => 'categoriaMedicamento'], function () {
         'as' => 'admin.categoriaMedicamento', 'uses' => 'CategoriaMedicamentoController@desactivar'
     ]);
 });
-Route::group(['prefix' => 'usuario'], function () {
+Route::group(['prefix' => 'user'], function () {
     Route::get('/get', [
-        'as' => 'admin.usuario', 'uses' => 'UsuarioController@index'
+        'as' => 'admin.user', 'uses' => 'UserController@index'
     ]);
     Route::post('/post', [
-        'as' => 'admin.usuario', 'uses' => 'UsuarioController@store'
+        'as' => 'admin.user', 'uses' => 'UserController@store'
     ]);
     Route::put('/update', [
-        'as' => 'admin.usuario', 'uses' => 'UsuarioController@update'
+        'as' => 'admin.user', 'uses' => 'UserController@update'
 	]);
     Route::put('/activar', [
-        'as' => 'admin.usuario', 'uses' => 'UsuarioController@activar'
+        'as' => 'admin.user', 'uses' => 'UserController@activar'
 	]);
     Route::put('/desactivar', [
-        'as' => 'admin.usuario', 'uses' => 'UsuarioController@desactivar'
+        'as' => 'admin.user', 'uses' => 'UserController@desactivar'
+    ]);
+});
+Route::group(['prefix' => 'permisos'], function () {
+    Route::get('/get', [
+        'as' => 'admin.permisos', 'uses' => 'PermisosController@index'
+    ]);
+    Route::post('/post', [
+        'as' => 'admin.permisos', 'uses' => 'PermisosController@store'
+    ]);
+    Route::put('/update', [
+        'as' => 'admin.permisos', 'uses' => 'PermisosController@update'
+	]);
+    Route::put('/activar', [
+        'as' => 'admin.permisos', 'uses' => 'PermisosController@activar'
+	]);
+    Route::put('/desactivar', [
+        'as' => 'admin.permisos', 'uses' => 'PermisosController@desactivar'
     ]);
 });
 Route::group(['prefix' => 'nino'], function () {

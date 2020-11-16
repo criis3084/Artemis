@@ -18,17 +18,17 @@ class IngresoMedicamentoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$ingresoMedicamento = IngresoMedicamento::with('usuario')->with('datos_proveedor')->with('proveedor')->with('detalleIngresos')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$ingresoMedicamento = IngresoMedicamento::with('user')->with('datos_proveedor')->with('proveedor')->with('detalleIngresos')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$ingresoMedicamento = IngresoMedicamento::with('usuario')->with('datos_proveedor')->with('proveedor')->with('detalleIngresos')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
+				$ingresoMedicamento = IngresoMedicamento::with('user')->with('datos_proveedor')->with('proveedor')->with('detalleIngresos')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$ingresoMedicamento = IngresoMedicamento::with('usuario')->with('datos_proveedor')->with('proveedor')->with('detalleIngresos')->orderBy('id', 'desc')->paginate($count);
+				$ingresoMedicamento = IngresoMedicamento::with('user')->with('datos_proveedor')->with('proveedor')->with('detalleIngresos')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$ingresoMedicamento = IngresoMedicamento::with('usuario')->with('datos_proveedor')->with('proveedor')->with('detalleIngresos')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$ingresoMedicamento = IngresoMedicamento::with('user')->with('datos_proveedor')->with('proveedor')->with('detalleIngresos')->where([[$criterio, 'like', $buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
@@ -42,7 +42,7 @@ class IngresoMedicamentoController extends Controller
 			$ingresoMedicamento = new IngresoMedicamento();
 			$ingresoMedicamento->fecha_ingreso = $request->fecha_ingreso;
 			$ingresoMedicamento->descripcion = $request->descripcion;
-			$ingresoMedicamento->usuario_id = $request->usuario_id;
+			$ingresoMedicamento->user_id = $request->user_id;
 			$ingresoMedicamento->proveedor_id = $request->proveedor_id;
 			$ingresoMedicamento->save();
 			return ['id' => $ingresoMedicamento->id];
@@ -56,7 +56,7 @@ class IngresoMedicamentoController extends Controller
 		$ingresoMedicamento = IngresoMedicamento::findOrFail($request->id);
 		$ingresoMedicamento->fecha_ingreso = $request->fecha_ingreso;
 		$ingresoMedicamento->descripcion = $request->descripcion;
-		$ingresoMedicamento->usuario_id = $request->usuario_id;
+		$ingresoMedicamento->user_id = $request->user_id;
 		$ingresoMedicamento->proveedor_id = $request->proveedor_id;
 		$ingresoMedicamento->save();
 		return Response::json(['message' => 'Ingreso Medicamento Actualizado'], 200);

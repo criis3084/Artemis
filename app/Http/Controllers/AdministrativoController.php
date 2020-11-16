@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Administrativo;
-use App\Usuario;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
@@ -42,27 +42,27 @@ class AdministrativoController extends Controller
 	{
 		//if(!$request->ajax())return redirect('/');
 		try {
-			$usuario= new Usuario();
-			$usuario->nombres = $request->nombres;
-			$usuario->apellidos = $request->apellidos;
-			$usuario->CUI = $request->CUI;
-			$usuario->genero = $request->genero;
-			$usuario->numero_telefono = $request->numero_telefono;
-			$usuario->correo = $request->correo;
-			$usuario->direccion = $request->direccion;
-			$usuario->fecha_nacimiento = $request->fecha_nacimiento;
-			$usuario->imagen_perfil = $request->imagen_perfil;
-			$usuario->descripcion = $request->descripcion;
+			$user= new User();
+			$user->nombres = $request->nombres;
+			$user->apellidos = $request->apellidos;
+			$user->CUI = $request->CUI;
+			$user->genero = $request->genero;
+			$user->numero_telefono = $request->numero_telefono;
+			$user->correo = $request->correo;
+			$user->direccion = $request->direccion;
+			$user->fecha_nacimiento = $request->fecha_nacimiento;
+			$user->imagen_perfil = $request->imagen_perfil;
+			$user->descripcion = $request->descripcion;
 			// Comprobacion de unico
-			$usuario->usuario = $request->usuario;
-			$usuario->password = $request->password;
-			$usuario->rol_id = $request->rol_id;
+			$user->user = $request->user;
+			$user->password = $request->password;
+			$user->rol_id = $request->rol_id;
 
 			$administrativo = new Administrativo();
 			$administrativo->descripcion_puesto = $request->descripcion_puesto;
-			$administrativo->usuario_id = $usuario->usuario_id;
+			$administrativo->user_id = $user->user_id;
 			$administrativo->save();
-			return Response::json(['message' => 'Usuario administrativo Creado'], 200);
+			return Response::json(['message' => 'User administrativo Creado'], 200);
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
@@ -74,25 +74,25 @@ class AdministrativoController extends Controller
 		//if(!$request->ajax())return redirect('/');
 		try {
 			$administrativo= Administrativo::findOrFail($request->id);
-			$usuario= Usuario::findOrFail($administrativo->usuario_id);
-			$usuario->nombres = $request->nombres;
-			$usuario->apellidos = $request->apellidos;
-			$usuario->CUI = $request->CUI;
-			$usuario->genero = $request->genero;
-			$usuario->numero_telefono = $request->numero_telefono;
-			$usuario->correo = $request->correo;
-			$usuario->direccion = $request->direccion;
-			$usuario->fecha_nacimiento = $request->fecha_nacimiento;
-			$usuario->imagen_perfil = $request->imagen_perfil;
-			$usuario->descripcion = $request->descripcion;
+			$user= User::findOrFail($administrativo->user_id);
+			$user->nombres = $request->nombres;
+			$user->apellidos = $request->apellidos;
+			$user->CUI = $request->CUI;
+			$user->genero = $request->genero;
+			$user->numero_telefono = $request->numero_telefono;
+			$user->correo = $request->correo;
+			$user->direccion = $request->direccion;
+			$user->fecha_nacimiento = $request->fecha_nacimiento;
+			$user->imagen_perfil = $request->imagen_perfil;
+			$user->descripcion = $request->descripcion;
 			// Comprobacion de unico
-			#$usuario->usuario = $request->usuario;
-			$usuario->password = $request->password;
-			$usuario->rol_id = $request->rol_id;
+			#$user->user = $request->user;
+			$user->password = $request->password;
+			$user->rol_id = $request->rol_id;
 
 			$administrativo->descripcion_puesto = $request->descripcion_puesto;
 			$administrativo->save();
-			return Response::json(['message' => 'Usuario administrativo Actualizado'], 200);
+			return Response::json(['message' => 'User administrativo Actualizado'], 200);
 			#return ['id' => $nino->id];
 		} catch (Exception $e) {
 			return Response::json(['message' => $e->getMessage()], 400);
@@ -103,11 +103,11 @@ class AdministrativoController extends Controller
 	{
         #if(!$request->ajax())return redirect('/');
         $administrativo = Administrativo::findOrFail($request->id);
-        $usuario = Usuario::findOrFail($administrativo->usuario_id);
-		$usuario->estado = '1';
+        $user = User::findOrFail($administrativo->user_id);
+		$user->estado = '1';
         $administrativo->estado = '1';
         $administrativo->save();
-        $usuario->save();
+        $user->save();
 		return Response::json(['message' => 'Persona administrativa Activada'], 200);
 	}
 
@@ -115,11 +115,11 @@ class AdministrativoController extends Controller
 	{
 		#if(!$request->ajax())return redirect('/');
 		$administrativo = Administrativo::findOrFail($request->id);
-        $usuario = Usuario::findOrFail($administrativo->usuario_id);
-		$usuario->estado = '0';
+        $user = User::findOrFail($administrativo->user_id);
+		$user->estado = '0';
 		$administrativo->estado = '0';
 		$administrativo->save();
-		$usuario->save();
+		$user->save();
 		return Response::json(['message' => 'Personal administrativo Desactivado'], 200);
 	}
 }

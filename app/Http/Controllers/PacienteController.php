@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DetalleBeneficio;
 use App\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -54,10 +55,17 @@ class PacienteController extends Controller
 	{
 		$paciente = Paciente::findOrFail($request->id);
 		$paciente->dia_apoyo = $request->dia_apoyo;
-		$paciente->persona_sin_acceso_id = $request->persona_sin_acceso_id;
 		$paciente->tipo_paciente_id = $request->tipo_paciente_id;
-		$paciente->save();
-		return Response::json(['message' => 'Paciente Actualizado'], 200);
+		#dd($request->detalle);
+		if (isset($request->detalle)){
+			if ($request->detalle == true){
+				$eliminarDetalles = DetalleBeneficio::where('beneficio_id', $request->id_beneficio)->get();
+				echo ('esta entrando');
+				echo ($eliminarDetalles);
+			}
+		}
+		#$paciente->save();
+		#return Response::json(['message' => 'Paciente Actualizado'], 200);
 	}
 
 	public function activar(Request $request)

@@ -19,17 +19,17 @@ class AbonoPrestamoController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('user')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('user')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->orderBy('id', 'desc')->paginate($count);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('user')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('usuario')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$abonoPrestamo = AbonoPrestamo::with('detalle_integrante')->with('user')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
@@ -49,7 +49,7 @@ class AbonoPrestamoController extends Controller
 			$abonoPrestamo->mora = $request->mora;
 			// $abonoPrestamo->microprestamo_id = $request->microprestamo_id;
 			$abonoPrestamo->detalle_integrante_id = $request->detalle_integrante_id;
-			$abonoPrestamo->usuario_id = $request->usuario_id;
+			$abonoPrestamo->user_id = $request->user_id;
 			$abonoPrestamo->save();
 			//return Response::json(['message' => 'Abono Prestamo Creada'], 200);
 			return ['id' => $abonoPrestamo->id];
@@ -70,7 +70,7 @@ class AbonoPrestamoController extends Controller
 		// revisar si se deben de modificar estos o no
 		// $abonoPrestamo->microprestamo_id = $request->microprestamo_id;
 		$abonoPrestamo->detalle_integrante_id = $request->detalle_integrante_id;
-		$abonoPrestamo->usuario_id = $request->usuario_id;
+		$abonoPrestamo->user_id = $request->user_id;
 		$abonoPrestamo->save();
 		return Response::json(['message' => 'Abono Prestamo Actualizado'], 200);
 	}

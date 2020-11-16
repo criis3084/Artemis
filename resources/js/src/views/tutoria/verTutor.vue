@@ -107,7 +107,7 @@ export default{
       imagen_perfil:'',
       fecha_nacimiento:this.getDate(this.fecha_nacimiento),
       descripcion:'',
-      usuario:'',
+      user:'',
       password:'',
       roles: [],
       selected: '1',
@@ -151,7 +151,7 @@ export default{
           me.imagen_perfil = me.arrayData.datos.imagen_perfil
           me.descripcion = me.arrayData.datos.descripcion
           me.rol_id = me.arrayData.datos.rol_id
-          me.usuario = me.arrayData.datos.usuario
+          me.user = me.arrayData.datos.user
           me.password = me.arrayData.datos.password
           me.pagination = respuesta.pagination
           console.log(me.imagen_perfil)

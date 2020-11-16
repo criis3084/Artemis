@@ -113,7 +113,6 @@
 							<small class="date-label mt-6">Día de entrega de beneficios</small>
 								<v-select name="dia" v-validate="'required'" style="width:30%" label="mostrar" :options="dia_del_mes" v-model="dia_apoyo" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 								<span class="text-danger">{{ errors.first('dia') }}</span>
-
 							<br>
 						</div>
 						<div class="vx-col md:w-1/2 w-full mt-3">

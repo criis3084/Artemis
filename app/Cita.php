@@ -29,12 +29,12 @@ class Cita extends Model
 	}
 	public function datos_clinico(){
 		return $this->hasManyThrough(
-			'App\Usuario',
+			'App\User',
 			'App\Clinico',
 			'id',
 			'id',
 			'clinico_id',
-			'usuario_id'
+			'user_id'
 		);
 	}
 }

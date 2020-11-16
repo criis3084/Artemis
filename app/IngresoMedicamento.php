@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class IngresoMedicamento extends Model
 {
-	protected $fillable = ['fecha_ingreso','descripcion','usuario_id','proveedor_id','estado'];
+	protected $fillable = ['fecha_ingreso','descripcion','user_id','proveedor_id','estado'];
 
-	public function usuario(){
-		return $this->belongsTo('App\Usuario','usuario_id','id');
+	public function user(){
+		return $this->belongsTo('App\User','user_id','id');
 	}
 	public function proveedor(){
 		return $this->belongsTo('App\Proveedor','proveedor_id','id');

@@ -220,7 +220,7 @@ export default {
           headerCheckboxSelection: true
         },
         {
-          headerName: 'NombreUsuario',
+          headerName: 'NombreUser',
           field: 'username',
           filter: true,
           width: 210,

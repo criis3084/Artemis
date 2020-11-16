@@ -150,7 +150,7 @@ import { Validator } from 'vee-validate'
 const dict = {
   custom: {
     descripcion: {
-	  required: 'El campo usuario es requerido',
+	  required: 'El campo user es requerido',
 	  max: 'Este campo solo acepta hasta 254 caracteres'
     }
   }

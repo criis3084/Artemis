@@ -8,20 +8,20 @@
         icon="icon icon-user"
         icon-pack="feather"
         label-placeholder="Email"
-        v-model="email"
+        v-model="loginData.user"
         class="w-full"/>
     <span class="text-danger text-sm">{{ errors.first('email') }}</span>
 
     <vs-input
         data-vv-validate-on="blur"
-        v-validate="'required|min:6|max:10'"
+        v-validate="'required|min:6|max:25'"
         type="password"
         name="password"
         icon-no-border
         icon="icon icon-lock"
         icon-pack="feather"
         label-placeholder="Password"
-        v-model="password"
+        v-model="loginData.password"
         class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
 
@@ -30,24 +30,30 @@
         <router-link to="/pages/forgot-password">Forgot Password?</router-link>
     </div>
     <div class="flex flex-wrap justify-between mb-3">
-      <vs-button  type="border" @click="registerUser">Register</vs-button>
-      <vs-button :disabled="!validateForm" @click="loginJWT">Login</vs-button>
+      <!-- <vs-button  type="border" @click="registerUser">Register</vs-button> -->
+      <vs-button :disabled="!validateForm" @click="validateBeforeSubmit">Login</vs-button>
     </div>
   </div>
 </template>
 
 <script>
+
+import Auth from '../../../services/auth.js';
+
+
 export default {
   data () {
-    return {
-      email: 'admin@admin.com',
-      password: 'adminadmin',
-      checkbox_remember_me: false
+    return {      
+      checkbox_remember_me: false,
+      loginData: {
+        user: 'ser@gmail.com',
+        password: '123456',
+      }
     }
   },
   computed: {
     validateForm () {
-      return !this.errors.any() && this.email !== '' && this.password !== ''
+      return !this.errors.any() && this.loginData.user !== '' && this.loginData.password !== ''
     }
   },
   methods: {
@@ -70,7 +76,7 @@ export default {
       }
       return true
     },
-    loginJWT () {
+    /* loginJWT () {
 
       if (!this.checkLogin()) return
 
@@ -80,7 +86,7 @@ export default {
       const payload = {
         checkbox_remember_me: this.checkbox_remember_me,
         userDetails: {
-          email: this.email,
+          user: this.user,
           password: this.password
         }
       }
@@ -97,11 +103,33 @@ export default {
             color: 'danger'
           })
         })
+    }, */
+
+    validateBeforeSubmit () {
+      if (!this.checkLogin()) return
+
+     
+
+      else {
+        /* Roles.login(this.loginData).then((res) => {
+          if(res) {
+            console.log('revisa localstorage') esto sirve para los roles variables
+          }
+        }) */
+        this.$vs.loading();
+        Auth.login(this.loginData).then((res) => {
+          if (res) {
+            this.$router.push('/apadrinamiento/nino')
+            this.$vs.loading.close()
+          }
+        })
+      }
     },
-    registerUser () {
+
+    /* registerUser () {
       if (!this.checkLogin()) return
       this.$router.push('/pages/register').catch(() => {})
-    }
+    } */
   }
 }
 

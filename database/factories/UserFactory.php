@@ -3,26 +3,27 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\User;
+use App\Rol;
 use Faker\Generator as Faker;
-use Illuminate\Support\Str;
-
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'remember_token' => Str::random(10),
+        'nombres' => $faker->firstNameMale,
+        'apellidos' => $faker->lastName,
+        'CUI' => $faker->numberBetween($min = 10000000000000, $max = 99999999999999),
+        'genero' => $faker->numberBetween($min = 0, $max = 1),
+        'numero_telefono' => $faker->numberBetween($min = 11111111, $max = 99999999),
+        'correo' => $faker->email,
+        'direccion' => $faker->address,
+        'fecha_nacimiento' => $faker-> date($format = 'Y-m-d', $max = 'now'),
+        'imagen_perfil' => $faker->text($maxNbChars = 100), 
+        'descripcion' => $faker->text($maxNbChars = 200), 
+        'estado' => $faker->numberBetween($min = 0, $max = 1),
+        'user'=> $faker->userName,
+        'password'=> $faker->password,
+        // 'rol_id' => Rol::pluck('id')[$faker->numberBetween(1,Rol::count()-1)],
+        'rol_id' => factory(App\Rol::class),
+        'created_at' => $faker->dateTime($max = 'now', $timezone = null),
+        'updated_at' => $faker->dateTime($max = 'now', $timezone = null),
     ];
 });
