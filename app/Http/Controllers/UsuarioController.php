@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Hash;
 use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -11,6 +11,7 @@ class UsuarioController extends Controller
 {
 	public function index(Request $request)
 	{
+		if (!$request->ajax()) return redirect('/');
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo :'false';
@@ -51,7 +52,7 @@ class UsuarioController extends Controller
 			$usuario->imagen_perfil = $request->correo;
 			$usuario->descripcion = $request->descripcion;
 			$usuario->usuario = $request->usuario;
-			$usuario->password = $request->password;
+			$usuario->password = Hash::make($request->password);
 			$usuario->rol_id = $request->rol_id;
 			$usuario->save();
 			return Response::json(['message' => 'Usuario Creada'], 200);
