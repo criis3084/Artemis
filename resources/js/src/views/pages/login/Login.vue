@@ -25,7 +25,7 @@
 
                 <div class="vx-card__title mb-4">
                   <h4 class="mb-4">Login</h4>
-                  <p>Welcome back, please login to your account.</p>
+                  <p>Bienvenido de vuelta, por favor ingresa con tu cuenta.</p>
                 </div>
 
                 <vs-tabs>

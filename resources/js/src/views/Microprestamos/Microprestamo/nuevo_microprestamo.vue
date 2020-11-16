@@ -226,6 +226,7 @@ export default {
 					destino_inversion_id:listaInversionesO[indice].id,
 					microprestamo_id:idMicroprestamo,
 					dia_pago:diaPago,
+					estado:1
 				}).then(function(response) {
 					console.log(response)
 				})
@@ -245,6 +246,7 @@ export default {
         if(result) {
 			let me = this
 			axios.post("/api/microprestamo/post/",{
+				nombreMicroprestamo:this.grupo_select.nombre,
 				total:this.sumarCantidades(),
 				interes:this.interes,
 				fecha_inicio:this.getDate(this.fecha_inicio),

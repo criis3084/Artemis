@@ -253,6 +253,9 @@ Route::group(['prefix' => 'grupoPrestamo'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.grupoPrestamo', 'uses' => 'GrupoPrestamoController@desactivar'
     ]);
+    Route::put('/updateDatos', [
+        'as' => 'admin.grupoPrestamo', 'uses' => 'GrupoPrestamoController@updateDatos'
+    ]);
 });
 Route::group(['prefix' => 'destinoInversion'], function () {
     Route::get('/get', [
@@ -751,6 +754,9 @@ Route::group(['prefix' => 'detalleIntegrante'], function () {
     ]);
     Route::put('/updatefecha', [
         'as' => 'admin.detalleIntegrante', 'uses' => 'DetalleIntegranteController@ActualizarFecha'
+    ]);
+    Route::put('/updateGrupo', [
+        'as' => 'admin.detalleIntegrante', 'uses' => 'DetalleIntegranteController@ActualizarGrupo'
     ]);
 });
 Route::group(['prefix' => 'examen'], function () {

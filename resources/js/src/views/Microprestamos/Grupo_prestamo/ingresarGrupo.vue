@@ -29,7 +29,7 @@
         <div class="vx-row mb-6">
           <div class="vx-col w-full">
             <small>Seleccione una persona</small>
-            <v-select label="nombre_completo" :options="NuevoEncargado" v-model="encargado"  @input="agregar" :dir="$vs.rtl ? 'rtl' : 'ltr'" name="encargado" v-validate="'required'" />
+            <v-select label="nombre" :options="NuevoEncargado" v-model="encargado"  @input="agregar" :dir="$vs.rtl ? 'rtl' : 'ltr'" name="encargado" v-validate="'required'" />
             <span class="text-danger text-sm" v-show="errors.has('encargado')">{{ errors.first('encargado') }}</span>
           </div>
         </div>
@@ -59,7 +59,7 @@ const dict = {
   custom: {
     nombre: {
   	  required: 'El campo nombre de grupo es requerido',
-      max: 'Este campo solo acepta hasta 30 caracteres',
+      max: 'Este campo solo acepta hasta 30 caracteres'
     },
     descripcion: {
       required:'El campo descripción es requerido',
@@ -67,7 +67,7 @@ const dict = {
     },
     encargado:{
       required:'Seleccione miembros para el grupo'
-    },
+    }
   }
 }
 Validator.localize('es', dict)
@@ -132,31 +132,54 @@ export default {
       const me = this
 
       this.integrantes.forEach(function (elemento, indice, array) {
-        
-        axios.post('/api/detalleIntegrante/post/', {
+        if (elemento.detalle_integrante_id === undefined) {
+          axios.post('/api/detalleIntegrante/post/', { //si el registro no tiene detalle integrante hace un post
           //tablaDetalleIntegrante
-          microprestamo_id: elemento.microprestamo_id,
-          prestamo_individual:elemento.prestamo_individual,
-          grupo_prestamo_id:id,
-          encargado_id:elemento.encargado_id,
-          destino_inversion_id:elemento.destino_inversion_id,
-          dia_pago: '2020/4/2'
-        }).then(function (response) {
-          console.log(response)
-          me.$vs.notify({
-					color:'success',
-					title:'Integrantes del grupo registrados',
-					text:'Acción realizada exitósamente'
-				});
-        })
-          .catch(function (error) {
-            console.log(error)
+            microprestamo_id: elemento.microprestamo_id,
+            prestamo_individual:elemento.prestamo_individual,
+            grupo_prestamo_id:id,
+            encargado_id:elemento.encargado_id,
+            destino_inversion_id:elemento.destino_inversion_id,
+            estado:elemento.estado,
+            dia_pago: '2020/4/2'
+          }).then(function (response) {
+            console.log(response)
             me.$vs.notify({
-          color:'danger',
-          title:'Error en ingreso de integrantes!',
-          text:'Error al registrar integrante'
-          });
+              color:'success',
+              title:'Integrantes del grupo registrados',
+              text:'Acción realizada exitósamente'
+            })
           })
+            .catch(function (error) {
+              console.log(error)
+              me.$vs.notify({
+                color:'danger',
+                title:'Error de conexión!',
+                text:'Error al registrar integrante'
+              })
+            })
+        } else {
+          axios.put('/api/detalleIntegrante/updateGrupo/', { //si el registro tiene detalle integrante actualiza el grupo
+            id:elemento.detalle_integrante_id,
+            grupo_prestamo_id:id
+          }).then(function (response) {
+            console.log(response)
+            me.$vs.notify({
+              color:'success',
+              title:'Integrante del grupo registrado',
+              text:'Acción realizada exitósamente'
+            })
+          })
+            .catch(function (error) {
+              console.log(error)
+              me.$vs.notify({
+                color:'danger',
+                title:'Error de conexión!',
+                text:'Error al registrar integrante'
+              })
+            })
+        }
+       
       })
 
     },
@@ -173,20 +196,20 @@ export default {
       }).then(function (response) {
         console.log(response.data.id)
         me.$vs.notify({
-					color:'success',
-					title:'Grupo registrado',
-					text:'Acción realizada exitósamente'
-				});
+          color:'success',
+          title:'Grupo registrado',
+          text:'Acción realizada exitósamente'
+        })
         me.guardarDetalle(response.data.id)
       })
         .catch(function (error) {
           console.log(error)
           me.$vs.notify({
-          color:'danger',
-          title:'Error en ingreso de grupo!',
-          text:'Erro al registrar el grupo'
-          });
+            color:'danger',
+            title:'Error en ingreso de grupo!',
+            text:'Erro al registrar el grupo'
           })
+        })
     },
     async traerPersona () { //tabla encargados
     
@@ -206,17 +229,18 @@ export default {
         })
 
     },
-     importarEncargados () { //tabla detalle Integrante
+    importarEncargados () { //tabla detalle Integrante
       const hash2 = {}
       const me = this
-         axios.get(
-        '/api/detalleIntegrante/get?completo=false')
+      axios.get(
+        '/api/detalleIntegrante/get?completo=true')
         .then(function (response) {
           const respuesta = response.data
           me.detalleIntegrante = respuesta.detalleIntegrantes.data
           me.detalleIntegrante = me.detalleIntegrante.filter(o => hash2[o.encargado_id] ? false : hash2[o.encargado_id] = true)
           me.encargadosDetalle = me.traerDatosEncargados(me.detalleIntegrante)
           me.eliminarDuplicado(me.detalleIntegrante)
+          console.log(me.detalleIntegrante)
         })
         .catch(function (error) {
           console.log(error)
@@ -225,14 +249,26 @@ export default {
     eliminarDuplicado (copiaDetalle) {
       const copia = this.encargados.slice()
       //const copiaDetalle = this.detalleIntegrante.slice()
-      console.log(copia)
+      //console.log(copia)
       console.log(copiaDetalle)
-      var encontrado =''
+      let encontrado = ''
       const NuevoEncargados = []
       copia.forEach(function (elemento, indice, array) {
         encontrado = copiaDetalle.find(element => element.encargado_id === elemento.id)
-        if (encontrado == undefined) {
-          NuevoEncargados.push(elemento)
+        if (encontrado === undefined) {
+
+          NuevoEncargados.push({encargado_id:elemento.id,
+            nombre:`${elemento.datos.nombres  } ${  elemento.datos.apellidos}`,
+            detalle_integrante_id:elemento.detalle_integrante_id})
+        }
+      })
+
+      copiaDetalle.forEach(function (elemento) {
+        if (elemento.grupo_prestamo_id === 1) {
+
+          NuevoEncargados.push({encargado_id:elemento.encargado_id,
+            nombre:elemento.encargado_nombreCompleto,
+            detalle_integrante_id:elemento.id})
         }
       })
       console.log(NuevoEncargados)
@@ -240,11 +276,13 @@ export default {
     },
 
     agregar () { //funcion para agregar los elemntos en el array
-      this.id = this.encargado.id
-      this.nombreSeleccionado = `${this.encargado.encargado_nombres  } ${  this.encargado.encargado_apellidos}`
-      console.log(this.encargado.id)
+      this.id = this.encargado.encargado_id
+      
+      this.nombreSeleccionado = this.encargado.nombre
+      this.detalle_integrante_id = this.encargado.detalle_integrante_id
+      console.log(this.encargado.encargado_id)
       //arreglo para guardar en la base de datos
-      this.integrantes.push({encargado_id:this.id, microprestamo_id:1, destino_inversion_id:1, prestamo_individual:0})
+      this.integrantes.push({encargado_id:this.id, microprestamo_id:1, destino_inversion_id:1, prestamo_individual:0, estado:0, detalle_integrante_id:this.detalle_integrante_id})
 
       //Arreglo para mostrar nombres en frontend
       this.nombresE.push({nombres:this.nombreSeleccionado})
@@ -266,10 +304,10 @@ export default {
         } else {
           // form have errors
           this.$vs.notify({
-          color:'danger',
-          title:'Error en validación!',
-          text:'Ingrese todos los campos correctamente'
-          });
+            color:'danger',
+            title:'Error en validación!',
+            text:'Ingrese todos los campos correctamente'
+          })
         }
       })
     }

@@ -14,7 +14,8 @@ class CreateMicroprestamosTable extends Migration
     public function up()
     {
         Schema::create('microprestamos', function (Blueprint $table) {
-			$table->id();
+            $table->id();
+            $table->string('nombreMicroprestamo');
 			$table->float('total',8,2);
 			$table->float('interes',8,2);
 			$table->date('fecha_inicio');

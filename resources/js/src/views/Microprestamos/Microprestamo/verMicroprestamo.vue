@@ -60,6 +60,10 @@
                 <td class="font-semibold">Duración del pago:</td>
                 <td>{{ detalles.microprestamo.duracion }} meses</td>
               </tr>
+                            <tr>
+                <td class="font-semibold">Pertenece al grupo:</td>
+                <td>{{ detalles.grupos.nombre }}</td>
+              </tr>
             </table>
           </div>
           <!-- /Information - Col 2 -->
@@ -108,7 +112,7 @@ export default {
           const respuesta = response.data
           me.arrayData = respuesta.detalleIntegrantes.data
           console.log(me.arrayData)
-          me.nombreG = respuesta.detalleIntegrantes.data[0].grupos.nombre
+          me.nombreG = respuesta.detalleIntegrantes.data[0].microprestamo.nombreMicroprestamo
           me.fecha = respuesta.detalleIntegrantes.data[0].microprestamo.fecha_inicio
         })
     }

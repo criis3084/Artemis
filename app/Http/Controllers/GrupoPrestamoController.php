@@ -89,4 +89,17 @@ class GrupoPrestamoController extends Controller
 		$grupoPrestamo->save();
 		return Response::json(['message' => 'GrupoPrestamo Desactivada'], 200);
 	}
+
+	public function updateDatos(Request $request)
+	{
+		try {
+			$grupoPrestamo = GrupoPrestamo::findOrFail($request->id);
+			$grupoPrestamo->nombre = $request->nombre;
+			$grupoPrestamo->descripcion = $request->descripcion;
+			$grupoPrestamo->save();
+			return Response::json(['message' => 'GrupoPrestamo Actualizada'], 200);
+			} catch (Exception $e) {
+				return Response::json(['message' => $e->getMessage()], 400);
+			}
+	}
 }

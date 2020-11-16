@@ -218,7 +218,7 @@ export default{
 
       return tabla
     },
-    async importarEncargados () { //importa a todos las personas que tenga un grupo asignado
+    async importarEncargados () { //importa a todos las personas que tenga un microprestamo asignado
       const me = this
       const hash2 = {}
       const response = await axios.get(

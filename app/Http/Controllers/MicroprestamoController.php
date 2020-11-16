@@ -45,6 +45,7 @@ class MicroprestamoController extends Controller
     {
         try {
 			$microprestamo = new Microprestamo();
+		    $microprestamo->nombreMicroprestamo = $request->nombreMicroprestamo;			
 			$microprestamo->total = $request->total;
 			$microprestamo->interes = $request->interes;
 			$microprestamo->fecha_inicio = $request->fecha_inicio;
@@ -65,6 +66,7 @@ class MicroprestamoController extends Controller
 		#if(!$request->ajax())return redirect('/');
 		return [
 			'id'=> $microprestamo->id,
+			'nombreMicroprestamo' => $microprestamo->nombreMicroprestamo,
 			'total'=> $microprestamo->total,
 			'interes'=> $microprestamo->interes,
 			'fecha_inicio'=> $microprestamo->fecha_inicio,
@@ -82,7 +84,7 @@ class MicroprestamoController extends Controller
 		#if(!$request->ajax())return redirect('/');
 		try {
 		$microprestamo = Microprestamo::findOrFail($request->id);
-		//$microprestamo->nombre = $request->nombre;
+		$microprestamo->nombreMicroprestamo = $request->nombre;
 		//$microprestamo->dia_pago = $request->dia_pago;
 		$microprestamo->save();
 		return Response::json(['message' => 'Microprestamo Actualizada'], 200);
