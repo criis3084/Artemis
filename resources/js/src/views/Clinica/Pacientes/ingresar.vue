@@ -325,7 +325,6 @@ export default {
 					text:'Acción realizada exitósamente'
 				});
 				})
-
 			}
 		},
 		guardarBeneficios(paciente){

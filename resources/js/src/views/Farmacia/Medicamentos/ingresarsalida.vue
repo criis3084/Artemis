@@ -528,7 +528,6 @@ export default {
 					alert('Error al ingresar')
 				}	
 			}else{
-			// form have errors
 			this.$vs.notify({
 				color:'danger',
 				title:`Error en validación!`,

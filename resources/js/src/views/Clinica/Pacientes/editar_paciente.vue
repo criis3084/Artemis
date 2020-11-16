@@ -115,6 +115,15 @@
 							<span class="text-danger">{{ errors.first('cantidad') }}</span>
 						</div>
 					</vs-list>
+
+					<div class="vx-col w-full mt-6">
+						<div class="vx-col w-full">
+							<small class="date-label">Descripción de los beneficios</small>
+							<vs-textarea name="descripcion" v-validate="'required|max:150'" class="w-full" icon-pack="feather" icon="icon-edit" icon-no-border v-model="descripcion"/>
+							<span class="text-danger text-sm" v-show="errors.has('descripcion')">{{ errors.first('descripcion') }}</span>
+						</div>
+					</div>
+
 				</div>
 			<br>
 			<div class="vx-row">
@@ -130,7 +139,6 @@ import axios from 'axios'
 import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
 import { es } from 'vuejs-datepicker/src/locale'
-// For custom error message
 import { Validator } from 'vee-validate'
 const dict = {
  custom: {
@@ -218,12 +226,15 @@ export default {
 			langEn: es,
 			primerBeneficio:null,
 			carrito:[],
+			descripcion:'',
+			descripcionOriginal:'',
 			carrito_original:[],
 			medicamento_id:null,
 			listado_medicamentos:[],
 			editarBeneficio:false,
 			dia_del_mes:[],
-			dia_apoyo:null
+			dia_apoyo:null,
+			objVacio:{}
 		}
 	},
 	watch: {
@@ -241,6 +252,9 @@ export default {
 					this.editarBeneficio=false
 				}
 				else{
+					if (this.dia_apoyo == null){
+						this.diaMes(1)
+					}
 					this.editarBeneficio=true
 				}
 			}
@@ -251,6 +265,21 @@ export default {
 	    vSelect
 	},
 	methods:{
+		getNow(){
+			let fecha_pago=''
+			const today = new Date()
+			const todaySin = new Date(today.getFullYear(),today.getMonth(),today.getDate())
+			const datePago =  new Date(today.getFullYear(),today.getMonth(),today.getDate())
+			datePago.setDate(this.dia_apoyo.id)
+			if (todaySin >= datePago) {
+				const datePago2 =  new Date(today.getFullYear(),today.getMonth()+1,datePago.getDate())
+				fecha_pago=datePago2
+			}
+			else{
+				fecha_pago=datePago
+			}
+			return fecha_pago
+		},
 		diaMes(dia){
 			let elementoE=null
 			let encontrado=false
@@ -306,10 +335,10 @@ export default {
 				}
 				else{
 					me.diaMes(me.paciente.dia_apoyo)
+					me.descripcion= me.paciente.beneficios[0].descripcion
+					me.descripcionOriginal= me.paciente.beneficios[0].descripcion
 					me.primerBeneficio=me.paciente.beneficios[0]
 					me.idBeneficio = me.paciente.beneficios[0].id
-					console.log('pacientes')
-					console.log(me.idBeneficio)
 					me.buscarDetalleBeneficios(me.primerBeneficio)
 					me.tipo_paciente_id=me.paciente.tipo_paciente_id
 					me.editarBeneficio=true
@@ -373,6 +402,10 @@ export default {
 		},
 		guardarPersona(){
 			let me = this
+			let pagoT = '';
+			if(me.tipo_paciente_id.id != 2){
+				pagoT= me.getDate(me.getNow());
+			}
 			if(me.pacienteExterno){
 				axios.put("/api/personaSinAcceso/update/",{
 					id:me.id_persona,
@@ -394,23 +427,34 @@ export default {
 				let boolCarrito = me.arraysEqual(me.carrito_original,me.carrito)
 				let boolCantidades = me.arraysEqual(me.listaCantidades,me.listaCantidadesOriginal)
 				let boolTipo = me.tipo_paciente_id == me.tipo_paciente_id_original
-					console.log('Entrando a verificar')
-					console.log(boolCarrito)
-					console.log(boolCantidades)
-					console.log(boolTipo)
-				if (!boolTipo)
+				let boolDescripcion = me.descripcion == me.descripcionOriginal
+				if (!boolCarrito || !boolCantidades || !boolTipo || !boolDescripcion)
 				{
 					axios.put("/api/paciente/update/",{
 						id:me.id_recibido,
 						dia_apoyo:me.dia_apoyo.id,
 						tipo_paciente_id:me.tipo_paciente_id.id,
+						id_beneficio:me.idBeneficio,
 						detalle:true,
-						id_beneficio:me.idBeneficio
+						id_beneficio:me.idBeneficio,
+						descripcion:me.descripcion,
+						fecha_pago:pagoT,
+						//detalle: boolCantidades == false ? true : false,
+						carrito:me.carrito,
+						cantidades:me.listaCantidades
 					}).then(function (response){
-						console.log(response)
+						me.$router.push('/clinica/pacientes/');
+							me.$vs.notify({
+							color:'success',
+							title:'Paciente editado',
+							text:'Acción realizada exitósamente'
+						});
 					}).catch(function(error) {
 						console.log(error)
 					});
+				}
+				else{
+					me.$router.push('/clinica/pacientes/');
 				}
 			}
 		},
@@ -466,10 +510,10 @@ export default {
 			});
 			return tabla
 		},
-		getDate(datetime) {
-        	let date = new Date(datetime);
-        	let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-			return dateString;
+		getDate (datetime) {
+			const date = new Date(datetime)
+			const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+			return dateString
 		},
 	},
 	mounted(){

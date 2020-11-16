@@ -4,17 +4,34 @@
 			<div class="vx-row leading-loose p-base">
                 <div class="vx-col w-1/2">
                     <h1><b>Paciente:</b> </h1>
-                    <h2>{{informacion.nombres + ' ' + informacion.apellidos}} </h2>
+                    <h2>{{nombre}} </h2>
                 </div>
 				<div class="vx-col w-1/2 text-right">
                     <h2> <b>Tipo de Paciente:</b>  </h2>
-                        <h3>{{informacion.tipo_paciente.nombre}} </h3>
+                        <h3>{{tipo}} </h3>
                 </div>
-				<h2 class="mt-10"> Lista de entregas: </h2>
+				<h2 class="mt-10 ml-1"> Lista de medicamentos: </h2>
+
+					<vs-list class="mt-3">
+						<div class="vx-col w-full mb-base">
+							<table style="width:100%" class="border-collapse">
+								<tr>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre Medicamento</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Cantidad de entrega</th>
+								</tr>
+								<tr v-for="(producto,index) in carrito" :key="index">
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}</td>
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{listaCantidades[index]}}</td>
+								</tr>
+							</table>
+							<span class="text-danger">{{ errors.first('cantidad') }}</span>
+						</div>
+					</vs-list>
 			</div>
+			<h2 class="ml-5"> Historial de entregas: </h2>
 			<ul class="vx-timeline">
 				<li v-for="(beneficio,id) in listado_beneficios" :key="id">
-					<vs-checkbox class="mt-3" color="success" icon-pack="feather" icon="icon-check" v-model="estados[id]"> Entrega del mes de <b>{{ nombreMes(beneficio.fecha_entrega.split('-',3)[1]) }} del {{beneficio.fecha_entrega.split('-',3)[0]}} </b> </vs-checkbox>
+					<vs-checkbox class="mt-3" color="success" icon-pack="feather" icon="icon-check" :disabled="noEditables" v-model="estados[id]"> Entrega del mes de <b>{{ nombreMes(beneficio.fecha_entrega.split('-',3)[1]) }} del {{beneficio.fecha_entrega.split('-',3)[0]}} </b> </vs-checkbox>
 					<small class="text-grey activity-e-time" v-if="estados[id]">&nbsp;  Entregado el: {{getDate(beneficio.updated_at) }}</small>
 				</li>
 			</ul>
@@ -36,7 +53,12 @@ export default {
 			informacion:[],
 			fecha_beneficio:0,
 			id:0,
-			estado:false
+			estado:false,
+			nombre:'',
+			tipo:'',
+			noEditables:false,
+			carrito:[],
+			listaCantidades:[],
 		}
 	},
 	watch:{
@@ -68,20 +90,26 @@ export default {
 			let me = this;
 	        me.id_recibido = this.$route.params.id;
 			const response = await axios.get(
-				`/api/paciente/get?criterio=id&buscar=${me.id_recibido}&completo=true`)
+			`/api/paciente/get?criterio=id&buscar=${me.id_recibido}&completo=true`)
 			.then(function (response) {
 				const respuesta = response.data
 				me.listado_beneficios = respuesta.pacientes.data
 				me.listado_beneficios = me.traerNombre(me.listado_beneficios)
 				me.informacion = me.listado_beneficios[0]
-				console.log(me.informacion.tipo_paciente)
+				me.nombre= me.informacion.nombres + ' ' +me.informacion.apellidos
+				me.tipo = me.informacion.tipo_paciente.nombre
 				me.listado_beneficios= me.listado_beneficios[0].beneficios
+				me.buscarDetalleBeneficios(me.listado_beneficios[0])
 				me.listado_beneficios.reverse();
 					me.listado_beneficios.forEach(function(elemento, indice, array){
 						me.estados.push(elemento.estado==1?true:false)
 					})
 				me.copia=me.estados.slice()
 				me.dia_apoyo=me.listado_beneficios[0].fecha_entrega.split('-',3)[2]
+				if (me.informacion.tipo_paciente.id == 2)
+				{
+					me.noEditables = true
+				}
 			})
 			.catch(function (error) {
 				console.log(error)
@@ -117,6 +145,46 @@ export default {
 				cancel: this.close
 			})
 		},
+		buscarDetalleBeneficios(primerBeneficio){
+			let me = this;
+			axios.get(
+				`/api/detalleBeneficio/get?criterio=beneficio_id&buscar=${primerBeneficio.id}&completo=false`)
+			.then(function (response) {
+				const respuesta = response.data
+				me.llenadoCarrito(respuesta.detalleBeneficios.data)
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
+		},
+		async importarMedicamentos() {
+			let me = this;
+			const response = await axios
+			.get(`/api/medicamento/get?completo=true`)
+			.then(function(response) {
+				var respuesta = response.data;
+				me.listado_medicamentos = me.traerNombreMedicamento(respuesta.medicamentos.data);
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+		},
+		traerNombreMedicamento(tabla){
+			tabla.forEach(function(valor, indice, array){
+				valor.nombre_completo = valor.nombre + ' - ' + valor.casa_medica.nombre
+			});
+			return tabla
+		},
+		llenadoCarrito(lista){
+			for (let i in lista){
+				let elemento = lista[i]
+				const resultado = this.listado_medicamentos.find( medicamento => medicamento.id === elemento.medicamento_id );
+				if(resultado != undefined){
+					this.carrito.push(resultado)
+					this.listaCantidades.push(elemento.cantidad)
+				}	
+			}
+		},
 		cambiarEstado(color){
 			let titulo = ''
 			let me =this
@@ -126,7 +194,6 @@ export default {
 					id: me.listado_beneficios[me.id].id
 				})
 				.then(function (response) {
-
 					console.log(response)
 					me.$vs.notify({
 						color:'success',
@@ -164,7 +231,14 @@ export default {
 				}
 			})
 			if (algunoFalso==true){
-				this.nuevoBeneficio()
+				this.$vs.dialog({
+					type:'confirm',
+					color: `success`,
+					title: `Nuevo Beneficio`,
+					text: '¿El paciente recibirá apoyo el mes siguiente al entregado?',
+					accept: this.nuevoBeneficio,
+					cancel: this.close2
+				})
 			}
 		},
 		close(){
@@ -177,6 +251,15 @@ export default {
 				text:`${titulo}`
 			})
 		},
+		close(){
+			let titulo = "Cancelado"
+			let texto = "El paciente no recibira apoyo el siguiente mes del entergado"
+			this.$vs.notify({
+				color:'danger',
+				title:`${titulo}`,
+				text:`${texto}`
+			})
+		},
 		nuevoBeneficio(){
 			let fechaT = this.getNow()
 			let me2=this
@@ -186,7 +269,6 @@ export default {
 				paciente_id:me2.id_recibido
 			}).then(function (response){
 				console.log(response)
-				//me2.importarBeneficios()
 				location.reload();
 			})
 		},
@@ -244,6 +326,7 @@ export default {
 		},
 	},
 	mounted() {
+		this.importarMedicamentos();
 		this.importarBeneficios();
 	},
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Beneficio;
 use App\DetalleBeneficio;
 use App\Paciente;
 use Illuminate\Http\Request;
@@ -56,16 +57,60 @@ class PacienteController extends Controller
 		$paciente = Paciente::findOrFail($request->id);
 		$paciente->dia_apoyo = $request->dia_apoyo;
 		$paciente->tipo_paciente_id = $request->tipo_paciente_id;
-		#dd($request->detalle);
-		if (isset($request->detalle)){
-			if ($request->detalle == true){
-				$eliminarDetalles = DetalleBeneficio::where('beneficio_id', $request->id_beneficio)->get();
-				echo ('esta entrando');
-				echo ($eliminarDetalles);
+		if ($request->id_beneficio==null){
+			$beneficio = Beneficio::where('paciente_id', $paciente->id)->get()->first();
+			if ($beneficio != null ){
+				$beneficio->descripcion = $request->descripcion;
+				$beneficio->save();
+				
+				$beneficioNuevo = new Beneficio();
+				$beneficioNuevo->descripcion = $request->descripcion;
+				$beneficioNuevo->fecha_entrega = $request->fecha_pago;
+				$beneficioNuevo->paciente_id = $paciente->id;
+				$beneficioNuevo->save();
+
+				$beneficio = $beneficio->id;
+				$eliminarDetalles = DetalleBeneficio::where('beneficio_id', $beneficio)->get();
 			}
 		}
-		#$paciente->save();
-		#return Response::json(['message' => 'Paciente Actualizado'], 200);
+		else{
+			$beneficio = Beneficio::findOrFail($request->id_beneficio);
+			$beneficio->descripcion = $request->descripcion;
+			$beneficio->save();
+			$eliminarDetalles = DetalleBeneficio::where('beneficio_id', $request->id_beneficio)->get();
+			$beneficio= $request->id_beneficio; 
+		}
+
+		if ($beneficio == null)
+		{
+			$beneficio = new Beneficio();
+			$beneficio->descripcion = $request->descripcion;
+			$beneficio->fecha_entrega = $request->fecha_pago;
+			$beneficio->paciente_id = $paciente->id;
+			$beneficio->save();
+			$beneficio= $beneficio->id;
+		}
+		else{
+			foreach($eliminarDetalles as $det)
+			{
+				$detalle = DetalleBeneficio::where('id', $det['id'])->get()->first();
+				$detalle->delete();
+			}
+		}
+		$carrito = $request->carrito;
+		$cantidades = $request->cantidades;
+		$i =0;
+
+		foreach ($carrito as $uno){
+			$detalleBeneficio = new DetalleBeneficio();
+			$detalleBeneficio->cantidad = (int) $cantidades[$i];
+			$detalleBeneficio->beneficio_id = $beneficio;
+			$detalleBeneficio->medicamento_id = $uno['id'];
+			$detalleBeneficio->save();
+			$i++;
+		}
+		$paciente->save();
+		return Response::json(['message' => 'Paciente Actualizado'], 200);
 	}
 
 	public function activar(Request $request)
