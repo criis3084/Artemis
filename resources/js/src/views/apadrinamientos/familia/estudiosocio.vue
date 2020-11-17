@@ -119,7 +119,7 @@
 								<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ingresos</th>
 							</tr>
 							<tr v-for="(encargado,index2) in listadoFamilia" :key="index2">
-								<td class="border border-solid d-theme-border-grey-light text-center">	<vs-avatar :src="encargado.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="30px"/> </td>
+								<td class="border border-solid d-theme-border-grey-light text-center">	<vs-avatar :src="encargado.ruta_imagen" :alt="encargado.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="30px"/> </td>
 								<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.datos_encargado[0].nombres}} {{encargado.datos_encargado[0].apellidos}} </td>
 								<td class="border border-solid d-theme-border-grey-light text-center"> {{calculateAge(encargado.datos_encargado[0].fecha_nacimiento)}}</td>
 								<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.relacion}}</td>

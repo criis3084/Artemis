@@ -1,18 +1,6 @@
 <template>
 	<vx-card>
 		<div>
-
-			<!-- <vs-list>
-				<vs-list-header icon-pack="feather" icon="icon-users" title="Familiares" color="danger"></vs-list-header>
-				<div v-for="(encargado,index2) in listadoFamilia" :key="index2">
-					<vs-list-item :title="encargado.datos_encargado[0].nombres + ' ' + encargado.datos_encargado[0].apellidos" :subtitle="encargado.relacion">
-						<template slot="avatar">
-								<vs-avatar :src="encargado.encargado.ruta_imagen" color="primary" @click="$router.push(url)"/>
-						</template>
-					</vs-list-item>
-				</div>
-			</vs-list> -->
-
 			<div id="demo-basic-card">
 				<div class = "demo-alignment">
 			<div class="vx-col md:w-1/3 w-full mt-5">
@@ -48,17 +36,6 @@
                 </vx-card>
             </div>
 			</div>
-			<!-- <vs-list>
-				<vs-list-header icon-pack="feather" icon="icon-user" title="Niños" color="warning"></vs-list-header>
-				<div v-for="(nino,idn) in listadoNinos" :key="idn">
-					<vs-list-item :title="nino.datos_nino[0].nombres + ' ' +nino.datos_nino[0].apellidos" :subtitle="nino.nino.codigo">
-						<template slot="avatar">
-						<vs-avatar :src="nino.nino.ruta_imagen" color="primary" @click="$router.push('/ver/nino/'+nino.nino_id)"/>
-						</template>
-					</vs-list-item>
-				</div>
-			</vs-list> -->
-
 			<vs-button class="mr-4" type="gradient" color="success" icon="poll" @click="$router.push('/apadrinamiento/ppi/'+ninoP)">Registros del PPI</vs-button>
 			<vs-button class="mr-4 mt-3" type="gradient"  color="success" icon="assignment" @click="$router.push('/apadrinamiento/estudiosocio/'+ninoP)">Registros de Estudios Socioeconomicos</vs-button>  
 			<vs-button @click="goBack" class="mr-4 mt-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>
@@ -108,7 +85,6 @@ export default {
 				var respuesta= response.data;
 				me.arrayData = respuesta.relaciones.data;
 				me.codigo = respuesta.relaciones.data[0].codigo;
-
 				me.setearValor(me.arrayData)
 			})
 			.catch(function (error) {

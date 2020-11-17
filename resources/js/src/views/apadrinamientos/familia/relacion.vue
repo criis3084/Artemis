@@ -53,19 +53,11 @@
 						</vs-switch>
 					</vs-td>
 					<vs-td>
-						<vx-tooltip text="Editar"> <vs-button @click="cambiar(data[indextr])" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
+						<vx-tooltip text="Editar"> <vs-button @click="$router.push('/editar/familia/'+data[indextr].codigo)" radius color="dark" type="flat" icon="edit" size="large"> </vs-button>  </vx-tooltip>
 					</vs-td>
 				</vs-tr>
 			</template>
 		</vs-table>
-
-			<!-- <sectorEdit
-				v-bind:identificador="abrir_editar"
-				v-bind:id="id"
-				v-bind:nombre="nombre"
-				v-bind:aldea_id="aldea_id"
-				v-on:cerrado="index();"
-			></sectorEdit> -->
 	</vx-card>
 </template>
 
@@ -117,9 +109,7 @@ export default {
 		StatisticsCardLine,
 		ChangeTimeDurationDropdown,
 		VxTimeline,
-		// Formulariosector,
 		vSelect,
-		// sectorEdit    
 	},
 	methods: {
 		traerNombre(tabla){

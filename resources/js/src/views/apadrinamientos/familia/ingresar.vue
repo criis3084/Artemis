@@ -203,22 +203,22 @@ export default {
 		},
 	},
   	methods: {
-		  camposCambioEstado(){
-				this.direccion="a"
+	camposCambioEstado(){
+			this.direccion="a"
 
-				this.codigo_familia="1"
+			this.codigo_familia="1"
 
-				this.sector_id="1"
-		},
-		camposCambioEstado2(){
-				this.direccion=""
+			this.sector_id="1"
+	},
+	camposCambioEstado2(){
+			this.direccion=""
 
-				this.codigo_familia=""
+			this.codigo_familia=""
 
-				this.sector_id=""
-		},
-		  validateDireccion(value){
-	if (value=="")
+			this.sector_id=""
+	},
+	validateDireccion(value){
+		if (value=="")
 		{
 			this.VALdireccion = 'El campo dirección es requerido';
 		} else{
@@ -458,7 +458,7 @@ export default {
 			// 	});
 			return this.ppi_validado
 		},
-		async importarSectores(){ //async para que se llame cada vez que se necesite
+		async importarSectores(){ 
 			let me = this;
 			const response = await axios.get(
 			`/api/sector/get?&completo=select`)

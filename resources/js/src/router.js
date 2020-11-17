@@ -114,6 +114,14 @@ const router = new Router({
 			  rule: 'editor'
           }
         },
+        {			
+          path: '/editar/familia/:id',
+          name: 'editar-familia',
+          component: () => import('./views/apadrinamientos/familia/editar_familia.vue'),
+          meta: {
+			  rule: 'editor'
+          }
+        },
         {
           path: '/apadrinamiento/ppi/:id',
           name: 'apadrinamiento-ppi',

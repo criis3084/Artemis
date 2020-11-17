@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PersonaSinAcceso;
 use App\Relacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -65,33 +66,53 @@ class RelacionController extends Controller
 
     public function show(Request $request)
     {
-		$relaciones_datos=[];
-		$relaciones = Relacion::all();
-		$temporal= (Object)['nombre_nino'=>'','nombre_encargado'=>''];
-		foreach ($relaciones as $relacion)
-		{
-			$dato = new Relacion($relacion->id);
-			$nombre_nino=$relacion->nino->datos->nombres;
-			$nombre_Encargado=$relacion->encargado->datos->nombres;
-			$relaciones_datos= array_push($relaciones_datos,['nombre_nino'=>$nombre_nino],['nombre_encargado'=>$nombre_Encargado]);
+		try {
+			$relacion = new Relacion();
+			$relacion->relacion = $request->relacion;
+			$relacion->direccion = $request->direccion;
+			$relacion->codigo = $request->codigo;
+			$relacion->nino_id = $request->nino_id;
+			$relacion->encargado_id = $request->encargado_id;
+			$relacion->sector_id = $request->sector_id;
+			
+			$relacion->estado = $request->estado;
+			$relacion->save();
+			return ['id' => $relacion->id];
+		} catch (Exception $e) {
+			return Response::json(['message' => $e->getMessage()], 400);
 		}
-        return [
-			$relaciones_datos
-		];
     }
 
-    public function update(Request $request, Relacion $relacion)
+    public function update(Request $request)
     {
-		//if(!$request->ajax())return redirect('/');
-		$relacion = Relacion::findOrFail($request->id);
-		$relacion->relacion = $request->relacion;
-		$relacion->direccion = $request->direccion;
-		$relacion->codigo = $request->codigo;
-		// Actualizar direccion del ni;o del encargado
-		// Pendiente //
-		$relacion->save();
-		
-		return Response::json(['message' => 'Relazion Acualizada'], 200);
+		if (isset($request->tipo)){
+			if ($request->tipo =='relacion'){
+				$listaEncargado = Relacion::where('encargado_id', $request->encargado_id)->get();
+				foreach($listaEncargado as $det)
+				{
+					$detalle = Relacion::findOrFail($det->id);
+					$detalle->relacion = $request->relacion;
+					$detalle->save();
+				}
+			}
+			if($request->tipo =='datos'){
+				$listaPersonas = $request->personas;
+				$listaFamilia = Relacion::where('codigo', $request->codigo)->get();
+				foreach($listaFamilia as $det)
+				{
+					$detalle = Relacion::findOrFail($det->id);
+					$detalle->direccion = $request->direccion;
+					$detalle->sector_id = $request->sector_id;
+					$detalle->save();
+				}
+				foreach($listaPersonas as $per){
+					$editarPersona= PersonaSinAcceso::findOrFail($per);
+					$editarPersona->sector_id = $request->sector_id;
+					$editarPersona->save();
+				}
+			}
+		}
+		return Response::json(['message' => 'Relación Acualizada'], 200);
     }
 
 	public function activar(Request $request)
@@ -109,5 +130,10 @@ class RelacionController extends Controller
         $relacion->estado = '0';
         $relacion->save();
 		return Response::json(['message' => 'Relacion Desactivada'], 200);
+	}
+	public function eliminar(Request $request)
+    {
+		$relacion = Relacion::where('encargado_id', $request->id)->delete();
+		return Response::json(['message' => 'Relacion Eliminada'], 200);
 	}
 }

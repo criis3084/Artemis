@@ -679,6 +679,9 @@ Route::group(['prefix' => 'relacion'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.relacion', 'uses' => 'RelacionController@desactivar'
     ]);
+    Route::put('/eliminar', [
+        'as' => 'admin.relacion', 'uses' => 'RelacionController@eliminar'
+    ]);
 });
 Route::group(['prefix' => 'vivienda'], function () {
     Route::get('/get', [

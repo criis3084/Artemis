@@ -307,7 +307,7 @@ export default {
 		},
 		guardarDetalleBeneficios(beneficios){
 			let me=this
-			for (let x in me.carrito) {
+			for (let x in me.carrito){
 				let v1 = parseInt(me.listaCantidades[x])
 				let idMedicamento = me.carrito[x].id
 				axios.post('/api/detalleBeneficio/post/', {
