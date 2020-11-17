@@ -281,9 +281,7 @@ export default {
 		medicamento_id(){
 			if (this.medicamento_id != null)
 			{
-				console.log
 				this.carrito.push(this.medicamento_id)
-				// this.listaCantidades.push(0)
 			}
 		}
 	},
@@ -317,7 +315,6 @@ export default {
 					beneficio_id:beneficios,
 					medicamento_id:idMedicamento,
 				}).then(function (response){
-					//console.log('response')
 					me.$router.push('/clinica/pacientes/');
 					me.$vs.notify({
 					color:'success',
@@ -340,7 +337,6 @@ export default {
 		},
 		guardarPaciente(persona){
 			let tipoT=0
-			console.log(this.tipo_lectura)
 			if (this.tipo_lectura == 1){
 				tipoT = 1
 			}

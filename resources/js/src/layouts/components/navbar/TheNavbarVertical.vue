@@ -10,7 +10,9 @@
 
 
 <template>
-  <div class="relative">
+
+
+  <div class="">
 
     <div class="vx-navbar-wrapper" :class="classObj">
 
@@ -19,13 +21,13 @@
         <!-- SM - OPEN SIDEBAR BUTTON -->
         <feather-icon class="sm:inline-flex xl:hidden cursor-pointer p-2" icon="MenuIcon" @click.stop="showSidebar" />
 
-        <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 992" />
+        <!-- <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 992" /> -->
 
         <vs-spacer />
 
-        <i18n />
+        <!-- <i18n /> -->
 
-        <search-bar />
+        <!-- <search-bar /> -->
 
         <cart-drop-down />
 
@@ -40,7 +42,7 @@
 
 
 <script>
-import Bookmarks            from './components/Bookmarks.vue'
+// import Bookmarks            from './components/Bookmarks.vue'
 import I18n                 from './components/I18n.vue'
 import SearchBar            from './components/SearchBar.vue'
 import CartDropDown         from './components/CartDropDown.vue'
@@ -56,7 +58,7 @@ export default {
     }
   },
   components: {
-    Bookmarks,
+    // Bookmarks,
     I18n,
     SearchBar,
     CartDropDown,

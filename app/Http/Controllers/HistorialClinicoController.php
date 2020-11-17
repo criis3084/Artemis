@@ -28,6 +28,7 @@ class HistorialClinicoController extends Controller
 				$historialClinico = HistorialClinico::with('clinico')->with('receta')->with('doctor')->with('paciente')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
+				#dd($count );
 				$historialClinico = HistorialClinico::with('clinico')->with('receta')->with('doctor')->with('paciente')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}

@@ -45,8 +45,11 @@
                         <vs-td>{{data[indextr].tipo_paciente.nombre}}</vs-td>
                         <vs-td>{{data[indextr].dia_apoyo}}</vs-td>
                         <vs-td>
-							<vs-chip class="ag-grid-cell-chip" :color="data[indextr].beneficio.estado == 0 ? 'warning' : data[indextr].beneficio.estado == 1 ? 'success': data[indextr].beneficio.estado == 2 ? 'danger' : data[indextr].beneficio.estado == 3 ?'dark':'primary'">
-							<span>{{data[indextr].beneficio.estado == 0 ? 'Sin entregar' : data[indextr].beneficio.estado == 1 ? 'Entregado': data[indextr].beneficio.estado == 2 ? 'Atrasado' :data[indextr].beneficio.estado == 3 ? 'Sin beneficios':'No Recibe este mes'}}</span>
+							<vs-chip v-if="data[indextr].tipo_paciente.id == 2" class="ag-grid-cell-chip" color="dark">
+								<span >{{'Sin beneficios'}}</span>
+							</vs-chip>
+							<vs-chip v-else class="ag-grid-cell-chip" :color="data[indextr].beneficio.estado == 0 ? 'warning' : data[indextr].beneficio.estado == 1 ? 'success': data[indextr].beneficio.estado == 2 ? 'danger' : data[indextr].beneficio.estado == 3 ?'dark':'primary'">
+								<span>{{data[indextr].beneficio.estado == 0 ? 'Sin entregar' : data[indextr].beneficio.estado == 1 ? 'Entregado': data[indextr].beneficio.estado == 2 ? 'Atrasado' :data[indextr].beneficio.estado == 3 ? 'Sin beneficios':'No Recibe este mes'}}</span>
 							</vs-chip>
 						</vs-td>
 						<vs-td>
@@ -57,9 +60,9 @@
 						</vs-td>
 						<vs-td>
 							<div class="flex items-center">
-							<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/paciente/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
+							<vx-tooltip text="Editar"> <vs-button radius color="dark" type="flat" icon="edit" size="large" @click="$router.push('/editar/paciente/'+data[indextr].id)"> </vs-button></vx-tooltip>
 							<div v-if="data[indextr].beneficio.estado !== 3">
-							<vx-tooltip text="Beneficios"> <vs-button radius color="dark" type="flat" icon="list" size="large" @click="$router.push('/ver/beneficios/'+data[indextr].id)"> </vs-button>  </vx-tooltip>
+							<vx-tooltip text="Beneficios"> <vs-button radius color="dark" type="flat" icon="list" size="large" @click="$router.push('/ver/beneficios/'+data[indextr].id)"> </vs-button></vx-tooltip>
 							</div>
 							</div>
 						</vs-td>
@@ -72,7 +75,6 @@
 <script>
 import VueApexCharts from 'vue-apexcharts'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
-//import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from '@/components/timeline/VxTimeline'
 import vSelect from 'vue-select'

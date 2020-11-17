@@ -17,14 +17,16 @@ class HistorialClinico extends Model
 	public function receta(){
 		return $this->hasMany('App\Receta','historial_clinico_id','id');
 	}
+
 	public function doctor(){
 		return $this->hasManyThrough(
 			'App\User',
-			'App\clinico',
+			'App\Clinico',
 			'id',
 			'id',
 			'clinico_id',
 			'user_id'
 		);
 	}
+
 }
