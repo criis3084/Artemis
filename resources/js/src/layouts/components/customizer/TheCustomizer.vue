@@ -31,8 +31,8 @@
 
         <div class="customizer-header mt-6 flex items-center justify-between px-6">
           <div>
-            <h4>THEME CUSTOMIZER</h4>
-            <small>Customize & Preview in Real Time</small>
+            <h4>Opciones de tema</h4>
+            <small>Modificar & Vista en tiempo real</small>
           </div>
           <feather-icon icon="XIcon" @click.stop="active = false" class="cursor-pointer"></feather-icon>
         </div>
@@ -43,20 +43,13 @@
 
           <div class="px-6">
 
-            <!-- Layout Type -->
-            <div class="mt-4">
-              <h5 class="mb-2">Layout Type</h5>
-              <div>
-                <vs-radio v-model="layoutType" vs-value="vertical" class="mr-4" vs-name="layout-type-vertical">Vertical</vs-radio>
-                <vs-radio v-model="layoutType" vs-value="horizontal" class="mr-4" vs-name="layout-type-horizontal">Horizontal</vs-radio>
-              </div>
-            </div>
+            
 
-            <vs-divider />
+          
 
             <!-- THEME COLORS -->
             <div>
-              <h5 class="mb-4">Theme Color</h5>
+              <h5 class="mb-4">Color de tema</h5>
               <ul class="clearfix">
 
                 <!-- Color Square -->
@@ -84,15 +77,15 @@
 
             <!-- THEME -->
             <div class="mt-4">
-              <h5 class="mb-2">Theme Mode</h5>
+              <h5 class="mb-2">Modo del tema</h5>
               <div>
-                <vs-radio v-model="themeMode" vs-value="light" class="mr-4" vs-name="theme-mode-light">Light</vs-radio>
-                <vs-radio v-model="themeMode" vs-value="dark" class="mr-4" vs-name="theme-mode-dark">Dark</vs-radio>
+                <vs-radio v-model="themeMode" vs-value="light" class="mr-4" vs-name="theme-mode-light">Claro</vs-radio>
+                <vs-radio v-model="themeMode" vs-value="dark" class="mr-4" vs-name="theme-mode-dark">Oscuro</vs-radio>
                 <vs-radio
                   v-if="layoutType === 'vertical'"
                   v-model="themeMode"
                   vs-value="semi-dark"
-                  vs-name="theme-mode-semi-dark">Semi Dark</vs-radio>
+                  vs-name="theme-mode-semi-dark">Semi Oscuro</vs-radio>
               </div>
             </div>
 
@@ -102,7 +95,7 @@
 
               <!-- COLLAPSE SIDEBAR -->
               <div class="mt-4 flex justify-between">
-                <h5>Collapse Sidebar</h5>
+                <h5>Barra de navegación colapsable</h5>
                 <vs-switch v-model="reduced_sidebar" />
               </div>
 
@@ -115,7 +108,7 @@
             <template v-if="layoutType === 'vertical'">
 
               <div class="mt-4">
-                <h5>Navbar Color</h5>
+                <h5>Color barra de navegación</h5>
                 <ul class="clearfix">
 
                   <!-- WHITE COLOR -->
@@ -151,65 +144,6 @@
               <vs-divider />
 
             </template>
-
-            <!-- NAVBAR TYPE -->
-            <div class="mt-4">
-              <h5 class="mb-2">{{ (layoutType === 'vertical' || windowWidth &lt; 1200) ? "Navbar" : "Nav Menu" }} Type</h5>
-              <div>
-                <vs-radio
-                  v-if="layoutType === 'vertical' || windowWidth < 1200"
-                  v-model="navbarTypeLocal"
-                  vs-value="hidden"
-                  class="mr-4"
-                  vs-name="navbar-type-hidden">Hidden</vs-radio>
-
-                <vs-radio v-model="navbarTypeLocal" vs-value="static" class="mr-4" vs-name="navbar-type-static">Static</vs-radio>
-                <vs-radio v-model="navbarTypeLocal" vs-value="sticky" vs-name="navbar-type-sticky" class="mr-4">Sticky</vs-radio>
-                <vs-radio v-model="navbarTypeLocal" vs-value="floating" vs-name="navbar-type-floating">Floating</vs-radio>
-              </div>
-            </div>
-
-            <vs-divider />
-
-            <!-- FOOTER TYPE -->
-            <div class="mt-4">
-              <h5 class="mb-2">Footer Type</h5>
-              <div>
-                <vs-radio v-model="footerTypeLocal" vs-value="hidden" class="mr-4" vs-name="footer-type-hidden">Hidden</vs-radio>
-                <vs-radio v-model="footerTypeLocal" vs-value="static" class="mr-4" vs-name="footer-type-static">Static</vs-radio>
-                <vs-radio v-model="footerTypeLocal" vs-value="sticky" vs-name="footer-type-sticky">Sticky</vs-radio>
-              </div>
-            </div>
-
-            <vs-divider />
-
-            <!-- RTL -->
-            <div class="mt-4 flex justify-between">
-              <h5 class="mb-2">RTL</h5>
-              <vs-switch v-model="rtl" />
-            </div>
-
-            <vs-divider />
-
-            <!-- SHOW SCROLL TO TOP -->
-            <div class="mt-4 flex justify-between">
-              <h5 class="mb-2">Hide Scroll To Top</h5>
-              <vs-switch v-model="hideScrollToTopLocal" />
-            </div>
-
-            <vs-divider />
-
-            <!-- ROUTER ANIMATION -->
-            <div class="mt-4">
-              <h5 class="mb-2">Router Animation {{ routerTransitionLocal }}</h5>
-              <vs-select v-model="routerTransitionLocal">
-                <vs-select-item
-                  v-for="(item,index) in routerTransitionsList"
-                  :key="index"
-                  :value="item.value"
-                  :text="item.text" />
-              </vs-select>
-            </div>
 
           </div>
         </component>
