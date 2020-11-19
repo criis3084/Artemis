@@ -212,7 +212,7 @@
 												<br>
 												<span class="activity-desc"><b>Resultado: </b>{{ historial.examen.resultado }}</span>
 											</div>
-											<span class="text-grey activity-e-time">Fecha: {{ historial.examen.created_at }}</span>
+											<span class="text-grey activity-e-time">Fecha: {{ historial.fecha_consulta }}</span>
 											<vs-divider class="mt-5"/>
 										</div>
 										<div v-else>
@@ -227,7 +227,7 @@
 												<br>
 												<span class="activity-desc"><b>Subjetivo: </b>{{ historial.subjetivo }}</span>
 											</div>
-											<span class="text-grey activity-e-time">Fecha: {{ historial.created_at }}</span>
+											<span class="text-grey activity-e-time">Fecha: {{ historial.fecha_consulta }}</span>
 											<div class="flex flex-wrap items-center justify-between mt-3">
 													<vs-button color="primary" type="border" icon="visibility" size="small" class="mr-base mb-2" @click="openDetalle(historial)">Ver consulta</vs-button>
 												<div class="flex items-center">
@@ -600,20 +600,15 @@ export default {
 			for (let i in examenes) {
 				let elemento=examenes[i]
 				examenes[i].id = elemento.id +10000
-				examenes[i].fecha_consulta=elemento.fecha_examen
+				examenes[i].fecha_consulta=elemento.examen.fecha_examen
 			}
-			for(let j in clinicio)
-			console.log('examenes')
-			console.log(examenes)
-			console.log(clinico)
 			const tabla = clinico.concat(examenes);
 			if (tabla.length !=0){
 				for (let i in tabla) {
 					let elemento = tabla[i]
 //elemento.fecha_expiracion = new Date(parseInt(elemento.fecha_expiracion.split('-',3)[0]),pa	rseInt(elemento.fecha_expiracion.split('-',3)[1]),parseInt(elemento.fecha_expiracion.split('-',3)[2]))
-					tabla[i].fechaH = new Date(parseInt(elemento.fecha_examen.split('-',3)[0]),parseInt(elemento.fecha_examen.split('-',3)[1]),parseInt(elemento.fecha_examen.split('-',3)[2]))
+					tabla[i].fechaH = new Date(parseInt(elemento.fecha_consulta.split('-',3)[0]),parseInt(elemento.fecha_consulta.split('-',3)[1]),parseInt(elemento.fecha_consulta.split('-',3)[2]))
 				}
-
 				for (let i in tabla) {
 					let elemento = tabla[i]
 					let n = tabla.length
