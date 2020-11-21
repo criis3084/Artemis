@@ -8,6 +8,8 @@
 			@cancel="close"
 			@close="close"
 			@accept="acceptAlert"
+			accept-text="Aceptar"
+			cancel-text="Cancelar"
 			:is-valid="validName"
 			:title= "titulo"
 			:active.sync="activePrompt2"
