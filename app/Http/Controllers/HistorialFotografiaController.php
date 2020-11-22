@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 class HistorialFotografiaController extends Controller
 {
@@ -84,8 +85,10 @@ class HistorialFotografiaController extends Controller
 		if (File::exists($nombreEliminar)) {
 			File::delete($nombreEliminar);
 		}
+		
 		$completo = time() . "." . $imagen->extension();
-		$imagen->move(public_path('storage/public/historialFotografias/'), $completo);
+		$imagen_redi = Image::make($imagen)->resize(300,200);
+		$imagen_redi->save(public_path('storage/public/historialFotografias/'), $completo);
 		return Response::json($completo, 200);
 	}
 

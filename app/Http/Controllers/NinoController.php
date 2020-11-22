@@ -143,6 +143,7 @@ class NinoController extends Controller
 		if (File::exists($nombreEliminar)) {
 			File::delete($nombreEliminar);
 		}
+		
 		$completo = time() . "." . $imagen->extension();
 		$imagen_redi = Image::make($imagen)->resize(300,200);
 		$imagen_redi->save(public_path('storage/public/ninos/'. $completo));

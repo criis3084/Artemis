@@ -46,12 +46,12 @@ const router = new Router({
         // =============================================================================
         // Theme Routes
         // =============================================================================
-        // {
-        //   path: '/',
-        //   redirect: '/bienvenido'
-        // },
+		{
+		path: '/',
+		redirect: '/bienvenido'
+		},
         {
-			path: '/',
+			path: '/bienvenido',
 			name: 'inicio',
 			component: () => import('./views/pages/Bienvenido.vue'),
 			meta: {
