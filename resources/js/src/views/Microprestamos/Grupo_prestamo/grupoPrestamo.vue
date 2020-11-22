@@ -127,7 +127,7 @@ export default {
     async index () {
       const me = this
       this.abrir_editar = false
-      const response = await axios.get('/api/grupoPrestamo/get?completo=false')
+      const response = await axios.get('/api/grupoPrestamo/get?completo=true')
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.grupoPrestamos.data

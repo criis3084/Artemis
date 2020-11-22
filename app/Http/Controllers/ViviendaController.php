@@ -103,7 +103,7 @@ class ViviendaController extends Controller
 		
 	// 	$completo = time() . "." . $imagen->extension();
 	// 	$imagen_redi = Image::make($imagen)->resize(300,200);
-	// 	$imagen_redi->save(public_path('storage/public/viviendas/'), $completo);
+	// 	$imagen_redi->save(public_path('storage/public/viviendas/'. $completo));
 	// 	return Response::json($completo, 200);
 	// }
 }

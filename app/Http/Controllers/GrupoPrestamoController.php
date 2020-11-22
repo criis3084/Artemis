@@ -62,10 +62,24 @@ class GrupoPrestamoController extends Controller
 		#if(!$request->ajax())return redirect('/');
         try {
 		$grupoPrestamo = GrupoPrestamo::findOrFail($request->id);
-		$grupoPrestamo->nombre = $request->nombre;
-		$grupoPrestamo->descripcion = $request->descripcion;
-		$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
-		$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
+		if (isset($request->nombre)){
+			$grupoPrestamo->nombre = $request->nombre;
+		}
+		if (isset($request->descripcion)){
+			$grupoPrestamo->descripcion = $request->descripcion;
+		}
+		if (isset($request->interes_ultimo_prestamo)){
+			$grupoPrestamo->interes_ultimo_prestamo = $request->interes_ultimo_prestamo;
+		}
+		if (isset($request->cantidad_ultimo_prestamo)){
+			$grupoPrestamo->cantidad_ultimo_prestamo = $request->cantidad_ultimo_prestamo;
+		}
+		if (isset($request->cantidad_prestamo_actual)){
+			$grupoPrestamo->cantidad_prestamo_actual = $request->cantidad_prestamo_actual;
+		}
+		if (isset($request->estado)){
+			$grupoPrestamo->estado = $request->estado;
+		}
 		$grupoPrestamo->save();
 		return Response::json(['message' => 'GrupoPrestamo Actualizada'], 200);
 		} catch (Exception $e) {

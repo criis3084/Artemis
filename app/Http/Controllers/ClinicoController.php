@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Response;
 use Exception;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
-
+use Illuminate\Support\Facades\Hash;
 class ClinicoController extends Controller
 {
 	public function index(Request $request)
@@ -134,7 +134,7 @@ class ClinicoController extends Controller
 		}
 		$completo = time() . "." . $imagen->extension();
 		$imagen_redi = Image::make($imagen)->resize(300,200);
-		$imagen_redi->save(public_path('storage/public/personalClinico/'), $completo);
+		$imagen_redi->save(public_path('storage/public/personalClinico/'. $completo));
 		return Response::json($completo, 200);
 	}
 }

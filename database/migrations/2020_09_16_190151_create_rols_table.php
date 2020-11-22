@@ -27,8 +27,8 @@ class CreateRolsTable extends Migration
 		//5 = Laboratorista
 		//6 = Farmaceutica
 		//7 = Medico 
-		DB::table('rols')->insert(array('nombre'=>'Nombre'));
-		DB::table('rols')->insert(array('nombre'=>'Trabajadora irectora'));
+		DB::table('rols')->insert(array('nombre'=>'Directora'));
+		DB::table('rols')->insert(array('nombre'=>'Trabajadora social'));
 		DB::table('rols')->insert(array('nombre'=>'Secretaria'));
 		DB::table('rols')->insert(array('nombre'=>'Tutora'));
 		DB::table('rols')->insert(array('nombre'=>'Laboratorista'));

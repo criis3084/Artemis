@@ -17,75 +17,91 @@
 			</div>
 			<span v-if="lista_encargados_plus.length <1" class="text-succes">Seleccione un grupo </span>
 		</div>
-		<div v-if="lista_encargados_plus.length >0" class="mt-8">
-	<form>
+		<div class="mt-8">
+				<form>
 
-		<h5> <b> Cantidad del préstamo anterior: </b> {{this.currency(grupo_select.cantidad_ultimo_prestamo)}} &nbsp; &nbsp; <b>Interés del préstamo anterior: </b> {{currency(grupo_select.interes_ultimo_prestamo)}} </h5>
-		<br>
-		<h5> <b> Límite sugerido del préstamo actual: </b> {{limiteActual()}}</h5>
-		<br>
-			<div class="vx-col md:w-1/2 w-full">
-				<div class="my-4">
-					<small class="date-label">Fecha de inicio</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha" v-validate="'required'" v-model="fecha_inicio"></datepicker>
-					<span class="text-danger">{{ errors.first('fecha') }}</span>
+				<h5> <b> Cantidad del préstamo anterior: </b> {{this.currency(prestamoAnterior)}} &nbsp; &nbsp; <b>Interés del préstamo anterior: </b> {{currency(interesAnterior)}} </h5>
+				<br>
+				<h5> <b> Límite sugerido del préstamo actual: </b> {{limiteActual()}}</h5>
+				<br>
+
+				<div class="vx-row">
+					<div class="vx-col md:w-1/2 w-full">
+						<div class="my-4">
+							<small class="date-label">Fecha de inicio</small>
+							<datepicker :language="$vs.rtl ? langEn : langEn" name="fecha" v-validate="'required'" :disabled="bloqueado" v-model="fecha_inicio"></datepicker>
+							<span class="text-danger">{{ errors.first('fecha') }}</span>
+						</div>
+					</div>
+					<div class="vx-col md:w-1/2 w-full">
+						<div class="my-4">
+							<small class="date-label mt-5">Fecha de primer pago grupal</small>
+							<datepicker :language="$vs.rtl ? langEn : langEn" name="dia_pago" v-validate="'required'" :disabled="bloqueado" v-model="dia_pago"></datepicker>
+							<span class="text-danger">{{ errors.first('dia_pago') }}</span>
+						</div>
+					</div>
 				</div>
-			</div>
-			<br>
-			<div class="vx-col md:w-1/2 w-full">
-				<div class="vx-col w-full">
-					<vs-input name="interes" v-validate="'required|max:2|numeric'" class="w-full" icon-pack="feather" icon="icon-percent" icon-no-border label-placeholder="Porcentaje de interés" v-model="interes"/>
-					<span class="text-danger">{{ errors.first('interes') }}</span>
-				</div>
-			</div>
+					<div class="vx-row">
+						<div class="vx-col md:w-1/3 w-full mt-4">
+							<div class="vx-col w-full">
+								<vs-input  name="meses" v-validate="'required|numeric|max:2'" class="w-full" icon="date_range" icon-no-border label-placeholder="Cantidad de meses para pagar" :disabled="bloqueado" v-model="duracion"/>
+								<span class="text-danger">{{ errors.first('meses') }}</span>
 
-			<div class="vx-col w-full mt-3">
-					<small class="date-label mt-5">Día de pago</small>
-					<datepicker :language="$vs.rtl ? langEn : langEn" name="dia_pago" v-validate="'required'" v-model="dia_pago"></datepicker>
-					<span class="text-danger">{{ errors.first('dia_pago') }}</span>
-					<!-- <v-select style="width:30%" label="mostrar" :options="dia_del_mes" v-model="dia_pago" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> -->
-					<br>
-					<vs-input  name="mora" v-validate="'required|numeric|max:5'" style="width:30%" icon="local_atm" icon-no-border label-placeholder="Mora por atraso" v-model="mora_por_atraso"/>
-					<span class="text-danger">{{ errors.first('mora') }}</span>
-					<br>
-					<vs-input  name="meses" v-validate="'required|numeric|max:2'" style="width:30%" icon="date_range" icon-no-border label-placeholder="Cantidad de meses para pagar" v-model="duracion"/>
-					<span class="text-danger">{{ errors.first('meses') }}</span>
-					<br>
-			</div>
+							</div>
+						</div>
+						<div class="vx-col md:w-1/3 w-full mt-4">
+							<div class="vx-col w-full">
+								<vs-input name="interes" v-validate="'required|max:2|numeric'" class="w-full" icon-pack="feather" icon-no-border icon="icon-percent"  label-placeholder="Porcentaje de interés" :disabled="bloqueado" v-model="interes"/>
+								<span class="text-danger">{{ errors.first('interes') }}</span>
 
-			<table style="width:100%" class="border-collapse mt-2">
-					<tr>
-						<th class="pointer-events-none text-center"> <h5> Integrante </h5> </th>
-						<th class="pointer-events-none text-center"> <h5> Destino de inversión</h5> </th>
-						<th class="pointer-events-none text-center" style="width:30%"> <h5> Cantidad de préstamo </h5> </th>
-						<th class="pointer-events-none text-center" style="width:30%"> <h5> Pago mensual </h5> </th>
-					</tr>
-					<tr v-for="(integrante,id) in lista_encargados_plus" :key="id" class="mt-4">
-						<td style="text-align:left"> {{integrante.datos_encargado.datos.nombres}} </td>
-						<td style="text-align:center"> <v-select name="destino" v-validate="'required'" style="width:95%" label="nombre" :options="destinos_inversion" v-model="listaInversiones[id]" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> </td>
-						<td style="text-align:right"> <vs-input style="text-align:right" v-model="listaCantidades[id]" name="cantidad" v-validate="'required|numeric|max:5'"/> </td>
-						<td style="text-align:center"> Q {{pagoEstimado(listaCantidades[id])}}.00 </td>
-					</tr>
-			</table>
-					<span class="text-danger">{{ errors.first('destino') }}</span><br>
-					<span class="text-danger">{{ errors.first('cantidad') }}</span>
-			<vs-divider/>
-			<div class="vx-row leading-loose p-base">
-				<div class="vx-col w-1/2">
-                    <h5><b>Total de préstamo:</b> </h5>
-                </div>
-				<div class="vx-col w-1/2 text-right">
-                    <h4> <b> Q {{sumarCantidades()}}.00 </b>  </h4>
-                </div>
-			</div>
+							</div>
+						</div>
+						<div class="vx-col md:w-1/3 w-full mt-4">
+							<div class="vx-col w-full">
+								<vs-input  name="mora" v-validate="'required|numeric|max:5'" class="w-full" icon="local_atm" icon-no-border label-placeholder="Mora por atraso" :disabled="bloqueado" v-model="mora_por_atraso"/>
+								<span class="text-danger">{{ errors.first('mora') }}</span>
+							</div>
+						</div>
+					</div>
 
-			<div class="vx-row">
-          		<div class="vx-col sm:w-2/3 w-full ml-auto">
-            		<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="guardarPrestamo">Guardar</vs-button>
-            		<!-- <vs-button color="warning" type="border" class="mb-2" @click="limpiar">Limipiar</vs-button> -->
-          		</div>
-	        </div>
-	</form>
+					<div v-if="!bloqueado">
+
+						<vs-divider class="mt-8"> Detalle de prestamo por integrante</vs-divider>
+
+						<table style="width:100%" class="border-collapse mt-6">
+								<tr>
+									<th class="pointer-events-none text-center"> <h5> Integrante </h5> </th>
+									<th class="pointer-events-none text-center"> <h5> Destino de inversión</h5> </th>
+									<th class="pointer-events-none text-center" style="width:15%"> <h5> Cantidad de préstamo </h5> </th>
+									<th class="pointer-events-none text-center" style="width:15%"> <h5> Pago mensual </h5> </th>
+								</tr>
+								<tr v-for="(integrante,id) in lista_encargados_plus" :key="id" class="mt-4">
+									<td style="text-align:center"> {{integrante.datos_encargado.datos.nombres}} </td>
+									<td style="text-align:center"> <v-select name="destino" v-validate="'required'" style="width:95%" label="nombre" :options="destinos_inversion" v-model="listaInversiones[id]" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> </td>
+									<td style="text-align:right"> <vs-input style="text-align:right" v-model="listaCantidades[id]" name="cantidad" v-validate="'required|numeric|max:5'"/> </td>
+									<td style="text-align:center"> Q {{pagoEstimado(listaCantidades[id])}}.00 </td>
+								</tr>
+						</table>
+								<span class="text-danger">{{ errors.first('destino') }}</span><br>
+								<span class="text-danger">{{ errors.first('cantidad') }}</span>
+						<vs-divider/>
+						<div class="vx-row leading-loose p-base">
+							<div class="vx-col w-1/2">
+								<h5><b>Total de préstamo <small>(Sin intereses)</small> :</b> </h5>
+							</div>
+							<div class="vx-col w-1/2 text-right">
+								<h4> <b> Q {{sumarCantidades()}}.00 </b>  </h4>
+							</div>
+						</div>
+
+					</div>
+						<div class="vx-row mt-8">
+							<div class="vx-col sm:w-2/3 w-full ml-auto">
+								<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-3 mb-2" @click="guardarPrestamo" :disabled="bloqueado">Guardar</vs-button>
+							</div>
+						</div>
+
+			</form>
 		</div>
 	</vx-card>
 </template>
@@ -142,13 +158,15 @@ export default {
 			listaInversiones:[],
 			destinos_inversion:[],
 			prestamoTotal:0,
-			dia_del_mes:[],
 			dia_pago:null,
 			interes:null,
 			fecha_inicio:'',
 			mora_por_atraso:null,
 			duracion:null,
 			langEn: es,
+			bloqueado:true,
+			prestamoAnterior:0,
+			interesAnterior:0
 		};
 	},
 	components: {
@@ -159,8 +177,13 @@ export default {
     	grupo_select () {
 			if(this.grupo_select != null)
 			{
-				console.log('buscando integrantes...')
+				this.bloqueado=false
 				this.buscarIntegrantes()
+			}
+			else{
+				this.prestamoAnterior=0
+				this.interesAnterior=0
+				this.bloqueado=true
 			}
     	},
 	},
@@ -203,11 +226,6 @@ export default {
 				return pago
 			}
 		},
-		diaMes(){
-			for (let i = 1; i <= 28; i++) {
-				this.dia_del_mes.push({id:i,mostrar:i})
-			}
-		},
 		getDate(datetime) {
 			let date = new Date(datetime);
 			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -218,11 +236,13 @@ export default {
 			let contador=0
 			let listaCantidadesO=this.listaCantidades
 			let listaInversionesO=this.listaInversiones
+			let interesT = this.interes
 			this.lista_encargados_plus.forEach(function(elemento, indice, array){
 				contador = contador+1
+				let pIndividual = Math.round((parseInt(listaCantidadesO[indice])*(parseInt(interesT)/100)) + parseInt(listaCantidadesO[indice]))
 				axios.put("/api/detalleIntegrante/update/",{
 					id:elemento.id,
-					prestamo_individual:listaCantidadesO[indice],
+					prestamo_individual:pIndividual,
 					destino_inversion_id:listaInversionesO[indice].id,
 					microprestamo_id:idMicroprestamo,
 					dia_pago:diaPago,
@@ -234,41 +254,65 @@ export default {
 					console.log(error)
 				});
 			})
-			this.$router.push('/microprestamo/microprestamo/');
+			this.actualizarGrupo()
 			this.$vs.notify({
 					color:'success',
 					title:'Micropréstamo registrado',
 					text:'Acción realizada exitósamente'
 				});
 		},
-		guardarPrestamo(){
-		this.$validator.validateAll().then(result => {
-        if(result) {
-			let me = this
-			axios.post("/api/microprestamo/post/",{
-				nombreMicroprestamo:this.grupo_select.nombre,
-				total:this.sumarCantidades(),
-				interes:this.interes,
-				fecha_inicio:this.getDate(this.fecha_inicio),
-				duracion:this.duracion,
-				dia_pago:this.getDate(this.dia_pago),
-				mora_por_atraso:this.mora_por_atraso,
-				pago_mes:0
-			}).then(function(response) {
-				me.ingresarIntegrantes(response.data.id)
+		actualizarGrupo () {
+			const me = this
+			let idGrupo = me.grupo_select.id
+			axios.put('/api/grupoPrestamo/update/', {
+				id: idGrupo,
+				cantidad_prestamo_actual: me.sumarCantidades(),
+				estado: 0,
+			}).then(function (response) {
+				console.log(response)
+					me.$vs.notify({
+					color:'success',
+					title:'Exito!',
+					text:'Acción realizada exitósamente'
+				})
 			})
-			.catch(function(error) {
-				console.log(error)
-			});
-		}
-		else{
-          this.$vs.notify({
-			color:'danger',
-			title:'Error en validación!',
-			text:'Ingrese todos los campos correctamente'
-			});
-        }
-      	})
+			.catch(function (error) {
+				me.$vs.notify({
+					color:'danger',
+					title:'Error en actualizar grupo',
+					text:'Error de conexión'
+				})
+			})
+			me.$router.push('/microprestamo/microprestamo/');
+		},
+		guardarPrestamo(){
+			this.$validator.validateAll().then(result => {
+				if(result) {
+					let me = this
+					axios.post("/api/microprestamo/post/",{
+						nombreMicroprestamo:this.grupo_select.nombre,
+						total:this.sumarCantidades(),
+						interes:this.interes,
+						fecha_inicio:this.getDate(this.fecha_inicio),
+						duracion:this.duracion,
+						dia_pago:this.getDate(this.dia_pago),
+						mora_por_atraso:this.mora_por_atraso,
+						pago_mes:0
+					}).then(function(response) {
+						me.ingresarIntegrantes(response.data.id)
+					})
+					.catch(function(error) {
+						console.log(error)
+					});
+				}
+				else{
+					this.$vs.notify({
+						color:'danger',
+						title:'Error en validación!',
+						text:'Ingrese todos los campos correctamente'
+					});
+				}
+			})
 		},
 		async importarGrupos(){ 
 			let me = this;
@@ -280,6 +324,10 @@ export default {
 			.catch(function (error) {
 				console.log(error);
 			});
+			this.fecha_inicio= new Date()
+			const today = new Date()
+			let	fecha_pago=new Date(today.getFullYear(),today.getMonth()+1,today.getDate())
+			this.dia_pago = fecha_pago
 		},
 		async importarEncargados(){ 
 			let me = this;
@@ -308,7 +356,8 @@ export default {
 		},
 		buscarIntegrantes () {
 			let lista = this.grupo_select.integrantes
-			console.log(lista)
+			this.prestamoAnterior = this.grupo_select.cantidad_ultimo_prestamo
+			this.interesAnterior = this.grupo_select.interes_ultimo_prestamo
 			let lista_encargadosT = this.lista_encargados
 			let listaCantidadesT=[]
 			let listaInversionesT=[]
@@ -328,7 +377,6 @@ export default {
 			this.listaCantidades=listaCantidadesT
 			this.listaInversiones=listaInversionesT
 			this.lista_encargados_plus=listaPlusT
-			console.log(this.lista_encargados_plus)
 		},
 		sumarCantidades(){
 			let prestamoTotal=0
@@ -342,17 +390,21 @@ export default {
 			return prestamoTotal
 		},
 		limiteActual(){
-			let ultimaCantidad = this.grupo_select.cantidad_ultimo_prestamo
-			let ultimoInteres = this.grupo_select.interes_ultimo_prestamo/100
-			let sugerido = (ultimaCantidad * ultimoInteres) + ultimaCantidad
-			return this.currency(sugerido)
+			if (this.grupo_select != null){
+				let ultimaCantidad = this.prestamoAnterior
+				let ultimoInteres =this.interesAnterior/100
+				let sugerido = (ultimaCantidad * ultimoInteres) + ultimaCantidad
+				return this.currency(sugerido)
+			}
+			else{
+				return this.currency(0)
+			}
 		}
 	},
 	mounted(){
-		this.diaMes();
+		this.importarGrupos();
 		this.importarEncargados();
 		this.importarDestinos();
-		this.importarGrupos();
 		//this.importarIntegra();
 	},
 }

@@ -51,7 +51,6 @@ class HistorialAbonoViviendaController extends Controller
 			$abonoVivienda->user_id = $request->user_id;
 			$abonoVivienda->save();
 
-
 			$historialAbonoVivienda = new HistorialAbonoVivienda();
 			$historialAbonoVivienda->abono_vivienda_id = $abonoVivienda->id;
 			$historialAbonoVivienda->vivienda_id = $request->vivienda_id;
