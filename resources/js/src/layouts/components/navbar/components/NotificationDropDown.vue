@@ -1,29 +1,33 @@
 <template>
   <!-- NOTIFICATIONS -->
   <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
-    <feather-icon icon="BellIcon" class="cursor-pointer mt-1 sm:mr-6 mr-2" :badge="unreadNotifications.length" />
+    <feather-icon icon="BellIcon" class="cursor-pointer mt-1 sm:mr-6 mr-2" :badge="medicamentos.length" />
 
     <vs-dropdown-menu class="notification-dropdown dropdown-custom vx-navbar-dropdown">
 
       <div class="notification-top text-center p-5 bg-primary text-white">
-        <h3 class="text-white">{{ unreadNotifications.length }} New</h3>
-        <p class="opacity-75">App Notifications</p>
+        <h3 class="text-white">{{ medicamentos.length }}</h3>
+        <p class="opacity-75">Notificaciones</p>
       </div>
 
       <component :is="scrollbarTag" ref="mainSidebarPs" class="scroll-area--nofications-dropdown p-0 mb-10" :settings="settings" :key="$vs.rtl">
         <ul class="bordered-items">
-          <li v-for="ntf in unreadNotifications" :key="ntf.index" class="flex justify-between px-4 py-4 notification cursor-pointer">
-            <div class="flex items-start">
-              <feather-icon :icon="ntf.icon" :svgClasses="[`text-${ntf.category}`, 'stroke-current mr-1 h-6 w-6']"></feather-icon>
+          <li v-for="(ntf,index) in medicamentos" :key="ntf.id" class="flex justify-between px-4 py-4 notification cursor-pointer">
+            <div class="flex items-start" @click="alerta(ntf.nombre, ntf.cantidad, index)">
+              <feather-icon :icon="ntf.icon" :svgClasses="[`text-${ntf.categoria}`, 'stroke-current mr-1 h-6 w-6']"></feather-icon>
               <div class="mx-2">
-                <span class="font-medium block notification-title" :class="[`text-${ntf.category}`]">{{ ntf.title }}</span>
-                <small>{{ ntf.msg }}</small>
+                <span class="font-medium block notification-title" :class="[`text-${ntf.categoria}`]" >{{ ntf.titulo }}</span>
+                <small >{{ntf.msj + ' ' + ntf.nombre}}</small>
               </div>
             </div>
-            <small class="mt-1 whitespace-no-wrap">{{ elapsedTime(ntf.time) }}</small>
+            <small class="mt-1 whitespace-no-wrap"></small>
           </li>
         </ul>
       </component>
+        <vs-popup class="text-primary" title="Atención" :active.sync="popupActive">
+        <p> El medicamento {{nombre}} cuenta con pocas unidades. Se recomienda realizar la compra de este medicamento</p>
+        <p class="text-danger">Cantidad actual: {{cantidad}}</p>
+    </vs-popup>
 
       <div class="
         checkout-footer
@@ -42,7 +46,7 @@
         border-solid
         d-theme-border-grey-light
         cursor-pointer">
-        <span>View All Notifications</span>
+        <span @click="vaciar()">Eliminar</span>
       </div>
     </vs-dropdown-menu>
   </vs-dropdown>
@@ -50,13 +54,19 @@
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-
+import axios from 'axios'
 export default {
   components: {
     VuePerfectScrollbar
   },
   data () {
     return {
+      arrayData:[],
+      popupActive: false,
+      medicamentos:[],
+      nombre:'',
+      cantidad:'',
+
       unreadNotifications: [
         {
           index    : 0,
@@ -103,6 +113,7 @@ export default {
   },
   computed: {
     scrollbarTag () { return this.$store.getters.scrollbarTag }
+    
   },
   methods: {
     elapsedTime (startTime) {
@@ -126,19 +137,21 @@ export default {
       const years   = timeDiff
 
       if (years > 0) {
-        return `${years + (years > 1 ? ' Years ' : ' Year ')}ago`
+        return `Hace ${years + (years > 1 ? ' Años ' : ' Año ')}`
       } else if (days > 0) {
-        return `${days + (days > 1 ? ' Days ' : ' Day ')}ago`
+        return `Hace ${days + (days > 1 ? ' Dias ' : ' Dias ')}`
       } else if (hours > 0) {
-        return `${hours + (hours > 1 ? ' Hrs ' : ' Hour ')}ago`
+        return `Hace ${hours + (hours > 1 ? ' Horas ' : ' Hora ')}`
       } else if (minutes > 0) {
-        return `${minutes + (minutes > 1 ? ' Mins ' : ' Min ')}ago`
+        return `Hace ${minutes + (minutes > 1 ? ' Mins ' : ' Min ')}`
       } else if (seconds > 0) {
-        return seconds + (seconds > 1 ? ' sec ago' : 'just now')
+        return seconds + (seconds > 1 ? ' segundos' : 'Ahora')
       }
 
-      return 'Just Now'
+      return 'Ahora'
     },
+
+
     // Method for creating dummy notification time
     randomDate ({ hr, min, sec }) {
       const date = new Date()
@@ -148,7 +161,55 @@ export default {
       if (sec) date.setSeconds(date.getSeconds() - sec)
 
       return date
+    },
+    vaciar () {
+      this.medicamentos = []
+    },
+    alerta (nombre, cantidad, index) {
+      this.nombre = nombre  
+      this.cantidad = cantidad
+      this.medicamentos.splice(index, 1) 
+      console.log(cantidad)
+      this.popupActive = true
+    },
+    async StockMedicamentos () {
+      const me = this
+      const response = await axios.get(
+        '/api/medicamento/get?completo=false')
+        .then(function (response) {
+          const respuesta = response.data
+          me.arrayData = respuesta.medicamentos.data
+          //console.log(me.arrayData)
+          me.FaltaStock()
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    FaltaStock () {
+      const medicamentos = []
+      let cont = 0
+      this.arrayData.forEach(function (elemento) {
+        cont++
+        elemento.cantidad = elemento.stock_general
+        elemento.nombre = elemento.nombre
+        if (elemento.cantidad <= 70) {
+          medicamentos.push({idex:cont,
+            icon:'AlertOctagonIcon',
+            titulo:'Alerta de medicamento',
+            msj:'Se requiere comprar el medicamento',
+            categoria:'danger',
+            nombre:elemento.nombre,
+            cantidad:elemento.cantidad})
+        }
+
+      })
+      this.medicamentos = medicamentos
+      //console.log(this.medicamentos)
     }
+  },
+  mounted () {
+    this.StockMedicamentos()
   }
 }
 
