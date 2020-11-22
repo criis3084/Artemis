@@ -1,9 +1,17 @@
 <template>
 	<div>
+		
 	  <div class="vx-row" v-if="!verForm">
 		<div class="vx-col w-full">
 			<div id="invoice-page">
 				<vx-card id="invoice-container">
+					<div class = "demo-alignment">
+		<div class="vx-col md:w-1/3 w-full mt-5">
+		</div>
+		<h3>INGRESO DE CONSULTA</h3>
+		</div>
+
+	<vs-divider position="right">PID&#174;</vs-divider>
 					<div class="vx-row leading-loose p-base">
 		                <div class="vx-col w-1/2">
 							<img src="@assets/images/logo/logopid.png" alt="pid-logo">
@@ -60,6 +68,13 @@
 			</div>
 		</div>
 	<vx-card v-if="verForm" >
+				<div class = "demo-alignment">
+		<div class="vx-col md:w-1/3 w-full mt-5">
+		</div>
+		<h3>INGRESO DE CONSULTA</h3>
+		</div>
+
+	<vs-divider position="right">PID&#174;</vs-divider>
 		<form>
 		<div class="vx-row">
 			<div class="vx-col md:w-1/2 w-full mt-6">
@@ -78,7 +93,8 @@
 		</div>
 		<div class="vx-col md:w-1/2 w-full mt-8">
 			<div class="vx-col w-full">
-				<vs-input v-model="descripcion" name="descripcion" v-validate="'required|max:254'" class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Descripcion" :disabled="deshabilitado" />
+					<small class="date-label">Descripción</small>
+				<vs-input v-model="descripcion" name="descripcion" v-validate="'required|max:254'" class="w-full" icon-pack="feather" icon-no-border :disabled="deshabilitado" />
 					<span class="text-danger">{{ errors.first('descripcion') }}</span>
 			</div>
 		</div>
@@ -155,13 +171,13 @@
 
 		<div class="vx-row mt-5">
 			<small class="date-label ml-4">Objetivo de la consulta</small>
-			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='objetivo' v-validate="'required|max:254'" v-model="objetivo" :disabled="deshabilitado"/>
+			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='objetivo' v-validate="'required'" v-model="objetivo" :disabled="deshabilitado"/>
 					<span class="text-danger">{{ errors.first('objetivo') }}</span>
 		
 		</div>
 		<div class="vx-row">
 			<small class="date-label ml-4">Subjetivo de la consulta</small>
-			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='subjetivo' v-validate="'required|max:254'" v-model="subjetivo" :disabled="deshabilitado"/>
+			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='subjetivo' v-validate="'required'" v-model="subjetivo" :disabled="deshabilitado"/>
 					<span class="text-danger">{{ errors.first('subjetivo') }}</span>
 		
 		</div>
@@ -197,7 +213,7 @@
 										<vs-input name="cantidad" v-validate="'required|max:5|numeric'" style="text-align:right" v-model="listaCantidades[index]" />
 									</td>
 									<td class="border border-solid d-theme-border-grey-light">
-										<vs-input name="frecuencia" v-validate="'required|max:5|numeric'" style="text-align:right" v-model="listaFrecuencias[index]" />
+										<vs-input name="frecuencia" v-validate="'required|max:150'" style="text-align:right" v-model="listaFrecuencias[index]" />
 									</td>
 								</tr>
 						</table>
@@ -208,7 +224,7 @@
 			</vs-list>
 			<div class="vx-row">
 				<small class="date-label ml-4">Anotaciones de la receta</small>
-				<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='listado' v-validate="'required|max:254'" v-model="listado"/>
+				<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='listado' v-validate="'required'" v-model="listado"/>
 				<span class="text-danger">{{ errors.first('listado') }}</span>
 			
 			</div>
@@ -279,11 +295,9 @@ const dict = {
     },
 	objetivo: {
 	  required: 'El campo objetivo es requerido',
-	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
 	subjetivo: {
 	  required: 'El campo subjetivo es requerido',
-	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
 	semanas_embarazo: {
 	  max: 'Este campo solo acepta hasta 2 dígitos',
@@ -294,17 +308,15 @@ const dict = {
     },
 	cantidad: {
 	  required: 'Todos los campos de cantidad son requeridos',
-	  max: 'Este campo solo acepta hasta 5 dígitos',
-	  numeric: 'El campo solo debe de contener números'
+	  max: 'Los campos de cantidad solo acepta hasta 5 dígitos',
+	  numeric: 'Los campos de cantidad solo deben de contener números'
     },
 	frecuencia: {
 	  required: 'Todos los campos de frecuencia son requeridos',
-	  max: 'Este campo solo acepta hasta 5 dígitos',
-	  numeric: 'El campo solo debe de contener números'
+	  max: 'Los campos de frecuencia solo acepta hasta 150 caracteres',
     },
 	listado: {
 	  required: 'El campo anotaciones de la receta es requerido',
-	  max: 'Este campo solo acepta hasta 254 caracteres',
     },
   }
 };

@@ -49,7 +49,7 @@
             <table>
               <tr>
                 <td class="font-semibold">Total de préstamo</td>
-                <td>{{detalles.prestamo_individual}}</td>
+                <td>{{currency(detalles.prestamo_individual)}}</td>
               </tr>
               <tr>
                 <td class="font-semibold">Destino de inversión</td>
@@ -83,6 +83,7 @@
 
 <script>
 import Axios from 'axios'
+
 export default {
   data () {
     return {
@@ -95,6 +96,14 @@ export default {
   methods:{
     goBack () {
       this.$router.go(-1)
+    },
+    currency (numero) {
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'GTQ'
+      })
+      const mil = formatter.format(numero)
+      return mil
     },
     async index () {
       const me = this

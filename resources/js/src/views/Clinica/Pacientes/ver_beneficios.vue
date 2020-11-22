@@ -1,6 +1,15 @@
 <template>
 	<div>
 		<vx-card>
+
+			<div class = "demo-alignment">
+		<div class="vx-col md:w-1/3 w-full mt-5">
+			<router-link  to="/clinica/pacientes"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+		</div>
+		<h3>BENEFICIOS DEL PACIENTE</h3>
+		</div>
+			<vs-divider position="right">PID&#174;</vs-divider>
+
 			<div class="vx-row leading-loose p-base">
                 <div class="vx-col w-1/2">
                     <h1><b>Paciente:</b> </h1>
