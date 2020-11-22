@@ -27,30 +27,23 @@
 								</div>
 							</div>
 
-                            <div class="vx-col md:w-1/2 w-full mt-5">
-								<div class="vx-col w-full">
-                                    <small class="date-label">Profesión</small>
-									<v-select name="profesion" v-validate="'required'" label="nombre" :options="Profesiones"  v-model="profesion_id" :dir="$vs.rtl ? 'rtl' : 'ltr'"/>
-                                    <span class="text-danger">{{ errors.first('step-1.profesion') }}</span>
-								</div>
+
+							<div class="vx-col md:w-1/2 w-full mt-1">
+								<div class="my-4">
+									<small class="date-label">Fecha de nacimiento</small>
+									<datepicker :format="dateFormat" :language="$vs.rtl ? langEn : langEn" name="fecha" v-validate="'required'" v-model="fecha_nacimiento"></datepicker>
+									<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
+				                </div>
 							</div>
 
-                            <div class="vx-col md:w-1/2 w-full mt-5">
+                            <div class="vx-col md:w-1/2 w-full mt-6">
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" v-model="CUI" name="cui" v-validate="'numeric|max:13'"/>
 									<span class="text-danger">{{ errors.first('step-1.cui') }}</span>
 								</div>
 							</div>
 
-							<div class="vx-col md:w-1/2 w-full mt-5">
-								<div class="my-4">
-									<small class="date-label">Fecha de nacimiento</small>
-									<datepicker name="fecha" v-validate="'required'" :format="dateFormat" :language="$vs.rtl ? langEn : langEn" v-model="fecha_nacimiento"></datepicker>
-									<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
-                 </div>
-							</div>
-
-							<div class="vx-col md:w-1/2 w-full mt-5">
+							<div class="vx-col md:w-1/2 w-full mt-2">
 								<small class="date-label">Género</small>
 								<ul class="demo-alignment">
 										<li>
@@ -63,17 +56,31 @@
 									<span class="text-danger">{{ errors.first('step-1.radio') }}</span>
 							</div>
 
-                            <div class="vx-col md:w-1/2 w-full mt-5">
+                            <div class="vx-col md:w-1/2 w-full mt-2">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono" name="numero_telefono" v-validate="'numeric|max:15'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono" name="numero_telefono" v-validate="'numeric|max:15'" />
                                     <span class="text-danger">{{errors.first('step-1.numero_telefono') }}</span>
 								</div>
 							</div>
-							
-							<div class="vx-col md:w-1/2 w-full mt-5">
+							<div class="vx-col w-full mt-3">
 								<div class="vx-col w-full">
-									<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" name="direccion" v-model="direccion" v-validate="'required|max:254'"/>
+									<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" name="direccion" v-model="direccion" v-validate="'required|max:254'" />
 									<span class="text-danger">{{errors.first('step-1.direccion') }}</span>
+								</div>
+							</div>
+							
+							<div class="vx-col md:w-1/2 w-full mt-4">
+								<div class="vx-col w-full">
+									<small class="date-label">Profesión</small>
+									<v-select name="profesion" v-validate="'required'" label="nombre" :options="Profesiones"  v-model="profesion_id" :dir="$vs.rtl ? 'rtl' : 'ltr'"/>
+                  					<span class="text-danger">{{ errors.first('step-1.profesion') }}</span>
+								</div>
+							</div>
+
+                            <div class="vx-col md:w-1/2 w-full mt-5">
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-pack="feather" icon="icon-award" icon-no-border label-placeholder="No. Colegiado" v-model="colegiado" name="colegiado"/>
+									<span class="text-danger">{{ errors.first('step-1.colegiado') }}</span>
 								</div>
 							</div>
 
@@ -84,10 +91,13 @@
     <!-- tab 2 content -->
     <tab-content title="Paso 2" class="mb-5" icon="feather icon-file-plus" :before-change="validateStep2">
 		<form data-vv-scope="step-2">
-			<div class="vx-row">c
+			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
-						<vs-upload automatic action="/api/clinico/imagen" limit="1" :headers="head" fileName="photos" @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil"/>
+						<img :src="imagen_perfil_antigua"  width="100" height="100" class="responsive">
+						<vx-tooltip text="Editar Imagen"> <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-edit" radius  @click="editarImagen"></vs-button> </vx-tooltip>
+						<!-- <vs-upload v-if="mostrarEditar" automatic action="/api/nino/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil" /> -->
+						<vs-upload automatic  v-if="mostrarEditar" action="/api/clinico/imagen" limit="1" :headers="head" fileName="photos" @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil"/>
 					</template>
 				</div>
 			</div>
@@ -241,7 +251,8 @@ export default {
       roles: [],
       selected: '1',
       rol_id:'',
-      langEn: es,
+	  langEn: es,
+	  colegiado:'',
       head:{
         'imagenanterior':''	
       },
@@ -250,7 +261,8 @@ export default {
       titulo:'Registrado exitosamente!',
       waterMark : 'Select a date',
       dateVal : new Date(),
-      dateFormat : 'yyyy-MM-dd'
+	  dateFormat : 'yyyy-MM-dd'
+	  
     }
   },
   methods: {
@@ -267,17 +279,17 @@ export default {
     respuesta (e) {
       this.imagen_perfil = e.currentTarget.response.replace(/['"]+/g, '')
       this.head.imagenanterior = this.imagen_perfil
-       this.$vs.notify({
-					color:'success',
-					title:'Imagen subida',
-					text:'Acción realizada exitósamente!'
-				});
+	  this.$vs.notify({
+				color:'success',
+				title:'Imagen subida',
+				text:'Acción realizada exitósamente!'
+			});
     },
     getDate (datetime) {
       const date = new Date(datetime)
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
       return dateString
-    },
+	},
     formSubmitted () {
       const me = this
       if (this.imagen_perfil === '') {
@@ -296,6 +308,7 @@ export default {
         correo:this.correo,
         imagen_perfil:this.imagen_perfil,
         profesion_id:this.profesion_id.id,
+        colegiado:this.colegiado,
         user:this.user,
         password:this.password,
         descripcion:this.descripcion,
@@ -344,7 +357,7 @@ export default {
           me.rol_id = me.arrayData.datos.rol_id
           me.user = me.arrayData.datos.user
           me.password = me.arrayData.datos.password
-          me.pagination = respuesta.pagination
+          me.colegiado = me.arrayData.colegiado
           console.log(me.arrayData)
         })
         .catch(function (error) {
@@ -388,7 +401,7 @@ export default {
               encontrado = true
             }
           })
-          me.profesion_id = encontrado === true ? elementoE : {id:me.profesion_id, nombre:'Prefesion desactivada'}
+          me.profesion_id = encontrado === true ? elementoE : {id:me.profesion_id, nombre:'Profesion desactivada'}
         })
         .catch(function (error) {
           console.log(error)
