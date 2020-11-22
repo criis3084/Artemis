@@ -65,8 +65,9 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
+
+import Auth from '../../../../services/auth.js';
+import Roles from '../../../../services/roles.js';
 
 export default {
   data () {
@@ -81,21 +82,19 @@ export default {
   },
   methods: {
     logout () {
+      Roles.logout()
+      Auth.logout().then(() => {
+        this.$router.replace("/pages/login");
+      });
 
+      
+/* 
       // if user is logged in via auth0
       if (this.$auth.profile) this.$auth.logOut()
 
-      // if user is logged in via firebase
-      const firebaseCurrentUser = firebase.auth().currentUser
-
-      if (firebaseCurrentUser) {
-        firebase.auth().signOut().then(() => {
-          this.$router.push('/pages/login').catch(() => {})
-        })
-      }
       // If JWT login
-      if (localStorage.getItem('accessToken')) {
-        localStorage.removeItem('accessToken')
+      if (localStorage.getItem('auth.token')) {
+        localStorage.removeItem('auth.token')
         this.$router.push('/pages/login').catch(() => {})
       }
 
@@ -104,7 +103,7 @@ export default {
       localStorage.removeItem('userInfo')
 
       // This is just for demo Purpose. If user clicks on logout -> redirect
-      this.$router.push('/pages/login').catch(() => {})
+      this.$router.push('/pages/login').catch(() => {}) */
     }
   }
 }

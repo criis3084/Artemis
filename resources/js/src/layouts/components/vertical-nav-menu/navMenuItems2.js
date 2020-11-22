@@ -1,3 +1,8 @@
+import Ls from '../../../services/ls';
+var id = 0;
+
+id = Ls.get('auth.roles');
+
 //1 = Directora
 //2 = Trabajadora social
 //3 = Secretaria
@@ -5,12 +10,6 @@
 //5 = Laboratorista
 //6 = Farmaceutica
 //7 = Medico 
-import Ls from '../../../services/ls';
-var id = 0;
-
-id = Ls.get('auth.roles');
-
-
 
 export default [
   
@@ -29,13 +28,13 @@ export default [
       url: null,
       name: 'Apadrinamiento',
       icon: 'UsersIcon',
-      i18n: 'Apadrinamiento',
+      i18n: 'Esta mierda funciona',
       submenu: [
         {
               url: '/apadrinamiento/nino',
               name: 'nino',
               slug: 'apadrinamiento-nino',
-              i18n: 'Niños apadrinados',
+              i18n: 'Esta mierda funciona',
             },
             {
               url: '/apadrinamiento/ninono',

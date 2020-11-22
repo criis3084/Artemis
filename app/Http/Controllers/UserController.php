@@ -76,7 +76,8 @@ class UserController extends Controller
 		$user->imagen_perfil = $request->correo;
 		$user->descripcion = $request->descripcion;
 		$user->user = $request->user;
-		$user->password = $request->password;
+		$user->password = Hash::make($request->password);
+		//$user->password = $request->password;
 		$user->rol_id = $request->rol_id;
 		$user->save();
 		return Response::json(['message' => 'User Actualizado'], 200);

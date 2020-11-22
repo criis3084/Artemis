@@ -55,7 +55,7 @@ class AuthService extends EventEmitter {
       localStorage.setItem(localStorageKey, 'true')
 
       store.commit('UPDATE_USER_INFO', {
-        displayName: this.profile.name,
+        displayName: this.loginData.user,
         email: this.profile.email,
         photoURL: this.profile.picture,
         providerId: this.profile.sub.substr(0, this.profile.sub.indexOf('|')),

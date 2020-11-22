@@ -94,7 +94,8 @@ class TutorController extends Controller
 			$user->descripcion = $request->descripcion;
 			// Comprobacion de unico
 			$user->user = $request->user;
-			$user->password = $request->password;
+			$user->password = Hash::make($request->password);
+			//$user->password = $request->password;
 			$user->rol_id = $request->rol_id;
 			
 			$tutor->especialidad = $request->especialidad;
