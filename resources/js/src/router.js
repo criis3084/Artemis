@@ -48,7 +48,7 @@ const router = new Router({
         // =============================================================================
         {
           path: '/',
-          redirect: '/apadrinamiento/nino'
+          redirect: '/pages/login'
         },
         {
           path: '/apadrinamiento/nino',

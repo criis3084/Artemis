@@ -1,32 +1,45 @@
 <template>
 	<vx-card>
+		<div class = "demo-alignment">
+		<div class="vx-col md:w-1/3 w-full mt-5">
+		</div>
+		<h3>INGRESO DE EXAMEN</h3>
+		</div>
+
+	<vs-divider position="right">PID&#174;</vs-divider>
+
+	<form>
 		<div class="vx-row">
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="w-full">
 					<small class="date-label">Paciente:</small>
-					<v-select v-validate="'required'" label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<v-select v-validate="'required'" name="paciente" label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 					<span class="text-danger">{{ errors.first('paciente') }}</span>
 				</div>
 			</div>
 			<div class="vx-col md:w-1/2 w-full mt-6">
 				<div class="w-full">
-					<small class="date-label">Tipo de Examen:</small>
-					<v-select v-validate="'required'" label="nombre" :options="listado_examenes" v-model="tipo_examen" :dir="$vs.rtl ? 'rtl' : 'ltr'"  :disabled="deshabilitado"/>
-					<span class="text-danger">{{ errors.first('paciente') }}</span>
+					<small class="date-label">Tipo de examen</small>
+					<v-select v-validate="'required'" name="tipo" label="nombre" :options="listado_examenes" v-model="tipo_examen" :dir="$vs.rtl ? 'rtl' : 'ltr'"  :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('tipo') }}</span>
 				</div>
 			</div>	
 			<div class="vx-col md:w-1/2 w-full mt-4">
 				<div class="vx-col w-full">
-					<vs-input v-model="descripcion" name="descripcion" class="w-full" icon-pack="feather" icon="icon-briefcase" icon-no-border label-placeholder="Descripcion" :disabled="deshabilitado" />
+					<small class="date-label">Descripción</small>
+					<vs-input v-validate="'required'" v-model="descripcion" name="descripcion" class="w-full" icon-pack="feather" icon-no-border :disabled="deshabilitado" />
+					<span class="text-danger">{{ errors.first('descripcion') }}</span>
 				</div>
 			</div>
 			<div class="vx-col md:w-1/2 w-full mt-3">
 				<small class="date-label">Fecha</small>
-				<datepicker :language="$vs.rtl ? langHe : langEn" name="end-date" v-model="fecha_examen" :disabled="deshabilitado"></datepicker>
+				<datepicker v-validate="'required'" :language="$vs.rtl ? langHe : langEn" name="fecha" v-model="fecha_examen" :disabled="deshabilitado"></datepicker>
+				<span class="text-danger">{{ errors.first('fecha') }}</span>
 			</div>
 			<div class="vx-col w-full mb-base mt-3">
 				<small class="date-label">Resultado de examen</small>
-				<vs-textarea class="w-full" icon-pack="feather" icon="icon-coffee" icon-no-border name='resultado' v-model="resultado" :disabled="deshabilitado"/>
+				<vs-textarea v-validate="'required'" class="w-full" icon-pack="feather" icon="icon-coffee" icon-no-border name='resultado' v-model="resultado" :disabled="deshabilitado"/>
+				<span class="text-danger">{{ errors.first('resultado') }}</span>
 			</div>
 		</div>
 
@@ -34,7 +47,7 @@
 			<vx-input-group class="mb-base mr-3">
 			</vx-input-group>
 			<div class="flex items-center">
-				<vs-button class="mb-base mr-3" type="gradient" icon-pack="feather" color="primary" @click="registrar" :disabled="deshabilitado">Registrar</vs-button>  
+				<vs-button  icon-pack="feather" icon="icon-save" class="mb-base mr-3" type="gradient" color="primary" @click="registrar" :disabled="deshabilitado">Registrar</vs-button>  
 			</div>
 		</div>
 
@@ -43,30 +56,37 @@
 			<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar" ></vs-button>
           </div>
 		</div> -->
+	</form>
 	</vx-card>
 </template>
 <script>
 import axios from 'axios'
 import vSelect from 'vue-select'
-import { Validator } from 'vee-validate';
 import Datepicker from 'vuejs-datepicker'
+// For custom error message
+import { Validator } from 'vee-validate'
 const dict = {
-  custom: {
-	paciente: {
+ custom: {
+	fecha: {
+      required: 'El campo fecha de nacimiento es requerido',
+	},
+	paciente:{
 	  required: 'El campo paciente es requerido',
 	},
-	resultado: {
-	  required: 'El campo medicamento es requerido',
-	},
+	tipo:{
+	  required: 'El campo tipo de examen es requerido',
+	},	
 	descripcion: {
-	  required: 'El campo medicamento es requerido',
-	},
-	tipo_examen: {
-	  required: 'El campo medicamento es requerido',
+      required: 'El campo descripción es requerido',
+    },
+	resultado: {
+		required: 'El campo resultado de exámen es requerido',
 	},
   }
 }
-Validator.localize('es', dict)
+
+// register custom messages
+Validator.localize('en', dict)
 import { es } from 'vuejs-datepicker/src/locale'
 export default {
 	data() {
@@ -77,8 +97,8 @@ export default {
 			paciente_select:null,
 			deshabilitado:true,
 			fecha_examen:null,
-			descripcion:'',
-			resultado:'',
+			descripcion:null,
+			resultado:null,
 			langEn: es,
 		}
 	},
@@ -120,11 +140,13 @@ export default {
 			tabla.forEach(function(valor, indice, array){
 				valor.nombres = valor.datos.nombres
 				valor.apellidos = valor.datos.apellidos
-				valor.nombre_completo = valor.datos.nombres + ' '+ valor.datos.apellidos
+				valor.nombre_completo = valor.datos.nombres + ' ' + valor.datos.apellidos
 			});
 			return tabla
 		},
 		registrar(){
+	this.$validator.validateAll().then(result => {
+	if(result) {
 			let me = this
 			axios.post("/api/examen/post/",{
 				descripcion:me.descripcion,
@@ -135,10 +157,23 @@ export default {
 			}).then(function(response){
 				console.log(response)
 				me.registrarHistorial(response.data.id)
+				me.$vs.notify({
+			color:'success',
+			title:'Examen registrado!',
+			text:'La acción se realizo exitósamente'
+			});
 			})
 			.catch(function(error) {
 				console.log(error)
 			});
+	}else{
+		this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
+		}
+	})
 		},
 		registrarHistorial(idExamen){
 			let me = this

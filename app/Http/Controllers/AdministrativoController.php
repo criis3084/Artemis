@@ -55,7 +55,8 @@ class AdministrativoController extends Controller
 			$user->descripcion = $request->descripcion;
 			// Comprobacion de unico
 			$user->user = $request->user;
-			$user->password = $request->password;
+			$user->password = Hash::make($request->password);
+			//$user->password = $request->password;
 			$user->rol_id = $request->rol_id;
 
 			$administrativo = new Administrativo();
@@ -87,7 +88,8 @@ class AdministrativoController extends Controller
 			$user->descripcion = $request->descripcion;
 			// Comprobacion de unico
 			#$user->user = $request->user;
-			$user->password = $request->password;
+			$user->password = Hash::make($request->password);
+			//$user->password = $request->password;
 			$user->rol_id = $request->rol_id;
 
 			$administrativo->descripcion_puesto = $request->descripcion_puesto;

@@ -23,7 +23,6 @@
 				<small class="date-label">Fecha de Tutoría</small>
 				<datepicker :format="dateFormat" name="end-date" v-model="valMultipe.fecha" ></datepicker>
 			</div>
-      <span class="text-danger"> falta validacion de fechas </span>
 		</div>
       </div>
 		<template>

@@ -23,6 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'AuthController@authenticate');
+    Route::post('roles', 'AuthController@roles');
     Route::post('register', 'AuthController@authenticate');
     Route::get('logout', 'AuthController@logout');
     Route::get('check', 'AuthController@check');

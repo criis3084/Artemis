@@ -1,13 +1,13 @@
 <template>
   <div>
     <vs-input
-        v-validate="'required|email|min:3'"
+    
         data-vv-validate-on="blur"
         name="email"
         icon-no-border
         icon="icon icon-user"
         icon-pack="feather"
-        label-placeholder="Email"
+        label-placeholder="Usuario"
         v-model="loginData.user"
         class="w-full"/>
     <span class="text-danger text-sm">{{ errors.first('email') }}</span>
@@ -20,18 +20,19 @@
         icon-no-border
         icon="icon icon-lock"
         icon-pack="feather"
-        label-placeholder="Password"
+        label-placeholder="Contraseña"
         v-model="loginData.password"
         class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
 
     <div class="flex flex-wrap justify-between my-5">
-        <vs-checkbox v-model="checkbox_remember_me" class="mb-3">Recuerdame</vs-checkbox>
-        <router-link to="/pages/forgot-password">¿Olvidó su contraseña?</router-link>
+       <!--   <vs-checkbox v-model="checkbox_remember_me" class="mb-3">Recuerdame</vs-checkbox>
+        <router-link to="/pages/forgot-password">¿Olvidó su contraseña?</router-link> -->
     </div>
     <div class="flex flex-wrap justify-between mb-3">
       <!-- <vs-button  type="border" @click="registerUser">Register</vs-button> -->
       <vs-button :disabled="!validateForm" @click="validateBeforeSubmit">Login</vs-button>
+      
     </div>
   </div>
 </template>
@@ -39,6 +40,7 @@
 <script>
 
 import Auth from '../../../services/auth.js';
+import Roles from '../../../services/roles.js';
 
 
 export default {
@@ -46,8 +48,7 @@ export default {
     return {      
       checkbox_remember_me: false,
       loginData: {
-        user: 'ser@gmail.com',
-        password: '123456',
+        
       }
     }
   },
@@ -117,12 +118,27 @@ export default {
           }
         }) */
         this.$vs.loading();
-        Auth.login(this.loginData).then((res) => {
-          if (res) {
-            this.$router.push('/apadrinamiento/nino')
-            this.$vs.loading.close()
+        Roles.login(this.loginData).then((res) => {
+          if(res) {
+            Auth.login(this.loginData).then((res) => {
+              if (res) {
+                this.$router.push('/apadrinamiento/nino')
+                this.$vs.loading.close()
+              }
+              else{
+                this.$vs.loading.close();
+                this.$vs.notify({
+                  title: 'Intento de Login ha fracasado!',
+                  text: 'Credenciales incorrectas',
+                  iconPack: 'feather',
+                  icon: 'icon-alert-circle',
+                  color: 'warning'
+                })
+              }
+            })
           }
         })
+        
       }
     },
 

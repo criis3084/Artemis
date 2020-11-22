@@ -117,6 +117,7 @@
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import VNavMenuGroup from './VerticalNavMenuGroup.vue'
 import VNavMenuItem from './VerticalNavMenuItem.vue'
+import Ls from '../../../services/ls';
 
 import Logo from '../Logo.vue'
 
@@ -134,6 +135,7 @@ export default {
     parent:           { type: String },
     reduceNotRebound: { type: Boolean, default: true },
     navMenuItems:     { type: Array,   required: true },
+    //Aqui traer los 8 tipos de navbar
     title:            { type: String }
   },
   data: () => ({
@@ -146,7 +148,8 @@ export default {
       wheelSpeed        : 1,
       swipeEasing       : true
     },
-    showShadowBottom    : false
+    showShadowBottom    : false,
+    rol: 0
   }),
   computed: {
     isGroupActive () {
@@ -167,6 +170,7 @@ export default {
       }
     },
     menuItemsUpdated () {
+      //Aqui se traen todos los datos y se haria el iff
       const clone = this.navMenuItems.slice()
 
       for (const [index, item] of this.navMenuItems.entries()) {
@@ -211,6 +215,9 @@ export default {
     windowWidth ()  { this.setVerticalNavMenuWidth() }
   },
   methods: {
+    getRol(){
+      this.rol = Ls.get('auth.roles')
+    },
     onMenuSwipe (event) {
       if (event.direction === 4 && this.$vs.rtl) {
 
@@ -336,6 +343,7 @@ export default {
   },
   mounted () {
     this.setVerticalNavMenuWidth()
+    this.getRol()
   }
 }
 

@@ -203,6 +203,9 @@ const dict = {
   }
 }
 
+// register custom messages
+Validator.localize('en', dict)
+
 export default {
 	data(){
 		return {
@@ -401,6 +404,8 @@ export default {
 			});
 		},
 		guardarPersona(){
+	this.$validator.validateAll().then(result => {
+	if(result) {
 			let me = this
 			let pagoT = '';
 			if(me.tipo_paciente_id.id != 2){
@@ -446,7 +451,7 @@ export default {
 						me.$router.push('/clinica/pacientes/');
 							me.$vs.notify({
 							color:'success',
-							title:'Paciente editado',
+							title:'Actualización registrada!',
 							text:'Acción realizada exitósamente'
 						});
 					}).catch(function(error) {
@@ -457,6 +462,14 @@ export default {
 					me.$router.push('/clinica/pacientes/');
 				}
 			}
+	}else{
+		this.$vs.notify({
+			color:'danger',
+			title:'Error en validación!',
+			text:'Ingrese todos los campos correctamente'
+			});
+		}
+	})
 		},
 		arraysEqual(a,b) {
 			if (a instanceof Array && b instanceof Array) {
