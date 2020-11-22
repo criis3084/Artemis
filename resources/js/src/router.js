@@ -362,7 +362,7 @@ const router = new Router({
         {
           path:'/microprestamo/ingresar',
           name: 'microprestamo-ingresar',
-          component: () => import('./views/Microprestamos/microprestamo/nuevo_microprestamo.vue'),
+          component: () => import('./views/Microprestamos/Microprestamo/nuevo_microprestamo.vue'),
           meta: {
             rule:'editor'
           }
