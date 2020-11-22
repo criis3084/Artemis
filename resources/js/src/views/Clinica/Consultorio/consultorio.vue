@@ -6,12 +6,11 @@
 			<div id="invoice-page">
 				<vx-card id="invoice-container">
 					<div class = "demo-alignment">
-		<div class="vx-col md:w-1/3 w-full mt-5">
-		</div>
-		<h3>INGRESO DE CONSULTA</h3>
-		</div>
-
-	<vs-divider position="right">PID&#174;</vs-divider>
+						<div class="vx-col md:w-1/3 w-full mt-5">
+						</div>
+						<h3>INGRESO DE CONSULTA</h3>
+					</div>
+					<vs-divider position="right">PID&#174;</vs-divider>
 					<div class="vx-row leading-loose p-base">
 		                <div class="vx-col w-1/2">
 							<img src="@assets/images/logo/logopid.png" alt="pid-logo">
