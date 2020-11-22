@@ -46,9 +46,17 @@ const router = new Router({
         // =============================================================================
         // Theme Routes
         // =============================================================================
+        // {
+        //   path: '/',
+        //   redirect: '/bienvenido'
+        // },
         {
-          path: '/',
-          redirect: '/pages/login'
+			path: '/',
+			name: 'inicio',
+			component: () => import('./views/pages/Bienvenido.vue'),
+			meta: {
+			  rule: 'editor'
+			}
         },
         {
           path: '/apadrinamiento/nino',
