@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Clinico extends Model
 {
-	protected $fillable = ['profesion_id','user_id','estado'];
+	protected $fillable = ['profesion_id','user_id','estado','colegiado'];
 
 	public function datos(){
 		return $this->belongsTo('App\User','user_id','id');

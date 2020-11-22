@@ -27,30 +27,22 @@
 								</div>
 							</div>
 
-              <div class="vx-col md:w-1/2 w-full mt-5">
-								<div class="vx-col w-full">
-                  <small class="date-label">Profesión</small>
-									<v-select name="profesion" v-validate="'required'" label="nombre" :options="Profesiones"  v-model="profesion" :dir="$vs.rtl ? 'rtl' : 'ltr'"/>
-                  <span class="text-danger">{{ errors.first('step-1.profesion') }}</span>
-								</div>
+							<div class="vx-col md:w-1/2 w-full mt-1">
+								<div class="my-4">
+									<small class="date-label">Fecha de nacimiento</small>
+									<datepicker :format="dateFormat" :language="$vs.rtl ? langEn : langEn" name="fecha" v-validate="'required'" v-model="fecha_nacimiento"></datepicker>
+									<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
+				                </div>
 							</div>
 
-                            <div class="vx-col md:w-1/2 w-full mt-5">
+                            <div class="vx-col md:w-1/2 w-full mt-6">
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="CUI" v-model="CUI" name="cui" v-validate="'numeric|max:13'"/>
 									<span class="text-danger">{{ errors.first('step-1.cui') }}</span>
 								</div>
 							</div>
 
-							<div class="vx-col md:w-1/2 w-full mt-5">
-								<div class="my-4">
-									<small class="date-label">Fecha de nacimiento</small>
-									<datepicker :format="dateFormat" :language="$vs.rtl ? langEn : langEn" name="fecha" v-validate="'required'" v-model="fecha_nacimiento"></datepicker>
-									<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
-                </div>
-							</div>
-
-							<div class="vx-col md:w-1/2 w-full mt-5">
+							<div class="vx-col md:w-1/2 w-full mt-2">
 								<small class="date-label">Género</small>
 								<ul class="demo-alignment">
 										<li>
@@ -63,17 +55,32 @@
 									<span class="text-danger">{{ errors.first('step-1.radio') }}</span>
 							</div>
 
-                            <div class="vx-col md:w-1/2 w-full mt-5">
+                            <div class="vx-col md:w-1/2 w-full mt-2">
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-phone" icon-no-border label-placeholder="Número de teléfono" v-model="numero_telefono" name="numero_telefono" v-validate="'numeric|max:15'" />
                                     <span class="text-danger">{{errors.first('step-1.numero_telefono') }}</span>
 								</div>
 							</div>
 							
-							<div class="vx-col md:w-1/2 w-full mt-5">
+							<div class="vx-col w-full mt-3">
 								<div class="vx-col w-full">
 									<vs-input class="w-full" icon-pack="feather" icon="icon-map-pin" icon-no-border label-placeholder="Dirección" name="direccion" v-model="direccion" v-validate="'required|max:254'" />
 									<span class="text-danger">{{errors.first('step-1.direccion') }}</span>
+								</div>
+							</div>
+							
+							<div class="vx-col md:w-1/2 w-full mt-4">
+								<div class="vx-col w-full">
+									<small class="date-label">Profesión</small>
+									<v-select name="profesion" v-validate="'required'" label="nombre" :options="Profesiones"  v-model="profesion" :dir="$vs.rtl ? 'rtl' : 'ltr'"/>
+                  					<span class="text-danger">{{ errors.first('step-1.profesion') }}</span>
+								</div>
+							</div>
+
+                            <div class="vx-col md:w-1/2 w-full mt-5">
+								<div class="vx-col w-full">
+									<vs-input class="w-full" icon-pack="feather" icon="icon-award" icon-no-border label-placeholder="No. Colegiado" v-model="colegiado" name="colegiado"/>
+									<span class="text-danger">{{ errors.first('step-1.colegiado') }}</span>
 								</div>
 							</div>
 
@@ -240,7 +247,8 @@ export default {
       Profesiones:[],
       profesion:'',
       langEn: es,
-      codigo:'',
+	  codigo:'',
+	  colegiado:'',
       titulo:'Registrado exitosamente!',
       waterMark : 'Select a date',
       dateVal : new Date(),
@@ -294,11 +302,12 @@ export default {
         CUI:this.CUI,
         numero_telefono:this.numero_telefono,
         correo:this.correo,
-        imagen_perfil: `/storage/public/personalClinico/${  this.imagen_perfil}`,
+        imagen_perfil: `/storage/public/personalClinico/${this.imagen_perfil}`,
         user:this.user,
         password:this.password,
         descripcion:this.descripcion,
         genero:this.genero,
+        colegiado:this.colegiado,
         fecha_nacimiento:this.getDate(this.fecha_nacimiento),
         direccion:this.direccion,
 			

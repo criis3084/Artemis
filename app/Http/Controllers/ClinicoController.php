@@ -62,6 +62,7 @@ class ClinicoController extends Controller
 			
 			$clinico = new Clinico();
 			$clinico->profesion_id = $request->profesion_id;
+			$clinico->colegiado = $request->colegiado;
 			$clinico->user_id = $user->id;
 			$clinico->save();
 			return Response::json(['message' => 'User clinico Creado'], 200);
@@ -94,6 +95,9 @@ class ClinicoController extends Controller
 		
 
 		$clinico->profesion_id = $request->profesion_id;
+		if (isset($request->colegiado)){
+			$clinico->colegiado = $request->colegiado;
+		}
 		$clinico->user_id = $user->id;
 		$clinico->save();
 		$user->save();
