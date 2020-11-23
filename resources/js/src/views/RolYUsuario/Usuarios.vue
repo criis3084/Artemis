@@ -128,7 +128,7 @@ export default {
 		
       if (this.estado === 0 || this.estado === false) {
         titulo = 'Activado exitósamente'
-        axios.put('/api/clinico/activar', {
+        axios.put('/api/user/activar', {
           id: this.id
         })
           .then(function (response) {
@@ -139,7 +139,7 @@ export default {
           })
       } else if (this.estado === 1 || this.estado === true) {
         titulo = 'Desactivado exitósamente'
-        axios.put('/api/clinico/desactivar', {
+        axios.put('/api/user/desactivar', {
           id: this.id
         })
           .then(function (response) {
