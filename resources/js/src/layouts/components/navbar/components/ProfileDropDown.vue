@@ -84,7 +84,8 @@ export default {
     logout () {
       Roles.logout()
       Auth.logout().then(() => {
-        this.$router.replace("/pages/login");
+        //revisar esta linea para actualice al salir 
+        this.$router.reload('/pages/login');
       });
 
       

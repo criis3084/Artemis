@@ -48,7 +48,7 @@ const router = new Router({
         // =============================================================================
 		{
 		path: '/',
-		redirect: '/bienvenido'
+		redirect: '/pages/login'
 		},
         {
 			path: '/bienvenido',

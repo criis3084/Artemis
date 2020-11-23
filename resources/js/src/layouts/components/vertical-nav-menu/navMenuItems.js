@@ -366,7 +366,7 @@ export default
 			]
 		}
 	]
-	:
+	://2 = Trabajadora social
 		id == 2 ? 
 		[
 			{

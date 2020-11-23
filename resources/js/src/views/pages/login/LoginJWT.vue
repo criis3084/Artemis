@@ -122,7 +122,7 @@ export default {
           if(res) {
             Auth.login(this.loginData).then((res) => {
               if (res) {
-                this.$router.push('/apadrinamiento/nino')
+                this.$router.push('/bienvenido')
                 this.$vs.loading.close()
               }
               else{
