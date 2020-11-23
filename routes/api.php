@@ -410,6 +410,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.user', 'uses' => 'UserController@desactivar'
     ]);
+    Route::post('/imagen', [
+        'as' => 'admin.user', 'uses' => 'UserController@imagen'
+    ]);
 });
 Route::group(['prefix' => 'permisos'], function () {
     Route::get('/get', [

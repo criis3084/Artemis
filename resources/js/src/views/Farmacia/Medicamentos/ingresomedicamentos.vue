@@ -21,7 +21,7 @@
 				</template>
 				<template slot="thead">
 					<vs-th>Ver</vs-th>
-					<vs-th>Nombre User</vs-th>
+					<vs-th>Nombre Usuario</vs-th>
 					<vs-th>Nombre Proveedor</vs-th>
 					<vs-th>Fecha</vs-th>
 					<vs-th>Descripción</vs-th>
@@ -77,7 +77,7 @@ export default {
 			cellAutoWidth: true,
 			selectedFormat: 'xlsx',
 			headerVal: ['id', 'user_nombres', 'user_apellidos', 'proveedor_nombres','proveedor_apellidos','fecha_ingreso','descripcion', 'estado' ],
-			headerTitle: ['Id', 'Nombre del User', 'Apellido del User', 'Nombres del Paciente', 'Apellidos del paciente', 'Fecha de salida','Descripcion','Estado'],
+			headerTitle: ['Id', 'Nombre del Usuario', 'Apellido del Usuario', 'Nombres del Paciente', 'Apellidos del paciente', 'Fecha de salida','Descripcion','Estado'],
 			activePrompt: false,
 			nombre: "",
 			fecha: "",
