@@ -156,7 +156,7 @@ const router = new Router({
 					},
 					{
 						path: '/apadrinamiento/estudiosocio/:id',
-						name: 'apadrinamiento-estudiosocio',
+						name: 'apadrinamiento-estudiosocio2',
 						component: () => import('./views/apadrinamientos/nino/historialestudiosocio.vue'),
 						meta: {
 						rule: 'editor'
@@ -221,7 +221,7 @@ const router = new Router({
 					},
 					{
 						path: '/ingresar/padrino',
-						name: 'datos-padrino',
+						name: 'ingresar-padrino',
 						component: () => import('./views/apadrinamientos/padrino/formulariopadrin.vue'),
 						meta: {
 						rule: 'editor'
@@ -253,7 +253,7 @@ const router = new Router({
 					},
 					{
 						path: '/editar/familiar/:id',
-						name: 'datos-familiar',
+						name: 'editar-familiar',
 						component: () => import('./views/apadrinamientos/familiar/editar.vue'),
 						meta: {
 						rule: 'editor'
@@ -271,7 +271,7 @@ const router = new Router({
 
 					{
 						path: '/ingresar/familiar',
-						name: 'datos-familiar',
+						name: 'ingresar-familiar',
 						component: () => import('./views/apadrinamientos/familiar/formulario.vue'),
 						meta: {
 						rule: 'editor'
@@ -431,7 +431,7 @@ const router = new Router({
 					},
 					{
 						path:'/microprestamo/Nuevogrupo',
-						name: 'microprestamo-grupo',
+						name: 'microprestamo-nuevo-grupo',
 						component: () => import('./views/Microprestamos/Grupo_prestamo/ingresarGrupo.vue'),
 						meta: {
 						rule:'editor'
@@ -793,7 +793,7 @@ const router = new Router({
 					},
 					{
 						path: '/clinica/ingresarPersonal',
-						name: 'clinica-PersonalMedico',
+						name: 'clinica-ingresar-personal',
 						component: () => import('./views/Clinica/PersonalMedico/ingresar.vue'),
 						meta :{
 						rule : 'admin'
@@ -801,7 +801,7 @@ const router = new Router({
 					},
 					{
 						path: '/clinica/editarPersonal/:id',
-						name: 'clinica-PersonalMedico',
+						name: 'clinica-editar-personal',
 						component: () => import('./views/Clinica/PersonalMedico/editar.vue'),
 						meta :{
 						rule : 'admin'
@@ -1101,7 +1101,7 @@ const router = new Router({
 					},
 					{
 						path: '/apadrinamiento/estudiosocio/:id',
-						name: 'apadrinamiento-estudiosocio',
+						name: 'apadrinamiento-estudiosocio2',
 						component: () => import('./views/apadrinamientos/nino/historialestudiosocio.vue'),
 						meta: {
 						rule: 'editor'
@@ -1166,7 +1166,7 @@ const router = new Router({
 					},
 					{
 						path: '/ingresar/padrino',
-						name: 'datos-padrino',
+						name: 'ingresar-padrino',
 						component: () => import('./views/apadrinamientos/padrino/formulariopadrin.vue'),
 						meta: {
 						rule: 'editor'
@@ -1198,7 +1198,7 @@ const router = new Router({
 					},
 					{
 						path: '/editar/familiar/:id',
-						name: 'datos-familiar',
+						name: 'editar-familiar',
 						component: () => import('./views/apadrinamientos/familiar/editar.vue'),
 						meta: {
 						rule: 'editor'
@@ -1216,7 +1216,7 @@ const router = new Router({
 
 					{
 						path: '/ingresar/familiar',
-						name: 'datos-familiar',
+						name: 'ingresar-familiar',
 						component: () => import('./views/apadrinamientos/familiar/formulario.vue'),
 						meta: {
 						rule: 'editor'
@@ -1376,7 +1376,7 @@ const router = new Router({
 					},
 					{
 						path:'/microprestamo/Nuevogrupo',
-						name: 'microprestamo-grupo',
+						name: 'microprestamo-nuevo-grupo',
 						component: () => import('./views/Microprestamos/Grupo_prestamo/ingresarGrupo.vue'),
 						meta: {
 						rule:'editor'
@@ -1725,7 +1725,7 @@ const router = new Router({
 					},
 					{
 						path:'/microprestamo/Nuevogrupo',
-						name: 'microprestamo-grupo',
+						name: 'microprestamo-nuevo-grupo',
 						component: () => import('./views/Microprestamos/Grupo_prestamo/ingresarGrupo.vue'),
 						meta: {
 						rule:'editor'
@@ -2864,7 +2864,7 @@ const router = new Router({
 					},
 					{
 						path: '/clinica/ingresarPersonal',
-						name: 'clinica-PersonalMedico',
+						name: 'clinica-ingresar-personal',
 						component: () => import('./views/Clinica/PersonalMedico/ingresar.vue'),
 						meta :{
 						rule : 'admin'
@@ -2872,7 +2872,7 @@ const router = new Router({
 					},
 					{
 						path: '/clinica/editarPersonal/:id',
-						name: 'clinica-PersonalMedico',
+						name: 'clinica-editar-personal',
 						component: () => import('./views/Clinica/PersonalMedico/editar.vue'),
 						meta :{
 						rule : 'admin'

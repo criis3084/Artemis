@@ -9,7 +9,7 @@ class Tutoria extends Model
 	protected $fillable = ['nombre','fecha','estado','tutor_id','nino_id'];
 
 	public function tutor(){
- 		return $this->belongsTo('App\tutor','tutor_id','id');
+ 		return $this->belongsTo('App\Tutor','tutor_id','id');
 	}
 
 	public function nino(){
@@ -29,7 +29,7 @@ class Tutoria extends Model
 	public function datos_nino(){
 		return $this->hasManyThrough(
 			'App\PersonaSinAcceso',
-			'App\nino',
+			'App\Nino',
 			'id',
 			'id',
 			'nino_id',

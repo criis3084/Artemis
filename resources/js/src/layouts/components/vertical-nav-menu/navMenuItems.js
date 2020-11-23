@@ -20,53 +20,45 @@ export default
 		// APADRINAMIENTOS
 		// =============================================================================
 		{			
-			header: 'Apps',
+			header: 'Social',
 			icon: 'PackageIcon',
-			i18n: 'Social',
 			items: 
 			[
 				{
 					url: null,
 					name: 'Apadrinamiento',
 					icon: 'UsersIcon',
-					i18n: 'Apadrinamiento',
 					submenu:
 					[
 						{
 							url: '/apadrinamiento/nino',
-							name: 'nino',
+							name: 'Niños apadrinados',
 							slug: 'apadrinamiento-nino',
-							i18n: 'Niños apadrinados',
 						},
 						{
 							url: '/apadrinamiento/ninono',
-							name: 'ninono',
+							name: 'Niños no apadrinados',
 							slug: 'apadrinamiento-ninono',
-							i18n: 'Niños no apadrinados',
 						},
 						{
 							url: '/apadrinamiento/padrino',
-							name: 'padrino',
+							name: 'Padrinos',
 							slug: 'apadrinamiento-padrino',
-							i18n: 'Padrinos'
 						},
 						{
 							url: '/apadrinamiento/apadrinamiento',
-							name: 'apadrinamiento',
+							name: 'Apadrinamientos',
 							slug: 'apadrinamiento-apadrinamiento',
-							i18n: 'Apadrinamientos'
 						},
 						{
 							url: '/apadrinamiento/familia',
-							name: 'familia',
+							name: 'Familias',
 							slug: 'apadrinamiento-familia',
-							i18n: 'Familias'
 						},
 						{
 							url: '/apadrinamiento/encargado',
-							name: 'encargado',
+							name: 'Familiares',
 							slug: 'apadrinamiento-encargado',
-							i18n: 'Familiares'
 						}
 						// {
 						//   url: '/dashboard/ecommerce',
@@ -81,22 +73,19 @@ export default
 				// =============================================================================
 				{
 					url: null,
-					name: 'Tutorias',
+					name: 'Tutorías',
 					icon: 'BookIcon',
-					i18n: 'Tutorías',
 					submenu: 
 					[
 						{
 							url: '/tutoria/tutoria',
-							name: 'tutoria',
+							name: 'Tutorías',
 							slug: 'tutoria-tutoria',
-							i18n: 'Tutorías'
 						},
 						{
 							url: '/tutoria/tutor',
-							name: 'tutor',
+							name: 'Tutores',
 							slug: 'tutoria-tutor',
-							i18n: 'Tutores'
 						},
 					]
 				},
@@ -105,28 +94,24 @@ export default
 				// =============================================================================
 				{
 					url: null,
-					name: 'Microprestamo',
+					name: 'Micropréstamos',
 					icon: 'DollarSignIcon',
-					i18n: 'Micropréstamos',
 					submenu: 
 					[
 						{
 							url: '/microprestamo/microprestamo',
-							name: 'microprestamo',
+							name: 'Micropréstamos',
 							slug: 'microprestamo-microprestamo',
-							i18n: 'Micropréstamos'
 						},
 						{
 							url: '/microprestamo/abono',
-							name: 'abono',
+							name: 'Abonos',
 							slug: 'microprestamo-abono',
-							i18n: 'Abonos'
 						},
 						{
 							url: '/microprestamo/grupo',
-							name: 'grupo',
+							name: 'Grupos',
 							slug: 'microprestamo-grupo',
-							i18n: 'Grupos'
 						},
 						// {
 						//   url: '/microprestamo/integrante',
@@ -136,9 +121,8 @@ export default
 						// },
 						{
 							url: '/microprestamo/destino',
-							name: 'destino',
+							name: 'Destinos de inversión',
 							slug: 'microprestamo-destino',
-							i18n: 'Destinos de inversión'
 						}
 					]
 				},
@@ -147,34 +131,29 @@ export default
 				// =============================================================================
 				{
 					url: null,
-					name: 'Vivienda',
+					name: 'Viviendas',
 					icon: 'HomeIcon',
-					i18n: 'Viviendas',
 					submenu: 
 					[
 						{
 							url: '/vivienda/vivienda',
-							name: 'vivienda',
+							name: 'Viviendas',
 							slug: 'vivienda-vivienda',
-							i18n: 'Viviendas'
 						},
 						{
 							url: '/vivienda/abono',
-							name: 'abono',
+							name: 'Abonos',
 							slug: 'vivienda-abono',
-							i18n: 'Abonos'
 						},
 						{
 							url: '/vivienda/constructor',
-							name: 'constructor',
+							name: 'Constructores',
 							slug: 'vivienda-constructor',
-							i18n: 'Constructores'
 						},
 						{
 							url: '/vivienda/tipo',
-							name: 'tipo',
+							name: 'Tipos de vivienda',
 							slug: 'vivienda-tipo',
-							i18n: 'Tipos de vivienda'
 						}
 					]
 				},
@@ -183,28 +162,24 @@ export default
 				// =============================================================================
 				{
 					url: null,
-					name: 'DatosGenerales',
+					name: 'Datos Generales',
 					icon: 'LayersIcon',
-					i18n: 'Datos Generales',
 					submenu:
 					[
 						{
 							url: '/general/escuela',
-							name: 'escuela',
+							name: 'Escuelas',
 							slug: 'general-escuela',
-							i18n: 'Escuelas'
 						},
 						{
 							url: '/general/sector',
-							name: 'sector',
+							name: 'Sectores',
 							slug: 'general-sector',
-							i18n: 'Sectores'
 						},
 						{
 							url: '/general/aldea',
-							name: 'aldea',
+							name: 'Aldeas',
 							slug: 'general-aldea',
-							i18n: 'Aldeas'
 						}
 					]
 				}
@@ -217,119 +192,101 @@ export default
 		///////////////////////////////////////////////////////////////////////////////////////////
 			header: 'Salud',
 			icon: 'PackageIcon',
-			i18n: 'Salud',
 			items: 
 			[
 				{
 					url: null,
 					name: 'Farmacia',
 					icon: 'PlusCircleIcon',
-					i18n: 'Farmacia',
 					submenu:
 					[
 						{
 								url: '/farmacia/medicamentos',
-								name: 'medicamentos',
+								name: 'Medicamentos',
 								slug: 'farmacia-medicamentos',
-								i18n: 'Medicamentos',
 						},
 						{
 							url: '/ingreso/medicamentos',
-							name: 'medicamentos',
+							name: 'Ingreso Medicamentos',
 							slug: 'ingreso-medicamentos',
-							i18n: 'Ingreso Medicamentos',
 						},
 						{
 							url: '/salida/medicamentos',
-							name: 'medicamentos',
+							name: 'Salida Medicamentos',
 							slug: 'salida-medicamentos',
-							i18n: 'Salida Medicamentos',
 						},
 						{
-								url: '/farmacia/proveedores',
-								name: 'proveedores',
-								slug: 'farmacia-proveedores',
-								i18n: 'Proveedores',
+							url: '/farmacia/proveedores',
+							name: 'Proveedores',
+							slug: 'farmacia-proveedores',
 						},
 						{
 							url: '/farmacia/casas',
-							name: 'casas',
+							name: 'Casas médicas',
 							slug: 'farmacia-casas',
-							i18n: 'Casas médicas',
 						},
 						{
 							url: '/farmacia/categoria',
-							name: 'categoria',
+							name: 'Categorías',
 							slug: 'farmacia-categoria',
-							i18n: 'Categorías',
 						}
 					]
 				},
 				{
 					url: null,
-					name: 'clinica',
+					name: 'Clínica',
 					icon: 'ThermometerIcon',
-					i18n: 'Clínica',
 					submenu:
 					[
 						{
 							url: '/clinica/consultorio',
-							name: 'consultorio',
+							name: 'Consultorio',
 							slug: 'clinica-consultorio',
-							i18n: 'Consultorio'
 						},
 						{
 							url: '/clinica/pacientes',
-							name: 'pacientes',
+							name: 'Pacientes',
 							slug: 'clinica-pacientes',
-							i18n: 'Pacientes'
 						},
 						{
 							url: '/clinica/citas',
-							name: 'citas',
+							name: 'Citas',
 							slug: 'clinica-citas',
-							i18n: 'Citas'
 						},
 						{
 							url: '/clinica/tipoC',
-							name: 'tipo',
+							name: 'Tipo de citas',
 							slug: 'clinica-tipo',
-							i18n: 'Tipo de citas'
 						},
 						{
 							url: '/clinica/tipoP',
-							name: 'tipo',
+							name: 'Tipo de pacientes',
 							slug: 'clinica-tipo',
-							i18n: 'Tipo de pacientes'
 						},
 					]
 				},
 				{
 					url: null,
-					name: 'laboratorio',
+					name: 'Laboratorio',
 					icon: 'FilterIcon',
-					i18n: 'Laboratorio',
 					submenu:
 					[
 						{
 							url: '/laboratorio/examen',
-							name: 'examen',
+							name: 'Exámenes',
 							slug: 'laboratorio-examen',
-							i18n: 'Exámenes'
 						},
 						{
 							url: '/laboratorio/tipo',
-							name: 'tipo',
+							name: 'Tipos de exámenes',
 							slug: 'laboratorio-tipo',
-							i18n: 'Tipos de exámenes'
 						},
 					]
 				},
 				{
 					url: '/clinica/PersonalMedico',
-					name: 'PersonalMedico',
+					name: 'Personal Médico',
 					icon: 'UserPlusIcon',
-					i18n: 'Personal Médico'
 				}
 			]
 		},
@@ -339,27 +296,23 @@ export default
 		{
 			header: 'Administración',
 			icon: 'PackageIcon',
-			i18n: 'Administración',
 			items: 
 			[
 				{
 					url: null,
 					name: 'Admin',
 					icon: 'UserIcon',
-					i18n: 'Admin',
 					submenu:
 					[
 						{
 							url: '/admin/usuarios',
-							name: 'user',
+							name: 'Usuarios',
 							slug: 'admin-user',
-							i18n: 'Users',
 						},
 						{
 							url: '/admin/roles',
-							name: 'roles',
+							name: 'Roles',
 							slug: 'admin-rol',
-							i18n: 'Roles',
 						},
 					]
 				},
@@ -370,53 +323,45 @@ export default
 		id == 2 ? 
 		[
 			{
-				header: 'Apps',
+				header: 'Social',
 				icon: 'PackageIcon',
-				i18n: 'Social',
 				items:
 				[
 					{
 						url: null,
 						name: 'Apadrinamiento',
 						icon: 'UsersIcon',
-						i18n: 'Apadrinamiento',
 						submenu: 
 						[
 							{
 								url: '/apadrinamiento/nino',
-								name: 'nino',
+								name: 'Niños apadrinados',
 								slug: 'apadrinamiento-nino',
-								i18n: 'Niños apadrinados',
 							},
 							{
 								url: '/apadrinamiento/ninono',
-								name: 'ninono',
+								name: 'Niños no apadrinados',
 								slug: 'apadrinamiento-ninono',
-								i18n: 'Niños no apadrinados',
 							},
 							{
 								url: '/apadrinamiento/padrino',
-								name: 'padrino',
+								name: 'Padrinos',
 								slug: 'apadrinamiento-padrino',
-								i18n: 'Padrinos'
 							},
 							{
 								url: '/apadrinamiento/apadrinamiento',
-								name: 'apadrinamiento',
+								name: 'Apadrinamientos',
 								slug: 'apadrinamiento-apadrinamiento',
-								i18n: 'Apadrinamientos'
 							},
 							{
 								url: '/apadrinamiento/familia',
-								name: 'familia',
+								name: 'Familias',
 								slug: 'apadrinamiento-familia',
-								i18n: 'Familias'
 							},
 							{
 								url: '/apadrinamiento/encargado',
-								name: 'encargado',
+								name: 'Familiares',
 								slug: 'apadrinamiento-encargado',
-								i18n: 'Familiares'
 							},
 						]
 					},
@@ -425,21 +370,18 @@ export default
 					// =============================================================================
 					{
 						url: null,
-						name: 'Tutorias',
+						name: 'Tutorías',
 						icon: 'BookIcon',
-						i18n: 'Tutorías',
 						submenu: [
 						{
 							url: '/tutoria/tutoria',
-							name: 'tutoria',
+							name: 'Tutorías',
 							slug: 'tutoria-tutoria',
-							i18n: 'Tutorías'
 						},
 						{
 							url: '/tutoria/tutor',
-							name: 'tutor',
+							name: 'Tutores',
 							slug: 'tutoria-tutor',
-							i18n: 'Tutores'
 						},
 						]
 					},
@@ -448,28 +390,24 @@ export default
 					// =============================================================================
 					{
 						url: null,
-						name: 'Microprestamo',
+						name: 'Micropréstamos',
 						icon: 'DollarSignIcon',
-						i18n: 'Micropréstamos',
 						submenu:
 						[
 							{
 								url: '/microprestamo/microprestamo',
-								name: 'microprestamo',
+								name: 'Micropréstamos',
 								slug: 'microprestamo-microprestamo',
-								i18n: 'Micropréstamos'
 							},
 							{
 								url: '/microprestamo/abono',
-								name: 'abono',
+								name: 'Abonos',
 								slug: 'microprestamo-abono',
-								i18n: 'Abonos'
 							},
 							{
 								url: '/microprestamo/grupo',
-								name: 'grupo',
+								name: 'Grupos',
 								slug: 'microprestamo-grupo',
-								i18n: 'Grupos'
 							},
 							// {
 							//   url: '/microprestamo/integrante',
@@ -479,9 +417,8 @@ export default
 							// },
 							{
 								url: '/microprestamo/destino',
-								name: 'destino',
+								name: 'Destinos de inversión',
 								slug: 'microprestamo-destino',
-								i18n: 'Destinos de inversión'
 							},
 						]
 					},
@@ -490,34 +427,29 @@ export default
 					// =============================================================================
 					{
 						url: null,
-						name: 'Vivienda',
+						name: 'Viviendas',
 						icon: 'HomeIcon',
-						i18n: 'Viviendas',
 						submenu: 
 						[
 							{
 								url: '/vivienda/vivienda',
-								name: 'vivienda',
+								name: 'Viviendas',
 								slug: 'vivienda-vivienda',
-								i18n: 'Viviendas'
 							},
 							{
 								url: '/vivienda/abono',
-								name: 'abono',
+								name: 'Abonos',
 								slug: 'vivienda-abono',
-								i18n: 'Abonos'
 							},
 							{
 								url: '/vivienda/constructor',
-								name: 'constructor',
+								name: 'Constructores',
 								slug: 'vivienda-constructor',
-								i18n: 'Constructores'
 							},
 							{
 								url: '/vivienda/tipo',
-								name: 'tipo',
+								name: 'Tipos de vivienda',
 								slug: 'vivienda-tipo',
-								i18n: 'Tipos de vivienda'
 							},
 						]
 					},
@@ -526,28 +458,24 @@ export default
 					// =============================================================================
 					{
 						url: null,
-						name: 'DatosGenerales',
+						name: 'Datos Generales',
 						icon: 'LayersIcon',
-						i18n: 'Datos Generales',
 						submenu:
 						[
 							{
 								url: '/general/escuela',
-								name: 'escuela',
+								name: 'Escuelas',
 								slug: 'general-escuela',
-								i18n: 'Escuelas'
 							},
 							{
 								url: '/general/sector',
-								name: 'sector',
+								name: 'Sectores',
 								slug: 'general-sector',
-								i18n: 'Sectores'
 							},
 							{
 								url: '/general/aldea',
-								name: 'aldea',
+								name: 'Aldeas',
 								slug: 'general-aldea',
-								i18n: 'Aldeas'
 							},
 						]
 					},
@@ -562,28 +490,24 @@ export default
 					// =============================================================================
 					
 						url: null,
-						name: 'Microprestamo',
+						name: 'Micropréstamos',
 						icon: 'DollarSignIcon',
-						i18n: 'Micropréstamos',
 						submenu:
 						[
 							{
 								url: '/microprestamo/microprestamo',
-								name: 'microprestamo',
+								name: 'Micropréstamos',
 								slug: 'microprestamo-microprestamo',
-								i18n: 'Micropréstamos'
 							},
 							{
 								url: '/microprestamo/abono',
-								name: 'abono',
+								name: 'Abonos',
 								slug: 'microprestamo-abono',
-								i18n: 'Abonos'
 							},
 							{
 								url: '/microprestamo/grupo',
-								name: 'grupo',
+								name: 'Grupos',
 								slug: 'microprestamo-grupo',
-								i18n: 'Grupos'
 							},
 							// {
 							//   url: '/microprestamo/integrante',
@@ -593,9 +517,8 @@ export default
 							// },
 							{
 								url: '/microprestamo/destino',
-								name: 'destino',
+								name: 'Destinos de inversión',
 								slug: 'microprestamo-destino',
-								i18n: 'Destinos de inversión'
 							},
 						]
 					},
@@ -604,34 +527,29 @@ export default
 					// =============================================================================
 					{
 						url: null,
-						name: 'Vivienda',
+						name: 'Viviendas',
 						icon: 'HomeIcon',
-						i18n: 'Viviendas',
 						submenu:
 						[
 							{
 								url: '/vivienda/vivienda',
-								name: 'vivienda',
+								name: 'Viviendas',
 								slug: 'vivienda-vivienda',
-								i18n: 'Viviendas'
 							},
 							{
 								url: '/vivienda/abono',
-								name: 'abono',
+								name: 'Abonos',
 								slug: 'vivienda-abono',
-								i18n: 'Abonos'
 							},
 							{
 								url: '/vivienda/constructor',
-								name: 'constructor',
+								name: 'Constructores',
 								slug: 'vivienda-constructor',
-								i18n: 'Constructores'
 							},
 							{
 								url: '/vivienda/tipo',
-								name: 'tipo',
+								name: 'Tipos de vivienda',
 								slug: 'vivienda-tipo',
-								i18n: 'Tipos de vivienda'
 							},
 						]
 					},
@@ -640,28 +558,24 @@ export default
 					// =============================================================================
 					{
 						url: null,
-						name: 'DatosGenerales',
+						name: 'Datos Generales',
 						icon: 'LayersIcon',
-						i18n: 'Datos Generales',
 						submenu:
 						[
 							{
 								url: '/general/escuela',
-								name: 'escuela',
+								name: 'Escuelas',
 								slug: 'general-escuela',
-								i18n: 'Escuelas'
 							},
 							{
 								url: '/general/sector',
-								name: 'sector',
+								name: 'Sectores',
 								slug: 'general-sector',
-								i18n: 'Sectores'
 							},
 							{
 								url: '/general/aldea',
-								name: 'aldea',
+								name: 'Aldeas',
 								slug: 'general-aldea',
-								i18n: 'Aldeas'
 							},
 						]
 					}
@@ -674,22 +588,19 @@ export default
 						// Tutoria
 						// =============================================================================
 							url: null,
-							name: 'Tutorias',
+							name: 'Tutorías',
 							icon: 'BookIcon',
-							i18n: 'Tutorías',
 							submenu:
 							[
 								{
 									url: '/tutoria/tutoria',
-									name: 'tutoria',
+									name: 'Tutorías',
 									slug: 'tutoria-tutoria',
-									i18n: 'Tutorías'
 								},
 								{
 									url: '/tutoria/tutor',
-									name: 'tutor',
+									name: 'Tutores',
 									slug: 'tutoria-tutor',
-									i18n: 'Tutores'
 								},
 							]
 						},
@@ -698,28 +609,24 @@ export default
 						// =============================================================================
 						{ 
 							url: null,
-							name: 'DatosGenerales',
+							name: 'Datos Generales',
 							icon: 'LayersIcon',
-							i18n: 'Datos Generales',
 							submenu:
 							[
 								{
 									url: '/general/escuela',
-									name: 'escuela',
+									name: 'Escuelas',
 									slug: 'general-escuela',
-									i18n: 'Escuelas'
 								},
 								{
 									url: '/general/sector',
-									name: 'sector',
+									name: 'Sectores',
 									slug: 'general-sector',
-									i18n: 'Sectores'
 								},
 								{
 									url: '/general/aldea',
-									name: 'aldea',
+									name: 'Aldeas',
 									slug: 'general-aldea',
-									i18n: 'Aldeas'
 								},
 							]
 						}
@@ -729,61 +636,52 @@ export default
 					[
 						{
 							url: null,
-							name: 'clinica',
+							name: 'Clínica',
 							icon: 'ThermometerIcon',
-							i18n: 'Clínica',
 							submenu:
 							[
 								{
 									url: '/clinica/consultorio',
-									name: 'consultorio',
+									name: 'Consultorio',
 									slug: 'clinica-consultorio',
-									i18n: 'Consultorio'
 								},
 								{
 									url: '/clinica/pacientes',
-									name: 'pacientes',
+									name: 'Pacientes',
 									slug: 'clinica-pacientes',
-									i18n: 'Pacientes'
 								},
 								{
 									url: '/clinica/citas',
-									name: 'citas',
+									name: 'Citas',
 									slug: 'clinica-citas',
-									i18n: 'Citas'
 								},
 								{
 									url: '/clinica/tipoC',
-									name: 'tipo',
+									name: 'Tipo de citas',
 									slug: 'clinica-tipo',
-									i18n: 'Tipo de citas'
 								},
 								{
 									url: '/clinica/tipoP',
-									name: 'tipo',
+									name: 'Tipo de pacientes',
 									slug: 'clinica-tipo',
-									i18n: 'Tipo de pacientes'
 								},
 							]
 						},
 						{
 							url: null,
-							name: 'laboratorio',
+							name: 'Laboratorio',
 							icon: 'FilterIcon',
-							i18n: 'Laboratorio',
 							submenu:
 							[
 								{
 									url: '/laboratorio/examen',
-									name: 'examen',
+									name: 'Exámenes',
 									slug: 'laboratorio-examen',
-									i18n: 'Exámenes'
 								},
 								{
 									url: '/laboratorio/tipo',
-									name: 'tipo',
+									name: 'Tipos de exámenes',
 									slug: 'laboratorio-tipo',
-									i18n: 'Tipos de exámenes'
 								},
 							]
 						}
@@ -797,51 +695,43 @@ export default
 							{
 								header: 'Salud',
 								icon: 'PackageIcon',
-								i18n: 'Salud',
 								items: 
 								[
 									{
 										url: null,
 										name: 'Farmacia',
 										icon: 'PlusCircleIcon',
-										i18n: 'Farmacia',
 										submenu:
 										[
 											{
-													url: '/farmacia/medicamentos',
-													name: 'medicamentos',
-													slug: 'farmacia-medicamentos',
-													i18n: 'Medicamentos',
+												url: '/farmacia/medicamentos',
+												name: 'Medicamentos',
+												slug: 'farmacia-medicamentos',
 											},
 											{
 												url: '/ingreso/medicamentos',
-												name: 'medicamentos',
+												name: 'Ingreso Medicamentos',
 												slug: 'ingreso-medicamentos',
-												i18n: 'Ingreso Medicamentos',
 											},
 											{
 												url: '/salida/medicamentos',
-												name: 'medicamentos',
+												name: 'Salida Medicamentos',
 												slug: 'salida-medicamentos',
-												i18n: 'Salida Medicamentos',
 											},
 											{
-													url: '/farmacia/proveedores',
-													name: 'proveedores',
-													slug: 'farmacia-proveedores',
-													i18n: 'Proveedores',
+												url: '/farmacia/proveedores',
+												name: 'Proveedores',
+												slug: 'farmacia-proveedores',
 											},
 											{
 												url: '/farmacia/casas',
-												name: 'casas',
+												name: 'Casas médicas',
 												slug: 'farmacia-casas',
-												i18n: 'Casas médicas',
 											},
 											{
 												url: '/farmacia/categoria',
-												name: 'categoria',
+												name: 'Categorías',
 												slug: 'farmacia-categoria',
-												i18n: 'Categorías',
 											},
 										]
 									}
@@ -855,117 +745,99 @@ export default
 							{
 								header: 'Salud',
 								icon: 'PackageIcon',
-								i18n: 'Salud',
 								items: 
 								[
 									{
 										url: null,
 										name: 'Farmacia',
 										icon: 'PlusCircleIcon',
-										i18n: 'Farmacia',
 										submenu:
 										[
 											{
 													url: '/farmacia/medicamentos',
-													name: 'medicamentos',
+													name: 'Medicamentos',
 													slug: 'farmacia-medicamentos',
-													i18n: 'Medicamentos',
 											},
 											{
 												url: '/ingreso/medicamentos',
-												name: 'medicamentos',
+												name: 'Ingreso Medicamentos',
 												slug: 'ingreso-medicamentos',
-												i18n: 'Ingreso Medicamentos',
 											},
 											{
 												url: '/salida/medicamentos',
-												name: 'medicamentos',
+												name: 'Salida Medicamentos',
 												slug: 'salida-medicamentos',
-												i18n: 'Salida Medicamentos',
 											},
 											{
 													url: '/farmacia/proveedores',
-													name: 'proveedores',
+													name: 'Proveedores',
 													slug: 'farmacia-proveedores',
-													i18n: 'Proveedores',
 											},
 											{
 												url: '/farmacia/casas',
-												name: 'casas',
+												name: 'Casas médicas',
 												slug: 'farmacia-casas',
-												i18n: 'Casas médicas',
 											},
 											{
 												url: '/farmacia/categoria',
-												name: 'categoria',
+												name: 'Categorías',
 												slug: 'farmacia-categoria',
-												i18n: 'Categorías',
 											},
 										]
 									},
 									{
 										url: null,
-										name: 'clinica',
+										name: 'Clínica',
 										icon: 'ThermometerIcon',
-										i18n: 'Clínica',
 										submenu: [
 										{
 											url: '/clinica/consultorio',
-											name: 'consultorio',
+											name: 'Consultorio',
 											slug: 'clinica-consultorio',
-											i18n: 'Consultorio'
 										},
 										{
 											url: '/clinica/pacientes',
-											name: 'pacientes',
+											name: 'Pacientes',
 											slug: 'clinica-pacientes',
-											i18n: 'Pacientes'
 										},
 										{
 											url: '/clinica/citas',
-											name: 'citas',
+											name: 'Citas',
 											slug: 'clinica-citas',
-											i18n: 'Citas'
 										},
 										{
 											url: '/clinica/tipoC',
-											name: 'tipo',
+											name: 'Tipo de citas',
 											slug: 'clinica-tipo',
-											i18n: 'Tipo de citas'
 										},
 										{
 											url: '/clinica/tipoP',
-											name: 'tipo',
+											name: 'Tipo de pacientes',
 											slug: 'clinica-tipo',
-											i18n: 'Tipo de pacientes'
 										},
 										]
 									},
 									{
 										url: null,
-										name: 'laboratorio',
+										name: 'Laboratorio',
 										icon: 'FilterIcon',
-										i18n: 'Laboratorio',
 										submenu: [
 										{
 											url: '/laboratorio/examen',
-											name: 'examen',
+											name: 'Exámenes',
 											slug: 'laboratorio-examen',
-											i18n: 'Exámenes'
 										},
 										{
 											url: '/laboratorio/tipo',
-											name: 'tipo',
+											name: 'Tipos de exámenes',
 											slug: 'laboratorio-tipo',
-											i18n: 'Tipos de exámenes'
 										},
 										]
 									},
 									{
 										url: '/clinica/PersonalMedico',
-										name: 'PersonalMedico',
+										name: 'Personal Médico',
 										icon: 'UserPlusIcon',
-										i18n: 'Personal Médico',
 									}
 								]
 							}

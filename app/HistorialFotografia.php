@@ -17,7 +17,7 @@ class HistorialFotografia extends Model
 	public function datos_nino(){
 		return $this->hasManyThrough(
 			'App\PersonaSinAcceso',
-			'App\nino',
+			'App\Nino',
 			'id',
 			'id',
 			'nino_id',
