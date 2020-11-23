@@ -7,9 +7,9 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
-use Image;
 use Illuminate\Support\Facades\File;
-
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Hash;
 class ClinicoController extends Controller
 {
 	public function index(Request $request)
@@ -62,6 +62,7 @@ class ClinicoController extends Controller
 			
 			$clinico = new Clinico();
 			$clinico->profesion_id = $request->profesion_id;
+			$clinico->colegiado = $request->colegiado;
 			$clinico->user_id = $user->id;
 			$clinico->save();
 			return Response::json(['message' => 'User clinico Creado'], 200);
@@ -94,6 +95,9 @@ class ClinicoController extends Controller
 		
 
 		$clinico->profesion_id = $request->profesion_id;
+		if (isset($request->colegiado)){
+			$clinico->colegiado = $request->colegiado;
+		}
 		$clinico->user_id = $user->id;
 		$clinico->save();
 		$user->save();
@@ -133,7 +137,8 @@ class ClinicoController extends Controller
 			File::delete($nombreEliminar);
 		}
 		$completo = time() . "." . $imagen->extension();
-		$imagen->move(public_path('storage/public/personalClinico/'), $completo);
+		$imagen_redi = Image::make($imagen)->resize(300,200);
+		$imagen_redi->save(public_path('storage/public/personalClinico/'. $completo));
 		return Response::json($completo, 200);
 	}
 }

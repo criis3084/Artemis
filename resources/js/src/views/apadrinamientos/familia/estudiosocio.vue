@@ -1,197 +1,199 @@
 <template>
 	<div>
-		<vx-card>
-			<div class="vx-row leading-loose p-base">
-				<div class="vx-col w-1/2 mt-base">
-					<h1><b>Estudio Socioeconomico</b> </h1>
-					<br/>
-					<h2><b>Familia: </b> {{codigo_familiar}} </h2>
-				</div>
-				<div class="vx-col w-1/2 text-right">
-					<h3> <b>PPI Familiar</b>  </h3>
+		<div id="invoice-page">
+			<vx-card id="invoice-container">
+				<div class="vx-row leading-loose p-base">
+					<div class="vx-col w-1/2 mt-base">
+						<h1><b>Estudio Socioeconomico</b> </h1>
 						<br/>
-						<h6><b>Valor de ultimo PPI:</b> {{total_ppi}} </h6>
-						<br/>
-						<h6><b>Fecha de ultimo PPI:</b> {{fecha_ppi}} </h6>
-				</div>
-			</div>
-			<vx-card
-    		title="Información de los niños"
-    		title-color="warning"
-			>
-				<vs-list>
-					<vs-list-header icon-pack="feather" icon="icon-user" title="Niños apadrinados" color="success"></vs-list-header>
-						<div class="p-base">
-							<div v-for="(nino,id) in listadoNinos" :key="id">
-								<div v-if="nino.nino.estado==1">
-									<div class="flex items-center">
-										<vs-avatar :src="nino.nino.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="60px"/>
-										<h2>&nbsp; <b> Codigo:</b> {{nino.nino.codigo}}</h2> 
-										<div class="vx-col w-full text-right">
-										 <h3><b>Fecha de apadrinamiento: </b> {{nino.nino.fecha_ingreso}}  </h3>
-										</div>
-									</div>
-									<table style="width:100%" class="border-none mt-2">
-										<tr>
-											<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].nombres}}   </h4> </th>
-											<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].apellido1}} </h4> </th>
-											<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].apellido2}} </h4> </th>
-										</tr>
-										<tr>
-											<td class="pointer-events-none text-center">Nombres</td>
-											<td class="pointer-events-none text-center">Apellido Paterno</td>
-											<td class="pointer-events-none text-center">Apellido Materno</td>
-										</tr>
-									</table>
-									<vs-divider/>
-									<p><b>Fecha de Nacimiento: </b> el {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[2] }} de {{ nombreMes(nino.datos_nino[0].fecha_nacimiento.split('-',3)[1]) }}  del  {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[0] }}</p>
-									<vs-divider/>
-										<table style="width:75%" class="border-collapse mt-2">
-												<tr>
-													<td class="pointer-events-none text-left"><b>Escuela:</b> {{ nino.nino.escuela_nombre }}  </td>
-													<td class="pointer-events-none text-left"> <b>Grado: </b>  {{nino.nino.grado}} </td>
-												</tr>
-										</table>
-									<vs-divider/>
-									<p><b>Actividades:</b> {{ nino.nino.actividades }} </p>
-									<vs-divider/>
-								</div>
-							</div>
-						</div>
-				</vs-list>
-				
-				<vs-list>
-					<vs-list-header icon-pack="feather" icon="icon-user" title="Niños no apadrinados" color="danger"></vs-list-header>
-						<div class="p-base">
-							<div v-for="(nino,id) in listadoNinos" :key="id">
-								<div v-if="nino.nino.estado==0">
-									<div class="flex items-center">
-										<vs-avatar :src="nino.nino.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="60px"/>
-										<h2> {{"  "}} <b>Codigo:</b> {{nino.nino.codigo}} </h2> 
-									</div>
-									
-									<table style="width:100%" class="border-none mt-2">
-										<tr>
-											<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].nombres}} </h4> </th>
-											<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].apellido1}} </h4> </th>
-											<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].apellido2}} </h4> </th>
-										</tr>
-										<tr>
-											<td class="pointer-events-none text-center">Nombres</td>
-											<td class="pointer-events-none text-center">Apellido Paterno</td>
-											<td class="pointer-events-none text-center">Apellido Materno</td>
-										</tr>
-									</table>
-									<vs-divider/>
-									<p><b>Fecha de Nacimiento: </b> el {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[2] }} de {{ nombreMes(nino.datos_nino[0].fecha_nacimiento.split('-',3)[1]) }}  del  {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[0] }}</p>
-									<vs-divider/>
-										<table style="width:75%" class="border-collapse mt-2">
-												<tr>
-													<td class="pointer-events-none text-left"><b>Escuela:</b> {{ nino.nino.escuela_nombre }}  </td>
-													<td class="pointer-events-none text-left"> <b>Grado: </b>  {{nino.nino.grado}} </td>
-												</tr>
-										</table>
-									<vs-divider/>
-									<p><b>Actividades:</b> {{ nino.nino.actividades }} </p>
-									<vs-divider/>
-								</div>
-							</div>
-						</div>
-
-				</vs-list>
-			</vx-card>
-			<vx-card
-			class="mt-6"
-    		title="Datos de los familiares"
-    		title-color="warning"
-			>
-				<vs-list>
-					<div class="vx-col w-full mb-base">
-						<table style="width:100%" class="border-collapse">
-							<tr>
-								<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fotografia</th>
-								<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre completo</th>
-								<th class="p-2 border border-solid d-theme-border-grey-light text-center">Edad</th>
-								<th class="p-2 border border-solid d-theme-border-grey-light text-center">Parentesco</th>
-								<th class="p-2 border border-solid d-theme-border-grey-light text-center">Escolaridad</th>
-								<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ocupación</th>
-								<th class="p-2 border border-solid d-theme-border-grey-light text-center">Telefono</th>
-								<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ingresos</th>
-							</tr>
-							<tr v-for="(encargado,index2) in listadoFamilia" :key="index2">
-								<td class="border border-solid d-theme-border-grey-light text-center">	<vs-avatar :src="encargado.encargado.ruta_imagen" :alt="encargado.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="30px"/> </td>
-								<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.datos_encargado[0].nombres}} {{encargado.datos_encargado[0].apellidos}} </td>
-								<td class="border border-solid d-theme-border-grey-light text-center"> {{calculateAge(encargado.datos_encargado[0].fecha_nacimiento)}}</td>
-								<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.relacion}}</td>
-								<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.escolaridad}}</td>
-								<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.ocupacion}}</td>
-								<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.datos_encargado[0].numero_telefono}}</td>
-								<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.ingresos}}</td>
-							</tr>
-						</table>
+						<h2><b>Familia: </b> {{codigo_familiar}} </h2>
 					</div>
-				</vs-list>
+					<div class="vx-col w-1/2 text-right">
+						<h3> <b>PPI Familiar</b>  </h3>
+							<br/>
+							<h6><b>Valor de ultimo PPI:</b> {{total_ppi}} </h6>
+							<br/>
+							<h6><b>Fecha de ultimo PPI:</b> {{fecha_ppi}} </h6>
+					</div>
+				</div>
+				<vx-card
+				title="Información de los niños"
+				title-color="warning"
+				>
+					<vs-list>
+						<vs-list-header icon-pack="feather" icon="icon-user" title="Niños apadrinados" color="success"></vs-list-header>
+							<div class="p-base">
+								<div v-for="(nino,id) in listadoNinos" :key="id">
+									<div v-if="nino.nino.estado==1">
+										<div class="flex items-center">
+											<vs-avatar :src="nino.nino.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="60px"/>
+											<h2>&nbsp; <b> Codigo:</b> {{nino.nino.codigo}}</h2> 
+											<div class="vx-col w-full text-right">
+											<h3><b>Fecha de apadrinamiento: </b> {{nino.nino.fecha_ingreso}}  </h3>
+											</div>
+										</div>
+										<table style="width:100%" class="border-none mt-2">
+											<tr>
+												<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].nombres}}   </h4> </th>
+												<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].apellido1}} </h4> </th>
+												<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].apellido2}} </h4> </th>
+											</tr>
+											<tr>
+												<td class="pointer-events-none text-center">Nombres</td>
+												<td class="pointer-events-none text-center">Apellido Paterno</td>
+												<td class="pointer-events-none text-center">Apellido Materno</td>
+											</tr>
+										</table>
+										<vs-divider/>
+										<p><b>Fecha de Nacimiento: </b> el {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[2] }} de {{ nombreMes(nino.datos_nino[0].fecha_nacimiento.split('-',3)[1]) }}  del  {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[0] }}</p>
+										<vs-divider/>
+											<table style="width:75%" class="border-collapse mt-2">
+													<tr>
+														<td class="pointer-events-none text-left"><b>Escuela:</b> {{ nino.nino.escuela_nombre }}  </td>
+														<td class="pointer-events-none text-left"> <b>Grado: </b>  {{nino.nino.grado}} </td>
+													</tr>
+											</table>
+										<vs-divider/>
+										<p><b>Actividades:</b> {{ nino.nino.actividades }} </p>
+										<vs-divider/>
+									</div>
+								</div>
+							</div>
+					</vs-list>
+					
+					<vs-list>
+						<vs-list-header icon-pack="feather" icon="icon-user" title="Niños no apadrinados" color="danger"></vs-list-header>
+							<div class="p-base">
+								<div v-for="(nino,id) in listadoNinos" :key="id">
+									<div v-if="nino.nino.estado==0">
+										<div class="flex items-center">
+											<vs-avatar :src="nino.nino.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="60px"/>
+											<h2> {{"  "}} <b>Codigo:</b> {{nino.nino.codigo}} </h2> 
+										</div>
+										
+										<table style="width:100%" class="border-none mt-2">
+											<tr>
+												<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].nombres}} </h4> </th>
+												<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].apellido1}} </h4> </th>
+												<th class="pointer-events-none text-center"> <h4> {{nino.datos_nino[0].apellido2}} </h4> </th>
+											</tr>
+											<tr>
+												<td class="pointer-events-none text-center">Nombres</td>
+												<td class="pointer-events-none text-center">Apellido Paterno</td>
+												<td class="pointer-events-none text-center">Apellido Materno</td>
+											</tr>
+										</table>
+										<vs-divider/>
+										<p><b>Fecha de Nacimiento: </b> el {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[2] }} de {{ nombreMes(nino.datos_nino[0].fecha_nacimiento.split('-',3)[1]) }}  del  {{ nino.datos_nino[0].fecha_nacimiento.split('-',3)[0] }}</p>
+										<vs-divider/>
+											<table style="width:75%" class="border-collapse mt-2">
+													<tr>
+														<td class="pointer-events-none text-left"><b>Escuela:</b> {{ nino.nino.escuela_nombre }}  </td>
+														<td class="pointer-events-none text-left"> <b>Grado: </b>  {{nino.nino.grado}} </td>
+													</tr>
+											</table>
+										<vs-divider/>
+										<p><b>Actividades:</b> {{ nino.nino.actividades }} </p>
+										<vs-divider/>
+									</div>
+								</div>
+							</div>
+
+					</vs-list>
+				</vx-card>
+				<vx-card
+				class="mt-6"
+				title="Datos de los familiares"
+				title-color="warning"
+				>
+					<vs-list>
+						<div class="vx-col w-full mb-base">
+							<table style="width:100%" class="border-collapse">
+								<tr>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fotografia</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre completo</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Edad</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Parentesco</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Escolaridad</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ocupación</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Telefono</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ingresos</th>
+								</tr>
+								<tr v-for="(encargado,index2) in listadoFamilia" :key="index2">
+									<td class="border border-solid d-theme-border-grey-light text-center">	<vs-avatar :src="encargado.encargado.ruta_imagen" :alt="encargado.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="30px"/> </td>
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.datos_encargado[0].nombres}} {{encargado.datos_encargado[0].apellidos}} </td>
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{calculateAge(encargado.datos_encargado[0].fecha_nacimiento)}}</td>
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.relacion}}</td>
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.escolaridad}}</td>
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.ocupacion}}</td>
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.datos_encargado[0].numero_telefono}}</td>
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{encargado.encargado.ingresos}}</td>
+								</tr>
+							</table>
+						</div>
+					</vs-list>
+				</vx-card>
+
+				<vx-card
+				class="mt-6"
+				title="Información de la familia"
+				title-color="warning"
+				>
+					<p><b>Total de ingresos familiares: </b> Q.{{ datosEstudio.total_ingresos }} </p>
+					<vs-divider/>
+					<p><b>Alimentación:</b> {{ datosEstudio.alimentacion }} </p>
+					<vs-divider/>
+
+					<table style="width:65%" class="border-collapse mt-2">
+						<tr>
+							<td class="pointer-events-none text-left"> <b>Dirección de la vivienda: </b> {{direccion}} </td>
+							<td class="pointer-events-none text-left"> <b>Sector: </b> {{sector}} </td>
+							</tr>
+					</table>
+					<vs-divider/>
+
+						<table style="width:75%" class="border-collapse mt-2">
+								<tr>
+									<td class="pointer-events-none text-left"> <b>Situación de la vivienda: </b> {{datosEstudio.situacion_vivienda == 1 ? 'Propia' : datosEstudio.situacion_vivienda== 2 ? 'Alquilada' : 'Prestada' }}  </td>
+									<td class="pointer-events-none text-left"> <b> Costos de la vivienda:   </b>  {{datosEstudio.descripcion_costo}} </td>
+								</tr>
+						</table>
+					<vs-divider/>
+
+					<p><b>Servicios con los que cuenta la vivienda:</b></p>
+
+						<table style="width:50%" class="border-collapse mt-2">
+								<tr>
+									<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.luz ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"> <b> Luz </b></vs-checkbox> </td>
+									<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.agua ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"><b> Agua</b> </vs-checkbox> </td>
+									<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.drenaje ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"><b>Drenaje</b></vs-checkbox> </td>
+								</tr>
+						</table>
+					<vs-divider/>
+					<p><b>Numero de cuartos: </b> {{ datosEstudio.cantidad_cuartos }} </p>
+					<vs-divider/>
+					<p><b>Baño: </b> {{ datosEstudio.bano }} </p>
+					<vs-divider/>
+					<p><b> Materiales de construcción: </b> </p>
+						<table style="width:70%" class="border-collapse mt-2">
+								<tr>
+									<td class="pointer-events-none text-left"><b>Paredes: </b>  {{ datosEstudio.paredes}}</td>
+									<td class="pointer-events-none text-left"><b> Techo:  </b> {{datosEstudio.techo}}</td>
+									<td class="pointer-events-none text-left"><b> Piso:   </b> {{datosEstudio.piso}}</td>
+								</tr>
+						</table>
+					<vs-divider/>
+					<p><b>Evaluación general del diagnostico: </b> </p>
+					<p> {{ datosEstudio.evaluacion_diagnostico }} </p>
+				</vx-card>
 			</vx-card>
-
-			<vx-card
-			class="mt-6"
-    		title="Información de la familia"
-    		title-color="warning"
-			>
-				<p><b>Total de ingresos familiares: </b> Q.{{ datosEstudio.total_ingresos }} </p>
-				<vs-divider/>
-				<p><b>Alimentación:</b> {{ datosEstudio.alimentacion }} </p>
-				<vs-divider/>
-
-				<table style="width:65%" class="border-collapse mt-2">
-					<tr>
-						<td class="pointer-events-none text-left"> <b>Dirección de la vivienda: </b> {{direccion}} </td>
-						<td class="pointer-events-none text-left"> <b>Sector: </b> {{sector}} </td>
-						</tr>
-				</table>
-				<vs-divider/>
-
-					<table style="width:75%" class="border-collapse mt-2">
-							<tr>
-								<td class="pointer-events-none text-left"> <b>Situación de la vivienda: </b> {{datosEstudio.situacion_vivienda == 1 ? 'Propia' : datosEstudio.situacion_vivienda== 2 ? 'Alquilada' : 'Prestada' }}  </td>
-								<td class="pointer-events-none text-left"> <b> Costos de la vivienda:   </b>  {{datosEstudio.descripcion_costo}} </td>
-							</tr>
-					</table>
-				<vs-divider/>
-
-				<p><b>Servicios con los que cuenta la vivienda:</b></p>
-
-					<table style="width:50%" class="border-collapse mt-2">
-							<tr>
-								<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.luz ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"> <b> Luz </b></vs-checkbox> </td>
-								<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.agua ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"><b> Agua</b> </vs-checkbox> </td>
-								<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.drenaje ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"><b>Drenaje</b></vs-checkbox> </td>
-							</tr>
-					</table>
-				<vs-divider/>
-				<p><b>Numero de cuartos: </b> {{ datosEstudio.cantidad_cuartos }} </p>
-				<vs-divider/>
-				<p><b>Baño: </b> {{ datosEstudio.bano }} </p>
-				<vs-divider/>
-				<p><b> Materiales de construcción: </b> </p>
-					<table style="width:70%" class="border-collapse mt-2">
-							<tr>
-								<td class="pointer-events-none text-left"><b>Paredes: </b>  {{ datosEstudio.paredes}}</td>
-								<td class="pointer-events-none text-left"><b> Techo:  </b> {{datosEstudio.techo}}</td>
-								<td class="pointer-events-none text-left"><b> Piso:   </b> {{datosEstudio.piso}}</td>
-							</tr>
-					</table>
-				<vs-divider/>
-				<p><b>Evaluación general del diagnostico: </b> </p>
-				<p> {{ datosEstudio.evaluacion_diagnostico }} </p>
-			</vx-card>
-		</vx-card>
+		</div>
 
 		<div class="flex flex-wrap items-center justify-between mt-2">
 			<vx-input-group class="mb-base mr-3">
 			</vx-input-group>
 			<div class="flex items-center">
-				<vs-button class="mb-base mr-3" type="gradient" icon-pack="feather" color="success" @click="goBack">Regesar</vs-button>  
+					<vs-button class="mb-base mr-3" type="gradient" icon-pack="feather" icon="icon-printer" color="success"  @click="printInvoice">Imprimir</vs-button>
 			</div>
 		</div>
 	</div>
@@ -220,6 +222,9 @@ export default {
 	methods: {
 		goBack(){
 			this.$router.go(-1)
+		},
+		printInvoice () {
+			window.print()
 	    },
 		nombreMes(numero){
 			numero = parseInt(numero)
@@ -380,7 +385,40 @@ export default {
 	mounted() {
 		this.traerEscuelas()
 		this.buscarCodigo()
+		this.$emit('setAppClasses', 'invoice-page')
 	},
-
 }
 </script>
+<style lang="scss">
+@media print {
+  .invoice-page {
+    * {
+      visibility: hidden;
+    }
+
+    #content-area {
+      margin: 0 !important;
+    }
+
+    .vs-con-table {
+      .vs-con-tbody {
+        overflow: hidden !important;
+      }
+    }
+
+    #invoice-container,
+    #invoice-container * {
+      visibility: visible;
+    }
+    #invoice-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      box-shadow: none;
+    }
+  }
+}
+@page {
+  size: auto;
+}
+</style>

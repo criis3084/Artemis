@@ -21,8 +21,8 @@ $factory->define(User::class, function (Faker $faker) {
         'estado' => $faker->numberBetween($min = 0, $max = 1),
         'user'=> $faker->userName,
         'password'=> $faker->password,
-        // 'rol_id' => Rol::pluck('id')[$faker->numberBetween(1,Rol::count()-1)],
-        'rol_id' => factory(App\Rol::class),
+        'rol_id' => Rol::pluck('id')[$faker->numberBetween(1,Rol::count()-1)],
+        //'rol_id' => factory(App\Rol::class),
         'created_at' => $faker->dateTime($max = 'now', $timezone = null),
         'updated_at' => $faker->dateTime($max = 'now', $timezone = null),
     ];

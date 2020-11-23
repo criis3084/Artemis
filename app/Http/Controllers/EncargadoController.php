@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 class EncargadoController extends Controller
 {
@@ -132,7 +133,8 @@ class EncargadoController extends Controller
 			File::delete($nombreEliminar);
 		}
 		$completo = time() . "." . $imagen->extension();
-		$imagen->move(public_path('storage/public/familiares/'), $completo);
+		$imagen_redi = Image::make($imagen)->resize(300,200);
+		$imagen_redi->save(public_path('storage/public/familiares/'. $completo));
 		return Response::json($completo, 200);
 	}
 }

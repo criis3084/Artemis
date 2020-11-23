@@ -29,6 +29,7 @@
 					<!-- <vs-th>Id</vs-th> -->
                     <vs-th>Nombre</vs-th>
 					<vs-th>Especialidad</vs-th>
+					<vs-th>No. Colegiado</vs-th>
                     <vs-th>Teléfono</vs-th>
                     <vs-th>Estado</vs-th>
 					<vs-th>Acciones</vs-th>
@@ -48,6 +49,7 @@
 								</div>
 						</vs-td>
         			    <vs-td :data="data[indextr].especialidad">{{data[indextr].profesion.nombre}}</vs-td>
+        			    <vs-td :data="data[indextr].especialidad">{{data[indextr].colegiado}}</vs-td>
                         <vs-td :data="data[indextr].datos.telefono">{{data[indextr].numero_telefono}}</vs-td>
 						<vs-td>
 							<vs-switch color="success" v-model="data[indextr].estado" @click="abrirDialog(data[indextr].id, data[indextr].estado)">
@@ -83,8 +85,8 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'nombres', 'apellidos', 'especialidad', 'numero_telefono'],
-	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Especialidad', 'Telefono']
+	  headerVal: ['id', 'nombres', 'apellidos', 'especialidad',,'colegiado', 'numero_telefono'],
+	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Especialidad','colegiado', 'Telefono']
     }
   },
   components:{

@@ -8,6 +8,8 @@ use App\Constructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
 
 class ViviendaController extends Controller
 {
@@ -98,8 +100,10 @@ class ViviendaController extends Controller
 	// 	if (File::exists($nombreEliminar)) {
 	// 		File::delete($nombreEliminar);
 	// 	}
+		
 	// 	$completo = time() . "." . $imagen->extension();
-	// 	$imagen->move(public_path('storage/public/viviendas/'), $completo);
+	// 	$imagen_redi = Image::make($imagen)->resize(300,200);
+	// 	$imagen_redi->save(public_path('storage/public/viviendas/'. $completo));
 	// 	return Response::json($completo, 200);
 	// }
 }

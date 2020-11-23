@@ -7,8 +7,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
-use Image;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 class TutorController extends Controller
 {
@@ -137,12 +137,15 @@ class TutorController extends Controller
 	}
 	public function imagen(Request $request){
 		$imagen = $request->photos;
+
 		$nombreEliminar = public_path('storage\public\tutores\\') .  $request->header("imagenanterior");
 		if (File::exists($nombreEliminar)) {
 			File::delete($nombreEliminar);
 		}
+
 		$completo = time() . "." . $imagen->extension();
-		$imagen->move(public_path('storage/public/tutores/'), $completo);
+		$imagen_redi = Image::make($imagen)->resize(300,200);
+		$imagen_redi->save(public_path('storage/public/tutores/'. $completo));
 		return Response::json($completo, 200);
 	}
 }
