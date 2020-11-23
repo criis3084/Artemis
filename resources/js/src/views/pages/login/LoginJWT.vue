@@ -122,7 +122,9 @@ export default {
           if(res) {
             Auth.login(this.loginData).then((res) => {
               if (res) {
-                this.$router.push('/bienvenido')
+
+				//this.$router.push('/bienvenido')
+				location.replace('/bienvenido');
                 this.$vs.loading.close();
               }
               
