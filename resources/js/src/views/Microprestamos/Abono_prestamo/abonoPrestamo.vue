@@ -61,7 +61,7 @@
     <div id="invoice-page">
                         <vx-card id="invoice-container">
                           <div class="flex justify-between mb-2">
-                               <img src="@assets/images/logo/logopid.png" alt="PID Guatemala">
+                               <img src="@assets/images/logo/logopid.png" height="90px" width="150px" alt="PID Guatemala">
                                <p class="text-primary">Partners in Development</p>
                                
                             </div>
@@ -130,7 +130,7 @@ const dict = {
     cantidad: {
       	  required: 'El campo cantidad de abono es requerido',
       	  numeric: 'El campo solo debe de contener números',
-          max: 'Este campo solo acepta hasta 5 dígitos',
+      max: 'Este campo solo acepta hasta 5 dígitos'
     },
     descripcion: {
       required:'El campo descripción es requerido',
@@ -192,10 +192,10 @@ export default{
           this.guardar()
         } else {
           this.$vs.notify({
-				color:'danger',
-				title:`Error en validación!`,
-				text:'Ingrese correctamente todos los datos'
-			})
+            color:'danger',
+            title:'Error en validación!',
+            text:'Ingrese correctamente todos los datos'
+          })
         }
       })
 
@@ -257,21 +257,22 @@ export default{
         console.log(response.data.id)
         me.seterResponse(response.data.id)
         me.ActualizarFechaPago()
+        me.desactivar()
         me.Imprimir = true
         // alert('Ingreso de abono correctamente')
         me.$vs.notify({
-					color:'success',
-					title:'Abono registrado!',
-					text:'La acción se realizo exitósamente'
-				});
+          color:'success',
+          title:'Abono registrado!',
+          text:'La acción se realizo exitósamente'
+        })
       })
         .catch(function (error) {
           console.log(error)
-           me.$vs.notify({
-          color:'danger',
-          title:`Error en ingreso!`,
-          text:'Ocurrio un error al guardar el abono'
-        })
+          me.$vs.notify({
+            color:'danger',
+            title:'Error en ingreso!',
+            text:'Ocurrio un error al guardar el abono'
+          })
         })
     },
     buscarDatos () { //funcion para traer datos del prestamista, desde el la opcion que se selecciona en el select
@@ -284,13 +285,13 @@ export default{
       this.mora = this.detalle.microprestamo.mora_por_atraso
       this.cantidad_abono = this.detalle.pago_mes
       this.Ngrupo = this.detalle.grupos.nombre
-      console.log(`Total Prestamo  ${this.totalPrestamo}`)
-      console.log(`Id microprestamo   ${this.microprestamo_id}`)
-      console.log(`Dia pago   ${this.dia_pago}`)
-      console.log(`duracion  ${this.duracion}`)
-      console.log(`mora   ${this.mora}`)
-      console.log(`Pago mes   ${this.cantidad_abono}`)
-      console.log(`NombreG   ${this.Ngrupo}`)
+      //console.log(`Total Prestamo  ${this.totalPrestamo}`)
+      //console.log(`Id microprestamo   ${this.microprestamo_id}`)
+      //onsole.log(`Dia pago   ${this.dia_pago}`)
+      //console.log(`duracion  ${this.duracion}`)
+      //console.log(`mora   ${this.mora}`)
+      //console.log(`Pago mes   ${this.cantidad_abono}`)
+      //console.log(`NombreG   ${this.Ngrupo}`)
       this.deuda = 0
       this.pagarMora = false
       this.mes = 0
@@ -337,19 +338,19 @@ export default{
         const dias = Math.floor(diferencia / 86400000)
         this.mes = mes
         this.dias = dias
-        console.log(mes)
-        console.log(dias)
+        //console.log(mes)
+        //console.log(dias)
 
         if (dias > 0 && mes === 0) {
           this.pagarMora = true
           this.mora_nueva = parseFloat(this.deuda) + parseFloat(this.mora) 
-          console.log('Mora por dia')
+          //console.log('Mora por dia')
         } else if (mes >= 1) {
           this.pagarMora = true
           this.mora = parseFloat(this.mora) * parseFloat(this.mes)
           this.mora_nueva = parseFloat(this.deuda) + parseFloat(this.mora) 
-          console.log('Mora por mes')
-          console.log(this.mora)
+          //console.log('Mora por mes')
+          //console.log(this.mora)
         } 
         
         
@@ -381,7 +382,7 @@ export default{
     },
     Calcular () { //funcion para calcular la cantidad pendinte de la deuda
       this.NuevaFecha()
-      console.log('Calcular')
+      //console.log('Calcular')
       if (this.deuda === 0) {
         this.total = this.totalPrestamo - this.cantidad_abono + this.mora_nueva
       } else this.total = this.deuda - this.cantidad_abono + this.mora_nueva
@@ -392,15 +393,15 @@ export default{
       const today = new Date()
       
       const FechaPago = this.dia_pago
-      const todaySin = new Date(parseInt(FechaPago.split('-',3)[0]),parseInt(FechaPago.split('-',3)[1]),parseInt(FechaPago.split('-',3)[2]))
-      console.log('Fecha pago')
+      const todaySin = new Date(parseInt(FechaPago.split('-', 3)[0]), parseInt(FechaPago.split('-', 3)[1]), parseInt(FechaPago.split('-', 3)[2]))
+      //console.log('Fecha pago')
       //console.log(todaySin)
       //const diaPago = FechaPago.getDate()
 
       const diferencia = new Date(today) - new Date(this.dia_pago)
       const anio = Math.floor(diferencia / 31557000000)
-      console.log('hay anio?')
-      console.log(anio)
+      // console.log('hay anio?')
+      //console.log(anio)
       if (anio <= 0) {
         this.NuevaFechaPago = todaySin
         //this.NuevaFechaPago = FechaPago.setMonth(FechaPago.getMonth() + 1)
@@ -426,7 +427,28 @@ export default{
     },
 
     desactivar () {
-      
+      const me = this
+      this.id_recibido = this.detalle.id
+      if (this.total === 0) {
+        console.log(`Desactivar  ${this.id_recibido}`)
+        
+        axios.put('/api/detalleIntegrante/desactivar', {
+          id: this.id_recibido
+        })
+          .then(function (response) {
+            console.log(response.data.message)
+            me.alerta = true        
+          })
+          .catch(function (error) {
+            console.log(error.response.data.message)
+            me.$vs.notify({
+              color:'danger',
+              title:'Error!',
+              text:'Erro al actualizar la finalización del pago completo de vivienda'
+            })
+          })
+      }
+
     },
     
 

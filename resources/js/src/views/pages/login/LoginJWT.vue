@@ -122,10 +122,13 @@ export default {
           if(res) {
             Auth.login(this.loginData).then((res) => {
               if (res) {
-                this.$router.push('/apadrinamiento/nino')
-                this.$vs.loading.close()
+                this.$router.push('/bienvenido')
+                this.$vs.loading.close();
               }
-              else{
+              
+            })
+          }
+          else{
                 this.$vs.loading.close();
                 this.$vs.notify({
                   title: 'Intento de Login ha fracasado!',
@@ -135,10 +138,7 @@ export default {
                   color: 'warning'
                 })
               }
-            })
-          }
         })
-        
       }
     },
 

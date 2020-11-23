@@ -2,7 +2,7 @@
 	<div>
 		<vx-card>
 			<div class="vx-col md:w-1/3 w-full mt-5">
-			<router-link to="/tutoria/tutor"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+			<vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border @click="$router.go(-1)"></vs-button>
 			</div>
 			<form-wizard @click="acceptAlert()" color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE TUTOR" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" enctype="multipart/form-data">
 				<vs-divider position="right">PID&#174;</vs-divider>
@@ -113,7 +113,7 @@
 
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="vx-col w-full">
-					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="User" v-model="user" v-validate="'required|min:5|max:15'" name="user"/>
+					<vs-input class="w-full" icon-pack="feather" icon="icon-user" icon-no-border label-placeholder="Usuario" v-model="user" v-validate="'required|min:5|max:15'" name="user"/>
 					<span class="text-danger">{{ errors.first('step-3.user') }}</span>
 				</div>
 			</div>
@@ -127,8 +127,9 @@
 
             <div class="vx-col md:w-1/2 w-full mt-5">
 				<small class="date-label">Rol</small>
-				<v-select name="rol" v-validate="'required'" label="nombre" :options="roles" v-model="rol_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-					<span class="text-danger">{{ errors.first('step-3.rol') }}</span>
+				<label class="text-primary">Tutor(a)</label>
+			 <!-- tab 2 content 	<v-select name="rol" v-validate="'required'" label="nombre" :options="roles" v-model="rol_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+					<span class="text-danger">{{ errors.first('step-3.rol') }}</span>-->
 
 			</div>
 
@@ -137,7 +138,7 @@
   </form-wizard>
 
     <div class="vx-col md:w-1/3 w-full mt-5">
-	<router-link to="/tutoria/tutor"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+	<vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border @click="$router.go(-1)">Regresar</vs-button>
     </div>
 
 </vx-card>
@@ -281,7 +282,7 @@ export default {
 			fecha_nacimiento:this.getDate(this.fecha_nacimiento),
 			direccion:this.direccion,
 			
-			rol_id:this.rol_id.id
+			rol_id:4
 		}).then(function(response) {
 				console.log(response)
 			})

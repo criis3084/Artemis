@@ -350,14 +350,14 @@ export default
 					submenu:
 					[
 						{
-							url: '/admin/user',
+							url: '/admin/usuarios',
 							name: 'user',
 							slug: 'admin-user',
 							i18n: 'Users',
 						},
 						{
-							url: '/admin/rol',
-							name: 'rol',
+							url: '/admin/roles',
+							name: 'roles',
 							slug: 'admin-rol',
 							i18n: 'Roles',
 						},
@@ -366,7 +366,7 @@ export default
 			]
 		}
 	]
-	:
+	://2 = Trabajadora social
 		id == 2 ? 
 		[
 			{
