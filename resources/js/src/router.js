@@ -831,6 +831,49 @@ const router = new Router({
             rule: 'admin'
           }
         }, 
+        // Rol y Usuario
+        // =============================================================================
+        {
+          path: 'admin/roles',
+          name: 'roles',
+          component: () => import('./views/RolYUsuario/roles.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+
+        {
+          path: 'admin/usuarios',
+          name: 'usuarios',
+          component: () => import('./views/RolYUsuario/Usuarios.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {
+          path: 'admin/nuevoUsuario',
+          name: 'nuevoUsuario',
+          component: () => import('./views/RolYUsuario/ingresar.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {
+          path: 'admin/editarUsuario/:id',
+          name: 'editarUsuario',
+          component: () => import('./views/RolYUsuario/editar.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
+        {
+          path: 'admin/verUsuario/:id',
+          name: 'verUsuario',
+          component: () => import('./views/RolYUsuario/verUsuario.vue'),
+          meta: {
+            rule: 'admin'
+          }
+        },
 
 
         // =============================================================================

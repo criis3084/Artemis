@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -49,7 +50,7 @@ class UserController extends Controller
 			$user->correo = $request->correo;
 			$user->direccion = $request->direccion;
 			$user->fecha_nacimiento = $request->fecha_nacimiento;
-			$user->imagen_perfil = $request->correo;
+			$user->imagen_perfil = $request->imagen_perfil;
 			$user->descripcion = $request->descripcion;
 			$user->user = $request->user;
 			$user->password = Hash::make($request->password);
@@ -73,7 +74,7 @@ class UserController extends Controller
 		$user->correo = $request->correo;
 		$user->direccion = $request->direccion;
 		$user->fecha_nacimiento = $request->fecha_nacimiento;
-		$user->imagen_perfil = $request->correo;
+		$user->imagen_perfil = $request->imagen_perfil;
 		$user->descripcion = $request->descripcion;
 		$user->user = $request->user;
 		$user->password = Hash::make($request->password);
@@ -98,5 +99,16 @@ class UserController extends Controller
         $user->estado = '0';
         $user->save();
 		return Response::json(['message' => 'user Desactivado'], 200);
+	}
+	
+	public function imagen(Request $request){
+		$imagen = $request->photos;
+		$nombreEliminar = public_path('storage\public\usuarios\\') .  $request->header("imagenanterior");
+		if (File::exists($nombreEliminar)) {
+			File::delete($nombreEliminar);
+		}
+		$completo = time() . "." . $imagen->extension();
+		$imagen->move(public_path('storage/public/usuarios/'), $completo);
+		return Response::json($completo, 200);
 	}
 }
