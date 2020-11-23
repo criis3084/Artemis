@@ -834,7 +834,7 @@ const router = new Router({
         // Rol y Usuario
         // =============================================================================
         {
-          path: 'admin/roles',
+          path: '/admin/roles',
           name: 'roles',
           component: () => import('./views/RolYUsuario/roles.vue'),
           meta: {
@@ -843,7 +843,7 @@ const router = new Router({
         },
 
         {
-          path: 'admin/usuarios',
+          path: '/admin/usuarios',
           name: 'usuarios',
           component: () => import('./views/RolYUsuario/Usuarios.vue'),
           meta: {
@@ -851,7 +851,7 @@ const router = new Router({
           }
         },
         {
-          path: 'admin/nuevoUsuario',
+          path: '/admin/nuevoUsuario',
           name: 'nuevoUsuario',
           component: () => import('./views/RolYUsuario/ingresar.vue'),
           meta: {
@@ -859,7 +859,7 @@ const router = new Router({
           }
         },
         {
-          path: 'admin/editarUsuario/:id',
+          path: '/admin/editarUsuario/:id',
           name: 'editarUsuario',
           component: () => import('./views/RolYUsuario/editar.vue'),
           meta: {
@@ -867,7 +867,7 @@ const router = new Router({
           }
         },
         {
-          path: 'admin/verUsuario/:id',
+          path: '/admin/verUsuario/:id',
           name: 'verUsuario',
           component: () => import('./views/RolYUsuario/verUsuario.vue'),
           meta: {

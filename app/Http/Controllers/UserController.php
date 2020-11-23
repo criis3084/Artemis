@@ -12,7 +12,7 @@ class UserController extends Controller
 {
 	public function index(Request $request)
 	{
-		if (!$request->ajax()) return redirect('/');
+		//if (!$request->ajax()) return redirect('/');
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo :'false';
@@ -40,6 +40,7 @@ class UserController extends Controller
 
 	public function store(Request $request)
 	{
+		//if (!$request->ajax()) return redirect('/');
 		try {
 			$user = new User();
 			$user->nombres = $request->nombres;
@@ -65,6 +66,7 @@ class UserController extends Controller
 
 	public function update(Request $request)
 	{
+		//if (!$request->ajax()) return redirect('/');
 		$user = User::findOrFail($request->id);
 		$user->nombres = $request->nombres;
 		$user->apellidos = $request->apellidos;
