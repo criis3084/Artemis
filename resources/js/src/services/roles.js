@@ -11,7 +11,7 @@ export default {
     } catch (error) {
       if (error.response.status === 401) {
         console.log(error)
-        toastr['error']('Credenciales incorrectas', 'Error')
+       // toastr['error']('Credenciales incorrectas', 'Error')
       } else {
         // Something happened in setting up the request that triggered an Error
         console.log('Error', error.message)
