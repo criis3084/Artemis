@@ -125,7 +125,7 @@ export default {
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
     },
-    async index(){ //async para que se llame cada vez que se necesite
+    async index(){ 
         let me = this;
 		me.id_recibido = this.$route.params.id
 		const response = await axios.get(
@@ -138,7 +138,7 @@ export default {
 			console.log(error);
 		});
 	},
-	async index2(){ //async para que se llame cada vez que se necesite
+	async index2(){ 
         let me = this;
 		me.id_recibido = this.$route.params.id
 		const response = await axios.get(
