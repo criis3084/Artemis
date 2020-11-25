@@ -271,8 +271,8 @@ export default {
 			valor6:0,
 			valor7:0,
 			valor8:0,
-			 nombre: '',
-		apellido: '',
+			nombre: '',
+			apellido: '',
 			valor9:0,
 			valor10:0,
 			valorT:0,
@@ -313,14 +313,14 @@ export default {
 				});
 				this.buscarCodigo()
 		}
-		 else {
-          this.$vs.notify({
+		else {
+			this.$vs.notify({
 					color:'danger',
 					title:`Error en validación!`,
 					text:'Ingrese correctamente todas las respuestas'
 				})
-        }
-		})
+        	}
+			})
 		},
 		setearValor(unArreglo){
 			this.listadoNinos=unArreglo.slice();
@@ -329,17 +329,16 @@ export default {
 			let ppiT=this.ppi_id
 			let today = this.getDate(this.fecha)
 			this.listadoNinos.forEach(function(elemento, indice, array) {
-					axios.post("/api/historialPpi/post/",{
-						nino_id:elemento.nino_id,
-						ppi_id:ppiT,
-						fecha_estudio:today
-					}).then(function(response) {
-							console.log(response)
-					})
-						.catch(function(error) {
-						console.log(error)
-					});
-
+				axios.post("/api/historialPpi/post/",{
+					nino_id:elemento.nino_id,
+					ppi_id:ppiT,
+					fecha_estudio:today
+				}).then(function(response) {
+						console.log(response)
+				})
+					.catch(function(error) {
+					console.log(error)
+				});
 			})
 			let titulo = 'PPI registrado!';
 			this.$vs.notify({
@@ -382,7 +381,25 @@ export default {
 			let date = new Date(datetime);
 			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 			return dateString;
-		}
+		},
+		async index2(){
+			this.fecha=new Date()
+			let me = this;
+			me.id_recibido = this.$route.params.id;
+			const response = await axios.get(
+			`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.arrayData = respuesta.ninos.data;
+				me.nombre = respuesta.ninos.data[0].datos.nombres;
+				me.apellido = respuesta.ninos.data[0].datos.apellidos;
+				me.codigo = respuesta.ninos.data[0].codigo;
+				me.id = respuesta.ninos.data[0].datos.id;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		},
 	},
 	computed: {
 		calcularTotal: function () {
@@ -430,28 +447,8 @@ export default {
 	// 		console.log(error);
 	// 	});
 	// },
-	async index2(){ //async para que se llame cada vez que se necesite
-        let me = this;
-        me.id_recibido = this.$route.params.id;
-		const response = await axios.get(
-			`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
-		.then(function (response) {
-			var respuesta= response.data;
-            me.arrayData = respuesta.ninos.data;
-            me.nombre = respuesta.ninos.data[0].datos.nombres;
-            me.apellido = respuesta.ninos.data[0].datos.apellidos;
-			me.codigo = respuesta.ninos.data[0].codigo;
-			me.id = respuesta.ninos.data[0].datos.id;
-            console.log("array nino");
-			console.log(me.arrayData);
-			console.log("lol");
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-		me.ya=true;
-    },
-	  },
+
+	},
 	components: {
 		Datepicker,
 	},

@@ -223,8 +223,5 @@ export default {
 	this.index();
 	this.index2();
   },
-  computed:{
-
-  }
 }
 </script>

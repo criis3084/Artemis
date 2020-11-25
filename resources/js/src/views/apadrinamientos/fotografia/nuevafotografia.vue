@@ -153,7 +153,8 @@ export default {
 			`/api/historialFotografia/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
-            me.arrayData = respuesta.historialfotografias.data;
+			me.arrayData = respuesta.historialfotografias.data;
+			console.log(respuesta)
             me.nombre = respuesta.historialfotografias.data[0].datos_nino[0].nombres;
             me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
             me.codigo = respuesta.historialfotografias.data[0].nino.codigo;

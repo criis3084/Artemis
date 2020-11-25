@@ -23,7 +23,7 @@
 				<br>
 				
 					
-					<chartjs-component-line-chart :height="125" v-if="ya" :data="datos" :options="opciones"></chartjs-component-line-chart>
+				<chartjs-component-line-chart :height="125" v-if="ya" :data="datos" :options="opciones"></chartjs-component-line-chart>
 				<vs-divider></vs-divider>
 				<!--
 				<chartjs-line-chart :height="250" :data="datos" :options="optiones" ></chartjs-line-chart>
@@ -157,7 +157,7 @@ export default {
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
 	},
-	async index(){ //async para que se llame cada vez que se necesite
+	async index(){ 
         let me = this;
         me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
@@ -171,9 +171,9 @@ export default {
 		});
 		me.datos = me.traerData(me.arrayData);
 		me.opciones = me.traerOptions(me.arrayData)
-		me.ya=true;
+		//me.ya=true;
 	},
-	async index2(){ //async para que se llame cada vez que se necesite
+	async index2(){ 
         let me = this;
         me.id_recibido = this.$route.params.id;
 		const response = await axios.get(
@@ -186,9 +186,6 @@ export default {
 			me.codigo = respuesta.ninos.data[0].codigo;
 			me.estadof = respuesta.ninos.data[0].estado;
 			me.id = respuesta.ninos.data[0].datos.id;
-            console.log("array nino");
-			console.log(me.arrayData);
-			console.log("lol");
 			if (me.estadof==1) {
 				me.ruta='/apadrinamiento/nino'
 			} else {
@@ -204,7 +201,6 @@ export default {
 		let titulo = '';
 		let color = '';
 		if(estado === 0 || estado === false){
-			// cambiar de color al boton
 			color = 'success'
 			titulo = 'Confirmar activación'
 		}
