@@ -24,10 +24,6 @@
           </li>
         </ul>
       </component>
-        <vs-popup class="text-primary" title="Atención" :active.sync="popupActive">
-        <p> El medicamento {{nombre}} cuenta con pocas unidades. Se recomienda realizar la compra de este medicamento</p>
-        <p class="text-danger">Cantidad actual: {{cantidad}}</p>
-    </vs-popup>
 
       <div class="
         checkout-footer
@@ -62,7 +58,6 @@ export default {
   data () {
     return {
       arrayData:[],
-      popupActive: false,
       medicamentos:[],
       nombre:'',
       cantidad:'',
@@ -170,7 +165,15 @@ export default {
       this.cantidad = cantidad
       this.medicamentos.splice(index, 1) 
       console.log(cantidad)
-      this.popupActive = true
+      this.$vs.notify({
+        time:7000,
+        title:`Se recomienda la compra del medicamento ${this.nombre}, cuenta con pocas unidades`,
+        text:`Cantidad actual: ${this.cantidad}`,
+        color:'primary',
+        icon:'local_grocery_store',
+        position:'top-center'
+      })
+      //this.popupActive = true
     },
     async StockMedicamentos () {
       const me = this
