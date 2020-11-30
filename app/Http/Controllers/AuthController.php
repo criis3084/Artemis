@@ -72,7 +72,7 @@ class AuthController extends Controller
         // all good so return the roles
         $u = User::with('rol')
         ->where('user', '=', $request->user)->get();
-
+		#dd($u);
         return['u' => $u];
     }
 

@@ -2,14 +2,14 @@
   <div class="the-navbar__user-meta flex items-center" v-if="activeUserInfo.displayName">
 
     <div class="text-right leading-tight hidden sm:block">
-      <p class="font-semibold">{{ activeUserInfo.displayName }}</p>
-      <small>Available</small>
+      <p class="font-semibold">{{ nombre_usuario }}</p>
+      <small> {{id_rol == 1 ? 'Directora': id_rol == 2 ? 'Trabajadora Social': id_rol == 3 ? 'Secretaria' : id_rol==4 ? 'Tutora': id_rol==5 ? 'Laboratorista': id_rol==6 ? 'Farmaceutica':'Medico'}} </small>
     </div>
 
     <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
 
       <div class="con-img ml-3">
-        <img v-if="activeUserInfo.photoURL" key="onlineImg" :src="activeUserInfo.photoURL" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" />
+        <img key="onlineImg" :src="imagen_perfil" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" />
       </div>
 
       <vs-dropdown-menu class="vx-navbar-dropdown">
@@ -22,7 +22,7 @@
             class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
             @click="logout">
             <feather-icon icon="LogOutIcon" svgClasses="w-4 h-4" />
-            <span class="ml-2">Logout</span>
+            <span class="ml-2">Cerrar Sesión</span>
           </li>
         </ul>
       </vs-dropdown-menu>
@@ -34,11 +34,14 @@
 
 import Auth from '../../../../services/auth.js';
 import Roles from '../../../../services/roles.js';
+import Ls from '../../../../services/ls';
 
 export default {
   data () {
     return {
-
+		id_rol:null,
+		imagen_perfil:null,
+		nombre_usuario:null,
     }
   },
   computed: {
@@ -71,6 +74,11 @@ export default {
       // This is just for demo Purpose. If user clicks on logout -> redirect
       this.$router.push('/pages/login').catch(() => {}) */
     }
-  }
+  },
+  mounted() {
+	  this.id_rol = parseInt(Ls.get('auth.roles'));
+	  this.imagen_perfil = Ls.get('auth.imagen_perfil').replace(/['"]+/g, '');
+	  this.nombre_usuario =Ls.get('auth.nombre_usuario').replace(/['"]+/g, '');
+  },
 }
 </script>
