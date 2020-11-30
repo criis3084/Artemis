@@ -17,7 +17,7 @@ class CreateCorrespondenciasTable extends Migration
 			$table->id();
 			$table->string('ruta_imagen');
 			$table->string('descripcion')->nullable();
-			$table->boolean('estado')->default(1);
+			$table->boolean('estado')->default(0);
 			$table->timestamps();
         });
     }

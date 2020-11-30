@@ -17,7 +17,7 @@ class CreateTutoriasTable extends Migration
 			$table->id();
 			$table->string('nombre');
 			$table->date('fecha');
-			$table->boolean('estado')->default(1);
+			$table->boolean('estado')->default(0);
 			$table->foreignId('nino_id')->constrained();
 			$table->foreignId('tutor_id')->constrained();
 			$table->timestamps();

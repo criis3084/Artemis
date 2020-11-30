@@ -203,7 +203,6 @@ export default {
 			this.index();
 		},
 		async index() {
-			//async para que se llame cada vez que se necesite
 			let me = this;
 			this.abrir_editar=false
 			const response = await axios
@@ -212,7 +211,6 @@ export default {
 				var respuesta = response.data;
 				me.arrayData = respuesta.tutorias.data;
 				me.arrayData = me.traerDatos(me.arrayData);
-				me.pagination = respuesta.pagination;
 			})
 			.catch(function(error) {
 				console.log(error);

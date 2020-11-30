@@ -87,7 +87,7 @@
 						<vs-divider/>
 						<div class="vx-row leading-loose p-base">
 							<div class="vx-col w-1/2">
-								<h5><b>Total de préstamo <small>(Sin intereses)</small> :</b> </h5>
+								<h5><b>Total de préstamo <small>(Con intereses)</small> :</b> </h5>
 							</div>
 							<div class="vx-col w-1/2 text-right">
 								<h4> <b> Q {{sumarCantidades()}}.00 </b>  </h4>
@@ -197,20 +197,22 @@ export default {
 		return mil
 		},
 		pagoEstimado(prestamoI){
-			prestamoI= parseFloat(prestamoI)
 			let duracionT=0
 			let interesT=0
-			if(prestamoI == '' || prestamoI == null){
-				prestamoI =0
+			if(prestamoI == '' || prestamoI == null || prestamoI == NaN || prestamoI == undefined){
+				prestamoI = 0
+			}
+			else{
+				prestamoI= parseFloat(prestamoI)
 			}
 			if(this.duracion == '' || this.duracion == null){
-				duracionT =0
+				duracionT = 0
 			}
 			else{
 				duracionT = this.duracion
 			}
 			if(this.interes == '' || this.interes == null){
-				interesT=0
+				interesT = 0
 			}
 			else{
 				interesT = this.interes
@@ -387,6 +389,14 @@ export default {
 					prestamoTotal = prestamoTotal +  parseFloat (elemento)
 				}
 			})
+			let interes =0
+			if (this.interes != null && this.interes != NaN && this.interes != undefined && this.interes !=''){
+				interes = parseFloat(this.interes)
+			}
+			else{
+				interes =0
+			}
+			prestamoTotal = Math.round((parseInt(prestamoTotal)*(parseInt(interes)/100)) + parseInt(prestamoTotal))
 			return prestamoTotal
 		},
 		limiteActual(){

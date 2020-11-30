@@ -99,7 +99,7 @@ export default {
       //async para que se llame cada vez que se necesite
       let me = this;
       const response = await axios
-        .get(`/api/nino/get?completo=false`)
+        .get(`/api/nino/get?completo=true`)
         .then(function(response) {
           var respuesta = response.data;
 		  me.nino = respuesta.ninos.data;
