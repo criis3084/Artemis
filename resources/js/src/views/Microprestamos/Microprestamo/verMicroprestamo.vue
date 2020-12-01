@@ -60,7 +60,11 @@
                 <td class="font-semibold">Duración del pago:</td>
                 <td>{{ detalles.microprestamo.duracion }} meses</td>
               </tr>
-                            <tr>
+              <tr>
+                <vs-chip v-if="detalles.estado == 1" color="warning" class="ag-grid-cell-chip" style="font-size:16px">Micropréstamo en curso</vs-chip>
+                <vs-chip v-if="detalles.estado == 0" color="success" class="ag-grid-cell-chip" style="font-size:16px" >Sin micropréstamo </vs-chip>
+              </tr>
+                  <tr>
                 <td class="font-semibold">Pertenece al grupo:</td>
                 <td>{{ detalles.grupos.nombre }}</td>
               </tr>

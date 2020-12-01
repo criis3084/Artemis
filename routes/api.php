@@ -703,6 +703,9 @@ Route::group(['prefix' => 'vivienda'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.vivienda', 'uses' => 'ViviendaController@desactivar'
     ]);
+    Route::post('/imagen', [
+        'as' => 'admin.vivienda', 'uses' => 'ViviendaController@imagen'
+    ]);
 });
 Route::group(['prefix' => 'historialPpi'], function () {
     Route::get('/get', [

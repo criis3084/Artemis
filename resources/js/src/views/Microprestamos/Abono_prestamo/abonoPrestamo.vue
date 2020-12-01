@@ -61,7 +61,7 @@
     <div id="invoice-page">
                         <vx-card id="invoice-container">
                           <div class="flex justify-between mb-2">
-                               <img src="@assets/images/logo/logopid.png" height="90px" width="150px" alt="PID Guatemala">
+                               <img src="@assets/images/logo/logopid.png" height="90px" width="150px">
                                <p class="text-primary">Partners in Development</p>
                                
                             </div>
@@ -227,8 +227,8 @@ export default{
           const respuesta = response.data
           me.arrayData = respuesta.detalleIntegrantes.data
           me.arrayData = me.arrayData.filter(o => hash2[o.encargado_id] ? false : hash2[o.encargado_id] = true)
-          console.log('importacion de personas asignadas a grupo')
-          console.log(me.arrayData)
+          //console.log('importacion de personas asignadas a grupo')
+          //console.log(me.arrayData)
           me.encargados = me.traerDatosEncargados(me.arrayData)
         })
         .catch(function (error) {
@@ -254,7 +254,7 @@ export default{
         detalle_integrante_id:this.detalle.id,
         user_id:8
       }).then(function (response) {
-        console.log(response.data.id)
+        //console.log(response.data.id)
         me.seterResponse(response.data.id)
         me.ActualizarFechaPago()
         me.desactivar()
@@ -302,15 +302,15 @@ export default{
     async buscarAbonos () { //funcion para verificar si se ya tiene abonos realizados
       const me = this
       this.id_recibido = this.detalle.id
-      console.log(`BuscarAbono   ${this.id_recibido}`)
+      //console.log(`BuscarAbono   ${this.id_recibido}`)
       const response = await axios.get(
         `/api/abonoPrestamo/get?&criterio=detalle_integrante_id&buscar=${this.id_recibido}&completo=true` 
       ).then(function (response) {
         const respuesta = response.data
         me.arrayA = respuesta.abonos.data
         me.deuda = me.arrayA[0].cantidad_restante
-        console.log(me.arrayA)
-        console.log(me.deuda)
+        //console.log(me.arrayA)
+       // console.log(me.deuda)
         me.Calcular()
       })
         .catch(function (error) {
@@ -323,16 +323,16 @@ export default{
     MoraPorfechas () { //funcion que evalua la fecha de pago, para asignar la mora
       const today = new Date()
       const FechaHoy = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
-      console.log(today)
+      //console.log(today)
       const FechaPago = new Date(this.dia_pago)
-      console.log(FechaPago)
+      //console.log(FechaPago)
       
       if (today <= FechaPago) {
-        console.log('Fecha sin mora')
+        //console.log('Fecha sin mora')
         this.mora = 0
         this.mora_nueva = parseFloat(this.deuda) + 0
       } else {
-        console.log('Fecha con mora')
+        //console.log('Fecha con mora')
         const diferencia = new Date(FechaHoy) - new Date(FechaPago)
         const mes = Math.floor(diferencia / 2629750000)
         const dias = Math.floor(diferencia / 86400000)
@@ -430,7 +430,7 @@ export default{
       const me = this
       this.id_recibido = this.detalle.id
       if (this.total === 0) {
-        console.log(`Desactivar  ${this.id_recibido}`)
+       // console.log(`Desactivar  ${this.id_recibido}`)
         
         axios.put('/api/detalleIntegrante/desactivar', {
           id: this.id_recibido

@@ -55,6 +55,11 @@
             </div>
         </template>
         </vx-input-group>
+        <div class="vx-col md:w-1/2 w-full mt-5">
+										<img :src="imagen_perfil_antigua"  width="100" height="100" class="responsive">
+										<vx-tooltip text="Editar Imagen"> <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-edit" radius  @click="editarImagen"></vs-button> </vx-tooltip>
+										<vs-upload v-if="mostrarEditar" automatic action="/api/vivienda/imagen" limit="1" :headers="head" fileName="photos" @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil"/>
+								</div>
       </div>
           </div>
           </form>
@@ -128,6 +133,7 @@ export default {
       tipoViviendasT: [],
         tipo_vivienda_idT:'',
         encargado_nombres:'',
+        imagen_perfil_antigua:'',
         encargado_apellidos:'',
         conjuntoEncargado:'',
         constructor_nombres:'',
@@ -135,6 +141,10 @@ export default {
     langEn: es,
     id_recibido:'',
     titulo:'Actualización registrada',
+    head:{
+        'imagenanterior':''	
+      },
+      mostrarEditar:false
     }
   },
   computed: {
@@ -142,6 +152,17 @@ export default {
   methods: {
     goBack(){
       this.$router.go(-1)
+    },
+    editarImagen () {
+      this.mostrarEditar = true
+    },
+    vaciar () {
+      console.log('imagen vaciada!')
+      this.imagen_finalT = ''
+    },
+    respuesta (e) {
+      this.imagen_finalT = e.currentTarget.response.replace(/['"]+/g, '')
+      this.head.imagenanterior = this.imagen_finalT
     },
     async index(page, search){ //async para que se llame cada vez que se necesite
         let me = this;
@@ -154,7 +175,7 @@ export default {
 			var respuesta= response.data;
               me.arrayData = respuesta.viviendas.data[0];
               me.duracionT = me.arrayData.duracion;
-              me.imagen_finalT = me.arrayData.imagen_final;
+              me.imagen_perfil_antigua = me.arrayData.imagen_final;
               me.direccionT = me.arrayData.direccion;
               me.costo_totalT = me.arrayData.costo_total;
               me.fecha_inicioT = me.arrayData.fecha_inicio;
@@ -193,7 +214,7 @@ export default {
     let encontrado=false;
 		let elementoE={}
 		const response = await axios.get(
-			`/api/tipoVivienda/get?completo=select`)
+			`/api/tipoVivienda/get?completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
             me.tipoViviendasT = respuesta.tipoViviendas.data;
@@ -286,6 +307,12 @@ export default {
    this.$validator.validateAll().then(result => {
   if(result) {
       // alert('Form submitted!');
+       const me = this
+      if (this.imagen_finalT === '') {
+        this.imagen_finalT = this.imagen_perfil_antigua
+      } else {
+        this.imagen_finalT = `/storage/public/viviendas/${  this.imagen_finalT}`
+      }
       axios.put("/api/vivienda/update/",{
         id:this.id_recibido,
 		    costo_total:this.costo_totalT,
@@ -299,17 +326,23 @@ export default {
 
 	}).then(function(response) {
       console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-        });
-        this.$emit('cerrado','Se cerró el formulario');
-       this.$vs.notify({
+       me.$vs.notify({
 			color:'success',
 			title:'Actualización registrada!',
 			text:'La acción se realizo exitósamente'
 			});
-        this.$router.push('/vivienda/vivienda');
+        me.$router.push('/vivienda/vivienda');
+		})
+		.catch(function(error) {
+    console.log(error)
+    me.$vs.notify({
+			color:'danger',
+			title:'Error!',
+			text:'Error al actualizar los datos'
+			});
+        });
+        this.$emit('cerrado','Se cerró el formulario');
+      
         }
   else{
         this.$vs.notify({

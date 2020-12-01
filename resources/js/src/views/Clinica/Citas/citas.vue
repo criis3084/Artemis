@@ -201,10 +201,6 @@ export default {
         {
           label: 'Semana',
           val: 'week'
-        },
-        {
-          label: 'Año',
-          val: 'year'
         }
 	  ],
 	  descripcion:null,

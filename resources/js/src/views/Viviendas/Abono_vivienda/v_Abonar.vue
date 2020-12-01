@@ -57,7 +57,7 @@
     <div id="invoice-page">
                         <vx-card id="invoice-container">
                           <div class="flex justify-between mb-2">
-                               <img src="@assets/images/logo/logopid.png" alt="vuexy-logo">
+                               <img src="@assets/images/logo/logopid.png" height="90px" width="150px" alt="PID Guatemala">
                                <p class="text-primary">Partners in Development</p>
                                
                             </div>
@@ -206,8 +206,8 @@ export default{
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.viviendas.data
-          console.log('importacion de viviendas')
-          console.log(me.arrayData)
+          //console.log('importacion de viviendas')
+          //console.log(me.arrayData)
           me.encargados = me.traerDatosEncargados(me.arrayData)
         })
         .catch(function (error) {
@@ -242,14 +242,14 @@ export default{
     async buscarAbono () {
       const me = this
       this.id_recibido = this.vivienda_id.id
-      console.log(`BuscarAbono   ${this.id_recibido}`)
+     // console.log(`BuscarAbono   ${this.id_recibido}`)
       const response = await axios.get(
         `/api/historialAbonoVivienda/get?&criterio=vivienda_id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
           const respuesta = response.data
           me.arrayA = respuesta.historialAbonoViviendas.data[0]
           me.deuda = me.arrayA.abono.cantidad_restante
-          console.log(me.deuda)
+          //console.log(me.deuda)
         })
         .catch(function (error) {
           console.log(error)
@@ -330,7 +330,7 @@ export default{
       this.nRecibo = id
     },
     Calcular () {
-      console.log('Calcular')
+      //console.log('Calcular')
       if (this.deuda === 0) {
         this.total = this.costoV - this.cantidad
       } else this.total = this.deuda - this.cantidad

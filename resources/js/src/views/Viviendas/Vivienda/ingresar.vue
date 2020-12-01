@@ -55,9 +55,15 @@
 			      <div class="vx-col w-full">
               <vs-input  v-model="costo_total" class="w-full" name="costo" v-validate="'required|numeric|max:6'" />
               <span class="text-danger">{{ errors.first('step-1.costo') }}</span>
+              
             </div>
           </template>
   				</vx-input-group>
+          <div class="vx-col md:w-1/2 w-full mt-5">
+					<template>
+						<vs-upload automatic action="/api/vivienda/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Imagen de vivienda"/>
+					</template>
+			</div>
 			  </div>
       
 
@@ -135,7 +141,10 @@ export default {
         encargado_apellidos:'',
         constructor_nombres:'',
         constructor_apellidos:'',
-	  langEn: es,
+    langEn: es,
+    head:{
+			"imagenanterior":""	
+		}
     }
   },
   methods: {
@@ -203,7 +212,19 @@ export default {
 		.catch(function (error) {
 			console.log(error)
 		})
+  },
+  vaciar(){
+		this.imagen_final='';
 	},
+  respuesta(e){
+	this.imagen_final=e.currentTarget.response.replace(/['"]+/g, '')
+		this.head.imagenanterior=this.imagen_final
+		this.$vs.notify({
+					color:'success',
+					title:'Imagen subida',
+					text:'Acción realizada exitósamente!'
+				});
+    },
     validateStep1 () {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-1').then(result => {
@@ -227,10 +248,11 @@ export default {
       console.log(this.tipo_vivienda_id);
       console.log(this.tipo_vivienda_id.id);
       console.log(this.duracion);
+      const me = this
       axios.post("/api/vivienda/post/",{
 		direccion:this.direccion,
         duracion:this.duracion,
-        imagen_final:this.imagen_final,
+        imagen_final: '/storage/public/viviendas/' + this.imagen_final,
         costo_total:this.costo_total,
 		fecha_inicio:this.getDate(this.fecha_inicio),
         encargado_id:this.encargado_id.id,
@@ -238,17 +260,23 @@ export default {
         tipo_vivienda_id:this.tipo_vivienda_id.id
 	}).then(function(response) {
       console.log(response)
-		})
-		.catch(function(error) {
-		console.log(error)
-        });
-        this.$emit('cerrado','Se cerró el formulario');
-        this.$vs.notify({
+       me.$vs.notify({
 					color:'success',
 					title:'Vivienda registrada',
 					text:'Acción realizada exitósamente'
 				});
-        this.$router.push('/vivienda/vivienda');
+        me.$router.push('/vivienda/vivienda');
+		})
+		.catch(function(error) {
+    console.log(error)
+    me.$vs.notify({
+			color:'danger',
+			title:'Error!',
+			text:'Error al registrar los datos'
+			});
+        });
+        this.$emit('cerrado','Se cerró el formulario');
+       
   }
   else{
         this.$vs.notify({

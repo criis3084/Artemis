@@ -110,7 +110,8 @@ class UserController extends Controller
 			File::delete($nombreEliminar);
 		}
 		$completo = time() . "." . $imagen->extension();
-		$imagen->move(public_path('storage/public/usuarios/'), $completo);
+		$imagen_redi = Image::make($imagen)->resize(300,200);
+		$imagen_redi->move(public_path('storage/public/usuarios/'), $completo);
 		return Response::json($completo, 200);
 	}
 }

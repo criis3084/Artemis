@@ -27,14 +27,14 @@ class ViviendaController extends Controller
 				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('estado', 'desc')->paginate($count);
+				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->orderBy('estado', 'desc')->paginate($count);
+				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->where($criterio, 'like',$buscar)->orderBy('estado', 'desc')->paginate($count);
+				$vivienda = Vivienda::with('tipoVivienda')->with('datos_constructor')->with('datos_residente')->where($criterio, 'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [
@@ -94,16 +94,16 @@ class ViviendaController extends Controller
 		return Response::json(['message' => 'Vivienda Desactivada'], 200);
 	}
 
-	// public function imagen(Request $request){
-	// 	$imagen = $request->photos;
-	// 	$nombreEliminar = public_path('storage\public\viviendas\\') .  $request->header("imagenanterior");
-	// 	if (File::exists($nombreEliminar)) {
-	// 		File::delete($nombreEliminar);
-	// 	}
+	public function imagen(Request $request){
+	 	$imagen = $request->photos;
+	 	$nombreEliminar = public_path('storage\public\viviendas\\') .  $request->header("imagenanterior");
+	 	if (File::exists($nombreEliminar)) {
+	 		File::delete($nombreEliminar);
+	 	}
 		
-	// 	$completo = time() . "." . $imagen->extension();
-	// 	$imagen_redi = Image::make($imagen)->resize(300,200);
-	// 	$imagen_redi->save(public_path('storage/public/viviendas/'. $completo));
-	// 	return Response::json($completo, 200);
-	// }
+	 	$completo = time() . "." . $imagen->extension();
+	 	$imagen_redi = Image::make($imagen)->resize(300,200);
+	 	$imagen_redi->save(public_path('storage/public/viviendas/'. $completo));
+	 	return Response::json($completo, 200);
+	 }
 }
