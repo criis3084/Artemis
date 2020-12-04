@@ -204,9 +204,9 @@ export default {
         title: `${titulo}`,
         text: `${titulo}`
       });
-      this.index(this.pagination.current_page, this.search);
+      this.index();
     },
-    async index(page, search) {
+    async index() {
       //async para que se llame cada vez que se necesite
       let me = this;
       this.abrir_editar=false

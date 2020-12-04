@@ -123,6 +123,7 @@ import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 import vSelect from 'vue-select'
 import axios from 'axios'
+import Ls from '../../../services/ls';
 //validar
 import { Validator } from 'vee-validate'
 const dict = {
@@ -228,7 +229,6 @@ export default{
           me.arrayData = respuesta.detalleIntegrantes.data
           me.arrayData = me.arrayData.filter(o => hash2[o.encargado_id] ? false : hash2[o.encargado_id] = true)
           //console.log('importacion de personas asignadas a grupo')
-          //console.log(me.arrayData)
           me.encargados = me.traerDatosEncargados(me.arrayData)
         })
         .catch(function (error) {
@@ -251,10 +251,9 @@ export default{
         descripcion:this.descripcion,
         fecha_pago:this.getDate(this.fecha_pago),
         mora:this.mora,
-        detalle_integrante_id:this.detalle.id,
-        user_id:8
+		detalle_integrante_id:this.detalle.id,
+		user_id:parseInt(Ls.get('auth.id_usuario')),
       }).then(function (response) {
-        //console.log(response.data.id)
         me.seterResponse(response.data.id)
         me.ActualizarFechaPago()
         me.desactivar()
@@ -275,8 +274,7 @@ export default{
           })
         })
     },
-    buscarDatos () { //funcion para traer datos del prestamista, desde el la opcion que se selecciona en el select
-      console.log(this.detalle.id)
+    buscarDatos () { 
       this.nombreSeleccionado = `${this.detalle.encargado_nombres  } ${  this.detalle.encargado_apellidos}`
       this.totalPrestamo = this.detalle.prestamo_individual
       this.microprestamo_id = this.detalle.microprestamo.id
@@ -309,8 +307,6 @@ export default{
         const respuesta = response.data
         me.arrayA = respuesta.abonos.data
         me.deuda = me.arrayA[0].cantidad_restante
-        //console.log(me.arrayA)
-       // console.log(me.deuda)
         me.Calcular()
       })
         .catch(function (error) {
@@ -338,9 +334,6 @@ export default{
         const dias = Math.floor(diferencia / 86400000)
         this.mes = mes
         this.dias = dias
-        //console.log(mes)
-        //console.log(dias)
-
         if (dias > 0 && mes === 0) {
           this.pagarMora = true
           this.mora_nueva = parseFloat(this.deuda) + parseFloat(this.mora) 
@@ -349,8 +342,6 @@ export default{
           this.pagarMora = true
           this.mora = parseFloat(this.mora) * parseFloat(this.mes)
           this.mora_nueva = parseFloat(this.deuda) + parseFloat(this.mora) 
-          //console.log('Mora por mes')
-          //console.log(this.mora)
         } 
         
         
@@ -411,7 +402,6 @@ export default{
         this.NuevaFechaPago.setMonth(FechaPago.getMonth() + 1)
         this.NuevaFechaPago.setDate(FechaPago.getDate() + 1)
       }
-      console.log(this.getDate(this.NuevaFechaPago))
     },
 
     limpiar () {

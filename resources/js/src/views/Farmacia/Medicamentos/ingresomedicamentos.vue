@@ -21,7 +21,7 @@
 				</template>
 				<template slot="thead">
 					<vs-th>Ver</vs-th>
-					<vs-th>Nombre Usuario</vs-th>
+					<vs-th>Nombres de Usuario</vs-th>
 					<vs-th>Nombre Proveedor</vs-th>
 					<vs-th>Fecha</vs-th>
 					<vs-th>Descripción</vs-th>

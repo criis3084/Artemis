@@ -21,7 +21,6 @@
 					<small class="date-label">Fecha de estudio</small>
 					<datepicker v-validate="'required'" :language="$vs.rtl ? langEn : langEn" name="fecha_boleta" v-model="fecha_boleta"></datepicker>
 					<span class="text-danger">{{ errors.first('fecha_boleta') }}</span>
-
 				</div>
 			</div>
 
@@ -252,7 +251,6 @@ export default {
 		},
 		buscarHermanos(codigoT){
 			let me = this;
-			console.log('Buscando hermanos del codigo ' + codigoT)
 			axios.get(`/api/relacion/get?criterio=codigo&buscar=${codigoT}&completo=informacion`)
 			.then(function (response) {
 				var respuesta= response.data;
@@ -273,7 +271,6 @@ export default {
 						nino_id:elemento.nino_id,
 						estudio_id:estudioT,
 					}).then(function(response) {
-							console.log('es aqui donde se traba?')
 							console.log(response)
 					})
 						.catch(function(error) {
@@ -303,81 +300,60 @@ export default {
 			});
 		},
 		ingresarEstudio(){
-		this.$validator.validateAll().then(result => {
-        if(result) {
-			let me = this;
-			axios.post("/api/estudioSocioeconomico/post/",{
-				fecha_boleta:this.getDate(this.fecha_boleta),
-				total_ingresos:this.total_ingresos,
-				alimentacion:this.alimentacion,
-				situacion_vivienda:this.situacion_vivienda-100,
-				descripcion_costo:this.descripcion_costo,
-				luz:this.luz,
-				agua:this.agua,
-				drenaje:this.drenaje,
-				cantidad_cuartos:this.cantidad_cuartos,
-				bano:this.bano,
-				paredes:this.paredes,
-				techo:this.techo,
-				piso:this.piso,
-				evaluacion_diagnostico:this.evaluacion_diagnostico
-			}).then(function(response) {
-				console.log('respuesta del estudio')
-				console.log(response)
-				me.enviando(response.data.id)
+			this.$validator.validateAll().then(result => {
+				if(result) {
+					let me = this;
+					axios.post("/api/estudioSocioeconomico/post/",{
+						fecha_boleta:this.getDate(this.fecha_boleta),
+						total_ingresos:this.total_ingresos,
+						alimentacion:this.alimentacion,
+						situacion_vivienda:this.situacion_vivienda-100,
+						descripcion_costo:this.descripcion_costo,
+						luz:this.luz,
+						agua:this.agua,
+						drenaje:this.drenaje,
+						cantidad_cuartos:this.cantidad_cuartos,
+						bano:this.bano,
+						paredes:this.paredes,
+						techo:this.techo,
+						piso:this.piso,
+						evaluacion_diagnostico:this.evaluacion_diagnostico
+					}).then(function(response) {
+						console.log(response)
+						me.enviando(response.data.id)
+					})
+					.catch(function(error) {
+						console.log(error)
+					});
+					this.buscarCodigo()
+				}
+				else {
+					this.$vs.notify({
+						color:'danger',
+						title:`Error en validación!`,
+						text:'Ingrese correctamente todos los campos'
+					})
+				}
 			})
-			.catch(function(error) {
-				console.log(error)
-			});
-			this.buscarCodigo()
-		}
-		else {
-          this.$vs.notify({
-					color:'danger',
-					title:`Error en validación!`,
-					text:'Ingrese correctamente todos los campos'
-				})
-        }
-		})
 		},
-	// 	async index(){ //async para que se llame cada vez que se necesite
-    //     let me = this;
-    //     me.id_recibido = this.$route.params.id;
-	// 	const response = await axios.get(
-	// 		`/api/historialFotografia/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
-	// 	.then(function (response) {
-	// 		var respuesta= response.data;
-    //         me.arrayData = respuesta.historialfotografias.data;
-    //         me.nombre = respuesta.historialfotografias.data[0].datos_nino[0].nombres;
-    //         me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
-    //         me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
-    //         me.id = respuesta.historialfotografias.data[0].nino.id;
-	// 	})
-	// 	.catch(function (error) {
-	// 		console.log(error);
-	// 	});
-	// },
-	async index2(){ //async para que se llame cada vez que se necesite
-        let me = this;
-        me.id_recibido = this.$route.params.id;
-		const response = await axios.get(
-			`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
-		.then(function (response) {
-			var respuesta= response.data;
-            me.arrayData = respuesta.ninos.data;
-            me.nombre = respuesta.ninos.data[0].datos.nombres;
-            me.apellido = respuesta.ninos.data[0].datos.apellidos;
-			me.codigo = respuesta.ninos.data[0].codigo;
-			me.id = respuesta.ninos.data[0].datos.id;
-            console.log("array nino");
-			console.log(me.arrayData);
-			console.log("lol");
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-		me.ya=true;
-    },
+		async index2(){
+			let me = this;
+			me.id_recibido = this.$route.params.id;
+			const response = await axios.get(
+				`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.arrayData = respuesta.ninos.data;
+				me.nombre = respuesta.ninos.data[0].datos.nombres;
+				me.apellido = respuesta.ninos.data[0].datos.apellidos;
+				me.codigo = respuesta.ninos.data[0].codigo;
+				me.id = respuesta.ninos.data[0].datos.id;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+			me.ya=true;
+		},
 	},
 	components:{
 		Datepicker,

@@ -28,7 +28,7 @@
 					<div class="mt-4">
 						<span class="font-semibold">Receta No.</span>{{ id_receta }}
 						<br>
-						<span class="font-semibold">Doctor/a: </span>Juan paco pedro de la mar
+						<span class="font-semibold">Doctor/a: </span> {{nombreDoctor}}
 						<br>
 						<span class="font-semibold">Paciente: </span>{{paciente_select.nombre_completo}}
 					</div>
@@ -184,7 +184,7 @@
 		<div v-if="verReceta">
 			
 			<vs-divider position="center" class="mt-6" > Medicamentos Recetados </vs-divider>
-			<div class="vx-col md:w-1/2 w-full mt-3">
+			<div class="vx-col md:w-2/3 w-full mt-3">
 				<div class="vx-col w-full">
 					<small class="date-label">Lista de medicamentos:</small>
 					<v-select v-if="this.carrito.length==0" name="medicamento" v-validate="'required'" label="nombre_completo" :options="listado_medicamentos" class="mt-1"  v-model="medicamento_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
@@ -248,6 +248,8 @@ import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
 import { es } from 'vuejs-datepicker/src/locale'
 import { Validator } from 'vee-validate';
+import Ls from '../../../services/ls';
+
 const dict = {
   custom: {
 	paciente: {
@@ -353,6 +355,7 @@ export default {
 			// ---- Impresion de receta ----//
 			verForm:true,
 			id_receta:null,
+			nombreDoctor:'',
 		}
 	},
 	components:{
@@ -482,8 +485,8 @@ export default {
 					title:`Error en validación!`,
 					text:'Ingrese correctamente todos los campos'
 				})
-        }
-      })
+        	}
+		})
 		},
 		async registrarReceta(id_historial){
 			let me = this
@@ -542,6 +545,15 @@ export default {
 			.catch(function(error) {
 				console.log(error);
 			});
+				axios.get(`/api/user/get?&criterio=id&buscar=${parseInt(Ls.get('auth.id_usuario'))}&completo=true`)
+					.then(function (response) {
+					var respuesta =  response.data
+					me.arrayData = respuesta.users.data[0]
+					me.nombreDoctor = me.arrayData.nombres + ' ' + me.arrayData.apellidos
+					})
+					.catch(function (error) {
+					console.log(error)
+				})
 		},
 		traerNombreMedicamento(tabla){
 			for (let i in tabla) {
@@ -550,6 +562,7 @@ export default {
 			}
 			return tabla
 		},
+		
 	},
 	mounted() {
 		this.importarPacientes()

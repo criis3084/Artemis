@@ -157,21 +157,18 @@ export default {
       this.mostrarEditar = true
     },
     vaciar () {
-      console.log('imagen vaciada!')
       this.imagen_finalT = ''
     },
     respuesta (e) {
       this.imagen_finalT = e.currentTarget.response.replace(/['"]+/g, '')
       this.head.imagenanterior = this.imagen_finalT
     },
-    async index(page, search){ //async para que se llame cada vez que se necesite
+    async index(){ //async para que se llame cada vez que se necesite
         let me = this;
         this.id_recibido = this.$route.params.id;
-        console.log("criterio   "+this.id_recibido);
 		const response = await axios.get(
 			`/api/vivienda/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
               me.arrayData = respuesta.viviendas.data[0];
               me.duracionT = me.arrayData.duracion;
@@ -182,32 +179,26 @@ export default {
               me.encargado_idT = me.arrayData.encargado_id;
               me.constructor_idT = me.arrayData.constructor_id;
               me.tipo_vivienda_idT = me.arrayData.tipo_vivienda_id;
-            console.log(me.arrayData);
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
     },
     traerDatosEncargados(tabla){
-
-			tabla.forEach(function(valor, indice, array){
-				valor.encargado_nombres=valor.datos.nombres
-        valor.encargado_apellidos=valor.datos.apellidos
-        valor.conjuntoEncargado=valor.encargado_nombres + ' '+ valor.encargado_apellidos
-            }); 
-
-			return tabla
-        },
+		tabla.forEach(function(valor, indice, array){
+		valor.encargado_nombres=valor.datos.nombres
+		valor.encargado_apellidos=valor.datos.apellidos
+		valor.conjuntoEncargado=valor.encargado_nombres + ' '+ valor.encargado_apellidos
+		}); 
+		return tabla
+	},
     traerDatosConstructor(tabla){
-        console.log(tabla);
-			tabla.forEach(function(valor, indice, array){
-				valor.constructor_nombres=valor.datos.nombres
+		tabla.forEach(function(valor, indice, array){
+		valor.constructor_nombres=valor.datos.nombres
         valor.constructor_apellidos=valor.datos.apellidos
         valor.conjuntoConstructor=valor.constructor_nombres + ' '+ valor.constructor_apellidos
-            });
-            console.log(tabla); 
-			return tabla
+		});
+		return tabla
 	},
     async importarTipo(){ //async para que se llame cada vez que se necesite
     let me = this;
@@ -226,7 +217,6 @@ export default {
 				}
 			})
 			me.tipo_vivienda_idT = encontrado == true ? elementoE : {id:me.tipo_vivienda_idT,nombre:'tipo de vivienda desactivado'} 
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -241,8 +231,8 @@ export default {
 		.then(function (response) {
 			const respuesta = response.data
 			me.arrayData = respuesta.constructors.data
-      me.constructorsT = me.traerDatosConstructor(me.arrayData)
-      me.constructorsT.forEach(function(elemento, indice, array) {
+			me.constructorsT = me.traerDatosConstructor(me.arrayData)
+			me.constructorsT.forEach(function(elemento, indice, array) {
 				if (elemento.id==me.constructor_idT)
 				{
 					elementoE=elemento
@@ -250,7 +240,6 @@ export default {
 				}
 			})
 			me.constructor_idT = encontrado == true ? elementoE : {id:me.constructor_idT,nombre:'Constructor desactivado'} 
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error)
@@ -265,8 +254,8 @@ export default {
 		.then(function (response) {
 			const respuesta = response.data
 			me.arrayData = respuesta.encargados.data
-      me.encargadosT = me.traerDatosEncargados(me.arrayData)
-      me.encargadosT.forEach(function(elemento, indice, array) {
+			me.encargadosT = me.traerDatosEncargados(me.arrayData)
+			me.encargadosT.forEach(function(elemento, indice, array) {
 				if (elemento.id==me.encargado_idT)
 				{
 					elementoE=elemento
@@ -274,7 +263,6 @@ export default {
 				}
 			})
 			me.encargado_idT = encontrado == true ? elementoE : {id:me.encargado_idT,nombre:'Encargado desactivado'} 
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error)
@@ -355,13 +343,13 @@ export default {
     },
   },
   components: {
-    FormWizard,
-	  TabContent,
-  	Datepicker,
-	  vSelect,
+	FormWizard,
+	TabContent,
+	Datepicker,
+	vSelect,
   },
 	mounted(){
-    this.index(1, this.search);
+    this.index();
     this.importarTipo();
     this.importarConstructor();
     this.importarEncargados();

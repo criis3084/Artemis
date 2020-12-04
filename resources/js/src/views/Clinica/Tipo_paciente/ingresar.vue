@@ -69,14 +69,12 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
 			me.tipoPacientesT = respuesta.tipoPacientes.data;
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
 	},
 	acceptAlert () {
-	console.log(this.valMultipe.value2.id)
 	axios.post("/api/tipoPaciente/post/",{
 		nombre:this.valMultipe.value1,
 		descripcion:this.valMultipe.value2

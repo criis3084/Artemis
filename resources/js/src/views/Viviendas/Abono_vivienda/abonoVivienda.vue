@@ -137,7 +137,7 @@ export default {
       const mil = formatter.format(numero)
       return mil
     },
-    async index (page, search) { //async para que se llame cada vez que se necesite
+    async index () { //async para que se llame cada vez que se necesite
       const me = this
       this.id_recibido = this.$route.params.id
       const response = await axios.get(
@@ -145,21 +145,17 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.arrayHistorial = respuesta.historialAbonoViviendas.data
-          me.pagination = respuesta.pagination
-          console.log(me.arrayHistorial)
         })
         .catch(function (error) {
           console.log(error)
         })
     },
-    async index2 (page, search) { //async para que se llame cada vez que se necesite
+    async index2 () { //async para que se llame cada vez que se necesite
       const me = this
       this.id_recibido = this.$route.params.id
-      console.log(`criterio   ${this.id_recibido}`)
       const response = await axios.get(
         `/api/vivienda/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
-          console.log(page)
           const respuesta = response.data
           me.arrayData = respuesta.viviendas.data
           me.id = respuesta.viviendas.data[0].datos_residente[0].id
@@ -198,7 +194,7 @@ export default {
       })
     
 
-      this.index(this.pagination.current_page, this.search)
+      this.index()
     },
     cambiarEstado (color) {
       let titulo = ''
@@ -231,7 +227,7 @@ export default {
         title:`${titulo}`,
         text:'La acción se realizo exitósamente'
       })
-      this.index(this.pagination.current_page, this.search)
+      this.index()
     },
     exportToExcel () {
       import('@/vendor/Export2Excel').then(excel => {
@@ -260,8 +256,8 @@ export default {
     },
   },
   mounted () {
-    this.index(1, this.search)
-    this.index2(1, this.search)
+    this.index()
+    this.index2()
   },
   computed:{
 

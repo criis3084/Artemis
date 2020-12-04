@@ -148,26 +148,25 @@
 						<tr>
 							<td class="pointer-events-none text-left"> <b>Dirección de la vivienda: </b> {{direccion}} </td>
 							<td class="pointer-events-none text-left"> <b>Sector: </b> {{sector}} </td>
-							</tr>
+						</tr>
 					</table>
 					<vs-divider/>
-
 						<table style="width:75%" class="border-collapse mt-2">
-								<tr>
-									<td class="pointer-events-none text-left"> <b>Situación de la vivienda: </b> {{datosEstudio.situacion_vivienda == 1 ? 'Propia' : datosEstudio.situacion_vivienda== 2 ? 'Alquilada' : 'Prestada' }}  </td>
-									<td class="pointer-events-none text-left"> <b> Costos de la vivienda:   </b>  {{datosEstudio.descripcion_costo}} </td>
-								</tr>
+							<tr>
+								<td class="pointer-events-none text-left"> <b>Situación de la vivienda: </b> {{datosEstudio.situacion_vivienda == 1 ? 'Propia' : datosEstudio.situacion_vivienda== 2 ? 'Alquilada' : 'Prestada' }}  </td>
+								<td class="pointer-events-none text-left"> <b> Costos de la vivienda:   </b>  {{datosEstudio.descripcion_costo}} </td>
+							</tr>
 						</table>
 					<vs-divider/>
 
 					<p><b>Servicios con los que cuenta la vivienda:</b></p>
 
 						<table style="width:50%" class="border-collapse mt-2">
-								<tr>
-									<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.luz ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"> <b> Luz </b></vs-checkbox> </td>
-									<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.agua ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"><b> Agua</b> </vs-checkbox> </td>
-									<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.drenaje ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"><b>Drenaje</b></vs-checkbox> </td>
-								</tr>
+							<tr>
+								<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.luz ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"> <b> Luz </b></vs-checkbox> </td>
+								<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.agua ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"><b> Agua</b> </vs-checkbox> </td>
+								<td class="pointer-events-none text-left"> 	<vs-checkbox color="dark" icon-pack="feather" class="mt-2" :icon="datosEstudio.drenaje ==0 ? 'icon-x' : 'icon-check'" v-model="check" disabled="true"><b>Drenaje</b></vs-checkbox> </td>
+							</tr>
 						</table>
 					<vs-divider/>
 					<p><b>Numero de cuartos: </b> {{ datosEstudio.cantidad_cuartos }} </p>
@@ -177,7 +176,7 @@
 					<p><b> Materiales de construcción: </b> </p>
 						<table style="width:70%" class="border-collapse mt-2">
 								<tr>
-									<td class="pointer-events-none text-left"><b>Paredes: </b>  {{ datosEstudio.paredes}}</td>
+									<td class="pointer-events-none text-left"><b>Paredes: </b> {{datosEstudio.paredes}}</td>
 									<td class="pointer-events-none text-left"><b> Techo:  </b> {{datosEstudio.techo}}</td>
 									<td class="pointer-events-none text-left"><b> Piso:   </b> {{datosEstudio.piso}}</td>
 								</tr>
@@ -320,12 +319,8 @@ export default {
 				let hash2 = {};
 				me.listadoFamilia = consulta.filter(o => hash[o.encargado_id] ? false : hash[o.encargado_id] = true);
 				me.listadoNinos	  = consulta.filter(o => hash[o.nino_id] ? false : hash[o.nino_id] = true);
-
-				console.log('Listado de familia')
-				console.log(me.listadoFamilia[0].direccion)
 				me.direccion=me.listadoFamilia[0].direccion
 				me.sector=me.listadoFamilia[0].sector.nombre
-				console.log(me.listadoFamilia[0].sector)
 
 				me.listadoNinos.forEach(function(elemento, indice, array) {
 					let nombreT=elemento.datos_nino[0].apellidos

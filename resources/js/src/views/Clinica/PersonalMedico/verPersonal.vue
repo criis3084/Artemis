@@ -1,6 +1,6 @@
 <template>
 <div id="item-detail-page">
-    <vx-card title="Información del niño">
+    <vx-card title="Información del personal médico">
       <template slot="no-body">
         <!-- <h2>Información del niño</h2> -->
 				<vs-divider position="right">PID&#174;</vs-divider>
@@ -11,7 +11,7 @@
             <div class="vx-row mt-6">
               <div class="vx-col md:w-2/5 w-full flex items-center justify-center">
                 <div class="product-img-container w-3/5 mx-auto mb-10 md:mb-0">
-                  <img :src="this.ruta_imagenT" alt="Imagen...." class="responsive">
+                  <img :src="this.ruta_imagenT" class="responsive">
 
                   <!--
                     UnComment Below line for true flow
@@ -61,7 +61,7 @@
                 
                 <div class="vx-row">
                   <div class="vx-col flex flex-wrap items-center">
-                   <vs-button class="mr-4" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/editar/ninono/'+id_recibido)">Editar Información</vs-button>  
+                   <vs-button class="mr-4" type="gradient" icon-pack="feather" color="success" icon="icon-edit" @click="$router.push('/clinica/editarPersonal/'+id_recibido)">Editar Información</vs-button>  
                     <vs-button @click="goBack" class="mr-4" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>
                   </div>
                 </div>
@@ -91,7 +91,6 @@ export default {
       const difference = currentDate - fecha_nacimientoTt
       const age = Math.floor(difference / 31557600000)
       return age
-      //console.log(age)
     }
   },
   data () {
@@ -126,7 +125,6 @@ export default {
     async index () { //async para que se llame cada vez que se necesite
       const me = this
       this.id_recibido = this.$route.params.id
-      console.log(`criterio   ${this.id_recibido}`)
       const response = await axios.get(
         `/api/clinico/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
@@ -142,11 +140,7 @@ export default {
           me.generoT = me.arrayData.datos.genero
           me.ruta_imagenT = me.arrayData.datos.imagen_perfil
           me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento
-          me.profesion = me.arrayData.profesion.nombre
-          console.log(me.nombresT)
-          console.log('array')
-          console.log(me.arrayData)
-          
+          me.profesion = me.arrayData.profesion.nombre          
         })
         .catch(function (error) {
           console.log(error)

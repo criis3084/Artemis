@@ -43,7 +43,7 @@ class MedicamentoController extends Controller
 			$medicamento = new Medicamento();
 			$medicamento->nombre = $request->nombre;
 			$medicamento->descripcion = $request->descripcion;
-			$medicamento->stock_general = $request->stock_general;
+			$medicamento->stock_general = 0;
 			$medicamento->categoria_medicamento_id = $request->categoria_medicamento_id;
 			$medicamento->casa_medica_id = $request->casa_medica_id;
 			$medicamento->save();

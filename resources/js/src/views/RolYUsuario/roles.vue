@@ -64,11 +64,9 @@ export default {
     async index () { //async para que se llame cada vez que se necesite
       const me = this
       const response = await axios.get('/api/rol/get?completo=true')
-        .then(function (response) {
-			
+        .then(function (response) {			
           const respuesta = response.data
           me.arrayData = respuesta.roles.data
-          console.log(me.arrayData)
         })
         .catch(function (error) {
           console.log(error)

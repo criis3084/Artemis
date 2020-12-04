@@ -90,13 +90,11 @@
 					</div>					
 
 					<div v-if="estudia" class="vx-col w-full">
-
 						<div class="vx-col md:w-1/2 w-full mt-3">
 							<div class="vx-col w-full">
 								<small class="date-label">Escuela</small>
 								<v-select label="nombre" :options="escuelas" class="mt-1" name="escuela"  v-model="escuela_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-							<div v-if="VALescuela"><span class="text-danger">{{ VALescuela }}</span><br></div>
-
+								<div v-if="VALescuela"><span class="text-danger">{{ VALescuela }}</span><br></div>
 							</div>
 						</div>
 
@@ -108,8 +106,6 @@
 							</div>
 						</div>
 					</div>
-
-
 				</div>
 	</div>
 </template>
@@ -122,37 +118,6 @@ import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
 import { es } from 'vuejs-datepicker/src/locale'
 import { Validator } from 'vee-validate';
-// /*
-// Validator.localize('es', dict);
-// const dict = {
-//   custom: {
-//     codigo: {
-//       required: 'El codigo es un campo obligatorio',
-//       alpha: "El nombre solo debe incluir letras"
-//     },
-//     nombres: {
-//       required: 'Los Nombres son requeridos',
-//       alpha: "El nombre solo debe incluir letras"
-//     },
-//     apellidos: {
-// 	  required: 'Los apellidos son requeridos',
-//       alpha: "El nombre solo debe incluir letras"
-//     },
-//     direccion: {
-//       required: 'La direccion es requerida',
-//       CovalidateCodigoemail: "Please enter valid email"
-//     },
-//     fecha_nacimiento: {
-//       required: 'La fecha de nacimiento es requerida',
-//       alpha: "Job title may only contain alphabetic characters"
-//     },
-//     sector: {
-//       required: 'el sector es requerido',
-//       alpha: "Event name may only contain alphabetic characters"
-//     },
-//   }
-// };
-// */
 export default {
 	props:{
 		id_formulario:{

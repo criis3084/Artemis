@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Exception;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -111,7 +112,8 @@ class UserController extends Controller
 		}
 		$completo = time() . "." . $imagen->extension();
 		$imagen_redi = Image::make($imagen)->resize(300,200);
-		$imagen_redi->move(public_path('storage/public/usuarios/'), $completo);
+
+		$imagen_redi->save(public_path('storage/public/usuarios/'.$completo));
 		return Response::json($completo, 200);
 	}
 }

@@ -20,7 +20,6 @@ class PadrinoController extends Controller
 		$buscar = $request->buscar;
 		$criterio = $request->criterio;
 		$completo = (isset($request->completo)) ? $request->completo : $completo = 'false';
-		
 		if ($completo == 'false')
 		{
 			$count = Padrino::where('estado',1)->count();
@@ -86,7 +85,6 @@ class PadrinoController extends Controller
 		$persona->apellidos = $request->apellidos;
 		$persona->genero = $request->genero;
 		$persona->fecha_nacimiento = $request->fecha_nacimiento;
-		$persona->sector_id = $request->sector_id;
 		$persona->CUI = $request->CUI;
 		$persona->numero_telefono = $request->numero_telefono;
 		$persona->direccion = $request->direccion;

@@ -55,7 +55,7 @@
 			v-bind:id="id"
 			v-bind:nombre="nombre"
             v-bind:descripcion="descripcion"
-			v-on:cerrado="index(1,'');"
+			v-on:cerrado="index();"
 	   ></editar>
 
 </vx-card>
@@ -129,19 +129,17 @@ export default {
     
   },
   methods: {
-	  cambiar(tipopaciente){
-		  console.log("Entra Aca?");
-		 
-		  this.id = tipopaciente.id;
-          this.nombre = tipopaciente.nombre;
-          this.descripcion = tipopaciente.descripcion;
-		  this.abrir_editar = true;
-	  },
-	  getDate(datetime) {
+	cambiar(tipopaciente){
+		this.id = tipopaciente.id;
+		this.nombre = tipopaciente.nombre;
+		this.descripcion = tipopaciente.descripcion;
+		this.abrir_editar = true;
+	},
+	getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
-      },
+	},
 	abrirDialog(id, estado){
 
 		let titulo = '';

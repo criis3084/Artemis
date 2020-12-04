@@ -130,12 +130,11 @@ export default{
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
       return dateString
     },
-    async index (page, search) { //async para que se llame cada vez que se necesite
+    async index() { //async para que se llame cada vez que se necesite
       const me = this
       this.id_recibido = this.$route.params.id
       const response = await axios.get(`/api/tutor/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
-          console.log(page)
           var respuesta =  response.data
           me.arrayData = respuesta.tutors.data[0]
           me.nombresTutor = me.arrayData.datos.nombres
@@ -153,8 +152,6 @@ export default{
           me.rol_id = me.arrayData.datos.rol_id
           me.user = me.arrayData.datos.user
           me.password = me.arrayData.datos.password
-          me.pagination = respuesta.pagination
-          console.log(me.imagen_perfil)
         })
         .catch(function (error) {
           console.log(error)
@@ -164,7 +161,7 @@ export default{
   created () {
   },
   mounted () {
-    this.index(1, this.search)
+    this.index()
   }
 }
 </script>

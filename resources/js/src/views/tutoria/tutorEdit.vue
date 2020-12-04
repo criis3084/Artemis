@@ -249,7 +249,6 @@ export default {
 			this.mostrarEditar=true;
 		},
 		vaciar(){
-			console.log('imagen vaciada!')
 			this.imagen_perfil='';
 		},
 		respuesta(e){
@@ -298,12 +297,11 @@ export default {
 			text:'La acción se realizo exitósamente'
 			});
 		},
-		async index (page, search) { //async para que se llame cada vez que se necesite
+		async index () { //async para que se llame cada vez que se necesite
 			const me = this
 			this.id_recibido = this.$route.params.id
 			const response = await axios.get(`/api/tutor/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 			.then(function (response) {
-				console.log(page)
 				var respuesta =  response.data
 				me.arrayData = respuesta.tutors.data[0]
 				me.nombresTutor = me.arrayData.datos.nombres
@@ -321,7 +319,6 @@ export default {
 				me.rol_id = me.arrayData.datos.rol_id
 				me.user = me.arrayData.datos.user
 				me.password = me.arrayData.datos.password
-				me.pagination = respuesta.pagination
 			})
 			.catch(function (error) {
 				console.log(error)
@@ -344,7 +341,6 @@ export default {
 				}
 			})
 			me.rol_id = encontrado == true ? elementoE : {id:me.rol_id,nombre:'Rol desactivado'} 
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -389,7 +385,6 @@ export default {
 			return new Promise((resolve, reject) => {
 			this.$validator.validateAll('step-3').then(result => {
 				if (result) {
-				console.log(this.getDate(this.fecha_nacimiento))
 				resolve(true)
 				} else {
 				reject('correct all values')
@@ -411,8 +406,7 @@ export default {
 		vSelect
 	},
 	mounted () {
-		
-		this.index(1, this.search)
+		this.index()
 		this.importarRoles()
 	}
 }

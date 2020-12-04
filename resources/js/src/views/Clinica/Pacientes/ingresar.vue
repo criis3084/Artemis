@@ -350,7 +350,7 @@ export default {
 					persona_sin_acceso_id:persona,
 					tipo_paciente_id:tipoT,
 				}).then(function (response){
-					console.log('paciente guardado')
+					console.log(response)
 				})
 					this.$router.push('/clinica/pacientes/');
 					this.$vs.notify({

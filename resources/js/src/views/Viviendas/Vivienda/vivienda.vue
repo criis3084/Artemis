@@ -126,52 +126,18 @@ export default {
     },
     traerNombreEncargado(tabla){
 		tabla.forEach(function(valor, indice, array){
-      valor.nombress=valor.datos_residente[0].nombres
-      valor.apellidoss=valor.datos_residente[0].apellidos
-    }); 
-    console.log(tabla);
+		valor.nombress=valor.datos_residente[0].nombres
+		valor.apellidoss=valor.datos_residente[0].apellidos
+	    });
 		return tabla
     },
 
     traerNombreConstructor(tabla){
 		tabla.forEach(function(valor, indice, array){
-      valor.nombres=valor.datos_constructor[0].nombres
-      valor.apellidos=valor.datos_constructor[0].apellidos
-    }); 
-    console.log(tabla);
+		valor.nombres=valor.datos_constructor[0].nombres
+		valor.apellidos=valor.datos_constructor[0].apellidos
+	    }); 
 		return tabla
-    },
-
-    async index2(page, search) {
-      //async para que se llame cada vez que se necesite
-      let me = this;
-      const response = await axios
-        .get(`/api/encargado/get?completo=false`)
-        .then(function(response) {
-          var respuesta = response.data;
-		  me.encargado = respuesta.encargados.data;
-		  me.encargado = me.traerNombreEncargado(me.encargado);
-		  me.pagination = respuesta.pagination;
-        })
-
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
-    async index3(page, search) {
-      //async para que se llame cada vez que se necesite
-      let me = this;
-      const response = await axios
-        .get(`/api/constructor/get?completo=false`)
-        .then(function(response) {
-          var respuesta = response.data;
-		  me.constructor = respuesta.constructors.data;
-		  me.constructor = me.traerNombreConstructor(me.constructor);
-		  me.pagination = respuesta.pagination;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
     },
     getDate(datetime) {
         let date = new Date(datetime);
@@ -244,9 +210,9 @@ export default {
         title: `${titulo}`,
         text: `${titulo}`
       });
-      this.index(this.pagination.current_page, this.search);
+      this.index();
     },
-    async index(page, search) {
+    async index() {
       //async para que se llame cada vez que se necesite
       let me = this;
       this.abrir_editar=false
@@ -255,14 +221,12 @@ export default {
         .then(function(response) {
           var respuesta = response.data;
           me.arrayData = respuesta.viviendas.data;
-          console.log(me.arrayData);
         })
         .catch(function(error) {
           console.log(error);
         });
     },
-
-exportToExcel () {
+	exportToExcel () {
       import('@/vendor/Export2Excel').then(excel => {
 		const list = this.arrayData
         const data = this.formatJson(this.headerVal, list)
@@ -287,8 +251,6 @@ exportToExcel () {
       this.cellAutoWidth = true
       this.selectedFormat = 'xlsx'
     },
-
-
     guardar() {
       axios
         .post("/api/tutoria/post", {
@@ -308,7 +270,6 @@ exportToExcel () {
     actualizar(id) {
       axios
         .put("/api/tutoria/update", {
-          //Esto sirve para enviar parametros al controlador
           nombre: this.nombre,
           id: id //Este id es el que le entra a la funcion para buscar el registro en BD
         })
@@ -324,7 +285,7 @@ exportToExcel () {
     }
   },
   mounted() {
-    this.index(1, this.search);
+    this.index();
   }
 };
 </script>

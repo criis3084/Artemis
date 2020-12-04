@@ -1,14 +1,12 @@
 <template>
 	<vx-card>
-			<div class="vx-col md:w-1/3 w-full mt-5">
-					<router-link  to="/apadrinamiento/padrino"><vs-button radius type="border" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
-			</div>
+		<div class="vx-col md:w-1/3 w-full mt-5">
+				<router-link  to="/apadrinamiento/padrino"><vs-button radius type="border" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+		</div>
 		<div class="mt-5">
 			<form-wizard title="INGRESO DE PADRINO" color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
-				<vs-divider position="right">PID&#174;</vs-divider>
-			
-			<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
-
+				<vs-divider position="right">PID&#174;</vs-divider>		
+				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 				<!-- tab 1 content -->
 				<form data-vv-scope="step-1">
 				<div class="vx-row">
@@ -61,15 +59,6 @@
 
 				</div>
 
-				<div class="vx-col md:w-1/2 w-full mt-5">
-					<small class="date-label">Sector</small>
-					<v-select name="sector" v-validate="'required'" label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'"></v-select>
-					<span class="text-danger">{{ errors.first('step-1.sector') }}</span>
-					
-					<!-- <span class="text-danger">!!!arreglar para que se agregue sector EXTRANJERO automáticamente, o no?</span> -->
-
-				</div>
-
 				</div>
 				</form>
 			</tab-content>
@@ -77,19 +66,17 @@
 			<!-- tab 2 content -->
 			<tab-content title="Paso 2" class="mb-5" icon="feather icon-file-plus" :before-change="validateStep2">
 				<form data-vv-scope="step-2">
-				<div class="vx-row">
-
-				<div class="vx-col md:w-1/2 w-full">
-						<template>
-							<vs-upload automatic action="/api/padrino/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil"/>
-						</template> 
-				</div>
-					<div class="vx-col md:w-1/2 w-full mt-5">
-					<vs-input type="email" label="Correo"  v-model="correo" class="w-full"  icon-pack="feather" icon="icon-mail" name="correo" v-validate="'required|email|max:100'" />
-					<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
-				</div>
-
-				</div>
+					<div class="vx-row">
+						<div class="vx-col md:w-1/2 w-full">
+							<template>
+								<vs-upload automatic action="/api/padrino/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil"/>
+							</template> 
+						</div>
+						<div class="vx-col md:w-1/2 w-full mt-5">
+							<vs-input type="email" label="Correo"  v-model="correo" class="w-full"  icon-pack="feather" icon="icon-mail" name="correo" v-validate="'required|email|max:100'" />
+							<span class="text-danger">{{ errors.first('step-2.correo') }}</span>
+						</div>
+					</div>
 				</form>
 			</tab-content>
 
@@ -106,10 +93,8 @@ import { ValidationProvider } from 'vee-validate';
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import vSelect from 'vue-select'
-// import VueSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
-
 // For custom error message
 import { Validator } from 'vee-validate';
 
@@ -150,14 +135,9 @@ const dict = {
 	  required: 'Seleccione una opción',
 	  included: 'Seleccione una opción',
     },
-	sector:{
-	  required: 'El campo sector es requerido',
-	},
-	
   }
 }
 
-// register custom messages
 Validator.localize('es', dict)
 import { es } from 'vuejs-datepicker/src/locale'
 export default {
@@ -176,8 +156,9 @@ export default {
 		sector_id:'',
 		langEn: es,
 		head:{
-				"imagenanterior":""	
+			"imagenanterior":""	
 		},
+		dateFormat : 'yyyy-MM-dd'
 	}
   },
   methods: {
@@ -193,18 +174,6 @@ export default {
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
       },
-	async importarSectores(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/sector/get?completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-            me.sectores = respuesta.sectores.data;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
     validateStep1 () {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-1').then(result => {
@@ -252,7 +221,7 @@ export default {
 		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
 		direccion:this.direccion,
 		//SECTOR EXTRANJERO
-		sector_id:this.sector_id.id
+		sector_id:1
 	}).then(function(response) {
       console.log(response)
 		})
@@ -276,15 +245,11 @@ export default {
     },
   },
   components: {
-	 
-	   ValidationProvider,
-    FormWizard,
-	  TabContent,
-  	Datepicker,
-	  vSelect,
-  },
-	mounted(){
-    this.importarSectores();
+		ValidationProvider,
+		FormWizard,
+		TabContent,
+		Datepicker,
+		vSelect,
   },
 }
 </script>

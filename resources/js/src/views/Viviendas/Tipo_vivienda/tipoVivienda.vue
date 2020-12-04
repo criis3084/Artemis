@@ -58,7 +58,7 @@
 			v-bind:id="id"
 			v-bind:nombre="nombre"
             v-bind:descripcion="descripcion"
-			v-on:cerrado="index(1,'');"
+			v-on:cerrado="index();"
 	  ></tipoViviendaEdit>
 </vx-card>
 </template>
@@ -130,21 +130,18 @@ export default {
     
   },
   methods: {
-	  cambiar(tipovivienda){
-		  console.log("Entra Aca?");
-		  console.log(tipovivienda);
-		  this.id = tipovivienda.id;
-          this.nombre = tipovivienda.nombre;
-          this.descripcion = tipovivienda.descripcion;
-		  this.abrir_editar = true;
-	  },
-	  getDate(datetime) {
+	cambiar(tipovivienda){
+		this.id = tipovivienda.id;
+		this.nombre = tipovivienda.nombre;
+		this.descripcion = tipovivienda.descripcion;
+		this.abrir_editar = true;
+	},
+	getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
-      },
+	},
 	abrirDialog(id, estado){
-
 		let titulo = '';
 		let color = '';
 
@@ -215,14 +212,13 @@ export default {
 	  })
 	this.index();
     },
-	async index(){ //async para que se llame cada vez que se necesite
+	async index(){
     let me = this;
     this.abrir_editar=false;
 		const response = await axios.get(`/api/tipoVivienda/get?completo=true`)
 		.then(function (response) {
             var respuesta= response.data;
 			me.arrayData = respuesta.tipoViviendas.data;
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -267,8 +263,7 @@ export default {
   },
 
   mounted(){
-	this.index (1, this.search);
-	
+	this.index ();
   }
 }
 </script>

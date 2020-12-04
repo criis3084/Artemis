@@ -26,7 +26,6 @@
 <script>
 import Datepicker from "vuejs-datepicker";
 import axios from "axios";
-//C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from "@/views/components/vuesax/dropdown/Dropdown.vue";
 import vSelect from "vue-select";
 
@@ -51,8 +50,6 @@ export default {
 	  nombreT:'',
 	  nombreTT:'',
 	  nombreTTT:'',
-      nino_id:0,
-      padrino_id:0,
 	  nino_nombreE:'',
 	  nino_idT:{id:-1,nombres:''},
 	  padrino_nombreE:'',
@@ -145,8 +142,6 @@ export default {
 		}
     },
 	acceptAlert () {
-        console.log(this.nino_idT)
-        console.log(this.padrino_idT)
 		axios.put("/api/apadrinamiento/update/",{
 			id:this.idT,
 			nino_id: this.nino_idT.id,

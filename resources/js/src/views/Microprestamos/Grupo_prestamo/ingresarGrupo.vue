@@ -218,9 +218,7 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.encargados = respuesta.encargados.data
-          
           me.encargados = me.traerNombre(me.encargados)
-          //console.log(me.encargados)
           me.importarEncargados()
   
         })
@@ -240,7 +238,6 @@ export default {
           me.detalleIntegrante = me.detalleIntegrante.filter(o => hash2[o.encargado_id] ? false : hash2[o.encargado_id] = true)
           me.encargadosDetalle = me.traerDatosEncargados(me.detalleIntegrante)
           me.eliminarDuplicado(me.detalleIntegrante)
-          console.log(me.detalleIntegrante)
         })
         .catch(function (error) {
           console.log(error)
@@ -280,20 +277,15 @@ export default {
       
       this.nombreSeleccionado = this.encargado.nombre
       this.detalle_integrante_id = this.encargado.detalle_integrante_id
-      console.log(this.encargado.encargado_id)
       //arreglo para guardar en la base de datos
       this.integrantes.push({encargado_id:this.id, microprestamo_id:1, destino_inversion_id:1, prestamo_individual:0, estado:0, detalle_integrante_id:this.detalle_integrante_id})
 
       //Arreglo para mostrar nombres en frontend
       this.nombresE.push({nombres:this.nombreSeleccionado})
-      console.log(this.nombresE)
-      console.log(this.integrantes)
     },
     borrarIntegrante (index) {
       this.integrantes.splice(index, 1)
       this.nombresE.splice(index, 1)
-      console.log(this.integrantes)
-      console.log(this.nombresE)
     },
 
     enviarForm () {
@@ -312,16 +304,11 @@ export default {
       })
     }
   },
-  computed:{
-
-  },
   components:{
     vSelect
   },
   mounted () {
     this.traerPersona()
-    /*this.importarEncargados()
-    this.eliminarDuplicado()*/
   }
 }
 </script>

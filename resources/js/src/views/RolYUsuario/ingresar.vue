@@ -243,7 +243,6 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.roles = respuesta.roles.data
-          me.pagination = respuesta.pagination
         })
         .catch(function (error) {
           console.log(error)
@@ -297,7 +296,6 @@ export default {
         title:'Imagen subida',
         text:'Acción realizada exitósamente!'
       })
-      console.log(this.imagen_perfil)
     },
     validateStep1 () {
       return new Promise((resolve, reject) => {

@@ -171,30 +171,12 @@ export default {
         let mil = formatter.format(numero);
         return mil;
     },
-    // async index(page, search){ //async para que se llame cada vez que se necesite
-    //     let me = this;
-	// 	this.id_recibido = this.$route.params.id
-	// 	const response = await axios.get(
-	// 		`/api/historialAbonoVivienda/get?&criterio=vivienda_id&buscar=${me.id_recibido}&completo=true`)
-	// 	.then(function (response) {
-	// 		var respuesta= response.data;
-    //         me.arrayData = respuesta.historialAbonoViviendas.data;
-	// 		me.pagination= respuesta.pagination;
-
-	// 	})
-	// 	.catch(function (error) {
-	// 		console.log(error);
-	// 	});
-    // },
-     async index2(page, search){ //async para que se llame cada vez que se necesite
+     async index2(){ 
         let me = this;
         this.id_recibido = this.$route.params.id;
-        
-        console.log("criterio   "+this.id_recibido);
 		const response = await axios.get(
 			`/api/vivienda/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
               me.arrayData = respuesta.viviendas.data[0];
               me.duracionT = me.arrayData.duracion;
@@ -207,8 +189,6 @@ export default {
               me.constructor_nombres = me.arrayData.datos_constructor[0].nombres;
               me.constructor_apellidos = me.arrayData.datos_constructor[0].apellidos;
               me.tipo_vivienda_idT = me.arrayData.tipo_vivienda.nombre;
-            console.log(me.arrayData);
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -247,8 +227,7 @@ export default {
     TabContent
   },
   mounted(){
-    // this.index(1, this.search);
-    this.index2(1, this.search);
+    this.index2();
   },
 }
 </script>

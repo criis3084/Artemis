@@ -271,7 +271,6 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.roles = respuesta.roles.data
-          me.pagination = respuesta.pagination
         })
         .catch(function (error) {
           console.log(error)

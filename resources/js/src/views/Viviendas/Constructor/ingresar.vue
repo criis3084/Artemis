@@ -161,8 +161,6 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
             me.sectores = respuesta.sectores.data;
-            console.log(me.sectores);
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);

@@ -53,12 +53,6 @@
               <vs-input label="Número de teléfono"  v-model="numero_telefonoT" class="w-full" name="telefono" v-validate="'max:15|numeric'" />
               <span class="text-danger">{{ errors.first('step-1.telefono') }}</span>
             </div>
-
-            <div class="vx-col md:w-1/2 w-full mt-5">
-				<small class="date-label">Sector</small>
-				<v-select label="nombre" :options="sectoresT" v-model="sector_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-			</div>
-
           </div>
           </form>
         </tab-content>
@@ -141,9 +135,6 @@ const dict = {
 	radio: {
 	  required: 'Seleccione una opción',
 	  included: 'Seleccione una opción',
-    },
-	sector:{
-	  required: 'El campo sector es requerido',
 	},
   }
 }
@@ -185,42 +176,18 @@ export default {
 				`/api/padrino/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 			.then(function (response) {
 				var respuesta= response.data;
-					me.arrayData = respuesta.padrinos.data[0];
-					me.nombresT = me.arrayData.datos.nombres;
-					me.apellidosT = me.arrayData.datos.apellidos;
-					me.direccionT = me.arrayData.datos.direccion;
-					me.idT = me.arrayData.datos.id;
-					me.generoT = me.arrayData.datos.genero;
-					me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento;
-					me.CUIT = me.arrayData.datos.CUI;
-					me.numero_telefonoT = me.arrayData.datos.numero_telefono;
-					me.correoT = me.arrayData.correo;
-					me.imagen_perfil_antigua = me.arrayData.ruta_imagen;
-					me.sector_idT = me.arrayData.datos.sector_id;
-					me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
-		},
-		async importarSectores(){ //async para que se llame cada vez que se necesite
-			let me = this;
-			let encontrado=false;
-			let elementoE={}
-			const response = await axios.get(
-				`/api/sector/get?completo=select`)
-			.then(function (response) {
-				var respuesta= response.data;
-				me.sectoresT = respuesta.sectores.data;
-				me.sectoresT.forEach(function(elemento, indice, array) {
-					if (elemento.id==me.sector_idT)
-					{
-						elementoE=elemento
-						encontrado=true
-					}
-				})
-				me.sector_idT = encontrado == true ? elementoE : {id:me.sector_idT,nombre:'Sector desactivado'} 
-				me.pagination= respuesta.pagination;
+				me.arrayData = respuesta.padrinos.data[0];
+				me.nombresT = me.arrayData.datos.nombres;
+				me.apellidosT = me.arrayData.datos.apellidos;
+				me.direccionT = me.arrayData.datos.direccion;
+				me.idT = me.arrayData.datos.id;
+				me.generoT = me.arrayData.datos.genero;
+				me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento;
+				me.CUIT = me.arrayData.datos.CUI;
+				me.numero_telefonoT = me.arrayData.datos.numero_telefono;
+				me.correoT = me.arrayData.correo;
+				me.imagen_perfil_antigua = me.arrayData.ruta_imagen;
+				me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -265,13 +232,12 @@ export default {
 			})
 		},
 		formSubmitted () {
-			if (this.ruta_imagen === ''){
+			if (this.ruta_imagen === '' || this.ruta_imagen === undefined){
 				this.ruta_imagen= this.imagen_perfil_antigua;
 			}
 			else{
 				this.ruta_imagen= '/storage/public/padrinos/' + this.ruta_imagen;
 			}
-			// alert('Form submitted!');
 			axios.put("/api/padrino/update/",{
 			id:this.id_recibido,
 				nombres:this.nombresT,
@@ -318,7 +284,6 @@ export default {
 	},
 	mounted(){
 		this.index();
-		this.importarSectores();
 	},
 }
 </script>

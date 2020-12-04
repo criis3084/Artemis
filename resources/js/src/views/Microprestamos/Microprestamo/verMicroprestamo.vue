@@ -110,12 +110,10 @@ export default {
     async index () {
       const me = this
       this.id_recibido = this.$route.params.id
-      console.log(this.id_recibido)
       const response = await Axios.get(`/api/detalleIntegrante/get?&criterio=microprestamo_id&buscar=${this.id_recibido}&completo=true`) 
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.detalleIntegrantes.data
-          console.log(me.arrayData)
           me.nombreG = respuesta.detalleIntegrantes.data[0].microprestamo.nombreMicroprestamo
           me.fecha = respuesta.detalleIntegrantes.data[0].microprestamo.fecha_inicio
         })

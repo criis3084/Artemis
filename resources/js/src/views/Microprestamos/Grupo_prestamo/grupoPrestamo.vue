@@ -131,7 +131,6 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.grupoPrestamos.data
-          console.log(me.arrayData)
         })
         .catch(function (error) {
           console.log(error)

@@ -110,7 +110,7 @@
 import axios from 'axios'
 import vSelect from 'vue-select'
 import { Validator } from 'vee-validate';
-
+import Ls from '../../../services/ls';
 
 const dict = {
   custom: {
@@ -226,7 +226,6 @@ export default {
 			if (this.medicamento_id != null)
 			{
 				this.carrito.push(this.medicamento_id)
-				// this.listaCantidades.push(0)
 			}
 		},
 		opcion_selected(){
@@ -511,7 +510,8 @@ export default {
 						fecha_salida: fecha_salida,
 						tipo_salida: me.tipo_salida_select.id,
 						descripcion: me.descripcion,
-						user_id: 1,
+						// **************************************************
+						user_id:parseInt(Ls.get('auth.id_usuario')),
 						paciente_id: me.paciente_select.id,
 
 					}).then(function (response) {

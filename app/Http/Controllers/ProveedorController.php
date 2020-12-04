@@ -71,7 +71,6 @@ class ProveedorController extends Controller
 		$persona->apellidos = $request->apellidos;
 		$persona->genero = $request->genero;
 		$persona->fecha_nacimiento = $request->fecha_nacimiento;
-		$persona->sector_id = $request->sector_id;
 		$persona->CUI = $request->CUI;
 		$persona->numero_telefono = $request->numero_telefono;
 		$persona->direccion = $request->direccion;
@@ -84,7 +83,7 @@ class ProveedorController extends Controller
 	public function activar(Request $request)
 	{
 		$proveedor = Proveedor::findOrFail($request->id);
-		$persona = PersonaSinAcceso::findOrFail($constructor->id);
+		$persona = PersonaSinAcceso::findOrFail($proveedor->id);
 		$proveedor->estado = '1';
 		$persona->estado = '1';
 		$proveedor->save();
@@ -95,7 +94,7 @@ class ProveedorController extends Controller
 	public function desactivar(Request $request)
 	{
 		$proveedor = Proveedor::findOrFail($request->id);
-		$persona = PersonaSinAcceso::findOrFail($constructor->id);
+		$persona = PersonaSinAcceso::findOrFail($proveedor->id);
 		$proveedor->estado = '0';
 		$persona->estado = '0';
 		$proveedor->save();

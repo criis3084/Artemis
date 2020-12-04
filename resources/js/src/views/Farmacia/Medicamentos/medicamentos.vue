@@ -206,7 +206,6 @@ export default {
 				var respuesta = response.data;
 				me.arrayData = respuesta.medicamentos.data;
 				me.arrayData = me.traerDatos(me.arrayData);
-				me.pagination = respuesta.pagination;
 			})
 			.catch(function(error) {
 				console.log(error);

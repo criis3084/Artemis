@@ -244,8 +244,6 @@ export default {
       return { from: new Date(this.endDate) }
     },
     calendarLabels () {
-		console.log('imprimiendo el store state')
-		console.log(this.$store.state)
 		return this.$store.state.calendar.eventLabels
     },
     labelColor () {

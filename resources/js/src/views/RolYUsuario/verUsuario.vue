@@ -125,12 +125,11 @@ export default{
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
       return dateString
     },
-    async index (page, search) { //async para que se llame cada vez que se necesite
-      const me = this
+    async index () { 
+	   const me = this
       this.id_recibido = this.$route.params.id
       const response = await axios.get(`/api/user/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
-          console.log(page)
           var respuesta =  response.data
           me.arrayData = respuesta.users.data
           me.nombres = me.arrayData[0].nombres
@@ -148,8 +147,6 @@ export default{
           me.rol_id = me.arrayData[0].rol_id
           me.user = me.arrayData[0].user
           me.password = me.arrayData[0].password
-          me.pagination = respuesta.pagination
-          console.log(me.arrayData)
         })
         .catch(function (error) {
           console.log(error)
@@ -159,7 +156,7 @@ export default{
   created () {
   },
   mounted () {
-    this.index(1, this.search)
+    this.index()
   }
 }
 </script>

@@ -172,8 +172,6 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.arrayPersonal = respuesta.users.data
-          //me.arrayPersonal = me.traerNombre(me.arrayPersonal)
-          me.pagination = respuesta.pagination
         })
         .catch(function (error) {
           console.log(error)
@@ -237,15 +235,12 @@ export default {
     async buscarPorRol () {
       if (this.rol !== null) {
         const id_recibido = this.rol.id
-        //console.log(id_recibido)
         const me = this
         const response = await axios.get(
           `/api/user/get?&criterio=rol_id&buscar=${id_recibido}&completo=true`)
           .then(function (response) {
             const respuesta = response.data
             me.arrayPersonal = respuesta.users.data
-            //me.arrayPersonal = me.traerNombre(me.arrayPersonal)
-            //console.log(me.arrayPersonal)
           })
           .catch(function (error) {
             console.log(error)

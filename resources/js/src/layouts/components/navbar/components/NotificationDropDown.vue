@@ -182,7 +182,6 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.medicamentos.data
-          //console.log(me.arrayData)
           me.FaltaStock()
         })
         .catch(function (error) {
@@ -208,7 +207,6 @@ export default {
 
       })
       this.medicamentos = medicamentos
-      //console.log(this.medicamentos)
     }
   },
   mounted () {

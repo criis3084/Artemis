@@ -169,11 +169,8 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.encargados = respuesta.encargados.data
-          
           me.encargados = me.traerNombre(me.encargados)
-          //console.log(me.encargados)
           me.importarEncargados()
-          
         })
         .catch(function (error) {
           console.log(error)
@@ -191,8 +188,6 @@ export default {
           me.detalleIntegrante = me.detalleIntegrante.filter(o => hash2[o.encargado_id] ? false : hash2[o.encargado_id] = true)
           me.eliminarDuplicado(me.detalleIntegrante)
           me.encargadosDetalle = me.traerDatosEncargados(me.detalleIntegrante)
-          
-          //console.log(me.detalleIntegrante)
         })
         .catch(function (error) {
           console.log(error)
@@ -234,14 +229,11 @@ export default {
     async buscarIntegrante () { //buscar miembros de grupo
       const me = this
       this.id_recibido = this.$route.params.id
-      console.log(this.id_recibido)
       const response = await axios.get(`/api/detalleIntegrante/get?&criterio=grupo_prestamo_id&buscar=${this.id_recibido}&completo=true`) 
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.detalleIntegrantes.data
           me.GrupoActual(me.arrayData)
-        //console.log(me.nombreG)
-        // console.log(me.arrayData)
         })
     },
     GrupoActual (grupo) {
@@ -267,7 +259,6 @@ export default {
           estado:valor.estado_integrante})
       }) 
       this.IntegrantesActuales = Integrantes
-      console.log(this.IntegrantesActuales)
     },
 
     eliminarIntegranteActual (integrante, index) {
@@ -283,27 +274,18 @@ export default {
       })
       this.IntegrantesActuales.splice(index, 1)
       this.eliminar = true
-      console.log(this.IntegrantesActuales)
-      console.log('Personas eliminadas')
-      console.log(this.IntegrantesEliminados)
     },
     agregar () { //funcion para agregar los elemntos en el array
       this.id_recibido = this.$route.params.id
       this.id = this.encargado.encargado_id
       this.detalle_integrante_id = this.encargado.detalle_integrante_id
       this.nombreSeleccionado = this.encargado.nombre
-      console.log(this.encargado.encargado_id)
       //arreglo para guardar en la base de datos
       this.NuevosIntegrantes.push({nombre:this.nombreSeleccionado, encargado_id:this.id, grupo_prestamo_id:this.id_recibido, microprestamo_id:1, destino_inversion_id:1, prestamo_individual:0, estado:0, detalle_integrante_id:this.detalle_integrante_id})
-      
-      console.log(this.NuevosIntegrantes)
     },
     
     borrarNuevoIntegrante (index) {
-      this.NuevosIntegrantes.splice(index, 1)
-      
-      console.log(this.NuevosIntegrantes)
-      
+      this.NuevosIntegrantes.splice(index, 1)  
     },
 
     guardarDetalle () { //guarda en tabla detalleIntegrante 
@@ -389,7 +371,6 @@ export default {
     async datosGrupo () {
       const me = this
       this.id_recibido = this.$route.params.id
-      console.log(this.id_recibido)
       const response = await axios.get(`/api/grupoPrestamo/get?&criterio=id&buscar=${this.id_recibido}&completo=true`) 
         .then(function (response) {
           const respuesta = response.data
@@ -397,8 +378,6 @@ export default {
           me.nombreG = respuesta.grupoPrestamos.data[0].nombre
           me.descripcion = respuesta.grupoPrestamos.data[0].descripcion
           me.microprestamo_id = respuesta.grupoPrestamos.data[0].integrantes[0].microprestamo_id
-          console.log(me.microprestamo_id)
-          //console.log(me.nombreG)
         })
     },
     

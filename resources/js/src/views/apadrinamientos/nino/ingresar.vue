@@ -52,7 +52,6 @@ export default {
 	},
 	sumar(){
 		  this.cantidad_ingresos.push(1);
-		  console.log(this.cantidad_ingresos.length);
 	},
   },
   components: {
