@@ -90,8 +90,8 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	    selectedFormat: 'xlsx',
-	    headerVal: ['id', 'nombress','apellidoss', 'nombres','apellidos','cantidad_restante', 'estado' ],
-	    headerTitle: ['Id', 'Nombres Destinatario','Apellidos Destinatario', 'Nombre Constructor', 'Apellido Constructor','Cantidad Restante', 'Estado'],
+	    headerVal: ['id', 'nombress','apellidoss', 'nombres','apellidos','costo_total', 'donante', 'estado' ],
+	    headerTitle: ['Id', 'Nombres Destinatario','Apellidos Destinatario', 'Nombre Constructor', 'Apellido Constructor','Costo de vivienda en Q', 'Donador de vivienda', 'Estado'],
       activePrompt: false,
       nombre: "",
       fecha: "",
@@ -128,6 +128,8 @@ export default {
 		tabla.forEach(function(valor, indice, array){
       valor.nombress=valor.datos_residente[0].nombres
       valor.apellidoss=valor.datos_residente[0].apellidos
+      valor.nombres=valor.datos_constructor[0].nombres
+      valor.apellidos=valor.datos_constructor[0].apellidos
     }); 
     console.log(tabla);
 		return tabla
@@ -140,38 +142,6 @@ export default {
     }); 
     console.log(tabla);
 		return tabla
-    },
-
-    async index2(page, search) {
-      //async para que se llame cada vez que se necesite
-      let me = this;
-      const response = await axios
-        .get(`/api/encargado/get?completo=false`)
-        .then(function(response) {
-          var respuesta = response.data;
-		  me.encargado = respuesta.encargados.data;
-		  me.encargado = me.traerNombreEncargado(me.encargado);
-		  me.pagination = respuesta.pagination;
-        })
-
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
-    async index3(page, search) {
-      //async para que se llame cada vez que se necesite
-      let me = this;
-      const response = await axios
-        .get(`/api/constructor/get?completo=false`)
-        .then(function(response) {
-          var respuesta = response.data;
-		  me.constructor = respuesta.constructors.data;
-		  me.constructor = me.traerNombreConstructor(me.constructor);
-		  me.pagination = respuesta.pagination;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
     },
     getDate(datetime) {
         let date = new Date(datetime);
@@ -255,6 +225,7 @@ export default {
         .then(function(response) {
           var respuesta = response.data;
           me.arrayData = respuesta.viviendas.data;
+          me.arrayData=me.traerNombreEncargado(me.arrayData)
           console.log(me.arrayData);
         })
         .catch(function(error) {

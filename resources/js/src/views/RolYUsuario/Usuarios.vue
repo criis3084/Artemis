@@ -84,11 +84,11 @@ export default {
       activePrompt: false,
 	  fileName: '',
 	  listadoTutorias:[],
-      formats:['xlsx', 'csv', 'txt'],
+      formats:['xlsx'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'nombres', 'apellidos', 'especialidad', 'numero_telefono'],
-	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Especialidad', 'Telefono']
+	  headerVal: ['id', 'nombres', 'apellidos', 'CUI', 'numero_telefono', 'direccion'],
+	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'No. DPI', 'Telefono', 'Direccion']
     }
   },
   components:{
