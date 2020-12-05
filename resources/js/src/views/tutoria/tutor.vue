@@ -220,7 +220,6 @@ export default {
 			const respuesta = response.data
 			me.arrayData = respuesta.tutors.data
 			me.tutor = me.traerNombre(me.arrayData)
-			me.pagination = respuesta.pagination
 		})
 		.catch(function (error) {
 			console.log(error)

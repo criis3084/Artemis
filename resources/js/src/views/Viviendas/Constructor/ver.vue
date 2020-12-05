@@ -117,12 +117,11 @@ export default{
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
       return dateString
     },
-    async index (page, search) { //async para que se llame cada vez que se necesite
+    async index () { //async para que se llame cada vez que se necesite
       const me = this
       this.id_recibido = this.$route.params.id
       const response = await axios.get(`/api/constructor/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
-          console.log(page)
           var respuesta =  response.data
           me.arrayData = respuesta.constructors.data[0]
           me.nombresConstructor = me.arrayData.datos.nombres
@@ -133,19 +132,14 @@ export default{
           me.fecha_nacimiento = me.arrayData.datos.fecha_nacimiento
           me.CUI = me.arrayData.datos.CUI
           me.numero_telefono = me.arrayData.datos.numero_telefono
-
-          me.pagination = respuesta.pagination
-          console.log(me.imagen_perfil)
         })
         .catch(function (error) {
           console.log(error)
         })
     }
   },
-  created () {
-  },
   mounted () {
-    this.index(1, this.search)
+    this.index()
   }
 }
 </script>

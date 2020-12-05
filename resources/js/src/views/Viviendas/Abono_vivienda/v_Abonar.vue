@@ -113,6 +113,7 @@ import 'flatpickr/dist/flatpickr.css'
 import { es } from 'vuejs-datepicker/src/locale'
 import vSelect from 'vue-select'
 import axios from 'axios'
+import Ls from '../../../services/ls';
 //validar
 import { Validator } from 'vee-validate'
 const dict = {
@@ -206,8 +207,6 @@ export default{
         .then(function (response) {
           const respuesta = response.data
           me.arrayData = respuesta.viviendas.data
-          //console.log('importacion de viviendas')
-          //console.log(me.arrayData)
           me.encargados = me.traerDatosEncargados(me.arrayData)
         })
         .catch(function (error) {
@@ -226,7 +225,6 @@ export default{
           me.arrayV = respuesta.viviendas.data[0]
           me.nombre_vivienda = me.arrayV.direccion
           me.costoV = me.arrayV.costo_total
-          // console.log(me.arrayV)
         })
         .catch(function (error) {
           console.log(error)
@@ -242,14 +240,12 @@ export default{
     async buscarAbono () {
       const me = this
       this.id_recibido = this.vivienda_id.id
-     // console.log(`BuscarAbono   ${this.id_recibido}`)
       const response = await axios.get(
         `/api/historialAbonoVivienda/get?&criterio=vivienda_id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
           const respuesta = response.data
           me.arrayA = respuesta.historialAbonoViviendas.data[0]
           me.deuda = me.arrayA.abono.cantidad_restante
-          //console.log(me.deuda)
         })
         .catch(function (error) {
           console.log(error)
@@ -269,7 +265,7 @@ export default{
         cantidad_restante:this.total,
         descripcion:this.descripcion,
         fecha_pago:this.getDate(this.fecha),
-        user_id:81,
+		user_id:parseInt(Ls.get('auth.id_usuario')),
         vivienda_id:this.vivienda_id.id
 
       }).then(function (response) {
@@ -296,8 +292,6 @@ export default{
       const me = this
       this.id_recibido = this.vivienda_id.id
       if (this.total === 0) {
-        console.log(`Desactivar  ${this.id_recibido}`)
-        
         axios.put('/api/vivienda/desactivar', {
           id: this.id_recibido
         })
@@ -330,7 +324,6 @@ export default{
       this.nRecibo = id
     },
     Calcular () {
-      //console.log('Calcular')
       if (this.deuda === 0) {
         this.total = this.costoV - this.cantidad
       } else this.total = this.deuda - this.cantidad

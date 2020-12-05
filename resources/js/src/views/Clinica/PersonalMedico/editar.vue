@@ -273,7 +273,6 @@ export default {
       this.mostrarEditar = true
     },
     vaciar () {
-      console.log('imagen vaciada!')
       this.imagen_perfil = ''
     },
     respuesta (e) {
@@ -358,7 +357,6 @@ export default {
           me.user = me.arrayData.datos.user
           me.password = me.arrayData.datos.password
           me.colegiado = me.arrayData.colegiado
-          console.log(me.arrayData)
         })
         .catch(function (error) {
           console.log(error)
@@ -380,7 +378,6 @@ export default {
             }
           })
           me.rol_id = encontrado == true ? elementoE : {id:me.rol_id, nombre:'Rol desactivado'} 
-          me.pagination = respuesta.pagination
         })
         .catch(function (error) {
           console.log(error)
@@ -446,7 +443,6 @@ export default {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-3').then(result => {
           if (result) {
-            console.log(this.getDate(this.fecha_nacimiento))
             this.formSubmitted()
             resolve(true)
           } else {

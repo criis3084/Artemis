@@ -73,14 +73,12 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
 			me.aldeasT = respuesta.escuelas.data;
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
 	},
 	acceptAlert () {
-	console.log(this.valMultipe.value2.id)
 	axios.post("/api/escuela/post/",{
 		nombre:this.valMultipe.value1,
 		direccion:this.valMultipe.value2

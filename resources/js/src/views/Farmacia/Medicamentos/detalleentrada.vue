@@ -31,8 +31,8 @@
 					<th class="p-2 border border-solid d-theme-border-grey-light text-center"> {{descripcion_ingreso}} </th>
 				</tr>
 			</table>
-<br>
-<br>
+			<br>
+			<br>
 			<vs-divider position="center">Listado de Medicamentos</vs-divider>
 
 			<vs-list>
@@ -86,7 +86,6 @@ export default {
 				me.fecha_ingreso=me.detalleIngreso[0].ingreso_medicamento.fecha_ingreso
 				me.numero_id = me.detalleIngreso[0].ingreso_medicamento.id
 				me.descripcion_ingreso=me.detalleIngreso[0].ingreso_medicamento.descripcion
-				console.log(me.detalleIngreso)
 			})
 			.catch(function (error) {
 				console.log(error);

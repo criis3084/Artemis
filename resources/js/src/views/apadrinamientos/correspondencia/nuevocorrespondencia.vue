@@ -147,20 +147,10 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayDataT = respuesta.apadrinamientos.data;
-            // console.log("aca");
-            // console.log(me.arrayDataT);
-            // me.padrino = me.traerNombres(me.arrayDataT);
             me.nombres_nino = me.arrayDataT[0].datos_nino[0].nombres;
             me.apellidos_nino = me.arrayDataT[0].datos_nino[0].apellidos;
             me.nombres_padrino = me.arrayDataT[0].datos_padrino[0].nombres;
             me.apellidos_padrino = me.arrayDataT[0].datos_padrino[0].apellidos;
-            // console.log("variables");
-            // console.log(me.nombres_nino);
-            // console.log(me.apellidos_nino);
-            // console.log(me.apellidos_padrino);
-            // console.log(me.nombres_padrino);
-            // console.log("Apadrinamiento");
-            // console.log(me.arrayDataT);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -168,7 +158,7 @@ export default {
 		me.ya=true;
     },
 	vaciar(){
-			this.ruta_imagen='';
+		this.ruta_imagen='';
 	},
 	respuesta(e){
 		this.ruta_imagen=e.currentTarget.response.replace(/['"]+/g, '')

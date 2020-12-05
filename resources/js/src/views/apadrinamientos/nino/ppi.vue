@@ -15,12 +15,8 @@
 				<vs-divider position="right">PID&#174;</vs-divider>
 
 				<div class = "demo-alignment">
-					<h5> <b>Nombre del niño: </b> </h5><h5>{{nombre}}</h5><h5>{{apellido}}</h5>
+					<h4><b>Código Famililar: </b> </h4><h4>{{codigoF}}</h4>
 				</div>
-				<div class = "demo-alignment">
-					<h5> <b>Código: </b> </h5><h5>{{codigo}}</h5>
-				</div>
-				<br>
 				
 					
 				<chartjs-component-line-chart :height="125" v-if="ya" :data="datos" :options="opciones"></chartjs-component-line-chart>
@@ -94,7 +90,8 @@ export default {
 		estadof: null,
 		ya:false,
 		datos:{},
-		opciones:{}
+		opciones:{},
+		codigoF:''
     }
   },
   components: {
@@ -151,6 +148,18 @@ export default {
 			}
 		}
 		return options
+	},
+	buscarCodigo(){
+		let nino_id = this.$route.params.id;
+		let me = this;
+		axios.get(`/api/relacion/get?criterio=nino_id&buscar=${nino_id}&completo=informacion`)
+		.then(function (response) {
+			var respuesta= response.data;
+			me.codigoF = respuesta.relaciones.data[0].codigo;
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
 	},
 	getDate(datetime) {
         let date = new Date(datetime);
@@ -227,7 +236,6 @@ export default {
 
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
-			console.log(this.id)
 			axios.put('/api/historialPpi/activar/', {
 				id: this.id
 			})
@@ -240,7 +248,6 @@ export default {
 		}
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
-			console.log(this.id)
 			axios.put('/api/historialPpi/desactivar/', {
 				id: this.id
 			})
@@ -272,6 +279,7 @@ export default {
 	mounted(){
 		this.index();
 		this.index2();
+		this.buscarCodigo();
 	}
 }
 </script>

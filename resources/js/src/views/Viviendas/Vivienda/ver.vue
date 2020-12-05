@@ -138,15 +138,12 @@ export default{
     goBack(){
       this.$router.go(-1)
     },
-    async index(page, search){ //async para que se llame cada vez que se necesite
+    async index(){ //async para que se llame cada vez que se necesite
         let me = this;
         this.id_recibido = this.$route.params.id;
-        
-        console.log("criterio   "+this.id_recibido);
 		const response = await axios.get(
 			`/api/vivienda/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
               me.arrayData = respuesta.viviendas.data[0];
               me.duracionT = me.arrayData.duracion;
@@ -181,10 +178,8 @@ export default{
         return mil;
     },
   },
-  created () {
-  },
  	mounted(){
-    this.index(1, this.search);
+    this.index();
     },
 }
 </script>

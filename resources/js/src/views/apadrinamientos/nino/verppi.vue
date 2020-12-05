@@ -220,7 +220,6 @@ export default {
 			me.respuesta10 = informacion.ppi.respuesta10+1000;
 			me.fecha = informacion.fecha_estudio;
 			me.id_nino = informacion.nino_id;
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -231,8 +230,6 @@ export default {
 	},
 	guardar(){
 		this.id=parseInt(this.$route.params.id)
-		console.log(this.getDate(this.fecha))
-		console.log(this.id,this.valorT,this.valor1)
 		axios.post("/api/historialPpi/post/",{
 			nino_id:this.id,
 			respuesta1:this.valor1,

@@ -104,7 +104,6 @@ export default {
           var respuesta = response.data;
 		  me.nino = respuesta.ninos.data;
 		  me.nino = me.traerNombre(me.nino)
-		  me.pagination = respuesta.pagination;
         })
 
         .catch(function(error) {
@@ -120,7 +119,6 @@ export default {
           var respuesta = response.data;
 		  me.tutor = respuesta.tutors.data;
 		  me.tutor = me.traerNombre(me.tutor)
-		  me.pagination = respuesta.pagination;
         })
         .catch(function(error) {
           console.log(error);
@@ -195,13 +193,11 @@ export default {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
-      }
-      
-
+	}
   },
   mounted() {
-    this.index2(1, '');
-    this.index3(1, '');
+    this.index2();
+    this.index3();
   },
 };
 </script>

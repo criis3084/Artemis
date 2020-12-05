@@ -106,7 +106,8 @@
 									<td class="border border-solid d-theme-border-grey-light flex items-center">
 										<vs-button color="danger" type="border" icon-pack="feather" class="center" icon="icon-x-circle" @click="borrarIntegrante(index)"></vs-button>
 									</td>
-									<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}</td>
+									<!-- <td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}</td> -->
+									<td class="border border-solid d-theme-border-grey-light text-center"> {{producto.nombre_completo}}<small class="date-label"><p class="text-warning">(Stock actual: {{producto.stock_general}})</p></small></td>
 									<td class="border border-solid d-theme-border-grey-light flex items-center">
 										<vs-input style="text-align:right" v-model="listaCantidades[index]" name="cantidad" v-validate="'required|max:5|numeric'"/>
 									</td>

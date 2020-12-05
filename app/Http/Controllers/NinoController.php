@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Response;
 use Exception;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+
 class NinoController extends Controller
 {
 
@@ -87,7 +88,6 @@ class NinoController extends Controller
 
 	public function update(Request $request)
     {
-		#if(!$request->ajax())return redirect('/');
 		$nino = Nino::findOrFail($request->id);
 		$persona = PersonaSinAcceso::findOrFail($nino->persona_sin_acceso_id);
 
@@ -135,6 +135,12 @@ class NinoController extends Controller
         $persona->estado = '0';
         $nino->save();
         $persona->save();
+	}
+	public function apadrinar(Request $request)
+    {
+        $nino = Nino::findOrFail($request->id);
+		$nino->fecha_ingreso = $request->fecha_ingreso;
+        $nino->save();
 	}
 	public function imagen(Request $request){
 		$imagen = $request->photos;

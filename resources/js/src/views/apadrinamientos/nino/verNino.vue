@@ -122,14 +122,12 @@ export default {
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
       return dateString
     },
-    async index (page, search) { //async para que se llame cada vez que se necesite
+    async index() { //async para que se llame cada vez que se necesite
       const me = this
       this.id_recibido = this.$route.params.id
-      console.log(`criterio   ${this.id_recibido}`)
       const response = await axios.get(
         `/api/nino/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
-          console.log(page)
           const respuesta = response.data
           me.arrayData = respuesta.ninos.data[0]
           me.nombresT = me.arrayData.datos.nombres
@@ -145,10 +143,6 @@ export default {
           me.sector_idT = me.arrayData.datos.sector_id
           me.escuela_idT = me.arrayData.escuela.nombre
           me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id
-          console.log(me.nombresT)
-          console.log("array");
-          console.log(me.arrayData)
-          me.pagination = respuesta.pagination
         })
         .catch(function (error) {
           console.log(error)
@@ -158,7 +152,7 @@ export default {
   
   },
   mounted () {
-    this.index(1, this.search)
+    this.index()
   }
 }
 </script>

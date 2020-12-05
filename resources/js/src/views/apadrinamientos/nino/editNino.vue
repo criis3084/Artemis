@@ -328,7 +328,7 @@ export default {
 		})
 		},
 		formSubmitted () {
-			if (this.ruta_imagen === ''){
+			if (this.ruta_imagen === '' || this.ruta_imagen === undefined){
 				this.ruta_imagen= this.imagen_perfil_antigua;
 			}
 			else{

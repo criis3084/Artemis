@@ -137,10 +137,9 @@ export default {
 
     traerNombreConstructor(tabla){
 		tabla.forEach(function(valor, indice, array){
-      valor.nombres=valor.datos_constructor[0].nombres
-      valor.apellidos=valor.datos_constructor[0].apellidos
-    }); 
-    console.log(tabla);
+		valor.nombres=valor.datos_constructor[0].nombres
+		valor.apellidos=valor.datos_constructor[0].apellidos
+	    }); 
 		return tabla
     },
     getDate(datetime) {
@@ -214,9 +213,9 @@ export default {
         title: `${titulo}`,
         text: `${titulo}`
       });
-      this.index(this.pagination.current_page, this.search);
+      this.index();
     },
-    async index(page, search) {
+    async index() {
       //async para que se llame cada vez que se necesite
       let me = this;
       this.abrir_editar=false
@@ -225,15 +224,17 @@ export default {
         .then(function(response) {
           var respuesta = response.data;
           me.arrayData = respuesta.viviendas.data;
+<<<<<<< HEAD
           me.arrayData=me.traerNombreEncargado(me.arrayData)
           console.log(me.arrayData);
+=======
+>>>>>>> 148192e359535e68b6db62d39891af9ff522f767
         })
         .catch(function(error) {
           console.log(error);
         });
     },
-
-exportToExcel () {
+	exportToExcel () {
       import('@/vendor/Export2Excel').then(excel => {
 		const list = this.arrayData
         const data = this.formatJson(this.headerVal, list)
@@ -258,8 +259,6 @@ exportToExcel () {
       this.cellAutoWidth = true
       this.selectedFormat = 'xlsx'
     },
-
-
     guardar() {
       axios
         .post("/api/tutoria/post", {
@@ -279,7 +278,6 @@ exportToExcel () {
     actualizar(id) {
       axios
         .put("/api/tutoria/update", {
-          //Esto sirve para enviar parametros al controlador
           nombre: this.nombre,
           id: id //Este id es el que le entra a la funcion para buscar el registro en BD
         })
@@ -295,7 +293,7 @@ exportToExcel () {
     }
   },
   mounted() {
-    this.index(1, this.search);
+    this.index();
   }
 };
 </script>

@@ -779,7 +779,37 @@ const router = new Router({
 						meta: {
 						rule: 'admin'
 						}
+					},
+					// =============================================================================
+					// LABORATORIO
+					// =============================================================================
+					{
+						path: '/laboratorio/examen',
+						name: 'laboratorio-examen',
+						component: () => import('./views/Laboratorio/Examenes/examenes.vue'),
+						meta: {
+						rule: 'admin'
+						}
 					}, 
+					{
+						path: '/laboratorio/tipo',
+						name: 'laboratorio-tipo',
+						component: () => import('./views/Laboratorio/Tipo_examen/tipoExamen.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					// =============================================================================
+					// Rol y Usuario
+					// =============================================================================
+					{
+						path: '/admin/roles',
+						name: 'roles',
+						component: () => import('./views/RolYUsuario/roles.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					},
 					// =============================================================================
 					// Personal Medico
 					// =============================================================================
@@ -815,37 +845,6 @@ const router = new Router({
 						rule : 'admin'
 						}
 					},
-					// =============================================================================
-					// LABORATORIO
-					// =============================================================================
-					{
-						path: '/laboratorio/examen',
-						name: 'laboratorio-examen',
-						component: () => import('./views/Laboratorio/Examenes/examenes.vue'),
-						meta: {
-						rule: 'admin'
-						}
-					}, 
-					{
-						path: '/laboratorio/tipo',
-						name: 'laboratorio-tipo',
-						component: () => import('./views/Laboratorio/Tipo_examen/tipoExamen.vue'),
-						meta: {
-						rule: 'admin'
-						}
-					}, 
-					// =============================================================================
-					// Rol y Usuario
-					// =============================================================================
-					{
-						path: '/admin/roles',
-						name: 'roles',
-						component: () => import('./views/RolYUsuario/roles.vue'),
-						meta: {
-						rule: 'admin'
-						}
-					},
-
 					{
 						path: '/admin/usuarios',
 						name: 'usuarios',
@@ -878,6 +877,7 @@ const router = new Router({
 						rule: 'admin'
 						}
 					},
+
 				]
 			},
 			// =============================================================================

@@ -124,16 +124,14 @@ export default {
 			await axios.get(
 			`/api/constructor/get?criterio=id&buscar=${constructor.id}&completo=datosAnidados`)
 			.then(function (response) {
-				const respuesta = response.data
-        l_construcciones = respuesta.constructors.data[0].construcciones
-        
-				me.listadoConstrucciones =[]
-				l_construcciones.forEach(function(valor, indice, array){
-					me.listadoConstrucciones.push(valor.direccion)
-				});
-        me.abrirListado=true;
-        console.log(l_construcciones)
-			})
+			const respuesta = response.data
+    	    l_construcciones = respuesta.constructors.data[0].construcciones
+			me.listadoConstrucciones =[]
+			l_construcciones.forEach(function(valor, indice, array){
+			me.listadoConstrucciones.push(valor.direccion)
+			});
+	        me.abrirListado=true;
+		})
 		.catch(function (error) {
 			console.log(error)
 		})		
@@ -213,8 +211,6 @@ export default {
 			const respuesta = response.data
 			me.arrayData = respuesta.constructors.data
             me.constructor = me.traerNombre(me.arrayData)
-            // me.constructor = me.arrayData
-            console.log(me.constructor);
 		})
 		.catch(function (error) {
 			console.log(error)
@@ -256,13 +252,11 @@ export default {
 		this.selectedFormat = 'xlsx'
 	},
 	traerNombre (tabla) {
-		console.log(tabla);
 		tabla.forEach(function (valor, indice, array) {
 			valor.nombres = valor.datos.nombres
 			valor.apellidos = valor.datos.apellidos
 			valor.numero_telefono = valor.datos.numero_telefono
-		}) 
-		console.log(tabla);
+		})
 		return tabla
 }
 	

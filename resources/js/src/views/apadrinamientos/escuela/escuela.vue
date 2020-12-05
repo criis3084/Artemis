@@ -49,8 +49,8 @@
 			v-bind:identificador="abrir_editar"
 			v-bind:id="id"
 			v-bind:nombre="nombre"
-      v-bind:direccion="direccion"
-			v-on:cerrado="index(1,'');"
+			v-bind:direccion="direccion"
+			v-on:cerrado="index();"
 			></escuelaEdit>
 
 </vx-card>
@@ -123,19 +123,17 @@ export default {
     
   },
   methods: {
-	  cambiar(escuela){
-		  console.log("Entra Aca?");
-		  console.log(escuela);
-		  this.id = escuela.id;
-      this.nombre = escuela.nombre;
-      this.direccion = escuela.direccion;
-		  this.abrir_editar = true;
-	  },
-	  getDate(datetime) {
-        let date = new Date(datetime);
-        let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-        return dateString;
-      },
+	cambiar(escuela){
+		this.id = escuela.id;
+		this.nombre = escuela.nombre;
+		this.direccion = escuela.direccion;
+		this.abrir_editar = true;
+	},
+	getDate(datetime) {
+		let date = new Date(datetime);
+		let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+		return dateString;
+	},
 	abrirDialog(id, estado){
 
 		let titulo = '';

@@ -49,10 +49,10 @@
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
-			  <small class="date-label">Fecha de nacimiento</small>
-			  <datepicker name="fecha" v-validate="'required'" :language="$vs.rtl ? langEn : langEn"  v-model="fecha_nacimiento"></datepicker>
-					<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
-    	</div>
+				<small class="date-label">Fecha de nacimiento</small>
+				<datepicker name="fecha" v-validate="'required'" :language="$vs.rtl ? langEn : langEn"  v-model="fecha_nacimiento"></datepicker>
+				<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
+	    	</div>
 	        
 			<div class="vx-col md:w-1/2 w-full mt-5">
               <vs-input label="Dirección"  v-model="direccion" class="w-full" icon-pack="feather" icon="icon-map-pin" name="direccion" v-validate="'required|max:254'"/>
@@ -63,12 +63,6 @@
               <vs-input label="Número de teléfono"  v-model="numero_telefono" class="w-full" icon-pack="feather" icon="icon-phone" name="telefono" v-validate="'max:15|numeric'" />
               <span class="text-danger">{{ errors.first('step-1.telefono') }}</span>
             </div>
-
-      <div class="vx-col md:w-1/2 w-full mt-5">
-				<small class="date-label">Sector</small>
-				<v-select name="sector" v-validate="'required'" label="nombre" :options="sectores" v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-					<span class="text-danger">{{ errors.first('step-1.sector') }}</span>
-    	</div>
 
           </div>
           </form>
@@ -90,8 +84,6 @@ import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
 import { es } from 'vuejs-datepicker/src/locale'
-
-// For custom error message
 import { Validator } from 'vee-validate'
 const dict = {
   custom: {
@@ -133,9 +125,6 @@ const dict = {
 	  required: 'Seleccione una opción',
 	  included: 'Seleccione una opción',
     },
-	sector:{
-	  required: 'El campo sector es requerido',
-	},
   }
 }
 
@@ -153,8 +142,6 @@ export default {
       fecha_nacimiento:"",
       CUI:'',
       numero_telefono:'',
-      sectores: [],
-	    sector_id:'',
 	  langEn: es,
     }
   },
@@ -164,20 +151,6 @@ export default {
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
         return dateString;
       },
-	async importarSectores(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		const response = await axios.get(
-			`/api/sector/get?completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-            me.sectores = respuesta.sectores.data;
-            console.log(me.sectores);
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
     validateStep1 () {
       return new Promise((resolve, reject) => {
         this.$validator.validateAll('step-1').then(result => {
@@ -195,7 +168,6 @@ export default {
       })
     },
     formSubmitted () {
-      // alert('Form submitted!');
       axios.post("/api/proveedor/post/",{
         nombre:this.nombre,
         nombres:this.nombres,
@@ -205,7 +177,7 @@ export default {
 		genero:this.genero,
 		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
 		direccion:this.direccion,
-		sector_id:this.sector_id.id
+		sector_id:1
 	}).then(function(response) {
       console.log(response)
 		})
@@ -222,13 +194,10 @@ export default {
     },
   },
   components: {
-    FormWizard,
-	  TabContent,
-  	Datepicker,
-	  vSelect,
-  },
-	mounted(){
-    this.importarSectores();
-  },
+	FormWizard,
+	TabContent,
+	Datepicker,
+	vSelect,
+  }
 }
 </script>

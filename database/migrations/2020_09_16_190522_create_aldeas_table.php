@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateAldeasTable extends Migration
 {
@@ -18,7 +19,10 @@ class CreateAldeasTable extends Migration
 			$table->string('nombre');
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
-        });
+		});
+		DB::table('aldeas')->insert(array(
+			'nombre'=>'Externo'
+		));
     }
 
     /**

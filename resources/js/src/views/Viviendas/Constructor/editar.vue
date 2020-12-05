@@ -158,14 +158,12 @@ export default {
   computed: {
   },
   methods: {
-    async index(page, search){ //async para que se llame cada vez que se necesite
+    async index(){ //async para que se llame cada vez que se necesite
         let me = this;
         this.id_recibido = this.$route.params.id;
-        console.log("criterio   "+this.id_recibido);
 		const response = await axios.get(
 			`/api/constructor/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
               me.arrayData = respuesta.constructors.data[0];
               me.nombresT = me.arrayData.datos.nombres;
@@ -178,9 +176,6 @@ export default {
               me.numero_telefonoT = me.arrayData.datos.numero_telefono;
               me.sector_idT = me.arrayData.datos.sector_id;
               me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
-            console.log(me. nombresT);
-            console.log(me.arrayData);
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -203,7 +198,6 @@ export default {
 				}
 			})
 			me.sector_idT = encontrado == true ? elementoE : {id:me.sector_idT,nombre:'Sector desactivado'} 
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -267,13 +261,13 @@ export default {
     },
   },
   components: {
-    FormWizard,
-	  TabContent,
-  	Datepicker,
-	  vSelect,
+	FormWizard,
+	TabContent,
+	Datepicker,
+	vSelect,
   },
 	mounted(){
-    this.index(1, this.search);
+    this.index();
     this.importarSectores();
 
   },

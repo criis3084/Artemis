@@ -58,7 +58,7 @@
      <editar
 			v-bind:identificador="abrir_editar"
 			v-bind:id="id"
-	  	v-bind:nino_id="nino_id"
+		  	v-bind:nino_id="nino_id"
 			v-bind:padrino_id="padrino_id"
 			v-on:cerrado="index();"
 		></editar>
@@ -116,12 +116,11 @@ export default {
   methods: {
     traerNombres(tabla){
 		tabla.forEach(function(valor, indice, array){
-      valor.nombress=valor.datos_nino[0].nombres
-      valor.apellidoss=valor.datos_nino[0].apellidos
-      valor.nombres = valor.datos_padrino[0].nombres
-      valor.apellidos = valor.datos_padrino[0].apellidos
+		valor.nombress=valor.datos_nino[0].nombres
+		valor.apellidoss=valor.datos_nino[0].apellidos
+		valor.nombres = valor.datos_padrino[0].nombres
+		valor.apellidos = valor.datos_padrino[0].apellidos
     }); 
-    console.log(tabla);
 		return tabla
     },
 
@@ -205,7 +204,6 @@ export default {
       this.index();
     },
     async index() {
-      //async para que se llame cada vez que se necesite
       let me = this;
       this.abrir_editar=false
       const response = await axios
@@ -214,7 +212,6 @@ export default {
           var respuesta = response.data;
           me.arrayData = respuesta.apadrinamientos.data;
           me.padrino = me.traerNombres(me.arrayData)
-          me.pagination = respuesta.pagination;
         })
         .catch(function(error) {
           console.log(error);

@@ -171,7 +171,6 @@ export default {
           const respuesta = response.data
           me.arrayPersonal = respuesta.clinicos.data
           me.arrayPersonal = me.traerNombre(me.arrayPersonal)
-          me.pagination = respuesta.pagination
         })
         .catch(function (error) {
           console.log(error)
@@ -234,7 +233,6 @@ export default {
     
     async buscarPorProfesion () {
       const id_recibido = this.profesion.id
-      console.log(id_recibido)
       const me = this
       const response = await axios.get(
         `/api/clinico/get?&criterio=profesion_id&buscar=${id_recibido}&completo=true`)
@@ -242,19 +240,11 @@ export default {
           const respuesta = response.data
           me.arrayPersonal = respuesta.clinicos.data
           me.arrayPersonal = me.traerNombre(me.arrayPersonal)
-          console.log(me.arrayPersonal)
         })
         .catch(function (error) {
           console.log(error)
         })
     }
-
-  },
-  computed:{
-
-  },
-  watch:{
-
   },
   mounted () {
     this.importarProfesiones()

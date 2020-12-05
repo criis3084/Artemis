@@ -107,8 +107,6 @@ export default {
 	this.$validator.validateAll().then(result => {
 	if(result && this.boolVal==true) {
 		this.id=parseInt(this.$route.params.id)
-		console.log(this.getDate(this.fecha))
-		console.log(this.id,this.valorT,this.valor1)
 		axios.post("/api/historialFotografia/post/",{
 			nino_id:this.id,
 			ruta:  '/storage/public/historialFotografias/' +this.ruta,

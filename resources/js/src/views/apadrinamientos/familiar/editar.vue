@@ -248,7 +248,6 @@ export default {
 				me.sector_idT = me.arrayData.datos.sector_id;
 			
 				me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
-				me.pagination= respuesta.pagination;
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -271,7 +270,6 @@ export default {
 					}
 				})
 				me.sector_idT = encontrado == true ? elementoE : {id:me.sector_idT,nombre:'Sector desactivado'} 
-				me.pagination= respuesta.pagination;
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -311,10 +309,6 @@ export default {
 		})
 		},
 		formSubmitted () {
-			console.log("ruta");
-			console.log(this.ruta_imagen);
-			console.log("ruta antigua");
-			console.log(this.imagen_perfil_antigua);
 			if (this.ruta_imagen === '' || this.ruta_imagen == undefined ){
 				this.ruta_imagen= this.imagen_perfil_antigua;
 			}

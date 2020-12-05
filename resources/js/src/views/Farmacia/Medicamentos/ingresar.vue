@@ -24,11 +24,6 @@
 		<small>Descripción</small>
     <vs-input name="descripcion" v-validate="'required|max:150'" placeholder="Descripción del Medicamento: " v-model="valMultipe.value2" class="mt-4 mb-2 col-1 w-full" />
 		<span class="text-danger">{{ errors.first('descripcion') }}</span>
-		<small>Cantidad</small>
-    <vs-input name="cantidad" v-validate="'required|numeric|max:5'" placeholder="Cantidad del Medicamento: " v-model="valMultipe.value3" class="mt-4 mb-2 col-1 w-full" />
-		<span class="text-danger">{{ errors.first('cantidad') }}</span>
-		
-		
 		<br>
       </div>
 		<template>
@@ -72,11 +67,6 @@ const dict = {
       required: 'El campo descripción es requerido',
 	    max: 'Este campo solo acepta hasta 150 caracteres',
     },
-    cantidad: {
-      required: 'El campo cantidad de medicamento es requerido',
-	    numeric: 'El campo solo debe de contener números',
-	    max: 'Este campo solo acepta hasta 5 caracteres',
-    },
 	categoria: {
       required: 'El campo categoria es requerido',
 	},
@@ -103,7 +93,6 @@ export default {
         value1: "",
 		value2: "",
 		 fecha: "",
-		value3: "",
         value4: "",
         value5: "",
       },
@@ -112,6 +101,8 @@ export default {
 	  tutor: [],
       selected: "",
 	  switch2: true,
+	  casa_medica:[],
+	  categoria:[],
 	 
 	  disabledDates:{
         to: new Date(Date.now() - 8640000)
@@ -123,58 +114,42 @@ export default {
   },
   computed: {
     validName() {
-      return this.valMultipe.value1.length > 0 && this.valMultipe.value2.length > 0 && this.valMultipe.value3 != '' && this.valMultipe.value4 != 0 && this.valMultipe.value5 != 0;
+      return this.valMultipe.value1.length > 0 && this.valMultipe.value2.length > 0 && this.valMultipe.value4 != 0 && this.valMultipe.value5 != 0;
     },
   },
   methods: {
-	  traerNombre(tabla){
-		tabla.forEach(function(valor, indice, array){
-                valor.nombre=valor.categoria.nombre
-                valor.nombre=valor.casa_medica.nombre
-			}); 
-		return tabla
-	  },
     async index2() {
-      //async para que se llame cada vez que se necesite
       let me = this;
       const response = await axios
         .get(`/api/casaMedica/get?completo=false`)
         .then(function(response) {
           var respuesta = response.data;
 		  me.casa_medica = respuesta.casaMedicas.data;
-		  me.casa_medica = me.traerNombre(me.casa_medica)
-		  me.pagination = respuesta.pagination;
         })
-
         .catch(function(error) {
           console.log(error);
         });
     },
     async index3() {
-      //async para que se llame cada vez que se necesite
       let me = this;
       const response = await axios
         .get(`/api/categoriaMedicamento/get?completo=false`)
         .then(function(response) {
           var respuesta = response.data;
 		  me.categoria = respuesta.categoriaMedicamentos.data;
-		  me.categoria = me.traerNombre(me.categoria)
-		  me.pagination = respuesta.pagination;
         })
         .catch(function(error) {
           console.log(error);
         });
     },
     acceptAlert() {
-this.$validator.validateAll().then(result => {
-  if(result) {
-      axios.post("/api/medicamento/post/", {
-          nombre: this.valMultipe.value1,
-          descripcion: this.valMultipe.value2,
-          stock_general: this.valMultipe.value3,
-		  categoria_medicamento_id: this.valMultipe.value4.id,
-          casa_medica_id: this.valMultipe.value5.id,
-
+		this.$validator.validateAll().then(result => {
+		if(result) {
+			axios.post("/api/medicamento/post/", {
+			nombre: this.valMultipe.value1,
+        	  descripcion: this.valMultipe.value2,
+		  	categoria_medicamento_id: this.valMultipe.value4.id,
+          	casa_medica_id: this.valMultipe.value5.id,
         })
         .then(function(response) {
           console.log(response);
@@ -182,24 +157,23 @@ this.$validator.validateAll().then(result => {
         .catch(function(error) {
           console.log(error);
         });
-      this.valMultipe.value1 = "";
-      this.valMultipe.value2 = "";
-      this.valMultipe.value3 = "";
-      this.valMultipe.value4 = "";
-	  this.valMultipe.value5 = "";
-      this.$emit("cerrado", "Se cerro el formulario");
-      this.$vs.notify({
-					color:'success',
-					title:'Medicamento registrado!',
-					text:'La acción se realizo exitósamente'
-				});
-  }else{
-        this.$vs.notify({
-				color:'danger',
-				title:`Error en validación!`,
-				text:'Ingrese correctamente todos los datos'
-			})
-        }
+		this.valMultipe.value1 = "";
+		this.valMultipe.value2 = "";
+		this.valMultipe.value4 = "";
+		this.valMultipe.value5 = "";
+		this.$emit("cerrado", "Se cerro el formulario");
+		this.$vs.notify({
+				color:'success',
+				title:'Medicamento registrado!',
+				text:'La acción se realizo exitósamente'
+			});
+		}else{
+			this.$vs.notify({
+					color:'danger',
+					title:`Error en validación!`,
+					text:'Ingrese correctamente todos los datos'
+				})
+		}
       })  
     },
     close() {
@@ -214,7 +188,6 @@ this.$validator.validateAll().then(result => {
     clearValMultiple() {
       this.valMultipe.value1 = "";
       this.valMultipe.value2 = "";
-      this.valMultipe.value3 = "";
       this.valMultipe.value4 = "";
 	  this.valMultipe.value5 = "";
 	  this.valMultipe.fecha = "";
@@ -223,8 +196,8 @@ this.$validator.validateAll().then(result => {
     },
   },
   mounted() {
-    this.index2(1, '');
-    this.index3(1, '');
+    this.index2();
+    this.index3();
   },
 };
 </script>

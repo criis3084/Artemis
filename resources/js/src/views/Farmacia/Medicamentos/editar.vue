@@ -13,16 +13,12 @@
 		<div class="con-exemple-prompt">
 				<b></b>
 		<small>Nombre</small>
-		<vs-input name="nombre" v-validate="'required|max:50'" placeholder="Nombre del Medicamento: " v-model="nombreTT" class="mt-4 mb-2 col-1 w-full" />
+		<vs-input name="nombre" v-validate="'required|max:50'" placeholder="Nombre del Medicamento: " v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
 		<span class="text-danger">{{ errors.first('nombre') }}</span>
 		
 		<small>Descripción</small>
 		<vs-input name="descripcion" v-validate="'required|max:150'" placeholder="Descripción del Medicamento: " v-model="descripcionT" class="mt-4 mb-2 col-1 w-full" />
 		<span class="text-danger">{{ errors.first('descripcion') }}</span>
-		
-		<small>Cantidad</small>
-		<vs-input name="cantidad" v-validate="'required|numeric|max:5'" placeholder="Cantidad del Medicamento: " v-model="stock_generalT" class="mt-4 mb-2 col-1 w-full" />
-		<span class="text-danger">{{ errors.first('cantidad') }}</span>
 		
 		<!-- <vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 			LLene todos los campos
@@ -65,11 +61,6 @@ const dict = {
       required: 'El campo descripción es requerido',
 	    max: 'Este campo solo acepta hasta 150 caracteres',
     },
-    cantidad: {
-      required: 'El campo cantidad de medicamento es requerido',
-	    numeric: 'El campo solo debe de contener números',
-	    max: 'Este campo solo acepta hasta 5 caracteres',
-    },
 	categoria: {
       required: 'El campo categoria es requerido',
 	},
@@ -90,7 +81,6 @@ export default {
 	    id:{default: 0},
         nombre:String,
         descripcion:String,
-        stock_general:0,
         categoria_medicamento_id:{default: 0},
         casa_medica_id:{default:0}
         
@@ -163,8 +153,7 @@ export default {
 				me.casaMedica = respuesta.casaMedicas.data;
 				me.casaMedica.forEach(function(elemento, indice, array) {
 					if (elemento.id==me.$props.casa_medica_id)
-					{
-						
+					{						
 						elementoE=elemento
 						encontrado=true
 					}
@@ -176,11 +165,8 @@ export default {
 				.catch(function(error) {
 				console.log(error);
 				});
-
-				me.nombreTT = this.$props.nombre
-				me.descripcionT = this.$props.descripcion
-				me.stock_generalT = this.$props.stock_general
-				
+			me.nombreTT = this.$props.nombre
+			me.descripcionT = this.$props.descripcion
 		}
 	},
     async importar_categoria() {
@@ -218,7 +204,6 @@ this.$validator.validateAll().then(result => {
 			id:this.idT,
 			nombre: this.nombreT,
             descripcion: this.descripcionT,
-            stock_general: this.stock_generalT,
 			categoria_medicamento_id: this.categoria_idT.id,
 			casa_medica_id: this.casa_idT.id,
 		}).then(function(response) {

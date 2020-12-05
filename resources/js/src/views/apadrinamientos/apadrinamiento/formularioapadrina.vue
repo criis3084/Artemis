@@ -8,7 +8,6 @@
     <vs-prompt
       @cancel="close"
       @accept="acceptAlert"
-	  
       @close="close"
 	  accept-text="Aceptar"
 	  cancel-text="Cancelar"
@@ -78,18 +77,15 @@ export default {
     },
   },
   methods: {
-	  traerNombre(tabla){
+		traerNombre(tabla){
 		tabla.forEach(function(valor, indice, array){
       valor.nombres=valor.datos.nombres
       valor.apellidos=valor.datos.apellidos
       valor.nombrecompleto=valor.nombres + " " + valor.apellidos
-
-     
 		}); 
 		return tabla
 	  },
-    async index2(page, search) {
-      //async para que se llame cada vez que se necesite
+    async index2() {
       let me = this;
       const response = await axios
         .get(`/api/nino/get?completo=ninono`)
@@ -103,8 +99,7 @@ export default {
           console.log(error);
         });
     },
-    async index3(page, search) {
-      //async para que se llame cada vez que se necesite
+    async index3() {
       let me = this;
       const response = await axios
         .get(`/api/padrino/get?completo=false`)
@@ -112,44 +107,53 @@ export default {
           var respuesta = response.data;
 		  me.padrino = respuesta.padrinos.data;
 		  me.padrino = me.traerNombre(me.padrino)
-		  me.pagination = respuesta.pagination;
         })
         .catch(function(error) {
           console.log(error);
         });
     },
     acceptAlert() {
-      axios
-        .post("/api/apadrinamiento/post/", {
-		 
-		  nino_id: this.valMultipe.value3.id,
-          padrino_id: this.valMultipe.value4.id,
-
+		let fecha_apadrinamiento = this.getDate(new Date())
+		let me = this
+		let idT = me.valMultipe.value3.id
+		axios.post("/api/apadrinamiento/post/", {
+			nino_id: idT,
+			padrino_id: me.valMultipe.value4.id,
         })
         .then(function(response) {
-          console.log(response);
+			// Actualizar fecha de apadrinamiento
+			axios.put('/api/nino/apadrinar/', {
+				id:idT,
+				fecha_ingreso:fecha_apadrinamiento
+			}).then(function (response2) {
+				console.log(response2)
+			})
+			.catch(function (error2) {
+				console.log(error2)
+			})
+			// Activar el niño
+			axios.put('/api/nino/activar', {
+				id: idT
+			})
+			.then(function (response) {
+				console.log(response.data.message)
+			})
+			.catch(function (error) {
+				console.log(error.response.data.message)
+			});
         })
         .catch(function(error) {
           console.log(error);
 		});
-		axios.put('/api/nino/activar', {
-			id: this.valMultipe.value3.id
-		})
-		.then(function (response) {
-			console.log(response.data.message)
-		})
-		.catch(function (error) {
-			console.log(error.response.data.message)
-		});
-	  this.$emit("cerrado", "Se cerro el formulario");
-	  this.valMultipe.value3 = "";
-    this.valMultipe.value4 = "";
-    let titulo = 'Apadrinamiento registrado';
+		this.$emit("cerrado", "Se cerro el formulario");
+		this.valMultipe.value3 = "";
+		this.valMultipe.value4 = "";
+		let titulo = 'Apadrinamiento registrado';
 			this.$vs.notify({
 			color:'success',
 			title:`${titulo}`,
 			text:'La acción se realizo exitósamente'
-			});
+		});
     },
     close() {
       this.$vs.notify({
@@ -169,20 +173,6 @@ export default {
       this.fechaN = "";
       this.$emit("cerrado", "Se cerro el formulario");
     },
-    saveProduct() {
-      axios
-        .post("/api/apadrinamiento/post/", {
-		  nino_id: this.valMultipe.value3.id,
-          padrino_id: this.valMultipe.value4.id,
-
-        })
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-	},
 	getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -190,8 +180,8 @@ export default {
       },
   },
   mounted() {
-    this.index2(1, '');
-    this.index3(1, '');
+    this.index2();
+    this.index3();
   },
 };
 </script>

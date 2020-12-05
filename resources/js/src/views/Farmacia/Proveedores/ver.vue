@@ -89,7 +89,8 @@ export default{
       error_msg: '',
       arrayData: [],
       idProveedor:'',
-      id:'',
+	  id:'',
+	  nombre:'',
       nombresProveedor: '',
       apellidosProveedor: '',
       direccionProveedor: '',
@@ -123,12 +124,11 @@ export default{
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
       return dateString
     },
-    async index (page, search) { //async para que se llame cada vez que se necesite
+    async index () { //async para que se llame cada vez que se necesite
       const me = this
       this.id_recibido = this.$route.params.id
       const response = await axios.get(`/api/proveedor/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
         .then(function (response) {
-          console.log(page)
           var respuesta =  response.data
           me.arrayData = respuesta.proveedores.data[0]
           me.nombre = me.arrayData.nombre
@@ -140,9 +140,6 @@ export default{
           me.fecha_nacimiento = me.arrayData.datos.fecha_nacimiento
           me.CUI = me.arrayData.datos.CUI
           me.numero_telefono = me.arrayData.datos.numero_telefono
-
-          me.pagination = respuesta.pagination
-          console.log(me.imagen_perfil)
         })
         .catch(function (error) {
           console.log(error)
@@ -152,7 +149,7 @@ export default{
   created () {
   },
   mounted () {
-    this.index(1, this.search)
+    this.index()
   }
 }
 </script>

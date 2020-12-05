@@ -4,10 +4,11 @@
 		<div class="vx-col md:w-1/3 w-full mt-5">
 			<router-link  to="/ingreso/medicamentos"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
 		</div>
-		<div class="flex-1 ">
+			<div class="flex-1 ">
 				<h2>Ingreso de medicamentos</h2>
+			</div>
 		</div>
-		</div>
+
 
 		<form>
 		<vs-divider position="center">Datos de Ingreso</vs-divider>
@@ -106,7 +107,7 @@ import vSelect from 'vue-select'
 import axios from "axios";
 import { es } from 'vuejs-datepicker/src/locale'
 import { Validator } from 'vee-validate';
-
+import Ls from '../../../services/ls';
 
 const dict = {
   custom: {
@@ -168,7 +169,6 @@ export default {
 			if (this.medicamento_id != null)
 			{
 				this.listado_entrada.push(this.medicamento_id)
-				// this.listaCantidades.push(0)
 				this.listaFechas.push('')
 				this.listaReferencias.push('')
 			}
@@ -187,6 +187,7 @@ export default {
 			return dateString;
 		},
 		async importarProveedores () {
+			this.fecha_ingreso= new Date()
 			const me = this
 			const response = await axios.get(
 			`/api/proveedor/get?completo=true`)
@@ -225,6 +226,7 @@ export default {
 			return tabla
 		},
 		guardarIngreso(){
+
 		this.$validator.validateAll().then(result => {
         if(result) {
 			let me = this
@@ -232,7 +234,7 @@ export default {
 				proveedor_id:me.proveedor_id.id,
 				fecha_ingreso:me.getDate(me.fecha_ingreso),
 				descripcion:me.descripcion,
-				user_id:1,
+				user_id:parseInt(Ls.get('auth.id_usuario'))
 			}).then(function(response) {
 				me.guardarLote(response.data.id)
 			})
@@ -249,8 +251,6 @@ export default {
 		})  
 		},
 		guardarLote(idIngreso){
-			console.log('guardando lote...')
-			console.log(idIngreso)
 			let me = this
 			for (let x in me.listado_entrada) {
 				let elemento =  me.listado_entrada[x]
@@ -284,7 +284,7 @@ export default {
 				ingreso_medicamento_id:idIngreso,
 				lote_id:lote ,
 			}).then(function(response) {
-				console.log('se ha ingresado un detalle de ingreso')
+				console.log(response)
 			})
 			.catch(function(error) {
 				console.log(error)

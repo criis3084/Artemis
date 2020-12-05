@@ -282,11 +282,6 @@ export default
 							slug: 'laboratorio-tipo',
 						},
 					]
-				},
-				{
-					url: '/clinica/PersonalMedico',
-					name: 'Personal Médico',
-					icon: 'UserPlusIcon',
 				}
 			]
 		},
@@ -310,12 +305,19 @@ export default
 							slug: 'admin-user',
 						},
 						{
+							url: '/clinica/PersonalMedico',
+							name: 'Personal Médico',
+							icon: 'UserPlusIcon',
+						},
+						{
 							url: '/admin/roles',
 							name: 'Roles',
 							slug: 'admin-rol',
 						},
+
 					]
 				},
+
 			]
 		}
 	]
@@ -833,11 +835,6 @@ export default
 											slug: 'laboratorio-tipo',
 										},
 										]
-									},
-									{
-										url: '/clinica/PersonalMedico',
-										name: 'Personal Médico',
-										icon: 'UserPlusIcon',
 									}
 								]
 							}

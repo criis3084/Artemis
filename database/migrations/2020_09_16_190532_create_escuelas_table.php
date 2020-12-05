@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateEscuelasTable extends Migration
 {
@@ -19,7 +20,11 @@ class CreateEscuelasTable extends Migration
 			$table->string('direccion');
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
-        });
+		});
+		DB::table('escuelas')->insert(array(
+			'nombre'=>'Sin Escuela',
+			'direccion'=>'-----------'
+		));	
     }
 
     /**

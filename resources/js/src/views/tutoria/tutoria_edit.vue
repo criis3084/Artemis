@@ -11,17 +11,16 @@
 		:active.sync="identificador">
 
 		<div class="con-exemple-prompt">
-				<b></b>
-				<small class="date-label">Razón de la tutoría</small>		
-				<vs-input v-model="nombreTT" name="razon" class="mt-4 mb-2 col-1 w-full" v-validate="'required|max:150'"/>
-				<span class="text-danger">{{ errors.first('razon') }}</span>
-					<div class="vx-col md:w-1/2 w-full mt-5">
-						<div class="my-4">
-							<small class="date-label">Fecha de nacimiento</small>
-							<datepicker :format="dateFormat" name="fecha" v-model="fechaT" v-validate="'required'"></datepicker>
-						</div>
-					</div>
-
+			<b></b>
+			<small class="date-label">Razón de la tutoría</small>		
+			<vs-input v-model="nombreTT" name="razon" class="mt-4 mb-2 col-1 w-full" v-validate="'required|max:150'"/>
+			<span class="text-danger">{{ errors.first('razon') }}</span>
+			<div class="vx-col md:w-1/2 w-full mt-5">
+				<div class="my-4">
+					<small class="date-label">Fecha de nacimiento</small>
+					<datepicker :format="dateFormat" name="fecha" v-model="fechaT" v-validate="'required'"></datepicker>
+				</div>
+			</div>
 		</div>
 			<template>
 				<small class="date-label">Nombre del niño</small>
@@ -81,7 +80,6 @@ export default {
 	  nombreTT:'',
 	  nombreTTT:'',
 	  fechaT:this.getDate(this.fecha),
-	  nino_id:0,
 	  nino_nombreE:'',
 	  nino_idT:{id:-1,nombres:''},
 	  tutor_nombreE:'',
@@ -104,7 +102,6 @@ export default {
   },
   methods: {
 		traerNombreNino(tabla){
-		console.log(typeof(tabla));
 		tabla.forEach(function(valor, indice, array){
 			valor.nombres=valor.datos.nombres
 			valor.apellidos=valor.datos.apellidos

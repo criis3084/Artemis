@@ -186,8 +186,6 @@ export default {
 			const respuesta = response.data
 			me.arrayData = respuesta.proveedores.data
 			me.proveedor = me.traerNombre(me.arrayData)
-			// me.constructor = me.arrayData
-			console.log(me.proveedor);
 		})
 		.catch(function (error) {
 			console.log(error)
@@ -229,19 +227,15 @@ export default {
 		this.selectedFormat = 'xlsx'
 	},
 	traerNombre (tabla) {
-		console.log(tabla);
 		tabla.forEach(function (valor, indice, array) {
 			valor.nombres = valor.datos.nombres
 			valor.apellidos = valor.datos.apellidos
 			valor.numero_telefono = valor.datos.numero_telefono
 			valor.CUI = valor.datos.CUI
 			valor.direccion= valor.datos.direccion
-		}) 
-		console.log(tabla);
+		})
 		return tabla
-}
-	
-	  
+	}
   },
   mounted () {
     this.index()

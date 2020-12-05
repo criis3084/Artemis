@@ -227,8 +227,6 @@ export default {
       return { from: new Date(this.endDate) }
     },
     calendarLabels () {
-      console.log('imprimiendo el store state')
-      console.log(this.$store.state.calendar.events)
       return this.$store.state.calendar.eventLabels
     },
     labelColor () {
@@ -413,7 +411,6 @@ export default {
           const respuesta = response.data
           me.arrayPersonal = respuesta.clinicos.data
           me.arrayPersonal = me.traerNombre(me.arrayPersonal)
-          me.pagination = respuesta.pagination
         })
         .catch(function (error) {
           console.log(error)
@@ -451,8 +448,6 @@ export default {
         .then(function (response) {
           const respuesta = response.data
 		  me.arrayCitasNuevo = respuesta.citas.data
-		  console.log('todas las citas')
-		  console.log(me.arrayCitasNuevo)
 		  me.exportarCitas(me.arrayCitasNuevo)
 		  
         })

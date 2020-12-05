@@ -30,7 +30,6 @@
 <script>
 import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
-//C:\laragon\www\PFV1\resources\js\src\views\components\vuesax\dropdown\Dropdown.vue
 import Dropdown from '@/views/components/vuesax/dropdown/Dropdown.vue'
 import vSelect from 'vue-select'
 import { Validator } from 'vee-validate';
@@ -53,67 +52,65 @@ export default {
 		identificador:{
 			default:false
 		},
-	    id:{default: 0},
+		id:{default: 0},
 		nombre:String,
 		descripcion:String,
 	},
 	components: {
-	Dropdown,
-	Datepicker,
-	vSelect,
-  },
-  data () {
+		Dropdown,
+		Datepicker,
+		vSelect,
+	},
+	data () {
 	return {
-	  val:'',
-	  valMultipe:{
-		value1:'',
-		value2:''
-	  },
-	  idT:0,
-      nombre:'',
-      descripcion:'',
-	  selected: '',
-	  switch2:true,
-	  titulo:'Actualizar tipo de vivienda'
-	}
-  },
-  computed:{
-	copia() {
-        this.nombre =this.$props.nombre;
-        this.descripcion =this.$props.descripcion;
-		this.idT =this.$props.id;
-		return true;	
-	}
-  },
-  methods:{
+		val:'',
+		valMultipe:{
+			value1:'',
+			value2:''
+		},
+		idT:0,
+		selected: '',
+		switch2:true,
+		titulo:'Actualizar tipo de vivienda'
+		}
+	},
+	computed:{
+		copia() {
+			this.nombre =this.$props.nombre;
+			this.descripcion =this.$props.descripcion;
+			this.idT =this.$props.id;
+			return true;	
+		}
+	},
+	methods:{
 	actualizarEscuela () {
-this.$validator.validateAll().then(result => {
-if(result) {
-	axios.put("/api/tipoVivienda/update/",{
-		id:this.idT,
-        nombre:this.nombre,
-        descripcion:this.descripcion,
-		}).then(function(response) {
-			console.log(response)
+		this.$validator.validateAll().then(result => {
+			if(result) {
+				axios.put("/api/tipoVivienda/update/",{
+				id:this.idT,
+				nombre:this.nombre,
+				descripcion:this.descripcion,
+				}).then(function(response) {
+					console.log(response)
+				})
+				.catch(function(error) {
+					console.log(error)
+				});
+				this.$emit('cerrado','Se cerró el formulario');
+				this.$vs.notify({
+						color:'success',
+						title:'Actualización registrada!',
+						text:'La acción se realizo exitósamente'
+				})
+			}
+			else{
+				this.$vs.notify({
+				color:'danger',
+				title:'Error en validación!',
+				text:'Ingrese todos los campos correctamente'
+				});
+			}
 		})
-		.catch(function(error) {
-			console.log(error)
-		});
-		this.$emit('cerrado','Se cerró el formulario');
-		this.$vs.notify({
-				color:'success',
-				title:'Actualización registrada!',
-				text:'La acción se realizo exitósamente'
-		})
-}
-	else{
-		this.$vs.notify({
-		color:'danger',
-		title:'Error en validación!',
-		text:'Ingrese todos los campos correctamente'
-		});
-	}
-})
 	},
 	close () {
 		this.$emit('cerrado','Se cerró el formulario');
@@ -126,8 +123,6 @@ if(result) {
 	clearValMultiple () {
 		this.$emit('cerrado','Se cerró el formulario');
 	},
-  },
-  mounted(){
   },
 }
 </script>

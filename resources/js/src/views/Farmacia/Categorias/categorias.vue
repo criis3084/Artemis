@@ -212,7 +212,7 @@ export default {
 	  })
 	this.index();
     },
-	async index(page, search){ //async para que se llame cada vez que se necesite
+	async index(){ //async para que se llame cada vez que se necesite
 		let me = this;
 		this.abrir_editar=false
 		const response = await axios.get(
@@ -220,7 +220,6 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
 			me.arrayData = respuesta.categoriaMedicamentos.data;
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);

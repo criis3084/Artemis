@@ -6,7 +6,7 @@
     </div>
 	<h2> Salida de medicamento {{numero_id}}</h2>
 	</div>
-					<vs-divider position="right">PID&#174;</vs-divider>
+			<vs-divider position="right">PID&#174;</vs-divider>
 			<div class="vx-row leading-loose p-base">
 			<div class="vx-col w-1/2">
 				<h3><b>Datos del Paciente:</b></h3>
@@ -59,7 +59,6 @@ export default {
 		return {
 			detalleSalida:[],
 			datosSalida:[],
-
 			numero_id:0,
 			descripcion_salida:'',
 			nombrePaciente:'',
@@ -77,8 +76,6 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me2.detalleSalida = respuesta.detalleSalidas.data;
-				console.log('datos de los detalles')
-				console.log(me2.detalleSalida)
 				me2.importarDatos(datos)
 			})
 			.catch(function (error) {
@@ -92,8 +89,6 @@ export default {
 			.then(function(response) {
 				var respuesta = response.data;
 				me.datosSalida = respuesta.salidaMedicamentos.data[0];
-				console.log('datos de la salida')
-				console.log(me.datosSalida)
 				me.nombrePaciente = me.datosSalida.datos_persona[0].nombres+' ' + me.datosSalida.datos_persona[0].apellidos
 				me.direccion = me.datosSalida.datos_persona[0].direccion
 				me.fecha_salida= me.datosSalida.fecha_salida

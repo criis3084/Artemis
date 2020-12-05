@@ -195,12 +195,9 @@ export default {
 		},
 		confirmarEliminar(){
 			let me = this;
-			console.log('ver el id')
-			console.log(me.encargadoT.encargado_id)
 			axios.put("/api/relacion/eliminar/",{
 				id:me.encargadoT.encargado_id
 			}).then(function(response) {
-				console.log('se ha eliminado correcamente')
 				console.log(response)
 			})
 			.catch(function (error) {

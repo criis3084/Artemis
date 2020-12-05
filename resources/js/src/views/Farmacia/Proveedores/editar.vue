@@ -65,13 +65,6 @@
               <span class="text-danger">{{ errors.first('step-1.telefono') }}</span>
             </div>
 
-            <div class="vx-col md:w-1/2 w-full mt-5">
-				<small class="date-label">Sector</small>
-				<v-select name="sector" v-validate="'required'" label="nombre" :options="sectoresT" v-model="sector_idT" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-					<span class="text-danger">{{ errors.first('step-1.sector') }}</span>
-		
-    	</div>
-
           </div>
           </form>
         </tab-content>
@@ -136,9 +129,6 @@ const dict = {
 	  required: 'Seleccione una opción',
 	  included: 'Seleccione una opción',
     },
-	sector:{
-	  required: 'El campo sector es requerido',
-	},
   }
 }
 
@@ -158,7 +148,6 @@ export default {
       fecha_nacimientoT:this.getDate(this.fecha_nacimiento),
       CUIT:'',
       numero_telefonoT:'',
-      sectoresT: [],
       arrayData: [],
     sector_idT:'',
     persona_sin_acceso_idT:'',
@@ -170,14 +159,12 @@ export default {
   computed: {
   },
   methods: {
-    async index(page, search){ //async para que se llame cada vez que se necesite
-        let me = this;
+    async index(){
+		let me = this;
         this.id_recibido = this.$route.params.id;
-        console.log("criterio   "+this.id_recibido);
 		const response = await axios.get(
 			`/api/proveedor/get?&criterio=id&buscar=${this.id_recibido}&completo=true`)
 		.then(function (response) {
-			console.log(page)
 			var respuesta= response.data;
               me.arrayData = respuesta.proveedores.data[0];
               me.nombreT = me.arrayData.nombre;
@@ -189,39 +176,12 @@ export default {
               me.fecha_nacimientoT = me.arrayData.datos.fecha_nacimiento;
               me.CUIT = me.arrayData.datos.CUI;
               me.numero_telefonoT = me.arrayData.datos.numero_telefono;
-              me.sector_idT = me.arrayData.datos.sector_id;
               me.persona_sin_acceso_idT = me.arrayData.datos.persona_sin_acceso_id;
-            console.log(me. nombresT);
-            console.log(me.arrayData);
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
 		});
     },
-    async importarSectores(){ //async para que se llame cada vez que se necesite
-		let me = this;
-		let encontrado=false;
-		let elementoE={}
-		const response = await axios.get(
-			`/api/sector/get?completo=select`)
-		.then(function (response) {
-			var respuesta= response.data;
-			me.sectoresT = respuesta.sectores.data;
-			me.sectoresT.forEach(function(elemento, indice, array) {
-				if (elemento.id==me.sector_idT)
-				{
-					elementoE=elemento
-					encontrado=true
-				}
-			})
-			me.sector_idT = encontrado == true ? elementoE : {id:me.sector_idT,nombre:'Sector desactivado'} 
-			me.pagination= respuesta.pagination;
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-	},
     getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -246,19 +206,16 @@ export default {
     },
 
     formSubmitted () {
-      // alert('Form submitted!');
       axios.put("/api/proveedor/update/",{
         id:this.id_recibido,
-            nombre:this.nombreT,
-		    nombres:this.nombresT,
-            apellidos:this.apellidosT,
-            CUI:this.CUIT,
-            numero_telefono:this.numero_telefonoT,
-		    genero:this.generoT,
-		    fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
-		    direccion:this.direccionT,
-        sector_id:this.sector_idT.id
-
+		nombre:this.nombreT,
+		nombres:this.nombresT,
+		apellidos:this.apellidosT,
+		CUI:this.CUIT,
+		numero_telefono:this.numero_telefonoT,
+		genero:this.generoT,
+		fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
+		direccion:this.direccionT,
 	}).then(function(response) {
       console.log(response)
 		})
@@ -281,15 +238,13 @@ export default {
     },
   },
   components: {
-    FormWizard,
-	  TabContent,
-  	Datepicker,
-	  vSelect,
+	FormWizard,
+	TabContent,
+	Datepicker,
+	vSelect,
   },
 	mounted(){
-    this.index(1, this.search);
-    this.importarSectores();
-
+    this.index();
   },
   
 }

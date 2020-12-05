@@ -139,18 +139,13 @@ export default {
 	async index(){ //async para que se llame cada vez que se necesite
         let me = this;
         me.id_recibido = this.$route.params.id;
-        console.log("criterio");
-        console.log(me.id_recibido);
 		const response = await axios.get(
 			`/api/historialCorrespondencia/get?&criterio=apadrinamiento_id&buscar=${me.id_recibido}&completo=true`)
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayData = respuesta.historialCorrespondencias.data;
             me.apadrinamiento_idT = me.arrayData[0].apadrinamiento_id;
-            // me.importarApadrinamiento(me.apadrinamiento_idT);
             me.correspondencia_idT = me.arrayData.correspondencia_id;
-            console.log("historial");
-            console.log(me.arrayData);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -165,20 +160,10 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
             me.arrayDataT = respuesta.apadrinamientos.data;
-            // console.log("aca");
-            // console.log(me.arrayDataT);
-            // me.padrino = me.traerNombres(me.arrayDataT);
             me.nombres_nino = me.arrayDataT[0].datos_nino[0].nombres;
             me.apellidos_nino = me.arrayDataT[0].datos_nino[0].apellidos;
             me.nombres_padrino = me.arrayDataT[0].datos_padrino[0].nombres;
             me.apellidos_padrino = me.arrayDataT[0].datos_padrino[0].apellidos;
-            // console.log("variables");
-            // console.log(me.nombres_nino);
-            // console.log(me.apellidos_nino);
-            // console.log(me.apellidos_padrino);
-            // console.log(me.nombres_padrino);
-            // console.log("Apadrinamiento");
-            // console.log(me.arrayDataT);
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -216,7 +201,6 @@ export default {
 
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
-			console.log(this.id)
 			axios.put('/api/historialCorrespondencia/activar/', {
 				id: this.id
 			})
@@ -229,7 +213,6 @@ export default {
 		}
 		else if(this.estado === 1 || this.estado === true){
 			titulo = 'Desactivado exitósamente'
-			console.log(this.id)
 			axios.put('/api/historialCorrespondencia/desactivar/', {
 				id: this.id
 			})

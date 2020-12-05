@@ -444,6 +444,9 @@ Route::group(['prefix' => 'nino'], function () {
     Route::put('/activar', [
         'as' => 'admin.nino', 'uses' => 'NinoController@activar'
 	]);
+    Route::put('/apadrinar', [
+        'as' => 'admin.nino', 'uses' => 'NinoController@apadrinar'
+	]);
     Route::put('/desactivar', [
         'as' => 'admin.nino', 'uses' => 'NinoController@desactivar'
 	]);

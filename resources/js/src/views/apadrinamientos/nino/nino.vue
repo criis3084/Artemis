@@ -181,7 +181,6 @@ export default {
 	},
 	cambiarEstado(color){
 		let titulo = ''
-		console.log(this.id)
 		if(this.estado === 0 || this.estado === false){
 			titulo = 'Activado exitósamente'
 			axios.put('/api/nino/activar', {

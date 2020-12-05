@@ -189,8 +189,6 @@ export default {
 		.then(function (response) {
 			var respuesta= response.data;
             me.tipoViviendas = respuesta.tipoViviendas.data;
-            console.log(me.tipoViviendas);
-			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -253,10 +251,6 @@ export default {
     formSubmitted () {
   this.$validator.validateAll().then(result => {
   if(result) {
-      // alert('Form submitted!');
-      console.log(this.tipo_vivienda_id);
-      console.log(this.tipo_vivienda_id.id);
-      console.log(this.duracion);
       const me = this
       axios.post("/api/vivienda/post/",{
 		direccion:this.direccion,

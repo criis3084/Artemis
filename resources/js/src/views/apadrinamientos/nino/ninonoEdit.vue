@@ -263,7 +263,6 @@ export default {
 					}
 				})
 				me.sector_idT = encontrado == true ? elementoE : {id:me.sector_idT,nombre:'Sector desactivado'} 
-				me.pagination= respuesta.pagination;
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -325,8 +324,7 @@ export default {
 			})
 		},
 		formSubmitted () {
-			// alert('Form submitted!');
-			if (this.ruta_imagen === ''){
+			if (this.ruta_imagen === '' || this.ruta_imagen === undefined){
 				this.ruta_imagen= this.imagen_perfil_antigua;
 			}
 			else{
