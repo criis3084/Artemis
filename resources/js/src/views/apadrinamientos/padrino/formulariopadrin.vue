@@ -42,15 +42,15 @@
 				<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="my-4">
 					<small class="date-label">Fecha de nacimiento</small>
-					<datepicker :format="dateFormat" :language="$vs.rtl ? langEn : langEn" name="fecha" v-validate="'required'" v-model="fecha_nacimiento"></datepicker>
-					<span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
+					<datepicker :format="dateFormat" :language="$vs.rtl ? langEn : langEn" name="fecha"  v-model="fecha_nacimiento"></datepicker>
+					
 
 				</div>
 				</div>
 				
 				<div class="vx-col md:w-1/2 w-full mt-5">
-					<vs-input label="Dirección"  v-model="direccion" class="w-full" icon-pack="feather" icon="icon-map-pin" name="direccion" v-validate="'required|max:254'" />
-					<span class="text-danger">{{ errors.first('step-1.direccion') }}</span>
+					<vs-input label="Dirección"  v-model="direccion" class="w-full" icon-pack="feather" icon="icon-map-pin" name="direccion" />
+					
 				</div>
 
 				<div class="vx-col md:w-1/2 w-full mt-5"> 
@@ -172,7 +172,7 @@ export default {
     getDate(datetime) {
         let date = new Date(datetime);
         let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-        return dateString;
+        this.fecha_nacimiento = dateString
       },
     validateStep1 () {
       return new Promise((resolve, reject) => {
@@ -207,6 +207,10 @@ export default {
       })
     },
     formSubmitted () {
+		if (this.fecha_nacimiento !== '') {
+           this.getDate(this.fecha_nacimiento)
+		}
+		
 		if (this.ruta_imagen === ''){
 			this.ruta_imagen= "default.png"
 		}
@@ -218,7 +222,7 @@ export default {
 		correo:this.correo,
 		ruta_imagen:'/storage/public/padrinos/' + this.ruta_imagen,
 		genero:this.genero,
-		fecha_nacimiento:this.getDate(this.fecha_nacimiento),
+		fecha_nacimiento: this.fecha_nacimiento,
 		direccion:this.direccion,
 		//SECTOR EXTRANJERO
 		sector_id:1

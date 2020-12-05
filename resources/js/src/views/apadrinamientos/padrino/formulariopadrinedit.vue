@@ -41,12 +41,12 @@
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
 			  <small class="date-label">Fecha de nacimiento</small>
-			  <datepicker :language="$vs.rtl ? langEn : langEn"  v-model="fecha_nacimientoT"></datepicker>
+			  <datepicker :language="$vs.rtl ? langEn : langEn"  v-model="fecha_nacimientoT" @input="valor = true"></datepicker>
 			</div>
 	        
 			<div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="Dirección"  v-model="direccionT" class="w-full" name="direccion" v-validate="'required|max:254'" />
-              <span class="text-danger">{{ errors.first('step-1.direccion') }}</span>
+              <vs-input label="Dirección"  v-model="direccionT" class="w-full" name="direccion"  />
+              
             </div>
 
 			<div class="vx-col md:w-1/2 w-full mt-5">
@@ -162,6 +162,7 @@ export default {
 			id_recibido:'',
 			mostrarEditar:false,
 			imagen_perfil_antigua:'',
+			valor:false,
 			titulo:'Actualización registrada!',
 			head:{
 				"imagenanterior":""	
@@ -196,7 +197,7 @@ export default {
 		getDate(datetime) {
 			let date = new Date(datetime);
 			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-			return dateString;
+			this.fecha_nacimientoT = dateString
 			},
 
 		validateStep1 () {
@@ -232,6 +233,9 @@ export default {
 			})
 		},
 		formSubmitted () {
+			if (this.valor === true) {
+           this.getDate(this.fecha_nacimientoT)
+		}
 			if (this.ruta_imagen === '' || this.ruta_imagen === undefined){
 				this.ruta_imagen= this.imagen_perfil_antigua;
 			}
@@ -247,7 +251,7 @@ export default {
 				correo:this.correoT,
 				ruta_imagen:this.ruta_imagen,
 				genero:this.generoT,
-				fecha_nacimiento:this.getDate(this.fecha_nacimientoT),
+				fecha_nacimiento:this.fecha_nacimientoT,
 				direccion:this.direccionT,
 			sector_id:this.sector_idT.id
 
@@ -263,6 +267,7 @@ export default {
 				title:`${this.titulo}`,
 				text:'La acción se realizo exitósamente'
 			});
+			this.valor = false
 			this.$router.push('/apadrinamiento/padrino');
 		},
 		vaciar(){
