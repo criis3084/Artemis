@@ -131,7 +131,7 @@ export default {
       valor.nombres=valor.datos_constructor[0].nombres
       valor.apellidos=valor.datos_constructor[0].apellidos
     }); 
-    console.log(tabla);
+    //console.log(tabla);
 		return tabla
     },
 
@@ -224,11 +224,8 @@ export default {
         .then(function(response) {
           var respuesta = response.data;
           me.arrayData = respuesta.viviendas.data;
-<<<<<<< HEAD
           me.arrayData=me.traerNombreEncargado(me.arrayData)
-          console.log(me.arrayData);
-=======
->>>>>>> 148192e359535e68b6db62d39891af9ff522f767
+          //console.log(me.arrayData);
         })
         .catch(function(error) {
           console.log(error);

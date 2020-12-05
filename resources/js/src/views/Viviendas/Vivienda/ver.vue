@@ -157,7 +157,7 @@ export default{
               me.constructor_apellidos2 = me.arrayData.datos_constructor[0].apellidos;
               me.tipo_vivienda_idT = me.arrayData.tipo_vivienda.nombre;
               me.donante = me.arrayData.donante
-            console.log(me.arrayData);
+            //console.log(me.arrayData);
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {

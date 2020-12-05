@@ -192,7 +192,7 @@ export default {
               me.constructor_idT = me.arrayData.constructor_id;
               me.tipo_vivienda_idT = me.arrayData.tipo_vivienda_id;
               me.donante = me.arrayData.donante
-            console.log(me.arrayData);
+           // console.log(me.arrayData);
 			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
