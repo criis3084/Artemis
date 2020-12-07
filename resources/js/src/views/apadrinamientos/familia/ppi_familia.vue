@@ -55,7 +55,7 @@
 		<div class="vx-row mb-2">
 			<vs-list>
 				<h4> 
-				<vs-list-header title="4. ¿Trabaja algún miembro de la familia como jornalero o empleado doméstcio?"></vs-list-header>
+				<vs-list-header title="4. ¿Trabaja algún miembro de la familia como jornalero o empleado doméstico?"></vs-list-header>
 				</h4>
 				<ul class="centerx mt-3">
 					<vs-radio color="success" class="m-3" v-model="respuesta4" vs-value="400">  Sí  </vs-radio>

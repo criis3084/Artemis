@@ -97,7 +97,7 @@
             <v-select  label="nombre" :options="arrayTipoCitas"  v-model="TipoCita" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
         <div class="my-4">
-            <small class="date-label">Medico</small>
+            <small class="date-label">Médico</small>
             <v-select  label="nombre_completo" :options="arrayPersonal"  v-model="Medico" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         </div>
          <div class="my-4">
@@ -131,7 +131,7 @@
         <v-select  label="nombre" :options="arrayTipoCitas"  v-model="TipoCita" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
         <small class="date-label">Paciente</small>
         <v-select  label="nombre_completo" :options="arrayPaciente"  v-model="Paciente" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-        <small class="date-label">Medico</small>
+        <small class="date-label">Médico</small>
         <v-select  label="nombre_completo" :options="arrayPersonal"  v-model="Medico" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
     </vs-prompt>
   </div>

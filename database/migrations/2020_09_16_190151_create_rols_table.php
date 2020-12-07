@@ -33,7 +33,7 @@ class CreateRolsTable extends Migration
 		DB::table('rols')->insert(array('nombre'=>'Tutora'));
 		DB::table('rols')->insert(array('nombre'=>'Laboratorista'));
 		DB::table('rols')->insert(array('nombre'=>'Farmaceutica'));
-		DB::table('rols')->insert(array('nombre'=>'Medico'));
+		DB::table('rols')->insert(array('nombre'=>'Médico'));
     }
 
     /**

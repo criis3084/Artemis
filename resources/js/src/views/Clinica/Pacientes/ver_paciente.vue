@@ -18,7 +18,7 @@
 
 						<span>
 							<p class="text-xl font-semibold">  {{ genero == 1 ? 'Masculino' : 'Femenino'}}  </p>
-							<small class="text-grey">Genero</small>
+							<small class="text-grey">Género</small>
 						</span>
 
 						<span>
@@ -92,14 +92,14 @@
 								<vs-avatar class="mx-auto my-6 block" size="80px" :src="fotoPerfil"/>
 							</div>
 							<div v-if ="codigoPersona != null">
-								<p>Codigo: {{codigoPersona}} </p>
+								<p>Código: {{codigoPersona}} </p>
 							</div>
 								<br>
 						</div>
 						<div class="flex justify-between text-center">
 							<span>
 								<p class="text-xl font-semibold">  {{ genero == 1 ? 'Masculino' : 'Femenino'}}  </p>
-								<small class="text-grey">Genero</small>
+								<small class="text-grey">Género</small>
 							</span>
 							<span>
 								<p class="text-xl font-semibold"> {{tipoPaciente}} </p>
@@ -193,7 +193,7 @@
 				</div>
 				<div class="vx-col w-full sm:w-1/2 mb-base" :class="amplio == true ? 'lg:w-2/5': 'lg:w-2/4'">
 					<vx-card
-						title="Historial Medico"
+						title="Historial Médico"
 						title-color="primary"
 						>
 							<template slot="actions">
@@ -221,7 +221,7 @@
 											</div>
 											<div class="timeline-info">
 												<h5 class="text-dark"> <b class="text-primary">Descripción: </b> {{ historial.descripcion }}</h5>
-												<span class="activity-desc"><b>Medico encargado: </b>{{ historial.doctor[0].nombres + ' ' + historial.doctor[0].apellidos }}</span>
+												<span class="activity-desc"><b>Médico encargado: </b>{{ historial.doctor[0].nombres + ' ' + historial.doctor[0].apellidos }}</span>
 												<br>
 												<span class="activity-desc"><b>Objetivo: </b>{{ historial.objetivo }}</span>
 												<br>
@@ -325,7 +325,7 @@
 								</vs-prompt>
 								</div>
 								<div v-else>
-									<h3>El paciente no tiene registros en su historial medico</h3>
+									<h3>El paciente no tiene registros en su historial médico</h3>
 								</div>
 					</vx-card>
 				</div>
@@ -367,7 +367,7 @@
 								<b> Descripcion: </b> {{cita.descripcion}}
 								<p>
 								<small> 
-									<b> Medico: </b> {{cita.datos_clinico[0].nombres + ' ' + cita.datos_clinico[0].apellidos}}
+									<b> Médico: </b> {{cita.datos_clinico[0].nombres + ' ' + cita.datos_clinico[0].apellidos}}
 								</small>
 								</p>
 								</vx-card>

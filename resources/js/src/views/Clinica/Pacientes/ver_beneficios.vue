@@ -266,7 +266,7 @@ export default {
 		},
 		close(){
 			let titulo = "Cancelado"
-			let texto = "El paciente no recibira apoyo el siguiente mes del entergado"
+			let texto = "El paciente no recibirá apoyo el siguiente mes del entregado"
 			this.$vs.notify({
 				color:'danger',
 				title:`${titulo}`,
