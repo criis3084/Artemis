@@ -151,7 +151,9 @@ export default {
 				title: `${titulo}`,
 				text: '¿Está seguro de llevar a cabo esta acción?',
 				accept: this.cambiarEstado,
-				cancel: this.close
+				cancel: this.close,
+				acceptText: 'Aceptar',
+				cancelText: 'Cancelar',
 			})
 		},
 		buscarDetalleBeneficios(primerBeneficio){
@@ -246,7 +248,9 @@ export default {
 					title: `Nuevo Beneficio`,
 					text: '¿El paciente recibirá apoyo el mes siguiente al entregado?',
 					accept: this.nuevoBeneficio,
-					cancel: this.close2
+					cancel: this.close2,
+			acceptText: 'Aceptar',
+			cancelText: 'Cancelar',
 				})
 			}
 		},

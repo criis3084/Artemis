@@ -444,7 +444,9 @@ export default {
 										title: `Nuevo Beneficio`,
 										text: '¿El paciente recibirá apoyo el mes siguiente al entregado?',
 										accept: this.nuevoApoyo,
-										cancel: this.close
+										cancel: this.close,
+										acceptText: 'Aceptar',
+										cancelText: 'Cancelar',
 									})
 								}
 							}

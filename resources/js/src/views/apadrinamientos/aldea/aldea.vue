@@ -153,7 +153,9 @@ export default {
 			title: `${titulo}`,
 			text: '¿Está seguro de llevar a cabo esta acción?',
 			accept: this.cambiarEstado,
-			cancel: this.close
+			cancel: this.close,
+			acceptText: 'Aceptar',
+			cancelText: 'Cancelar',
 		})
 	},
 	cambiarEstado(color){

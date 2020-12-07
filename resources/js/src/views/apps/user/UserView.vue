@@ -206,7 +206,9 @@ export default {
         title: 'Confirm Delete',
         text: `You are about to delete "${this.user_data.username}"`,
         accept: this.deleteRecord,
-        acceptText: 'Delete'
+        acceptText: 'Delete',
+			acceptText: 'Aceptar',
+			cancelText: 'Cancelar',
       })
     },
     deleteRecord () {
