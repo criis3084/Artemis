@@ -23,7 +23,7 @@ class CreateSectorsTable extends Migration
 		});
 		DB::table('sectors')->insert(array(
 			'nombre'=>'Externo',
-			'aldea_ud'=>1,
+			'aldea_id'=>1,
 		));
     }
 
