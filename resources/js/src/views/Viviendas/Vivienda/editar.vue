@@ -61,7 +61,14 @@
 										<vs-upload v-if="mostrarEditar" automatic action="/api/vivienda/imagen" limit="1" :headers="head" fileName="photos" @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil"/>
 								</div>
       </div>
+      <div class="vx-col md:w-1/2 w-full mt-5">
+			  <small class="date-label">Nombre del donador de vivienda</small>
+			  <vs-input class="w-full" name="donante" v-validate="'required'"  v-model="donante"></vs-input>
+        <span class="text-danger">{{ errors.first('step-1.donante') }}</span>
+			</div>
+
           </div>
+          
           </form>
         </tab-content>
       </form-wizard>
@@ -110,6 +117,10 @@ const dict = {
       required: 'El campo costo total es requerido',
       max: 'Este campo solo acepta hasta 6 dígitos',
       numeric: 'El campo solo debe de contener números',
+    },
+    donante: {
+	  required: 'Porfavor ingrese el nombre del donante',
+	  max: 'Este campo solo acepta hasta 2 dígitos'
     }
   }
 }
@@ -138,6 +149,7 @@ export default {
         conjuntoEncargado:'',
         constructor_nombres:'',
         constructor_apellidos:'',
+        donante:'',
     langEn: es,
     id_recibido:'',
     titulo:'Actualización registrada',
@@ -179,6 +191,9 @@ export default {
               me.encargado_idT = me.arrayData.encargado_id;
               me.constructor_idT = me.arrayData.constructor_id;
               me.tipo_vivienda_idT = me.arrayData.tipo_vivienda_id;
+              me.donante = me.arrayData.donante
+           // console.log(me.arrayData);
+			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);

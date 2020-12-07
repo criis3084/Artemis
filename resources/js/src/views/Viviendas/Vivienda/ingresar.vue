@@ -65,7 +65,11 @@
 					</template>
 			</div>
 			  </div>
-      
+            <div class="vx-col md:w-1/2 w-full mt-5">
+			  <small class="date-label">Nombre del donador de vivienda</small>
+			  <vs-input class="w-full" name="donante" v-validate="'required'"  v-model="donante"></vs-input>
+        <span class="text-danger">{{ errors.first('step-1.donante') }}</span>
+			</div>
 
           </div>
           </form>
@@ -116,6 +120,10 @@ const dict = {
       required: 'El campo costo total es requerido',
       max: 'Este campo solo acepta hasta 6 dígitos',
       numeric: 'El campo solo debe de contener números',
+    },
+    donante: {
+	  required: 'Porfavor ingrese el nombre del donante',
+	  max: 'Este campo solo acepta hasta 2 dígitos'
     }
   }
 }
@@ -136,6 +144,7 @@ export default {
      constructors: [],
        constructor_id:'',
       tipoViviendas: [],
+      donante:'',
         tipo_vivienda_id:'',
         encargado_nombres:'',
         encargado_apellidos:'',
@@ -251,7 +260,8 @@ export default {
 		fecha_inicio:this.getDate(this.fecha_inicio),
         encargado_id:this.encargado_id.id,
         constructor_id:this.constructor_id.id,
-        tipo_vivienda_id:this.tipo_vivienda_id.id
+        tipo_vivienda_id:this.tipo_vivienda_id.id,
+        donante:this.donante
 	}).then(function(response) {
       console.log(response)
        me.$vs.notify({

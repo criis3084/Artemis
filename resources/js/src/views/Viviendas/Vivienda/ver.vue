@@ -16,7 +16,7 @@
 
               <div class="vx-col md:w-2/5 w-full flex items-center justify-center">
                 <div class="product-img-container w-3/5 mx-auto mb-10 md:mb-0">
-                  <img :src="this.imagen_finalT" alt="Imagen de vivienda " class="responsive">
+                  <img :src="this.imagen_finalT" alt="Imagen de vivienda" class="responsive">
 
                   <!--
                     UnComment Below line for true flow
@@ -44,6 +44,11 @@
                 <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.constructor_nombres2 + " " + this.constructor_apellidos2 }}</span>
                 </p>
 
+                <span>Donante de la vivienda</span>
+                <p class="flex items-center flex-wrap">
+                <vx-tooltip text="Nombre del donante de vivienda"><span class="material-icons ">person_outline</span></vx-tooltip>
+                <span class="text-2xl leading-none font-medium text-primary mr-4 mt-2">{{ this.donante }}</span>
+                </p>
                 <vs-divider />
                 <span>Información adicional</span>
                 <p class="flex items-center flex-wrap">
@@ -151,6 +156,9 @@ export default{
               me.constructor_nombres2 = me.arrayData.datos_constructor[0].nombres;
               me.constructor_apellidos2 = me.arrayData.datos_constructor[0].apellidos;
               me.tipo_vivienda_idT = me.arrayData.tipo_vivienda.nombre;
+              me.donante = me.arrayData.donante
+            //console.log(me.arrayData);
+			me.pagination= respuesta.pagination;
 		})
 		.catch(function (error) {
 			console.log(error);

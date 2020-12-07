@@ -15,6 +15,7 @@ $factory->define(Vivienda::class, function (Faker $faker) {
         'fecha_inicio' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'duracion' => $faker->numberBetween($min = 0, $max = 10),
         'imagen_final' => $faker->text($maxNbChars = 100), 
+        'donante' => $faker->firstNameMale,
         'tipo_vivienda_id' => factory(App\TipoVivienda::class),
         'constructor_id' => factory(App\Constructor::class),
         'Encargado_id' => factory(App\Encargado::class),

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vivienda extends Model
 {
-	protected $fillable = ['costo_total','direccion','fecha_inicio','duracion','imagen_final','tipo_vivienda_id','constructor_id','encargado_id','estado'];
+	protected $fillable = ['costo_total','direccion','fecha_inicio','duracion','imagen_final','tipo_vivienda_id','constructor_id','encargado_id','estado','donante'];
 
 	public function tipoVivienda(){
 		return $this->belongsTo('App\TipoVivienda','tipo_vivienda_id','id');

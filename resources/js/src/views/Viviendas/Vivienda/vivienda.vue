@@ -90,8 +90,8 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	    selectedFormat: 'xlsx',
-	    headerVal: ['id', 'nombress','apellidoss', 'nombres','apellidos','cantidad_restante', 'estado' ],
-	    headerTitle: ['Id', 'Nombres Destinatario','Apellidos Destinatario', 'Nombre Constructor', 'Apellido Constructor','Cantidad Restante', 'Estado'],
+	    headerVal: ['id', 'nombress','apellidoss', 'nombres','apellidos','costo_total', 'donante', 'estado' ],
+	    headerTitle: ['Id', 'Nombres Destinatario','Apellidos Destinatario', 'Nombre Constructor', 'Apellido Constructor','Costo de vivienda en Q', 'Donador de vivienda', 'Estado'],
       activePrompt: false,
       nombre: "",
       fecha: "",
@@ -126,9 +126,12 @@ export default {
     },
     traerNombreEncargado(tabla){
 		tabla.forEach(function(valor, indice, array){
-		valor.nombress=valor.datos_residente[0].nombres
-		valor.apellidoss=valor.datos_residente[0].apellidos
-	    });
+      valor.nombress=valor.datos_residente[0].nombres
+      valor.apellidoss=valor.datos_residente[0].apellidos
+      valor.nombres=valor.datos_constructor[0].nombres
+      valor.apellidos=valor.datos_constructor[0].apellidos
+    }); 
+    //console.log(tabla);
 		return tabla
     },
 
@@ -221,6 +224,8 @@ export default {
         .then(function(response) {
           var respuesta = response.data;
           me.arrayData = respuesta.viviendas.data;
+          me.arrayData=me.traerNombreEncargado(me.arrayData)
+          //console.log(me.arrayData);
         })
         .catch(function(error) {
           console.log(error);

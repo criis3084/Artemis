@@ -90,7 +90,7 @@ export default{
       error_occured: false,
       error_msg: '',
       arrayData: [],
-      idTutor:'',
+      idUsuario:'',
       id:'',
       nombres: '',
       apellidos: '',
@@ -136,7 +136,7 @@ export default{
           me.apellidos = me.arrayData[0].apellidos
           me.direccion = me.arrayData[0].direccion
           me.especialidadTutor = me.arrayData.especialidad
-          me.idTutor = me.arrayData[0].id
+          me.idUsuario = me.arrayData[0].id
           me.genero = me.arrayData[0].genero
           me.fecha_nacimiento = me.arrayData[0].fecha_nacimiento
           me.CUI = me.arrayData[0].CUI

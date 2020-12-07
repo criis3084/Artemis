@@ -16,7 +16,8 @@ class CreateViviendasTable extends Migration
         Schema::create('viviendas', function (Blueprint $table) {
 			$table->id();
 			$table->integer('costo_total');
-			$table->string('direccion');	
+            $table->string('direccion');
+            $table->string('donante');	
 			$table->date('fecha_inicio');
 			$table->tinyInteger('duracion');	
 			$table->string('imagen_final')->nullable();	

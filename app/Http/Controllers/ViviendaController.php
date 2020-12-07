@@ -48,6 +48,7 @@ class ViviendaController extends Controller
 			$vivienda = new Vivienda();
 			$vivienda->costo_total = $request->costo_total;
 			$vivienda->direccion = $request->direccion;
+			$vivienda->donante = $request->donante;
 			$vivienda->fecha_inicio = $request->fecha_inicio;
 			$vivienda->duracion = $request->duracion;
 			$vivienda->imagen_final = $request->imagen_final;
@@ -67,6 +68,7 @@ class ViviendaController extends Controller
 		$vivienda = Vivienda::findOrFail($request->id);
 			$vivienda->costo_total = $request->costo_total;
 			$vivienda->direccion = $request->direccion;
+			$vivienda->donante = $request->donante;
 			$vivienda->fecha_inicio = $request->fecha_inicio;
 			$vivienda->duracion = $request->duracion;
 			$vivienda->imagen_final = $request->imagen_final;
