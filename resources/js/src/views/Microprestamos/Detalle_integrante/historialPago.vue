@@ -32,6 +32,7 @@
 				        <vs-th >Mora</vs-th>
                 <vs-th >Cantidad restante</vs-th>
 				        <vs-th >Fecha de pago</vs-th>
+                <vs-th>Abono recibido por</vs-th>
                 <vs-th >Estado</vs-th>
         </template>
 
@@ -57,6 +58,9 @@
                     </vs-td>
                     <vs-td>
                         {{data[indextr].fecha_pago}}
+                    </vs-td>
+                    <vs-td>
+                        {{data[indextr].user.nombres + ' '+ data[indextr].user.apellidos}}
                     </vs-td>
 
                     <vs-td :data="data[indextr].estado">

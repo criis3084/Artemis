@@ -357,6 +357,7 @@ export default {
             title:'Integrante eliminado',
             text:'Acción realizada exitósamente'
           })
+          me.eliminar = false
         })
           .catch(function (error) {
             console.log(error)

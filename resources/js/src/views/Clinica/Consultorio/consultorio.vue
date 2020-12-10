@@ -13,7 +13,7 @@
 					<vs-divider position="right">PID&#174;</vs-divider>
 					<div class="vx-row leading-loose p-base">
 		                <div class="vx-col w-1/2">
-							<img src="@assets/images/logo/logopid.png" alt="pid-logo">
+							<img src="@assets/images/logo/logopid.png" height="90px" width="150px" alt="pid-logo">
 						</div>
 						<div class="vx-col w-1/2 text-right">
 							<p class="text-primary">Partners In Development</p>
