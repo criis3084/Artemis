@@ -1,6 +1,5 @@
 <template>
 	<div>
-		
 	  <div class="vx-row" v-if="!verForm">
 		<div class="vx-col w-full">
 			<div id="invoice-page">
@@ -92,9 +91,9 @@
 		</div>
 		<div class="vx-col md:w-1/2 w-full mt-8">
 			<div class="vx-col w-full">
-					<small class="date-label">Descripción</small>
+				<small class="date-label">Descripción</small>
 				<vs-input v-model="descripcion" name="descripcion" v-validate="'required|max:254'" class="w-full" icon-pack="feather" icon-no-border :disabled="deshabilitado" />
-					<span class="text-danger">{{ errors.first('descripcion') }}</span>
+				<span class="text-danger">{{ errors.first('descripcion') }}</span>
 			</div>
 		</div>
 		<div class="vx-row">
@@ -102,8 +101,7 @@
 				<div class="vx-col w-full">
 					<small class="date-label">Semanas de embarazo</small>
 					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='semanas_embarazo' v-validate="'numeric|max:2'" v-model="semanas_embarazo" :disabled="deshabilitado"/>
-					<span class="text-danger">{{ errors.first('semanas_embarazo') }}</span>
-				
+					<span class="text-danger">{{ errors.first('semanas_embarazo') }}</span>				
 				</div>
 			</div>
 			<div class="vx-col md:w-1/3 w-full mt-6" v-if="diabetico">
@@ -111,7 +109,6 @@
 					<small class="date-label">Glicemia</small>
 					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='glicemia' v-validate="'decimal:2|max:6|max_value:500'" v-model="glicemia" :disabled="deshabilitado"/>
 					<span class="text-danger">{{ errors.first('glicemia') }}</span>
-				
 				</div>
 			</div>
 		</div>
@@ -121,7 +118,6 @@
 					<small class="date-label">Peso</small>
 					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='peso_actual' v-validate="'decimal:2|max:6|max_value:500'" v-model="peso_actual" :disabled="deshabilitado"/>
 					<span class="text-danger">{{ errors.first('peso_actual') }}</span>
-				
 				</div>
 			</div>
 			<div class="vx-col md:w-1/3 w-full mt-6">
@@ -129,7 +125,6 @@
 					<small class="date-label">Talla</small>
 					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='talla' v-validate="'decimal:2|max:6|max_value:500'" v-model="talla" :disabled="deshabilitado"/>
 					<span class="text-danger">{{ errors.first('talla') }}</span>
-				
 				</div>
 			</div>
 			<div class="vx-col md:w-1/3 w-full mt-6">
@@ -137,7 +132,6 @@
 					<small class="date-label">Temperatura</small>
 					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='temperatura' v-validate="'decimal:2|max:6|max_value:500'" v-model="temperatura" :disabled="deshabilitado"/>
 					<span class="text-danger">{{ errors.first('temperatura') }}</span>
-				
 				</div>
 			</div>
 		</div>
@@ -147,7 +141,6 @@
 					<small class="date-label">Respiración</small>
 					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='respiracion' v-validate="'numeric|max:6'" v-model="respiracion" :disabled="deshabilitado"/>
 					<span class="text-danger">{{ errors.first('respiracion') }}</span>
-				
 				</div>
 			</div>
 			<div class="vx-col md:w-1/3 w-full mt-6">
@@ -155,7 +148,6 @@
 					<small class="date-label">Pulso</small>
 					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='pulso' v-validate="'numeric|max:6'" v-model="pulso" :disabled="deshabilitado"/>
 					<span class="text-danger">{{ errors.first('pulso') }}</span>
-				
 				</div>
 			</div>
 			<div class="vx-col md:w-1/3 w-full mt-6">
@@ -163,7 +155,6 @@
 					<small class="date-label">Presion Arterial</small>
 					<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='presion_arterial' v-validate="'numeric|max:6'" v-model="presion_arterial" :disabled="deshabilitado"/>
 					<span class="text-danger">{{ errors.first('presion_arterial') }}</span>
-				
 				</div>
 			</div>
 		</div>
@@ -171,18 +162,25 @@
 		<div class="vx-row mt-5">
 			<small class="date-label ml-4">Objetivo de la consulta</small>
 			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='objetivo' v-validate="'required'" v-model="objetivo" :disabled="deshabilitado"/>
-					<span class="text-danger">{{ errors.first('objetivo') }}</span>
-		
+			<span class="text-danger">{{ errors.first('objetivo') }}</span>
 		</div>
 		<div class="vx-row">
 			<small class="date-label ml-4">Subjetivo de la consulta</small>
 			<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='subjetivo' v-validate="'required'" v-model="subjetivo" :disabled="deshabilitado"/>
-					<span class="text-danger">{{ errors.first('subjetivo') }}</span>
-		
+			<span class="text-danger">{{ errors.first('subjetivo') }}</span>
 		</div>
 
-		<div v-if="verReceta">
-			
+		<div class="vx-row">
+			<small class="date-label ml-5">Programar Examenes</small>
+			<ul class="demo-alignment w-full mr-4 ml-4">
+				<li v-for="(examen,index) in listado_examenes" :key="index">
+					<vs-checkbox v-model="form.examenes"  :disabled="deshabilitado" :vs-value="examen"> {{examen.nombre}} </vs-checkbox>
+				</li>
+			</ul>
+		</div>
+
+
+		<div v-if="verReceta">			
 			<vs-divider position="center" class="mt-6" > Medicamentos Recetados </vs-divider>
 			<div class="vx-col md:w-2/3 w-full mt-3">
 				<div class="vx-col w-full">
@@ -225,15 +223,14 @@
 				<small class="date-label ml-4">Anotaciones de la receta</small>
 				<vs-textarea class="w-full mr-4 ml-4" icon-pack="feather" icon="icon-coffee" icon-no-border name='listado' v-validate="'required'" v-model="listado"/>
 				<span class="text-danger">{{ errors.first('listado') }}</span>
-			
 			</div>
 		</div>
 
         <div class="flex flex-wrap items-center justify-between mt-5">
-			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirReceta" v-if="!verReceta" :disabled="deshabilitado">Añadir receta</vs-button>
-			<vs-button type="gradient" color="danger" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirReceta" v-if="verReceta" :disabled="deshabilitado">Eliminar Receta</vs-button>
+			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2 mt-2" @click="anadirReceta" v-if="!verReceta" :disabled="deshabilitado">Añadir receta</vs-button>
+			<vs-button type="gradient" color="danger" icon-pack="feather" icon="icon-save" class="mr-base mb-2 mt-2" @click="anadirReceta" v-if="verReceta" :disabled="deshabilitado">Eliminar Receta</vs-button>
           <div class="flex items-center">
-			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="printInvoice" v-if="verReceta == true && verForm == true" :disabled="deshabilitado">Registrar e imprimir receta</vs-button>
+			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2 mt-2" @click="printInvoice" v-if="verReceta == true && verForm == true" :disabled="deshabilitado">Registrar e imprimir receta</vs-button>
 			<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar" :disabled="deshabilitado">Registrar</vs-button>
           </div>
 		</div>
@@ -326,6 +323,7 @@ export default {
 	data() {
 		return {
 			listado_pacientes:[],
+			listado_examenes:[],
 			paciente_select:null,
 			objetivo:'',
 			subjetivo:'',
@@ -345,6 +343,10 @@ export default {
 			langEn: es,
 			listado_medicamentos:null,
 			verReceta:false,
+			// ---- Examenss ----//
+			form: {
+				examenes: []
+			},
 			// ---- Receta ----//
 			listaCantidades:[],
 			listaFrecuencias:[],
@@ -356,6 +358,7 @@ export default {
 			verForm:true,
 			id_receta:null,
 			nombreDoctor:'',
+
 		}
 	},
 	components:{
@@ -441,6 +444,8 @@ export default {
 			return tabla
 		},
 		async registrar(){
+			console.log('***********')
+			console.log(this.form.examenes)
 		 this.$validator.validateAll().then(result => {
         if(result) {
 			let me = this
@@ -562,11 +567,23 @@ export default {
 			}
 			return tabla
 		},
-		
+		async importarExamenes(){
+			let me = this;
+			const response = await axios.get(
+				`/api/tipoExamen/get?completo=false`)
+			.then(function (response) {
+				var respuesta= response.data;
+				me.listado_examenes = respuesta.tipoExamenes.data;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		}
 	},
 	mounted() {
 		this.importarPacientes()
 		this.importarMedicamentos()
+		this.importarExamenes()
 		this.$emit('setAppClasses', 'invoice-page')
 	},
 }

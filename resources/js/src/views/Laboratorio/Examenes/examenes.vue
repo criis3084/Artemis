@@ -1,68 +1,65 @@
 <template>
 	<vx-card>
 		<div class = "demo-alignment">
-		<div class="vx-col md:w-1/3 w-full mt-5">
-		</div>
-		<h3>INGRESO DE EXAMEN</h3>
+			<div class="vx-col md:w-1/3 w-full mt-5">
+			</div>
+			<h3>INGRESO DE EXAMEN</h3>
 		</div>
 
-	<vs-divider position="right">PID&#174;</vs-divider>
+		<vs-divider position="right">PID&#174;</vs-divider>
 
-	<form>
-		<div class="vx-row">
-			<div class="vx-col md:w-1/2 w-full mt-6">
-				<div class="w-full">
-					<small class="date-label">Paciente:</small>
-					<v-select v-validate="'required'" name="paciente" label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-					<span class="text-danger">{{ errors.first('paciente') }}</span>
+		<form>
+			<div class="vx-row">
+				<div class="vx-col md:w-1/2 w-full mt-6">
+					<div class="w-full">
+						<small class="date-label">Paciente:</small>
+						<v-select v-validate="'required'" name="paciente" label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<span class="text-danger">{{ errors.first('paciente') }}</span>
+					</div>
+				</div>
+				<div class="vx-col md:w-1/2 w-full mt-6">
+					<div class="w-full">
+						<small class="date-label">Tipo de examen</small>
+						<v-select v-validate="'required'" name="tipo" label="nombre" :options="listado_examenes" v-model="tipo_examen" :dir="$vs.rtl ? 'rtl' : 'ltr'"  :disabled="deshabilitado"/>
+						<span class="text-danger">{{ errors.first('tipo') }}</span>
+					</div>
+				</div>	
+				<div class="vx-col md:w-1/2 w-full mt-4">
+					<div class="vx-col w-full">
+						<small class="date-label">Descripción</small>
+						<vs-input v-validate="'required'" v-model="descripcion" name="descripcion" class="w-full" icon-pack="feather" icon-no-border :disabled="deshabilitado" />
+						<span class="text-danger">{{ errors.first('descripcion') }}</span>
+					</div>
+				</div>
+				<div class="vx-col md:w-1/2 w-full mt-3">
+					<small class="date-label">Fecha</small>
+					<datepicker v-validate="'required'" :language="$vs.rtl ? langHe : langEn" name="fecha" v-model="fecha_examen" :disabled="deshabilitado"></datepicker>
+					<span class="text-danger">{{ errors.first('fecha') }}</span>
+				</div>
+				<div class="vx-col w-full mb-base mt-3">
+					<small class="date-label">Resultado de examen</small>
+					<vs-textarea v-validate="'required'" class="w-full" icon-pack="feather" icon="icon-coffee" icon-no-border name='resultado' v-model="resultado" :disabled="deshabilitado"/>
+					<span class="text-danger">{{ errors.first('resultado') }}</span>
+				</div>
+				<vs-upload name="" automatic action="/api/examen/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Fotografía de resultado" />
+			</div>
+
+
+			<div class="flex flex-wrap items-center justify-between">
+				<vx-input-group class="mb-base mr-3">
+				</vx-input-group>
+				<div class="flex items-center">
+					<vs-button  icon-pack="feather" icon="icon-save" class="mb-base mr-3" type="gradient" color="primary" @click="registrar" :disabled="deshabilitado">Registrar</vs-button>  
 				</div>
 			</div>
-			<div class="vx-col md:w-1/2 w-full mt-6">
-				<div class="w-full">
-					<small class="date-label">Tipo de examen</small>
-					<v-select v-validate="'required'" name="tipo" label="nombre" :options="listado_examenes" v-model="tipo_examen" :dir="$vs.rtl ? 'rtl' : 'ltr'"  :disabled="deshabilitado"/>
-					<span class="text-danger">{{ errors.first('tipo') }}</span>
-				</div>
-			</div>	
-			<div class="vx-col md:w-1/2 w-full mt-4">
-				<div class="vx-col w-full">
-					<small class="date-label">Descripción</small>
-					<vs-input v-validate="'required'" v-model="descripcion" name="descripcion" class="w-full" icon-pack="feather" icon-no-border :disabled="deshabilitado" />
-					<span class="text-danger">{{ errors.first('descripcion') }}</span>
-				</div>
-			</div>
-			<div class="vx-col md:w-1/2 w-full mt-3">
-				<small class="date-label">Fecha</small>
-				<datepicker v-validate="'required'" :language="$vs.rtl ? langHe : langEn" name="fecha" v-model="fecha_examen" :disabled="deshabilitado"></datepicker>
-				<span class="text-danger">{{ errors.first('fecha') }}</span>
-			</div>
-			<div class="vx-col w-full mb-base mt-3">
-				<small class="date-label">Resultado de examen</small>
-				<vs-textarea v-validate="'required'" class="w-full" icon-pack="feather" icon="icon-coffee" icon-no-border name='resultado' v-model="resultado" :disabled="deshabilitado"/>
-				<span class="text-danger">{{ errors.first('resultado') }}</span>
-			</div>
-		</div>
-
-		<div class="flex flex-wrap items-center justify-between">
-			<vx-input-group class="mb-base mr-3">
-			</vx-input-group>
-			<div class="flex items-center">
-				<vs-button  icon-pack="feather" icon="icon-save" class="mb-base mr-3" type="gradient" color="primary" @click="registrar" :disabled="deshabilitado">Registrar</vs-button>  
-			</div>
-		</div>
-
-		<!-- <div class="flex flex-wrap items-center justify-between">
-          <div class="flex vs-align-left">
-			<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar" ></vs-button>
-          </div>
-		</div> -->
-	</form>
+		</form>
 	</vx-card>
 </template>
 <script>
 import axios from 'axios'
 import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
+import Ls from '../../../services/ls';
 // For custom error message
 import { Validator } from 'vee-validate'
 const dict = {
@@ -100,6 +97,12 @@ export default {
 			descripcion:null,
 			resultado:null,
 			langEn: es,
+			arrayPersonal:[],
+			idMedico:null,
+			head:{
+				"imagenanterior":""	
+			},
+			ruta:'',
 		}
 	},
 	watch: {
@@ -118,6 +121,9 @@ export default {
 		Datepicker,
 	},
 	methods: {
+		vaciar(){
+			this.ruta='';
+		},
 		getDate(datetime) {
 			let date = new Date(datetime);
 			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -145,35 +151,57 @@ export default {
 			return tabla
 		},
 		registrar(){
-	this.$validator.validateAll().then(result => {
-	if(result) {
-			let me = this
-			axios.post("/api/examen/post/",{
-				descripcion:me.descripcion,
-				resultado:me.resultado,
-				fecha_examen:me.getDate(me.fecha_examen),
-				tipo_examen_id:this.tipo_examen.id,
-				clinico_id:1,
-			}).then(function(response){
-				console.log(response)
-				me.registrarHistorial(response.data.id)
-				me.$vs.notify({
-			color:'success',
-			title:'Examen registrado!',
-			text:'La acción se realizo exitósamente'
-			});
+
+			if (this.ruta === '' || this.ruta == null){
+				this.ruta= null
+			}
+			else{
+				this.ruta = '/storage/public/examenes/'  + this.ruta
+			}
+			this.$validator.validateAll().then(result => {
+			if(result) {
+				let me = this
+				axios.post("/api/examen/post/",{
+					descripcion:me.descripcion,
+					resultado:me.resultado,
+					fecha_examen:me.getDate(me.fecha_examen),
+					tipo_examen_id:me.tipo_examen.id,
+					ruta_imagen:me.ruta,
+					clinico_id:me.idMedico,
+				}).then(function(response){
+					console.log(response)
+					me.registrarHistorial(response.data.id)
+					me.$vs.notify({
+						color:'success',
+						title:'Examen registrado!',
+						text:'La acción se realizo exitósamente'
+					});
+				})
+				.catch(function(error) {
+					console.log(error)
+				});
+			}else{
+				this.$vs.notify({
+					color:'danger',
+					title:'Error en validación!',
+					text:'Ingrese todos los campos correctamente'
+					});
+				}
 			})
-			.catch(function(error) {
+		},
+		async buscarDoctor(){
+			let idUsuario = parseInt(Ls.get('auth.id_usuario'))
+			const me = this
+			const response = await axios.get(
+				`/api/clinico/get?&criterio=user_id&buscar=${idUsuario}&completo=true`
+				)
+				.then(function (response) {
+					const respuesta = response.data
+					me.idMedico = respuesta.clinicos.data[0].id
+				})
+				.catch(function (error) {
 				console.log(error)
-			});
-	}else{
-		this.$vs.notify({
-			color:'danger',
-			title:'Error en validación!',
-			text:'Ingrese todos los campos correctamente'
-			});
-		}
-	})
+				})
 		},
 		registrarHistorial(idExamen){
 			let me = this
@@ -188,7 +216,6 @@ export default {
 				console.log(error)
 			});
 		},
-
 		async importarTipos(){
 			let me = this;
 			this.abrir_editar=false
@@ -202,10 +229,22 @@ export default {
 				console.log(error);
 			});
 		},
+		respuesta(e){
+			this.ruta=e.currentTarget.response.replace(/['"]+/g, '')
+			this.head.imagenanterior=this.ruta
+			this.$vs.notify({
+						color:'success',
+						title:'Imagen subida',
+						text:'Acción realizada exitósamente!'
+					});
+			this.boolVal=true;
+			this.valImagen='';
+		},
 	},
 	mounted() {
 		this.importarPacientes()
 		this.importarTipos()
+		this.buscarDoctor()
 	},
 }
 </script>

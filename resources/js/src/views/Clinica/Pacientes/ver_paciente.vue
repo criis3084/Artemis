@@ -1,91 +1,7 @@
 <template>
 		<div class="vx-row">
-				<div class="vx-col w-full sm:w-1/2 lg:w-1/5 mb-base" v-if="amplio">
+				<div class="vx-col w-full sm:w-1/2 mb-base lg:w-1/5">
 					<vx-card>
-						<template slot="actions">
-								<vx-tooltip text = "Expandir"> <vs-button radius type="gradient" icon="chevron_right" color = "primary" size="small" @click="abrir(amplio)"></vs-button>  </vx-tooltip>
-						</template>
-						<div class="text-center">
-							<h4> <b> {{nombreCompleto}} </b></h4>
-							<div v-if ="fotoPerfil != null">
-								<vs-avatar class="mx-auto my-6 block" size="80px" :src="fotoPerfil"/>
-							</div>
-							<div v-if ="codigoPersona != null">
-								<p>Codigo: {{codigoPersona}} </p>
-							</div>
-								<br>
-						</div>
-
-						<span>
-							<p class="text-xl font-semibold">  {{ genero == 1 ? 'Masculino' : 'Femenino'}}  </p>
-							<small class="text-grey">Género</small>
-						</span>
-
-						<span>
-							<p class="text-xl font-semibold"> {{tipoPaciente}} </p>
-							<small class="text-grey">Tipo de Paciente</small>
-						</span>
-					</vx-card>
-					<br>
-					<vx-card
-						title="Información Medica"
-						title-color="primary"
-						collapse-action
-						v-if="!primero"
-						>
-						<div class="flex items-center mt-0">
-							<vs-button color="success" icon="filter_center_focus" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-							<div v-if="ultimo_peso!= null" class="vx-col w-full text-right text-success mt-0"><h6> {{ultimo_peso}} <small> Lbs.</small></h6></div>
-							<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
-						</div>
-						<vs-divider class="mt-0"/>
-						<div class="flex items-center mt-0">
-							<vs-button color="success" icon="vertical_align_top" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-							<div v-if="ultima_talla!= null" class="vx-col w-full text-right text-success mt-0"><h6> {{ultima_talla}} <small> Mts. </small></h6></div>
-							<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
-						</div>
-						<vs-divider class="mt-0"/>
-						<div class="flex items-center mt-0">
-							<vs-button color="success" icon="favorite" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-							<div v-if="ultimo_pulso!= null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultimo_pulso}} <small> Lbs.</small></h6></div>
-							<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
-						</div>
-						<vs-divider class="mt-0"/>
-						<div class="flex items-center mt-0">
-							<vs-button type="flat" radius color="success" icon-pack="feather" icon="icon-thermometer" size="large" class="mt-0" disabled ></vs-button>
-							<div v-if="ultima_temperatura!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultima_temperatura}} <small> °C</small></h6></div>
-							<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
-						</div>
-						<vs-divider class="mt-0"/>
-						<div class="flex items-center mt-0">
-							<vs-button color="success" icon="directions_run" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-							<div v-if="ultima_respiracion!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultima_respiracion}} <small> r/m</small></h6></div>
-							<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
-						</div>
-						<vs-divider class="mt-0"/>
-						<div class="flex items-center mt-0">
-							<vs-button color="success" icon="timer" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-							<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultima_presion}} <small> NC</small></h6></div>
-							<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
-						</div>
-						<vs-divider class="mt-0" v-if="ultima_semanas!= null"/>
-						<div class="flex items-center mt-0" v-if="ultima_semanas!= null">
-							<vs-button color="danger" icon="pregnant_woman" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-							<div class="vx-col w-full text-right text-danger mt-0"><h6>{{ultima_semanas}}<small> Semanas</small></h6> </div>
-						</div>
-						<vs-divider class="mt-0" v-if="ultima_glicemia!= null"/>
-						<div class="flex items-center mt-0" v-if="ultima_glicemia!= null">
-							<vs-button color="danger" icon="local_pharmacy" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-							<div class="vx-col w-full text-right text-danger mt-0"><h6>{{ultima_glicemia}} <small> mg/dl</small></h6></div>
-						</div>
-						<vs-divider class="mt-0" v-if="ultima_glicemia!= null"/>
-					</vx-card>
-				</div>
-				<div class="vx-col w-full sm:w-1/2 lg:w-1/4 mb-base" v-else>
-					<vx-card>
-						<template slot="actions">
-								<vx-tooltip text="Contraer"> <vs-button radius type="gradient" icon="chevron_left" color = "primary" size="small" @click="abrir(amplio)"></vs-button>  </vx-tooltip>
-						</template>
 						<div class="text-center">
 							<h4> <b> {{nombreCompleto}} </b></h4>
 							<div v-if ="fotoPerfil != null">
@@ -191,7 +107,7 @@
 						</vx-card>
 					<br>
 				</div>
-				<div class="vx-col w-full sm:w-1/2 mb-base" :class="amplio == true ? 'lg:w-2/5': 'lg:w-2/4'">
+				<div class="vx-col w-full sm:w-1/2 mb-base lg:w-2/5">
 					<vx-card
 						title="Historial Médico"
 						title-color="primary"
@@ -329,7 +245,7 @@
 								</div>
 					</vx-card>
 				</div>
-				<div class="vx-col w-full sm:w-1/2 mb-base" :class="amplio == true ? 'lg:w-2/5': 'lg:w-1/4'">
+				<div class="vx-col w-full mb-base lg:w-2/5">
 					<vx-card
 						title="Citas Programadas"
 						title-color="primary"
@@ -337,7 +253,47 @@
 						<template slot="actions">
 								<vx-tooltip text = "Agregar registro"> <router-link to="/clinica/citas"> <vs-button radius type="gradient" icon="add" color = "primary" size="large" ></vs-button> </router-link>  </vx-tooltip>
 						</template>
-					<table style="width:100%" class="border-collapse" v-if="!conCitas">
+						<vx-card v-for="(cita) in citas" :key="cita.id" class="mt-2">
+						  <!-- <div class="h-screen flex w-full bg-img vx-row no-gutter items-center justify-center" id="page-login"> -->
+							<div class="">
+								<div slot="no-body">
+									<div class="vx-row no-gutter justify-center">
+										<div class="vx-col hidden lg:block lg:w-1/4 text-center">
+											<vx-card card-background="cornflowerblue">
+													<p class="calender-day text-white text-center">
+														<b>
+														{{cita.dia}}
+														</b>
+													</p>
+													<p class="calender-date text-white text-center">
+														<b>
+														{{cita.fecha.split('-',3)[2]}}
+														</b>
+													</p>
+													<p class="calender-month-year text-white text-center">
+														<b>
+															{{cita.mes}}
+														</b>
+													</p>
+													<p><small class="text-white text-center">{{cita.fecha.split('-',3)[0]}}</small></p>
+											</vx-card>
+										</div>
+										<div class="vx-col sm:w-full md:w-full lg:w-3/4 calendar2">
+											<div class="px-4 pt-4">
+												<b> Descripcion: </b> {{cita.descripcion}}
+												<p>
+													<small> 
+														<b> Médico: </b> {{cita.datos_clinico[0].nombres + ' ' + cita.datos_clinico[0].apellidos}}
+													</small>
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						<!-- </div> -->
+						</vx-card>
+					<!-- <table style="width:100%" class="border-collapse" v-if="!conCitas">
 						<tr v-for="(cita) in citas" :key="cita.id" class="mr-0 ml-0">
 							<td class="pointer-events-none text-center"  style="width:100px">
 								<vx-card
@@ -373,11 +329,12 @@
 								</vx-card>
 							</td>
 						</tr>
-					</table>
+					</table> 
 
 					<div v-else>
 						<h3>El paciente no tiene citas en su historial</h3>
 					</div>
+					-->
 					</vx-card>
 				</div>
 		</div>
@@ -644,33 +601,6 @@ export default {
 			else{
 				this.primerHistorial=false
 			}
-				/*
-				let valor = tabla[i]
-				if (valor.lotes.length >0){
-					let lotesActivos=[]
-					for (let j in valor.lotes) {
-						let elemento = valor.lotes[j]
-						if(elemento.estado == 1)
-						{
-							elemento.fecha_expiracion = new Date(parseInt(elemento.fecha_expiracion.split('-',3)[0]),parseInt(elemento.fecha_expiracion.split('-',3)[1]),parseInt(elemento.fecha_expiracion.split('-',3)[2]))
-							lotesActivos.push(elemento)
-						}
-					}
-					let n = lotesActivos.length
-					let aux=0
-					    for (let k = 1; k < n; k++) {
-							for (let i = 0; i < (n - k); i++) {
-								if (lotesActivos[i].fecha_expiracion > lotesActivos[i + 1].fecha_expiracion) {
-									aux = lotesActivos[i];
-									lotesActivos[i] = lotesActivos[i + 1];
-									lotesActivos[i + 1] = aux;
-								}
-							}
-						}
-					tabla[i].lotes =lotesActivos
-				}
-			}
-			*/
 		},
 		nombreMes(numero){
 			numero = parseInt(numero)+1
@@ -722,7 +652,7 @@ export default {
 		toFecha(tabla){
 			for (let i in tabla) {
 				let valor = tabla[i]
-				const todaySin = new Date(parseInt(valor.fecha.split('-',3)[0]),parseInt(valor.fecha.split('-',3)[1]),parseInt(valor.fecha.split('-',3)[2]))
+				const todaySin = new Date(parseInt(valor.fecha.split('-',3)[0]),parseInt(valor.fecha.split('-',3)[1])-1,parseInt(valor.fecha.split('-',3)[2]))
 				valor.dia = this.diaEspaniol(todaySin.getDay())
 				valor.mes = this.nombreMes(todaySin.getMonth())
 			};
@@ -772,10 +702,11 @@ export default {
 @import "@sass/vuexy/components/vxTimeline.scss";
 </style>
 <style>
+	.calendar2{
+		background-color: #FFFCFC;
+	}
 	.calender{
 		position: absolute;
-		top: 50%;
-		left: 50%;
 		transform: translate(-50%,-50%);
 		width: 70px;
 		height: 80px;
@@ -802,4 +733,18 @@ export default {
 		padding-top:0px;
 		padding-bottom: 0;
 	}
+	
+</style>
+<style lang="scss">
+.login-tabs-container {
+  min-height: 15px;
+
+  .con-tab {
+    padding-bottom: 1px;
+  }
+
+  .con-slot-tabs {
+    margin-top: 1rem;
+  }
+}
 </style>

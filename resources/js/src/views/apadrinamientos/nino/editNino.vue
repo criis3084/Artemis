@@ -109,9 +109,9 @@
 				<div class="vx-col md:w-1/2 w-full mt-5">
 					<template>
 						<div class="vx-col md:w-1/2 w-full mt-5">
-								<img :src="imagen_perfil_antigua"  width="100" height="100" class="responsive">
-								<vx-tooltip text="Editar Imagen"> <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-edit" radius  @click="editarImagen"></vs-button> </vx-tooltip>
-								<vs-upload v-if="mostrarEditar" automatic action="/api/nino/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil" />
+							<img :src="imagen_perfil_antigua"  width="100" height="100" class="responsive">
+							<vx-tooltip text="Editar Imagen"> <vs-button class="mr-4" type="border" icon-pack="feather" color="#1551b1" icon="icon-edit" radius  @click="editarImagen"></vs-button> </vx-tooltip>
+							<vs-upload v-if="mostrarEditar" automatic action="/api/nino/imagen" limit='1' :headers="head" fileName='photos' @on-success="respuesta" @on-delete="vaciar" text="Imagen de perfil" />
 						</div>
 					</template>
 				</div>
@@ -221,7 +221,7 @@ export default {
         	let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 			return dateString;
 		},
-		async index(){ //async para que se llame cada vez que se necesite
+		async index(){ 
 			let me = this;
 			this.id_recibido = this.$route.params.id;
 			const response = await axios.get(
@@ -250,7 +250,7 @@ export default {
 				console.log(error);
 			});
 		},
-		async importarSectores(){ //async para que se llame cada vez que se necesite
+		async importarSectores(){
 			let me = this;
 			let encontrado=false;
 			let elementoE={}
@@ -272,7 +272,7 @@ export default {
 				console.log(error);
 			});
 		},
-		async importarEscuelas(){ //async para que se llame cada vez que se necesite
+		async importarEscuelas(){
 			let me = this;
 			let encontrado=false;
 			let elementoE={}
@@ -312,20 +312,20 @@ export default {
 		})
 		},
 		validateStep2() {
-		return new Promise((resolve, reject) => {
-			this.$validator.validateAll("step-2").then(result => {
-			if (result) {
-				resolve(true)
-			} else {
-				reject("correct all values");
-				this.$vs.notify({
-					color:'danger',
-					title:'Error en validación!',
-					text:'Ingrese todos los campos correctamente'
-					});
-			}
+			return new Promise((resolve, reject) => {
+				this.$validator.validateAll("step-2").then(result => {
+					if (result) {
+						resolve(true)
+					} else {
+						reject("correct all values");
+						this.$vs.notify({
+							color:'danger',
+							title:'Error en validación!',
+							text:'Ingrese todos los campos correctamente'
+						});
+					}
+				})
 			})
-		})
 		},
 		formSubmitted () {
 			if (this.ruta_imagen === '' || this.ruta_imagen === undefined){
@@ -334,7 +334,6 @@ export default {
 			else{
 				this.ruta_imagen= '/storage/public/ninos/' + this.ruta_imagen;
 			}
-			// alert('Form submitted!');
 			axios.put("/api/nino/update/",{
 				id:this.id_recibido,
 				codigo:this.codigoT,

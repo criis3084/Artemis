@@ -788,6 +788,9 @@ Route::group(['prefix' => 'examen'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.examen', 'uses' => 'ExamenController@desactivar'
     ]);
+    Route::post('/imagen', [
+        'as' => 'admin.examen', 'uses' => 'ExamenController@imagen'
+    ]);
 });
 Route::group(['prefix' => 'beneficio'], function () {
     Route::get('/get', [
