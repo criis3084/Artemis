@@ -2,11 +2,10 @@
 	<div>
 		<vx-card>
 			<div class = "demo-alignment">
-						<h2>Exámenes</h2>
-						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
-					</div>
+				<h2>Exámenes</h2>
+				<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
+			</div>
 				<vs-divider position="right">PID&#174;</vs-divider>
-
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
 				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />
 				<v-select v-model="selectedFormat" :options="formats" class="my-4" />
@@ -34,17 +33,18 @@
 						<vs-td>{{ data[indextr].examen.fecha_examen }}</vs-td>
 						<vs-td :data="data[indextr].estado">
 							<vs-switch
-							color="success"
-							v-model="data[indextr].estado"
-							@click="abrirDialog(data[indextr].id, data[indextr].estado)"
-							>
-							<span slot="on">Concluido</span>
-							<span slot="off">Programado</span>
+								color="success"
+								v-model="data[indextr].estado"
+								@click="abrirDialog(data[indextr].id, data[indextr].estado)"
+								>
+								<span slot="on">Concluido</span>
+								<span slot="off">Programado</span>
 							</vs-switch>
 						</vs-td>
 						<vs-td>
 							<div class="flex items-center">
-							<vx-tooltip text="Responder"><vs-button @click="$router.push('/ingresar/examen/'+data[indextr].id)" v-if="data[indextr].estado == 0" radius color="dark" type="flat" icon="local_hospital" size="large"></vs-button></vx-tooltip>
+								<!-- <vx-tooltip text="Responder"><vs-button @click="$router.push('/ingresar/examen/'+data[indextr].id)"  radius color="dark" type="flat" icon="dehaze" size="large"></vs-button></vx-tooltip> -->
+								<vx-tooltip text="Responder"><vs-button @click="$router.push('/ingresar/examen/'+data[indextr].id)" v-if="data[indextr].estado == 0" radius color="dark" type="flat" icon="vertical_split" size="large"></vs-button></vx-tooltip>
 							</div>
 						</vs-td>
 					</vs-tr>

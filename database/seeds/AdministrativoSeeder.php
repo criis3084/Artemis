@@ -11,6 +11,6 @@ class AdministrativoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Administrativo::class, 10)->create();
+        factory(App\Administrativo::class, 3)->create();
     }
 }

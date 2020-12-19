@@ -793,7 +793,7 @@ const router = new Router({
 					}, 
 					{
 						path: '/laboratorio/examen',
-						name: 'laboratorio-examen',
+						name: 'laboratorio-listado',
 						component: () => import('./views/Laboratorio/Examenes/listado.vue'),
 						meta: {
 						rule: 'admin'
@@ -2299,7 +2299,7 @@ const router = new Router({
 					}, 
 					{
 						path: '/laboratorio/examen',
-						name: 'laboratorio-examen',
+						name: 'laboratorio-listado',
 						component: () => import('./views/Laboratorio/Examenes/listado.vue'),
 						meta: {
 						rule: 'admin'
@@ -2931,7 +2931,7 @@ const router = new Router({
 					}, 
 					{
 						path: '/laboratorio/examen',
-						name: 'laboratorio-examen',
+						name: 'laboratorio-listado',
 						component: () => import('./views/Laboratorio/Examenes/listado.vue'),
 						meta: {
 						rule: 'admin'

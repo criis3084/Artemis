@@ -437,8 +437,6 @@ export default {
 			return tabla
 		},
 		async registrar(){
-			console.log('*******************')
-			console.log(this.idMedico)
 			this.$validator.validateAll().then(result => {
 				if(result) {
 					let me = this
@@ -587,13 +585,17 @@ export default {
 		},
 		async buscarDoctor(){
 			let idUsuario = parseInt(Ls.get('auth.id_usuario'))
+			console.log('000000000000000')
+			console.log(idUsuario)
 			const me = this
 			const response = await axios.get(
 				`/api/clinico/get?&criterio=user_id&buscar=${idUsuario}&completo=true`
 				)
 				.then(function (response) {
 					const respuesta = response.data
+					console.log('-----------------')
 					me.idMedico = respuesta.clinicos.data[0].id
+					console.log(me.idMedico)
 				})
 				.catch(function (error) {
 				console.log(error)

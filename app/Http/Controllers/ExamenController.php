@@ -47,7 +47,9 @@ class ExamenController extends Controller
 			$examen->fecha_examen = $request->fecha_examen;
 			$examen->tipo_examen_id = $request->tipo_examen_id;
 			$examen->clinico_id = $request->clinico_id;
-			$examen->ruta_imagen = $request->ruta_imagen;
+			if (isset($request->ruta_imagen)){
+				$examen->ruta_imagen = $request->ruta_imagen;
+			}
 			$examen->save();
 			#return Response::json(['message' => 'Examen Creada'], 200);
 			return ['id' => $examen->id];

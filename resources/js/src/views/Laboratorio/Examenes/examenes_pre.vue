@@ -13,14 +13,14 @@
 				<div class="vx-col md:w-1/2 w-full mt-6">
 					<div class="w-full">
 						<small class="date-label">Paciente:</small>
-						<v-select v-validate="'required'" name="paciente" label="nombre_completo" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+						<v-select v-validate="'required'" name="paciente" label="nombre_completo" :disabled="true" :options="listado_pacientes" v-model="paciente_select" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 						<span class="text-danger">{{ errors.first('paciente') }}</span>
 					</div>
 				</div>
 				<div class="vx-col md:w-1/2 w-full mt-6">
 					<div class="w-full">
 						<small class="date-label">Tipo de examen</small>
-						<v-select v-validate="'required'" name="tipo" label="nombre" :options="listado_examenes" v-model="tipo_examen" :dir="$vs.rtl ? 'rtl' : 'ltr'"  :disabled="deshabilitado"/>
+						<v-select v-validate="'required'" name="tipo" label="nombre" :options="listado_examenes" :disabled="true" v-model="tipo_examen" :dir="$vs.rtl ? 'rtl' : 'ltr'"/>
 						<span class="text-danger">{{ errors.first('tipo') }}</span>
 					</div>
 				</div>	
@@ -104,6 +104,7 @@ export default {
 			},
 			ruta:'',
 			id_recibido:null,
+			allData:null
 		}
 	},
 	watch: {
@@ -172,21 +173,21 @@ export default {
 			this.$validator.validateAll().then(result => {
 			if(result) {
 				let me = this
-				axios.post("/api/examen/post/",{
+				axios.put("/api/historialExamen/update/",{
+					id:me.allData.id,
 					descripcion:me.descripcion,
 					resultado:me.resultado,
 					fecha_examen:me.getDate(me.fecha_examen),
-					tipo_examen_id:me.tipo_examen.id,
 					ruta_imagen:me.ruta,
 					clinico_id:me.idMedico,
 				}).then(function(response){
 					console.log(response)
-					me.registrarHistorial(response.data.id)
 					me.$vs.notify({
 						color:'success',
 						title:'Examen registrado!',
 						text:'La acción se realizo exitósamente'
 					});
+					location.reload();
 				})
 				.catch(function(error) {
 					console.log(error)
@@ -199,9 +200,13 @@ export default {
 					});
 				}
 			})
+
 		},
 		async buscarDoctor(){
 			let idUsuario = parseInt(Ls.get('auth.id_usuario'))
+			console.log('000000000000000')
+			console.log(idUsuario)
+			
 			const me = this
 			const response = await axios.get(
 				`/api/clinico/get?&criterio=user_id&buscar=${idUsuario}&completo=true`
@@ -221,24 +226,12 @@ export default {
 				`/api/historialExamen/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
 			.then(function (response) {
 				var respuesta= response.data.historialExamenes.data[0];
+				me.allData = respuesta
 				me.importarPacientes(respuesta)
 				me.importarTipos(respuesta)
 			})
 			.catch(function (error) {
 				console.log(error);
-			});
-		},
-		registrarHistorial(idExamen){
-			let me = this
-			axios.post("/api/historialExamen/post/",{
-				examen_id:idExamen,
-				paciente_id:me.paciente_select.id,
-			}).then(function(response){
-				console.log(response)
-				location.reload();
-			})
-			.catch(function(error) {
-				console.log(error)
 			});
 		},
 		async importarTipos(paciente){

@@ -23,7 +23,7 @@
 				<template slot-scope="{data}">
 					<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
 						<vs-td>
-							<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/apadrinamiento/estudiosocio/'+id_recibido+'/'+data[indextr].id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
+							<vx-tooltip text="Mostrar información completa"><vs-button @click="$router.push('/apadrinamiento/estudiosocio/'+id_recibido+'/'+data[indextr].estudio_socioeconomico_id)" radius color="dark" type="flat" icon="visibility" size="large"> </vs-button></vx-tooltip>
 						</vs-td > 							
 						<vs-td>{{getDate(data[indextr].created_at)}}</vs-td>
 						<vs-td>
@@ -119,7 +119,6 @@ export default {
 				`/api/nino/get?&criterio=id&buscar=${me.id_recibido}&completo=true`)
 			.then(function (response) {
 				var respuesta= response.data;
-				me.arrayData = respuesta.ninos.data;
 				me.nombre = respuesta.ninos.data[0].datos.nombres;
 				me.apellido = respuesta.ninos.data[0].datos.apellidos;
 				me.codigo = respuesta.ninos.data[0].codigo;

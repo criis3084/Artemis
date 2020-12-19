@@ -194,9 +194,7 @@
 
 		<div class="flex flex-wrap items-center justify-between mt-2">
 			<div class="flex items-center">
-					<vs-button @click="goBack" class="mb-base mr-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>
-
-			
+					<vs-button @click="goBack" class="mb-base mr-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>			
 					<vs-button class="mb-base mr-3" type="gradient" icon-pack="feather" icon="icon-printer" color="success"  @click="printInvoice">Imprimir</vs-button>
 			</div>
 		</div>
@@ -362,7 +360,7 @@ export default {
 				console.log(error);
 			});
 
-			axios.get(`/api/historialEstudio/get?criterio=id&buscar=${this.historial_id }&completo=false`)
+			axios.get(`/api/historialEstudio/get?criterio=estudio_socioeconomico_id&buscar=${this.historial_id}&completo=false`)
 			.then(function (response){
 				var respuesta= response.data;
 				me.datosEstudio = respuesta.historialEstudios.data[0].estudio_socieconomico;

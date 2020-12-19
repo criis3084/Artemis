@@ -11,6 +11,6 @@ class ClinicoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Clinico::class, 10)->create();
+        factory(App\Clinico::class, 3)->create();
     }
 }

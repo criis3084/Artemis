@@ -30,25 +30,27 @@
 						collapse-action
 						:open="false"
 					>
-						<div class="flex items-center mt-0">
-							<vs-button color="warning" icon="cake" radius type="flat" size="large" class="mt-0" disabled></vs-button><h5 class="text-warning">Edad:</h5>
-							<div class="vx-col w-full text-right text-warning mt-0"><h6>{{calculateAge(informacion.fecha_nacimiento)}}</h6></div>
+						<div v-if="informacion !== null">
+							<div class="flex items-center mt-0">
+								<vs-button color="warning" icon="cake" radius type="flat" size="large" class="mt-0" disabled></vs-button><h5 class="text-warning">Edad:</h5>
+								<div class="vx-col w-full text-right text-warning mt-0"><h6>{{calculateAge(informacion)}}</h6></div>
+							</div>
+							<vs-divider class="mt-0"/>
+								<div class="flex items-center mt-0" v-if="informacion.CUI !== null">
+									<vs-button type="flat" radius color="warning" icon-pack="feather" icon="icon-credit-card" size="large" class="mt-0" disabled ></vs-button><h5 class="text-warning">DPI:</h5>
+									<div class="vx-col w-full text-right text-warning mt-0"><h6> {{informacion.CUI}} </h6></div>
+								</div>
+								<vs-divider class="mt-0" v-if="informacion.CUI != null"/>
+								<div class="flex items-center mt-0" v-if="informacion.numero_telefono != null">
+									<vs-button type="flat" radius color="warning" icon-pack="feather" icon="icon-phone-call" size="large" class="mt-0" disabled ></vs-button><h5 class="text-warning">Telefono:</h5>
+									<div class="vx-col w-full text-right text-warning mt-0"><h6> {{informacion.numero_telefono}} </h6></div>
+								</div>
+								<vs-divider class="mt-0" v-if="informacion.numero_telefono != null"/>
+							<div class="flex items-center mt-0">
+								<vs-button type="flat" radius color="warning" icon-pack="feather" icon="icon-map-pin" size="large" class="mt-0" disabled ></vs-button><h5 class="text-warning">Dirección:</h5>
+							</div>
+							<h6> {{ informacion.direccion }} </h6>
 						</div>
-						<vs-divider class="mt-0"/>
-						<div class="flex items-center mt-0" v-if="informacion.CUI != null">
-							<vs-button type="flat" radius color="warning" icon-pack="feather" icon="icon-credit-card" size="large" class="mt-0" disabled ></vs-button><h5 class="text-warning">DPI:</h5>
-							<div class="vx-col w-full text-right text-warning mt-0"><h6> {{informacion.CUI}} </h6></div>
-						</div>
-						<vs-divider class="mt-0" v-if="informacion.CUI != null"/>
-						<div class="flex items-center mt-0" v-if="informacion.numero_telefono != null">
-							<vs-button type="flat" radius color="warning" icon-pack="feather" icon="icon-phone-call" size="large" class="mt-0" disabled ></vs-button><h5 class="text-warning">Telefono:</h5>
-							<div class="vx-col w-full text-right text-warning mt-0"><h6> {{informacion.numero_telefono}} </h6></div>
-						</div>
-						<vs-divider class="mt-0" v-if="informacion.numero_telefono != null"/>
-						<div class="flex items-center mt-0">
-							<vs-button type="flat" radius color="warning" icon-pack="feather" icon="icon-map-pin" size="large" class="mt-0" disabled ></vs-button><h5 class="text-warning">Dirección:</h5>
-						</div>
-						<h6> {{ informacion.direccion }} </h6>
 					</vx-card>
 					<br>
 						<vx-card
@@ -127,8 +129,6 @@
 												<span class="activity-desc"><b>Resultado: </b>{{ historial.examen.resultado }}</span>
 											</div>
 											<span class="text-grey activity-e-time">Fecha: {{ historial.fecha_consulta }}</span>
-											<br>
-											<span class="text-grey activity-e-time">{{ historial.examen.ruta_imagen }}</span>
 											<vs-button color="primary" type="border" icon="visibility" class="mr-base mb-2" size="small" v-if="historial.examen.ruta_imagen!==null" @click="openFotografia(historial.examen)">Ver Fotografia</vs-button>
 											<vs-divider class="mt-5"/>
 										</div>
@@ -468,11 +468,15 @@ export default {
 		},
 
 		calculateAge(fechaN) {
-			let currentDate = new Date();
-			let fecha_nacimientoTt = new Date(fechaN); 
-			let difference = currentDate - fecha_nacimientoTt;
-			let age = Math.floor(difference/31557600000);
-			return age
+			if (fechaN != null)
+			{
+				let fechaNacimiento = fechaN.fecha_nacimiento
+				let currentDate = new Date();
+				let fecha_nacimientoTt = new Date(fechaNacimiento); 
+				let difference = currentDate - fecha_nacimientoTt;
+				let age = Math.floor(difference/31557600000);
+				return age
+			}
 		},
 		async traerHistorial(){
 			const me = this
@@ -498,7 +502,7 @@ export default {
 			const me = this
 			me.id_recibido = me.$route.params.id
 			axios.get(
-			`/api/historialExamen/get?criterio=paciente_id&buscar=${me.id_recibido}&completo=true`)
+			`/api/historialExamen/get?criterio=paciente_id&buscar=${me.id_recibido}&completo=false`)
 			.then(function (response) {
 				const respuesta = response.data
 				me.examenes = respuesta.historialExamenes.data

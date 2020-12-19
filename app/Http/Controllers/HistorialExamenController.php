@@ -71,15 +71,25 @@ class HistorialExamenController extends Controller
 		}
 	}
 
+
 	public function update(Request $request)
 	{
 		$historialExamen = HistorialExamen::findOrFail($request->id);
-		$historialExamen->notas = $request->notas;
-		$historialExamen->examen_id = $request->examen_id;
-		$historialExamen->paciente_id = $request->paciente_id;
+		$examen = Examen::findOrFail($historialExamen->examen_id);
+
+		$examen->descripcion = $request->descripcion;
+		$examen->resultado = $request->resultado;
+		$examen->fecha_examen = $request->fecha_examen;
+
+		if (isset($request->ruta_imagen)){
+			$examen->ruta_imagen = $request->ruta_imagen;
+		}
+		$examen->clinico_id = $request->clinico_id;
+		$examen->estado = '1';
+		$historialExamen->estado = '1';
+		$examen->save();
 		$historialExamen->save();
 		return Response::json(['message' => 'Historial examen Actualizado'], 200);
-
 	}
 
 	public function activar(Request $request)
