@@ -24,6 +24,7 @@
 					<vs-th>Tipo de exámen</vs-th>
 					<vs-th>Fecha</vs-th>
 					<vs-th>Estado</vs-th>
+					<vs-th>Acciones</vs-th>
 				</template>
 
 				<template slot-scope="{ data }">
@@ -37,9 +38,14 @@
 							v-model="data[indextr].estado"
 							@click="abrirDialog(data[indextr].id, data[indextr].estado)"
 							>
-							<span slot="on">Activo</span>
-							<span slot="off">Desactivo</span>
+							<span slot="on">Concluido</span>
+							<span slot="off">Programado</span>
 							</vs-switch>
+						</vs-td>
+						<vs-td>
+							<div class="flex items-center">
+							<vx-tooltip text="Responder"><vs-button @click="$router.push('/ingresar/examen/'+data[indextr].id)" v-if="data[indextr].estado == 0" radius color="dark" type="flat" icon="local_hospital" size="large"></vs-button></vx-tooltip>
+							</div>
 						</vs-td>
 					</vs-tr>
 				</template>

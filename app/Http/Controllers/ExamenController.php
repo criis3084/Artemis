@@ -67,6 +67,9 @@ class ExamenController extends Controller
 		if (isset($request->ruta_imagen)){
 			$examen->ruta_imagen = $request->ruta_imagen;
 		}
+		if (isset($request->estado)){
+			$examen->estado = $request->estado;
+		}
 		$examen->save();
 		return Response::json(['message' => 'Examen Actualizado'], 200);
 		

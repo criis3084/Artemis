@@ -784,6 +784,14 @@ const router = new Router({
 					// LABORATORIO
 					// =============================================================================
 					{
+						path: '/ingresar/examen/:id',
+						name: 'ingresar-examenId',
+						component: () => import('./views/Laboratorio/Examenes/examenes_pre.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					{
 						path: '/laboratorio/examen',
 						name: 'laboratorio-examen',
 						component: () => import('./views/Laboratorio/Examenes/listado.vue'),
@@ -793,7 +801,7 @@ const router = new Router({
 					}, 
 					{
 						path: '/ingresar/examen',
-						name: 'laboratorio-examen',
+						name: 'ingresar-examen',
 						component: () => import('./views/Laboratorio/Examenes/examenes.vue'),
 						meta: {
 						rule: 'admin'
@@ -2282,6 +2290,22 @@ const router = new Router({
 					// LABORATORIO
 					// =============================================================================
 					{
+						path: '/ingresar/examen/:id',
+						name: 'ingresar-examenId',
+						component: () => import('./views/Laboratorio/Examenes/examenes_pre.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					{
+						path: '/laboratorio/examen',
+						name: 'laboratorio-examen',
+						component: () => import('./views/Laboratorio/Examenes/listado.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					{
 						path: '/laboratorio/examen',
 						name: 'laboratorio-examen',
 						component: () => import('./views/Laboratorio/Examenes/examenes.vue'),
@@ -2897,6 +2921,22 @@ const router = new Router({
 					// =============================================================================
 					// LABORATORIO
 					// =============================================================================
+					{
+						path: '/ingresar/examen/:id',
+						name: 'ingresar-examenId',
+						component: () => import('./views/Laboratorio/Examenes/examenes_pre.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					{
+						path: '/laboratorio/examen',
+						name: 'laboratorio-examen',
+						component: () => import('./views/Laboratorio/Examenes/listado.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
 					{
 						path: '/laboratorio/examen',
 						name: 'laboratorio-examen',

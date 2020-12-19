@@ -21,7 +21,7 @@ class CreateExamensTable extends Migration
 			$table->date('fecha_examen')->nullable();
 			$table->foreignId('tipo_examen_id')->constrained();
 			$table->foreignId('clinico_id')->constrained();
-			$table->boolean('estado')->default(1);
+			$table->boolean('estado')->default(0);
 			$table->timestamps();
         });
     }
