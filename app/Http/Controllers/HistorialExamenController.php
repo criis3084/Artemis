@@ -51,6 +51,25 @@ class HistorialExamenController extends Controller
 			return Response::json(['message' => $e->getMessage()], 400);
 		}
 	}
+	public function programar(Request $request)
+	{
+		try {
+			$examen = new Examen();
+			$examen->tipo_examen_id = $request->tipo_examen_id;
+			$examen->clinico_id = $request->clinico_id;
+			$examen->save();
+			
+			$historialExamen = new HistorialExamen();
+			$historialExamen->examen_id = $examen->id;
+			$historialExamen->paciente_id = $request->paciente_id;
+			$historialExamen->save();
+			
+			return Response::json(['message' => 'Historial examen Creada'], 200);
+			#return ['id' => $nino->id];
+		} catch (Exception $e) {
+			return Response::json(['message' => $e->getMessage()], 400);
+		}
+	}
 
 	public function update(Request $request)
 	{

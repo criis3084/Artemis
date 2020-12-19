@@ -1012,6 +1012,9 @@ Route::group(['prefix' => 'historialExamen'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.historialExamen', 'uses' => 'HistorialExamenController@desactivar'
     ]);
+    Route::put('/programar', [
+        'as' => 'admin.historialExamen', 'uses' => 'HistorialExamenController@programar'
+    ]);
 });
 Route::group(['prefix' => 'historialClinico'], function () {
     Route::get('/get', [

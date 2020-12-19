@@ -153,7 +153,7 @@ export default {
 		registrar(){
 
 			if (this.ruta === '' || this.ruta == null){
-				this.ruta= null
+				this.ruta=null
 			}
 			else{
 				this.ruta = '/storage/public/examenes/'  + this.ruta

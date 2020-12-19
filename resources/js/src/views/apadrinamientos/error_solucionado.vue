@@ -36,19 +36,19 @@
 							>
 							<div class="flex items-center mt-0">
 								<vs-button color="success" icon="filter_center_focus" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-								<div v-if="ultimo_peso!= null" class="vx-col w-full text-right text-success mt-0"><h6> {{ultimo_peso}} <small> Lbs.</small></h6></div>
+								<div v-if="ultimo_peso!= null" class="vx-col w-full text-right text-success mt-0"><h6> {{ultimo_peso}} <small> lb.</small></h6></div>
 								<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
 							</div>
 							<vs-divider class="mt-0"/>
 							<div class="flex items-center mt-0">
 								<vs-button color="success" icon="vertical_align_top" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-								<div v-if="ultima_talla!= null" class="vx-col w-full text-right text-success mt-0"><h6> {{ultima_talla}} <small> Mts. </small></h6></div>
+								<div v-if="ultima_talla!= null" class="vx-col w-full text-right text-success mt-0"><h6> {{ultima_talla}} <small> cm. </small></h6></div>
 								<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
 							</div>
 							<vs-divider class="mt-0"/>
 							<div class="flex items-center mt-0">
 								<vs-button color="success" icon="favorite" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-								<div v-if="ultimo_pulso!= null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultimo_pulso}} <small> Lbs.</small></h6></div>
+								<div v-if="ultimo_pulso!= null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultimo_pulso}} <small> p.p.m.</small></h6></div>
 								<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
 							</div>
 							<vs-divider class="mt-0"/>
@@ -60,13 +60,13 @@
 							<vs-divider class="mt-0"/>
 							<div class="flex items-center mt-0">
 								<vs-button color="success" icon="directions_run" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-								<div v-if="ultima_respiracion!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultima_respiracion}} <small> r/m</small></h6></div>
+								<div v-if="ultima_respiracion!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultima_respiracion}} <small> r.p.m</small></h6></div>
 								<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
 							</div>
 							<vs-divider class="mt-0"/>
 							<div class="flex items-center mt-0">
 								<vs-button color="success" icon="timer" radius type="flat" size="large" class="mt-0" disabled></vs-button>
-								<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultima_presion}} <small> NC</small></h6></div>
+								<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultima_presion}} </h6></div>
 								<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
 							</div>
 							<vs-divider class="mt-0" v-if="ultima_semanas!= null"/>
@@ -145,19 +145,19 @@
 						>
 							<div class="flex items-center mt-0">
 								<vs-button color="success" icon="filter_center_focus" radius type="flat" size="large" class="mt-0" disabled></vs-button><h5 class="text-success">Peso:</h5>
-								<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0" ><h6> {{ultimo_peso}} <small> Lbs.</small></h6></div>
+								<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0" ><h6> {{ultimo_peso}} <small> lb.</small></h6></div>
 								<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
 							</div>
 							<vs-divider class="mt-0"/>
 							<div class="flex items-center mt-0">
 								<vs-button color="success" icon="vertical_align_top" radius type="flat" size="large" class="mt-0" disabled></vs-button><h5 class="text-success">Talla:</h5>
-								<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0"><h6> {{ultima_talla}} <small> Mts. </small></h6></div>
+								<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0"><h6> {{ultima_talla}} <small> cm. </small></h6></div>
 								<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
 							</div>
 							<vs-divider class="mt-0"/>
 							<div class="flex items-center mt-0">
 								<vs-button color="success" icon="favorite" radius type="flat" size="large" class="mt-0" disabled></vs-button><h5 class="text-success">Pulso:</h5>
-								<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultimo_pulso}} <small> Lbs.</small></h6></div>
+								<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultimo_pulso}} <small> p.p.m.</small></h6></div>
 								<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
 							</div>
 							<vs-divider class="mt-0"/>
@@ -169,13 +169,13 @@
 							<vs-divider class="mt-0"/>
 							<div class="flex items-center mt-0">
 								<vs-button color="success" icon="directions_run" radius type="flat" size="large" class="mt-0" disabled></vs-button><h5 class="text-success">Respiración:</h5>
-								<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultima_respiracion}} <small> r/m</small></h6></div>
+								<div v-if="ultima_presion!=null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultima_respiracion}} <small> r.p.m. </small></h6></div>
 								<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
 							</div>
 							<vs-divider class="mt-0"/>
 							<div class="flex items-center mt-0">
 								<vs-button color="success" icon="timer" radius type="flat" size="large" class="mt-0" disabled></vs-button><h5 class="text-success">Presión arterial:</h5>
-								<div v-if="ultima_presion != null" class="vx-col w-full text-right text-success mt-0"><h6>{{ultima_presion}} <small> NC</small></h6></div>
+								<div v-if="ultima_presion != null" class="vx-col w-full text-right text-success mt-0"><h6> {{ultima_presion}} </h6></div>
 								<div v-else class="vx-col w-full text-right text-success mt-0"><h6> No Medido </h6></div>
 							</div>
 							<vs-divider class="mt-0"/>
