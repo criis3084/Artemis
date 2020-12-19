@@ -19,17 +19,17 @@ class HistorialExamenController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$historialExamen = HistorialExamen::with('examen')->with('tipo_examen')->with('paciente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$historialExamen = HistorialExamen::with('examen')->with('tipo_examen')->with('paciente')->with('datos_paciente')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$historialExamen = HistorialExamen::with('examen')->with('tipo_examen')->with('paciente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$historialExamen = HistorialExamen::with('examen')->with('tipo_examen')->with('paciente')->with('datos_paciente')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$historialExamen = HistorialExamen::with('examen')->with('tipo_examen')->with('paciente')->orderBy('id', 'desc')->paginate($count);
+				$historialExamen = HistorialExamen::with('examen')->with('tipo_examen')->with('paciente')->with('datos_paciente')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$historialExamen = HistorialExamen::with('examen')->with('tipo_examen')->with('paciente')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$historialExamen = HistorialExamen::with('examen')->with('tipo_examen')->with('paciente')->with('datos_paciente')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [

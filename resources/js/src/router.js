@@ -786,6 +786,14 @@ const router = new Router({
 					{
 						path: '/laboratorio/examen',
 						name: 'laboratorio-examen',
+						component: () => import('./views/Laboratorio/Examenes/listado.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					{
+						path: '/ingresar/examen',
+						name: 'laboratorio-examen',
 						component: () => import('./views/Laboratorio/Examenes/examenes.vue'),
 						meta: {
 						rule: 'admin'

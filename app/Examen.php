@@ -14,4 +14,14 @@ class Examen extends Model
 	public function laboratorista(){
 		return $this->belongsTo('App\Clinico','clinico_id','id');
 	}
+	public function datos_laboratorista(){
+		return $this->hasManyThrough(
+			'App\User',
+			'App\Clinico',
+			'id',
+			'id',
+			'clinico_id',
+			'user_id'
+		);
+	}
 }

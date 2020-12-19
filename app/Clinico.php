@@ -17,4 +17,7 @@ class Clinico extends Model
 	public function consultas(){
 		return $this->hasMany('App\HistorialClinico','clinico_id','id');
 	}
+	public function examenes(){
+		return $this->hasMany('App\Examen','clinico_id','id');
+	}
 }

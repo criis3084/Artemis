@@ -1,4 +1,3 @@
-
 <template>
     <div class="h-screen flex w-full bg-img">
         <div class="vx-col w-4/5 sm:w-4/5 md:w-3/5 lg:w-3/4 xl:w-3/5 mx-auto self-center">
@@ -27,7 +26,6 @@
 <script>
 import 'swiper/dist/css/swiper.min.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
-
 export default {
 		data(){
 			return{

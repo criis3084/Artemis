@@ -20,17 +20,17 @@ class ExamenController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$examen = Examen::with('tipoExamen')->with('laboratorista')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$examen = Examen::with('tipoExamen')->with('laboratorista')->with('datos_laboratorista')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$examen = Examen::with('tipoExamen')->with('laboratorista')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$examen = Examen::with('tipoExamen')->with('laboratorista')->with('datos_laboratorista')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$examen = Examen::with('tipoExamen')->with('laboratorista')->orderBy('id', 'desc')->paginate($count);
+				$examen = Examen::with('tipoExamen')->with('laboratorista')->with('datos_laboratorista')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
-				$examen = Examen::with('tipoExamen')->with('laboratorista')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$examen = Examen::with('tipoExamen')->with('laboratorista')->with('datos_laboratorista')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
 			}
 		}
 		return [

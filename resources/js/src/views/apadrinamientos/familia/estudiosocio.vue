@@ -2,20 +2,24 @@
 	<div>
 		<div id="invoice-page">
 			<vx-card id="invoice-container">
+			<vs-button @click="goBack" class="mr-4 mt-3" type="border" radius icon-pack="feather" color="primary" icon="icon-corner-up-left"> </vs-button>
+
 				<div class="vx-row leading-loose p-base">
 					<div class="vx-col w-1/2 mt-base">
-						<h1><b>Estudio Socioeconomico</b> </h1>
+						<h1><b>Estudio Socioeconómico</b> </h1>
 						<br/>
 						<h2><b>Familia: </b> {{codigo_familiar}} </h2>
 					</div>
 					<div class="vx-col w-1/2 text-right">
 						<h3> <b>PPI Familiar</b>  </h3>
 							<br/>
-							<h6><b>Valor de ultimo PPI:</b> {{total_ppi}} </h6>
+							<h6><b>Valor de último PPI:</b> {{total_ppi}} </h6>
 							<br/>
-							<h6><b>Fecha de ultimo PPI:</b> {{fecha_ppi}} </h6>
+							<h6><b>Fecha de último PPI:</b> {{fecha_ppi}} </h6>
 					</div>
 				</div>
+				<vs-divider position="right">PID&#174;</vs-divider>
+
 				<vx-card
 				title="Información de los niños"
 				title-color="warning"
@@ -27,7 +31,7 @@
 									<div v-if="nino.nino.estado==1">
 										<div class="flex items-center">
 											<vs-avatar :src="nino.nino.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="60px"/>
-											<h2>&nbsp; <b> Codigo:</b> {{nino.nino.codigo}}</h2> 
+											<h2>&nbsp; <b> Código:</b> {{nino.nino.codigo}}</h2> 
 											<div class="vx-col w-full text-right">
 											<h3><b>Fecha de apadrinamiento: </b> {{nino.nino.fecha_ingreso}}  </h3>
 											</div>
@@ -68,7 +72,7 @@
 									<div v-if="nino.nino.estado==0">
 										<div class="flex items-center">
 											<vs-avatar :src="nino.nino.ruta_imagen" color="primary" class="flex-shrink-0 mr-2" size="60px"/>
-											<h2> {{"  "}} <b>Codigo:</b> {{nino.nino.codigo}} </h2> 
+											<h2> {{"  "}} <b>Código:</b> {{nino.nino.codigo}} </h2> 
 										</div>
 										
 										<table style="width:100%" class="border-none mt-2">
@@ -110,13 +114,13 @@
 						<div class="vx-col w-full mb-base">
 							<table style="width:100%" class="border-collapse">
 								<tr>
-									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fotografia</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fotografía</th>
 									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre completo</th>
 									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Edad</th>
 									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Parentesco</th>
 									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Escolaridad</th>
 									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ocupación</th>
-									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Telefono</th>
+									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Teléfono</th>
 									<th class="p-2 border border-solid d-theme-border-grey-light text-center">Ingresos</th>
 								</tr>
 								<tr v-for="(encargado,index2) in listadoFamilia" :key="index2">
@@ -169,7 +173,7 @@
 							</tr>
 						</table>
 					<vs-divider/>
-					<p><b>Numero de cuartos: </b> {{ datosEstudio.cantidad_cuartos }} </p>
+					<p><b>Número de cuartos: </b> {{ datosEstudio.cantidad_cuartos }} </p>
 					<vs-divider/>
 					<p><b>Baño: </b> {{ datosEstudio.bano }} </p>
 					<vs-divider/>
@@ -182,16 +186,17 @@
 								</tr>
 						</table>
 					<vs-divider/>
-					<p><b>Evaluación general del diagnostico: </b> </p>
+					<p><b>Evaluación general del diagnóstico: </b> </p>
 					<p> {{ datosEstudio.evaluacion_diagnostico }} </p>
 				</vx-card>
 			</vx-card>
 		</div>
 
 		<div class="flex flex-wrap items-center justify-between mt-2">
-			<vx-input-group class="mb-base mr-3">
-			</vx-input-group>
 			<div class="flex items-center">
+					<vs-button @click="goBack" class="mb-base mr-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>
+
+			
 					<vs-button class="mb-base mr-3" type="gradient" icon-pack="feather" icon="icon-printer" color="success"  @click="printInvoice">Imprimir</vs-button>
 			</div>
 		</div>
