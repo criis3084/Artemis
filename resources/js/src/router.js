@@ -163,14 +163,6 @@ const router = new Router({
 						}
 					},
 					{
-						path: '/ver/estudiosocio/:id',
-						name: 'ver-estudiosocio',
-						component: () => import('./views/apadrinamientos/nino/verestudiosocio.vue'),
-						meta: {
-						rule: 'editor'
-						}
-					},
-					{
 						path: '/ingresar/estudiosocio/:id',
 						name: 'ingresar-estudiosocio',
 						component: () => import('./views/apadrinamientos/nino/nuevoestudiosocio.vue'),
@@ -1119,14 +1111,6 @@ const router = new Router({
 						path: '/apadrinamiento/estudiosocio/:id',
 						name: 'apadrinamiento-estudiosocio2',
 						component: () => import('./views/apadrinamientos/nino/historialestudiosocio.vue'),
-						meta: {
-						rule: 'editor'
-						}
-					},
-					{
-						path: '/ver/estudiosocio/:id',
-						name: 'ver-estudiosocio',
-						component: () => import('./views/apadrinamientos/nino/verestudiosocio.vue'),
 						meta: {
 						rule: 'editor'
 						}

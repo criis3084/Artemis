@@ -187,7 +187,7 @@ export default {
 						title:'Examen registrado!',
 						text:'La acción se realizo exitósamente'
 					});
-					location.reload();
+					me.$router.push("/laboratorio/examen");
 				})
 				.catch(function(error) {
 					console.log(error)
@@ -204,9 +204,6 @@ export default {
 		},
 		async buscarDoctor(){
 			let idUsuario = parseInt(Ls.get('auth.id_usuario'))
-			console.log('000000000000000')
-			console.log(idUsuario)
-			
 			const me = this
 			const response = await axios.get(
 				`/api/clinico/get?&criterio=user_id&buscar=${idUsuario}&completo=true`
