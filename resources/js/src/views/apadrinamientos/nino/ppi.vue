@@ -144,7 +144,7 @@ export default {
 		let options={
 			title: {
 				display: true,
-				text: 'Registro de Avance de PPI'
+				text: 'Registro de avance de PPI'
 			}
 		}
 		return options

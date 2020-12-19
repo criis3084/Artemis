@@ -14,6 +14,16 @@ class HistorialExamen extends Model
 	public function paciente(){
 		return $this->belongsTo('App\Paciente','paciente_id','id');
 	}
+	public function datos_paciente(){
+		return $this->hasManyThrough(
+			'App\PersonaSinAcceso',
+			'App\Paciente',
+			'id',
+			'id',
+			'paciente_id',
+			'persona_sin_acceso_id'
+		);
+	}
 	public function tipo_examen(){
 		return $this->hasManyThrough(
 			'App\TipoExamen',
@@ -24,6 +34,7 @@ class HistorialExamen extends Model
 			'tipo_examen_id'
 		);
 	}
+
 	/*
 	public function lista_examenes(){
 		return $this->hasMany(Examen::class);
