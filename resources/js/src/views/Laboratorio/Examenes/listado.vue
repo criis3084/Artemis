@@ -32,14 +32,9 @@
 						<vs-td>{{ data[indextr].tipo_examen[0].nombre }}</vs-td>
 						<vs-td>{{ data[indextr].examen.fecha_examen }}</vs-td>
 						<vs-td :data="data[indextr].estado">
-							<vs-switch
-								color="success"
-								v-model="data[indextr].estado"
-								@click="abrirDialog(data[indextr].id, data[indextr].estado)"
-								>
-								<span slot="on">Concluido</span>
-								<span slot="off">Programado</span>
-							</vs-switch>
+							 <vs-chip :color="data[indextr].estado == 0 ? 'primary' : data[indextr].estado == 1 ? 'success':'success'">
+                  <span>{{data[indextr].estado == 0 ? 'Programado' : data[indextr].estado == 1 ? 'Realizado':'L'}}</span>
+                                    </vs-chip>
 						</vs-td>
 						<vs-td>
 							<div class="flex items-center">
