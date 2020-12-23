@@ -11,6 +11,6 @@ class AbonoPrestamoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\AbonoPrestamo::class, 50)->create();
+        factory(App\AbonoPrestamo::class, 10)->create();
     }
 }

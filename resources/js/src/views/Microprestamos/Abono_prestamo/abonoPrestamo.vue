@@ -235,14 +235,11 @@ export default{
           console.log(error)
         })
     },
-	
-    
     getDate (datetime) { //funcion para dar formato a la fecha
       const date = new Date(datetime)
       const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
       return dateString
     },
-
     guardar () { //funcion para guardar el abono
       const me = this
       axios.post('/api/abonoPrestamo/post/', {

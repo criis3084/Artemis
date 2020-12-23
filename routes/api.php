@@ -788,6 +788,9 @@ Route::group(['prefix' => 'examen'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.examen', 'uses' => 'ExamenController@desactivar'
     ]);
+    Route::post('/imagen', [
+        'as' => 'admin.examen', 'uses' => 'ExamenController@imagen'
+    ]);
 });
 Route::group(['prefix' => 'beneficio'], function () {
     Route::get('/get', [
@@ -1008,6 +1011,9 @@ Route::group(['prefix' => 'historialExamen'], function () {
 	]);
     Route::put('/desactivar', [
         'as' => 'admin.historialExamen', 'uses' => 'HistorialExamenController@desactivar'
+    ]);
+    Route::put('/programar', [
+        'as' => 'admin.historialExamen', 'uses' => 'HistorialExamenController@programar'
     ]);
 });
 Route::group(['prefix' => 'historialClinico'], function () {

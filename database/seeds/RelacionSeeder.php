@@ -11,6 +11,6 @@ class RelacionSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Relacion::class, 300)->create();
+        factory(App\Relacion::class, 100)->create();
     }
 }

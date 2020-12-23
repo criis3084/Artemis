@@ -11,6 +11,6 @@ class HistorialClinicoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\HistorialClinico::class, 500)->create();
+        factory(App\HistorialClinico::class, 100)->create();
     }
 }

@@ -15,12 +15,13 @@ class CreateExamensTable extends Migration
     {
         Schema::create('examens', function (Blueprint $table) {
 			$table->id();
-			$table->string('descripcion');
-			$table->text('resultado');
-			$table->date('fecha_examen');
+			$table->string('descripcion')->nullable();
+			$table->text('resultado')->nullable();
+			$table->string('ruta_imagen')->nullable();
+			$table->date('fecha_examen')->nullable();
 			$table->foreignId('tipo_examen_id')->constrained();
 			$table->foreignId('clinico_id')->constrained();
-			$table->boolean('estado')->default(1);
+			$table->boolean('estado')->default(0);
 			$table->timestamps();
         });
     }

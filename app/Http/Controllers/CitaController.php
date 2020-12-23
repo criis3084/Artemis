@@ -18,17 +18,17 @@ class CitaController extends Controller
 		if ($completo == 'false')
 		{
 			if ($buscar==''){
-				$cita = Cita::with('clinico')->with('datos_clinico')->with('paciente')->with('datos_paciente')->with('tipoCita')->orderBy('id', 'desc')->where('estado',1)->paginate($count);
+				$cita = Cita::with('clinico')->with('datos_clinico')->with('paciente')->with('datos_paciente')->with('tipoCita')->orderBy('fecha', 'desc')->where('estado',1)->paginate($count);
 			}
 			else{
-				$cita = Cita::with('clinico')->with('datos_clinico')->with('paciente')->with('datos_paciente')->with('tipoCita')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('id', 'desc')->paginate($count);
+				$cita = Cita::with('clinico')->with('datos_clinico')->with('paciente')->with('datos_paciente')->with('tipoCita')->where([[$criterio, 'like',$buscar],['estado',1]])->orderBy('fecha', 'desc')->paginate($count);
 			}
 		} else if ($completo == 'true'){
 			if ($buscar==''){
-				$cita = Cita::with('clinico')->with('datos_clinico')->with('paciente')->with('datos_paciente')->with('tipoCita')->orderBy('id', 'desc')->paginate($count);
+				$cita = Cita::with('clinico')->with('datos_clinico')->with('paciente')->with('datos_paciente')->with('tipoCita')->orderBy('fecha', 'desc')->paginate($count);
 			}
 			else{
-				$cita = Cita::with('clinico')->with('datos_clinico')->with('paciente')->with('datos_paciente')->with('tipoCita')->where($criterio,'like',$buscar)->orderBy('id', 'desc')->paginate($count);
+				$cita = Cita::with('clinico')->with('datos_clinico')->with('paciente')->with('datos_paciente')->with('tipoCita')->where($criterio,'like',$buscar)->orderBy('fecha', 'desc')->paginate($count);
 			}
 		}
 		return [

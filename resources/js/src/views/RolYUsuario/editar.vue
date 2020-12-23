@@ -220,7 +220,7 @@ export default {
       password:'',
       roles: [],
       selected: '1',
-      rol_id:'',
+      rol_id:null,
       langEn: es,
       head:{
         'imagenanterior':''	
@@ -312,15 +312,15 @@ export default {
           me.correo = me.arrayData[0].correo
           me.imagen_perfil_antigua = me.arrayData[0].imagen_perfil
           me.descripcion = me.arrayData[0].descripcion
-          me.rol_id = me.arrayData[0].rol_id
           me.user = me.arrayData[0].user
-          me.password = me.arrayData[0].password
+		  me.password = me.arrayData[0].password
+		  me.importarRoles(me.arrayData[0].rol_id)
         })
         .catch(function (error) {
           console.log(error)
         })
     },
-    async importarRoles () { //async para que se llame cada vez que se necesite
+    async importarRoles (rolBuscar) {
       const me = this
       let encontrado = false
       let elementoE = {}
@@ -330,11 +330,11 @@ export default {
           const respuesta = response.data
           me.roles = respuesta.roles.data
           me.roles.forEach(function (elemento, indice, array) {
-            if (elemento.id == me.rol_id) {
+            if (elemento.id == rolBuscar) {
               elementoE = elemento
               encontrado = true
             }
-          })
+		  })
           me.rol_id = encontrado == true ? elementoE : {id:me.rol_id, nombre:'Rol desactivado'} 
         })
         .catch(function (error) {
@@ -402,7 +402,6 @@ export default {
   },
   mounted () {
     this.index()
-    this.importarRoles()
   }
 }
 </script>

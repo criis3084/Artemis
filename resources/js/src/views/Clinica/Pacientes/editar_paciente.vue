@@ -389,7 +389,7 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me.listado_tipos = respuesta.tipoPacientes.data;
-				me.listado_tipos.splice(me.listado_tipos.length-1, 1);
+
 				me.listado_tipos.forEach(function(elemento, indice, array) {
 					if (elemento.id==me.tipoPaciente)
 					{
@@ -397,6 +397,9 @@ export default {
 						encontrado=true
 					}
 				})
+				me.listado_tipos.splice(me.listado_tipos.length-1, 1);
+				console.log('*********** tipos *********')
+				console.log(me.listado_tipos)
 				me.tipo_paciente_id_original = encontrado == true ? elementoE : {id:me.tipo_paciente_id,nombre:'Tipo de paciente desactivado'} 
 				me.tipo_paciente_id = encontrado == true ? elementoE : {id:me.tipo_paciente_id,nombre:'Tipo de paciente desactivado'} 
 			})
@@ -405,72 +408,74 @@ export default {
 			});
 		},
 		guardarPersona(){
-	this.$validator.validateAll().then(result => {
-	if(result) {
-			let me = this
-			let pagoT = '';
-			if(me.tipo_paciente_id.id != 2){
-				pagoT= me.getDate(me.getNow());
-			}
-			if(me.pacienteExterno){
-				axios.put("/api/personaSinAcceso/update/",{
-					id:me.id_persona,
-					nombres:me.nombres,
-					apellidos:me.apellidos,
-					CUI:me.CUI,
-					genero:me.genero,
-					fecha_nacimiento:me.getDate(me.fecha_nacimiento),
-					direccion:me.direccion,
-					numero_telefono:me.numero_telefono,
-					sector_id:me.sector_id.id
-				}).then(function (response){
-					console.log(response)
-				}).catch(function(error) {
-					console.log(error)
-				});
-			}
-			else{
-				let boolCarrito = me.arraysEqual(me.carrito_original,me.carrito)
-				let boolCantidades = me.arraysEqual(me.listaCantidades,me.listaCantidadesOriginal)
-				let boolTipo = me.tipo_paciente_id == me.tipo_paciente_id_original
-				let boolDescripcion = me.descripcion == me.descripcionOriginal
-				if (!boolCarrito || !boolCantidades || !boolTipo || !boolDescripcion)
-				{
-					axios.put("/api/paciente/update/",{
-						id:me.id_recibido,
-						dia_apoyo:me.dia_apoyo.id,
-						tipo_paciente_id:me.tipo_paciente_id.id,
-						id_beneficio:me.idBeneficio,
-						detalle:true,
-						id_beneficio:me.idBeneficio,
-						descripcion:me.descripcion,
-						fecha_pago:pagoT,
-						//detalle: boolCantidades == false ? true : false,
-						carrito:me.carrito,
-						cantidades:me.listaCantidades
-					}).then(function (response){
-						me.$router.push('/clinica/pacientes/');
-							me.$vs.notify({
-							color:'success',
-							title:'Actualización registrada!',
-							text:'Acción realizada exitósamente'
+			this.$validator.validateAll().then(result => {
+				if(result) {
+					let me = this
+					let pagoT = '';
+					if(me.tipo_paciente_id.id != 2 && me.tipo_paciente_id.id != 1){
+						console.log(' esta entrando aca')
+						console.log(me.tipo_paciente_id)
+						pagoT= me.getDate(me.getNow());
+					}
+					if(me.pacienteExterno){
+						axios.put("/api/personaSinAcceso/update/",{
+							id:me.id_persona,
+							nombres:me.nombres,
+							apellidos:me.apellidos,
+							CUI:me.CUI,
+							genero:me.genero,
+							fecha_nacimiento:me.getDate(me.fecha_nacimiento),
+							direccion:me.direccion,
+							numero_telefono:me.numero_telefono,
+							sector_id:me.sector_id.id
+						}).then(function (response){
+							console.log(response)
+						}).catch(function(error) {
+							console.log(error)
 						});
-					}).catch(function(error) {
-						console.log(error)
+					}
+					else{
+						let boolCarrito = me.arraysEqual(me.carrito_original,me.carrito)
+						let boolCantidades = me.arraysEqual(me.listaCantidades,me.listaCantidadesOriginal)
+						let boolTipo = me.tipo_paciente_id == me.tipo_paciente_id_original
+						let boolDescripcion = me.descripcion == me.descripcionOriginal
+						if (!boolCarrito || !boolCantidades || !boolTipo || !boolDescripcion)
+						{
+							axios.put("/api/paciente/update/",{
+								id:me.id_recibido,
+								dia_apoyo:me.dia_apoyo.id,
+								tipo_paciente_id:me.tipo_paciente_id.id,
+								id_beneficio:me.idBeneficio,
+								detalle:true,
+								id_beneficio:me.idBeneficio,
+								descripcion:me.descripcion,
+								fecha_pago:pagoT,
+								//detalle: boolCantidades == false ? true : false,
+								carrito:me.carrito,
+								cantidades:me.listaCantidades
+							}).then(function (response){
+								me.$router.push('/clinica/pacientes/');
+									me.$vs.notify({
+									color:'success',
+									title:'Actualización registrada!',
+									text:'Acción realizada exitósamente'
+								});
+							}).catch(function(error) {
+								console.log(error)
+							});
+						}
+						else{
+							me.$router.push('/clinica/pacientes/');
+						}
+					}
+				}else{
+					this.$vs.notify({
+						color:'danger',
+						title:'Error en validación!',
+						text:'Ingrese todos los campos correctamente'
 					});
 				}
-				else{
-					me.$router.push('/clinica/pacientes/');
-				}
-			}
-	}else{
-		this.$vs.notify({
-			color:'danger',
-			title:'Error en validación!',
-			text:'Ingrese todos los campos correctamente'
-			});
-		}
-	})
+			})
 		},
 		arraysEqual(a,b) {
 			if (a instanceof Array && b instanceof Array) {

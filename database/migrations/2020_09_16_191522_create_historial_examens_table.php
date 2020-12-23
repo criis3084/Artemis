@@ -17,7 +17,7 @@ class CreateHistorialExamensTable extends Migration
 			$table->id();
 			$table->foreignId('examen_id')->constrained();
 			$table->foreignId('paciente_id')->constrained();
-			$table->boolean('estado')->default(1);
+			$table->boolean('estado')->default(0);
 			$table->timestamps();
         });
     }

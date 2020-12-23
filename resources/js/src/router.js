@@ -163,14 +163,6 @@ const router = new Router({
 						}
 					},
 					{
-						path: '/ver/estudiosocio/:id',
-						name: 'ver-estudiosocio',
-						component: () => import('./views/apadrinamientos/nino/verestudiosocio.vue'),
-						meta: {
-						rule: 'editor'
-						}
-					},
-					{
 						path: '/ingresar/estudiosocio/:id',
 						name: 'ingresar-estudiosocio',
 						component: () => import('./views/apadrinamientos/nino/nuevoestudiosocio.vue'),
@@ -784,8 +776,24 @@ const router = new Router({
 					// LABORATORIO
 					// =============================================================================
 					{
+						path: '/ingresar/examen/:id',
+						name: 'ingresar-examenId',
+						component: () => import('./views/Laboratorio/Examenes/examenes_pre.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					{
 						path: '/laboratorio/examen',
-						name: 'laboratorio-examen',
+						name: 'laboratorio-listado',
+						component: () => import('./views/Laboratorio/Examenes/listado.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					{
+						path: '/ingresar/examen',
+						name: 'ingresar-examen',
 						component: () => import('./views/Laboratorio/Examenes/examenes.vue'),
 						meta: {
 						rule: 'admin'
@@ -1103,14 +1111,6 @@ const router = new Router({
 						path: '/apadrinamiento/estudiosocio/:id',
 						name: 'apadrinamiento-estudiosocio2',
 						component: () => import('./views/apadrinamientos/nino/historialestudiosocio.vue'),
-						meta: {
-						rule: 'editor'
-						}
-					},
-					{
-						path: '/ver/estudiosocio/:id',
-						name: 'ver-estudiosocio',
-						component: () => import('./views/apadrinamientos/nino/verestudiosocio.vue'),
 						meta: {
 						rule: 'editor'
 						}
@@ -2274,6 +2274,22 @@ const router = new Router({
 					// LABORATORIO
 					// =============================================================================
 					{
+						path: '/ingresar/examen/:id',
+						name: 'ingresar-examenId',
+						component: () => import('./views/Laboratorio/Examenes/examenes_pre.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					{
+						path: '/laboratorio/examen',
+						name: 'laboratorio-listado',
+						component: () => import('./views/Laboratorio/Examenes/listado.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					{
 						path: '/laboratorio/examen',
 						name: 'laboratorio-examen',
 						component: () => import('./views/Laboratorio/Examenes/examenes.vue'),
@@ -2889,6 +2905,22 @@ const router = new Router({
 					// =============================================================================
 					// LABORATORIO
 					// =============================================================================
+					{
+						path: '/ingresar/examen/:id',
+						name: 'ingresar-examenId',
+						component: () => import('./views/Laboratorio/Examenes/examenes_pre.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
+					{
+						path: '/laboratorio/examen',
+						name: 'laboratorio-listado',
+						component: () => import('./views/Laboratorio/Examenes/listado.vue'),
+						meta: {
+						rule: 'admin'
+						}
+					}, 
 					{
 						path: '/laboratorio/examen',
 						name: 'laboratorio-examen',
