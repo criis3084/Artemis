@@ -341,7 +341,7 @@ export default {
           me.medicamentos = respuesta.medicamentos.data
         })
         .catch(function (error) {
-          console.log(error)
+         // console.log(error)
         })
     },
 	 async anioIngresosM () {
@@ -351,7 +351,7 @@ export default {
         .then(function (response) {
           const respuesta = response
           me.anioIngresos = respuesta.data
-          console.log(me.anioIngresos)
+         // console.log(me.anioIngresos)
         })
         .catch(function (error) {
           //console.log(error)
@@ -361,21 +361,21 @@ export default {
 		 if (this.anioIngresos !== null) {
         const anio_recibido = this.fechaingreso.anio
         const id_medicamento = this.medicamentoI.id
-        console.log(anio_recibido)
-        console.log(id_medicamento)
+        //console.log(anio_recibido)
+       // console.log(id_medicamento)
         const me = this
         const response = await axios
           .get(`/api/ingresoMedicamento/reporteIngreso?&anio=${anio_recibido}&medicamento=${id_medicamento}&completo=true`)
           .then(function (response) {
             const respuesta = response
 		  me.arrayMedicamentosIngreso = respuesta.data
-		  console.log(me.arrayMedicamentosIngreso)
+		  //console.log(me.arrayMedicamentosIngreso)
           })
           .catch(function (error) {
             //console.log(error)
 		  })
 		  me.medicamentoIngreso = me.datosporanio(me.arrayMedicamentosIngreso)
-		  console.log(me.medicamentoIngreso)
+		  //console.log(me.medicamentoIngreso)
 		 }
     },
     async viviendas () {
@@ -386,7 +386,7 @@ export default {
         .then(function (response) {
           const respuesta = response
 		  me.arraViviendas = respuesta.data
-		  console.log(me.arraViviendas)
+		  //console.log(me.arraViviendas)
 		  me.buscarViviendas()
         })
         .catch(function (error) {
