@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Tutoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
-use Exception;
 
 class TutoriaController extends Controller
 {
@@ -83,5 +84,31 @@ class TutoriaController extends Controller
         $tutoria->estado = '0';
         $tutoria->save();
 		return Response::json(['message' => 'Tutoría Desactivado'], 200);
+	}
+
+	public function tutoriasmen (Request $request)
+	{
+		$completo= $request->completo;
+		$anio = $request->anio;
+        if ($completo =='true'){
+			if($anio==''){
+				$consulta = DB::table('tutorias')
+				->selectRaw('YEAR(fecha) AS anio, COUNT(*) AS total')
+				->groupBy('anio')
+				->get();
+				return response()->json($consulta);
+			}
+			else
+			{
+				$consulta = DB::table('tutorias')
+				->selectRaw('MONTH(fecha) AS mes, COUNT(*) AS total')
+				->where('estado',1)
+				->whereYear('fecha',$anio)
+				->groupBy('fecha')
+				->get();
+				return response()->json($consulta);
+			}
+		} 
+
 	}
 }

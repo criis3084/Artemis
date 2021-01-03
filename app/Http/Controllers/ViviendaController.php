@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Vivienda;
 use App\Encargado;
 use App\Constructor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Exception;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Response;
 
 class ViviendaController extends Controller
 {
@@ -108,4 +109,15 @@ class ViviendaController extends Controller
 	 	$imagen_redi->save(public_path('storage/public/viviendas/'. $completo));
 	 	return Response::json($completo, 200);
 	 }
+
+	 public function reporteViviendas (Request $request)
+	{
+		$estado = $request->estado;
+		$consulta = DB::table('viviendas')
+		->selectRaw('YEAR(fecha_inicio) AS anio, COUNT(*) AS total')
+		->where('estado',$estado)
+        ->groupBy('Anio')
+		->get();
+		return response()->json($consulta);
+	}
 }

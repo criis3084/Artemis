@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Cita;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class CitaController extends Controller
 {
@@ -80,5 +81,29 @@ class CitaController extends Controller
         $cita->estado = '0';
         $cita->save();
 		return Response::json(['message' => 'Cita Desactivado'], 200);
+	}
+	public function reporteCitas (Request $request)
+	{
+		$completo= $request->completo;
+		$anio = $request->anio;
+        if ($completo =='true'){
+			if($anio==''){
+				$consulta = DB::table('citas')
+				->selectRaw('YEAR(fecha) AS anio, COUNT(*) AS total')
+				->groupBy('anio')
+				->get();
+				return response()->json($consulta);
+			}
+			else
+			{
+				$consulta = DB::table('citas')
+				->selectRaw('MONTH(fecha) AS mes, COUNT(*) AS total')
+				->whereYear('fecha',$anio)
+				->groupBy('mes')
+				->get();
+				return response()->json($consulta);
+			}
+		} 
+
 	}
 }

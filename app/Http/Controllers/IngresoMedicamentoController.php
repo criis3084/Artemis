@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\IngresoMedicamento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
-use Exception;
 
 class IngresoMedicamentoController extends Controller
 {
@@ -77,5 +78,35 @@ class IngresoMedicamentoController extends Controller
         $ingresoMedicamento->estado = '0';
         $ingresoMedicamento->save();
 		return Response::json(['message' => 'ingresoMedicamento Desactivado'], 200);
+	}
+
+	public function reporteIngreso (Request $request)
+	{
+		$completo= $request->completo;
+		$anio = $request->anio;
+		$medicamento = $request->medicamento;
+        if ($completo =='true'){
+			if($anio==''){
+				$consulta = DB::table('ingreso_medicamentos')
+				->selectRaw('YEAR(fecha_ingreso) AS anio')
+				->groupBy('anio')
+				->get();
+				return response()->json($consulta);
+			}
+			else
+			{
+				$consulta = DB::table('ingreso_medicamentos')	
+				->join('detalle_ingresos', 'ingreso_medicamentos.id', '=', 'detalle_ingresos.ingreso_medicamento_id')
+				->join('lotes','lotes.id','=','detalle_ingresos.lote_id')
+				->join('medicamentos','medicamentos.id','=','lotes.medicamento_id')
+				->whereYear('fecha_ingreso',$anio)
+				->Where('medicamentos.id',$medicamento)
+				->select(DB::raw('MONTH(fecha_ingreso) mes'),'nombre' , DB::raw ('SUM(lotes.stock) as total'))
+				->groupBy('mes','nombre')
+				->get();
+				return response()->json($consulta);
+			}
+		} 
+
 	}
 }

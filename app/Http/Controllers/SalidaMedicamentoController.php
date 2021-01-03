@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\SalidaMedicamento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
-use Exception;
 
 class SalidaMedicamentoController extends Controller
 {
@@ -82,4 +83,35 @@ class SalidaMedicamentoController extends Controller
         $salidaMedicamento->save();
 		return Response::json(['message' => 'salidaMedicamento Desactivado'], 200);
 	}
+
+	public function reporteSalidas (Request $request)
+	{
+		$completo= $request->completo;
+		$anio = $request->anio;
+		$medicamento = $request->medicamento;
+        if ($completo =='true'){
+			if($anio==''){
+				$consulta = DB::table('salida_medicamentos')
+				->selectRaw('YEAR(fecha_salida) AS anio')
+				->groupBy('anio')
+				->get();
+				return response()->json($consulta);
+			}
+			else
+			{
+				$consulta = DB::table('salida_medicamentos')	
+				->join('detalle_salidas', 'salida_medicamentos.id', '=', 'detalle_salidas.salida_medicamento_id')
+				->join('lotes','lotes.id','=','detalle_salidas.lote_id')
+				->join('medicamentos','medicamentos.id','=','lotes.medicamento_id')
+				->whereYear('fecha_salida',$anio)
+				->Where('medicamentos.id',$medicamento)
+				->select(DB::raw('MONTH(fecha_salida) mes'),'nombre' , DB::raw ('SUM(detalle_salidas.cantidad) as total'))
+				->groupBy('mes','nombre')
+				->get();
+				return response()->json($consulta);
+			}
+		} 
+
+	}
+
 }

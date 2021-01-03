@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Nino;
+use Exception;
 use App\PersonaSinAcceso;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Response;
 
 class NinoController extends Controller
 {
@@ -155,4 +156,15 @@ class NinoController extends Controller
 		$imagen_redi->save(public_path('storage/public/ninos/'. $completo));
 		return Response::json($completo, 200);
 	}
+
+	public function apadrinamientos (Request $request)
+	{
+		$consulta = DB::table('ninos')
+		->selectRaw('YEAR(fecha_ingreso) AS Anio, COUNT(*) as total')
+		->where('estado',1)
+        ->groupBy('Anio')
+		->get();
+		return response()->json($consulta);
+	}
+
 }

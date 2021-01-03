@@ -453,6 +453,9 @@ Route::group(['prefix' => 'nino'], function () {
 	Route::post('/imagen', [
         'as' => 'admin.nino', 'uses' => 'NinoController@imagen'
     ]);
+    Route::get('/apadrinamientos', [
+        'as' => 'admin.nino', 'uses' => 'NinoController@apadrinamientos'
+    ]);
 });
 Route::group(['prefix' => 'encargado'], function () {
     Route::get('/get', [
@@ -709,6 +712,9 @@ Route::group(['prefix' => 'vivienda'], function () {
     Route::post('/imagen', [
         'as' => 'admin.vivienda', 'uses' => 'ViviendaController@imagen'
     ]);
+    Route::get('/reporteViviendas', [
+        'as' => 'admin.vivienda', 'uses' => 'ViviendaController@reporteViviendas'
+    ]);
 });
 Route::group(['prefix' => 'historialPpi'], function () {
     Route::get('/get', [
@@ -842,6 +848,9 @@ Route::group(['prefix' => 'ingresoMedicamento'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.ingresoMedicamento', 'uses' => 'IngresoMedicamentoController@desactivar'
     ]);
+    Route::get('/reporteIngreso', [
+        'as' => 'admin.ingresoMedicamento', 'uses' => 'IngresoMedicamentoController@reporteIngreso'
+    ]);
 });
 Route::group(['prefix' => 'salidaMedicamento'], function () {
     Route::get('/get', [
@@ -859,6 +868,9 @@ Route::group(['prefix' => 'salidaMedicamento'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.salidaMedicamento', 'uses' => 'SalidaMedicamentoController@desactivar'
     ]);
+    Route::get('/reporteSalidas', [
+        'as' => 'admin.salidaMedicamento', 'uses' => 'SalidaMedicamentoController@reporteSalidas'
+    ]);
 });
 Route::group(['prefix' => 'tutoria'], function () {
     Route::get('/get', [
@@ -875,6 +887,9 @@ Route::group(['prefix' => 'tutoria'], function () {
 	]);
     Route::put('/desactivar', [
         'as' => 'admin.tutoria', 'uses' => 'TutoriaController@desactivar'
+    ]);
+    Route::get('/tutoriasmen', [
+        'as' => 'admin.tutoria', 'uses' => 'TutoriaController@tutoriasmen'
     ]);
 });
 Route::group(['prefix' => 'correspondencia'], function () {
@@ -943,6 +958,9 @@ Route::group(['prefix' => 'cita'], function () {
 	]);
     Route::put('/desactivar', [
         'as' => 'admin.cita', 'uses' => 'CitaController@desactivar'
+    ]);
+    Route::get('/reporteCitas', [
+        'as' => 'admin.cita', 'uses' => 'CitaController@reporteCitas'
     ]);
 });
 Route::group(['prefix' => 'detalleBeneficio'], function () {
@@ -1066,6 +1084,7 @@ Route::group(['prefix' => 'asignacionMedicamento'], function () {
     Route::put('/desactivar', [
         'as' => 'admin.asignacionMedicamento', 'uses' => 'AsignacionMedicamentoController@desactivar'
     ]);
+    
 });
 Route::group(['prefix' => 'historialAbonoVivienda'], function () {
     Route::get('/get', [
