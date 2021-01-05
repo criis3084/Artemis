@@ -290,7 +290,7 @@ export default {
       this.ingresos=""
 		},
     validateNombre(value){
-    if (/^[a-zA-Z ]*$/.test(value))
+    if (/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*$/.test(value))
 		{
 			this.VALnombres = '';
 		} else{
@@ -310,7 +310,7 @@ export default {
 		} 
 	},
 	validateApellido(value){
-    if (/^[a-zA-Z ]*$/.test(value))
+    if (/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*$/.test(value))
 		{
 			this.VALapellidos = '';
 		} else{
