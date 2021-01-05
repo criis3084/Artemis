@@ -1,8 +1,14 @@
 <template>
   	<vx-card>
-		  <div class="vx-col md:w-1/5 w-full mt-5">
+		  <div class = "demo-alignment">
+		  <div class="vx-col md:w-2/5 w-full mt-5">
 					<router-link :to="this.ruta"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
 				</div>
+				<div class="flex-1 ">
+							<h2>Editar familia</h2>
+						</div>
+		  </div>
+		  <vs-divider position="right">PID&#174;</vs-divider><br>
 		<div class="vx-col md:w-1/2 w-full">
 			<div class="vx-col w-full">
 				<vs-input v-validate="'required|alpha_num|max:20'" class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="Código de la Familia" v-model="codigo_familia" disabled/>
