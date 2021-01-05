@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoExamenSeeder::class);
         $this->call(TipoCitaSeeder::class);
         $this->call(TipoPacienteSeeder::class);
-        $this->call(ProfesionSeeder::class);
+            // $this->call(ProfesionSeeder::class);
         $this->call(CasaMedicaSeeder::class);
         $this->call(CategoriaMedicamentoSeeder::class);
         $this->call(SectorSeeder::class);

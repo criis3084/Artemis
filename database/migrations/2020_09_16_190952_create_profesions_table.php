@@ -19,6 +19,9 @@ class CreateProfesionsTable extends Migration
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });
+        DB::table('profesions')->insert(array('nombre'=>'Enfermera'));
+		DB::table('profesions')->insert(array('nombre'=>'Médico general'));
+		DB::table('profesions')->insert(array('nombre'=>'Médico especialista'));
     }
 
     /**

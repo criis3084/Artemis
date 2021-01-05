@@ -1,5 +1,8 @@
 <template>
   	<vx-card>
+		  <div class="vx-col md:w-1/5 w-full mt-5">
+					<router-link :to="this.ruta"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
+				</div>
 		<div class="vx-col md:w-1/2 w-full">
 			<div class="vx-col w-full">
 				<vs-input v-validate="'required|alpha_num|max:20'" class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="Código de la Familia" v-model="codigo_familia" disabled/>
@@ -31,7 +34,7 @@
 			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirPariente">Añadir Pariente</vs-button>
           </div>
           <div class="flex items-center">
-			<vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar">Registrar</vs-button>
+			<router-link :to="this.rutaRegresar"><vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar">Registrar</vs-button></router-link>
           </div>
 		</div>
 
@@ -150,7 +153,9 @@
 				<span>¿Está seguro que desea eliminar a {{encargadoT.datos_encargado[0].nombres + ' ' + encargadoT.datos_encargado[0].apellidos}} de la familia? </span>
 			</div>
 		</vs-prompt>
-		
+		<div class="vx-col md:w-1/3 w-full mt-5">
+				<router-link :to="this.ruta"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+			</div>
 	</vx-card>
 </template>
 <script>
@@ -171,6 +176,8 @@ export default {
 			VALsector:'',
 			VALdireccion:'',
 			VALcodigo:'',
+			ruta:'/apadrinamiento/familia',
+			rutaRegresar:'/apadrinamiento/familia',
 			direccion:'',
 			codigo_familia:'',
 			ninosActivos:[],
@@ -183,6 +190,9 @@ export default {
 		}
 	},
 	methods: {
+		goBack(){
+			this.$router.go(-1)
+		},
 		anadirNino(){
 
 		},
