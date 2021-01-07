@@ -243,6 +243,7 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.roles = respuesta.roles.data
+          me.roles.splice(0,1);
         })
         .catch(function (error) {
           console.log(error)

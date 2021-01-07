@@ -123,9 +123,11 @@
 								</div>
 							</div>
 							<div class="vx-col md:w-1/2 w-full mt-5">
-								<small class="date-label">Rol</small>
+							<small class="date-label">Rol</small>
+							<label class="text-primary">Tutor(a)</label>
+								<!-- <small class="date-label">Rol</small>
 								<v-select label="nombre" :options="roles"  v-model="rol_id"  :dir="$vs.rtl ? 'rtl' : 'ltr'" v-validate="'required'" name="rol"/>
-								<span class="text-danger">{{ errors.first('step-3.rol') }}</span>
+								<span class="text-danger">{{ errors.first('step-3.rol') }}</span> -->
 							</div>
 						</form>
 					</tab-content>
@@ -282,7 +284,7 @@ export default {
 			descripcion:this.descripcion,
 			fecha_nacimiento:this.getDate(this.fecha_nacimiento),
 			direccion:this.direccionTutor,
-			rol_id:this.rol_id.id
+			rol_id:4
 			}).then(function (response) {
 				console.log(response)	
 			})

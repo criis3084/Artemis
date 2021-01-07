@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\HistorialFotografia;
-use App\Fotografia;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Exception;
+use App\Fotografia;
+use App\HistorialFotografia;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Response;
+
 
 class HistorialFotografiaController extends Controller
 {
