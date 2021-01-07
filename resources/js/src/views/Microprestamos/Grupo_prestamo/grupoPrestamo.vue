@@ -189,7 +189,7 @@ import('@/vendor/Export2Excel').then(excel => {
       let titulo = ''
       if (this.estado === 0 || this.estado === false) {
         titulo = 'Activado exitósamente'
-        axios.put('/api/sector/activar', {
+        axios.put('/api/grupoPrestamo/activar', {
           id: this.id
         })
           .then(function (response) {
@@ -200,7 +200,7 @@ import('@/vendor/Export2Excel').then(excel => {
           })
       } else if (this.estado === 1 || this.estado === true) {
         titulo = 'Desactivado exitósamente'
-        axios.put('/api/sector/desactivar', {
+        axios.put('/api/grupoPrestamo/desactivar', {
           id: this.id
         })
           .then(function (response) {

@@ -17,7 +17,7 @@
 			<span class="text-danger">{{ errors.first('razon') }}</span>
 			<div class="vx-col md:w-1/2 w-full mt-5">
 				<div class="my-4">
-					<small class="date-label">Fecha de nacimiento</small>
+					<small class="date-label">Fecha de tutoría</small>
 					<datepicker :format="dateFormat" name="fecha" v-model="fechaT" v-validate="'required'"></datepicker>
 				</div>
 			</div>

@@ -76,7 +76,7 @@
 									<th class="pointer-events-none text-center" style="width:15%"> <h5> Pago mensual </h5> </th>
 								</tr>
 								<tr v-for="(integrante,id) in lista_encargados_plus" :key="id" class="mt-4">
-									<td style="text-align:center"> {{integrante.datos_encargado.datos.nombres}} </td>
+									<td style="text-align:center"> {{integrante.datos_encargado.datos.nombres+" "+ integrante.datos_encargado.datos.apellidos}} </td>
 									<td style="text-align:center"> <v-select name="destino" v-validate="'required'" style="width:95%" label="nombre" :options="destinos_inversion" v-model="listaInversiones[id]" :dir="$vs.rtl ? 'rtl' : 'ltr'" /> </td>
 									<td style="text-align:right"> <vs-input style="text-align:right" v-model="listaCantidades[id]" name="cantidad" v-validate="'required|numeric|max:5'"/> </td>
 									<td style="text-align:center"> Q {{pagoEstimado(listaCantidades[id])}}.00 </td>

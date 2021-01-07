@@ -18,6 +18,7 @@
             </div>
 			<vs-divider position="right">PID&#174;</vs-divider>
 			<div>
+      
                 <vx-card title="Citas mensuales">
 					 <div class = "demo-alignment">
                         <small class="date-label">Seleccione un año</small>

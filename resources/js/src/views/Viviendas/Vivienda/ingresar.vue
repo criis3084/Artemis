@@ -41,7 +41,7 @@
 			</div>
 
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input-number name="meses" v-validate="'required|numeric|max:2'" label="Meses de duración del pago:"  v-model="duracion" icon-inc="expand_less" icon-dec="expand_more" class="w-full"/>
+              <vs-input-number name="meses" v-validate="'required|numeric|max:3'" label="Meses de duración del pago:"  v-model="duracion" icon-inc="expand_less" icon-dec="expand_more" class="w-full"/>
               <span class="text-danger">{{ errors.first('step-1.meses') }}</span>
             </div>
 

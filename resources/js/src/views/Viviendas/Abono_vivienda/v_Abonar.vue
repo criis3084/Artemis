@@ -78,6 +78,10 @@
                                 <span>{{vivienda_id.id}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
+                                <span class="text-grey">Descripción</span>
+                                <span>{{descripcion}}</span>
+                            </div>
+                            <div class="flex justify-between mb-2">
                                 <span class="text-grey">Costo total de vivienda</span>
                                 <span>{{currency(costoV)}}</span>
                             </div>

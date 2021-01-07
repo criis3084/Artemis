@@ -39,7 +39,7 @@
         <span class="text-danger">{{ errors.first('step-1.fecha') }}</span>
       </div>
             <div class="vx-col md:w-1/2 w-full mt-5">
-            <vs-input-number name="meses" v-validate="'required|numeric|max:2'" label="Meses de duración del pago:"  v-model="duracionT" icon-inc="expand_less" icon-dec="expand_more" class="w-full"/>
+            <vs-input-number name="meses" v-validate="'required|numeric|max:3'" label="Meses de duración del pago:"  v-model="duracionT" icon-inc="expand_less" icon-dec="expand_more" class="w-full"/>
               <span class="text-danger">{{ errors.first('step-1.meses') }}</span>
             </div>
 			<div class="vx-col md:w-1/2 w-full mt-5">
@@ -63,7 +63,7 @@
       </div>
       <div class="vx-col md:w-1/2 w-full mt-5">
 			  <small class="date-label">Nombre del donador de vivienda</small>
-			  <vs-input class="w-full" name="donante" v-validate="'required'"  v-model="donante"></vs-input>
+			  <vs-input class="w-full" name="donante" v-validate="'required'"  v-model="donanteT"></vs-input>
         <span class="text-danger">{{ errors.first('step-1.donante') }}</span>
 			</div>
 
@@ -137,6 +137,7 @@ export default {
       fecha_inicioT:this.getDate(this.fecha_inicio),
       imagen_finalT:'',
       costo_totalT:'',
+      donanteT:'',
       encargadosT: [],
         encargado_idT:'',
      constructorsT: [],
@@ -191,7 +192,7 @@ export default {
               me.encargado_idT = me.arrayData.encargado_id;
               me.constructor_idT = me.arrayData.constructor_id;
               me.tipo_vivienda_idT = me.arrayData.tipo_vivienda_id;
-              me.donante = me.arrayData.donante
+              me.donanteT = me.arrayData.donante
            // console.log(me.arrayData);
 			me.pagination= respuesta.pagination;
 		})
@@ -322,7 +323,8 @@ export default {
             duracion:this.duracionT,
             imagen_final:this.imagen_finalT,
 		    fecha_inicio:this.getDate(this.fecha_inicioT),
-		    direccion:this.direccionT,
+        direccion:this.direccionT,
+        donante:this.donanteT,
         encargado_id:this.encargado_idT.id,
         constructor_id:this.constructor_idT.id,
         tipo_vivienda_id:this.tipo_vivienda_idT.id

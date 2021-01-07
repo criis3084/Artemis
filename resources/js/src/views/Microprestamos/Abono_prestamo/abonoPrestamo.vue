@@ -93,6 +93,10 @@
                                 <span class="text-success">-{{currency(cantidad_abono)}}</span>
                             </div>
                             <div class="flex justify-between mb-2">
+                                <span class="text-grey">Descripción</span>
+                                <span>{{descripcion}}</span>
+                            </div>
+                            <div class="flex justify-between mb-2">
                                 <span class="text-grey">Mora por atraso</span>
                                 <span class="text-success" v-if="pagarMora==true">{{currency(mora)}}</span>
                                 <span class="text-success" v-else>{{currency(0)}}</span>

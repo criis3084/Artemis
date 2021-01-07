@@ -19,7 +19,7 @@ class CreateViviendasTable extends Migration
             $table->string('direccion');
             $table->string('donante');	
 			$table->date('fecha_inicio');
-			$table->tinyInteger('duracion');	
+			$table->integer('duracion');	
 			$table->string('imagen_final')->nullable();	
 			$table->foreignId('tipo_vivienda_id')->constrained();
 			$table->foreignId('constructor_id')->constrained();
