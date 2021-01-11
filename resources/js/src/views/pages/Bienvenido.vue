@@ -151,7 +151,7 @@ export default {
         .then(function (response) {
           const respuesta = response
 		  me.arrayData = respuesta.data
-		  console.log(me.arrayData)
+		  //console.log(me.arrayData)
 		  me.buscar()
         })
         .catch(function (error) {
@@ -188,7 +188,7 @@ export default {
 	 async Buscartutorias () {
 		 if (this.anioTutorias != null) {
         const anio_recibido = this.fechatutoria.anio
-        console.log(anio_recibido)
+        //console.log(anio_recibido)
         const me = this
         const response = await axios
           .get(`/api/tutoria/tutoriasmen?&anio=${anio_recibido}&completo=true`)
@@ -316,8 +316,8 @@ export default {
 		 if (this.anioSalidas != null) {
         const anio_recibido = this.fechasalida.anio
         const id_medicamento = this.medicamento.id
-        console.log(anio_recibido)
-        console.log(id_medicamento)
+        //console.log(anio_recibido)
+        //console.log(id_medicamento)
         const me = this
         const response = await axios
           .get(`/api/salidaMedicamento/reporteSalidas?&anio=${anio_recibido}&medicamento=${id_medicamento}&completo=true`)

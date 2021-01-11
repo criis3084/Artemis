@@ -151,9 +151,11 @@ Validator.localize('es', dict)
 export default{
   data () {
     return {
+      arrayGrupo:[],
       arrayData:[],
       encargados: [],
       cantidad_abono:'',
+      GrupoId:'',
       descripcion:'',
       fecha_pago:'',
       dia_pago:'',
@@ -252,8 +254,8 @@ export default{
         descripcion:this.descripcion,
         fecha_pago:this.getDate(this.fecha_pago),
         mora:this.mora,
-		detalle_integrante_id:this.detalle.id,
-		user_id:parseInt(Ls.get('auth.id_usuario')),
+        detalle_integrante_id:this.detalle.id,
+        user_id:parseInt(Ls.get('auth.id_usuario'))
       }).then(function (response) {
         me.seterResponse(response.data.id)
         me.ActualizarFechaPago()
@@ -284,6 +286,7 @@ export default{
       this.mora = this.detalle.microprestamo.mora_por_atraso
       this.cantidad_abono = this.detalle.pago_mes
       this.Ngrupo = this.detalle.grupos.nombre
+      this.GrupoId = this.detalle.grupos.id
       //console.log(`Total Prestamo  ${this.totalPrestamo}`)
       //console.log(`Id microprestamo   ${this.microprestamo_id}`)
       //onsole.log(`Dia pago   ${this.dia_pago}`)
@@ -291,11 +294,14 @@ export default{
       //console.log(`mora   ${this.mora}`)
       //console.log(`Pago mes   ${this.cantidad_abono}`)
       //console.log(`NombreG   ${this.Ngrupo}`)
+      //console.log(this.GrupoId)
       this.deuda = 0
       this.pagarMora = false
       this.mes = 0
       this.dias = 0
       this.Imprimir = false
+      this.alerta = false
+      this.descripcion = ''
       this.MoraPorfechas()
     },
     async buscarAbonos () { //funcion para verificar si se ya tiene abonos realizados
@@ -428,21 +434,77 @@ export default{
         })
           .then(function (response) {
             console.log(response.data.message)
-            me.alerta = true        
+            me.alerta = true 
+            me.buscarGrupo() 
+            //me.evaluarGrupo()      
           })
           .catch(function (error) {
             console.log(error.response.data.message)
             me.$vs.notify({
               color:'danger',
               title:'Error!',
-              text:'Erro al actualizar la finalización del pago completo de vivienda'
+              text:'Erro al actualizar la finalización del pago completo del prestamo'
             })
           })
       }
 
     },
-    
+    buscarGrupo () { //busca los integrantes de un grupo
+      const me = this
+      //console.log('Buscar Grupo')
+      //console.log(this.GrupoId)
+      const response =  axios.get(`/api/detalleIntegrante/get?&criterio=grupo_prestamo_id&buscar=${this.GrupoId}&completo=true`) 
+        .then(function (response) {
+          const respuesta = response.data
+          me.arrayGrupo = respuesta.detalleIntegrantes.data
+          me.evaluarGrupo(me.arrayGrupo)
+          //console.log(me.arrayGrupo)
+          //me.evaluarGrupo(me.arrayGrupo)
+        })
+    },
 
+    evaluarGrupo (copiaGrupo) { //evalua si todos los integrantes ya no tienen deuda para activar el grupo
+    const me = this
+    //const copiaGrupo = this.arrayGrupo
+    //console.log(copiaGrupo)
+      let contador = 0
+      //console.log('Evaluando grupos')
+      copiaGrupo.forEach(function (elemento, indice) {
+        if (elemento.estado === 0) {
+          contador = contador + 1
+          //console.log('estado')
+          //console.log(contador)
+          //console.log('Cantidad arreglo')
+          //console.log(copiaGrupo.length)
+          if (contador === copiaGrupo.length && me.alerta === true) {
+            
+            axios.put('/api/grupoPrestamo/activar', {
+              id: me.GrupoId
+            })
+              .then(function (response) {
+                console.log(response.data.message)
+                me.$vs.notify({
+                  color:'success',
+                  title:'Información!',
+                  text:'El grupo ha finalizado el pago'
+                })       
+              })
+              .catch(function (error) {
+                console.log(error.response.data.message)
+                me.$vs.notify({
+                  color:'danger',
+                  title:'Error!',
+                  text:'Error al actualizar el grupo por finalización de pago'
+                })
+              })
+          } else {
+            console.log('No')
+          }
+        }
+        
+      })
+    },
+    
     printInvoice () {
       window.print()
     }
