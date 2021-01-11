@@ -123,11 +123,11 @@ export default {
 	  estado:[
 		  {
 			  nombre: 'Pago terminado',
-			  estado: 1
+			  estado: 0
 		  },
 		  {
 			  nombre: 'Pago aún pendiente',
-          estado: 0
+          estado: 1
 		  }
 	  ],
 
