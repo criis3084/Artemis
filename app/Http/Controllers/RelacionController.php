@@ -101,6 +101,7 @@ class RelacionController extends Controller
 				foreach($listaFamilia as $det)
 				{
 					$detalle = Relacion::findOrFail($det->id);
+					$detalle->codigo = $request->codigo_nuevo;
 					$detalle->direccion = $request->direccion;
 					$detalle->sector_id = $request->sector_id;
 					$detalle->save();

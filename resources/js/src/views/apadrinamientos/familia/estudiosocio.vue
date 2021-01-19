@@ -277,14 +277,14 @@ export default {
 		},
 		async traerEscuelas(){
 			let me = this;
-				const response = await axios.get(`/api/escuela/get?completo=true`)
-				.then(function (response) {
-				var respuesta= response.data;
-					me.escuelas = respuesta.escuelas.data;
-				})
-				.catch(function (error) {
-					console.log(error);
-				});
+			const response = await axios.get(`/api/escuela/get?completo=true`)
+			.then(function (response) {
+			var respuesta= response.data;
+				me.escuelas = respuesta.escuelas.data;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
 		},
 		getNow () {
 			const today = new Date()

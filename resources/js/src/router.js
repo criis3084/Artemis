@@ -137,6 +137,14 @@ const router = new Router({
 							rule: 'editor'
 						}
 					},
+					{			
+						path: '/familia/agregarNino/:id',
+						name: 'familia-agregar-nino',
+						component: () => import('./views/apadrinamientos/familia/agregar_nino.vue'),
+						meta: {
+							rule: 'editor'
+						}
+					},
 					{
 						path: '/apadrinamiento/ppi/:id',
 						name: 'apadrinamiento-ppi',

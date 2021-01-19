@@ -1,17 +1,17 @@
 <template>
   	<vx-card>
-		  <div class = "demo-alignment">
-		  <div class="vx-col md:w-2/5 w-full mt-5">
+		<div class = "demo-alignment">
+				<div class="vx-col md:w-2/5 w-full mt-5">
 					<router-link :to="this.ruta"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
 				</div>
 				<div class="flex-1 ">
-							<h2>Editar familia</h2>
-						</div>
+					<h2>Editar familia</h2>
+				</div>
 		  </div>
-		  <vs-divider position="right">PID&#174;</vs-divider><br>
+		<vs-divider position="right">PID&#174;</vs-divider><br>
 		<div class="vx-col md:w-1/2 w-full">
 			<div class="vx-col w-full">
-				<vs-input v-validate="'required|alpha_num|max:20'" class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="Código de la Familia" v-model="codigo_familia" disabled/>
+				<vs-input v-validate="'required|alpha_num|max:20'" class="w-full" icon-pack="feather" icon="icon-hash" icon-no-border label-placeholder="Código de la Familia" v-model="codigo_familia"/>
 				<!-- <div v-if="VALcodigo"><span class="text-danger">{{ VALcodigo }}</span><br></div> -->
 				<!-- <div v-if="VALcodigo2"><span class="text-danger">{{ VALcodigo2 }}</span><br></div> -->
 				<!-- <div v-if="VALcodigo3"><span class="text-danger">{{ VALcodigo3 }}</span></div> -->
@@ -23,7 +23,6 @@
 					<small class="date-label">Sector de Vivienda</small>
 					<v-select name="sector" v-validate="'required'" label="nombre" :options="sectores" class="mt-1"  v-model="sector_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 					<!-- <div v-if="VALsector"><span class="text-danger">{{ VALsector }}</span><br></div> -->
-				
 				</div>
 			</div>
 
@@ -36,8 +35,8 @@
 		</div>
 		<div class="flex flex-wrap items-center justify-between mt-5">
           <div class="flex items-start">
-			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirNino">Añadir niño</vs-button>
-			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="anadirPariente">Añadir Pariente</vs-button>
+			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="$router.push('/familia/agregarNino/'+id_recibido)">Añadir niño</vs-button>
+			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="$router.push('/familia/agregarFamiliar/'+id_recibido)">Añadir Pariente</vs-button>
           </div>
           <div class="flex items-center">
 			<router-link :to="this.rutaRegresar"><vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar">Registrar</vs-button></router-link>
@@ -160,8 +159,8 @@
 			</div>
 		</vs-prompt>
 		<div class="vx-col md:w-1/3 w-full mt-5">
-				<router-link :to="this.ruta"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
-			</div>
+			<router-link :to="this.ruta"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
+		</div>
 	</vx-card>
 </template>
 <script>
@@ -223,7 +222,8 @@ export default {
 		registrar(){
 			let me = this;
 			axios.put("/api/relacion/update/",{
-				codigo:me.codigo_familia,
+				codigo_nuevo:me.codigo_familia,
+				codigo:me.$route.params.id,
 				sector_id:me.sector_id.id,
 				direccion:me.direccion,
 				personas:me.listadosId,
@@ -261,9 +261,11 @@ export default {
 			this.nuevo_parentesco=''
 		},
 		importaDatos(){
+
 			let datos = this.$route.params.id;
 			let me = this;
- 			axios.get(`/api/relacion/get?criterio=codigo&buscar=${datos}&completo=informacion`)
+			me.id_recibido=datos
+			axios.get(`/api/relacion/get?criterio=codigo&buscar=${datos}&completo=informacion`)
 			.then(function (response) {
 				var respuesta= response.data;
 				me.arrayData = respuesta.relaciones.data;
@@ -317,7 +319,7 @@ export default {
 						encontrado=true
 					}
 				})
-				me.sector_id = encontrado == true ? elementoE:{id:sectorId,nombre:'Sector desactivado'} 
+				me.sector_id = encontrado == true ? elementoE:{id:sectorId,nombre:'Sector desactivado'}
 			})
 			.catch(function (error) {
 				console.log(error);
