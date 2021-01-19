@@ -195,7 +195,7 @@ export default {
         cont++
         elemento.cantidad = elemento.stock_general
         elemento.nombre = elemento.nombre
-        if (elemento.cantidad <= 70) {
+        if (elemento.cantidad <= 25) {
           medicamentos.push({idex:cont,
             icon:'AlertOctagonIcon',
             titulo:'Alerta de medicamento',
