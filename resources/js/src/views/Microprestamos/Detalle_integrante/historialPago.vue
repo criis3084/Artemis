@@ -92,8 +92,8 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'nombre', 'direccion', 'estado'],
-	  headerTitle: ['Id', 'Nombre', 'Direccion', 'Estado']
+	  headerVal: ['id', 'cantidad_abono', 'cantidad_restante', 'descripcion', 'fecha_pago', 'mora'],
+	  headerTitle: ['Id de abono', 'Cantidad de abono', 'Cantidad restante', 'Descripción', 'Fecha de pago', 'Mora']
     }
   },
   methods:{

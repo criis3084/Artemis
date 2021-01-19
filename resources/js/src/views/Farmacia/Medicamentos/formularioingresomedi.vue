@@ -16,7 +16,7 @@
 		<div class="vx-col md:w-1/2 w-full mt-3">
 			<div class="vx-col w-full">
 				<small>Proveedor:</small>
-				<v-select name="proveedor" v-validate="'required'" label="nombre_completo" :options="lista_proveedores" v-model="proveedor_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+				<v-select name="proveedor" v-validate="'required'" label="nombre" :options="lista_proveedores" v-model="proveedor_id" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
 				<span class="text-danger">{{ errors.first('proveedor') }}</span>
 			</div>
 		</div>
