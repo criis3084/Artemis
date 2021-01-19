@@ -20,7 +20,6 @@
                 <div class = "demo-alignment">
                     <h5> <b>Costo total: </b> </h5><h5>{{currency(costo_total)}}</h5>
                 </div><br>
-				
         
 
         	<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
@@ -50,7 +49,7 @@
 
 						<template slot-scope="{data}">
 							<vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >							
-								<vs-td >{{getDate(data[indextr].abono.fecha_pago)}}</vs-td>
+								<vs-td >{{data[indextr].abono.fecha_pago}}</vs-td>
 								<vs-td>{{currency(data[indextr].abono.cantidad_abono)}}</vs-td>
                 <vs-td>{{currency(data[indextr].abono.cantidad_restante)}}</vs-td>
                 <vs-td>{{data[indextr].abono.descripcion}}</vs-td>
@@ -63,7 +62,6 @@
 							</vs-tr>
 						</template>
 					</vs-table>
-
 
         
                 <div class="vx-col md:w-1/3 w-full mt-5">
@@ -108,13 +106,13 @@ export default {
       estado: null,
       url:'https://pbs.twimg.com/profile_images/1305883698471018496/_4BfrCaP.jpg',
 
-    fileName: '',
+      fileName: '',
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	    selectedFormat: 'xlsx',
-	    headerVal: ['id', 'nombre','apellido','direccion', 'fecha_pago','cantidad_abono','cantidad_restante','descripcion', 'estado' ],
-	    headerTitle: ['Id', 'Nombre','Apellido','Dirección','Fecha','Monto abono', 'Resto de deuda', 'descripción','Estado'],
-      activePrompt: false,
+	    headerVal: ['id', 'cantidad_abono', 'cantidad_restante', 'descripcion', 'fecha_pago'],
+	    headerTitle: ['Id de abono', 'Cantidad de abono', 'Deuda pendiente', 'Descripción', 'Fecha de pago'],
+      activePrompt: false
     }
   },
   components: {
@@ -145,6 +143,7 @@ export default {
         .then(function (response) {
           const respuesta = response.data
           me.arrayHistorial = respuesta.historialAbonoViviendas.data
+          me.datos = me.traerDatos(me.arrayHistorial)
         })
         .catch(function (error) {
           console.log(error)
@@ -191,8 +190,8 @@ export default {
         title: `${titulo}`,
         text: '¿Está seguro de llevar a cabo esta acción?',
         accept: this.cambiarEstado,
-			acceptText: 'Aceptar',
-			cancelText: 'Cancelar',
+        acceptText: 'Aceptar',
+        cancelText: 'Cancelar'
       })
     
 
@@ -233,7 +232,7 @@ export default {
     },
     exportToExcel () {
       import('@/vendor/Export2Excel').then(excel => {
-		const list = this.arrayData
+        const list = this.arrayHistorial
         const data = this.formatJson(this.headerVal, list)
         excel.export_json_to_excel({
           header: this.headerTitle,
@@ -241,7 +240,7 @@ export default {
           filename: this.fileName,
           autoWidth: this.cellAutoWidth,
           bookType: this.selectedFormat
-		})
+        })
 
         this.clearFields()
       })
@@ -251,11 +250,21 @@ export default {
         return v[j]
       }))
     },
-	clearFields () {
+    clearFields () {
       this.filename = ''
       this.cellAutoWidth = true
       this.selectedFormat = 'xlsx'
     },
+    	traerDatos (tabla) {
+      tabla.forEach(function (valor, indice, array) {
+        valor.id = valor.abono.id
+        valor.cantidad_abono = valor.abono.cantidad_abono
+        valor.descripcion = valor.abono.descripcion
+        valor.fecha_pago = valor.abono.fecha_pago
+        valor.cantidad_restante = valor.abono.cantidad_restante
+      })
+      return tabla
+    }
   },
   mounted () {
     this.index()
