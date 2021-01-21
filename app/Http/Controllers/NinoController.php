@@ -146,14 +146,14 @@ class NinoController extends Controller
 	public function imagen(Request $request){
 		$imagen = $request->photos;
 
-		$nombreEliminar = public_path('storage\public\ninos\\') .  $request->header("imagenanterior");
+		$nombreEliminar = public_path('storage\public\usuarios\\') .  $request->header("imagenanterior");
 		if (File::exists($nombreEliminar)) {
 			File::delete($nombreEliminar);
 		}
 		
 		$completo = time() . "." . $imagen->extension();
 		$imagen_redi = Image::make($imagen)->resize(300,200);
-		$imagen_redi->save(public_path('storage/public/ninos/'. $completo));
+		$imagen_redi->save(public_path('storage/public/usuarios/'. $completo));
 		return Response::json($completo, 200);
 	}
 
