@@ -156,7 +156,7 @@ export default {
 				this.ruta=null
 			}
 			else{
-				this.ruta = '/storage/public/examenes/'  + this.ruta
+				this.ruta = '/storage/public/'  + this.ruta
 			}
 			this.$validator.validateAll().then(result => {
 			if(result) {

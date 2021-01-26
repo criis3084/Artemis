@@ -103,7 +103,7 @@ export default {
 		this.id=this.$route.params.id;
 		axios.post("/api/historialCorrespondencia/post/",{
             apadrinamiento_id:this.id,
-			ruta_imagen:'/storage/public/correspondencia/' +this.ruta_imagen,
+			ruta_imagen:'/storage/public/' +this.ruta_imagen,
 			descripcion:this.descripcion,
 		}).then(function(response) {
 			me.enviando(response.data.id)

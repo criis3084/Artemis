@@ -240,7 +240,7 @@ export default {
 				this.ruta_imagen= this.imagen_perfil_antigua;
 			}
 			else{
-				this.ruta_imagen= '/storage/public/padrinos/' + this.ruta_imagen;
+				this.ruta_imagen= '/storage/public/' + this.ruta_imagen;
 			}
 			axios.put("/api/padrino/update/",{
 			id:this.id_recibido,

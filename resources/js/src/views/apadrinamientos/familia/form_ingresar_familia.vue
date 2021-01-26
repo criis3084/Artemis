@@ -469,7 +469,7 @@ export default {
         sector_id: this.$props.sector_id.id,
         direccion: this.$props.direccion,
 
-        ruta_imagen:'/storage/public/familiares/' + me.ruta_imagen,
+        ruta_imagen:'/storage/public/' + me.ruta_imagen,
         ocupacion:this.ocupacion,
         escolaridad:this.escolaridad,
         ingresos:this.ingresos

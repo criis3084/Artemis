@@ -220,7 +220,7 @@ export default {
 		CUI:this.CUI,
 		numero_telefono:this.numero_telefono,
 		correo:this.correo,
-		ruta_imagen:'/storage/public/padrinos/' + this.ruta_imagen,
+		ruta_imagen:'/storage/public/' + this.ruta_imagen,
 		genero:this.genero,
 		fecha_nacimiento: this.fecha_nacimiento,
 		direccion:this.direccion,

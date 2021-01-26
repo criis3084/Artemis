@@ -313,7 +313,7 @@ export default {
 				this.ruta_imagen= this.imagen_perfil_antigua;
 			}
 			else{
-				this.ruta_imagen= '/storage/public/familiares/' + this.ruta_imagen;
+				this.ruta_imagen= '/storage/public/' + this.ruta_imagen;
 			}
 			// alert('Form submitted!');
 			axios.put("/api/encargado/update/",{

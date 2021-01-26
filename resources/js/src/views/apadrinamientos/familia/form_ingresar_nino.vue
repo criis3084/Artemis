@@ -434,7 +434,7 @@ export default {
 				direccion: me.$props.direccion,
 				
 				codigo:me.codigo,
-				ruta_imagen: '/storage/public/ninos/' + me.ruta_imagen,
+				ruta_imagen: '/storage/public/' + me.ruta_imagen,
 				grado:me.grado,
 				ocupacion:me.ocupacion,
 				actividades:me.actividades,
