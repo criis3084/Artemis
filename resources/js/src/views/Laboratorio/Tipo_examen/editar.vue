@@ -12,8 +12,8 @@
       <div class="con-exemple-prompt">
         <b></b>
 
-				<small>Tipo de exámen</small>
-		<vs-input name="nombre" v-validate="'required|max:35'" placeholder="Nombre del exámen" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
+				<small>Tipo de examen</small>
+		<vs-input name="nombre" v-validate="'required|max:35'" placeholder="Nombre del examen" v-model="nombreT" class="mt-4 mb-2 col-1 w-full" />
 				<span class="text-danger">{{ errors.first('nombre') }}</span><br>
 
 		<!-- <vs-alert color="danger" vs-icon="new_releases" class="mt-4" >
@@ -36,7 +36,7 @@ import { Validator } from 'vee-validate';
 const dict = {
   custom: {
 	nombre:{
-		required: 'El campo nombre del tipo de exámen es requerido',
+		required: 'El campo nombre del tipo de examen es requerido',
 		max: 'Este campo solo acepta hasta 35 caracteres',
 	},
 	descripcion:{
@@ -63,7 +63,7 @@ export default {
 		return {
 			idT:0,
 			nombreT:'',
-			titulo:'Actualizar tipo de exámen'
+			titulo:'Actualizar tipo de examen'
 		}
 	},
 	computed:{

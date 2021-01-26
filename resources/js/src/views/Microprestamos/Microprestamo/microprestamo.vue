@@ -100,7 +100,7 @@ export default {
       cellAutoWidth: true,
 	    selectedFormat: 'xlsx',
 	    headerVal: ['id', 'nombreMicroprestamo','total', 'interes','fecha_inicio','duracion', 'dia_pago', 'mora_por_atraso', 'estado' ],
-	    headerTitle: ['Id', 'nombreMicroprestamo','Total', 'Interés', 'Fecha','Duración', 'Día de pago', 'Mora', 'Estado'],
+	    headerTitle: ['Id', 'Nombre del grupo','Total', 'Interés', 'Fecha','Duración', 'Día de pago', 'Mora', 'Estado'],
       activePrompt: false,
       nombre: "",
       fecha: "",

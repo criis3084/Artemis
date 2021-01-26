@@ -77,7 +77,7 @@ export default {
 			cellAutoWidth: true,
 			selectedFormat: 'xlsx',
 			headerVal: ['id', 'user_nombres', 'user_apellidos', 'paciente_nombres','paciente_apellidos','fecha_salida','descripcion', 'estado' ],
-			headerTitle: ['Id', 'Nombre del User', 'Apellido del User', 'Nombres del Paciente', 'Apellidos del paciente', 'Fecha de salida','Descripcion','Estado'],
+			headerTitle: ['Id', 'Nombre del Usuario', 'Apellido del Usuario', 'Nombres del Paciente', 'Apellidos del paciente', 'Fecha de salida','Descripcion','Estado'],
 			activePrompt: false,
 			nombre: "",
 			fecha: "",

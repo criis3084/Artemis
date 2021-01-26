@@ -77,7 +77,7 @@ const dict = {
       required: 'El campo descripción es requerido',
     },
 	resultado: {
-		required: 'El campo resultado de exámen es requerido',
+		required: 'El campo resultado de examen es requerido',
 	},
   }
 }

@@ -77,7 +77,7 @@ const dict = {
       required: 'El campo descripción es requerido',
     },
 	resultado: {
-		required: 'El campo resultado de exámen es requerido',
+		required: 'El campo resultado de examen es requerido',
 	},
   }
 }
@@ -103,6 +103,12 @@ export default {
 				"imagenanterior":""	
 			},
 			ruta:'',
+			fileName: '',
+			 formats:['xlsx', 'csv', 'txt'],
+      cellAutoWidth: true,
+	  selectedFormat: 'xlsx',
+	  headerVal: ['id', 'dia_apoyo', 'nombres', 'apellidos', 'numero_telefono', 'nombre_tp'],
+	  headerTitle: ['Id', 'Día Apoyo', 'Nombre', 'Apellidos', 'Telefono', 'Tipo Paciente']
 		}
 	},
 	watch: {

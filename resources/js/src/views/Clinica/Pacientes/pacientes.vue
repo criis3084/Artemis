@@ -101,7 +101,7 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'dia_apoyo', 'nombres', 'apellidos', 'numero_telefono', 'nombre'],
+	  headerVal: ['id', 'dia_apoyo', 'nombres', 'apellidos', 'numero_telefono', 'nombre_tp'],
 	  headerTitle: ['Id', 'Día Apoyo', 'Nombre', 'Apellidos', 'Telefono', 'Tipo Paciente']
     }
   },
@@ -206,6 +206,7 @@ export default {
           const respuesta = response.data
           me.arrayData = respuesta.pacientes.data
           me.arrayData = me.traerNombre(me.arrayData)
+          me.arrayData = me.traerDatos(me.arrayData)
         })
         .catch(function (error) {
           console.log(error)
@@ -269,6 +270,12 @@ export default {
       this.cellAutoWidth = true
       this.selectedFormat = 'xlsx'
     },
+    traerDatos(tabla){
+			tabla.forEach(function(valor, indice, array){
+                valor.nombre_tp=valor.tipo_paciente.nombre
+			}); 
+			return tabla
+		},
     traerNombre (tabla) {
       const encontrado = ''
       const diaEntrega = 0

@@ -107,8 +107,8 @@ export default {
       formats:['xlsx', 'csv', 'txt'],
       cellAutoWidth: true,
 	  selectedFormat: 'xlsx',
-	  headerVal: ['id', 'nombres', 'apellidos', 'fecha_nacimiento', 'fecha_ingreso', 'estado'],
-	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Fecha de nacimiento', 'Fecha de ingreso', 'Estado'],
+	  headerVal: ['id', 'nombres', 'apellidos', 'fecha_nacimiento', 'direccion', 'estado'],
+	  headerTitle: ['Id', 'Nombre', 'Apellidos', 'Fecha de nacimiento', 'Dirección', 'Estado'],
       activePrompt: false,
       'selected': [],
       'tableList': [
@@ -260,6 +260,7 @@ export default {
 	  valor.nombres = valor.datos.nombres
 	  valor.apellidos = valor.datos.apellidos
 	  valor.fecha_nacimiento = valor.datos.fecha_nacimiento
+	  valor.direccion = valor.datos.direccion
       }) 
 	  return tabla
     }
