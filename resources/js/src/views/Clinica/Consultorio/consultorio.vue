@@ -151,7 +151,7 @@
 				<div class="vx-col md:w-1/3 w-full mt-6">
 					<div class="vx-col w-full">
 						<small class="date-label">Presion Arterial </small>
-						<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='presion_arterial' v-validate="'numeric|max:6'" v-model="presion_arterial" :disabled="deshabilitado"/>
+						<vs-input class="w-full" icon-pack="feather" icon="icon-arrow-down" icon-no-border name='presion_arterial' v-validate="'max:50'" v-model="presion_arterial" :disabled="deshabilitado"/>
 						<span class="text-danger">{{ errors.first('presion_arterial') }}</span>
 					</div>
 				</div>
@@ -280,8 +280,7 @@ const dict = {
 			numeric: 'El campo solo debe de contener números'
 		},
 		presion_arterial: {
-			max: 'Este campo solo acepta hasta 6 dígitos',
-			numeric: 'El campo solo debe de contener números'
+			max: 'Este campo solo acepta hasta 50 dígitos',
 		},
 		objetivo: {
 			required: 'El campo objetivo es requerido',

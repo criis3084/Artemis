@@ -2,7 +2,7 @@
 	<div>
 		<vx-card>
 			<div class = "demo-alignment">
-				<h2>Exámenes</h2>
+				<h2>Examenes</h2>
 				<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon-pack = "feather" icon = "icon-plus" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
 			</div>
 				<vs-divider position="right">PID&#174;</vs-divider>
@@ -20,7 +20,7 @@
 				</template>
 				<template slot="thead">
 					<vs-th>Paciente</vs-th>
-					<vs-th>Tipo de exámen</vs-th>
+					<vs-th>Tipo de examen</vs-th>
 					<vs-th>Fecha</vs-th>
 					<vs-th>Estado</vs-th>
 					<vs-th>Acciones</vs-th>
@@ -67,12 +67,12 @@ export default {
 			formats:['xlsx', 'csv', 'txt'],
 			cellAutoWidth: true,
 			selectedFormat: 'xlsx',
-			headerVal: ['id', 'nombre_paciente', 'tipo_examen', 'resultado', 'estado' ],
-			headerTitle: ['Id', 'Nombre del Paciente', 'Tipo de exámen', 'Resultado', 'Estado'],
+			headerVal: ['id', 'nombress', 'apellidoss', 'tipo_examens', 'resultado', 'estado' ],
+			headerTitle: ['Id', 'Nombres del Paciente', 'Apellidos del Paciente', 'Tipo de examen', 'Fecha', 'Estado'],
 			activePrompt: false,
             nombre: "",
             nombreP: "",
-            apellidoP: "",
+			apellidoP: "",
             codigoE: "",
 			switch2: false,
 			id: 0,
@@ -90,13 +90,15 @@ export default {
         aNuevo () {
 		 this.$router.push('/ingresar/examen')
 		},
-		traerDatos(tabla){
-			tabla.forEach(function(valor, indice, array){
-                // valor.nombre_paciente=valor.categoria.nombre
-                // valor.tipo_examen=valor.tipoExamen.nombre
-			}); 
-			return tabla
-		},
+			traerDatos(tabla){
+				tabla.forEach(function(valor, indice, array){
+					valor.nombress=valor.datos_paciente[0].nombres
+					valor.apellidoss=valor.datos_paciente[0].apellidos
+					valor.tipo_examens=valor.tipo_examen[0].nombre
+					valor.resultado=valor.examen.fecha_examen
+				}); 
+				return tabla
+			},
 		getDate(datetime) {
 			let date = new Date(datetime);
 			let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;

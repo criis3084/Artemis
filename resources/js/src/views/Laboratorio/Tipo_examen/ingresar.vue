@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="demo-alignment">
-			<h2>Tipos de exámenes</h2>
+			<h2>Tipos de examenes</h2>
 			<vx-tooltip text="Agregar nuevo registro"><vs-button radius type="gradient" icon-pack="feather" icon="icon-plus" @click="activePrompt2 = true" color="primary" size='large' ></vs-button> </vx-tooltip>
 		</div>
 		<vs-prompt
@@ -16,9 +16,9 @@
 		>
 			<div class="con-exemple-prompt">
 				<b></b>
-				<small>Tipo de exámen</small>
+				<small>Tipo de examen</small>
 
-				<vs-input placeholder="Nombre del exámen" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
+				<vs-input placeholder="Nombre del examen" v-model="valMultipe.value1" class="mt-4 mb-2 col-1 w-full" />
 
 				<vs-alert :active="!validName" color="danger" vs-icon="new_releases" class="mt-4" >
 					LLene todos los campos
@@ -47,7 +47,7 @@ export default {
 	  valMultipe:{
 		value1:''
 	  },
-	 titulo:'Nuevo tipo de exámen'
+	 titulo:'Nuevo tipo de examen'
 	}
   },
   computed:{

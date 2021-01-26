@@ -302,13 +302,13 @@ export default [
         url: '/laboratorio/examen',
         name: 'examen',
         slug: 'laboratorio-examen',
-        i18n: 'Exámenes'
+        i18n: 'Examenes'
       },
       {
         url: '/laboratorio/tipo',
         name: 'tipo',
         slug: 'laboratorio-tipo',
-        i18n: 'Tipos de exámenes'
+        i18n: 'Tipos de examenes'
       },
     ]
   },

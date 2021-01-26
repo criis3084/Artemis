@@ -273,12 +273,12 @@ export default
 					[
 						{
 							url: '/laboratorio/examen',
-							name: 'Exámenes',
+							name: 'Examenes',
 							slug: 'laboratorio-examen',
 						},
 						{
 							url: '/laboratorio/tipo',
-							name: 'Tipos de exámenes',
+							name: 'Tipos de examenes',
 							slug: 'laboratorio-tipo',
 						},
 					]
@@ -677,12 +677,12 @@ export default
 							[
 								{
 									url: '/laboratorio/examen',
-									name: 'Exámenes',
+									name: 'Examenes',
 									slug: 'laboratorio-examen',
 								},
 								{
 									url: '/laboratorio/tipo',
-									name: 'Tipos de exámenes',
+									name: 'Tipos de examenes',
 									slug: 'laboratorio-tipo',
 								},
 							]
@@ -826,12 +826,12 @@ export default
 										submenu: [
 										{
 											url: '/laboratorio/examen',
-											name: 'Exámenes',
+											name: 'Examenes',
 											slug: 'laboratorio-examen',
 										},
 										{
 											url: '/laboratorio/tipo',
-											name: 'Tipos de exámenes',
+											name: 'Tipos de examenes',
 											slug: 'laboratorio-tipo',
 										},
 										]
