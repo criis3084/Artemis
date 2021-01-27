@@ -410,10 +410,6 @@ export default {
 				if(result) {
 					let me = this
 					let pagoT = '';
-					console.log(me.tipo_paciente_id.id)
-					if(me.tipo_paciente_id.id != 2 && me.tipo_paciente_id.id != 1){
-						pagoT= me.getDate(me.getNow());
-					}
 					if(me.pacienteExterno){
 						axios.put("/api/personaSinAcceso/update/",{
 							id:me.id_persona,
@@ -432,6 +428,7 @@ export default {
 						});
 					}
 					else{
+						pagoT= me.getDate(me.getNow());
 						let boolCarrito = me.arraysEqual(me.carrito_original,me.carrito)
 						let boolCantidades = me.arraysEqual(me.listaCantidades,me.listaCantidadesOriginal)
 						let boolTipo = me.tipo_paciente_id == me.tipo_paciente_id_original
