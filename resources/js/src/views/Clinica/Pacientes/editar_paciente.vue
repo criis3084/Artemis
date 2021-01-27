@@ -422,7 +422,12 @@ export default {
 							numero_telefono:me.numero_telefono,
 							sector_id:me.sector_id.id
 						}).then(function (response){
-							console.log(response)
+							me.$router.push('/clinica/pacientes/');
+									me.$vs.notify({
+									color:'success',
+									title:'Actualización registrada!',
+									text:'Acción realizada exitósamente'
+								});
 						}).catch(function(error) {
 							console.log(error)
 						});
