@@ -398,8 +398,6 @@ export default {
 					}
 				})
 				me.listado_tipos.splice(me.listado_tipos.length-1, 1);
-				console.log('*********** tipos *********')
-				console.log(me.listado_tipos)
 				me.tipo_paciente_id_original = encontrado == true ? elementoE : {id:me.tipo_paciente_id,nombre:'Tipo de paciente desactivado'} 
 				me.tipo_paciente_id = encontrado == true ? elementoE : {id:me.tipo_paciente_id,nombre:'Tipo de paciente desactivado'} 
 			})
@@ -412,9 +410,8 @@ export default {
 				if(result) {
 					let me = this
 					let pagoT = '';
+					console.log(me.tipo_paciente_id.id)
 					if(me.tipo_paciente_id.id != 2 && me.tipo_paciente_id.id != 1){
-						console.log(' esta entrando aca')
-						console.log(me.tipo_paciente_id)
 						pagoT= me.getDate(me.getNow());
 					}
 					if(me.pacienteExterno){
@@ -450,7 +447,6 @@ export default {
 								id_beneficio:me.idBeneficio,
 								descripcion:me.descripcion,
 								fecha_pago:pagoT,
-								//detalle: boolCantidades == false ? true : false,
 								carrito:me.carrito,
 								cantidades:me.listaCantidades
 							}).then(function (response){
