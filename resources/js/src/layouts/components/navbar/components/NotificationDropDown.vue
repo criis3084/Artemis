@@ -164,7 +164,6 @@ export default {
       this.nombre = nombre  
       this.cantidad = cantidad
       this.medicamentos.splice(index, 1) 
-      console.log(cantidad)
       this.$vs.notify({
         time:7000,
         title:`Se recomienda la compra del medicamento ${this.nombre}, cuenta con pocas unidades`,

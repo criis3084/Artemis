@@ -194,8 +194,8 @@
 
 		<div class="flex flex-wrap items-center justify-between mt-2">
 			<div class="flex items-center">
-					<vs-button @click="goBack" class="mb-base mr-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>			
-					<vs-button class="mb-base mr-3" type="gradient" icon-pack="feather" icon="icon-printer" color="success"  @click="printInvoice">Imprimir</vs-button>
+				<vs-button @click="goBack" class="mb-base mr-3" type="gradient" icon-pack="feather" color="primary" icon="icon-corner-up-left"> Regresar</vs-button>			
+				<vs-button class="mb-base mr-3" type="gradient" icon-pack="feather" icon="icon-printer" color="success"  @click="printInvoice">Imprimir</vs-button>
 			</div>
 		</div>
 	</div>

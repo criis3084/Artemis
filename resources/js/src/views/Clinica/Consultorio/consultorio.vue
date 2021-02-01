@@ -456,8 +456,6 @@ export default {
 						clinico_id:me.idMedico,
 						paciente_id:me.paciente_select.id,
 					}).then(function(response){
-						console.log(response)
-						console.log('examenes marcados')
 						for (let i in me.form.examenes){
 							let examen = me.form.examenes[i]
 							axios.put('/api/historialExamen/programar/', {
@@ -584,17 +582,13 @@ export default {
 		},
 		async buscarDoctor(){
 			let idUsuario = parseInt(Ls.get('auth.id_usuario'))
-			console.log('000000000000000')
-			console.log(idUsuario)
 			const me = this
 			const response = await axios.get(
 				`/api/clinico/get?&criterio=user_id&buscar=${idUsuario}&completo=true`
 				)
 				.then(function (response) {
 					const respuesta = response.data
-					console.log('-----------------')
 					me.idMedico = respuesta.clinicos.data[0].id
-					console.log(me.idMedico)
 				})
 				.catch(function (error) {
 				console.log(error)

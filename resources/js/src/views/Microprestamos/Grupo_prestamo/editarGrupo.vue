@@ -196,14 +196,10 @@ export default {
     eliminarDuplicado (copiaDetalle) {
       const copia = this.encargados.slice()
       const NuevoEncargados = []
-      //const copiaDetalle = this.detalleIntegrante.slice()
-      //console.log(copia)
-      //console.log(copiaDetalle)
       let encontrado = ''
       
       copia.forEach(function (elemento, indice, array) {
         encontrado = copiaDetalle.find(element => element.encargado_id === elemento.id)
-        //console.log(encontrado)
         if (encontrado === undefined) {
           NuevoEncargados.push({encargado_id:elemento.id,
             nombre:`${elemento.datos.nombres  } ${  elemento.datos.apellidos}`,
@@ -218,7 +214,6 @@ export default {
             detalle_integrante_id:elemento.id})
         }
       })
-      console.log(NuevoEncargados)
       this.NuevoEncargado = NuevoEncargados
     },
 

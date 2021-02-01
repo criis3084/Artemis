@@ -101,36 +101,7 @@ import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
 import { Validator } from 'vee-validate'
 import { es } from 'vuejs-datepicker/src/locale'
-// register custom messages
 
-// For custom error message
-// /*
-// Validator.localize('en', dict);
-// const dict = {
-//   custom: {
-//     nombres: {
-//       required: 'Los Nombres son requeridos',
-//       alpha: "El nombre solo debe incluir letras"
-//     },
-//     apellidos: {
-// 	  required: 'Los apellidos son requeridos',
-//       alpha: "El nombre solo debe incluir letras"
-//     },
-//     direccion: {
-//       required: 'La direccion es requerida',
-//       email: "Please enter valid email"
-//     },
-//     fecha_nacimiento: {
-//       required: 'La fecha de nacimiento es requerida',
-//       alpha: "Job title may only contain alphabetic characters"
-//     },
-//     sector: {
-//       required: 'el sector es requerido',
-//       alpha: "Event name may only contain alphabetic characters"
-//     },
-//   }
-// };
-// */
 
 export default {
   props:{

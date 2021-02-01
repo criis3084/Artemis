@@ -234,7 +234,6 @@ export default{
           const respuesta = response.data
           me.arrayData = respuesta.detalleIntegrantes.data
           me.arrayData = me.arrayData.filter(o => hash2[o.encargado_id] ? false : hash2[o.encargado_id] = true)
-          //console.log('importacion de personas asignadas a grupo')
           me.encargados = me.traerDatosEncargados(me.arrayData)
         })
         .catch(function (error) {
@@ -287,14 +286,6 @@ export default{
       this.cantidad_abono = this.detalle.pago_mes
       this.Ngrupo = this.detalle.grupos.nombre
       this.GrupoId = this.detalle.grupos.id
-      //console.log(`Total Prestamo  ${this.totalPrestamo}`)
-      //console.log(`Id microprestamo   ${this.microprestamo_id}`)
-      //onsole.log(`Dia pago   ${this.dia_pago}`)
-      //console.log(`duracion  ${this.duracion}`)
-      //console.log(`mora   ${this.mora}`)
-      //console.log(`Pago mes   ${this.cantidad_abono}`)
-      //console.log(`NombreG   ${this.Ngrupo}`)
-      //console.log(this.GrupoId)
       this.deuda = 0
       this.pagarMora = false
       this.mes = 0
@@ -307,7 +298,6 @@ export default{
     async buscarAbonos () { //funcion para verificar si se ya tiene abonos realizados
       const me = this
       this.id_recibido = this.detalle.id
-      //console.log(`BuscarAbono   ${this.id_recibido}`)
       const response = await axios.get(
         `/api/abonoPrestamo/get?&criterio=detalle_integrante_id&buscar=${this.id_recibido}&completo=true` 
       ).then(function (response) {
@@ -326,16 +316,12 @@ export default{
     MoraPorfechas () { //funcion que evalua la fecha de pago, para asignar la mora
       const today = new Date()
       const FechaHoy = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
-      //console.log(today)
       const FechaPago = new Date(this.dia_pago)
-      //console.log(FechaPago)
       
       if (today <= FechaPago) {
-        //console.log('Fecha sin mora')
         this.mora = 0
         this.mora_nueva = parseFloat(this.deuda) + 0
       } else {
-        //console.log('Fecha con mora')
         const diferencia = new Date(FechaHoy) - new Date(FechaPago)
         const mes = Math.floor(diferencia / 2629750000)
         const dias = Math.floor(diferencia / 86400000)
@@ -344,7 +330,6 @@ export default{
         if (dias > 0 && mes === 0) {
           this.pagarMora = true
           this.mora_nueva = parseFloat(this.deuda) + parseFloat(this.mora) 
-          //console.log('Mora por dia')
         } else if (mes >= 1) {
           this.pagarMora = true
           this.mora = parseFloat(this.mora) * parseFloat(this.mes)
@@ -380,7 +365,6 @@ export default{
     },
     Calcular () { //funcion para calcular la cantidad pendinte de la deuda
       this.NuevaFecha()
-      //console.log('Calcular')
       if (this.deuda === 0) {
         this.total = this.totalPrestamo - this.cantidad_abono + this.mora_nueva
       } else this.total = this.deuda - this.cantidad_abono + this.mora_nueva
@@ -392,18 +376,11 @@ export default{
       
       const FechaPago = this.dia_pago
       const todaySin = new Date(parseInt(FechaPago.split('-', 3)[0]), parseInt(FechaPago.split('-', 3)[1]), parseInt(FechaPago.split('-', 3)[2]))
-      //console.log('Fecha pago')
-      //console.log(todaySin)
-      //const diaPago = FechaPago.getDate()
 
       const diferencia = new Date(today) - new Date(this.dia_pago)
       const anio = Math.floor(diferencia / 31557000000)
-      // console.log('hay anio?')
-      //console.log(anio)
       if (anio <= 0) {
         this.NuevaFechaPago = todaySin
-        //this.NuevaFechaPago = FechaPago.setMonth(FechaPago.getMonth() + 1)
-        //this.NuevaFechaPago = FechaPago.setDate(FechaPago.getDate() + 1)
       } else {
         this.NuevaFechaPago = new Date(today)
         this.NuevaFechaPago.setMonth(FechaPago.getMonth() + 1)
@@ -427,19 +404,16 @@ export default{
       const me = this
       this.id_recibido = this.detalle.id
       if (this.total === 0) {
-       // console.log(`Desactivar  ${this.id_recibido}`)
         
         axios.put('/api/detalleIntegrante/desactivar', {
           id: this.id_recibido
         })
           .then(function (response) {
-            console.log(response.data.message)
             me.alerta = true 
             me.buscarGrupo() 
             //me.evaluarGrupo()      
           })
           .catch(function (error) {
-            console.log(error.response.data.message)
             me.$vs.notify({
               color:'danger',
               title:'Error!',
@@ -451,38 +425,26 @@ export default{
     },
     buscarGrupo () { //busca los integrantes de un grupo
       const me = this
-      //console.log('Buscar Grupo')
-      //console.log(this.GrupoId)
       const response =  axios.get(`/api/detalleIntegrante/get?&criterio=grupo_prestamo_id&buscar=${this.GrupoId}&completo=true`) 
         .then(function (response) {
           const respuesta = response.data
           me.arrayGrupo = respuesta.detalleIntegrantes.data
           me.evaluarGrupo(me.arrayGrupo)
-          //console.log(me.arrayGrupo)
-          //me.evaluarGrupo(me.arrayGrupo)
         })
     },
 
     evaluarGrupo (copiaGrupo) { //evalua si todos los integrantes ya no tienen deuda para activar el grupo
     const me = this
-    //const copiaGrupo = this.arrayGrupo
-    //console.log(copiaGrupo)
       let contador = 0
-      //console.log('Evaluando grupos')
       copiaGrupo.forEach(function (elemento, indice) {
         if (elemento.estado === 0) {
           contador = contador + 1
-          //console.log('estado')
-          //console.log(contador)
-          //console.log('Cantidad arreglo')
-          //console.log(copiaGrupo.length)
           if (contador === copiaGrupo.length && me.alerta === true) {
             
             axios.put('/api/grupoPrestamo/activar', {
               id: me.GrupoId
             })
               .then(function (response) {
-                console.log(response.data.message)
                 me.$vs.notify({
                   color:'success',
                   title:'Información!',
@@ -490,7 +452,6 @@ export default{
                 })       
               })
               .catch(function (error) {
-                console.log(error.response.data.message)
                 me.$vs.notify({
                   color:'danger',
                   title:'Error!',

@@ -112,11 +112,6 @@ export default {
      
 
       else {
-        /* Roles.login(this.loginData).then((res) => {
-          if(res) {
-            console.log('revisa localstorage') esto sirve para los roles variables
-          }
-        }) */
         this.$vs.loading();
         Roles.login(this.loginData).then((res) => {
           if(res) {

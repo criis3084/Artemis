@@ -194,7 +194,6 @@ export default {
         interes_ultimo_prestamo:0
 
       }).then(function (response) {
-        console.log(response.data.id)
         me.$vs.notify({
           color:'success',
           title:'Grupo registrado',
@@ -245,9 +244,6 @@ export default {
     },
     eliminarDuplicado (copiaDetalle) {
       const copia = this.encargados.slice()
-      //const copiaDetalle = this.detalleIntegrante.slice()
-      //console.log(copia)
-      console.log(copiaDetalle)
       let encontrado = ''
       const NuevoEncargados = []
       copia.forEach(function (elemento, indice, array) {
@@ -268,7 +264,6 @@ export default {
             detalle_integrante_id:elemento.id})
         }
       })
-      console.log(NuevoEncargados)
       this.NuevoEncargado = NuevoEncargados
     },
 

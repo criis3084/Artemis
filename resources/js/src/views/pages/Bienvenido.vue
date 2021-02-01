@@ -188,17 +188,14 @@ export default {
 	 async Buscartutorias () {
 		 if (this.anioTutorias != null) {
         const anio_recibido = this.fechatutoria.anio
-        //console.log(anio_recibido)
         const me = this
         const response = await axios
           .get(`/api/tutoria/tutoriasmen?&anio=${anio_recibido}&completo=true`)
           .then(function (response) {
             const respuesta = response
 		  me.arrayTutorias = respuesta.data
-		  //console.log(me.arrayTutorias)
           })
           .catch(function (error) {
-            //console.log(error)
 		  })
 		  me.tutorias = me.datosporanio(me.arrayTutorias)
 		 }
@@ -210,10 +207,8 @@ export default {
         .then(function (response) {
           const respuesta = response
           me.anioTutorias = respuesta.data
-          //console.log(me.anioTutorias)
         })
         .catch(function (error) {
-          //console.log(error)
         })
     },
     datosporanio (arreglo) {
@@ -270,17 +265,14 @@ export default {
 	 async BuscarCitas () {
 		 if (this.anioCitas != null) {
         const anio_recibido = this.fechacita.anio
-        //console.log(anio_recibido)
         const me = this
         const response = await axios
           .get(`/api/cita/reporteCitas?&anio=${anio_recibido}&completo=true`)
           .then(function (response) {
             const respuesta = response
 		  me.arrayCitas = respuesta.data
-		  //console.log(me.arrayCitas)
           })
           .catch(function (error) {
-            //console.log(error)
 		  })
 		  me.citas = me.datosporanio(me.arrayCitas)
 		 }
@@ -292,10 +284,8 @@ export default {
         .then(function (response) {
           const respuesta = response
           me.anioCitas = respuesta.data
-          //console.log(me.anioCitas)
         })
         .catch(function (error) {
-          //console.log(error)
         })
     },
 	
@@ -306,31 +296,24 @@ export default {
         .then(function (response) {
           const respuesta = response
           me.anioSalidas = respuesta.data
-          //console.log(me.anioSalidas)
         })
         .catch(function (error) {
-          //console.log(error)
         })
     },
     async BuscarSalidas () {
 		 if (this.anioSalidas != null) {
         const anio_recibido = this.fechasalida.anio
         const id_medicamento = this.medicamento.id
-        //console.log(anio_recibido)
-        //console.log(id_medicamento)
         const me = this
         const response = await axios
           .get(`/api/salidaMedicamento/reporteSalidas?&anio=${anio_recibido}&medicamento=${id_medicamento}&completo=true`)
           .then(function (response) {
             const respuesta = response
 		  me.arrayMedicamentosPorMes = respuesta.data
-		  //console.log(me.arrayMedicamentosPorMes)
           })
           .catch(function (error) {
-            //console.log(error)
 		  })
 		  me.medicamentosPorMes = me.datosporanio(me.arrayMedicamentosPorMes)
-		  //console.log(me.medicamentosPorMes)
 		 }
     },
     async importarMedicamentos () {
@@ -342,7 +325,6 @@ export default {
           me.medicamentos = respuesta.medicamentos.data
         })
         .catch(function (error) {
-         // console.log(error)
         })
     },
 	 async anioIngresosM () {
@@ -352,31 +334,24 @@ export default {
         .then(function (response) {
           const respuesta = response
           me.anioIngresos = respuesta.data
-         // console.log(me.anioIngresos)
         })
         .catch(function (error) {
-          //console.log(error)
         })
     },
     async BuscarIngresos () {
 		 if (this.anioIngresos !== null) {
         const anio_recibido = this.fechaingreso.anio
         const id_medicamento = this.medicamentoI.id
-        //console.log(anio_recibido)
-       // console.log(id_medicamento)
         const me = this
         const response = await axios
           .get(`/api/ingresoMedicamento/reporteIngreso?&anio=${anio_recibido}&medicamento=${id_medicamento}&completo=true`)
           .then(function (response) {
             const respuesta = response
 		  me.arrayMedicamentosIngreso = respuesta.data
-		  //console.log(me.arrayMedicamentosIngreso)
           })
           .catch(function (error) {
-            //console.log(error)
 		  })
 		  me.medicamentoIngreso = me.datosporanio(me.arrayMedicamentosIngreso)
-		  //console.log(me.medicamentoIngreso)
 		 }
     },
     async viviendas () {
@@ -387,7 +362,6 @@ export default {
         .then(function (response) {
           const respuesta = response
 		  me.arraViviendas = respuesta.data
-		  //console.log(me.arraViviendas)
 		  me.buscarViviendas()
         })
         .catch(function (error) {

@@ -430,24 +430,6 @@ export default {
 			
 			return "Total: " + (this.valor1+this.valor2+this.valor3+this.valor4+this.valor5+this.valor6+this.valor7+this.valor8+this.valor9+this.valor10)
 		},
-	// 	async index(){ //async para que se llame cada vez que se necesite
-    //     let me = this;
-    //     me.id_recibido = this.$route.params.id;
-	// 	const response = await axios.get(
-	// 		`/api/historialFotografia/get?&criterio=nino_id&buscar=${me.id_recibido}&completo=true`)
-	// 	.then(function (response) {
-	// 		var respuesta= response.data;
-    //         me.arrayData = respuesta.historialfotografias.data;
-    //         me.nombre = respuesta.historialfotografias.data[0].datos_nino[0].nombres;
-    //         me.apellido = respuesta.historialfotografias.data[0].datos_nino[0].apellidos;
-    //         me.codigo = respuesta.historialfotografias.data[0].nino.codigo;
-    //         me.id = respuesta.historialfotografias.data[0].nino.id;
-	// 	})
-	// 	.catch(function (error) {
-	// 		console.log(error);
-	// 	});
-	// },
-
 	},
 	components: {
 		Datepicker,

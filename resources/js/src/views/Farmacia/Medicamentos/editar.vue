@@ -129,7 +129,6 @@ export default {
   },
   methods: {
 		traerNombreCategoria(tabla){
-		console.log(typeof(tabla));
 		tabla.forEach(function(valor, indice, array){
 			valor.nombre_categoria=valor.categoriaMedicamento.nombre
 		}); 

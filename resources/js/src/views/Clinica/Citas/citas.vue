@@ -285,7 +285,6 @@ export default {
 	  const e = this.$store.getters['calendar/getEvent'](event.id)
 	  this.idT = parseInt(e.url)
       const resultado = this.arrayCitasNuevo.find(cita => cita.id === this.idT)
-      console.log(resultado)
       if (resultado != undefined) {
         this.fecha2 = new Date(resultado.fecha)
         this.fecha2.setDate(this.fecha2.getDate() + 1)

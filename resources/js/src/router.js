@@ -121,7 +121,7 @@ const router = new Router({
 						rule: 'editor'
 						}
 					},
-					{			
+					{
 						path: '/ingresar/familia',
 						name: 'ingresar-familia',
 						component: () => import('./views/apadrinamientos/familia/ingresar.vue'),
@@ -129,7 +129,7 @@ const router = new Router({
 							rule: 'editor'
 						}
 					},
-					{			
+					{
 						path: '/editar/familia/:id',
 						name: 'editar-familia',
 						component: () => import('./views/apadrinamientos/familia/editar_familia.vue'),
@@ -137,10 +137,18 @@ const router = new Router({
 							rule: 'editor'
 						}
 					},
-					{			
+					{
 						path: '/familia/agregarNino/:id',
 						name: 'familia-agregar-nino',
 						component: () => import('./views/apadrinamientos/familia/agregar_nino.vue'),
+						meta: {
+							rule: 'editor'
+						}
+					},
+					{
+						path: '/familia/agregarFamiliar/:id',
+						name: 'familia-agregar-familiar',
+						component: () => import('./views/apadrinamientos/familia/agregar_familiar.vue'),
 						meta: {
 							rule: 'editor'
 						}
@@ -1094,6 +1102,22 @@ const router = new Router({
 						path: '/editar/familia/:id',
 						name: 'editar-familia',
 						component: () => import('./views/apadrinamientos/familia/editar_familia.vue'),
+						meta: {
+							rule: 'editor'
+						}
+					},
+					{
+						path: '/familia/agregarNino/:id',
+						name: 'familia-agregar-nino',
+						component: () => import('./views/apadrinamientos/familia/agregar_nino.vue'),
+						meta: {
+							rule: 'editor'
+						}
+					},
+					{
+						path: '/familia/agregarFamiliar/:id',
+						name: 'familia-agregar-familiar',
+						component: () => import('./views/apadrinamientos/familia/agregar_familiar.vue'),
 						meta: {
 							rule: 'editor'
 						}

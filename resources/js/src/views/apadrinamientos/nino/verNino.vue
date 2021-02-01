@@ -91,7 +91,6 @@ export default {
           let difference = currentDate - fecha_nacimientoTt;
           let age = Math.floor(difference/31557600000);
           return age
-          //console.log(age)
         }
       },
   data () {

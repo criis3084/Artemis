@@ -72,7 +72,6 @@ export default {
   },
   methods: {
 		traerNombreNino(tabla){
-		console.log(typeof(tabla));
 		tabla.forEach(function(valor, indice, array){
 			valor.nombres=valor.datos.nombres
 			valor.apellidos=valor.datos.apellidos

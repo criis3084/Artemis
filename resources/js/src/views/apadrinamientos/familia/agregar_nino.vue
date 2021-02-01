@@ -153,8 +153,10 @@ export default {
 				},
 			listadoFamilia:[],
 			listadoNinos:[],
-			sectorFamilia:0,
-			direccionFamilia:0
+
+			sectorT:0,
+			direccionT:0,
+			codigoT:'',
 		}
 	},
 	components: {
@@ -176,10 +178,10 @@ export default {
 			this.fecha = date
 		},
 		async buscarFamilia(){
-			let codigo = this.$route.params.id;
 			let consulta=[]
 			let me = this
-			const response = await axios.get(`/api/relacion/get?criterio=codigo&buscar=${codigo}&completo=informacion`)
+			me.codigoT = this.$route.params.id;
+			const response = await axios.get(`/api/relacion/get?criterio=codigo&buscar=${me.codigoT}&completo=informacion`)
 			.then(function (response) {
 				var respuesta= response.data;
 				consulta = respuesta.relaciones.data;
@@ -187,8 +189,8 @@ export default {
 				let hash2 = {};
 				me.listadoFamilia = consulta.filter(o => hash[o.encargado_id] ? false : hash[o.encargado_id] = true);
 				me.listadoNinos	  = consulta.filter(o => hash[o.nino_id] ? false : hash[o.nino_id] = true);
-				me.direccion=me.listadoFamilia[0].direccion
-				me.sector=me.listadoFamilia[0].sector.nombre
+				me.direccionT=me.listadoFamilia[0].direccion
+				me.sectorT=me.listadoFamilia[0].sector_id
 
 				me.listadoNinos.forEach(function(elemento, indice, array) {
 					let nombreT=elemento.datos_nino[0].apellidos
@@ -202,7 +204,6 @@ export default {
 						elemento.datos_nino[0].apellido2=''
 					}
 					const resultado = me.escuelas.find( escuela => escuela.id === elemento.nino.escuela_id );
-					//elemento.nino.escuela_nombre = resultado.nombre
 				})
 			})
 			.catch(function (error) {
@@ -219,9 +220,8 @@ export default {
 				apellidos:me.apellidos,
 				genero:me.genero,
 				fecha_nacimiento:me.getDate(me.fecha_nacimiento),
-				sector_id: me.sectorFamilia,
-				direccion: me.direccionFamilia,
-
+				sector_id: me.sectorT,
+				direccion: me.direccionT,
 				codigo:me.codigo,
 				ruta_imagen: '/storage/public/usuarios/' + me.ruta_imagen,
 				grado:me.grado,
@@ -229,14 +229,49 @@ export default {
 				actividades:me.actividades,
 				escuela_id:me.escuela_id.id
 			}).then(function(response) {
-				me.familia
-				console.log(response.data.id)
+				me.registrarRelacion(response.data.id)
 			})
 			.catch(function(error) {
 				console.log(error)
 			});
 		},
-
+		registrarRelacion(idNino){
+			let me = this
+			var i =0
+			var elemento ={}
+			let bandera =true
+			for (i=0; i < me.listadoFamilia.length; i++){
+				elemento = me.listadoFamilia[i]
+				axios.post ("/api/relacion/post/", {
+					direccion : me.direccionT,
+					codigo:me.codigoT,
+					sector_id:me.sectorT,
+					relacion:elemento.relacion,
+					nino_id:idNino,
+					estado:1,
+					encargado_id:elemento.encargado_id,
+				}).then(function(response) {
+					console.log(response)
+					if (bandera == true && i == me.listadoFamilia.length)
+					{
+						me.$vs.notify({
+							color:'success',
+							title:`Niño registrado`,
+							text:'La acción se realizo exitósamente'
+						});
+						me.$router.push('/editar/familia/' + codigo);
+					}
+				})
+				.catch(function(error) {
+					bandera = false
+					me.$vs.notify({
+						color:'danger',
+						title:`Error`,
+						text:'Hubo un error en el registro'
+					});
+				});
+			};
+		},
 		async importarEscuelas(){
 			let me = this;
 			const response = await axios.get(`/api/escuela/get?&completo=false`)
