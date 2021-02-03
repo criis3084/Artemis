@@ -35,8 +35,8 @@
 		</div>
 		<div class="flex flex-wrap items-center justify-between mt-5">
           <div class="flex items-start">
-			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="$router.push('/familia/agregarNino/'+id_recibido)">Añadir niño</vs-button>
-			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="$router.push('/familia/agregarFamiliar/'+id_recibido)">Añadir Pariente</vs-button>
+			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-plus" class="mr-base mb-2" @click="$router.push('/familia/agregarNino/'+id_recibido)">Añadir niño</vs-button>
+			<vs-button type="gradient" color="success" icon-pack="feather" icon="icon-plus" class="mr-base mb-2" @click="$router.push('/familia/agregarFamiliar/'+id_recibido)">Añadir Pariente</vs-button>
           </div>
           <div class="flex items-center">
 			<router-link :to="this.rutaRegresar"><vs-button type="gradient" icon-pack="feather" icon="icon-save" class="mr-base mb-2" @click="registrar">Registrar</vs-button></router-link>
@@ -52,8 +52,8 @@
 				<div class="vx-col w-full mb-base">
 					<table style="width:100%" class="border-collapse">
 						<tr>
-							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fotografia</th>
-							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Codigo</th>
+							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fotografía</th>
+							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Código</th>
 							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre completo</th>
 							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fecha de apadrinamiento</th>
 							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Editar información</th>
@@ -103,9 +103,9 @@
 				<div class="vx-col w-full mb-base">
 					<table style="width:100%" class="border-collapse">
 						<tr>
-							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fotografia</th>
+							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Fotografía</th>
 							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Nombre completo</th>
-							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Telefono</th>
+							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Teléfono</th>
 							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Parentesco</th>
 							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Editar información</th>
 							<th class="p-2 border border-solid d-theme-border-grey-light text-center">Editar Parentesco</th>
