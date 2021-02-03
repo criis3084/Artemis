@@ -252,18 +252,18 @@ export default {
 						title:`Familiar registrado`,
 						text:'La acción se realizo exitósamente'
 					});
-					me.$router.push('/editar/familia/' + me.codigoT);
 				}
-			})
-			.catch(function(error) {
+			}).catch(function(error) {
 				bandera = false
+				console.log(error)
 				me.$vs.notify({
 					color:'danger',
 					title:`Error`,
 					text:'Hubo un error en el registro'
 				});
 			});
-		};
+		}
+		me.$router.push('/editar/familia/' + me.codigoT);
 	},
 	async buscarFamilia(){
 		let consulta=[]

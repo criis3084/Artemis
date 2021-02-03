@@ -202,6 +202,18 @@ export default {
 		Datepicker,
 		vSelect,
 	},
+	watch: {
+		estudia(value){
+			if(value==false){
+				this.grado='No estudia'
+				this.escuela_id={id:1}
+			}
+			if(value==true){
+				this.grado=''
+				this.escuela_id=null
+			}
+		},
+	},
 	methods: {
 		getDate(datetime) {
         	let date = new Date(datetime);
@@ -310,10 +322,8 @@ else{
 							title:`Niño registrado`,
 							text:'La acción se realizo exitósamente'
 						});
-						me.$router.push('/editar/familia/' + codigo);
 					}
-				})
-				.catch(function(error) {
+				}).catch(function(error) {
 					bandera = false
 					me.$vs.notify({
 						color:'danger',
@@ -322,7 +332,7 @@ else{
 					});
 				});
 			};
-			this.goBack();
+			me.$router.push('/editar/familia/' + me.codigoT);
 		},
 		async importarEscuelas(){
 			let me = this;
