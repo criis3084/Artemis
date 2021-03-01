@@ -42,6 +42,7 @@ class RecetaController extends Controller
 			$receta = new Receta();
 			$receta->listado = $request->listado;
 			$receta->historial_clinico_id = $request->historial_clinico_id;
+			//$receta->estado = 0;
 			$receta->save();
 			#return Response::json(['message' => 'Abono Prestamo Creada'], 200);
 			return ['id' => $receta->id];

@@ -211,6 +211,11 @@ export default {
 						this.tipo_salida.push({id:2,nombre:'Apoyo Mensual'})
 					}
 				}
+				else{
+					if (this.paciente_select.lista_recetas.length >0) {
+						this.tipo_salida.push({id:1,nombre:'Receta'})
+					}
+				}
 				this.tipo_salida_select=primero
 			}
 			if(this.paciente_select ==null)
@@ -556,7 +561,11 @@ export default {
 					}
 				});
 				valor.lista_recetas = recetasAcivas
+				console.log('------------------')
+				console.log(valor.lista_recetas.length)
+				console.log('------------------')
 			});
+
 			return tabla
 		},
 		limpiarBeneficios(tabla){
