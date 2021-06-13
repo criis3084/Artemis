@@ -24,7 +24,7 @@
             <span>Cantidad de abono(Q)</span>
           </div>
           <div class="vx-col sm:w-2/3 w-full">
-            <vs-input type="number" class="w-full" v-model="cantidad_abono"  name="cantidad"/>
+            <vs-input class="w-full" v-model="cantidad_abono"  name="cantidad"/>
             <span class="text-danger text-sm" v-show="errors.has('cantidad')">{{ errors.first('cantidad') }}</span>
             <span v-if ="dias > 0 && mes === 0" >{{ 'Dias atrasados:'+ ' ' + dias+ ' '}}</span>
             <span v-if="mes > 0" >{{'Meses atrasados:'+' '+ mes}} </span>
