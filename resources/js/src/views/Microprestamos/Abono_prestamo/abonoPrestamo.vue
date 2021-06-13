@@ -134,7 +134,7 @@ const dict = {
   custom: {
     cantidad: {
       	  required: 'El campo cantidad de abono es requerido',
-      	  numeric: 'El campo solo debe de contener números',
+      	 //numeric: 'El campo solo debe de contener números',
       max: 'Este campo solo acepta hasta 5 dígitos'
     },
     descripcion: {
