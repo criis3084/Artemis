@@ -132,11 +132,11 @@ import Ls from '../../../services/ls';
 import { Validator } from 'vee-validate'
 const dict = {
   custom: {
-    cantidad: {
+   /* cantidad: {
       	  required: 'El campo cantidad de abono es requerido',
       	 //numeric: 'El campo solo debe de contener números',
       max: 'Este campo solo acepta hasta 5 dígitos'
-    },
+    },*/
     descripcion: {
       required:'El campo descripción es requerido',
       max:'No se aceptan más de 150 caracteres'
