@@ -142,6 +142,7 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me.codigoF = respuesta.relaciones.data[0].codigo;
+				console.log(me.codigoF)
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -224,7 +225,6 @@ export default {
 		this.index();
 		this.index2();
 		this.buscarCodigo();
-
 	}
 }
 </script>

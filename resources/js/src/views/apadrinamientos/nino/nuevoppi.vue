@@ -281,7 +281,8 @@ export default {
 			langEn: es,
 			ppi_id:0,
 			codigo_familiar:0,
-			listadoNinos:[]
+			listadoNinos:[],
+			elNino:0
 		}
 	},
 	methods:{
@@ -289,37 +290,38 @@ export default {
 			this.ppi_id=id;
 		},
 		guardar(){	
-		this.$validator.validateAll().then(result => {
-        if(result) {
-			let me = this;
-			this.id=parseInt(this.$route.params.id)
-			axios.post("/api/ppi/post/",{
-				respuesta1:this.valor1,
-				respuesta2:this.valor2,
-				respuesta3:this.valor3,
-				respuesta4:this.valor4,
-				respuesta5:this.valor5,
-				respuesta6:this.valor6,
-				respuesta7:this.valor7,
-				respuesta8:this.valor8,
-				respuesta9:this.valor9,
-				respuesta10:this.valor10,
-				total:this.valorT,
-			}).then(function(response) {
-					me.enviando(response.data.id)
-				})
-					.catch(function(error) {
-					console.log(error)
-				});
-				this.buscarCodigo()
-		}
-		else {
-			this.$vs.notify({
-					color:'danger',
-					title:`Error en validación!`,
-					text:'Ingrese correctamente todas las respuestas'
-				})
-        	}
+			this.$validator.validateAll().then(result => {
+			if(result) {
+				let me = this;
+				this.id=parseInt(this.$route.params.id)
+				this.elNino=this.id
+				axios.post("/api/ppi/post/",{
+					respuesta1:this.valor1,
+					respuesta2:this.valor2,
+					respuesta3:this.valor3,
+					respuesta4:this.valor4,
+					respuesta5:this.valor5,
+					respuesta6:this.valor6,
+					respuesta7:this.valor7,
+					respuesta8:this.valor8,
+					respuesta9:this.valor9,
+					respuesta10:this.valor10,
+					total:this.valorT,
+				}).then(function(response) {
+						me.enviando(response.data.id)
+					})
+						.catch(function(error) {
+						console.log(error)
+					});
+					this.buscarCodigo()
+			}
+			else {
+				this.$vs.notify({
+						color:'danger',
+						title:`Error en validación!`,
+						text:'Ingrese correctamente todas las respuestas'
+					})
+				}
 			})
 		},
 		setearValor(unArreglo){
@@ -334,19 +336,19 @@ export default {
 					ppi_id:ppiT,
 					fecha_estudio:today
 				}).then(function(response) {
-						console.log(response)
-				})
-					.catch(function(error) {
+					console.log(response)
+				}).catch(function(error) {
 					console.log(error)
 				});
 			})
 			let titulo = 'PPI registrado!';
 			this.$vs.notify({
-			color:'success',
-			title:`${titulo}`,
-			text:'La acción se realizo exitósamente'
+				color:'success',
+				title:`${titulo}`,
+				text:'La acción se realizo exitósamente'
 			});
-			this.$router.push('/apadrinamiento/ppi/'+this.id);
+			console.log(this.elNino)
+			this.$router.push('/apadrinamiento/ppi/'+this.elNino);
 		},
 		buscarHermanos(codigoT){
 			let me = this;
@@ -427,7 +429,6 @@ export default {
 			this.valor8 = this.respuesta8==0 ? 0 : this.respuesta8-800;
 			this.valor9 = this.respuesta9==0 ? 0 : this.respuesta9-900;
 			this.valor10 = this.respuesta10==0 ? 0 : this.respuesta10-1000;
-			
 			return "Total: " + (this.valor1+this.valor2+this.valor3+this.valor4+this.valor5+this.valor6+this.valor7+this.valor8+this.valor9+this.valor10)
 		},
 	},
@@ -435,7 +436,7 @@ export default {
 		Datepicker,
 	},
 	mounted(){
-    this.index2();
-  },
+		this.index2();
+	},
 }
 </script>

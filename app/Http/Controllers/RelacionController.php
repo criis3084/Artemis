@@ -12,7 +12,6 @@ use SebastianBergmann\Type\ObjectType;
 
 class RelacionController extends Controller
 {
-
     public function index(Request $request)
     {
 		// Filtro por un criterio y estado
@@ -28,17 +27,16 @@ class RelacionController extends Controller
 			else{
 				$relacion = Relacion::with('sector')->with('datos_nino')->where([[$criterio, 'like', $buscar ],['estado',1]])->orderBy('id', 'desc')->paginate($count);
 			}
-		} else if ($completo == 'true'){
+		}else if ($completo == 'true'){
 			if ($buscar==''){
 				$relacion = Relacion::with('sector')->with('datos_nino')->orderBy('id', 'desc')->paginate($count);
 			}
 			else{
 				$relacion = Relacion::with('sector')->with('datos_nino')->where($criterio, 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
 			}
-		}
-		else if ($completo=='informacion')
+		}else if ($completo=='informacion')
 		{
-			$relacion = Relacion::with('sector')->with('datos_nino')->with('datos_encargado')->with('nino')->with('encargado')->where($criterio, 'like', $buscar )->orderBy('id', 'desc')->paginate($count);
+			$relacion = Relacion::with('sector')->with('datos_nino')->with('datos_encargado')->with('nino')->with('encargado')->where($criterio, 'like', $buscar)->orderBy('id', 'desc')->paginate($count);
 		}
 		return [
 			"relaciones"=>$relacion

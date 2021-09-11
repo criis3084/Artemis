@@ -236,8 +236,9 @@ export default {
 			langEn: es,
 			codigo_familiar:0,
 			id:0,
-			 nombre: '',
-		apellido: '',
+			nombre: '',
+			apellido: '',
+			elNino:0
 		}
 	},
 	methods: {
@@ -247,6 +248,7 @@ export default {
 			return dateString;
 		},
 		enviando(id){
+			console.log(id)
 			this.estudio_id=id;
 		},
 		buscarHermanos(codigoT){
@@ -279,11 +281,10 @@ export default {
 			})
 			let titulo = 'Estudio socioeconómico registrado!';
 			this.$vs.notify({
-			color:'success',
-			title:`${titulo}`,
-			text:'La acción se realizo exitósamente'
+				color:'success',
+				title:`${titulo}`,
+				text:'La acción se realizo exitósamente'
 			});
-			this.$router.push('/apadrinamiento/estudiosocio/'+this.id);
 		},
 		buscarCodigo(){
 			let nino_id = this.$route.params.id;
@@ -292,7 +293,6 @@ export default {
 			.then(function (response) {
 				var respuesta= response.data;
 				me.arrayData = respuesta.relaciones.data;
-
 				me.buscarHermanos(me.arrayData[0].codigo)
 			})
 			.catch(function (error) {
@@ -335,6 +335,7 @@ export default {
 					})
 				}
 			})
+			this.$router.push('/apadrinamiento/estudiosocio/'+this.elNino);
 		},
 		async index2(){
 			let me = this;
@@ -360,6 +361,7 @@ export default {
 	},
 	mounted() {
 		this.id=parseInt(this.$route.params.id);
+		this.elNino=this.id
 		this.index2();
 	},
 }

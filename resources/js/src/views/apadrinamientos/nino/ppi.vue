@@ -1,7 +1,7 @@
 	<template>
 			<div>
 				<vx-card  class="mb-base">
-					
+
 				<div class = "demo-alignment">
 					<div class="vx-col md:w-1/3 w-full mt-5">
 					<router-link :to="this.ruta"><vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border></vs-button></router-link>
@@ -17,8 +17,7 @@
 				<div class = "demo-alignment">
 					<h4><b>Código Famililar: </b> </h4><h4>{{codigoF}}</h4>
 				</div>
-				
-					
+
 				<chartjs-component-line-chart :height="125" v-if="ya" :data="datos" :options="opciones"></chartjs-component-line-chart>
 				<vs-divider></vs-divider>
 				<!--
@@ -53,7 +52,6 @@
 					<router-link :to="this.ruta"><vs-button type="gradient" class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border>Regresar</vs-button></router-link>
 					</div>
 				</vx-card>
-				
 </div>
 </template>
 
