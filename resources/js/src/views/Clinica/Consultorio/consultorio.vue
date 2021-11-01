@@ -9,7 +9,7 @@
 						</div>
 						<h3>INGRESO DE CONSULTA</h3>
 					</div>
-					<vs-divider position="right">PID&#174;</vs-divider>
+					<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 					<div class="vx-row leading-loose p-base">
 		                <div class="vx-col w-1/2">
 							<img src="@assets/images/logo/logopid.png" height="90px" width="150px" alt="pid-logo">
@@ -71,7 +71,7 @@
 			<h3>INGRESO DE CONSULTA</h3>
 		</div>
 
-		<vs-divider position="right">PID&#174;</vs-divider>
+		<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 		<form>
 			<div class="vx-row">
 				<div class="vx-col md:w-1/2 w-full mt-6">

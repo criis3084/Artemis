@@ -5,7 +5,7 @@
 				<h2>Pacientes</h2>
 				<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon = "person_add" @click="aNuevo" color = "primary" size = "large" ></vs-button>  </vx-tooltip>
 			</div>
-		<vs-divider position="right">PID&#174;</vs-divider>
+		<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 		<div class = "demo-alignment">
 			<small class="font-bold text-primary">Filtrar por tipo de paciente</small>
 			<v-select class="vx-col md:w-1/4 w-full mt-5" label="nombre" :options="TipoPacientes" @input="buscarPorTipo" v-model="tipoP" :dir="$vs.rtl ? 'rtl' : 'ltr'" />

@@ -14,11 +14,11 @@
         <p>
           <span>COPYRIGHT &copy;</span>
           <span>{{ new Date().getFullYear() }} </span>
-          <a href="#" target="_blank" rel="nofollow">Grupo JVMH</a>
+          <a href="#" target="_blank" rel="nofollow">Criis</a>
           <span class="hidden sm:inline-block">, All rights Reserved</span>
         </p>
         <span class="md:flex hidden items-center">
-            <span>Grupo de proyecto de carrera 2020</span>
+            <span>Proyecto Progra Web</span>
             <feather-icon icon="HeartIcon" svgClasses="stroke-current text-danger w-6 h-6" class="ml-2" />
         </span>
 

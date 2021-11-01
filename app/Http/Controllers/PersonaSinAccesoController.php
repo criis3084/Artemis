@@ -54,7 +54,6 @@ class PersonaSinAccesoController extends Controller
 			$persona->fecha_nacimiento = $request->fecha_nacimiento;
 			$persona->direccion = $request->direccion;
 			$persona->numero_telefono = $request->numero_telefono;
-			$persona->sector_id = $request->sector_id;
 			$persona->save();
 			return ['id' => $persona->id];
 			#return Response::json(['message' => 'Persona Creada'], 200);
@@ -75,7 +74,7 @@ class PersonaSinAccesoController extends Controller
 			"fecha_nacimiento"=>$personaSinAcceso->fecha_nacimiento,
 			"direccion"=>$personaSinAcceso->direccion,
 			"numero_telefono"=>$personaSinAcceso->numero_telefono,
-			'sector_id' => $personaSinAcceso->sector_id,
+			//'sector_id' => $personaSinAcceso->sector_id,
 			'sector_nombre' => $personaSinAcceso->sector->nombre
 		];
     }
@@ -90,7 +89,7 @@ class PersonaSinAccesoController extends Controller
 		$persona->fecha_nacimiento = $request->fecha_nacimiento;
 		$persona->direccion = $request->direccion;
 		$persona->numero_telefono = $request->numero_telefono;
-		$persona->sector_id = $request->sector_id;
+		//$persona->sector_id = $request->sector_id;
 		$persona->save();
 		return Response::json(['message' => 'Sector Actualizada'], 200);
     }

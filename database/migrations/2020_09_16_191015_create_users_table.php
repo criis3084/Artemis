@@ -35,30 +35,28 @@ class CreateUsersTable extends Migration
 		});
 
 			DB::table('users')->insert(array(
-			'nombres'=>'Juan','apellidos'=>'Simaj','genero'=>1,
-			'direccion'=>'lejos','fecha_nacimiento'=>'1998-12-12',
-			'imagen_perfil'=>null,'user'=>'juanS','password'=>Hash::make('123456'),
+			'nombres'=>'Cristian','apellidos'=>'Chan','genero'=>1,
+			'direccion'=>'San Marcos','fecha_nacimiento'=>'1998-12-12',
+			'imagen_perfil'=>null,'user'=>'chang','password'=>Hash::make('123456'),
 			'rol_id'=>1
 			));
+
 			DB::table('users')->insert(array(
-			'nombres'=>'Maco','apellidos'=>'Rios','genero'=>1,
-			'direccion'=>'lejos','fecha_nacimiento'=>'2000-11-11',
-			'imagen_perfil'=>null,'user'=>'macorios','password'=>Hash::make('123456'),
-			'rol_id'=>1
+				'nombres'=>'Alejandro','apellidos'=>'Aguilar','genero'=>1,
+				'direccion'=>'San Marcos','fecha_nacimiento'=>'1998-12-12',
+				'imagen_perfil'=>null,'user'=>'agui23','password'=>Hash::make('123456'),
+				'rol_id'=>3
 			));
+
 			DB::table('users')->insert(array(
-			'nombres'=>'Henry','apellidos'=>'Canastuj','genero'=>1,
-			'direccion'=>'lejos','fecha_nacimiento'=>'2000-12-12',
-			'imagen_perfil'=>null,'user'=>'henry','password'=>Hash::make('123456'),
-			'rol_id'=>1
+				'nombres'=>'criss','apellidos'=>'melg','genero'=>1,
+				'direccion'=>'San Marcos','fecha_nacimiento'=>'1998-12-12',
+				'imagen_perfil'=>null,'user'=>'criis23','password'=>Hash::make('123456'),
+				'rol_id'=>2
 			));
-			DB::table('users')->insert(array(
-			'nombres'=>'Victor','apellidos'=>'Alvarado','genero'=>1,
-			'direccion'=>'lejos','fecha_nacimiento'=>'2000-12-12',
-			'imagen_perfil'=>null,'user'=>'victor','password'=>Hash::make('123456'),
-			'rol_id'=>1
-			));
-		
+					
+					
+				
     }
 
     /**

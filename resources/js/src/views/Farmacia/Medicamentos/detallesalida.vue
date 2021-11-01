@@ -6,7 +6,7 @@
     </div>
 	<h2> Salida de medicamento {{numero_id}}</h2>
 	</div>
-			<vs-divider position="right">PID&#174;</vs-divider>
+			<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 			<div class="vx-row leading-loose p-base">
 			<div class="vx-col w-1/2">
 				<h3><b>Datos del Paciente:</b></h3>

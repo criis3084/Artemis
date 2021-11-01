@@ -1,33 +1,8 @@
 <template>
 <div class="w-full">
   <!-- COLUMN CHART -->
-            <div>
-                <vx-card title="Apadrinamientos anuales">
-                    <vue-apex-charts type="bar" width="1000" height="300" :options="fechas" :series="anio"></vue-apex-charts>
-                </vx-card>
-            </div>
-			<vs-divider position="right">PID&#174;</vs-divider>
-			<div>
-                <vx-card title="Tutorías mensuales">
-					 <div class = "demo-alignment">
-                        <small class="date-label">Seleccione un año</small>
-                         <v-select class="vx-col md:w-1/2 w-full mt-5" label="anio" :options="anioTutorias" @input="Buscartutorias" v-model="fechatutoria" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                    </div>
-                    <vue-apex-charts type="bar" width="1000" height="300" :options="options" :series="tutorias"></vue-apex-charts>
-                </vx-card>
-            </div>
-			<vs-divider position="right">PID&#174;</vs-divider>
-			<div>
-      
-                <vx-card title="Citas mensuales">
-					 <div class = "demo-alignment">
-                        <small class="date-label">Seleccione un año</small>
-                         <v-select class="vx-col md:w-1/2 w-full mt-5" label="anio" :options="anioCitas" @input="BuscarCitas" v-model="fechacita" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                    </div>
-                    <vue-apex-charts type="bar" width="1000" height="300" :options="options" :series="citas"></vue-apex-charts>
-                </vx-card>
-            </div>
-			<vs-divider position="right">PID&#174;</vs-divider>
+            
+			<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 			<div>
                 <vx-card title="Salida de medicamentos mensuales">
 					 <div class = "demo-alignment">
@@ -41,7 +16,7 @@
                     <vue-apex-charts type="bar" width="1000" height="300" :options="options" :series="medicamentosPorMes"></vue-apex-charts>
                 </vx-card>
             </div>
-<vs-divider position="right">PID&#174;</vs-divider>
+<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 			<div>
                 <vx-card title="Ingreso de medicamentos mensuales">
 					 <div class = "demo-alignment">
@@ -55,15 +30,7 @@
                     <vue-apex-charts type="bar" width="1000" height="300" :options="options" :series="medicamentoIngreso"></vue-apex-charts>
                 </vx-card>
             </div>
-<vs-divider position="right">PID&#174;</vs-divider>
-				<div>
-                <vx-card title="Construcción de viviendas por año">
-					 <div class = "demo-alignment">
-                        <small class="date-label">Seleccione una opción</small>
-                         <v-select class="vx-col md:w-1/2 w-full mt-5" label="nombre" :options="estado" @input="viviendas" v-model="estadoVivienda" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
-                    </div>
-                    <vue-apex-charts type="bar" width="1000" height="300" :options="fechaViviendas" :series="anioViviendas"></vue-apex-charts>
-                </vx-card>
+
             </div>
 			
 </div>

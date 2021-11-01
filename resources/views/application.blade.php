@@ -8,7 +8,7 @@
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
 
-    <title>Partners in Development, Guatemala</title>
+    <title>Farmacia Artemis</title>
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset(mix('css/main.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/iconfont.css')) }}">
@@ -22,7 +22,7 @@
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>Esto no esta funcionando!</strong>
     </noscript>
     <div id="app">
     </div>

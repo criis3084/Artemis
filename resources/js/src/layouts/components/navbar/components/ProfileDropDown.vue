@@ -3,7 +3,7 @@
 
     <div class="text-right leading-tight hidden sm:block">
       <p class="font-semibold">{{ nombre_usuario }}</p>
-      <small> {{id_rol == 1 ? 'Directora': id_rol == 2 ? 'Trabajadora Social': id_rol == 3 ? 'Secretaria' : id_rol==4 ? 'Tutora': id_rol==5 ? 'Laboratorista': id_rol==6 ? 'Farmaceutica':'Medico'}} </small>
+      <small> {{id_rol == 1 ? 'Directora': id_rol == 2 ? 'Farmacéutica': id_rol == 3 ? 'Secretaria'  :id_rol==4 ? 'Tutora': id_rol==5 ? 'Laboratorista': id_rol==6 ? 'Farmaceutica':'Medico'}} </small>
     </div>
 
     <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">

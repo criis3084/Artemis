@@ -20,20 +20,13 @@ class CreateRolsTable extends Migration
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
 		});
-		//1 = Directora
-		//2 = Trabajadora social
-		//3 = Secretaria
-		//4 = Tutora
-		//5 = Laboratorista
-		//6 = Farmaceutica
-		//7 = Medico 
+		//1 = Director(a)
+		//2 = Secretario(a)
+		//3 = Farmaceutico(a)
 		DB::table('rols')->insert(array('nombre'=>'Directora'));
-		DB::table('rols')->insert(array('nombre'=>'Trabajadora social'));
 		DB::table('rols')->insert(array('nombre'=>'Secretaria'));
-		DB::table('rols')->insert(array('nombre'=>'Tutora'));
-		DB::table('rols')->insert(array('nombre'=>'Laboratorista'));
 		DB::table('rols')->insert(array('nombre'=>'Farmaceutica'));
-		DB::table('rols')->insert(array('nombre'=>'Médico'));
+		
     }
 
     /**

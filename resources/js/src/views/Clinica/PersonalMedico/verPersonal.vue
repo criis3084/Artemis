@@ -3,7 +3,7 @@
     <vx-card title="Información del personal médico">
       <template slot="no-body">
         <!-- <h2>Información del niño</h2> -->
-				<vs-divider position="right">PID&#174;</vs-divider>
+				<vs-divider position="right">ARTEMIS&#174;</vs-divider>
         <div class="item-content">
 
           <!-- Item Main Info -->

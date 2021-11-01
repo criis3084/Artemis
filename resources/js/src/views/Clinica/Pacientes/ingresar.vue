@@ -6,7 +6,7 @@
 		</div>
 		<h3>INGRESO DE PACIENTE</h3>
 		</div>
-			<vs-divider position="right">PID&#174;</vs-divider>
+			<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 		<div class="vx-col md:w-1/2 w-full mt-5">
 			<!-- <small class="date-label">Información</small> -->
 			<ul class="demo-alignment">

@@ -5,7 +5,7 @@
     </div>
     <div class="mt-5">
       <form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO DE PROVEEDOR" :subtitle="null" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
-				<vs-divider position="right">PID&#174;</vs-divider>
+				<vs-divider position="right">ARTEMIS&#174;</vs-divider>
       
         <tab-content title="Registro" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 

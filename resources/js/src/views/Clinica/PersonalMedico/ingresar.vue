@@ -5,7 +5,7 @@
 	<vs-button type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border @click="$router.go(-1)"></vs-button>
     </div>
 			<form-wizard color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="INGRESO PERSONAL MÉDICO" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" enctype="multipart/form-data">
-				<vs-divider position="right">PID&#174;</vs-divider>
+				<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 			
       	<tab-content title="Paso 1" class="mb-5" icon="feather icon-user-plus" :before-change="validateStep1">
 

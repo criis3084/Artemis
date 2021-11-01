@@ -16,7 +16,7 @@ $factory->define(PersonaSinAcceso::class, function (Faker $faker) {
         'direccion' => $faker->address,
         'numero_telefono' => $faker->numberBetween($min = 11111111, $max = 99999999),
         // 'sector_id' => $faker->numberBetween($min = 1, $max = 10),
-        'sector_id' => Sector::pluck('id')[$faker->numberBetween(1,Sector::count()-1)],
+        //'sector_id' => Sector::pluck('id')[$faker->numberBetween(1,Sector::count()-1)],
         // 'aldea_id' => function (array $post) {
         //     return App\Sector::find($post['aldea_id'])->type;
         // },

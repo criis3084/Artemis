@@ -5,11 +5,8 @@
 						<h2>Usuarios</h2>
 						<vx-tooltip text = "Agregar nuevo registro"> <vs-button radius type = "gradient" icon = "person_add"  color = "primary" size = "large" @click="agregar"></vs-button>  </vx-tooltip>
 					</div>
-                    <div class = "demo-alignment">
-                    <vs-button icon-pack = "feather" icon = "icon-user" color="primary" type="gradient" @click="$router.push('/ingresar/tutor')">Agregar Tutor</vs-button>
-                    <vs-button icon-pack = "feather" icon = "icon-user" color="primary" type="gradient" @click="$router.push('/clinica/ingresarPersonal')">Agregar personal médico</vs-button>
-                    </div>
-					<vs-divider position="right">PID&#174;</vs-divider>
+                   
+					<vs-divider position="right">ARTEMIS&#174;</vs-divider>
                     <div class = "demo-alignment">
                         <small class="date-label">Filtrar por rol</small>
                          <v-select class="vx-col md:w-1/4 w-full mt-5" label="nombre" :options="Roles" @input="buscarPorRol" v-model="rol" :dir="$vs.rtl ? 'rtl' : 'ltr'" />

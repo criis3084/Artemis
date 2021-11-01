@@ -21,7 +21,7 @@ class CreateTipoPacientesTable extends Migration
 			$table->boolean('estado')->default(1);
 			$table->timestamps();
         });
-		DB::table('tipo_pacientes')->insert(array('nombre'=>'Externo','descripcion'=>'Paciente que no se encuentra en ningún programa de PID'));
+		DB::table('tipo_pacientes')->insert(array('nombre'=>'Externo','descripcion'=>'Paciente que no se encuentra en ningún programa de ARTEMIS'));
 		DB::table('tipo_pacientes')->insert(array('nombre'=>'Común','descripcion'=>'Paciente común'));
 		DB::table('tipo_pacientes')->insert(array('nombre'=>'Paciente en estado de desnutrición','descripcion'=>'Paciente que pertenece al programa de desnutrición'));
 		DB::table('tipo_pacientes')->insert(array('nombre'=>'Por embarazo','descripcion'=>'Pertenecen al programa de control prenatal'));

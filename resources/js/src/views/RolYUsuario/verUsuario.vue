@@ -4,7 +4,7 @@
 
 
       <template slot="no-body">
-				<vs-divider position="right">PID&#174;</vs-divider>
+				<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 
         <div class="item-content">
 

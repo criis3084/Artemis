@@ -5,7 +5,7 @@
 				<vs-button @click="goBack" type="border" radius class="w-full" icon-pack="feather" icon="icon-corner-up-left" icon-no-border ></vs-button>
 			</div>
 			<form-wizard  color="rgba(var(--vs-primary), 1)" errorColor="rgba(var(--vs-danger), 1)" title="ACTUALIZACIÓN DE USUARIO" subtitle="" finishButtonText="Enviar" back-button-text="Atrás" next-button-text="Siguiente" @on-complete="formSubmitted">
-				<vs-divider position="right">PID&#174;</vs-divider>
+				<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 				<tab-content title="Paso 1" class="mb-5" icon="feather icon-user" :before-change="validateStep1">
 					<!-- tab 1 content -->
 					<form data-vv-scope="step-1" >

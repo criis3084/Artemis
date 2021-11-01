@@ -47,7 +47,7 @@ class ProveedorController extends Controller
 			$persona->numero_telefono = $request->numero_telefono;
 			$persona->genero = $request->genero;
 			$persona->fecha_nacimiento = $request->fecha_nacimiento;
-			$persona->sector_id = $request->sector_id;
+			
 			$persona->direccion = $request->direccion;
 			$persona->save();
 

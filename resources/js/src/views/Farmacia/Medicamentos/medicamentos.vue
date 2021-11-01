@@ -2,7 +2,7 @@
 	<div>
 		<vx-card>
 			<ingresar v-on:cerrado="index();"></ingresar>
-				<vs-divider position="right">PID&#174;</vs-divider>
+				<vs-divider position="right">ARTEMIS&#174;</vs-divider>
 
 			<vs-prompt title="Exportar a Excel" class="export-options" @cancle="clearFields" @accept="exportToExcel" accept-text="Exportar" cancel-text="Cancelar" @close="clearFields" :active.sync="activePrompt">
 				<vs-input v-model="fileName" placeholder="Nombre de archivo" class="w-full" />

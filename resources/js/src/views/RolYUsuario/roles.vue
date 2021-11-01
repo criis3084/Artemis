@@ -1,7 +1,7 @@
 <template>
  <div >
      <h1>Roles en el sistema</h1>
-     <vs-divider position="right">PID&#174;</vs-divider>
+     <vs-divider position="right">ARTEMIS&#174;</vs-divider>
      <div class="vx-row">
          <div class="vx-col w-1/2 md:w-1/3 xl:w-1/3" v-for="(rol, index) in arrayData" :key="index" >
                 <statistics-card-line
